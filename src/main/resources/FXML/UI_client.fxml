@@ -7,17 +7,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.mainScreenController">
    <children>
@@ -25,70 +22,7 @@
          <left>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="1.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #57e898;" VBox.vgrow="SOMETIMES">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Departments" x="-55.0" y="25.0">
-                                 <font>
-                                    <Font name="Bookshelf Symbol 7" size="12.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="1.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #d9a7dd;">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Retail" x="-55.0" y="25.0">
-                                 <font>
-                                    <Font name="Bookshelf Symbol 7" size="12.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="1.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #e07c65;">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food Services" x="-55.0" y="25.0">
-                                 <font>
-                                    <Font name="Bookshelf Symbol 7" size="12.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="1.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #c3dd59;">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conference" x="-55.0" y="25.0">
-                                 <font>
-                                    <Font name="Bookshelf Symbol 7" size="12.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="1.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #9f6faf;">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Services" x="-55.0" y="25.0">
-                                 <font>
-                                    <Font name="Bookshelf Symbol 7" size="12.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Pane>
-                     </children>
-                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
                         <JFXButton id="upButton" contentDisplay="GRAPHIC_ONLY" VBox.vgrow="ALWAYS">
@@ -321,7 +255,6 @@
                   </JFXTextField>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <ScrollPane hvalue="0.5" pannable="true" vvalue="0.5" StackPane.alignment="TOP_LEFT" />
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT">
                            <children>
                               <ImageView focusTraversable="true" preserveRatio="true">
@@ -361,6 +294,70 @@
                            <StackPane.margin>
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
+                        </VBox>
+                        <VBox maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_LEFT">
+                           <children>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" style="-fx-border-color: #000;" text="Departments" textFill="#a12b2b" wrapText="true">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Colors/Mint.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Food" textFill="#a12b2b" textOverrun="CLIP" wrapText="true">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Colors/Salmon.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Retail" textFill="#a12b2b" wrapText="true">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Colors/Pink.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="71.0" prefWidth="66.0" style="-fx-border-color: #000;" text="Conference" textFill="#a12b2b" wrapText="true">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Colors/Lime_Mustard.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Services" textFill="#a12b2b" wrapText="true">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Colors/Lavendar.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
                         </VBox>
                      </children></StackPane>
                </children>
