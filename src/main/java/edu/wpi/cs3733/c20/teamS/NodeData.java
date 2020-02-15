@@ -9,6 +9,7 @@ public class NodeData {
         private String nodeType = "";
         private String longName = "";
         private String shortName = "";
+        private double cost_ = 0;
 
 //        public NodeData(double x, double y){
 //
@@ -39,6 +40,8 @@ public class NodeData {
         public String nodeType() { return this.nodeType; }
         public String longName() { return this.longName; }
         public String shortName() { return this.shortName; }
+        public double cost() {return this.cost_; }
+
 
         public void setPosition(double x, double y) {
             double previousX = x_;
@@ -53,4 +56,5 @@ public class NodeData {
         public void setNodeType(String nodeType){ this.nodeType = nodeType; }
         public void setLongName(String longName){ this.longName = longName; }
         public void setShortName(String shortName){ this.shortName = shortName; }
+        public void setCost(double cost) {this.cost_ = cost; }
  }
