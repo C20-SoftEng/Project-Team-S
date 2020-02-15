@@ -15,6 +15,21 @@ public class mainScreenController {
     private JFXButton helpButton;
 
     @FXML
+    private JFXButton coffeeButton;
+
+    @FXML
+    private JFXButton vendingButton;
+
+    @FXML
+    private JFXButton foodButton;
+
+    @FXML
+    private JFXButton informationButton;
+
+    @FXML
+    private JFXButton elevatorButton;
+
+    @FXML
     void onHelpClicked(ActionEvent event) {
 
     }

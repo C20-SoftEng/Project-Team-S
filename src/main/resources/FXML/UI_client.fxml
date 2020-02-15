@@ -116,7 +116,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                      <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
+                        <Font name="Calibri" size="14.0" />
                      </font>
                   </JFXButton>
                   <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
@@ -168,7 +168,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Vending Machine" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton id="vendingButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Vending Machine" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
@@ -257,6 +257,15 @@
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
+                        <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
+                           <content>
+                              <ImageView focusTraversable="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Floors/floor2.jpg" />
+                                 </image>
+                              </ImageView>
+                           </content>
+                        </ScrollPane>
                         <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <JFXButton id="zoomIn" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
@@ -352,15 +361,6 @@
                               </JFXButton>
                            </children>
                         </VBox>
-                        <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
-                           <content>
-                              <ImageView focusTraversable="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Floors/floor2.jpg" />
-                                 </image>
-                              </ImageView>
-                           </content>
-                        </ScrollPane>
                      </children></StackPane>
                </children>
             </VBox>
