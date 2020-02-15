@@ -23,33 +23,6 @@ public class AutoCompleteTests {
         }
     }
 
-    public static class CreateResultStream extends AutoCompleteTests {
-        private final Observable<Collection<String>> resultsStream = AutoComplete.createResultStream(dictionary, input.map(x -> x));
-        private Logger log() {
-            return new Logger(resultsStream);
-        }
-
-        @Test
-        public void singleCharacterEntry_findsAllMatches() {
-            Logger logger = log();
-
-            input.onNext("ab");
-
-            Testing.assertSetEquals(
-                    Arrays.asList("abby", "abe", "babe"),
-                    logger.results.get(0));
-        }
-
-        @Test
-        public void emptyString_yieldsEmptyList() {
-            Logger logger = log();
-
-            input.onNext("");
-
-            Testing.assertSetEquals(Collections.emptySet(), logger.results.get(0));
-        }
-    }
-
     public static class StartFactoryMethod extends AutoCompleteTests {
         private final List<String> results;
 
