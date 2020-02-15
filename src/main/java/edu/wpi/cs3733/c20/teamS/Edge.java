@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 
 
-public final class Edge<TNode> {
+public final class Edge {
     private final GraphNode left_;
     private final GraphNode right_;
 

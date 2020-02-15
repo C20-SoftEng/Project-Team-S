@@ -35,11 +35,13 @@ public class GraphNode {
 
         GraphNode node = (GraphNode)object;
 
-
-        for (Edge e: edges){
-            if(e.left() == node||e.right() == node){
-
-            }
+        if(node.node.x() == this.node.x()
+                && node.node.y() == this.node.y()
+                && node.node.floor() == this.node.floor()){
+            return true;
+        }
+        else{
+            return false;
         }
 
     }

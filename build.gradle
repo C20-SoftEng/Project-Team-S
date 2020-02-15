@@ -17,8 +17,11 @@ dependencies {
             [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.9'],
 
             // You may comment out the database dependency you do not use
-            [group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'],
+            //[group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'],
+
             [group: 'org.apache.derby',name: 'derby', version: '10.14.2.0'],
+            // 1. Use Guava in your implementation only:
+            "com.google.guava:guava:28.2-jre"
     )
 
     compileOnly(
