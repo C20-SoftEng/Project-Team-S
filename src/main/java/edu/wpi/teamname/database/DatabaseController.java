@@ -38,18 +38,46 @@ public class DatabaseController {
             Statement stm = connection.createStatement();
             stm.execute("Drop table EDGES");
         }catch(SQLException e){
-            System.out.println("ATLEAST ONE TABLE WAS NOT DROPPED");
+            System.out.println("EDGES WAS NOT DROPPED");
         }
 
             System.out.println("Dropped Table Edges");
-            stm.execute("DROP TABLE NODES");
+
+        try{
+            Statement stm = connection.createStatement();
+            stm.execute("Drop table NODES");
+        }catch(SQLException e){
+            System.out.println("NODES WAS NOT DROPPED");
+        }
+
             System.out.println("Dropped Table Nodes");
-            stm.execute("DROP TABLE SERVICES");
-            System.out.println("Dropped Table Services");
-            stm.execute("DROP TABLE SERVICEABLE");
-            System.out.println("Dropped Table Serviceable");
-            stm.execute("DROP TABLE EMPLOYEES");
-            System.out.println("Dropped Table Employees");
+
+        try{
+            Statement stm = connection.createStatement();
+            stm.execute("Drop table SERVICES");
+        }catch(SQLException e){
+            System.out.println("SERVICES WAS NOT DROPPED");
+        }
+
+            System.out.println("Dropped Table SERVICES");
+
+        try{
+            Statement stm = connection.createStatement();
+            stm.execute("Drop table SERVICEABLE");
+        }catch(SQLException e){
+            System.out.println("SERVICEABLE WAS NOT DROPPED");
+        }
+
+            System.out.println("Dropped Table SERVICEABLE");
+
+        try{
+            Statement stm = connection.createStatement();
+            stm.execute("Drop table EMPLOYEES");
+        }catch(SQLException e){
+            System.out.println("EMPLOYEES WAS NOT DROPPED");
+        }
+
+            System.out.println("Dropped Table EMPLOYEES");
 
 
 
