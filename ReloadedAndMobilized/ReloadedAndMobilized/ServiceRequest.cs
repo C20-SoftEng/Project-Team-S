@@ -12,7 +12,8 @@ namespace SquishySquidward.ReloadedAndMobilized
     {
         Created,
         Assigned, 
-        Completed
+        Completed,
+        Canceled
     }
 
     public class ServiceRequest
