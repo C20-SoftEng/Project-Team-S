@@ -1,4 +1,4 @@
-package edu.wpi.teamname;
+package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.teamname.database.DatabaseController;
 
