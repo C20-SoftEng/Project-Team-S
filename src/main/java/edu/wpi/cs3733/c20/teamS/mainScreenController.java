@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class mainScreenController {
@@ -13,6 +14,7 @@ public class mainScreenController {
 
     @FXML
     private JFXButton helpButton;
+
 
     @FXML
     private JFXButton coffeeButton;
@@ -28,6 +30,12 @@ public class mainScreenController {
 
     @FXML
     private JFXButton elevatorButton;
+
+    @FXML
+    private JFXButton zoomInButton;
+
+    @FXML
+    private JFXButton zoomOutButton;
 
     @FXML
     void onHelpClicked(ActionEvent event) {
