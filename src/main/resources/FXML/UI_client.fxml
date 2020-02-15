@@ -7,6 +7,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -255,15 +256,7 @@
                   </JFXTextField>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT">
-                           <children>
-                              <ImageView focusTraversable="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Floors/floor2.jpg" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </JFXScrollPane>
+                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
                         <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <JFXButton id="zoomIn" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
@@ -295,9 +288,9 @@
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
                         </VBox>
-                        <VBox maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_LEFT">
+                        <VBox maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
                            <children>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" style="-fx-border-color: #000;" text="Departments" textFill="#a12b2b" wrapText="true">
+                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" text="Departments" textFill="#a12b2b" wrapText="true">
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
@@ -333,7 +326,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="71.0" prefWidth="66.0" style="-fx-border-color: #000;" text="Conference" textFill="#a12b2b" wrapText="true">
+                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="48.0" prefWidth="119.0" text="Conference" textFill="#a12b2b" wrapText="true">
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
@@ -359,6 +352,15 @@
                               </JFXButton>
                            </children>
                         </VBox>
+                        <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
+                           <content>
+                              <ImageView focusTraversable="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Floors/floor2.jpg" />
+                                 </image>
+                              </ImageView>
+                           </content>
+                        </ScrollPane>
                      </children></StackPane>
                </children>
             </VBox>
