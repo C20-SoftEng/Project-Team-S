@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.ServiceRequestUIController">
+   <children>
+      <HBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="200.0">
+               <children>
+                  <VBox minWidth="126.0" prefHeight="371.0" prefWidth="126.0">
+                     <VBox.margin>
+                        <Insets top="75.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <AnchorPane maxHeight="1000.0" maxWidth="158.0" minHeight="505.0" minWidth="120.0" prefHeight="514.0" prefWidth="158.0" style="-fx-background-color: #155196; -fx-border-color: #000;">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="47.0" prefWidth="140.0" style="-fx-background-color: #ffff; -fx-border-color: #000;" text="FLOORS" textAlignment="CENTER" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <VBox alignment="TOP_CENTER" layoutY="58.0" maxHeight="600.0" minHeight="320.0" minWidth="140.0" prefHeight="320.0" prefWidth="140.0" AnchorPane.topAnchor="58.0">
+                           <children>
+                              <JFXButton alignment="CENTER" contentDisplay="CENTER" style="-fx-background-color: #000000;" text="+" textAlignment="CENTER" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="50.0" right="50.0" top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Comic Sans MS" size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXTextField alignment="CENTER" maxWidth="50.0" minHeight="40.0" minWidth="50.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" text="Floor 5">
+                                 <VBox.margin>
+                                    <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
+                                 </VBox.margin>
+                              </JFXTextField>
+                              <JFXTextField alignment="CENTER" maxWidth="50.0" minHeight="40.0" minWidth="50.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" text="Floor 4">
+                                 <VBox.margin>
+                                    <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
+                                 </VBox.margin>
+                              </JFXTextField>
+                              <JFXTextField alignment="CENTER" maxWidth="50.0" minHeight="40.0" minWidth="50.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" text="Floor 3">
+                                 <VBox.margin>
+                                    <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
+                                 </VBox.margin>
+                              </JFXTextField>
+                              <JFXTextField alignment="CENTER" maxWidth="50.0" minHeight="70.0" minWidth="80.0" style="-fx-background-color: ffff00; -fx-border-color: #000;" text="Floor 2">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Comic Sans MS" size="17.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXTextField alignment="CENTER" maxWidth="50.0" minHeight="40.0" minWidth="50.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" text="Floor 1">
+                                 <VBox.margin>
+                                    <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
+                                 </VBox.margin>
+                              </JFXTextField>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #000000;" text="-" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Comic Sans MS" size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <JFXButton fx:id="logout" buttonType="RAISED" layoutX="9.0" layoutY="421.0" prefHeight="70.0" prefWidth="141.0" style="-fx-background-color: #ff0000;" text="Log Out">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+               <children>
+                  <ScrollPane>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <content>
+                        <ImageView fitHeight="470.0" fitWidth="679.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/hospital2.png" />
+                           </image>
+                        </ImageView>
+                     </content>
+                  </ScrollPane>
+                  <Pane prefHeight="175.0" prefWidth="565.0">
+                     <children>
+                        <JFXButton fx:id="janitorButton" alignment="CENTER" buttonType="RAISED" layoutX="250.0" layoutY="40.0" minHeight="90.0" minWidth="90.0" onAction="#onJanitorClicked" prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: #45b4ff;" text="Request Janitor" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                           <padding>
+                              <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton fx:id="goToEdit" alignment="CENTER" buttonType="RAISED" layoutX="393.0" layoutY="40.0" minHeight="90.0" minWidth="90.0" prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: #45b4ff;" text="Go to Map Editor" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                           <padding>
+                              <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                           </padding>
+                        </JFXButton>
+                     </children>
+                  </Pane>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox layoutX="110.0" layoutY="10.0">
+               <children>
+                  <JFXTextField fx:id="activeServiceCount" text="Active Services">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <ScrollPane hbarPolicy="NEVER">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <content>
+                        <VBox fx:id="activeServices" prefHeight="474.0" prefWidth="153.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
