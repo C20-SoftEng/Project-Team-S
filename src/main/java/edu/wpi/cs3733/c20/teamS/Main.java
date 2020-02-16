@@ -1,5 +1,10 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
 
 import com.sun.javafx.geom.Edge;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
@@ -11,6 +16,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
+
+  public void start(Stage primaryStage) throws Exception {
+    try {
+      AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("resources/FXML/UI_client.fxml"));
+      Scene scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
+      // scene.getStylesheets().add(getClass().getResource("").toExternalForm());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public static void main(String[] args) {
     //App.launch(App.class, args);
@@ -48,5 +65,8 @@ public class Main {
     //dbCont.purgeTable("EDGES");
     //dbCont.addNode(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
   }
+
+
+ // mainToLoginScreen test = new mainToLoginScreen(primaryStage);
 
 }
