@@ -1,8 +1,9 @@
-package edu.wpi.cs3733.c20.teamS;
+package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 
 public class mainScreenController {
 
@@ -37,8 +38,8 @@ public class mainScreenController {
     @FXML
     private JFXButton zoomOutButton;
 
-    public mainScreenController() {
-    }
+    @FXML
+    private ImageView mapImage;
 
     @FXML
     void onHelpClicked(ActionEvent event) {
@@ -50,5 +51,22 @@ public class mainScreenController {
 
     }
 
+    @FXML
+    void onZoomInClicked(ActionEvent event){
+        double current_width = this.mapImage.getFitWidth();
+        double current_height = this.mapImage.getFitHeight();
+        this.mapImage.setPreserveRatio(true);
+        this.mapImage.setFitWidth(1.2 * current_width);
+        this.mapImage.setFitHeight(1.2 * current_height);
+    }
+
+    @FXML
+    void onZoomOutClicked(ActionEvent event){
+        double current_width = this. mapImage.getFitWidth();
+        double current_height = this. mapImage.getFitHeight();
+        this.mapImage.setPreserveRatio(true);
+        this.mapImage.setFitWidth((1/1.2) * current_width);
+        this.mapImage.setFitHeight((1/1.2) * current_height);
+    }
 
 }
