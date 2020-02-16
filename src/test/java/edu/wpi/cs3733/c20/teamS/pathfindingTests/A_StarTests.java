@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.pathfindingTests;
+package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -41,10 +41,10 @@ public class A_StarTests {
 
     @Test
     public void findPath_ReturnSingleNodePath(){
-       newGraph.addNode(nodeOne);
-       newGraph.addNode(nodeTwo);
-       newGraph.putEdge(nodeOne, nodeTwo);
-       A_Star star = new A_Star();
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.putEdge(nodeOne, nodeTwo);
+        A_Star star = new A_Star();
         ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
