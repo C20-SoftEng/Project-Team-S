@@ -267,6 +267,7 @@ public class DatabaseController {
         }catch(java.sql.SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+            throw new RuntimeException();
         }
         return edgeSet;
     }
@@ -287,6 +288,7 @@ public class DatabaseController {
         }catch(java.sql.SQLException rsetFailure){
             System.out.println(rsetFailure.getMessage());
             rsetFailure.printStackTrace();
+            throw new RuntimeException();
         }
         return edgeSet;
     }
@@ -302,7 +304,32 @@ public class DatabaseController {
             addStm.execute();
             addStm.close();
         }catch(SQLException e){
+            throw new RuntimeException();
         }
+    }
+
+    public NodeData getNode(String ID){
+        String getNodeStr = "SELECT FROM NODES WHERE NODEID = ?";
+        ResultSet rset = null;
+        try {
+            PreparedStatement getStm = connection.prepareCall(getNodeStr);
+            getStm.setString(1,ID);
+            rset = getStm.executeQuery();
+            getStm.close();
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+        Set<NodeData> nodeSet = parseNodeResultSet(rset);
+        if(nodeSet.isEmpty()){
+            System.out.println("Node Node Found");
+            return null;
+        }
+        System.out.println("Got Node");
+        NodeData returnNode = null;
+        for(NodeData nd : nodeSet){
+            returnNode = nd;
+        }
+        return returnNode;
     }
 
 

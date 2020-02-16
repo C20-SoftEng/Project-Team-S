@@ -23,6 +23,9 @@ public class Main {
     for(NodeData nd: returnedSet){
       System.out.println(nd.toString());
     }
+
+    NodeData gotNode = dbCont.getNode("Hi");
+    System.out.println(gotNode.toString());
     dbCont.addEdge(new EdgeData("EdgeNamee","Hi","No"));
     dbCont.addEdge(new EdgeData("Edge?","No","Hi"));
     Set<EdgeData> edgeSet = dbCont.getAllEdges();
