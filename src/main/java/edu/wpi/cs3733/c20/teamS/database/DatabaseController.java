@@ -6,6 +6,7 @@ import org.omg.SendingContext.RunTime;
 
 import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
+import java.io.File;
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -334,7 +335,57 @@ public class DatabaseController {
         return returnNode;
     }
 
+    public void importStartUpData() {
 
+        String path = getClass().getResource("/data/allnodes.csv").toString();
+        path = path.substring(6);
+        System.out.println("Getting Nodes from: " + path);
+        importData("NODES", path, true);
+
+
+        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
+        edgePath = edgePath.substring(6);
+        System.out.println("Getting Edges from: " + edgePath);
+        importData("EDGES", edgePath, true);
+
+        String empPath = getClass().getResource("/data/employees.csv").toString();
+        empPath = empPath.substring(6);
+        System.out.println("Getting Employees from: " + empPath);
+        importData("EMPLOYEES", empPath, true);
+    }
+
+    public int importData(String toTable, String filePath, boolean withHeader){
+
+
+
+        //File newFile = new File("resources/data/allnodes.csv");
+        //System.out.println(newFile.getAbsolutePath());
+
+        try {
+            //Prepares statement with call
+            CallableStatement importStatement;
+            importStatement = connection.prepareCall("{call SYSCS_UTIL.SYSCS_IMPORT_TABLE_BULK(?,?,?,?,?,?,?,?)}");
+            importStatement.setNull(1, Types.VARCHAR);
+            importStatement.setString(2,toTable);
+            importStatement.setString(3,filePath);
+            importStatement.setNull(4,Types.VARCHAR);
+            importStatement.setNull(5,Types.VARCHAR);
+            importStatement.setNull(6,Types.VARCHAR);
+            importStatement.setInt(7,0);
+            if(withHeader){
+                importStatement.setInt(8,1);
+            }else{
+                importStatement.setInt(8,0);
+            }
+            importStatement.execute();
+            importStatement.close();
+        }catch(java.sql.SQLException iS){
+            System.out.println("Error importing...");
+            System.out.println(iS.getMessage());
+            throw new RuntimeException();
+        }
+        return 0;
+    }
 
 
 

@@ -14,6 +14,7 @@ public class Main {
   public static void main(String[] args) {
     //App.launch(App.class, args);
     DatabaseController dbCont = new DatabaseController();
+    dbCont.importStartUpData();
 
     HashSet<NodeData> nodeSet = new HashSet<>();
     nodeSet.add(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));

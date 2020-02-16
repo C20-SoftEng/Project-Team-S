@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.database.DataClasses;
 
 
+import java.util.Objects;
 
 public class NodeData{
     private String nodeID;
@@ -28,6 +29,26 @@ public class NodeData{
 
     public String getNodeID() {
         return nodeID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NodeData nodeData = (NodeData) o;
+        return Double.compare(nodeData.xCoordinate, xCoordinate) == 0 &&
+                Double.compare(nodeData.yCoordinate, yCoordinate) == 0 &&
+                floor == nodeData.floor &&
+                Objects.equals(nodeID, nodeData.nodeID) &&
+                Objects.equals(building, nodeData.building) &&
+                Objects.equals(nodeType, nodeData.nodeType) &&
+                Objects.equals(longName, nodeData.longName) &&
+                Objects.equals(shortName, nodeData.shortName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodeID, xCoordinate, yCoordinate, floor, building, nodeType, longName, shortName);
     }
 
     @Override
