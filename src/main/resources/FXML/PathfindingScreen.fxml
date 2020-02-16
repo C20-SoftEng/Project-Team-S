@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.pathFinder.PathfindingUIController">
+   <children>
+      <AnchorPane fx:id="mapAreaAnchorPane" layoutX="150.0" layoutY="80.0" maxHeight="440.0" maxWidth="600.0" minHeight="440.0" minWidth="600.0" onMouseClicked="#onMapAreaClicked" prefHeight="440.0" prefWidth="600.0">
+         <children>
+            <ImageView fitHeight="440.0" fitWidth="600.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+               <image>
+                  <Image url="@../images/Floors/floor2.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
