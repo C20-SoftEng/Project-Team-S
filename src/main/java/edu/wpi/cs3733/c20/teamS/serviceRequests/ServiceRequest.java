@@ -20,7 +20,6 @@ public final class ServiceRequest {
         status_ = ServiceStatus.CREATED;
     }
 
-
     public Integer id() {
         return id_;
     }
