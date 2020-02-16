@@ -73,6 +73,7 @@ public class Main {
   }
 
     @Override
+
     public void start(Stage primaryStage) {
         mainToLoginScreen test = new mainToLoginScreen(primaryStage);
     }

@@ -216,14 +216,14 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Vending Machine" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Bathroom" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="84.0" fitWidth="83.0" pickOnBounds="true">
                            <image>
-                              <Image url="@../images/Icons/Vending_Machine_Icon.png" />
+                              <Image url="@../images/Icons/Bathroom.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -256,48 +256,7 @@
                   </JFXTextField>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
-                        <ScrollPane fx:id="mapPane" hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
-                           <content>
-                              <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Floors/floor2.jpg" />
-                                 </image>
-                              </ImageView>
-                           </content>
-                        </ScrollPane>
-                        <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
-                           <children>
-                              <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
-                                 <graphic>
-                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Mag_In_Icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </JFXButton>
-                              <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
-                                 <graphic>
-                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Mag_Out_Icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </JFXButton>
-                           </children>
-                           <StackPane.margin>
-                              <Insets right="20.0" top="10.0" />
-                           </StackPane.margin>
-                        </VBox>
-                        <VBox maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
+                        <VBox disable="true" maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
                            <children>
                               <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" text="Departments" textFill="#a12b2b" wrapText="true">
                                  <graphic>
@@ -360,6 +319,47 @@
                                  </graphic>
                               </JFXButton>
                            </children>
+                        </VBox>
+                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
+                        <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
+                           <content>
+                              <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Floors/hospital%202nd%20floor.jpg" />
+                                 </image>
+                              </ImageView>
+                           </content>
+                        </ScrollPane>
+                        <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
+                           <children>
+                              <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                 <graphic>
+                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Mag_In_Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                 <graphic>
+                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Mag_Out_Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                           <StackPane.margin>
+                              <Insets right="20.0" top="10.0" />
+                           </StackPane.margin>
                         </VBox>
                      </children></StackPane>
                </children>
