@@ -308,29 +308,34 @@ public class DatabaseController {
         }
     }
 
+    //Tested
     public NodeData getNode(String ID){
-        String getNodeStr = "SELECT FROM NODES WHERE NODEID = ?";
+        String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
         ResultSet rset = null;
         try {
             PreparedStatement getStm = connection.prepareCall(getNodeStr);
             getStm.setString(1,ID);
             rset = getStm.executeQuery();
-            getStm.close();
         }catch(SQLException e){
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
         Set<NodeData> nodeSet = parseNodeResultSet(rset);
         if(nodeSet.isEmpty()){
-            System.out.println("Node Node Found");
+            System.out.println("Node Not Found");
             return null;
         }
         System.out.println("Got Node");
         NodeData returnNode = null;
         for(NodeData nd : nodeSet){
             returnNode = nd;
+
         }
         return returnNode;
     }
+
+
+
 
 
 
