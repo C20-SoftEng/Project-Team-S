@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 
+import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
 import edu.wpi.cs3733.c20.teamS.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
@@ -13,11 +14,8 @@ public class A_Star implements IPathfinding{
     private NodeData start;
     private NodeData goal;
 
-    public A_Star (){    }
-
-
     @Override
-    public Set<NodeData> findPath(MutableValueGraph<NodeData, Double> graph, NodeData start, NodeData goal) {
+    public Set<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
@@ -41,7 +39,7 @@ public class A_Star implements IPathfinding{
 
             for (NodeData next: graph.adjacentNodes(current)){
                 double csf = costSoFar.get(current);
-                double ev = (graph.edgeValue(current, next)).orElse(0.0);
+                double ev = euclideanDistance(start, current);
                 double new_cost =  csf + ev;
                 if (!costSoFar.containsKey(next) || new_cost < costSoFar.get(next)){
                     costSoFar.put(next, new_cost);
