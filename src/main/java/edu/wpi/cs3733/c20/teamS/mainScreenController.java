@@ -4,9 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,51 +16,10 @@ public class mainScreenController implements Initializable {
     public double SCALE_TOTAL = 1;
     private MapZoomer zoomer;
 
-    /*public mainScreenController() {
-
-    }
-*/
-
-    @FXML private JFXButton upButton;
-
-        @FXML private JFXButton floorButton5;
-
-        @FXML
-        private JFXButton floorButton4;
-
-        @FXML
-        private JFXButton floorButton3;
-
-        @FXML
-        private JFXButton floorButton2;
-
-        @FXML
-        private JFXButton floorButton1;
-
-        @FXML
-        private JFXButton downButton;
-
-        @FXML
-        private JFXButton staffButton;
-
-        @FXML
-        private JFXButton staffButton1;
-
-        @FXML
-        private JFXButton helpButton;
-
-        //@FXML
-        //private ScrollPane mapPane;
-
         @FXML
         private ImageView mapImage;
 
-        @FXML
-        private JFXButton zoomInButton;
-
-        @FXML
-        private JFXButton zoomOutButton;
-
+        @FXML private ScrollPane mapPane;
 
     @FXML
         void floorClicked1(ActionEvent event) {
@@ -114,8 +74,8 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onZoomOutClicked(ActionEvent event){
+        Node content = mapPane.getContent();
         this.zoomer.zoomOut();
-
 
     }
 
