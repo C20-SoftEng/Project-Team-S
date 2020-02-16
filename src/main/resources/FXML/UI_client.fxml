@@ -351,7 +351,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
+                                          <Image url="@../images/Icons/New%20folder/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
