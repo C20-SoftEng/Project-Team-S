@@ -13,6 +13,7 @@ public class Main extends Application {
     }
 
     @Override
+
     public void start(Stage primaryStage) {
         mainToLoginScreen test = new mainToLoginScreen(primaryStage);
     }

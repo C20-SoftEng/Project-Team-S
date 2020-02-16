@@ -3,20 +3,26 @@ package edu.wpi.cs3733.c20.teamS;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
 
 import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class mainScreenController {
+public class mainScreenController implements Initializable {
     final double SCALE_DELTA = 1.1;
     public double SCALE_TOTAL = 1;
+    private MapZoomer zoomer;
 
-        @FXML
-        private JFXButton upButton;
+    /*public mainScreenController() {
 
-        @FXML
-        private JFXButton floorButton5;
+    }
+*/
+
+    @FXML private JFXButton upButton;
+
+        @FXML private JFXButton floorButton5;
 
         @FXML
         private JFXButton floorButton4;
@@ -42,8 +48,8 @@ public class mainScreenController {
         @FXML
         private JFXButton helpButton;
 
-        @FXML
-        private ScrollPane mapPane;
+        //@FXML
+        //private ScrollPane mapPane;
 
         @FXML
         private ImageView mapImage;
@@ -54,7 +60,8 @@ public class mainScreenController {
         @FXML
         private JFXButton zoomOutButton;
 
-        @FXML
+
+    @FXML
         void floorClicked1(ActionEvent event) {
 
         }
@@ -101,32 +108,19 @@ public class mainScreenController {
 
     @FXML
     void onZoomInClicked(ActionEvent event){
-        double current_width = this.mapImage.getFitWidth();
-        double current_height = this.mapImage.getFitHeight();
-        //this.mapImage.setPreserveRatio(true);
-        this.mapImage.setFitWidth(1.2 * current_width);
-        this.mapImage.setFitHeight(1.2 * current_height);
+
+        this.zoomer.zoomIn();
+
     }
 
-    @FXML
-    void onZoomOutClicked(ActionEvent event){
-        double current_width = this.mapImage.getFitWidth();
-        double current_height = this.mapImage.getFitHeight();
-        //this.mapImage.setPreserveRatio(true);
+    @FXML void onZoomOutClicked(ActionEvent event){
+        this.zoomer.zoomOut();
 
-        //Scales the map to zoom out.
-        this.mapImage.addEventFilter(ScrollEvent.ANY, e-> {
-                    e.consume();
-                    if (e.getDeltaY() == 0) {
-                        return;
-                    }
-        double scaleFactor = (e.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
-        if (scaleFactor * SCALE_TOTAL >= 1) {
-            this.mapImage.setScaleX(mapImage.getScaleX() * scaleFactor);
-            this.mapImage.setScaleY(mapImage.getScaleY() * scaleFactor);
-        }});
 
-     //   this.mapImage.setFitWidth((1/1.2) * current_width);
-      //  this.mapImage.setFitHeight((1/1.2) * current_height);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage);
     }
 }
