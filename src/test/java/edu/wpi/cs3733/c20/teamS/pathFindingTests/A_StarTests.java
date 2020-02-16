@@ -6,7 +6,9 @@ import edu.wpi.cs3733.c20.teamS.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,8 +49,8 @@ public class A_StarTests {
        newGraph.addNode(nodeTwo);
        newGraph.putEdge(nodeOne, nodeTwo);
        A_Star star = new A_Star();
-        Set<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
-        Set<NodeData> realPath = new HashSet<>();
+        List<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
+        List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
 
@@ -80,8 +82,8 @@ public class A_StarTests {
         newGraph.addNode(nodeTen);
         newGraph.putEdge(nodeNine, nodeTen);
         A_Star star = new A_Star();
-        Set<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
-        Set<NodeData> realPath = new HashSet<>();
+        List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
+        List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
         realPath.add(nodeThree);
@@ -114,8 +116,8 @@ public class A_StarTests {
         newGraph.putEdge(nodeEight, nodeFour);
         newGraph.putEdge(nodeTen, nodeFour);
         A_Star star = new A_Star();
-        Set<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
-        Set<NodeData> realPath = new HashSet<>();
+        List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
+        List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
         realPath.add(nodeThree);

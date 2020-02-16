@@ -1,76 +1,65 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-/**
- * A Service request
- */
 public final class ServiceRequest {
-    private ServiceKind serviceKind_;
-    private String comments_;
-    private int employeeCreatedID_;
-    private int employeeAssignedID_;
-    private int serviceID_;
+    private final ServiceKind kind_;
+    private final Integer id_;
+    private Employee assignee_;
+    private ServiceStatus status_;
+    private String message_;
     private String location_;
-    private String status_;
 
-    /**
-     * Constructor for ServiceRequest
-     * @param serviceKind the type of service
-     * @param comments the comments defined by the employee
-     * @param emp the employee that created
-     * @param serviceID the serviceID created by the database
-     * @param location the location defined by the employee
-     */
-    public ServiceRequest(ServiceKind serviceKind, String comments, int emp, int serviceID, String location){
-        if(serviceKind == null) ThrowHelper.illegalNull("serviceKind");
-        if(comments == null) ThrowHelper.illegalNull("comments");
-        if(location == null) ThrowHelper.illegalNull("location");
-
-        this.serviceKind_ = serviceKind;
-        this.comments_ = comments;
-        this.employeeCreatedID_ = emp;
-        this.serviceID_ = serviceID;
-        this.location_ = location;
+    public ServiceRequest(ServiceKind kind) {
+        this(null, kind);
+    }
+    public ServiceRequest(Integer id, ServiceKind kind) {
+        this.id_ = id;
+        this.kind_ = kind;
+        status_ = ServiceStatus.CREATED;
     }
 
-    /**
-     * Gets the serviceKind of the ServiceRequest
-     * @return type of request
-     */
-    public ServiceKind serviceKind() {
-        return serviceKind_;
+
+    public Integer id() {
+        return id_;
     }
 
-    /**
-     * Sets the serviceKind of the ServiceRequest
-     * @param serviceKind
-     */
-    public void setServiceKind(ServiceKind serviceKind) {
-        this.serviceKind_ = serviceKind;
+    public ServiceKind kind() {
+        return kind_;
     }
 
-    /**
-     * Gets the comments of the ServiceRequest
-     * @return comments on the request
-     */
-    public String comments() {
-        return comments_;
+    public Employee assignee() {
+        return assignee_;
     }
 
-    /**
-     * Sets the comments
-     * @param comments
-     */
-    public void setComments(String comments) {
-        this.comments_ = comments;
+    public ServiceStatus status() {
+        return status_;
     }
 
-    /**
-     * Gets the location
-     * @return
-     */
+    public String message() {
+        return message_;
+    }
+    public void setMessage(String value) {
+        this.message_ = value;
+    }
     public String location() {
         return location_;
+    }
+    public void setLocation(String value) {
+        location_ = value;
+    }
+    public void assignTo(Employee employee) {
+        if (employee == null) ThrowHelper.illegalNull("employee");
+
+        assignee_ = employee;
+        status_ = ServiceStatus.ASSIGNED;
+    }
+    public void complete() {
+        status_ = ServiceStatus.COMPLETED;
+    }
+    public void cancel() {
+        status_ = ServiceStatus.CANCELED;
+        assignee_ = null;
     }
 }
