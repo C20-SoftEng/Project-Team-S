@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
+package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -37,6 +37,9 @@ public class mainScreenController {
     @FXML
     private JFXButton zoomOutButton;
 
+    public mainScreenController() {
+    }
+
     @FXML
     void onHelpClicked(ActionEvent event) {
 
@@ -46,5 +49,6 @@ public class mainScreenController {
     void onStaffClicked(ActionEvent event) {
 
     }
+
 
 }
