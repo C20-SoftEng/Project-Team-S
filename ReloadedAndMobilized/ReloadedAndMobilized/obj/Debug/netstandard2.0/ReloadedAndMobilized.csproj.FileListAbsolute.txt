@@ -1,8 +1,0 @@
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\bin\Debug\netstandard2.0\ReloadedAndMobilized.deps.json
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\bin\Debug\netstandard2.0\ReloadedAndMobilized.dll
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\bin\Debug\netstandard2.0\ReloadedAndMobilized.pdb
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\obj\Debug\netstandard2.0\ReloadedAndMobilized.csprojAssemblyReference.cache
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\obj\Debug\netstandard2.0\ReloadedAndMobilized.AssemblyInfoInputs.cache
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\obj\Debug\netstandard2.0\ReloadedAndMobilized.AssemblyInfo.cs
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\obj\Debug\netstandard2.0\ReloadedAndMobilized.dll
-D:\Classes\Software Engineering\Repository\Reloaded\ReloadedAndMobilized\ReloadedAndMobilized\obj\Debug\netstandard2.0\ReloadedAndMobilized.pdb
