@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.mainScreenController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.mainScreenController">
    <children>
       <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -303,7 +303,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/Mint.png" />
+                                          <Image url="@../images/Icons/Colors/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
@@ -315,7 +315,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/Salmon.png" />
+                                          <Image url="@../images/Icons/Colors/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
@@ -327,7 +327,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/Pink.png" />
+                                          <Image url="@../images/Icons/Colors/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
@@ -339,7 +339,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/Lime_Mustard.png" />
+                                          <Image url="@../images/Icons/Colors/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
@@ -351,7 +351,7 @@
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Icons/Colors/Lavendar.png" />
+                                          <Image url="@../images/Icons/Colors/color.png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
