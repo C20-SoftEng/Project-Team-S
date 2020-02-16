@@ -51,9 +51,10 @@ public class A_Star implements IPathfinding{
             }
         }
 
-        Set<NodeData> path = null;
+        Set<NodeData> path = new HashSet<NodeData>();
+        path.add(current);
+
         while (current != start){
-            path.add(current);
             //steps back through the path
             current = cameFrom.get(current);
         }
