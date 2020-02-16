@@ -86,7 +86,7 @@ public class A_Star implements IPathfinding{
 
             ArrayList<NodeData> path = new ArrayList<>();
             for(int i = 0; i< reversePath.size(); i++){
-                path.add(reversePath.get(reversePath.size()-i));
+                path.add(reversePath.get(reversePath.size()-(i+1)));
             }
 
             return path;
@@ -102,7 +102,7 @@ public class A_Star implements IPathfinding{
      * @param current the current node
      * @return the euclidean distance
      */
-    private double euclideanDistance(NodeData goal, NodeData current){
+    public double euclideanDistance(NodeData goal, NodeData current){
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 
