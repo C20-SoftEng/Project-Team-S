@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 
 import com.google.common.graph.MutableGraph;
-import com.google.common.graph.MutableValueGraph;
 import edu.wpi.cs3733.c20.teamS.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
@@ -10,7 +9,7 @@ import java.util.*;
 
 
 public class A_Star implements IPathfinding{
-    private MutableValueGraph<NodeData, Double> graph;
+    private MutableGraph<NodeData> graph;
     private NodeData start;
     private NodeData goal;
 
@@ -57,6 +56,7 @@ public class A_Star implements IPathfinding{
         while (current != start){
             //steps back through the path
             current = cameFrom.get(current);
+            path.add(current);
         }
 
         return path;
@@ -72,6 +72,9 @@ public class A_Star implements IPathfinding{
      * @return the euclidean distance
      */
     private double euclideanDistance(NodeData goal, NodeData current){
+        if(goal == null) ThrowHelper.illegalNull("goal");
+        if(current == null) ThrowHelper.illegalNull("current");
+
          return Math.sqrt((goal.x()-current.x())*(goal.x()-current.x()) + (goal.y()-current.y())*(goal.y()-current.y()));
     }
 }
