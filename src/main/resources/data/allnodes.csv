@@ -94,7 +94,7 @@ SSERV00103,1093,1335,3,Faulkner,SERV,Chapel,chpl
 SINFO00103,1250,1335,3,Faulkner,INFO,Hillside Lobby,hill_loby
 SSERV00203,1250,1418,3,Faulkner,SERV,Shuttle Pickup,shtl_pick
 SINFO00203,1250,1310,3,Faulkner,INFO,Upper Hillside Lobby,hill_up_loby
-SSERV00303,1375,1310,3,Faulkner,SERV,Volunteer/Community,comm
+SSERV00303x,1375,1310,3,Faulkner,SERV,Volunteer/Community,comm
 SHALL01703,1250,1163,3,Faulkner,HALL,Hillside Elevators,3hill_elev
 SHALL01803,1250,1080,3,Faulkner,HALL,Above Hillside Elevators,abv_hill_elev
 SSTAI00103,1201,1080,3,Faulkner,STAI,Hillside Stairs,3hill_stai
@@ -113,7 +113,7 @@ SHALL00503,1095,700,3,Faulkner,HALL,Outside Fam/Pat resources,out_fam_resc
 SSERV00303,1095,630,3,Faulkner,SERV,Fam/Pat resources,fam_resc
 SHALL00603,1207,700,3,Faulkner,HALL,Hallway Split Two,hall_split_two
 SHALL00703,1207,484,3,Faulkner,HALL,Atrium Square ,atr_sqr
-SRETL00103,1550,790,3,Faulkner,RETL,Outdoor Dining Terrace,out_dine_terr
+SRETL00103x,1550,790,3,Faulkner,RETL,Outdoor Dining Terrace,out_dine_terr
 SHALL00803,1250,484,3,Faulkner,HALL,Near Atrium Elevators,out_atr_elev
 SHALL00903,1250,414,3,Faulkner,HALL,Outside Atrium Elevators and Stairs,out_atr_stai
 SELEV00X03,1188,418,3,Faulkner,ELEV,Atrium Elevators,3atr_elev
