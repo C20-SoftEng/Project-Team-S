@@ -60,7 +60,7 @@ public class A_Star implements IPathfinding {
      * @param current the current node
      * @return the euclidean distance
      */
-    private static double distance(NodeData goal, NodeData current){
+    public static double distance(NodeData goal, NodeData current){
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 

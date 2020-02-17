@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ public class BreadthFirstTest {
         ArrayList<NodeData> realPath = new ArrayList<>();
 
         for(NodeData data: path){
-            System.out.println(data.nodeID());
+            System.out.println(data.getNodeID());
         }
         assertEquals(realPath, path);
 

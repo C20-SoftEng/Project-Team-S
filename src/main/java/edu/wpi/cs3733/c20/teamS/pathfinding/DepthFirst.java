@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import javafx.scene.Node;
 
@@ -30,22 +30,18 @@ public class DepthFirst implements IPathfinding {
             LinkedList<NodeData> visited = new LinkedList<>();
             visited.add(current);
 
-
             HashMap<NodeData, NodeData> cameFrom = new HashMap<>();
             cameFrom.put(current, null);
 
             while(!frontier.isEmpty()){
-                System.out.println(current.nodeID());
+                System.out.println(current.getNodeID());
                 current = frontier.poll();
 
                 if (current == goal){
                     break;
                 }
 
-
                 for(NodeData next: graph.adjacentNodes(current)){
-
-
                     if(current == next){
                         cameFrom.clear();
                         System.out.println("Start = next");
@@ -55,16 +51,12 @@ public class DepthFirst implements IPathfinding {
                         visited.add(next);
                         frontier.add(next);
                         cameFrom.put(next, current);}
-
-
                 }
-
-                }
+            }
 
             //no valid path to destination
             if(current != goal){
                 return new ArrayList<>();
-
             }
 
             ArrayList<NodeData> reversePath = new ArrayList<>();
@@ -81,28 +73,9 @@ public class DepthFirst implements IPathfinding {
             for(int i = 0; i< reversePath.size(); i++){
                 path.add(reversePath.get(reversePath.size()-(i+1)));
             }
-
             return path;
         }
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     //Comparator anonymous class implementation
     private static Comparator<NodeData> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
@@ -117,7 +90,7 @@ public class DepthFirst implements IPathfinding {
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 
-        return Math.sqrt((goal.x()-current.x())*(goal.x()-current.x()) + (goal.y()-current.y())*(goal.y()-current.y()));
+        return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) + (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
     }
 
 
