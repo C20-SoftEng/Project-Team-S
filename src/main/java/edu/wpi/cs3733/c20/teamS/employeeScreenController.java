@@ -123,11 +123,11 @@ public class employeeScreenController implements Initializable {
     }
 
     void set1() {
-        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;  -fx-border-color: #000000");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
+        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         upButton.setDisable(false);
         downButton.setDisable(true);
         mapImage.setImage(floor1);
@@ -135,11 +135,11 @@ public class employeeScreenController implements Initializable {
     }
 
     void set2() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System; -fx-border-color: #000000");
-        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;  -fx-border-color: #000000");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         mapImage.setImage(floor2);
         upButton.setDisable(false);
         downButton.setDisable(false);
@@ -147,11 +147,11 @@ public class employeeScreenController implements Initializable {
     }
 
     void set3() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;  -fx-border-color: #000000");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         mapImage.setImage(floor3);
         current_floor = 3;
         upButton.setDisable(false);
@@ -159,11 +159,11 @@ public class employeeScreenController implements Initializable {
     }
 
     void set4() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;  -fx-border-color: #000000");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         mapImage.setImage(floor4);
         current_floor = 4;
         upButton.setDisable(false);
@@ -171,11 +171,11 @@ public class employeeScreenController implements Initializable {
     }
 
     void set5() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;  -fx-border-color: #000000");
-        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;  -fx-border-color: #000000");
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
         mapImage.setImage(floor5);
         current_floor = 5;
         upButton.setDisable(true);
