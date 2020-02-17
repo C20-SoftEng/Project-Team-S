@@ -19,7 +19,7 @@ public class NodeData2 {
 //        }
 
     public NodeData2(String nodeID, double x, double y,
-                     int floor, String building, String nodeType, String longName, String shortName){
+                     int floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
         this.x_ = x;
         this.y_ = y;
