@@ -20,6 +20,19 @@ public class ServiceData{
         this.serviceNode = serviceNode;
     }
 
+    @Override
+    public String toString() {
+        return "ServiceData{" +
+                "serviceID=" + serviceID +
+                ", serviceType='" + serviceType + '\'' +
+                ", status='" + status + '\'' +
+                ", message='" + message + '\'' +
+                ", assignedEmployeeID=" + assignedEmployeeID +
+                ", date=" + date +
+                ", serviceNode='" + serviceNode + '\'' +
+                '}';
+    }
+
     public ServiceData(int serviceID, String serviceType, String status, String message, int assignedEmployeeID, Date date, String serviceNode) {
         this.serviceID = serviceID;
         this.serviceType = serviceType;
@@ -27,6 +40,26 @@ public class ServiceData{
         this.message = message;
         this.assignedEmployeeID = assignedEmployeeID;
         this.date = date;
+        this.serviceNode = serviceNode;
+    }
+
+    public ServiceData(String serviceType, String status, String message, int assignedEmployeeID, String serviceNode) {
+        //this.serviceID = serviceID;
+        this.serviceType = serviceType;
+        this.status = status;
+        this.message = message;
+        this.assignedEmployeeID = assignedEmployeeID;
+        //this.date = date;
+        this.serviceNode = serviceNode;
+    }
+
+    public ServiceData(int serviceID, String status, String message, int assignedEmployeeID, String serviceNode) {
+        this.serviceID = serviceID;
+        this.serviceType = null;
+        this.status = status;
+        this.message = message;
+        this.assignedEmployeeID = assignedEmployeeID;
+        this.date = null;
         this.serviceNode = serviceNode;
     }
 

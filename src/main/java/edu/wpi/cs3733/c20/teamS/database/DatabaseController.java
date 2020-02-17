@@ -2,12 +2,15 @@ package edu.wpi.cs3733.c20.teamS.database;
 
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.DataClasses.ServiceData;
 import org.omg.SendingContext.RunTime;
 
+import javax.crypto.spec.PSource;
 import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
 import java.io.File;
 import java.sql.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -149,10 +152,6 @@ public class DatabaseController {
     }
 
     public DatabaseController(){
-
-
-
-
 
     }
 
@@ -335,6 +334,7 @@ public class DatabaseController {
         return returnNode;
     }
 
+    //Tested
     public void importStartUpData() {
 
         String path = getClass().getResource("/data/allnodes.csv").toString();
@@ -354,6 +354,7 @@ public class DatabaseController {
         importData("EMPLOYEES", empPath, true);
     }
 
+    //Tested
     public int importData(String toTable, String filePath, boolean withHeader){
 
 
@@ -385,6 +386,141 @@ public class DatabaseController {
             throw new RuntimeException();
         }
         return 0;
+    }
+
+    //Tested
+    public void purgeTable(String tableName) {
+        String delAllEntryStr = "TRUNCATE TABLE " + tableName;
+        try {
+
+            PreparedStatement delStm = connection.prepareCall(delAllEntryStr);
+            //delStm.setString(1, tableName);
+            delStm.executeUpdate();
+            delStm.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    //Tested
+    public void addServiceRequest(ServiceData sd){
+        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+            Date currentDate = new Date(Instant.now().toEpochMilli());
+            addStm.setString(1,sd.getServiceType());
+            addStm.setString(2,sd.getStatus());
+            addStm.setString(3,sd.getMessage());
+            addStm.setInt(4,sd.getAssignedEmployeeID());
+            addStm.setDate(5,currentDate);
+            addStm.setString(6,sd.getServiceNode());
+            addStm.execute();
+            addStm.close();
+        }catch(SQLException e){
+            System.out.println("Failed to add service Request");
+            throw new RuntimeException();
+        }
+    }
+
+
+    public Set<ServiceData> getAllServiceRequests(){
+        Statement stm = null;
+        try{
+            stm = connection.createStatement();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+        }
+        String allString = "SELECT * FROM SERVICES";
+        ResultSet rset = null;
+        try {
+            rset = stm.executeQuery(allString);
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+        }
+        Set<ServiceData> serviceSet = parseServiceResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return serviceSet;
+    }
+
+    public Set<ServiceData> parseServiceResultSet(ResultSet rset){
+        Set<ServiceData> serviceSet = new HashSet<>();
+        int serviceID;
+        String serviceType;
+        String status;
+        String message;
+        int assignedEmployee;
+        Date dateCreated;
+        String locationNode;
+
+        try {
+            while (rset.next()) {
+                serviceID = rset.getInt("serviceID");
+                serviceType = rset.getString("serviceType");
+                status = rset.getString("STATUS");
+                message = rset.getString("message");
+                assignedEmployee = rset.getInt("ASSIGNEDEMPLOYEE");
+                dateCreated = rset.getDate("timecreated");
+                locationNode = rset.getString("Location");
+
+                serviceSet.add(new ServiceData(serviceID,serviceType,status,message,assignedEmployee,dateCreated,locationNode));
+            }
+
+        } catch (java.sql.SQLException rsetFailure) {
+            System.out.println(rsetFailure.getMessage());
+            rsetFailure.printStackTrace();
+            throw new RuntimeException(rsetFailure);
+        }
+
+        return serviceSet;
+
+
+    }
+
+
+    public void updateService(ServiceData sd){
+        String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
+        PreparedStatement stm = null;
+        try{
+            stm = connection.prepareStatement(updateStr);
+            stm.setString(1,sd.getStatus());
+            stm.setString(2,sd.getMessage());
+            stm.setInt(3,sd.getAssignedEmployeeID());
+            stm.setString(4,sd.getServiceNode());
+            stm.setInt(5,sd.getServiceID());
+            stm.executeUpdate();
+
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+
+    }
+
+    public void deleteService(int id){
+        String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
+        PreparedStatement stm = null;
+        try{
+            stm = connection.prepareStatement(delStr);
+            stm.setInt(1,id);
+            stm.executeUpdate();
+
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+
     }
 
 
