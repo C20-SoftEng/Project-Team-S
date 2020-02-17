@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class loginScreenController {
 
@@ -21,11 +22,21 @@ public class loginScreenController {
     @FXML private Label wrongPW;
 
     @FXML void onCancelClicked(ActionEvent event) {
-
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        stage.close();
     }
 
+    /**
+     * change this for later, just using admin
+     */
     @FXML void onEnterClicked(ActionEvent event) {
-
+        if (id. "admin" && pw.getText() == "admin"){
+            //modality
+        }
+        else {
+            wrongID.setVisible(true);
+            wrongPW.setVisible(true);
+        }
     }
 
 }
