@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 
 public class mainScreenController implements Initializable {
     int current_floor = 2;
-    String newFloor;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -30,10 +29,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     private ImageView mapImage;
-
     @FXML
     private ScrollPane scrollPane;
-
     @FXML
     private JFXButton floorButton1;
     @FXML
@@ -48,7 +45,6 @@ public class mainScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
-
 
     @FXML
     void onFloorClicked1(ActionEvent event) {
@@ -105,44 +101,6 @@ public class mainScreenController implements Initializable {
         } else if (current_floor == 5) {
             set5();
         }
-    }
-
-
-    @FXML
-    void onHelpClicked(ActionEvent event) {
-    }
-
-    @FXML
-    void onStaffClicked(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Login to the System");
-            window.setScene(new Scene(root1));
-            window.setResizable(false);
-            window.show();
-        } catch (Exception e) {
-            System.out.println("Can't load new window");
-        }
-    }
-
-    @FXML
-    void onZoomInClicked(ActionEvent event) {
-        this.zoomer.zoomIn();
-    }
-
-    @FXML
-    void onZoomOutClicked(ActionEvent event) {
-        Node content = scrollPane.getContent();
-        this.zoomer.zoomOut();
-
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
     }
 
     void set1() {
@@ -203,6 +161,42 @@ public class mainScreenController implements Initializable {
         current_floor = 5;
         upButton.setDisable(true);
         downButton.setDisable(false);
+    }
+
+    @FXML
+    void onHelpClicked(ActionEvent event) {
+    }
+
+    @FXML
+    void onStaffClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Login to the System");
+            window.setScene(new Scene(root1));
+            window.setResizable(false);
+            window.show();
+        } catch (Exception e) {
+            System.out.println("Can't load new window");
+        }
+    }
+
+    @FXML
+    void onZoomInClicked(ActionEvent event) {
+        this.zoomer.zoomIn();
+    }
+
+    @FXML
+    void onZoomOutClicked(ActionEvent event) {
+        Node content = scrollPane.getContent();
+        this.zoomer.zoomOut();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
     }
 }
 

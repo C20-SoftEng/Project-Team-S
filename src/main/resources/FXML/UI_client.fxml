@@ -380,6 +380,9 @@
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                               <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                  <graphic>
@@ -395,6 +398,9 @@
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                            </children>
                            <StackPane.margin>
