@@ -21,6 +21,7 @@ public class DatabaseController {
 
         createTables();
     }
+    public DatabaseController() {}
 
     private static void createTables() {
         try {
@@ -149,7 +150,6 @@ public class DatabaseController {
         }
     }
 
-    public DatabaseController(){
-    }
+
 
 }
