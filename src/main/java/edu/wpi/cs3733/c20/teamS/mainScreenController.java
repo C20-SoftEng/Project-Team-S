@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 public class mainScreenController implements Initializable {
+    int current_floor;
+    String newFloor;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -30,24 +32,47 @@ public class mainScreenController implements Initializable {
 
     @FXML void onFloorClicked1(ActionEvent event) {
         mapImage.setImage(floor1);
+        current_floor = 1;
     }
 
     @FXML void onFloorClicked2(ActionEvent event) {
         mapImage.setImage(floor2);
+        current_floor = 2;
     }
 
     @FXML void onFloorClicked3(ActionEvent event) {
         mapImage.setImage(floor3);
+        current_floor = 3;
     }
 
     @FXML void onFloorClicked4(ActionEvent event) {
         mapImage.setImage(floor4);
+        current_floor = 4;
+        System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
     }
 
     @FXML void onFloorClicked5(ActionEvent event) {
         mapImage.setImage(floor5);
+        current_floor = 5;
+        mapImage.setImage(new Image(newFloor));
     }
      //#f6bd38 - yellow button color
+
+    @FXML void onUpClicked(ActionEvent event) {
+        if(current_floor != 5){
+            current_floor += 1;
+            newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
+            mapImage.setImage(new Image(newFloor));
+        }
+    }
+
+    @FXML void onDownClicked(ActionEvent event) {
+        if(current_floor != 1){
+            current_floor -= 1;
+            newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
+            mapImage.setImage(new Image(newFloor));
+        }
+    }
 
     @FXML void onHelpClicked(ActionEvent event) {
     }
