@@ -11,22 +11,22 @@ import java.util.ResourceBundle;
 
 public class mainScreenController implements Initializable {
 
-    private MapZoomer zoomer;
-    @FXML private ImageView mapImage;
-    @FXML private ScrollPane scrollPane;
+private MapZoomer zoomer;
+@FXML private ImageView mapImage;
+@FXML private ScrollPane scrollPane;
 
-    @FXML private void onZoomInClicked(ActionEvent event){
+@FXML private void onZoomInClicked(ActionEvent event){
 
-        this.zoomer.zoomIn();
+    zoomer.zoomIn();
 
-    }
-    @FXML private void onZoomOutClicked(ActionEvent event){
+}
+@FXML private void onZoomOutClicked(ActionEvent event){
 
-        zoomer.zoomOut();
-    }
+    zoomer.zoomOut();
+}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
-    }
+@Override
+public void initialize(URL location, ResourceBundle resources) {
+    zoomer = new MapZoomer(mapImage, scrollPane);
+}
 }
