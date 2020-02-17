@@ -24,12 +24,8 @@ public class A_StarTests {
     NodeData nodeFour = new NodeData("4", 40,40, 2, "Hospital", "Room", "longName4", "LN4");
 
     NodeData nodeFive = new NodeData("5", -1,-1, 2, "Hospital", "Room", "longName5", "LN5");
-
     NodeData nodeSix = new NodeData("6", 70,70,2,"Hospital", "Room", "longName6", "LN6");
-
-
     NodeData nodeSeven = new NodeData("7", 8,20,2,"Hospital", "Room", "longName7", "LN7");
-
     NodeData nodeEight = new NodeData("8", 13,33,2,"Hospital", "Room", "longName8", "LN8");
 
     NodeData nodeNine = new NodeData("9", 20,5,2,"Hospital", "Room", "longName9", "LN9");
