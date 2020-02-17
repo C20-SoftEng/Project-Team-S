@@ -24,4 +24,6 @@ public final class App extends Application {
         return br.lines()
                 .collect(Collectors.toList());
     }
+
+
 }

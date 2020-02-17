@@ -4,6 +4,7 @@ package edu.wpi.cs3733.c20.teamS;
 import com.sun.javafx.geom.Edge;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.DataClasses.ServiceData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 
 import java.util.HashSet;
@@ -34,7 +35,17 @@ public class Main {
       System.out.println(ed.toString());
     }
 
+    dbCont.addServiceRequest(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
+    dbCont.addServiceRequest(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
 
+    dbCont.updateService(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
+    dbCont.deleteService(1);
+
+    Set<ServiceData> servSet = dbCont.getAllServiceRequests();
+    for(ServiceData ed : servSet){
+      System.out.println(ed.toString());
+    }
+    //dbCont.purgeTable("EDGES");
     //dbCont.addNode(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
   }
 
