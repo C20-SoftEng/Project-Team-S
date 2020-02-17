@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
-final class DatabaseTest extends Application {
+public class DatabaseTest extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {

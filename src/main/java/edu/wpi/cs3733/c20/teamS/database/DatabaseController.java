@@ -390,7 +390,7 @@ public class DatabaseController {
             throw new RuntimeException(e);
         }
     }
-
+    //Tested
     public void commit(){
         try{
             connection.commit();
@@ -399,6 +399,7 @@ public class DatabaseController {
         }
 
     }
+    //Tested
     public void rollBack(){
         try{
             connection.rollback();
@@ -406,6 +407,7 @@ public class DatabaseController {
             throw new RuntimeException();
         }
     }
+    //Tested
     public void autoCommit(boolean isOn){
         try{
             connection.setAutoCommit(isOn);
