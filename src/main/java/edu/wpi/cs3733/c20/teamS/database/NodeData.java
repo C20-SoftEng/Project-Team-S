@@ -1,9 +1,9 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
 
 import java.util.Objects;
 
-public class NodeData{
+class NodeData{
     private String nodeID;
     private double xCoordinate;
     private double yCoordinate;

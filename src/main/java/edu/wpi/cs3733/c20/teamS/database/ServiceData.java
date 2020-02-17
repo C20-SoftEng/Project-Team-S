@@ -1,9 +1,9 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
 
 import java.sql.Date;
 
-public class ServiceData{
+class ServiceData{
     private int serviceID;
     private String serviceType;
     private String status;

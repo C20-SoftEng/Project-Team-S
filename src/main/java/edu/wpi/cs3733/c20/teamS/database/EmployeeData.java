@@ -1,6 +1,6 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
-public class EmployeeData {
+class EmployeeData {
     private int employeeID;
 
     public EmployeeData(int employeeID, String username, String password, int accessLevel, String firstName, String lastName) {

@@ -1,8 +1,8 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
 
 
-public class EdgeData{
+class EdgeData{
     //attributes
     private String edgeID;
     private String startNode;
