@@ -154,13 +154,5 @@ public class DepthFirstTests {
         assertEquals(realPath, path);
     }
 
-    @Test
-    public void euclideanDistance_correctDistance(){
-        DepthFirst depth = new DepthFirst();
-        double distance = depth.euclideanDistance(nodeOne, nodeTwo);
-        double realDistance =
-                Math.sqrt((nodeTwo.getxCoordinate()-nodeOne.getxCoordinate())*(nodeTwo.getxCoordinate()-nodeOne.getxCoordinate()) + (nodeTwo.getyCoordinate()-nodeOne.getyCoordinate())*(nodeTwo.getyCoordinate()-nodeOne.getyCoordinate()));
 
-        assertEquals(realDistance, distance);
-    }
 }

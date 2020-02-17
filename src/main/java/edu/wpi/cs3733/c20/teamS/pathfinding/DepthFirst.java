@@ -24,7 +24,7 @@ public class DepthFirst implements IPathfinding {
         else{
             NodeData current = start;
 
-            PriorityQueue<NodeData> frontier = new PriorityQueue<NodeData>(nodeComparator);
+            Stack<NodeData> frontier = new Stack<>();
             frontier.add(current);
 
             LinkedList<NodeData> visited = new LinkedList<>();
@@ -34,8 +34,7 @@ public class DepthFirst implements IPathfinding {
             cameFrom.put(current, null);
 
             while(!frontier.isEmpty()){
-                System.out.println(current.getNodeID());
-                current = frontier.poll();
+                current = frontier.pop();
 
                 if (current == goal){
                     break;
@@ -77,21 +76,7 @@ public class DepthFirst implements IPathfinding {
         }
     }
 
-    //Comparator anonymous class implementation
-    private static Comparator<NodeData> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
 
-    /**
-     * A heuristic function that uses the euclidean distance
-     * @param goal the goal node
-     * @param current the current node
-     * @return the euclidean distance
-     */
-    public double euclideanDistance(NodeData goal, NodeData current){
-        if(goal == null) ThrowHelper.illegalNull("goal");
-        if(current == null) ThrowHelper.illegalNull("current");
-
-        return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) + (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
-    }
 
 
 
