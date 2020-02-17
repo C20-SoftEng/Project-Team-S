@@ -4,7 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class loginScreenController {
@@ -30,11 +34,23 @@ public class loginScreenController {
      * change this for later, just using admin
      */
     @FXML void onEnterClicked(ActionEvent event) {
-        if (id. "admin" && pw.getText() == "admin"){
-            //modality
+        if ((id.getText() == "admin") && (pw.getText() == "admin")){
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
+                Parent root2 = (Parent) fxmlLoader.load();
+                Stage window = new Stage();
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setTitle("Welcome, " + id.getText());
+                window.setScene(new Scene(root2));
+                window.show();
+            }catch (Exception e){
+                System.out.println("Can't load new window");
+            }
         }
-        else {
+        if ((id.getText() != "admin")){
             wrongID.setVisible(true);
+        }
+        if (pw.getText() != "admin"){
             wrongPW.setVisible(true);
         }
     }
