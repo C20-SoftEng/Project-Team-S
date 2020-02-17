@@ -26,6 +26,11 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
+        private Stage stage;
+        public EditScreenController(Stage stage) {
+            this.stage  = stage;
+        }
+
         int current_floor = 2;
         String newFloor;
         private MapZoomer zoomer;
@@ -319,7 +324,7 @@ public class EditScreenController implements Initializable {
         addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
-        cancelEditsButton.setOnAction(e -> tester.cancelChanges());
+        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
 
         scrollPane.setContent(group);
     }

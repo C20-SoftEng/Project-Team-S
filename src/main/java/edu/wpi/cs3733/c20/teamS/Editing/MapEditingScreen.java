@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,10 +13,13 @@ public class MapEditingScreen {
     private Scene scene;
     private Stage stage;
     public MapEditingScreen(Stage stage) {
+        DatabaseController dbc = new DatabaseController();
+        dbc.autoCommit(false);
+
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
         loader.setControllerFactory(c -> {
-            this.ui = new EditScreenController();
+            this.ui = new EditScreenController(stage);
             return this.ui;
         });
         try {

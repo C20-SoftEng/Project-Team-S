@@ -317,9 +317,12 @@ public class MapEditingTasks {
     }
 
     public void saveChanges() {
+        DatabaseController dbc = new DatabaseController();
+        dbc.commit();
     }
 
     public void cancelChanges() {
-
+        DatabaseController dbc = new DatabaseController();
+        dbc.rollBack();
     }
 }
