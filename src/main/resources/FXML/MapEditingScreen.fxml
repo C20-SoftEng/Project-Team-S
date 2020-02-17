@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #BFBDBB;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.mapEditor.EditingUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #BFBDBB;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.EditScreenController">
    <children>
-      <ScrollPane pannable="true">
+      <ScrollPane fx:id="scrollPane" pannable="true">
          <content>
             <ImageView fitHeight="538.0" fitWidth="896.0" preserveRatio="true">
                <image>
@@ -56,7 +56,7 @@
                               <RowConstraints maxHeight="51.0" minHeight="49.0" prefHeight="50.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" onAction="#onAddEdgeClicked" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Add Edge" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Add Edge" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -70,7 +70,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXRadioButton>
-                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" onAction="#onAddNodeClicked" prefHeight="40.0" prefWidth="150.0" selected="true" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Add Node" textAlignment="JUSTIFY" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXRadioButton fx:id="addNode" contentDisplay="CENTER" maxWidth="140.0" prefHeight="40.0" prefWidth="150.0" selected="true" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Add Node" textAlignment="JUSTIFY" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -81,7 +81,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXRadioButton>
-                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" onAction="#onRemoveNodeClicked" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Remove Node" textAlignment="JUSTIFY" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Remove Node" textAlignment="JUSTIFY" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -92,7 +92,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXRadioButton>
-                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" onAction="#onRemoveEdgeClicked" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Remove Edge" textAlignment="CENTER" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-background-radius: 4; -fx-border-radius: 4;" text="Remove Edge" textAlignment="CENTER" toggleGroup="$group1" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -103,7 +103,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXRadioButton>
-                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" onAction="#onPathfindClicked" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-border-radius: 4; -fx-background-radius: 4;" text="Edit Node" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <JFXRadioButton contentDisplay="CENTER" maxWidth="140.0" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: ffffff; -fx-border-color: #000000; -fx-border-radius: 4; -fx-background-radius: 4;" text="Edit Node" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="group11" />
                                  </toggleGroup>
@@ -137,7 +137,7 @@
                               <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="126.0" minWidth="124.0" prefHeight="74.0" prefWidth="125.0" ripplerFill="RED" style="-fx-background-color: #fff; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;" text="Exit" textFill="RED" GridPane.rowIndex="2">
+                              <JFXButton alignment="CENTER" contentDisplay="CENTER" maxWidth="126.0" minWidth="124.0" prefHeight="74.0" prefWidth="125.0" ripplerFill="RED" style="-fx-background-color: #fff; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;" text="Exit" textFill="RED" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -148,7 +148,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton alignment="CENTER" contentDisplay="CENTER" maxHeight="76.0" maxWidth="126.0" minHeight="74.0" minWidth="124.0" onAction="#onOKClicked" prefHeight="75.0" prefWidth="125.0" ripplerFill="#24ae32" style="-fx-background-color: #fff; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;" text="Save" textFill="#24ae32" GridPane.rowIndex="1">
+                              <JFXButton alignment="CENTER" contentDisplay="CENTER" maxHeight="76.0" maxWidth="126.0" minHeight="74.0" minWidth="124.0" prefHeight="75.0" prefWidth="125.0" ripplerFill="#24ae32" style="-fx-background-color: #fff; -fx-border-color: #000; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;" text="Save" textFill="#24ae32" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
