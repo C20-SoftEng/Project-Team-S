@@ -3,22 +3,16 @@ package edu.wpi.cs3733.c20.teamS;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class mainScreenController implements Initializable {
+public class employeeScreenController implements Initializable {
     int current_floor = 2;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
@@ -27,10 +21,10 @@ public class mainScreenController implements Initializable {
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
 
-    @FXML
-    private ImageView mapImage;
-    @FXML
-    private ScrollPane scrollPane;
+    @FXML private ImageView mapImage;
+
+    @FXML private ScrollPane scrollPane;
+
     @FXML
     private JFXButton floorButton1;
     @FXML
@@ -103,6 +97,31 @@ public class mainScreenController implements Initializable {
         }
     }
 
+    @FXML void onHelpClicked(ActionEvent event) {
+    }
+
+    @FXML void onLogOut(ActionEvent event){
+
+    }
+
+    @FXML void onStaffClicked(ActionEvent event) {
+
+    }
+
+    @FXML void onZoomInClicked(ActionEvent event) {
+        this.zoomer.zoomIn();
+    }
+
+    @FXML void onZoomOutClicked(ActionEvent event) {
+        Node content = scrollPane.getContent();
+        this.zoomer.zoomOut();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
+    }
+
     void set1() {
         floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
         floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
@@ -163,40 +182,4 @@ public class mainScreenController implements Initializable {
         downButton.setDisable(false);
     }
 
-    @FXML
-    void onHelpClicked(ActionEvent event) {
-    }
-
-    @FXML
-    void onStaffClicked(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Login to the System");
-            window.setScene(new Scene(root1));
-            window.setResizable(false);
-            window.show();
-        } catch (Exception e) {
-            System.out.println("Can't load new window");
-        }
-    }
-
-    @FXML
-    void onZoomInClicked(ActionEvent event) {
-        this.zoomer.zoomIn();
-    }
-
-    @FXML
-    void onZoomOutClicked(ActionEvent event) {
-        Node content = scrollPane.getContent();
-        this.zoomer.zoomOut();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
-    }
 }
-
