@@ -30,13 +30,13 @@ public class loginScreenController {
      * change this for later, just using admin
      */
     @FXML void onEnterClicked(ActionEvent event) {
-        if (id. "admin" && pw.getText() == "admin"){
+        //if (id. "admin" && pw.getText() == "admin"){
             //modality
-        }
-        else {
-            wrongID.setVisible(true);
-            wrongPW.setVisible(true);
-        }
+        //}
+       // else {
+       //     wrongID.setVisible(true);
+       //     wrongPW.setVisible(true);
+       // }
     }
 
 }
