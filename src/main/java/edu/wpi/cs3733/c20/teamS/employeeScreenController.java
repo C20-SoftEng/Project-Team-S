@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 
 public class employeeScreenController implements Initializable {
     int current_floor = 2;
-    String newFloor;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -106,6 +105,7 @@ public class employeeScreenController implements Initializable {
     }
 
     @FXML void onStaffClicked(ActionEvent event) {
+
     }
 
     @FXML void onZoomInClicked(ActionEvent event) {
@@ -181,4 +181,5 @@ public class employeeScreenController implements Initializable {
         upButton.setDisable(true);
         downButton.setDisable(false);
     }
+
 }
