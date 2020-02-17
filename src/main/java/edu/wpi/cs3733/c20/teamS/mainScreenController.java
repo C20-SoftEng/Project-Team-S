@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class mainScreenController implements Initializable {
-    int current_floor;
+    int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
