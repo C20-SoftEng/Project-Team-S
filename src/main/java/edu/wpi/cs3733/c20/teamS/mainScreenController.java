@@ -40,14 +40,7 @@ public class mainScreenController implements Initializable {
     @FXML void onFloorClicked5(ActionEvent event) {
         mapImage.setImage(floor5);
     }
-
-    @FXML void onUpClicked(ActionEvent event) {
-
-    }
-
-    @FXML void onDownClicked(ActionEvent event) {
-
-    }
+     //#f6bd38 - yellow button color
 
     @FXML void onHelpClicked(ActionEvent event) {
     }
