@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.RideKind;
 
 import java.time.LocalDateTime;
 
