@@ -121,6 +121,7 @@ public class mainScreenController implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("Login to the System");
             window.setScene(new Scene(root1));
+            window.setResizable(false);
             window.show();
         } catch (Exception e) {
             System.out.println("Can't load new window");
@@ -136,6 +137,7 @@ public class mainScreenController implements Initializable {
     void onZoomOutClicked(ActionEvent event) {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+
     }
 
     @Override
