@@ -553,4 +553,30 @@ public class DatabaseController {
             throw new NotImplementedException();
         }
     }
+
+    public void removeNode(String nodeID) {
+        String delNode = "DELETE FROM NODES WHERE NODEID = '" + nodeID + "'";
+        PreparedStatement stm = null;
+        try{
+            stm = connection.prepareStatement(delNode);
+            stm.executeUpdate();
+        }catch(java.sql.SQLException aS){
+            System.out.println("Error deleting node...");
+            System.out.println(aS.getErrorCode());
+            throw new RuntimeException(aS);
+        }
+    }
+
+    public void removeEdge(String edgeID) {
+        String delEdge = "DELETE FROM EDGES WHERE EDGEID = '" + edgeID + "'";
+        PreparedStatement stm = null;
+        try{
+            stm = connection.prepareStatement(delEdge);
+            stm.executeUpdate();
+        }catch(java.sql.SQLException aS){
+            System.out.println("Error deleting edge...");
+            System.out.println(aS.getErrorCode());
+            throw new RuntimeException(aS);
+        }
+    }
 }

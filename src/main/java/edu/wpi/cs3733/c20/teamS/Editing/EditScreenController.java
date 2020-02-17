@@ -311,6 +311,9 @@ public class EditScreenController implements Initializable {
         }
 
         addNodeRadio.setOnAction(e -> tester.drawNodes());
+        removeNodeRadio.setOnAction(e -> tester.removeNodes(mapImage, current_floor));
+        addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
+        removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
 
         scrollPane.setContent(group);
     }
