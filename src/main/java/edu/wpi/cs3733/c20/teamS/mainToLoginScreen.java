@@ -32,7 +32,7 @@ public class mainToLoginScreen {
         }
 
         ui.drawNodesEdges();
-        //ui.getFloorButton2().click();
+        ui.getFloor2().fire();
 
         this.show();
     }

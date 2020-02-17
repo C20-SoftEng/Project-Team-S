@@ -42,8 +42,6 @@ public class mainScreenController implements Initializable {
     @FXML private JFXButton floorButton4;
     @FXML private JFXButton floorButton5;
 
-    public JFXButton getFloorButton2() {return floorButton2;}
-
     private void neurtalizeButtons() {
         floorButton1.setPrefWidth(44);
         floorButton1.setPrefWidth(50);
@@ -129,22 +127,129 @@ public class mainScreenController implements Initializable {
         neurtalizeButtons();
         if(current_floor != 5){
             current_floor += 1;
-            if(tester2.getCounter() >= 2) {
-                tester2.pathDraw(current_floor);}
-            newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
-            mapImage.setImage(new Image(newFloor));
-            drawNodesEdges();
+            if(current_floor == 1) {
+                neurtalizeButtons();
+                floorButton1.setPrefWidth(64);
+                floorButton1.setPrefWidth(71);
+                floorButton1.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor1);
+                current_floor = 1;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                drawNodesEdges();
+            }
+            if(current_floor == 2) {
+                neurtalizeButtons();
+                floorButton2.setPrefWidth(64);
+                floorButton2.setPrefWidth(71);
+                floorButton2.setStyle("-fx-background-color: #f6bd38");
+                current_floor = 2;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                mapImage.setImage(floor2);
+                drawNodesEdges();
+
+            }
+            if(current_floor == 3) {
+                neurtalizeButtons();
+                floorButton3.setPrefWidth(64);
+                floorButton3.setPrefWidth(71);
+                floorButton3.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor3);
+                current_floor = 3;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                drawNodesEdges();
+            }
+            if(current_floor == 4) {
+                neurtalizeButtons();
+                floorButton4.setPrefWidth(64);
+                floorButton4.setPrefWidth(71);
+                floorButton4.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor4);
+                current_floor = 4;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                //System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
+                drawNodesEdges();
+            }
+            if(current_floor == 5) {
+                neurtalizeButtons();
+                floorButton5.setPrefWidth(64);
+                floorButton5.setPrefWidth(71);
+                floorButton5.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor5);
+                current_floor = 5;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                //mapImage.setImage(new Image(newFloor));
+                drawNodesEdges();
+            }
         }
     }
 
     @FXML void onDownClicked(ActionEvent event) {
         if(current_floor != 1){
             current_floor -= 1;
-            if(tester2.getCounter() >= 2) {
-                tester2.pathDraw(current_floor);}
-            newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
-            mapImage.setImage(new Image(newFloor));
-            drawNodesEdges();
+            current_floor += 1;
+            if(current_floor == 1) {
+                neurtalizeButtons();
+                floorButton1.setPrefWidth(64);
+                floorButton1.setPrefWidth(71);
+                floorButton1.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor1);
+                current_floor = 1;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                drawNodesEdges();
+            }
+            if(current_floor == 2) {
+                neurtalizeButtons();
+                floorButton2.setPrefWidth(64);
+                floorButton2.setPrefWidth(71);
+                floorButton2.setStyle("-fx-background-color: #f6bd38");
+                current_floor = 2;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                mapImage.setImage(floor2);
+                drawNodesEdges();
+
+            }
+            if(current_floor == 3) {
+                neurtalizeButtons();
+                floorButton3.setPrefWidth(64);
+                floorButton3.setPrefWidth(71);
+                floorButton3.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor3);
+                current_floor = 3;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                drawNodesEdges();
+            }
+            if(current_floor == 4) {
+                neurtalizeButtons();
+                floorButton4.setPrefWidth(64);
+                floorButton4.setPrefWidth(71);
+                floorButton4.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor4);
+                current_floor = 4;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                //System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
+                drawNodesEdges();
+            }
+            if(current_floor == 5) {
+                neurtalizeButtons();
+                floorButton5.setPrefWidth(64);
+                floorButton5.setPrefWidth(71);
+                floorButton5.setStyle("-fx-background-color: #f6bd38");
+                mapImage.setImage(floor5);
+                current_floor = 5;
+                if(tester2.getCounter() >= 2) {
+                    tester2.pathDraw(current_floor);}
+                //mapImage.setImage(new Image(newFloor));
+                drawNodesEdges();
+            }
         }
     }
 
@@ -162,6 +267,8 @@ public class mainScreenController implements Initializable {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
     }
+
+    public JFXButton getFloor2() {return floorButton2;}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
