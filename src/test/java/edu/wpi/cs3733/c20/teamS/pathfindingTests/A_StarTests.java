@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.pathfindingTests;
+package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -41,10 +41,10 @@ public class A_StarTests {
 
     @Test
     public void findPath_ReturnSingleNodePath(){
-       newGraph.addNode(nodeOne);
-       newGraph.addNode(nodeTwo);
-       newGraph.putEdge(nodeOne, nodeTwo);
-       A_Star star = new A_Star();
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.putEdge(nodeOne, nodeTwo);
+        A_Star star = new A_Star();
         ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
@@ -122,23 +122,64 @@ public class A_StarTests {
         assertEquals(realPath, path);
     }
 
-//    @Test
-//    public void findPath_NoValidPath(){
-//        newGraph.addNode(nodeOne);
-//        newGraph.addNode(nodeTwo);
-//        newGraph.addNode(nodeThree);
-//
-//        A_Star star = new A_Star();
-//        Set<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
-//        Set<NodeData> realPath = new HashSet<>();
-//
-//        for(NodeData data: path){
-//            System.out.println(data.nodeID());
-//        }
-//        assertEquals(realPath, path);
-//
-//    }
-//
+    @Test
+    public void findPath_NoValidPath(){
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.addNode(nodeThree);
+
+        A_Star star = new A_Star();
+        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
+        ArrayList<NodeData> realPath = new ArrayList<>();
+
+        for(NodeData data: path){
+            System.out.println(data.nodeID());
+        }
+        assertEquals(realPath, path);
+
+    }
+
+    @Test
+    public void findPath_singleNodePath(){
+        newGraph.addNode(nodeOne);
+
+        A_Star star = new A_Star();
+        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeOne);
+        ArrayList<NodeData> realPath = new ArrayList<>();
+        realPath.add(nodeOne);
+
+        assertEquals(realPath, path);
+
+    }
+
+    @Test
+    public void euclideanDistance_correctDistance(){
+        A_Star star = new A_Star();
+        double distance = star.euclideanDistance(nodeOne, nodeTwo);
+        double realDistance =
+                Math.sqrt((nodeTwo.x()-nodeOne.x())*(nodeTwo.x()-nodeOne.x()) + (nodeTwo.y()-nodeOne.y())*(nodeTwo.y()-nodeOne.y()));
+
+        assertEquals(realDistance, distance);
+    }
+
+    @Test
+    public void findPath_Recursion(){
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.putEdge(nodeOne, nodeTwo);
+        newGraph.addNode(nodeThree);
+        newGraph.putEdge(nodeTwo, nodeThree);
+        newGraph.putEdge(nodeThree, nodeOne);
+        A_Star star = new A_Star();
+        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeThree);
+        ArrayList<NodeData> realPath = new ArrayList<>();
+        realPath.add(nodeOne);
+        realPath.add(nodeThree);
+
+        assertEquals(realPath, path);
+
+    }
+
 
 
 
