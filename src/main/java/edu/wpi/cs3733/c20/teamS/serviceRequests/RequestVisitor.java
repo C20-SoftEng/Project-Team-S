@@ -9,5 +9,5 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
  */
 public abstract class RequestVisitor {
     public abstract void visit(JanitorRequest request);
-    public abstract void visit(HazmatRequest request);
+    public abstract void visit(RideRequest request);
 }
