@@ -16,9 +16,7 @@ public class DatabaseController {
      */
     static {
         createDatabase();
-
         dropTablesIfTheyExist();
-
         createTables();
     }
     public DatabaseController() {}
@@ -149,7 +147,5 @@ public class DatabaseController {
             throw new RuntimeException();
         }
     }
-
-
 
 }
