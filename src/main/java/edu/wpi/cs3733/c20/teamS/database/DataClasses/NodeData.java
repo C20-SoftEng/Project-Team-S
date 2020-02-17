@@ -24,6 +24,8 @@ public class NodeData{
         this.shortName = shortName;
     }
 
+    public NodeData() {}
+
 
     //Getters and setters.
 

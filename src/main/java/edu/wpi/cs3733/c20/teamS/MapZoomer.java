@@ -26,8 +26,10 @@ public class MapZoomer {
     }
 
     private void updateImageSize() {
-        this.mapView.setScaleX(zoomFactor());
-        this.mapView.setScaleY(zoomFactor());
+        //this.mapView.setScaleX(zoomFactor());
+        //this.mapView.setScaleY(zoomFactor());
+        scrollPane.getContent().setScaleX(zoomFactor());
+        scrollPane.getContent().setScaleY(zoomFactor());
     }
 
     public void zoomIn() {
