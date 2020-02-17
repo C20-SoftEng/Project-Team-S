@@ -36,16 +36,16 @@ final class DatabaseTest extends Application {
         }
 
 
-        dbCont.addServiceRequest(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
-        dbCont.addServiceRequest(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
+        dbCont.addServiceRequestData(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
+        dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
         dbCont.commit();
 
-        dbCont.updateService(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
-        dbCont.deleteService(1);
+        dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
+        dbCont.deleteServiceWithId(1);
 
         dbCont.rollBack();
 
-        Set<ServiceData> servSet = dbCont.getAllServiceRequests();
+        Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
         for(ServiceData ed : servSet){
             System.out.println(ed.toString());
         }

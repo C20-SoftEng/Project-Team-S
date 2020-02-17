@@ -1,5 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
@@ -166,7 +173,6 @@ public class DatabaseController {
             throw new RuntimeException();
         }
     }
-
     //Tested
     public void addSetOfNodes(Set<NodeData> set){
         for(NodeData nd : set){
@@ -202,7 +208,6 @@ public class DatabaseController {
         }
         return nodeSet;
     }
-
     //Tested
     public Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
@@ -234,7 +239,6 @@ public class DatabaseController {
 
         return nodeSet;
     }
-
     //Tested
     public Set<EdgeData> getAllEdges(){
         Statement stm = null;
@@ -261,7 +265,6 @@ public class DatabaseController {
         }
         return edgeSet;
     }
-
     //Tested
     public Set<EdgeData> parseEdgeResultSet(ResultSet rset){
         String edgeID;
@@ -282,7 +285,6 @@ public class DatabaseController {
         }
         return edgeSet;
     }
-
     //Tested
     public void addEdge(EdgeData edge) {
         String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
@@ -297,7 +299,6 @@ public class DatabaseController {
             throw new RuntimeException();
         }
     }
-
     //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
@@ -323,7 +324,6 @@ public class DatabaseController {
         }
         return returnNode;
     }
-
     //Tested
     public void importStartUpData() {
 
@@ -343,7 +343,6 @@ public class DatabaseController {
         System.out.println("Getting Employees from: " + empPath);
         importData("EMPLOYEES", empPath, true);
     }
-
     //Tested
     public int importData(String toTable, String filePath, boolean withHeader){
 
@@ -377,7 +376,6 @@ public class DatabaseController {
         }
         return 0;
     }
-
     //Tested
     public void purgeTable(String tableName) {
         String delAllEntryStr = "TRUNCATE TABLE " + tableName;
@@ -393,30 +391,30 @@ public class DatabaseController {
         }
     }
 
-    //Tested
-    //  Package-private. Public method should take a ServiceRequest, and use the
-    //  visitor pattern to save the correct concrete service-request type.
-    void addServiceRequest(ServiceData sd) {
-        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement addStm = connection.prepareCall(addEntryStr);
-            Date currentDate = new Date(Instant.now().toEpochMilli());
-            addStm.setString(1,sd.getServiceType());
-            addStm.setString(2,sd.getStatus());
-            addStm.setString(3,sd.getMessage());
-            addStm.setInt(4,sd.getAssignedEmployeeID());
-            addStm.setDate(5,currentDate);
-            addStm.setString(6,sd.getServiceNode());
-            addStm.execute();
-            addStm.close();
+    public void commit(){
+        try{
+            connection.commit();
         }catch(SQLException e){
-            System.out.println("Failed to add service Request");
+            throw new RuntimeException();
+        }
+
+    }
+    public void rollBack(){
+        try{
+            connection.rollback();
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+    }
+    public void autoCommit(boolean isOn){
+        try{
+            connection.setAutoCommit(isOn);
+        }catch(SQLException e){
             throw new RuntimeException();
         }
     }
 
-
-    public Set<ServiceData> getAllServiceRequests(){
+    Set<ServiceData> getAllServiceRequestData(){
         Statement stm = null;
         try{
             stm = connection.createStatement();
@@ -441,8 +439,7 @@ public class DatabaseController {
         }
         return serviceSet;
     }
-
-    public Set<ServiceData> parseServiceResultSet(ResultSet rset){
+    Set<ServiceData> parseServiceResultSet(ResultSet rset){
         Set<ServiceData> serviceSet = new HashSet<>();
         int serviceID;
         String serviceType;
@@ -475,9 +472,28 @@ public class DatabaseController {
 
 
     }
-
-
-    public void updateService(ServiceData sd){
+    //Tested
+    //  Package-private. Public method should take a ServiceRequest, and use the
+    //  visitor pattern to save the correct concrete service-request type.
+    void addServiceRequestData(ServiceData sd) {
+        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+            Date currentDate = new Date(Instant.now().toEpochMilli());
+            addStm.setString(1,sd.getServiceType());
+            addStm.setString(2,sd.getStatus());
+            addStm.setString(3,sd.getMessage());
+            addStm.setInt(4,sd.getAssignedEmployeeID());
+            addStm.setDate(5,currentDate);
+            addStm.setString(6,sd.getServiceNode());
+            addStm.execute();
+            addStm.close();
+        }catch(SQLException e){
+            System.out.println("Failed to add service Request");
+            throw new RuntimeException();
+        }
+    }
+    void updateServiceData(ServiceData sd){
         String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -493,11 +509,8 @@ public class DatabaseController {
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
-
-
     }
-
-    public void deleteService(int id){
+    void deleteServiceWithId(int id){
         String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -509,32 +522,33 @@ public class DatabaseController {
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
-
-
     }
 
-    public void commit(){
-        try{
-            connection.commit();
-        }catch(SQLException e){
-            throw new RuntimeException();
+    public void addServiceRequest(ServiceRequest request) {
+        if (request == null) ThrowHelper.illegalNull("request");
+
+        AddServiceVisitor visitor = new AddServiceVisitor();
+
+        //  When ServiceRequest.accept() is called, visit() will be called on the ServiceVisitor. What's more,
+        //  the correct overload of visit() will be called.
+        request.accept(visitor);
+    }
+
+    //  Each time you need to perform a specific operation differently for different subclasses
+    //  of ServiceRequest, you can subclass ServiceVisitor.
+    //  The base ServiceVisitor class must have an abstract method for each subclass of ServiceRequest.
+    private final class AddServiceVisitor extends ServiceVisitor {
+        //  Code that is specific to each particular type of service request should go in
+        //  here. When you call accept() on a service request instance, it'll call visit() and
+        //  pass itself as the argument. Because of the way overload resolution works, the correct overload
+        //  will be called.
+        @Override
+        public void visit(JanitorServiceRequest request) {
+            throw new NotImplementedException();
         }
-
-    }
-
-    public void rollBack(){
-        try{
-            connection.rollback();
-        }catch(SQLException e){
-            throw new RuntimeException();
-        }
-    }
-
-    public void autoCommit(boolean isOn){
-        try{
-            connection.setAutoCommit(isOn);
-        }catch(SQLException e){
-            throw new RuntimeException();
+        @Override
+        public void visit(RideServiceRequest request) {
+            throw new NotImplementedException();
         }
     }
 }
