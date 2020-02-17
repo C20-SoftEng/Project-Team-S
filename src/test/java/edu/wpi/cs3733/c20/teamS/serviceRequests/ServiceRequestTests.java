@@ -5,19 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceRequestTests {
 
-    private static class MockRequest extends ServiceRequest {
-        public MockRequest(int id) {
-            super(id);
-        }
-
-        @Override
-        public void accept(RequestVisitor visitor) {
-            throw new UnsupportedOperationException("MockRequest does not support visitors.");
-        }
-    }
-
     public static class NewRequest {
-        private final ServiceRequest request = new MockRequest(69);
+        private final ServiceRequest request = new ServiceRequest(69, ServiceKind.JANITOR);
 
         @Test
         public void hasStatus_created() {
@@ -36,7 +25,7 @@ public class ServiceRequestTests {
 
         public AssignedRequest() {
             employee = new Employee(420, "Alice");
-            request = new MockRequest(69);
+            request = new ServiceRequest(69, ServiceKind.JANITOR);
             request.assignTo(employee);
         }
 
@@ -57,7 +46,7 @@ public class ServiceRequestTests {
 
         public CompletedRequest() {
             employee = new Employee(69, "Bob");
-            request = new MockRequest(123);
+            request = new ServiceRequest(123, ServiceKind.JANITOR);
             request.assignTo(employee);
             request.complete();
         }
@@ -77,7 +66,7 @@ public class ServiceRequestTests {
         private final ServiceRequest request;
 
         public CanceledRequest() {
-            request = new MockRequest(47);
+            request = new ServiceRequest(47, ServiceKind.JANITOR);
             request.assignTo(new Employee(42, "Amy"));
             request.cancel();
         }

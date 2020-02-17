@@ -19,8 +19,8 @@ dependencies {
             [group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'],
             [group: 'org.apache.derby',name: 'derby', version: '10.14.2.0'],
             // 1. Use Guava in your implementation only:
-            [group: 'com.google.guava', name: 'guava', version: '28.2-jre'],
-            [group: 'no.tornado', name: 'tornadofx-controls', version: '1.0.4']
+            [group: 'com.google.guava', name: 'guava', version: '28.2-jre']
+
 //            // 2. Use Guava types in your public API:
 //            api("com.google.guava:guava:28.2-jre")
     )
