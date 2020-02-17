@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c20.teamS.database;
 
 import java.util.Objects;
 
-class NodeData{
+public class NodeData{
     private String nodeID;
     private double xCoordinate;
     private double yCoordinate;

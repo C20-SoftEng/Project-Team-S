@@ -1,10 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathfinding;
 
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**

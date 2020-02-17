@@ -2,25 +2,14 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 
 import com.google.common.graph.MutableGraph;
-<<<<<<< HEAD
-import edu.wpi.cs3733.c20.teamS.NodeData;
-=======
-import com.google.common.graph.MutableValueGraph;
->>>>>>> pathEditMerge2
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
+
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 
 import java.util.*;
 
 
 public class A_Star implements IPathfinding {
-<<<<<<< HEAD
-=======
-    private MutableGraph<NodeData> graph;
-    private NodeData start;
-    private NodeData goal;
-
->>>>>>> pathEditMerge2
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
      *
@@ -60,16 +49,6 @@ public class A_Star implements IPathfinding {
                 double knownCost = distance(friend, frontier.peek());
                 queue.add(frontier.push(friend, knownCost));
             }
-<<<<<<< HEAD
-=======
-
-            ArrayList<NodeData> path = new ArrayList<>();
-            for(int i = 0; i< reversePath.size(); i++){
-                path.add(reversePath.get(reversePath.size()-i - 1));
-            }
-
-            return path;
->>>>>>> pathEditMerge2
         }
 
         return toArrayList(empty);
