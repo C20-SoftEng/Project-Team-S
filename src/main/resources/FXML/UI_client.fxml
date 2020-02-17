@@ -38,7 +38,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -46,7 +46,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -54,7 +54,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -62,7 +62,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="32.0" />
                            </font>
@@ -70,7 +70,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
