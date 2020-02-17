@@ -53,7 +53,9 @@ public class MapEditingTasks {
                     int number = max + 1;
                     if(number < 10) {num = "00" + number;}
                     if(number >= 10) {num = "0" + number;}
-                    NodeData data = new NodeData("S" + ui.getNodeType().getText().toUpperCase() + num + "0" + ui.getFloor().getText(),event.getX(),event.getY(),Integer.parseInt(ui.getFloor().getText()), ui.getBuilding().getText(), ui.getNodeType().getText().toUpperCase(), ui.getLongName().getText(),ui.getShortName().getText());
+                    NodeData data = new NodeData("S" + ui.getNodeType().getText().toUpperCase() + num + "0" +
+                            ui.getFloor().getText(),event.getX(),event.getY(),Integer.parseInt(ui.getFloor().getText()),
+                            ui.getBuilding().getText(), ui.getNodeType().getText().toUpperCase(), ui.getLongName().getText(),ui.getShortName().getText());
                     group.getChildren().add(circle1);
                     dbc.addNode(data);
                 }

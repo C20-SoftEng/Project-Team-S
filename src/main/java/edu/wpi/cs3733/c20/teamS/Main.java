@@ -11,8 +11,8 @@ public class Main extends Application {
     DatabaseController dbc = new DatabaseController();
     dbc.importStartUpData();
 
-    mainToLoginScreen test = new mainToLoginScreen(primaryStage);
-    //MapEditingScreen test = new MapEditingScreen(primaryStage);
+    //mainToLoginScreen test = new mainToLoginScreen(primaryStage);
+    MapEditingScreen test = new MapEditingScreen(primaryStage);
   }
 
   public static void main(String[] args) {
