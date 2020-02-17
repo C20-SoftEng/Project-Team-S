@@ -21,15 +21,15 @@ public class mainScreenController implements Initializable {
 
     @FXML private ScrollPane scrollPane;
 
-    @FXML void floorClicked1(ActionEvent event) {
+    @FXML void onFloorClicked1(ActionEvent event) {
         mapImage.setImage(floor1);
     }
 
-    @FXML void floorClicked2(ActionEvent event) {
+    @FXML void onFloorClicked2(ActionEvent event) {
         mapImage.setImage(floor2);
     }
 
-    @FXML void floorClicked3(ActionEvent event) {
+    @FXML void onFloorClicked3(ActionEvent event) {
         mapImage.setImage(floor3);
     }
 
