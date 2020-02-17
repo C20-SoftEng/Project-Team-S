@@ -47,6 +47,8 @@ public class mainScreenController implements Initializable {
     @FXML private JFXButton floorButton4;
     @FXML private JFXButton floorButton5;
 
+    public JFXButton getFloorButton2() {return floorButton2;}
+
     private void neurtalizeButtons() {
         floorButton1.setPrefWidth(44);
         floorButton1.setPrefWidth(50);

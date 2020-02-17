@@ -32,6 +32,7 @@ public class mainToLoginScreen {
         }
 
         ui.drawNodesEdges();
+        //ui.getFloorButton2().click();
 
         this.show();
     }
