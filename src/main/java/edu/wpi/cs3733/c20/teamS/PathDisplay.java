@@ -6,44 +6,39 @@ import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class PathDisplay {
     private String floornum;
+    private String floornum2;
     private int counter = 0;
     private NodeData startNode;
     private NodeData endNode;
+    Group groupPath = new Group();
     Group group;
 
-    public PathDisplay(Group group, String floornum) {
+    public int getCounter() {return counter;}
+
+    public PathDisplay(Group group) {
         this.group = group;
-        this.floornum = floornum;
     }
 
     public void setNode(NodeData data) {
-        if(counter % 2 == 0) {startNode = data;}
-        if(counter % 2 != 0) {endNode = data;}
+        if(counter % 2 == 0) {startNode = data; floornum = "0" + data.getFloor();}
+        if(counter % 2 != 0) {endNode = data; floornum2 = "0" + data.getFloor();}
         counter++;
     }
 
-    public void pathDraw() {
+    public void pathDraw(int currentFloor) {
+        String cf = "0" + currentFloor;
+        groupPath.getChildren().clear();
         if(counter >= 2) {
             boolean sameFloor = startNode.getFloor() == endNode.getFloor();
             DatabaseController dbc = new DatabaseController();
@@ -82,7 +77,7 @@ public class PathDisplay {
             }
             for(int i = 0; i < work.size() - 1; i++) {
                 EdgeData data = new EdgeData(work.get(i).getNodeID() + "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
-                if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floornum)) {
+                if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {
                     String start = data.getStartNode();
                     String end = data.getEndNode();
                     int startX = 0;
@@ -112,10 +107,11 @@ public class PathDisplay {
                         line1.setStroke(Color.RED);
                         line1.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
                         line1.setStrokeWidth(10);
-                        group.getChildren().add(line1);
+                        groupPath.getChildren().add(line1);
                     }
                 }
             }
+            group.getChildren().add(groupPath);
         }
     }
 }

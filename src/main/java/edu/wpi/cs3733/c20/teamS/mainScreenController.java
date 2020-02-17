@@ -20,11 +20,12 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 public class mainScreenController implements Initializable {
-    int current_floor;
+    int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
@@ -40,33 +41,33 @@ public class mainScreenController implements Initializable {
     @FXML void onFloorClicked1(ActionEvent event) {
         mapImage.setImage(floor1);
         current_floor = 1;
-        drawNodesEdges(current_floor);
+        drawNodesEdges();
     }
 
     @FXML void onFloorClicked2(ActionEvent event) {
         mapImage.setImage(floor2);
         current_floor = 2;
-        drawNodesEdges(current_floor);
+        drawNodesEdges();
     }
 
     @FXML void onFloorClicked3(ActionEvent event) {
         mapImage.setImage(floor3);
         current_floor = 3;
-        drawNodesEdges(current_floor);
+        drawNodesEdges();
     }
 
     @FXML void onFloorClicked4(ActionEvent event) {
         mapImage.setImage(floor4);
         current_floor = 4;
         System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
-        drawNodesEdges(current_floor);
+        drawNodesEdges();
     }
 
     @FXML void onFloorClicked5(ActionEvent event) {
         mapImage.setImage(floor5);
         current_floor = 5;
-        mapImage.setImage(new Image(newFloor));
-        drawNodesEdges(current_floor);
+        //mapImage.setImage(new Image(newFloor));
+        drawNodesEdges();
     }
      //#f6bd38 - yellow button color
 
@@ -75,7 +76,7 @@ public class mainScreenController implements Initializable {
             current_floor += 1;
             newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
             mapImage.setImage(new Image(newFloor));
-            drawNodesEdges(current_floor);
+            drawNodesEdges();
         }
     }
 
@@ -84,7 +85,7 @@ public class mainScreenController implements Initializable {
             current_floor -= 1;
             newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
             mapImage.setImage(new Image(newFloor));
-            drawNodesEdges(current_floor);
+            drawNodesEdges();
         }
     }
 
@@ -108,28 +109,31 @@ public class mainScreenController implements Initializable {
         zoomer = new MapZoomer(mapImage, scrollPane);
     }
 
-    private void drawNodesEdges(int floornum) {
-        String floor = "0" + floornum;
+    public void drawNodesEdges() {
+
+        String floor = "0" + current_floor;
 
         Group group = new Group();
 
-        group.getChildren().add(mapImage);
+        group.getChildren().clear();
+
+        group.getChildren().add(mapImage);;
+
+        PathDisplay tester = new PathDisplay(group);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        PathDisplay tester = new PathDisplay(group, floor);
-
         for(NodeData data : nd) {
-            if(data.getNodeID().substring(data.getNodeID().length()-2).equals(floor)) {
-                Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
-                circle1.setStroke(Color.ORANGE);
-                circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-                if(data.getNodeType().equals("ELEV")) {
-                    circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
-                circle1.setOnMouseClicked(e -> tester.setNode(data));
-                group.getChildren().add(circle1);
-            }
+            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
+            circle1.setStroke(Color.ORANGE);
+            circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
+            if(data.getNodeType().equals("ELEV")) {
+                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
+            circle1.setOnMouseClicked(e -> tester.setNode(data));
+            circle1.setVisible(false);
+            if(data.getNodeID().substring(data.getNodeID().length()-2).equals(floor)) {circle1.setVisible(true);}
+            group.getChildren().add(circle1);
         }
 
         Set<EdgeData> ed = dbc.getAllEdges();
@@ -165,6 +169,8 @@ public class mainScreenController implements Initializable {
                     line1.setStroke(Color.BLUE);
                     line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
                     line1.setStrokeWidth(5);
+                    line1.setVisible(false);
+                    if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floor)) {line1.setVisible(true);}
                     group.getChildren().add(line1);
                 }
             }
@@ -176,7 +182,7 @@ public class mainScreenController implements Initializable {
         pf.setTranslateY(600);
         pf.setPrefWidth(100);
         pf.setPrefHeight(100);
-        pf.setOnAction(e -> tester.pathDraw());
+        pf.setOnAction(e -> tester.pathDraw(current_floor));
 
         group.getChildren().add(pf);
 
