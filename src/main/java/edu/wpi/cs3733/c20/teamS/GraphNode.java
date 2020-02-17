@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
-public class NodeData {
+public class GraphNode {
     private double x_;
     private double y_;
     private String nodeID;
@@ -18,8 +18,8 @@ public class NodeData {
 //            this.y_ = y;
 //        }
 
-    public NodeData(String nodeID, double x, double y,
-                    int floor, String building, String nodeType, String longName, String shortName){
+    public GraphNode(String nodeID, double x, double y,
+                     int floor, String building, String nodeType, String longName, String shortName){
         this.nodeID = nodeID;
         this.x_ = x;
         this.y_ = y;
@@ -69,11 +69,11 @@ public class NodeData {
             return true;
         }
 
-        if(!(o instanceof NodeData)){
+        if(!(o instanceof GraphNode)){
             return false;
         }
 
-        NodeData nodeData = (NodeData)o;
+        GraphNode nodeData = (GraphNode)o;
 
         return this.nodeID == nodeData.nodeID;
     }

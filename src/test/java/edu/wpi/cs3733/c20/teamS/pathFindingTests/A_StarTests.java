@@ -2,41 +2,39 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.GraphNode;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class A_StarTests {
 
-    MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
+    MutableGraph<GraphNode> newGraph = GraphBuilder.undirected().build();
 
-    NodeData nodeOne = new NodeData("1",1,2,2, "Hospital", "Room", "longName1", "LN1");
+    GraphNode nodeOne = new GraphNode("1",1,2,2, "Hospital", "Room", "longName1", "LN1");
 
-    NodeData nodeTwo = new NodeData("2", 2, 4, 2, "Hospital", "Room", "longName2", "LN2");
+    GraphNode nodeTwo = new GraphNode("2", 2, 4, 2, "Hospital", "Room", "longName2", "LN2");
 
-    NodeData nodeThree = new NodeData("3", 10,10,2, "Hospital", "Room", "longName3", "LN3");
+    GraphNode nodeThree = new GraphNode("3", 10,10,2, "Hospital", "Room", "longName3", "LN3");
 
-    NodeData nodeFour = new NodeData("4", 40,40, 2, "Hospital", "Room", "longName4", "LN4");
+    GraphNode nodeFour = new GraphNode("4", 40,40, 2, "Hospital", "Room", "longName4", "LN4");
 
-    NodeData nodeFive = new NodeData("5", -1,-1, 2, "Hospital", "Room", "longName5", "LN5");
+    GraphNode nodeFive = new GraphNode("5", -1,-1, 2, "Hospital", "Room", "longName5", "LN5");
 
-    NodeData nodeSix = new NodeData("6", 70,70,2,"Hospital", "Room", "longName6", "LN6");
+    GraphNode nodeSix = new GraphNode("6", 70,70,2,"Hospital", "Room", "longName6", "LN6");
 
 
-    NodeData nodeSeven = new NodeData("7", 8,20,2,"Hospital", "Room", "longName7", "LN7");
+    GraphNode nodeSeven = new GraphNode("7", 8,20,2,"Hospital", "Room", "longName7", "LN7");
 
-    NodeData nodeEight = new NodeData("8", 13,33,2,"Hospital", "Room", "longName8", "LN8");
+    GraphNode nodeEight = new GraphNode("8", 13,33,2,"Hospital", "Room", "longName8", "LN8");
 
-    NodeData nodeNine = new NodeData("9", 20,5,2,"Hospital", "Room", "longName9", "LN9");
+    GraphNode nodeNine = new GraphNode("9", 20,5,2,"Hospital", "Room", "longName9", "LN9");
 
-    NodeData nodeTen = new NodeData("10", 33,22,2,"Hospital", "Room", "longName10", "LN10");
+    GraphNode nodeTen = new GraphNode("10", 33,22,2,"Hospital", "Room", "longName10", "LN10");
 
 
 
@@ -49,12 +47,12 @@ public class A_StarTests {
        newGraph.addNode(nodeTwo);
        newGraph.putEdge(nodeOne, nodeTwo);
        A_Star star = new A_Star();
-        List<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
-        List<NodeData> realPath = new ArrayList<>();
+        List<GraphNode> path = star.findPath(newGraph, nodeOne, nodeTwo);
+        List<GraphNode> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
 
-        for(NodeData data: path){
+        for(GraphNode data: path){
             System.out.println(data.nodeID());
         }
         assertEquals(realPath, path);
@@ -82,8 +80,8 @@ public class A_StarTests {
         newGraph.addNode(nodeTen);
         newGraph.putEdge(nodeNine, nodeTen);
         A_Star star = new A_Star();
-        List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
-        List<NodeData> realPath = new ArrayList<>();
+        List<GraphNode> path =  star.findPath(newGraph, nodeOne, nodeFour);
+        List<GraphNode> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
         realPath.add(nodeThree);
@@ -116,8 +114,8 @@ public class A_StarTests {
         newGraph.putEdge(nodeEight, nodeFour);
         newGraph.putEdge(nodeTen, nodeFour);
         A_Star star = new A_Star();
-        List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
-        List<NodeData> realPath = new ArrayList<>();
+        List<GraphNode> path =  star.findPath(newGraph, nodeOne, nodeFour);
+        List<GraphNode> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
         realPath.add(nodeThree);

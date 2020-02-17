@@ -2,17 +2,16 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 
 import com.google.common.graph.MutableGraph;
-import com.google.common.graph.MutableValueGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.GraphNode;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 import java.util.*;
 
 
 public class A_Star implements IPathfinding{
-    private MutableGraph<NodeData> graph;
-    private NodeData start;
-    private NodeData goal;
+    private MutableGraph<GraphNode> graph;
+    private GraphNode start;
+    private GraphNode goal;
 
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
@@ -29,7 +28,7 @@ public class A_Star implements IPathfinding{
      * @return
      */
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+    public ArrayList<GraphNode> findPath(MutableGraph<GraphNode> graph, GraphNode start, GraphNode goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
@@ -38,16 +37,16 @@ public class A_Star implements IPathfinding{
             return new ArrayList<>();
         }
         else{
-            NodeData current = start;
-            PriorityQueue<NodeData> frontier = new PriorityQueue<NodeData>(nodeComparator);
+            GraphNode current = start;
+            PriorityQueue<GraphNode> frontier = new PriorityQueue<GraphNode>(nodeComparator);
             frontier.add(current);
 
-            HashMap<NodeData, Double> costSoFar = new HashMap<>();
+            HashMap<GraphNode, Double> costSoFar = new HashMap<>();
             costSoFar.put(start, 0.0);
 
             //first input (key) is the node after the second input
             //a key gets the node where the path came from
-            HashMap<NodeData, NodeData> cameFrom = new HashMap<>();
+            HashMap<GraphNode, GraphNode> cameFrom = new HashMap<>();
             cameFrom.put(start, null);
 
             while (!frontier.isEmpty()){
@@ -55,7 +54,7 @@ public class A_Star implements IPathfinding{
 
                 if (current == goal)   break;
 
-                for (NodeData next: graph.adjacentNodes(current)){
+                for (GraphNode next: graph.adjacentNodes(current)){
                     double csf = costSoFar.get(current);
                     double ev = euclideanDistance(start, current);
                     double new_cost =  csf + ev;
@@ -74,7 +73,7 @@ public class A_Star implements IPathfinding{
                 return new ArrayList<>();
             }
 
-            ArrayList<NodeData> reversePath = new ArrayList<>();
+            ArrayList<GraphNode> reversePath = new ArrayList<>();
             reversePath.add(current);
 
             //reconstruct the path goal->start
@@ -84,7 +83,7 @@ public class A_Star implements IPathfinding{
                 reversePath.add(current);
             }
 
-            ArrayList<NodeData> path = new ArrayList<>();
+            ArrayList<GraphNode> path = new ArrayList<>();
             for(int i = 0; i< reversePath.size(); i++){
                 path.add(reversePath.get(reversePath.size()-i));
             }
@@ -94,7 +93,7 @@ public class A_Star implements IPathfinding{
     }
 
     //Comparator anonymous class implementation
-    private static Comparator<NodeData> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
+    private static Comparator<GraphNode> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
 
     /**
      * A heuristic function that uses the euclidean distance
@@ -102,7 +101,7 @@ public class A_Star implements IPathfinding{
      * @param current the current node
      * @return the euclidean distance
      */
-    private double euclideanDistance(NodeData goal, NodeData current){
+    private double euclideanDistance(GraphNode goal, GraphNode current){
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 
