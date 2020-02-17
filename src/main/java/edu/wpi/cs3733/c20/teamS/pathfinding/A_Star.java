@@ -9,7 +9,7 @@ import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 import java.util.*;
 
 
-public class A_Star implements IPathfinding{
+public class A_Star implements IPathfinding {
     private MutableGraph<NodeData> graph;
     private NodeData start;
     private NodeData goal;
