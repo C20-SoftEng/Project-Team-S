@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DatabaseController {
+public class DatabaseController implements DBRepo{
     private static Connection connection = null;
 
     /**
@@ -209,7 +209,7 @@ public class DatabaseController {
         return nodeSet;
     }
     //Tested
-    public Set<NodeData> parseNodeResultSet(ResultSet rset) {
+    private Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
         String nodeID;
         double x, y;
@@ -266,7 +266,7 @@ public class DatabaseController {
         return edgeSet;
     }
     //Tested
-    public Set<EdgeData> parseEdgeResultSet(ResultSet rset){
+    private Set<EdgeData> parseEdgeResultSet(ResultSet rset){
         String edgeID;
         String startNodeID;
         String endNodeID;
@@ -343,8 +343,29 @@ public class DatabaseController {
         System.out.println("Getting Employees from: " + empPath);
         importData("EMPLOYEES", empPath, true);
     }
+    //tested, unable to export then import from exprted because of headers
+    public int exportData(String toTable, String filePath){
+        try {
+            //Prepares statement with call
+            CallableStatement importStatement = connection.prepareCall("{call SYSCS_UTIL.SYSCS_EXPORT_TABLE(?,?,?,?,?,?)}");
+            importStatement.setNull(1,Types.VARCHAR);
+            importStatement.setString(2,toTable);
+            importStatement.setString(3,filePath);
+            importStatement.setNull(4,Types.VARCHAR);
+            importStatement.setNull(5,Types.VARCHAR);
+            importStatement.setNull(6,Types.VARCHAR);
+            importStatement.execute();
+        }catch(java.sql.SQLException iS){
+            System.out.println("Error exporting...");
+            System.out.println(iS.getErrorCode());
+            System.out.println(iS.getMessage());
+            throw new RuntimeException();
+        }
+        return 0;
+    }
+
     //Tested
-    public int importData(String toTable, String filePath, boolean withHeader){
+    private int importData(String toTable, String filePath, boolean withHeader){
 
 
 
@@ -553,4 +574,81 @@ public class DatabaseController {
             throw new NotImplementedException();
         }
     }
+
+
+    //Tested
+    public void addEmployee(EmployeeData ed){
+        String addEntryStr = "INSERT INTO EMPLOYEES (USERNAME, PASSWORD, ACCESSLEVEL, FIRSTNAME, LASTNAME) VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+            addStm.setString(1,ed.getUsername());
+            addStm.setString(2,ed.getPassword());
+            addStm.setInt(3,ed.getAccessLevel());
+            addStm.setString(4,ed.getFirstName());
+            addStm.setString(5,ed.getLastName());
+            addStm.execute();
+            addStm.close();
+        }catch(SQLException e){
+            System.out.println("Failed to add employee");
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+    //Tested
+    public boolean checkLogin(String username, String password){
+        String checkStr = "SELECT PASSWORD FROM EMPLOYEES WHERE USERNAME = ?";
+        try{
+            PreparedStatement checkStm = connection.prepareCall(checkStr);
+            checkStm.setString(1,username);
+            ResultSet rset = checkStm.executeQuery();
+            if(rset.next()){
+                String passwordOfDatabaseEmployee = rset.getString("PASSWORD");
+                if(passwordOfDatabaseEmployee.equals(password)){
+                    System.out.println("Password provided: " + password + " Password Found for Given Username: " + passwordOfDatabaseEmployee);
+                    System.out.println("Correct password for given username");
+                    return true;
+                }
+                else{
+                    System.out.println("Password provided: " + password + " Password Found for Given Username: " + passwordOfDatabaseEmployee);
+                    System.out.println("Incorrect password for given username");
+                    return false;
+                }
+            }else{
+                System.out.println("Username not found");
+                return false;
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+    }
+
+    public EmployeeData getEmployee(String username){
+        String getEmployeeStr = "SELECT * FROM EMPLOYEES WHERE USERNAME = ?";
+        try{
+            PreparedStatement getStm = connection.prepareCall(getEmployeeStr);
+            getStm.setString(1,username);
+            ResultSet rset = getStm.executeQuery();
+            if(rset.next()){
+                int employeeID = rset.getInt("EMPLOYEEID");
+                String usernameDB = rset.getString("USERNAME");
+                String password = rset.getString("PASSWORD");
+                int accessLevel = rset.getInt("ACCESSLEVEL");
+                String firstName = rset.getString("FIRSTNAME");
+                String lastName = rset.getString("LASTNAME");
+
+
+                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName);
+            }else{
+                System.out.println("Username not found");
+                return null;
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
 }
