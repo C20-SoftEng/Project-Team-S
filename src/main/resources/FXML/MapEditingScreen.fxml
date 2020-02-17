@@ -22,7 +22,7 @@
          <content>
             <ImageView fitHeight="538.0" fitWidth="896.0" preserveRatio="true">
                <image>
-                  <Image url="@../images/Floors/2nd_floor_solid_background.png" />
+                  <Image url="@../images/Floors/HospitalFloor2.png" />
                </image>
             </ImageView>
          </content>
