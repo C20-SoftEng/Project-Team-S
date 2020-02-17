@@ -3,35 +3,29 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public final class ServiceRequest {
-    private final ServiceKind kind_;
+public abstract class ServiceRequest {
     private final Integer id_;
     private Employee assignee_;
     private ServiceStatus status_;
     private String message_;
     private String location_;
 
-    public ServiceRequest(ServiceKind kind) {
-        this(null, kind);
+    protected ServiceRequest() {
+        this(null);
     }
-    public ServiceRequest(Integer id, ServiceKind kind) {
+    protected ServiceRequest(Integer id) {
         this.id_ = id;
-        this.kind_ = kind;
         status_ = ServiceStatus.CREATED;
     }
+
+    public abstract void accept(ServiceVisitor visitor);
 
     public Integer id() {
         return id_;
     }
-
-    public ServiceKind kind() {
-        return kind_;
-    }
-
     public Employee assignee() {
         return assignee_;
     }
-
     public ServiceStatus status() {
         return status_;
     }

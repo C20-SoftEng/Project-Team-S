@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceRequestTests {
-
+    private static class MockRequest
     public static class NewRequest {
         private final ServiceRequest request = new ServiceRequest(69, ServiceKind.JANITOR);
 
