@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
@@ -52,6 +53,8 @@ public class MapZoomer {
         double rangeSize = zoomFactor();
         double minRange = 0;
         double maxRange = rangeSize;
+
+        Bounds newbound = mapView.getBoundsInParent();
 
     }
 }

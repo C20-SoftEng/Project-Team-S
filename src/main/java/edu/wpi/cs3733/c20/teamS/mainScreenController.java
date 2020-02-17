@@ -1,26 +1,36 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import java.util.Set;
 
 public class mainScreenController implements Initializable {
+    int current_floor = 2;
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
@@ -32,10 +42,90 @@ public class mainScreenController implements Initializable {
     Group group2 = new Group();
     PathDisplay tester2 = new PathDisplay(group2);
 
-    @FXML private ImageView mapImage;
+    @FXML
+    private ImageView mapImage;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private JFXButton floorButton1;
+    @FXML
+    private JFXButton floorButton2;
+    @FXML
+    private JFXButton floorButton3;
+    @FXML
+    private JFXButton floorButton4;
+    @FXML
+    private JFXButton floorButton5;
+    @FXML
+    private JFXButton downButton;
+    @FXML
+    private JFXButton upButton;
 
-    @FXML private ScrollPane scrollPane;
+    @FXML
+    void onFloorClicked1(ActionEvent event) {
+        set1();
+    }
 
+    @FXML
+    void onFloorClicked2(ActionEvent event) {
+        set2();
+    }
+
+    @FXML
+    void onFloorClicked3(ActionEvent event) {
+        set3();
+    }
+
+    @FXML
+    void onFloorClicked4(ActionEvent event) {
+        set4();
+    }
+
+    @FXML
+    void onFloorClicked5(ActionEvent event) {
+        set5();
+    }
+
+    @FXML
+    void onUpClicked(ActionEvent event) {
+        current_floor += 1;
+        if (current_floor == 1) {
+            set1();
+        } else if (current_floor == 2) {
+            set2();
+        } else if (current_floor == 3) {
+            set3();
+        } else if (current_floor == 4) {
+            set4();
+        } else if (current_floor == 5) {
+            set5();
+        }
+    }
+
+    @FXML
+    void onDownClicked(ActionEvent event) {
+        current_floor -= 1;
+        if (current_floor == 1){
+            set1();
+        } else if (current_floor == 2) {
+            set2();
+        } else if (current_floor == 3) {
+            set3();
+        } else if (current_floor == 4) {
+            set4();
+        } else if (current_floor == 5) {
+            set5();
+        }
+    }
+
+    void set1() {
+        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(true);
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
     @FXML private JFXButton floorButton3;
@@ -72,6 +162,15 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
+    void set2() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        mapImage.setImage(floor2);
+        upButton.setDisable(false);
+        downButton.setDisable(false);
     @FXML void onFloorClicked2(ActionEvent event) {
         neurtalizeButtons();
         floorButton2.setPrefWidth(64);
@@ -84,6 +183,12 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
+    void set3() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
     @FXML void onFloorClicked3(ActionEvent event) {
         neurtalizeButtons();
         floorButton3.setPrefWidth(64);
@@ -91,11 +196,19 @@ public class mainScreenController implements Initializable {
         floorButton3.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor3);
         current_floor = 3;
+        upButton.setDisable(false);
+        downButton.setDisable(false);
         if(tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);}
         drawNodesEdges();
     }
 
+    void set4() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
     @FXML void onFloorClicked4(ActionEvent event) {
         neurtalizeButtons();
         floorButton4.setPrefWidth(64);
@@ -107,8 +220,16 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);}
         //System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
         drawNodesEdges();
+        upButton.setDisable(false);
+        downButton.setDisable(false);
     }
 
+    void set5() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
     @FXML void onFloorClicked5(ActionEvent event) {
         neurtalizeButtons();
         floorButton5.setPrefWidth(64);
@@ -116,12 +237,13 @@ public class mainScreenController implements Initializable {
         floorButton5.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor5);
         current_floor = 5;
+        upButton.setDisable(true);
+        downButton.setDisable(false);
         if(tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);}
         //mapImage.setImage(new Image(newFloor));
         drawNodesEdges();
     }
-     //#f6bd38 - yellow button color
 
     @FXML void onUpClicked(ActionEvent event) {
         neurtalizeButtons();
@@ -186,8 +308,23 @@ public class mainScreenController implements Initializable {
                 drawNodesEdges();
             }
         }
+    @FXML
+    void onHelpClicked(ActionEvent event) {
     }
 
+    @FXML
+    void onStaffClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Login to the System");
+            window.setScene(new Scene(root1));
+            window.setResizable(false);
+            window.show();
+        } catch (Exception e) {
+            System.out.println("Can't load new window");
     @FXML void onDownClicked(ActionEvent event) {
         if(current_floor != 1){
             current_floor -= 1;
@@ -253,17 +390,13 @@ public class mainScreenController implements Initializable {
         }
     }
 
-    @FXML void onHelpClicked(ActionEvent event) {
-    }
-
-    @FXML void onStaffClicked(ActionEvent event) {
-    }
-
-    @FXML void onZoomInClicked(ActionEvent event) {
+    @FXML
+    void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
     }
 
-    @FXML void onZoomOutClicked(ActionEvent event) {
+    @FXML
+    void onZoomOutClicked(ActionEvent event) {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
     }
@@ -356,3 +489,4 @@ public class mainScreenController implements Initializable {
         scrollPane.setContent(group);
     }
 }
+
