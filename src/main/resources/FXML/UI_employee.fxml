@@ -244,7 +244,7 @@
                            <content>
                               <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/Floors/floor2.jpg" />
+                                    <Image url="@../images/Floors/HospitalFloor2.png" />
                                  </image>
                               </ImageView>
                            </content>
