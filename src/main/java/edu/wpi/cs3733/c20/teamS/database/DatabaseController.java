@@ -22,7 +22,17 @@ public class DatabaseController {
      * Ensures there is only one connection to the database;
      */
     static {
+<<<<<<< HEAD
         /////////////////////MAKE DATABASE//////////////////////////////
+=======
+        createDatabase();
+        dropTablesIfTheyExist();
+        createTables();
+    }
+    public DatabaseController() {}
+
+    private static void createTables() {
+>>>>>>> KillerRefactor_VisitorPattern
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         }catch(ClassNotFoundException ex){
@@ -308,6 +318,7 @@ public class DatabaseController {
         }
     }
 
+<<<<<<< HEAD
     //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
@@ -553,4 +564,6 @@ public class DatabaseController {
 
 
 
+=======
+>>>>>>> KillerRefactor_VisitorPattern
 }
