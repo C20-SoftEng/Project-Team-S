@@ -147,6 +147,7 @@ public class BreadthFirstTest {
         newGraph.addNode(nodeThree);
         newGraph.putEdge(nodeTwo, nodeThree);
         newGraph.putEdge(nodeThree, nodeOne);
+
         BreadthFirst breadthFirst = new BreadthFirst();
         ArrayList<NodeData> path = breadthFirst.findPath(newGraph,nodeOne, nodeThree);
         ArrayList<NodeData> realPath = new ArrayList<>();
