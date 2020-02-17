@@ -3,16 +3,16 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData2;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 
 import java.util.*;
 
 
 public class A_Star implements IPathfinding{
-    private MutableGraph<NodeData2> graph;
-    private NodeData2 start;
-    private NodeData2 goal;
+    private MutableGraph<NodeData> graph;
+    private NodeData start;
+    private NodeData goal;
 
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
@@ -29,7 +29,7 @@ public class A_Star implements IPathfinding{
      * @return
      */
     @Override
-    public ArrayList<NodeData2> findPath(MutableGraph<NodeData2> graph, NodeData2 start, NodeData2 goal) {
+    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
@@ -38,16 +38,16 @@ public class A_Star implements IPathfinding{
             return new ArrayList<>();
         }
         else{
-            NodeData2 current = start;
-            PriorityQueue<NodeData2> frontier = new PriorityQueue<NodeData2>(nodeComparator);
+            NodeData current = start;
+            PriorityQueue<NodeData> frontier = new PriorityQueue<NodeData>(nodeComparator);
             frontier.add(current);
 
-            HashMap<NodeData2, Double> costSoFar = new HashMap<>();
+            HashMap<NodeData, Double> costSoFar = new HashMap<>();
             costSoFar.put(start, 0.0);
 
             //first input (key) is the node after the second input
             //a key gets the node where the path came from
-            HashMap<NodeData2, NodeData2> cameFrom = new HashMap<>();
+            HashMap<NodeData, NodeData> cameFrom = new HashMap<>();
             cameFrom.put(start, null);
 
             while (!frontier.isEmpty()){
@@ -55,7 +55,7 @@ public class A_Star implements IPathfinding{
 
                 if (current == goal)   break;
 
-                for (NodeData2 next: graph.adjacentNodes(current)){
+                for (NodeData next: graph.adjacentNodes(current)){
                     double csf = costSoFar.get(current);
                     double ev = euclideanDistance(start, current);
                     double new_cost =  csf + ev;
@@ -74,7 +74,7 @@ public class A_Star implements IPathfinding{
                 return new ArrayList<>();
             }
 
-            ArrayList<NodeData2> reversePath = new ArrayList<>();
+            ArrayList<NodeData> reversePath = new ArrayList<>();
             reversePath.add(current);
 
             //reconstruct the path goal->start
@@ -84,9 +84,9 @@ public class A_Star implements IPathfinding{
                 reversePath.add(current);
             }
 
-            ArrayList<NodeData2> path = new ArrayList<>();
+            ArrayList<NodeData> path = new ArrayList<>();
             for(int i = 0; i< reversePath.size(); i++){
-                path.add(reversePath.get(reversePath.size()-i));
+                path.add(reversePath.get(reversePath.size()-i - 1));
             }
 
             return path;
@@ -94,7 +94,7 @@ public class A_Star implements IPathfinding{
     }
 
     //Comparator anonymous class implementation
-    private static Comparator<NodeData2> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
+    private static Comparator<NodeData> nodeComparator = (c1, c2) -> c1.cost()>c2.cost() ? 1 : c1.cost() < c2.cost() ? -1 : 0;
 
     /**
      * A heuristic function that uses the euclidean distance
@@ -102,10 +102,11 @@ public class A_Star implements IPathfinding{
      * @param current the current node
      * @return the euclidean distance
      */
-    private double euclideanDistance(NodeData2 goal, NodeData2 current){
+    private double euclideanDistance(NodeData goal, NodeData current){
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 
-         return Math.sqrt((goal.x()-current.x())*(goal.x()-current.x()) + (goal.y()-current.y())*(goal.y()-current.y()));
+         return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) +
+                 (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
     }
 }

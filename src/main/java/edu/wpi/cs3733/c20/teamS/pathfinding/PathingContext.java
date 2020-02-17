@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.NodeData2;
+import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 
 public class PathingContext {
 
@@ -10,7 +11,7 @@ public class PathingContext {
         this.algorithm = alg;
     }
 
-    public Iterable<NodeData2> executePathfind(MutableGraph<NodeData2> graph, NodeData2 start, NodeData2 goal){
+    public Iterable<NodeData> executePathfind(MutableGraph<NodeData> graph, NodeData start, NodeData goal){
         return algorithm.findPath(graph, start, goal);
     }
 }

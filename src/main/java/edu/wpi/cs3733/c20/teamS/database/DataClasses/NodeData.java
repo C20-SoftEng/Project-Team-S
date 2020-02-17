@@ -12,6 +12,7 @@ public class NodeData{
     private String nodeType;
     private String longName;
     private String shortName;
+    private double cost_ = 0;
 
     public NodeData(String nodeID, double xCoordinate, double yCoordinate, int floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
@@ -126,5 +127,9 @@ public class NodeData{
     public void setShortName(String shortName) {
         this.shortName = shortName;
     }
+
+    public double cost() {return this.cost_; }
+
+    public void setCost(double cost) {this.cost_ = cost; }
 
 }

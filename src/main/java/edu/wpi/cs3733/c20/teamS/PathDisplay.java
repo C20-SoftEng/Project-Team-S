@@ -109,9 +109,7 @@ public class PathDisplay {
                         line1.setStartY(startY);
                         line1.setEndX(endX);
                         line1.setEndY(endY);
-                        if(start.substring(start.length() - 2).equals("03")) {
-                            line1.setStroke(Color.RED);}
-                        else {line1.setStroke(Color.BLACK);}
+                        line1.setStroke(Color.RED);
                         line1.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
                         line1.setStrokeWidth(10);
                         group.getChildren().add(line1);
