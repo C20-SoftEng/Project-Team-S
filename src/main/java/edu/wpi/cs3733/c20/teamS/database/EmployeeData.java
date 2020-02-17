@@ -12,6 +12,27 @@ class EmployeeData {
         this.lastName = lastName;
     }
 
+    @Override
+    public String toString() {
+        return "EmployeeData{" +
+                "employeeID=" + employeeID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", accessLevel=" + accessLevel +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+    public EmployeeData(String username, String password, int accessLevel, String firstName, String lastName) {
+        //this.employeeID = employeeID;
+        this.username = username;
+        this.password = password;
+        this.accessLevel = accessLevel;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getEmployeeID() {
         return employeeID;
     }

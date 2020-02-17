@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS.database;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.sql.SQLOutput;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,10 +46,19 @@ public class DatabaseTest extends Application {
 
         dbCont.rollBack();
 
+        dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
+        dbCont.commit();
+
+
         Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
         for(ServiceData ed : servSet){
             System.out.println(ed.toString());
         }
+
+        System.out.println(dbCont.checkLogin("BigMan2934","password123"));
+        System.out.println(dbCont.checkLogin("Bigmun2934","password123"));
+        System.out.println(dbCont.checkLogin("BigMan2934","passwod123"));
+        System.out.println(dbCont.getEmployee(""));
     }
 
 
