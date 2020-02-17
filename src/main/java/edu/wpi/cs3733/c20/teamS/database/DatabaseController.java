@@ -524,11 +524,13 @@ public class DatabaseController {
         }
     }
 
-
     public void addServiceRequest(ServiceRequest request) {
         if (request == null) ThrowHelper.illegalNull("request");
 
         AddServiceVisitor visitor = new AddServiceVisitor();
+
+        //  When ServiceRequest.accept() is called, visit() will be called on the ServiceVisitor. What's more,
+        //  the correct overload of visit() will be called.
         request.accept(visitor);
     }
 
