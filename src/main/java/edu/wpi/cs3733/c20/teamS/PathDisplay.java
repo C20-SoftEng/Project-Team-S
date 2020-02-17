@@ -38,6 +38,7 @@ public class PathDisplay {
 
     public void pathDraw(int currentFloor) {
         String cf = "0" + currentFloor;
+        group.getChildren().remove(groupPath);
         groupPath.getChildren().clear();
         if(counter >= 2) {
             boolean sameFloor = startNode.getFloor() == endNode.getFloor();
@@ -72,9 +73,6 @@ public class PathDisplay {
             }
             A_Star please = new A_Star();
             ArrayList<NodeData> work = please.findPath(graph, startNode, endNode);
-            for(NodeData mhm : work) {
-                System.out.println(mhm.getNodeID());
-            }
             for(int i = 0; i < work.size() - 1; i++) {
                 EdgeData data = new EdgeData(work.get(i).getNodeID() + "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
                 if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {

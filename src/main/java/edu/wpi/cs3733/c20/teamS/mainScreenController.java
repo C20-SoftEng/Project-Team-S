@@ -33,6 +33,8 @@ public class mainScreenController implements Initializable {
     Image floor3 = new Image("images/Floors/HospitalFloor3.png");
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+    Group group2 = new Group();
+    PathDisplay tester2 = new PathDisplay(group2);
 
     @FXML private ImageView mapImage;
 
@@ -45,8 +47,10 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onFloorClicked2(ActionEvent event) {
-        mapImage.setImage(floor2);
         current_floor = 2;
+        if(tester2.getCounter() >= 2) {
+        tester2.pathDraw(current_floor);}
+        mapImage.setImage(floor2);
         drawNodesEdges();
     }
 
@@ -130,7 +134,7 @@ public class mainScreenController implements Initializable {
             circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
             if(data.getNodeType().equals("ELEV")) {
                 circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
-            circle1.setOnMouseClicked(e -> tester.setNode(data));
+            circle1.setOnMouseClicked(e -> tester2.setNode(data));
             circle1.setVisible(false);
             if(data.getNodeID().substring(data.getNodeID().length()-2).equals(floor)) {circle1.setVisible(true);}
             group.getChildren().add(circle1);
@@ -182,9 +186,10 @@ public class mainScreenController implements Initializable {
         pf.setTranslateY(600);
         pf.setPrefWidth(100);
         pf.setPrefHeight(100);
-        pf.setOnAction(e -> tester.pathDraw(current_floor));
+        pf.setOnAction(e -> tester2.pathDraw(current_floor));
 
         group.getChildren().add(pf);
+        group.getChildren().add(group2);
 
         scrollPane.setContent(group);
     }

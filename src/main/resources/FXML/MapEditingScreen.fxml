@@ -158,6 +158,8 @@
                               </JFXButton>
                            </children>
                         </GridPane>
+                        <JFXButton fx:id="zoomInButton" onAction="#onZoomOutClicked" style="-fx-background-color: #129456;" text="Zoom In" />
+                        <JFXButton fx:id="zoomOutButton" onAction="#onZoomOutClicked" style="-fx-background-color: #129456;" text="Zoom Out" />
                      </children>
                   </VBox>
                </children>
