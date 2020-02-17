@@ -523,6 +523,31 @@ public class DatabaseController {
 
     }
 
+    public void commit(){
+        try{
+            connection.commit();
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+
+    }
+
+    public void rollBack(){
+        try{
+            connection.rollback();
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+    }
+
+    public void autoCommit(boolean isOn){
+        try{
+            connection.setAutoCommit(isOn);
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
+    }
+
 
 
 

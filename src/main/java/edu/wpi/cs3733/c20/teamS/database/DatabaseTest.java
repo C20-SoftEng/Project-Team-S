@@ -21,7 +21,10 @@ public final class DatabaseTest extends Application {
     public void start(Stage primaryStage) throws Exception {
         //App.launch(App.class, args);
         DatabaseController dbCont = new DatabaseController();
+        dbCont.autoCommit(false);
         dbCont.importStartUpData();
+
+
 
         HashSet<NodeData> nodeSet = new HashSet<>();
         nodeSet.add(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
@@ -41,16 +44,22 @@ public final class DatabaseTest extends Application {
             System.out.println(ed.toString());
         }
 
+
         dbCont.addServiceRequest(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
         dbCont.addServiceRequest(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
+        dbCont.commit();
 
         dbCont.updateService(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
         dbCont.deleteService(1);
+
+        dbCont.rollBack();
 
         Set<ServiceData> servSet = dbCont.getAllServiceRequests();
         for(ServiceData ed : servSet){
             System.out.println(ed.toString());
         }
+
+
     }
 
 
