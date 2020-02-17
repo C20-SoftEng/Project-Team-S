@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
 
 import java.util.Objects;

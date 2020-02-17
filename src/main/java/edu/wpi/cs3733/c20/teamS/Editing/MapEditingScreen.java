@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
 import edu.wpi.cs3733.c20.teamS.PathDisplay;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;

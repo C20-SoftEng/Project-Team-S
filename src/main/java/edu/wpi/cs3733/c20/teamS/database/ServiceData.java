@@ -1,9 +1,9 @@
-package edu.wpi.cs3733.c20.teamS.database.DataClasses;
+package edu.wpi.cs3733.c20.teamS.database;
 
 
 import java.sql.Date;
 
-public class ServiceData{
+class ServiceData{
     private int serviceID;
     private String serviceType;
     private String status;
@@ -33,7 +33,11 @@ public class ServiceData{
                 '}';
     }
 
-    public ServiceData(int serviceID, String serviceType, String status, String message, int assignedEmployeeID, Date date, String serviceNode) {
+    public ServiceData(
+            int serviceID, String serviceType,
+            String status, String message,
+            int assignedEmployeeID,
+            Date date, String serviceNode) {
         this.serviceID = serviceID;
         this.serviceType = serviceType;
         this.status = status;
@@ -43,7 +47,10 @@ public class ServiceData{
         this.serviceNode = serviceNode;
     }
 
-    public ServiceData(String serviceType, String status, String message, int assignedEmployeeID, String serviceNode) {
+    public ServiceData(
+            String serviceType, String status,
+            String message, int assignedEmployeeID,
+            String serviceNode) {
         //this.serviceID = serviceID;
         this.serviceType = serviceType;
         this.status = status;
@@ -53,7 +60,10 @@ public class ServiceData{
         this.serviceNode = serviceNode;
     }
 
-    public ServiceData(int serviceID, String status, String message, int assignedEmployeeID, String serviceNode) {
+    public ServiceData(
+            int serviceID, String status,
+            String message, int assignedEmployeeID,
+            String serviceNode) {
         this.serviceID = serviceID;
         this.serviceType = null;
         this.status = status;

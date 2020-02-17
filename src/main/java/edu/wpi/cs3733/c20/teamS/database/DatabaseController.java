@@ -1,14 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.ServiceData;
-import org.omg.SendingContext.RunTime;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.crypto.spec.PSource;
-import javax.xml.crypto.Data;
-import javax.xml.transform.Result;
-import java.io.File;
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
@@ -17,12 +15,31 @@ import java.util.Set;
 public class DatabaseController {
     private static Connection connection = null;
 
-
     /**
      * Ensures there is only one connection to the database;
      */
     static {
-        /////////////////////MAKE DATABASE//////////////////////////////
+        createDatabase();
+        dropExistingTables();
+
+        /////////////////////CREATE TABLES/////////////////////////////
+        try {
+            Statement stm = connection.createStatement();
+
+            createNodesTable(stm);
+            createEdgeTable(stm);
+            createEmployeeTable(stm);
+            createServiceableTable(stm);
+            createServicesTable(stm);
+        }
+        catch (SQLException e){
+            System.out.print("Failed to create one of tables, aborting...");
+            throw new RuntimeException();
+        }
+    }
+    public DatabaseController() {}
+
+    private static void createDatabase() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         }catch(ClassNotFoundException ex){
@@ -33,13 +50,13 @@ public class DatabaseController {
         try{
             connection = DriverManager.getConnection("jdbc:derby:hospitalDB;create=true");
             Statement init = connection.createStatement();
-        }catch(java.sql.SQLException ex){
+        }catch(SQLException ex){
             System.out.println(ex.getMessage());
             System.out.println("Failed to connect to database");
             throw new RuntimeException();
         }
-
-        ////////////////////DROP TABLES IF THEY EXIST/////////////////////
+    }
+    private static void dropExistingTables() {
         try{
             Statement stm = connection.createStatement();
             stm.execute("Drop table EDGES");
@@ -47,7 +64,7 @@ public class DatabaseController {
             System.out.println("EDGES WAS NOT DROPPED");
         }
 
-            System.out.println("Dropped Table Edges");
+        System.out.println("Dropped Table Edges");
 
 
         try{
@@ -66,7 +83,7 @@ public class DatabaseController {
             System.out.println("NODES WAS NOT DROPPED");
         }
 
-            System.out.println("Dropped Table Nodes");
+        System.out.println("Dropped Table Nodes");
 
 
         try{
@@ -76,7 +93,7 @@ public class DatabaseController {
             System.out.println("SERVICEABLE WAS NOT DROPPED");
         }
 
-            System.out.println("Dropped Table SERVICEABLE");
+        System.out.println("Dropped Table SERVICEABLE");
 
         try{
             Statement stm = connection.createStatement();
@@ -85,76 +102,56 @@ public class DatabaseController {
             System.out.println("EMPLOYEES WAS NOT DROPPED");
         }
 
-            System.out.println("Dropped Table EMPLOYEES");
-
-
-
-
-        /////////////////////CREATE TABLES/////////////////////////////
-        try{
-            Statement stm = connection.createStatement();
-            stm.execute("CREATE TABLE NODES(" +
-                            "nodeID VARCHAR(1024)," +
-                            "xcoord double," +
-                            "ycoord double," +
-                            "floor int," +
-                            "building varchar(50)," +
-                            "nodeType varchar(4)," +
-                            "longName varchar(1024)," +
-                            "shortName varchar(50)," +
-                            "constraint pkey_nodeID Primary Key (nodeID))");
-
-            System.out.println("Created Table Nodes");
-
-            stm.execute("CREATE TABLE EDGES(" +
-                            "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
-                            "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
-                            "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
-
-            System.out.println("Created Table Edges");
-
-            stm.execute("CREATE TABLE EMPLOYEES(" +
-                            "employeeID INTEGER GENERATED BY DEFAULT AS IDENTITY CONSTRAINT pKey_empID primary key," +
-                            "userName varchar(50) constraint uKey_userName unique," +
-                            "password varchar(25)," +
-                            "accessLevel INTEGER," +
-                            "firstName varchar(30)," +
-                            "lastName varchar(30))");
-
-            System.out.println("Created Table Employees");
-
-            stm.execute("CREATE TABLE SERVICEABLE(" +
-                             "employeeID INTEGER CONSTRAINT fKey_service references EMPLOYEES(employeeID)," +
-                             "serviceType varchar(4)," +
-                             "constraint pKey_canDO primary key (employeeID, serviceType))");
-
-            System.out.println("Created Table SERVICEABLE");
-
-            stm.execute("CREATE TABLE SERVICES(" +
-                             "serviceID INTEGER GENERATED BY DEFAULT AS IDENTITY constraint pKey_serviceID primary key," +
-                             "serviceType varchar(4)," +
-                             "status varchar(50)," +
-                             "message varchar(2056)," +
-                             "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
-                             "timeCreated DATE," +
-                             "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
-
-            System.out.println("Created Table SERVICES");
-
-        }catch(SQLException e){
-            System.out.print("Failed to create one of tables, aborting...");
-            throw new RuntimeException();
-        }
-
-
-
-
+        System.out.println("Dropped Table EMPLOYEES");
     }
-
-    public DatabaseController(){
-
+    private static void createServicesTable(Statement stm) throws SQLException {
+        stm.execute("CREATE TABLE SERVICES(" +
+                         "serviceID INTEGER GENERATED BY DEFAULT AS IDENTITY constraint pKey_serviceID primary key," +
+                         "serviceType varchar(4)," +
+                         "status varchar(50)," +
+                         "message varchar(2056)," +
+                         "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
+                         "timeCreated DATE," +
+                         "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
+        System.out.println("Created Table SERVICES");
     }
-
+    private static void createServiceableTable(Statement stm) throws SQLException {
+        stm.execute("CREATE TABLE SERVICEABLE(" +
+                         "employeeID INTEGER CONSTRAINT fKey_service references EMPLOYEES(employeeID)," +
+                         "serviceType varchar(4)," +
+                         "constraint pKey_canDO primary key (employeeID, serviceType))");
+        System.out.println("Created Table SERVICEABLE");
+    }
+    private static void createEmployeeTable(Statement stm) throws SQLException {
+        stm.execute("CREATE TABLE EMPLOYEES(" +
+                        "employeeID INTEGER GENERATED BY DEFAULT AS IDENTITY CONSTRAINT pKey_empID primary key," +
+                        "userName varchar(50) constraint uKey_userName unique," +
+                        "password varchar(25)," +
+                        "accessLevel INTEGER," +
+                        "firstName varchar(30)," +
+                        "lastName varchar(30))");
+        System.out.println("Created Table Employees");
+    }
+    private static void createEdgeTable(Statement stm) throws SQLException {
+        stm.execute("CREATE TABLE EDGES(" +
+                        "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
+                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
+                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
+        System.out.println("Created Table Edges");
+    }
+    private static void createNodesTable(Statement stm) throws SQLException {
+        stm.execute("CREATE TABLE NODES(" +
+                        "nodeID VARCHAR(1024)," +
+                        "xcoord double," +
+                        "ycoord double," +
+                        "floor int," +
+                        "building varchar(50)," +
+                        "nodeType varchar(4)," +
+                        "longName varchar(1024)," +
+                        "shortName varchar(50)," +
+                        "constraint pkey_nodeID Primary Key (nodeID))");
+        System.out.println("Created Table Nodes");
+    }
 
     //Tested
     public void addNode(NodeData nd){
@@ -170,13 +167,12 @@ public class DatabaseController {
             stm.setString(7,nd.getLongName());
             stm.setString(8,nd.getShortName());
             stm.execute();
-        }catch(SQLException e){
+        }
+        catch (SQLException e) {
             System.out.println("Failed to insert into nodes");
             throw new RuntimeException();
         }
-
     }
-
     //Tested
     public void addSetOfNodes(Set<NodeData> set){
         for(NodeData nd : set){
@@ -194,7 +190,7 @@ public class DatabaseController {
         }
         String allNodeString = "SELECT * FROM Nodes";
         ResultSet rset = null;
-        Set<NodeData> nodeSet = new HashSet<NodeData>();
+        Set<NodeData> nodeSet = new HashSet<>();
         try {
             rset = stm.executeQuery(allNodeString);
         }catch(java.sql.SQLException state){
@@ -212,7 +208,6 @@ public class DatabaseController {
         }
         return nodeSet;
     }
-
     //Tested
     public Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
@@ -244,7 +239,6 @@ public class DatabaseController {
 
         return nodeSet;
     }
-
     //Tested
     public Set<EdgeData> getAllEdges(){
         Statement stm = null;
@@ -271,7 +265,6 @@ public class DatabaseController {
         }
         return edgeSet;
     }
-
     //Tested
     public Set<EdgeData> parseEdgeResultSet(ResultSet rset){
         String edgeID;
@@ -292,7 +285,6 @@ public class DatabaseController {
         }
         return edgeSet;
     }
-
     //Tested
     public void addEdge(EdgeData edge) {
         String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
@@ -307,7 +299,6 @@ public class DatabaseController {
             throw new RuntimeException();
         }
     }
-
     //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
@@ -333,7 +324,6 @@ public class DatabaseController {
         }
         return returnNode;
     }
-
     //Tested
     public void importStartUpData() {
 
@@ -353,7 +343,6 @@ public class DatabaseController {
         System.out.println("Getting Employees from: " + empPath);
         importData("EMPLOYEES", empPath, true);
     }
-
     //Tested
     public int importData(String toTable, String filePath, boolean withHeader){
 
@@ -387,7 +376,6 @@ public class DatabaseController {
         }
         return 0;
     }
-
     //Tested
     public void purgeTable(String tableName) {
         String delAllEntryStr = "TRUNCATE TABLE " + tableName;
@@ -401,32 +389,34 @@ public class DatabaseController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    //Tested
+    public void commit(){
+        try{
+            connection.commit();
+        }catch(SQLException e){
+            throw new RuntimeException();
+        }
 
     }
-
-
     //Tested
-    public void addServiceRequest(ServiceData sd){
-        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement addStm = connection.prepareCall(addEntryStr);
-            Date currentDate = new Date(Instant.now().toEpochMilli());
-            addStm.setString(1,sd.getServiceType());
-            addStm.setString(2,sd.getStatus());
-            addStm.setString(3,sd.getMessage());
-            addStm.setInt(4,sd.getAssignedEmployeeID());
-            addStm.setDate(5,currentDate);
-            addStm.setString(6,sd.getServiceNode());
-            addStm.execute();
-            addStm.close();
+    public void rollBack(){
+        try{
+            connection.rollback();
         }catch(SQLException e){
-            System.out.println("Failed to add service Request");
+            throw new RuntimeException();
+        }
+    }
+    //Tested
+    public void autoCommit(boolean isOn){
+        try{
+            connection.setAutoCommit(isOn);
+        }catch(SQLException e){
             throw new RuntimeException();
         }
     }
 
-
-    public Set<ServiceData> getAllServiceRequests(){
+    Set<ServiceData> getAllServiceRequestData(){
         Statement stm = null;
         try{
             stm = connection.createStatement();
@@ -451,8 +441,7 @@ public class DatabaseController {
         }
         return serviceSet;
     }
-
-    public Set<ServiceData> parseServiceResultSet(ResultSet rset){
+    Set<ServiceData> parseServiceResultSet(ResultSet rset){
         Set<ServiceData> serviceSet = new HashSet<>();
         int serviceID;
         String serviceType;
@@ -485,9 +474,28 @@ public class DatabaseController {
 
 
     }
-
-
-    public void updateService(ServiceData sd){
+    //Tested
+    //  Package-private. Public method should take a ServiceRequest, and use the
+    //  visitor pattern to save the correct concrete service-request type.
+    void addServiceRequestData(ServiceData sd) {
+        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+            Date currentDate = new Date(Instant.now().toEpochMilli());
+            addStm.setString(1,sd.getServiceType());
+            addStm.setString(2,sd.getStatus());
+            addStm.setString(3,sd.getMessage());
+            addStm.setInt(4,sd.getAssignedEmployeeID());
+            addStm.setDate(5,currentDate);
+            addStm.setString(6,sd.getServiceNode());
+            addStm.execute();
+            addStm.close();
+        }catch(SQLException e){
+            System.out.println("Failed to add service Request");
+            throw new RuntimeException();
+        }
+    }
+    void updateServiceData(ServiceData sd){
         String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -503,11 +511,8 @@ public class DatabaseController {
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
-
-
     }
-
-    public void deleteService(int id){
+    void deleteServiceWithId(int id){
         String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -519,38 +524,33 @@ public class DatabaseController {
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
-
-
     }
 
-    public void commit(){
-        try{
-            connection.commit();
-        }catch(SQLException e){
-            throw new RuntimeException();
+    public void addServiceRequest(ServiceRequest request) {
+        if (request == null) ThrowHelper.illegalNull("request");
+
+        AddServiceVisitor visitor = new AddServiceVisitor();
+
+        //  When ServiceRequest.accept() is called, visit() will be called on the ServiceVisitor. What's more,
+        //  the correct overload of visit() will be called.
+        request.accept(visitor);
+    }
+
+    //  Each time you need to perform a specific operation differently for different subclasses
+    //  of ServiceRequest, you can subclass ServiceVisitor.
+    //  The base ServiceVisitor class must have an abstract method for each subclass of ServiceRequest.
+    private final class AddServiceVisitor extends ServiceVisitor {
+        //  Code that is specific to each particular type of service request should go in
+        //  here. When you call accept() on a service request instance, it'll call visit() and
+        //  pass itself as the argument. Because of the way overload resolution works, the correct overload
+        //  will be called.
+        @Override
+        public void visit(JanitorServiceRequest request) {
+            throw new NotImplementedException();
         }
-
-    }
-
-    public void rollBack(){
-        try{
-            connection.rollback();
-        }catch(SQLException e){
-            throw new RuntimeException();
+        @Override
+        public void visit(RideServiceRequest request) {
+            throw new NotImplementedException();
         }
     }
-
-    public void autoCommit(boolean isOn){
-        try{
-            connection.setAutoCommit(isOn);
-        }catch(SQLException e){
-            throw new RuntimeException();
-        }
-    }
-
-
-
-
-
-
 }

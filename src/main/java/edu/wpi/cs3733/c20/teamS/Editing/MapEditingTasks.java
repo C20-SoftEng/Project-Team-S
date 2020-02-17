@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
