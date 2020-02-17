@@ -3,11 +3,18 @@ package edu.wpi.cs3733.c20.teamS;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 public class mainScreenController implements Initializable {
@@ -105,8 +112,18 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onStaffClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Login to the System");
+            window.setScene(new Scene(root1));
+            window.show();
+        }catch (Exception e){
+            System.out.println("Can't load new window");
+        }
     }
-
     @FXML void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
     }
