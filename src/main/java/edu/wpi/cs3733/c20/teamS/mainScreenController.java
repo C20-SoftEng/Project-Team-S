@@ -43,6 +43,8 @@ public class mainScreenController implements Initializable {
     @FXML void onFloorClicked1(ActionEvent event) {
         mapImage.setImage(floor1);
         current_floor = 1;
+        if(tester2.getCounter() >= 2) {
+            tester2.pathDraw(current_floor);}
         drawNodesEdges();
     }
 
@@ -57,19 +59,25 @@ public class mainScreenController implements Initializable {
     @FXML void onFloorClicked3(ActionEvent event) {
         mapImage.setImage(floor3);
         current_floor = 3;
+        if(tester2.getCounter() >= 2) {
+            tester2.pathDraw(current_floor);}
         drawNodesEdges();
     }
 
     @FXML void onFloorClicked4(ActionEvent event) {
         mapImage.setImage(floor4);
         current_floor = 4;
-        System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
+        if(tester2.getCounter() >= 2) {
+            tester2.pathDraw(current_floor);}
+        //System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
         drawNodesEdges();
     }
 
     @FXML void onFloorClicked5(ActionEvent event) {
         mapImage.setImage(floor5);
         current_floor = 5;
+        if(tester2.getCounter() >= 2) {
+            tester2.pathDraw(current_floor);}
         //mapImage.setImage(new Image(newFloor));
         drawNodesEdges();
     }
@@ -78,6 +86,8 @@ public class mainScreenController implements Initializable {
     @FXML void onUpClicked(ActionEvent event) {
         if(current_floor != 5){
             current_floor += 1;
+            if(tester2.getCounter() >= 2) {
+                tester2.pathDraw(current_floor);}
             newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
             mapImage.setImage(new Image(newFloor));
             drawNodesEdges();
@@ -87,6 +97,8 @@ public class mainScreenController implements Initializable {
     @FXML void onDownClicked(ActionEvent event) {
         if(current_floor != 1){
             current_floor -= 1;
+            if(tester2.getCounter() >= 2) {
+                tester2.pathDraw(current_floor);}
             newFloor = "images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png";
             mapImage.setImage(new Image(newFloor));
             drawNodesEdges();
