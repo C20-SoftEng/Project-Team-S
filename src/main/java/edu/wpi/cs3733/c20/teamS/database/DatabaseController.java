@@ -394,7 +394,9 @@ public class DatabaseController {
     }
 
     //Tested
-    public void addServiceRequest(ServiceData sd){
+    //  Package-private. Public method should take a ServiceRequest, and use the
+    //  visitor pattern to save the correct concrete service-request type.
+    void addServiceRequest(ServiceData sd) {
         String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);

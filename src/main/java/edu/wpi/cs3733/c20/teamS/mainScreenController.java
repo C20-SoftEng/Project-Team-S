@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

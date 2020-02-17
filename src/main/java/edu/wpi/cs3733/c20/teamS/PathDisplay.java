@@ -2,8 +2,8 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import javafx.scene.Group;
