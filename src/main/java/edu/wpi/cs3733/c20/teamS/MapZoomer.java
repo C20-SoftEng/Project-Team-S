@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class MapZoomer {
     private final ImageView mapView;
-    private ScrollPane scrollPane;
+    private final ScrollPane scrollPane;
     private int zoomStage;
     private static final int minZoomStage = -2;
     private static final int maxZoomStage = 3;
@@ -14,6 +14,7 @@ public class MapZoomer {
         this.mapView = mapView;
         this.scrollPane = scrollPane;
     }
+
 
     private double zoomFactor() {
         double result = 1.0 + 0.5 * Math.abs(zoomStage);
