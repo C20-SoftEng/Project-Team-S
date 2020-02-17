@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
@@ -12,9 +10,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class mainScreenController implements Initializable {
-    final double SCALE_DELTA = 1.1;
-    public double SCALE_TOTAL = 1;
+
     private MapZoomer zoomer;
+    @FXML private ImageView mapImage;
+    @FXML private ScrollPane scrollPane;
 
         @FXML
         private ImageView mapImage;
@@ -61,32 +60,19 @@ public class mainScreenController implements Initializable {
 
         }
 
-        @FXML
-        void onUpClicked(ActionEvent event) {
-
-        }
-
-    @FXML
-    void onStaffClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onZoomInClicked(ActionEvent event){
+    @FXML private void onZoomInClicked(ActionEvent event){
 
         this.zoomer.zoomIn();
 
     }
+    @FXML private void onZoomOutClicked(ActionEvent event){
 
-    @FXML void onZoomOutClicked(ActionEvent event){
-        Node content = mapPane.getContent();
-        this.zoomer.zoomOut();
-
+        zoomer.zoomOut();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage);
+        zoomer = new MapZoomer(mapImage, scrollPane);
     }
 
 }
