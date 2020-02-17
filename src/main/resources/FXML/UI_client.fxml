@@ -26,7 +26,7 @@
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXButton id="upButton" fx:id="upButton" contentDisplay="GRAPHIC_ONLY" VBox.vgrow="ALWAYS">
+                        <JFXButton id="upButton" fx:id="upButton" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" VBox.vgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
                                  <image>
@@ -78,7 +78,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="downButton" fx:id="downButton" contentDisplay="GRAPHIC_ONLY" VBox.vgrow="ALWAYS">
+                        <JFXButton id="downButton" fx:id="downButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" VBox.vgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
                                  <image>
@@ -244,9 +244,9 @@
             </VBox>
          </right>
          <center>
-            <VBox prefHeight="788.0" prefWidth="1035.0" BorderPane.alignment="TOP_LEFT">
+            <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #bfbdba;" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search">
+                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: #FFFFFF;">
                      <font>
                         <Font name="Leelawadee UI Bold" size="24.0" />
                      </font>
@@ -321,7 +321,7 @@
                            </children>
                         </VBox>
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
-                        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
+                        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #bfbdba;" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
                            <content>
                               <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true">
                                  <image>

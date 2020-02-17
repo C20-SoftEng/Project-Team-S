@@ -42,11 +42,11 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onUpClicked(ActionEvent event) {
-        mapImage.setImage(new Image("images/Floors/hospital_4th_floor.png"));
+
     }
 
     @FXML void onDownClicked(ActionEvent event) {
-        mapImage.setImage(new Image("images/Floors/hospital_4th_floor.png"));
+
     }
 
     @FXML void onHelpClicked(ActionEvent event) {
@@ -63,6 +63,7 @@ public class mainScreenController implements Initializable {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
