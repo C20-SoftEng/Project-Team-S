@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -120,7 +121,8 @@ public class MapEditingTasks {
                 circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
                 if(data.getNodeType().equals("ELEV")) {
                     circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
-                circle1.setOnMouseClicked(e-> {group.getChildren().remove(circle1); dbc.removeNode(data.getNodeID());});
+                circle1.setOnMouseClicked(e-> {group.getChildren().remove(circle1);
+                dbc.removeNode(data.getNodeID()); });
                 group.getChildren().add(circle1);
             }
         }
@@ -304,12 +306,20 @@ public class MapEditingTasks {
                     line1.setStroke(Color.BLUE);
                     line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
                     line1.setStrokeWidth(5);
-                    line1.setOnMouseClicked(e-> {group.getChildren().remove(line1); dbc.removeEdge(data.getEdgeID());});
+                    line1.setOnMouseClicked(e-> {group.getChildren().remove(line1);
+                    dbc.removeEdge(data.getEdgeID()); });
                     group.getChildren().add(line1);
                 }
             }
         }
 
         group.setOnMouseClicked(null);
+    }
+
+    public void saveChanges() {
+    }
+
+    public void cancelChanges() {
+
     }
 }

@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,6 +48,9 @@ public class EditScreenController implements Initializable {
         @FXML private JFXButton floorButton3;
         @FXML private JFXButton floorButton4;
         @FXML private JFXButton floorButton5;
+
+        @FXML private JFXButton cancelEditsButton;
+        @FXML private JFXButton confirmEditButton;
 
         public JFXButton getFloorButton2() {return floorButton2;}
 
@@ -314,6 +318,8 @@ public class EditScreenController implements Initializable {
         removeNodeRadio.setOnAction(e -> tester.removeNodes(mapImage, current_floor));
         addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
+        confirmEditButton.setOnAction(e -> tester.saveChanges());
+        cancelEditsButton.setOnAction(e -> tester.cancelChanges());
 
         scrollPane.setContent(group);
     }
