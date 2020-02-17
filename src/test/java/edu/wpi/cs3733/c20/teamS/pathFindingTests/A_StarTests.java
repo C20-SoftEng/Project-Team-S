@@ -13,33 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class A_StarTests {
 
-    MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
+    private MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
 
     NodeData nodeOne = new NodeData("1",1,2,2, "Hospital", "Room", "longName1", "LN1");
-
     NodeData nodeTwo = new NodeData("2", 2, 4, 2, "Hospital", "Room", "longName2", "LN2");
-
     NodeData nodeThree = new NodeData("3", 10,10,2, "Hospital", "Room", "longName3", "LN3");
-
     NodeData nodeFour = new NodeData("4", 40,40, 2, "Hospital", "Room", "longName4", "LN4");
-
     NodeData nodeFive = new NodeData("5", -1,-1, 2, "Hospital", "Room", "longName5", "LN5");
-
     NodeData nodeSix = new NodeData("6", 70,70,2,"Hospital", "Room", "longName6", "LN6");
-
-
     NodeData nodeSeven = new NodeData("7", 8,20,2,"Hospital", "Room", "longName7", "LN7");
-
     NodeData nodeEight = new NodeData("8", 13,33,2,"Hospital", "Room", "longName8", "LN8");
-
     NodeData nodeNine = new NodeData("9", 20,5,2,"Hospital", "Room", "longName9", "LN9");
-
     NodeData nodeTen = new NodeData("10", 33,22,2,"Hospital", "Room", "longName10", "LN10");
-
-
-
-
-
 
     @Test
     public void findPath_ReturnSingleNodePath(){
@@ -132,10 +117,9 @@ public class A_StarTests {
         List<NodeData> realPath = new ArrayList<>();
 
         for(NodeData data: path){
-            System.out.println(data.nodeID());
+            System.out.println(data.getNodeID());
         }
         assertEquals(realPath, path);
-
     }
 
     @Test
@@ -148,16 +132,14 @@ public class A_StarTests {
         realPath.add(nodeOne);
 
         assertEquals(realPath, path);
-
     }
 
     @Test
     public void euclideanDistance_correctDistance(){
         A_Star star = new A_Star();
-        double distance = star.euclideanDistance(nodeOne, nodeTwo);
+        double distance = star.distance(nodeOne, nodeTwo);
         double realDistance =
-                Math.sqrt((nodeTwo.x()-nodeOne.x())*(nodeTwo.x()-nodeOne.x()) + (nodeTwo.y()-nodeOne.y())*(nodeTwo.y()-nodeOne.y()));
-
+                Math.sqrt((nodeTwo.getxCoordinate()-nodeOne.getxCoordinate())*(nodeTwo.getxCoordinate()-nodeOne.getxCoordinate()) + (nodeTwo.getyCoordinate()-nodeOne.getyCoordinate())*(nodeTwo.getyCoordinate()-nodeOne.getyCoordinate()));
         assertEquals(realDistance, distance);
     }
 
@@ -178,8 +160,5 @@ public class A_StarTests {
         assertEquals(realPath, path);
 
     }
-
-
-
 
 }

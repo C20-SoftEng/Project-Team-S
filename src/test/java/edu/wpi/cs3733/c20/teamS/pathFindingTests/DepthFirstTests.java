@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
 import org.checkerframework.checker.units.qual.A;
@@ -36,10 +36,6 @@ public class DepthFirstTests {
 
     NodeData nodeTen = new NodeData("10", 33,22,2,"Hospital", "Room", "longName10", "LN10");
 
-
-
-
-
     @Test
     public void depthFirst(){
         newGraph.addNode(nodeOne);
@@ -53,9 +49,7 @@ public class DepthFirstTests {
         realPath.add(nodeTwo);
 
         assertEquals(realPath, path);
-
     }
-
 
     @Test
     public void findPath_NoValidPath(){
@@ -68,7 +62,7 @@ public class DepthFirstTests {
         ArrayList<NodeData> realPath = new ArrayList<>();
 
         for(NodeData data: path){
-            System.out.println(data.nodeID());
+            System.out.println(data.getNodeID());
         }
         assertEquals(realPath, path);
 
@@ -165,11 +159,8 @@ public class DepthFirstTests {
         DepthFirst depth = new DepthFirst();
         double distance = depth.euclideanDistance(nodeOne, nodeTwo);
         double realDistance =
-                Math.sqrt((nodeTwo.x()-nodeOne.x())*(nodeTwo.x()-nodeOne.x()) + (nodeTwo.y()-nodeOne.y())*(nodeTwo.y()-nodeOne.y()));
+                Math.sqrt((nodeTwo.getxCoordinate()-nodeOne.getxCoordinate())*(nodeTwo.getxCoordinate()-nodeOne.getxCoordinate()) + (nodeTwo.getyCoordinate()-nodeOne.getyCoordinate())*(nodeTwo.getyCoordinate()-nodeOne.getyCoordinate()));
 
         assertEquals(realDistance, distance);
     }
-
-
-
 }
