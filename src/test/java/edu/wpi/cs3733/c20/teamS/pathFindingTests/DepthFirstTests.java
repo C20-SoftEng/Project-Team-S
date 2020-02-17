@@ -4,13 +4,15 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class A_StarTests {
+public class DepthFirstTests {
 
     MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
 
@@ -38,54 +40,38 @@ public class A_StarTests {
 
 
 
-
     @Test
-    public void findPath_ReturnSingleNodePath(){
+    public void depthFirst(){
         newGraph.addNode(nodeOne);
         newGraph.addNode(nodeTwo);
         newGraph.putEdge(nodeOne, nodeTwo);
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
+
+        DepthFirst depth = new DepthFirst();
+        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeTwo);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
+
+        assertEquals(realPath, path);
+
+    }
+
+
+    @Test
+    public void findPath_NoValidPath(){
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.addNode(nodeThree);
+
+        DepthFirst depthFirst = new DepthFirst();
+        ArrayList<NodeData> path = depthFirst.findPath(newGraph, nodeOne, nodeTwo);
+        ArrayList<NodeData> realPath = new ArrayList<>();
 
         for(NodeData data: path){
             System.out.println(data.nodeID());
         }
         assertEquals(realPath, path);
-    }
 
-    @Test
-    public void findPath_Returning(){
-        newGraph.addNode(nodeOne);
-        newGraph.addNode(nodeTwo);
-        newGraph.putEdge(nodeOne,nodeTwo);
-        newGraph.addNode(nodeThree);
-        newGraph.putEdge(nodeTwo, nodeThree);
-        newGraph.addNode(nodeFour);
-        newGraph.putEdge(nodeThree, nodeFour);
-        newGraph.addNode(nodeFive);
-        newGraph.putEdge(nodeOne,nodeFive);
-        newGraph.addNode(nodeSix);
-        newGraph.putEdge(nodeFour, nodeSix);
-        newGraph.addNode(nodeSeven);
-        newGraph.putEdge(nodeThree, nodeSeven);
-        newGraph.addNode(nodeEight);
-        newGraph.putEdge(nodeSeven, nodeEight);
-        newGraph.addNode(nodeNine);
-        newGraph.putEdge(nodeThree, nodeNine);
-        newGraph.addNode(nodeTen);
-        newGraph.putEdge(nodeNine, nodeTen);
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
-        ArrayList<NodeData> realPath = new ArrayList<>();
-        realPath.add(nodeOne);
-        realPath.add(nodeTwo);
-        realPath.add(nodeThree);
-        realPath.add(nodeFour);
-
-        assertEquals(realPath, path);
     }
 
     @Test
@@ -111,8 +97,8 @@ public class A_StarTests {
         newGraph.putEdge(nodeNine, nodeTen);
         newGraph.putEdge(nodeEight, nodeFour);
         newGraph.putEdge(nodeTen, nodeFour);
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
+        DepthFirst depthFirst = new DepthFirst();
+        ArrayList<NodeData> path =  depthFirst.findPath(newGraph, nodeOne, nodeFour);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeTwo);
@@ -123,28 +109,11 @@ public class A_StarTests {
     }
 
     @Test
-    public void findPath_NoValidPath(){
-        newGraph.addNode(nodeOne);
-        newGraph.addNode(nodeTwo);
-        newGraph.addNode(nodeThree);
-
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
-        ArrayList<NodeData> realPath = new ArrayList<>();
-
-        for(NodeData data: path){
-            System.out.println(data.nodeID());
-        }
-        assertEquals(realPath, path);
-
-    }
-
-    @Test
     public void findPath_singleNodePath(){
         newGraph.addNode(nodeOne);
 
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeOne);
+        DepthFirst depth = new DepthFirst();
+        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeOne);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
 
@@ -153,14 +122,26 @@ public class A_StarTests {
     }
 
     @Test
-    public void euclideanDistance_correctDistance(){
-        A_Star star = new A_Star();
-        double distance = star.euclideanDistance(nodeOne, nodeTwo);
-        double realDistance =
-                Math.sqrt((nodeTwo.x()-nodeOne.x())*(nodeTwo.x()-nodeOne.x()) + (nodeTwo.y()-nodeOne.y())*(nodeTwo.y()-nodeOne.y()));
+    public void findPath_SimplePath(){
+        newGraph.addNode(nodeOne);
+        newGraph.addNode(nodeTwo);
+        newGraph.putEdge(nodeOne, nodeTwo);
+        newGraph.addNode(nodeThree);
+        newGraph.putEdge(nodeTwo, nodeThree);
+        newGraph.addNode(nodeSeven);
+        newGraph.putEdge(nodeTwo, nodeSeven);
 
-        assertEquals(realDistance, distance);
-    }
+
+        DepthFirst depth = new DepthFirst();
+        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeThree);
+        ArrayList<NodeData> realPath = new ArrayList<>();
+        realPath.add(nodeOne);
+        realPath.add(nodeTwo);
+        realPath.add(nodeThree);
+
+    assertEquals(realPath,path);
+
+}
 
     @Test
     public void findPath_Recursion(){
@@ -170,16 +151,24 @@ public class A_StarTests {
         newGraph.addNode(nodeThree);
         newGraph.putEdge(nodeTwo, nodeThree);
         newGraph.putEdge(nodeThree, nodeOne);
-        A_Star star = new A_Star();
-        ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeThree);
+        DepthFirst depth = new DepthFirst();
+        ArrayList<NodeData> path = depth.findPath(newGraph,nodeOne, nodeThree);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
         realPath.add(nodeThree);
 
         assertEquals(realPath, path);
-
     }
 
+    @Test
+    public void euclideanDistance_correctDistance(){
+        DepthFirst depth = new DepthFirst();
+        double distance = depth.euclideanDistance(nodeOne, nodeTwo);
+        double realDistance =
+                Math.sqrt((nodeTwo.x()-nodeOne.x())*(nodeTwo.x()-nodeOne.x()) + (nodeTwo.y()-nodeOne.y())*(nodeTwo.y()-nodeOne.y()));
+
+        assertEquals(realDistance, distance);
+    }
 
 
 
