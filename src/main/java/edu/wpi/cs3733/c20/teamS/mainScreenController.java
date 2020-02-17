@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -40,7 +41,35 @@ public class mainScreenController implements Initializable {
 
     @FXML private ScrollPane scrollPane;
 
+    @FXML private JFXButton floorButton1;
+    @FXML private JFXButton floorButton2;
+    @FXML private JFXButton floorButton3;
+    @FXML private JFXButton floorButton4;
+    @FXML private JFXButton floorButton5;
+
+    private void neurtalizeButtons() {
+        floorButton1.setPrefWidth(44);
+        floorButton1.setPrefWidth(50);
+        floorButton1.setStyle("-fx-background-color:  #fff");
+        floorButton2.setPrefWidth(44);
+        floorButton2.setPrefWidth(50);
+        floorButton2.setStyle("-fx-background-color:  #fff");
+        floorButton3.setPrefWidth(44);
+        floorButton3.setPrefWidth(50);
+        floorButton3.setStyle("-fx-background-color:  #fff");
+        floorButton4.setPrefWidth(44);
+        floorButton4.setPrefWidth(50);
+        floorButton4.setStyle("-fx-background-color:  #fff");
+        floorButton5.setPrefWidth(44);
+        floorButton5.setPrefWidth(50);
+        floorButton5.setStyle("-fx-background-color:  #fff");
+    }
+
     @FXML void onFloorClicked1(ActionEvent event) {
+        neurtalizeButtons();
+        floorButton1.setPrefWidth(64);
+        floorButton1.setPrefWidth(71);
+        floorButton1.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor1);
         current_floor = 1;
         if(tester2.getCounter() >= 2) {
@@ -49,6 +78,10 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onFloorClicked2(ActionEvent event) {
+        neurtalizeButtons();
+        floorButton2.setPrefWidth(64);
+        floorButton2.setPrefWidth(71);
+        floorButton2.setStyle("-fx-background-color: #f6bd38");
         current_floor = 2;
         if(tester2.getCounter() >= 2) {
         tester2.pathDraw(current_floor);}
@@ -57,6 +90,10 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onFloorClicked3(ActionEvent event) {
+        neurtalizeButtons();
+        floorButton3.setPrefWidth(64);
+        floorButton3.setPrefWidth(71);
+        floorButton3.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor3);
         current_floor = 3;
         if(tester2.getCounter() >= 2) {
@@ -65,6 +102,10 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onFloorClicked4(ActionEvent event) {
+        neurtalizeButtons();
+        floorButton4.setPrefWidth(64);
+        floorButton4.setPrefWidth(71);
+        floorButton4.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor4);
         current_floor = 4;
         if(tester2.getCounter() >= 2) {
@@ -74,6 +115,10 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML void onFloorClicked5(ActionEvent event) {
+        neurtalizeButtons();
+        floorButton5.setPrefWidth(64);
+        floorButton5.setPrefWidth(71);
+        floorButton5.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor5);
         current_floor = 5;
         if(tester2.getCounter() >= 2) {
@@ -84,6 +129,7 @@ public class mainScreenController implements Initializable {
      //#f6bd38 - yellow button color
 
     @FXML void onUpClicked(ActionEvent event) {
+        neurtalizeButtons();
         if(current_floor != 5){
             current_floor += 1;
             if(tester2.getCounter() >= 2) {
