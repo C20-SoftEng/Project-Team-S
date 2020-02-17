@@ -71,7 +71,7 @@
                         </JFXButton>
                         <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
                            <font>
-                              <Font name="Bookshelf Symbol 7" size="32.0" />
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

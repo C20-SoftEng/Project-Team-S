@@ -8,9 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-public class mainScreenController implements Initializable {
+
+public class employeeScreenController implements Initializable {
     int current_floor;
     String newFloor;
     private MapZoomer zoomer;
@@ -23,57 +25,42 @@ public class mainScreenController implements Initializable {
     @FXML private ImageView mapImage;
 
     @FXML private ScrollPane scrollPane;
-
     @FXML private JFXButton floorButton1;
-    @FXML private JFXButton floorButton2;
-    @FXML private JFXButton floorButton3;
-    @FXML private JFXButton floorButton4;
-    @FXML private JFXButton floorButton5;
-
 
     @FXML void onFloorClicked1(ActionEvent event) {
-        resetButtons();
-        floorButton1.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor1);
+        //old floorButton size 22
+        //old floor button color #FFFFFF
         current_floor = 1;
-        //floorButton1.setFont("22.0");
-        //new is 32
+        floorButton1.setStyle("-fx-background-color: #f6bd38");
         //#f6bd38 - yellow button color
+        //font 32
         //grey out floor down
     }
 
     @FXML void onFloorClicked2(ActionEvent event) {
-        resetButtons();
-        floorButton2.setStyle("-fx-background-color: #f6bd38");
-     //////   floorButton1.setFont(new Font(Font name="Bookshelf Symbol 7" size="22.0" />)));
         mapImage.setImage(floor2);
         current_floor = 2;
     }
 
     @FXML void onFloorClicked3(ActionEvent event) {
-        resetButtons();
-        floorButton3.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor3);
         current_floor = 3;
     }
 
     @FXML void onFloorClicked4(ActionEvent event) {
-        resetButtons();
-        floorButton4.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor4);
         current_floor = 4;
         System.out.println("images/Floors/HospitalFloor" + Integer.toString(current_floor) + ".png");
     }
 
     @FXML void onFloorClicked5(ActionEvent event) {
-        resetButtons();
-        floorButton5.setStyle("-fx-background-color: #f6bd38");
         mapImage.setImage(floor5);
         current_floor = 5;
         mapImage.setImage(new Image(newFloor));
         //grey out
     }
-    //#f6bd38 - yellow button color
+     //#f6bd38 - yellow button color
     //font 32
     //font 22
     //floorButton3
@@ -104,6 +91,10 @@ public class mainScreenController implements Initializable {
     @FXML void onHelpClicked(ActionEvent event) {
     }
 
+    @FXML void onLogOut(ActionEvent event){
+
+    }
+
     @FXML void onStaffClicked(ActionEvent event) {
     }
 
@@ -120,12 +111,4 @@ public class mainScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
     }
-    void resetButtons(){
-        floorButton1.setStyle("-fx-background-color: #fff");
-        floorButton2.setStyle("-fx-background-color: #fff");
-        floorButton3.setStyle("-fx-background-color: #fff");
-        floorButton4.setStyle("-fx-background-color: #fff");
-        floorButton5.setStyle("-fx-background-color: #fff");
-    }
 }
-
