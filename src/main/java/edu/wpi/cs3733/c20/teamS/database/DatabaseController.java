@@ -119,6 +119,7 @@ public class DatabaseController implements DBRepo{
                          "serviceType varchar(4)," +
                          "status varchar(50)," +
                          "message varchar(2056)," +
+                         "data varchar(9001)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
                          "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
@@ -501,6 +502,7 @@ public class DatabaseController implements DBRepo{
         String serviceType;
         String status;
         String message;
+        String data;
         int assignedEmployee;
         Date dateCreated;
         String locationNode;
@@ -511,11 +513,12 @@ public class DatabaseController implements DBRepo{
                 serviceType = rset.getString("serviceType");
                 status = rset.getString("STATUS");
                 message = rset.getString("message");
+                data =rset.getString("DATA");
                 assignedEmployee = rset.getInt("ASSIGNEDEMPLOYEE");
                 dateCreated = rset.getDate("timecreated");
                 locationNode = rset.getString("Location");
 
-                serviceSet.add(new ServiceData(serviceID,serviceType,status,message,assignedEmployee,dateCreated,locationNode));
+                serviceSet.add(new ServiceData(serviceID,serviceType,status,message,data,assignedEmployee,dateCreated,locationNode));
             }
 
         } catch (java.sql.SQLException rsetFailure) {
@@ -532,16 +535,17 @@ public class DatabaseController implements DBRepo{
     //  Package-private. Public method should take a ServiceRequest, and use the
     //  visitor pattern to save the correct concrete service-request type.
     void addServiceRequestData(ServiceData sd) {
-        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
+        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, DATA, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);
             Date currentDate = new Date(Instant.now().toEpochMilli());
             addStm.setString(1,sd.getServiceType());
             addStm.setString(2,sd.getStatus());
             addStm.setString(3,sd.getMessage());
-            addStm.setInt(4,sd.getAssignedEmployeeID());
-            addStm.setDate(5,currentDate);
-            addStm.setString(6,sd.getServiceNode());
+            addStm.setString(4,sd.getData());
+            addStm.setInt(5,sd.getAssignedEmployeeID());
+            addStm.setDate(6,currentDate);
+            addStm.setString(7,sd.getServiceNode());
             addStm.execute();
             addStm.close();
         }catch(SQLException e){
@@ -550,15 +554,16 @@ public class DatabaseController implements DBRepo{
         }
     }
     void updateServiceData(ServiceData sd){
-        String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
+        String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, DATA = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
             stm = connection.prepareStatement(updateStr);
             stm.setString(1,sd.getStatus());
             stm.setString(2,sd.getMessage());
-            stm.setInt(3,sd.getAssignedEmployeeID());
-            stm.setString(4,sd.getServiceNode());
-            stm.setInt(5,sd.getServiceID());
+            stm.setString(3,sd.getData());
+            stm.setInt(4,sd.getAssignedEmployeeID());
+            stm.setString(5,sd.getServiceNode());
+            stm.setInt(6,sd.getServiceID());
             stm.executeUpdate();
 
         }catch(java.sql.SQLException e){
@@ -762,6 +767,9 @@ public class DatabaseController implements DBRepo{
             e.printStackTrace();
         }
     }
+
+
+
 
 
 

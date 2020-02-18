@@ -37,8 +37,8 @@ public class DatabaseTest extends Application {
         }
 
 
-        dbCont.addServiceRequestData(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
-        dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
+        dbCont.addServiceRequestData(new ServiceData("YEET","Big yeets only", "Hello there", "Daterr",9000,"Hi"));
+        dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi", "I barely know her",9001,"No"));
         dbCont.commit();
 
         dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
