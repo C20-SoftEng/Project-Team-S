@@ -17,6 +17,7 @@ public class mainToLoginScreen {
     private Stage stage;
     public mainToLoginScreen(Stage stage) {
         this.stage = stage;
+        stage.setFullScreen(true);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
             this.ui = new mainScreenController();

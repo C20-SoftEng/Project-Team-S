@@ -15,8 +15,9 @@ public class MapEditingScreen {
     public MapEditingScreen(Stage stage) {
         DatabaseController dbc = new DatabaseController();
         dbc.autoCommit(false);
-
         this.stage = stage;
+        stage.setFullScreen(true);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
         loader.setControllerFactory(c -> {
             this.ui = new EditScreenController(stage);
