@@ -16,7 +16,6 @@ public class MapEditingScreen {
         DatabaseController dbc = new DatabaseController();
         dbc.autoCommit(false);
         this.stage = stage;
-        stage.setFullScreen(true);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
         loader.setControllerFactory(c -> {
@@ -39,6 +38,8 @@ public class MapEditingScreen {
     }
     public void show() {
         stage.setScene(scene);
+        stage.setMaximized(true);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 }
