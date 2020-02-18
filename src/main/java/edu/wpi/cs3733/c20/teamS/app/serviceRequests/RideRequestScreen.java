@@ -14,11 +14,13 @@ import java.io.IOException;
 
 public final class RideRequestScreen {
     private final Stage stage;
-    private final PublishSubject<DialogEvent<RideServiceRequest>> subject = PublishSubject.create();
+    private final PublishSubject<DialogEvent<RideServiceRequest>> subject;
     private final Scene scene;
 
     private RideRequestScreen(Stage stage) {
         this.stage = stage;
+        subject = PublishSubject.create();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/RideRequestDialog.fxml"));
         loader.setControllerFactory(c -> {
             RideRequestUIController controller = new RideRequestUIController();

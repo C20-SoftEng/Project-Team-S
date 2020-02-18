@@ -10,11 +10,21 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.ShuttleRideKind;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import tornadofx.control.DateTimePicker;
 
-public final class RideRequestUIController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public final class RideRequestUIController implements Initializable {
     private final PublishSubject<DialogEvent<RideServiceRequest>> dialogCompleted_ = PublishSubject.create();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        rideKindSelector.setFriendRide();
+    }
+
     private class RideKindSelector {
         private final LyftRideKind lyftRide = new LyftRideKind();
         private final FriendRideKind friendRide = new FriendRideKind();
