@@ -328,18 +328,18 @@ public class DatabaseController implements DBRepo{
     public void importStartUpData() {
 
         String path = getClass().getResource("/data/allnodes.csv").toString();
-        path = path.substring(6);
+        path = path.substring(5);
         System.out.println("Getting Nodes from: " + path);
         importData("NODES", path, true);
 
 
         String edgePath = getClass().getResource("/data/allEdges.csv").toString();
-        edgePath = edgePath.substring(6);
+        edgePath = edgePath.substring(5);
         System.out.println("Getting Edges from: " + edgePath);
         importData("EDGES", edgePath, true);
 
         String empPath = getClass().getResource("/data/employees.csv").toString();
-        empPath = empPath.substring(6);
+        empPath = empPath.substring(5);
         System.out.println("Getting Employees from: " + empPath);
         importData("EMPLOYEES", empPath, true);
     }
@@ -547,33 +547,6 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    public void addServiceRequest(ServiceRequest request) {
-        if (request == null) ThrowHelper.illegalNull("request");
-
-        AddServiceVisitor visitor = new AddServiceVisitor();
-
-        //  When ServiceRequest.accept() is called, visit() will be called on the ServiceVisitor. What's more,
-        //  the correct overload of visit() will be called.
-        request.accept(visitor);
-    }
-
-    //  Each time you need to perform a specific operation differently for different subclasses
-    //  of ServiceRequest, you can subclass ServiceVisitor.
-    //  The base ServiceVisitor class must have an abstract method for each subclass of ServiceRequest.
-    private final class AddServiceVisitor extends ServiceVisitor {
-        //  Code that is specific to each particular type of service request should go in
-        //  here. When you call accept() on a service request instance, it'll call visit() and
-        //  pass itself as the argument. Because of the way overload resolution works, the correct overload
-        //  will be called.
-        @Override
-        public void visit(JanitorServiceRequest request) {
-            throw new NotImplementedException();
-        }
-        @Override
-        public void visit(RideServiceRequest request) {
-            throw new NotImplementedException();
-        }
-    }
 
     public void removeNode(String nodeID) {
         String delNode = "DELETE FROM NODES WHERE NODEID = '" + nodeID + "'";

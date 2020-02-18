@@ -3,14 +3,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 public class DialogEventTests {
+
     public static class OKEvent {
         private final String value = "Blaah";
         private final DialogEvent<String> ok = DialogEvent.ok(value);
-
-        @Test
-        public void throwsWhenValueNull() {
-            assertThrows(IllegalArgumentException.class, () -> DialogEvent.ok(null));
-        }
+        
         @Test
         public void hasOKResult() {
             assertEquals(DialogResult.OK, ok.result());
@@ -18,6 +15,10 @@ public class DialogEventTests {
         @Test
         public void hasSpecifiedValue() {
             assertEquals(value, ok.value());
+        }
+        @Test
+        public void throwsWhenValueNull() {
+            assertThrows(IllegalArgumentException.class, () -> DialogEvent.ok(null));
         }
     }
 

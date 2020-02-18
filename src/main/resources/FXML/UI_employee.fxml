@@ -10,6 +10,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -166,18 +167,21 @@
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="editGroup" />
+                           </toggleGroup>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge">
+                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node">
+                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge">
+                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
