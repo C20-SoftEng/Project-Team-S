@@ -1,41 +1,21 @@
 package edu.wpi.cs3733.c20.teamS;
 
-
-import com.sun.javafx.geom.Edge;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.DataClasses.NodeData;
+import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-import java.util.HashSet;
-import java.util.Set;
+public class Main extends Application {
 
-public class Main {
+  public void start(Stage primaryStage) {
+    DatabaseController dbc = new DatabaseController();
+    dbc.importStartUpData();
 
-  public static void main(String[] args) {
-    //App.launch(App.class, args);
-    DatabaseController dbCont = new DatabaseController();
-    dbCont.importStartUpData();
-
-    HashSet<NodeData> nodeSet = new HashSet<>();
-    nodeSet.add(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
-    nodeSet.add(new NodeData("No",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
-    dbCont.addSetOfNodes(nodeSet);
-    Set<NodeData> returnedSet = dbCont.getAllNodes();
-    for(NodeData nd: returnedSet){
-      System.out.println(nd.toString());
-    }
-
-    NodeData gotNode = dbCont.getNode("Hi");
-    System.out.println(gotNode.toString());
-    dbCont.addEdge(new EdgeData("EdgeNamee","Hi","No"));
-    dbCont.addEdge(new EdgeData("Edge?","No","Hi"));
-    Set<EdgeData> edgeSet = dbCont.getAllEdges();
-    for(EdgeData ed: edgeSet){
-      System.out.println(ed.toString());
-    }
-
-
-    //dbCont.addNode(new NodeData("Hi",1,2,1,"Fuller","YESD","LONGG","SHORTT"));
+    //mainToLoginScreen test = new mainToLoginScreen(primaryStage);
+    MapEditingScreen test = new MapEditingScreen(primaryStage);
   }
 
+  public static void main(String[] args) {
+    App.launch();
+  }
 }
