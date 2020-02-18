@@ -73,7 +73,38 @@ public class WrittenInstructions_Tests {
     }
 
 
+    @Test
+    public void getAngle_twoNodes(){
 
+        double angle = WrittenInstructions.getAngle(nodeFour, nodeFive, nodeEleven);
+
+        double realAngle = 10.0;
+
+        assertEquals(realAngle, angle);
+
+    }
+
+    @Test
+    public void getAngle_tuenLeft(){
+
+        double angle = WrittenInstructions.getAngle(nodeThree, nodeFour, nodeFive);
+
+        double realAngle = 10.0;
+
+        assertEquals(realAngle, angle);
+
+    }
+
+    @Test
+    public void getAngle_tuenLeft2(){
+
+        double angle = WrittenInstructions.getAngle(nodeFive, nodeEleven, nodeTwelve);
+
+        double realAngle = 10.0;
+
+        assertEquals(realAngle, angle);
+
+    }
 
 
 
