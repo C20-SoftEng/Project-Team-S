@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.GraphNode;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import org.junit.jupiter.api.Test;
 
