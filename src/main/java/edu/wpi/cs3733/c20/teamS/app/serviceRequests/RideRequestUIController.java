@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import tornadofx.control.DateTimePicker;
 
-public class RideRequestUIController {
+public final class RideRequestUIController {
     private final PublishSubject<DialogEvent<RideServiceRequest>> dialogCompleted_ = PublishSubject.create();
     private class RideKindSelector {
         private final LyftRideKind lyftRide = new LyftRideKind();
