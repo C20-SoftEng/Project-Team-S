@@ -403,7 +403,7 @@ public class mainScreenController implements Initializable {
 
     private NodeData findNearestNode(double x, double y) {
         NodeData nearest = new NodeData();
-        double distance = 100;
+        double distance = 200;
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
