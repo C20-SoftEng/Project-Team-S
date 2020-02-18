@@ -34,7 +34,7 @@ public class loginScreenController {
      * change this for later, just using admin
      */
     @FXML void onEnterClicked(ActionEvent event) {
-        if ((id.getText() == "admin") && (pw.getText() == "admin")){
+        if ((id.getText().equals("admin")) && (pw.getText().equals("admin"))){
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
                 Parent root2 = (Parent) fxmlLoader.load();
@@ -47,10 +47,10 @@ public class loginScreenController {
                 System.out.println("Can't load new window");
             }
         }
-        if ((id.getText() != "admin")){
+        if (!(id.getText().equals("admin"))){
             wrongID.setVisible(true);
         }
-        if (pw.getText() != "admin"){
+        if (!pw.getText().equals("admin")){
             wrongPW.setVisible(true);
         }
     }

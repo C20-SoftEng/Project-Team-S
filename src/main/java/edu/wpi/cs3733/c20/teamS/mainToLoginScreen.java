@@ -34,6 +34,8 @@ public class mainToLoginScreen {
         ui.drawNodesEdges();
         ui.getFloor2().fire();
 
+
+
         this.show();
     }
     public void show() {

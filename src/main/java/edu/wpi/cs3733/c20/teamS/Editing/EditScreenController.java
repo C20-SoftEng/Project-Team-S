@@ -7,11 +7,15 @@ import edu.wpi.cs3733.c20.teamS.PathDisplay;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -19,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -53,205 +58,223 @@ public class EditScreenController implements Initializable {
         @FXML private JFXButton floorButton3;
         @FXML private JFXButton floorButton4;
         @FXML private JFXButton floorButton5;
+    @FXML
+    private JFXButton downButton;
+    @FXML
+    private JFXButton upButton;
+
 
         @FXML private JFXButton cancelEditsButton;
         @FXML private JFXButton confirmEditButton;
 
         public JFXButton getFloorButton2() {return floorButton2;}
 
-        private void neurtalizeButtons() {
-            floorButton1.setPrefWidth(44);
-            floorButton1.setPrefWidth(50);
-            floorButton1.setStyle("-fx-background-color:  #fff");
-            floorButton2.setPrefWidth(44);
-            floorButton2.setPrefWidth(50);
-            floorButton2.setStyle("-fx-background-color:  #fff");
-            floorButton3.setPrefWidth(44);
-            floorButton3.setPrefWidth(50);
-            floorButton3.setStyle("-fx-background-color:  #fff");
-            floorButton4.setPrefWidth(44);
-            floorButton4.setPrefWidth(50);
-            floorButton4.setStyle("-fx-background-color:  #fff");
-            floorButton5.setPrefWidth(44);
-            floorButton5.setPrefWidth(50);
-            floorButton5.setStyle("-fx-background-color:  #fff");
-        }
+        public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
 
-        @FXML void onFloorClicked1(ActionEvent event) {
-            neurtalizeButtons();
-            floorButton1.setPrefWidth(64);
-            floorButton1.setPrefWidth(71);
-            floorButton1.setStyle("-fx-background-color: #f6bd38");
+    @FXML
+    void onUpClicked(ActionEvent event) {
+        current_floor += 1;
+        if (current_floor == 1) {
+            set1();
             mapImage.setImage(floor1);
             current_floor = 1;
             drawNodesEdges();
-        }
-
-        @FXML void onFloorClicked2(ActionEvent event) {
-            neurtalizeButtons();
-            floorButton2.setPrefWidth(64);
-            floorButton2.setPrefWidth(71);
-            floorButton2.setStyle("-fx-background-color: #f6bd38");
+        } else if (current_floor == 2) {
+            set2();
             mapImage.setImage(floor2);
             current_floor = 2;
             drawNodesEdges();
-        }
-
-        @FXML void onFloorClicked3(ActionEvent event) {
-            neurtalizeButtons();
-            floorButton3.setPrefWidth(64);
-            floorButton3.setPrefWidth(71);
-            floorButton3.setStyle("-fx-background-color: #f6bd38");
+        } else if (current_floor == 3) {
+            set3();
             mapImage.setImage(floor3);
             current_floor = 3;
             drawNodesEdges();
-        }
-
-        @FXML void onFloorClicked4(ActionEvent event) {
-            neurtalizeButtons();
-            floorButton4.setPrefWidth(64);
-            floorButton4.setPrefWidth(71);
-            floorButton4.setStyle("-fx-background-color: #f6bd38");
+        } else if (current_floor == 4) {
+            set4();
             mapImage.setImage(floor4);
             current_floor = 4;
             drawNodesEdges();
-        }
-
-        @FXML void onFloorClicked5(ActionEvent event) {
-            neurtalizeButtons();
-            floorButton5.setPrefWidth(64);
-            floorButton5.setPrefWidth(71);
-            floorButton5.setStyle("-fx-background-color: #f6bd38");
+        } else if (current_floor == 5) {
+            set5();
             mapImage.setImage(floor5);
             current_floor = 5;
             drawNodesEdges();
         }
-        //#f6bd38 - yellow button color
+    }
 
-        @FXML void onUpClicked(ActionEvent event) {
-            neurtalizeButtons();
-            if(current_floor != 5){
-                current_floor += 1;
-                if(current_floor == 1) {
-                    neurtalizeButtons();
-                    floorButton1.setPrefWidth(64);
-                    floorButton1.setPrefWidth(71);
-                    floorButton1.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor1);
-                    current_floor = 1;
-                    drawNodesEdges();
-                }
-                if(current_floor == 2) {
-                    neurtalizeButtons();
-                    floorButton2.setPrefWidth(64);
-                    floorButton2.setPrefWidth(71);
-                    floorButton2.setStyle("-fx-background-color: #f6bd38");
-                    current_floor = 2;
-                    drawNodesEdges();
-                }
-                if(current_floor == 3) {
-                    neurtalizeButtons();
-                    floorButton3.setPrefWidth(64);
-                    floorButton3.setPrefWidth(71);
-                    floorButton3.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor3);
-                    current_floor = 3;
-                    drawNodesEdges();
-                }
-                if(current_floor == 4) {
-                    neurtalizeButtons();
-                    floorButton4.setPrefWidth(64);
-                    floorButton4.setPrefWidth(71);
-                    floorButton4.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor4);
-                    current_floor = 4;
-                    drawNodesEdges();
+    @FXML
+    void onDownClicked(ActionEvent event) {
+        current_floor -= 1;
+        ;
+        if (current_floor == 1) {
+            set1();
+            mapImage.setImage(floor1);
+            current_floor = 1;
+            drawNodesEdges();
+        }
+        if (current_floor == 2) {
+            set2();
+            current_floor = 2;
+            mapImage.setImage(floor2);
+            drawNodesEdges();
 
-                }
-                if(current_floor == 5) {
-                    neurtalizeButtons();
-                    floorButton5.setPrefWidth(64);
-                    floorButton5.setPrefWidth(71);
-                    floorButton5.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor5);
-                    current_floor = 5;
-                    drawNodesEdges();
-                }
-            }
+        }
+        if (current_floor == 3) {
+            set3();
+            mapImage.setImage(floor3);
+            current_floor = 3;
+            drawNodesEdges();
+        }
+        if (current_floor == 4) {
+            set4();
+            mapImage.setImage(floor4);
+            current_floor = 4;
+            drawNodesEdges();
+        }
+        if (current_floor == 5) {
+            set5();
+            mapImage.setImage(floor5);
+            current_floor = 5;
+            drawNodesEdges();
+        }
+    }
+
+    void set1() {
+        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(true);
+    }
+
+    void set2() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        mapImage.setImage(floor2);
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+    }
+
+    void set3() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+    }
+
+    void set4() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+    }
+
+    void set5() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        upButton.setDisable(true);
+        downButton.setDisable(false);
+    }
+
+    @FXML
+    void onFloorClicked1(ActionEvent event) {
+        set1();
+        mapImage.setImage(floor1);
+        current_floor = 1;
+        drawNodesEdges();
+    }
+
+
+    @FXML
+    void onFloorClicked2(ActionEvent event) {
+        set2();
+        current_floor = 2;
+        mapImage.setImage(floor2);
+        drawNodesEdges();
+    }
+
+
+    @FXML
+    void onFloorClicked3(ActionEvent event) {
+        set3();
+        mapImage.setImage(floor3);
+        current_floor = 3;
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+        drawNodesEdges();
+    }
+
+
+    @FXML
+    void onFloorClicked4(ActionEvent event) {
+        set4();
+        mapImage.setImage(floor4);
+        current_floor = 4;
+        drawNodesEdges();
+
+    }
+
+
+    @FXML
+    void onFloorClicked5(ActionEvent event) {
+        set5();
+        mapImage.setImage(floor5);
+        current_floor = 5;
+        drawNodesEdges();
+    }
+
+    @FXML
+    void onHelpClicked(ActionEvent event) {
+    }
+
+    @FXML
+    void onStaffClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Login to the System");
+            window.setScene(new Scene(root1));
+            window.setResizable(false);
+            window.show();
+        } catch (Exception e) {
+            System.out.println("Can't load new window");
         }
 
-        @FXML void onDownClicked(ActionEvent event) {
-            if(current_floor != 1){
-                current_floor -= 1;
-                current_floor += 1;
-                if(current_floor == 1) {
-                    neurtalizeButtons();
-                    floorButton1.setPrefWidth(64);
-                    floorButton1.setPrefWidth(71);
-                    floorButton1.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor1);
-                    current_floor = 1;
-                    drawNodesEdges();
-                }
-                if(current_floor == 2) {
-                    neurtalizeButtons();
-                    floorButton2.setPrefWidth(64);
-                    floorButton2.setPrefWidth(71);
-                    floorButton2.setStyle("-fx-background-color: #f6bd38");
-                    current_floor = 2;
-                    drawNodesEdges();
-                }
-                if(current_floor == 3) {
-                    neurtalizeButtons();
-                    floorButton3.setPrefWidth(64);
-                    floorButton3.setPrefWidth(71);
-                    floorButton3.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor3);
-                    current_floor = 3;
-                    drawNodesEdges();
-                }
-                if(current_floor == 4) {
-                    neurtalizeButtons();
-                    floorButton4.setPrefWidth(64);
-                    floorButton4.setPrefWidth(71);
-                    floorButton4.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor4);
-                    current_floor = 4;
-                    drawNodesEdges();
-                }
-                if(current_floor == 5) {
-                    neurtalizeButtons();
-                    floorButton5.setPrefWidth(64);
-                    floorButton5.setPrefWidth(71);
-                    floorButton5.setStyle("-fx-background-color: #f6bd38");
-                    mapImage.setImage(floor5);
-                    current_floor = 5;
-                    drawNodesEdges();
-                }
-            }
-        }
+    }
 
-        @FXML void onHelpClicked(ActionEvent event) {
-        }
+    @FXML
+    void onZoomInClicked(ActionEvent event) {
+        this.zoomer.zoomIn();
+    }
 
-        @FXML void onStaffClicked(ActionEvent event) {
-        }
+    @FXML
+    void onZoomOutClicked(ActionEvent event) {
+        Node content = scrollPane.getContent();
+        this.zoomer.zoomOut();
+    }
 
-        @FXML void onZoomInClicked(ActionEvent event) {
-            this.zoomer.zoomIn();
-        }
+    public JFXButton getFloor2() {
+        return floorButton2;
+    }
 
-        @FXML void onZoomOutClicked(ActionEvent event) {
-            Node content = scrollPane.getContent();
-            this.zoomer.zoomOut();
-        }
-
-        public JFXButton getFloor2() {return floorButton2;}
-
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            zoomer = new MapZoomer(mapImage, scrollPane);
-        }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
+    }
 
     public void drawNodesEdges() {
 
