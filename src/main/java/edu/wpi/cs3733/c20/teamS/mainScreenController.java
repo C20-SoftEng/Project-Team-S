@@ -298,6 +298,7 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onPathfindClicked(ActionEvent event){
+        drawNodesEdges();
 //pathfind
     }
 
@@ -401,15 +402,9 @@ public class mainScreenController implements Initializable {
             }
         }
 
-        Button pf = new Button();
-        pf.setText("Pathfind");
-        pf.setTranslateX(600);
-        pf.setTranslateY(600);
-        pf.setPrefWidth(100);
-        pf.setPrefHeight(100);
-        pf.setOnAction(e -> tester2.pathDraw(current_floor));
+       tester2.pathDraw(current_floor);
 
-        group.getChildren().add(pf);
+        //group.getChildren().add(pf);
         group.getChildren().add(group2);
 
         scrollPane.setContent(group);
