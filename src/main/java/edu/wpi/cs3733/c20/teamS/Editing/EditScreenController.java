@@ -39,6 +39,9 @@ public class EditScreenController implements Initializable {
         int current_floor = 2;
         String newFloor;
         private MapZoomer zoomer;
+        private double currentHval;
+        private double currentVval;
+
         Image floor1 = new Image("images/Floors/HospitalFloor1.png");
         Image floor2 = new Image("images/Floors/HospitalFloor2.png");
         Image floor3 = new Image("images/Floors/HospitalFloor3.png");
@@ -63,6 +66,8 @@ public class EditScreenController implements Initializable {
     @FXML
     private JFXButton upButton;
 
+    @FXML JFXButton zoomInButton;
+    @FXML JFXButton zoomOutButton;
 
         @FXML private JFXButton cancelEditsButton;
         @FXML private JFXButton confirmEditButton;
@@ -105,38 +110,38 @@ public class EditScreenController implements Initializable {
     @FXML
     void onDownClicked(ActionEvent event) {
         current_floor -= 1;
-        ;
         if (current_floor == 1) {
             set1();
             mapImage.setImage(floor1);
             current_floor = 1;
             drawNodesEdges();
         }
-        if (current_floor == 2) {
+        else if (current_floor == 2) {
             set2();
-            current_floor = 2;
             mapImage.setImage(floor2);
+            current_floor = 2;
             drawNodesEdges();
 
         }
-        if (current_floor == 3) {
+        else if (current_floor == 3) {
             set3();
             mapImage.setImage(floor3);
             current_floor = 3;
             drawNodesEdges();
         }
-        if (current_floor == 4) {
+        else if (current_floor == 4) {
             set4();
             mapImage.setImage(floor4);
             current_floor = 4;
             drawNodesEdges();
         }
-        if (current_floor == 5) {
+        else if (current_floor == 5) {
             set5();
             mapImage.setImage(floor5);
             current_floor = 5;
             drawNodesEdges();
         }
+
     }
 
     void set1() {
@@ -147,6 +152,7 @@ public class EditScreenController implements Initializable {
         floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         upButton.setDisable(false);
         downButton.setDisable(true);
+
     }
 
     void set2() {
@@ -155,7 +161,6 @@ public class EditScreenController implements Initializable {
         floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        mapImage.setImage(floor2);
         upButton.setDisable(false);
         downButton.setDisable(false);
     }
@@ -166,6 +171,8 @@ public class EditScreenController implements Initializable {
         floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
         floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(false);
     }
 
     void set4() {
@@ -200,8 +207,8 @@ public class EditScreenController implements Initializable {
     @FXML
     void onFloorClicked2(ActionEvent event) {
         set2();
-        current_floor = 2;
         mapImage.setImage(floor2);
+        current_floor = 2;
         drawNodesEdges();
     }
 
@@ -211,8 +218,6 @@ public class EditScreenController implements Initializable {
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
-        upButton.setDisable(false);
-        downButton.setDisable(false);
         drawNodesEdges();
     }
 
@@ -259,12 +264,21 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
+        if (zoomer.getZoomFactor() == 3){
+            zoomInButton.setDisable(true);
+            zoomOutButton.setDisable(false);
+        }
+
+
     }
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
-        Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        if (zoomer.getZoomFactor() == -2){
+            zoomOutButton.setDisable(true);
+            zoomInButton.setDisable(false);
+        }
     }
 
     public JFXButton getFloor2() {
@@ -277,6 +291,8 @@ public class EditScreenController implements Initializable {
     }
 
     public void drawNodesEdges() {
+            currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();
 
         String floor = "0" + current_floor;
 
@@ -350,5 +366,11 @@ public class EditScreenController implements Initializable {
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
 
         scrollPane.setContent(group);
+
+        //Keeps the zoom the same throughout each screen/floor change.
+        zoomer.zoomSet();
+        scrollPane.setHvalue(currentHval);
+        scrollPane.setVvalue(currentVval);
+
     }
 }
