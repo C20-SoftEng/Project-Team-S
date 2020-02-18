@@ -197,12 +197,12 @@
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" onAction="#onCanceledClicked" text="Cancel">
+                              <JFXButton fx:id="cancelEditButton" onAction="#onCancelClicked" text="Cancel">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" onAction="#onOkClicked" text="OK">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmClicked" text="OK">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -217,7 +217,7 @@
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <JFXButton fx:id="serviceRequestOptionsButton" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -225,7 +225,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="activeServiceRequestButtons" style="-fx-background-color: gainsboro;" text="Active Service Requests" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" style="-fx-background-color: gainsboro;" text="Active Service Requests" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font size="24.0" />
                      </font>

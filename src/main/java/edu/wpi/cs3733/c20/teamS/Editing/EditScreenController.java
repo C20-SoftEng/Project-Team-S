@@ -31,50 +31,76 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
-        private Stage stage;
-        public EditScreenController(Stage stage) {
-            this.stage  = stage;
-        }
+    private Stage stage;
 
-        int current_floor = 2;
-        String newFloor;
-        private MapZoomer zoomer;
-        private double currentHval;
-        private double currentVval;
+    public EditScreenController(Stage stage) {
+        this.stage = stage;
+    }
 
-        Image floor1 = new Image("images/Floors/HospitalFloor1.png");
-        Image floor2 = new Image("images/Floors/HospitalFloor2.png");
-        Image floor3 = new Image("images/Floors/HospitalFloor3.png");
-        Image floor4 = new Image("images/Floors/HospitalFloor4.png");
-        Image floor5 = new Image("images/Floors/HospitalFloor5.png");
-        @FXML JFXRadioButton addNodeRadio;
-        @FXML JFXRadioButton removeNodeRadio;
-        @FXML JFXRadioButton addEdgeRadio;
-        @FXML JFXRadioButton removeEdgeRadio;
+    int current_floor = 2;
+    String newFloor;
+    private MapZoomer zoomer;
+    private double currentHval;
+    private double currentVval;
 
-        @FXML private ImageView mapImage;
+    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
+        zoomer.zoomSet();
+        scrollPane.setHvalue(Hval);
+        scrollPane.setVvalue(Vval);
+    }
 
-        @FXML private ScrollPane scrollPane;
+    Image floor1 = new Image("images/Floors/HospitalFloor1.png");
+    Image floor2 = new Image("images/Floors/HospitalFloor2.png");
+    Image floor3 = new Image("images/Floors/HospitalFloor3.png");
+    Image floor4 = new Image("images/Floors/HospitalFloor4.png");
+    Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+    @FXML
+    JFXRadioButton addNodeRadio;
+    @FXML
+    JFXRadioButton removeNodeRadio;
+    @FXML
+    JFXRadioButton addEdgeRadio;
+    @FXML
+    JFXRadioButton removeEdgeRadio;
 
-        @FXML private JFXButton floorButton1;
-        @FXML private JFXButton floorButton2;
-        @FXML private JFXButton floorButton3;
-        @FXML private JFXButton floorButton4;
-        @FXML private JFXButton floorButton5;
+    @FXML
+    private ImageView mapImage;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private JFXButton floorButton1;
+    @FXML
+    private JFXButton floorButton2;
+    @FXML
+    private JFXButton floorButton3;
+    @FXML
+    private JFXButton floorButton4;
+    @FXML
+    private JFXButton floorButton5;
     @FXML
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
 
-    @FXML JFXButton zoomInButton;
-    @FXML JFXButton zoomOutButton;
+    @FXML
+    JFXButton zoomInButton;
+    @FXML
+    JFXButton zoomOutButton;
 
-        @FXML private JFXButton cancelEditsButton;
-        @FXML private JFXButton confirmEditButton;
+    @FXML
+    private JFXButton cancelEditButton;
+    @FXML
+    private JFXButton confirmEditButton;
 
-        public JFXButton getFloorButton2() {return floorButton2;}
+    public JFXButton getFloorButton2() {
+        return floorButton2;
+    }
 
-        public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
+    public void onLogOut() {
+        mainToLoginScreen back = new mainToLoginScreen(stage);
+    }
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -115,27 +141,23 @@ public class EditScreenController implements Initializable {
             mapImage.setImage(floor1);
             current_floor = 1;
             drawNodesEdges();
-        }
-        else if (current_floor == 2) {
+        } else if (current_floor == 2) {
             set2();
             mapImage.setImage(floor2);
             current_floor = 2;
             drawNodesEdges();
 
-        }
-        else if (current_floor == 3) {
+        } else if (current_floor == 3) {
             set3();
             mapImage.setImage(floor3);
             current_floor = 3;
             drawNodesEdges();
-        }
-        else if (current_floor == 4) {
+        } else if (current_floor == 4) {
             set4();
             mapImage.setImage(floor4);
             current_floor = 4;
             drawNodesEdges();
-        }
-        else if (current_floor == 5) {
+        } else if (current_floor == 5) {
             set5();
             mapImage.setImage(floor5);
             current_floor = 5;
@@ -264,11 +286,10 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3){
+        if (zoomer.getZoomStage() == 3) {
             zoomInButton.setDisable(true);
             zoomOutButton.setDisable(false);
-        }
-        else {
+        } else {
             zoomOutButton.setDisable(false);
             zoomOutButton.setDisable(false);
         }
@@ -298,8 +319,8 @@ public class EditScreenController implements Initializable {
     }
 
     public void drawNodesEdges() {
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
 
         String floor = "0" + current_floor;
 
@@ -307,28 +328,32 @@ public class EditScreenController implements Initializable {
 
         group.getChildren().clear();
 
-        group.getChildren().add(mapImage);;
+        group.getChildren().add(mapImage);
+        ;
 
         MapEditingTasks tester = new MapEditingTasks(group);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        for(NodeData data : nd) {
+        for (NodeData data : nd) {
             Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
             circle1.setStroke(Color.ORANGE);
             circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-            if(data.getNodeType().equals("ELEV")) {
-                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
+            if (data.getNodeType().equals("ELEV")) {
+                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
+            }
             circle1.setVisible(false);
-            if(data.getNodeID().substring(data.getNodeID().length()-2).equals(floor)) {circle1.setVisible(true);}
+            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
+                circle1.setVisible(true);
+            }
             group.getChildren().add(circle1);
         }
 
         Set<EdgeData> ed = dbc.getAllEdges();
 
-        for(EdgeData data : ed) {
-            if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floor)) {
+        for (EdgeData data : ed) {
+            if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
                 String start = data.getStartNode();
                 String end = data.getEndNode();
                 int startX = 0;
@@ -337,19 +362,19 @@ public class EditScreenController implements Initializable {
                 int endY = 0;
                 boolean checker1 = false;
                 boolean checker2 = false;
-                for(NodeData check: nd) {
-                    if(check.getNodeID().equals(start)) {
+                for (NodeData check : nd) {
+                    if (check.getNodeID().equals(start)) {
                         checker1 = true;
-                        startX = (int)check.getxCoordinate();
-                        startY = (int)check.getyCoordinate();
+                        startX = (int) check.getxCoordinate();
+                        startY = (int) check.getyCoordinate();
                     }
-                    if(check.getNodeID().equals(end)) {
+                    if (check.getNodeID().equals(end)) {
                         checker2 = true;
-                        endX = (int)check.getxCoordinate();
-                        endY = (int)check.getyCoordinate();
+                        endX = (int) check.getxCoordinate();
+                        endY = (int) check.getyCoordinate();
                     }
                 }
-                if(checker1 && checker2) {
+                if (checker1 && checker2) {
                     Line line1 = new Line();
                     line1.setStartX(startX);
                     line1.setStartY(startY);
@@ -359,25 +384,73 @@ public class EditScreenController implements Initializable {
                     line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
                     line1.setStrokeWidth(5);
                     line1.setVisible(false);
-                    if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floor)) {line1.setVisible(true);}
+                    if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
+                        line1.setVisible(true);
+                    }
                     group.getChildren().add(line1);
                 }
             }
         }
 
-        addNodeRadio.setOnAction(e -> tester.drawNodes());
-        removeNodeRadio.setOnAction(e -> tester.removeNodes(mapImage, current_floor));
-        addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
-        removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
-        confirmEditButton.setOnAction(e -> tester.saveChanges());
-        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
+        addNodeRadio.setOnAction(e -> {
+            tester.drawNodes();
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+
+        });
+
+        removeNodeRadio.setOnAction(e -> {
+            tester.removeNodes(mapImage, current_floor);
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+
+        });
+
+        addEdgeRadio.setOnAction(e -> {
+            tester.addEdge(mapImage, current_floor);
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+
+        });
+
+        removeEdgeRadio.setOnAction(e -> {
+            tester.removeEdge(mapImage, current_floor);
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+
+        });
+
+        confirmEditButton.setOnAction(e -> {
+            tester.saveChanges();
+
+
+        });
+
+        cancelEditButton.setOnAction(e -> {
+            tester.cancelChanges();
+            new MapEditingScreen(stage);
+        });
 
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
-        zoomer.zoomSet();
-        scrollPane.setHvalue(currentHval);
-        scrollPane.setVvalue(currentVval);
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
+    }
+
+    @FXML
+    void onCancelClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onConfirmClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onNewServiceClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActiveServiceClicked(ActionEvent event) {
 
     }
 }
