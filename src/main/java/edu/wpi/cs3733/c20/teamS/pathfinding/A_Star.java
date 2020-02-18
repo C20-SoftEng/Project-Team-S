@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 
 import com.google.common.graph.MutableGraph;
+
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
@@ -9,7 +10,10 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import java.util.*;
 
 
+
+
 public class A_Star implements IPathfinding {
+
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
      *
@@ -24,10 +28,11 @@ public class A_Star implements IPathfinding {
      * @param goal a node on the graph (destination)
      */
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+    public ArrayList<GraphNode> findPath(MutableGraph<GraphNode> graph, GraphNode start, GraphNode goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
+
 
         Comparator<Path> pathComparer = Comparator.comparingDouble(path -> {
             return path.cost() + distance(path.peek(), goal);
@@ -49,10 +54,13 @@ public class A_Star implements IPathfinding {
                 double knownCost = distance(friend, frontier.peek());
                 queue.add(frontier.push(friend, knownCost));
             }
+
         }
+
 
         return toArrayList(empty);
     }
+
 
     /**
      * A heuristic function that uses the euclidean distance
@@ -60,7 +68,9 @@ public class A_Star implements IPathfinding {
      * @param current the current node
      * @return the euclidean distance
      */
+
     public static double distance(NodeData goal, NodeData current){
+
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 

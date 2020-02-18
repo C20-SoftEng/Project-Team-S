@@ -1,9 +1,13 @@
 package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import com.google.common.graph.MutableGraph;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import javafx.scene.Node;
+
 
 import java.util.*;
 
@@ -12,6 +16,7 @@ public class DepthFirst implements IPathfinding {
     private boolean visited[];
 
     @Override
+
     public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
@@ -75,6 +80,7 @@ public class DepthFirst implements IPathfinding {
             }
             return path;
         }
+
     }
 
     //Comparator anonymous class implementation
