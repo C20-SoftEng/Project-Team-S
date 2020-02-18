@@ -325,4 +325,70 @@ public class MapEditingTasks {
         DatabaseController dbc = new DatabaseController();
         dbc.rollBack();
     }
+
+    public void moveNodes(ImageView imageView, int current_floor, MoveNodes moveNode) {
+        String floornum = "0" + current_floor;
+
+        group.getChildren().clear();
+
+        moveNode.setGroup(group);
+
+        group.getChildren().add(imageView);
+
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodes();
+
+        for (NodeData data : nd) {
+            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floornum)) {
+                Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
+                circle1.setStroke(Color.ORANGE);
+                circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
+                if(data.getNodeType().equals("ELEV")) {
+                    circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
+                circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, moveNode.getOnMousePressedEventHandler());
+                circle1.addEventFilter(MouseEvent.MOUSE_DRAGGED, moveNode.getOnMouseDraggedEventHandler());
+                group.getChildren().add(circle1);
+            }
+        }
+
+        Set<EdgeData> ed = dbc.getAllEdges();
+
+        for (EdgeData data : ed) {
+            if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floornum)) {
+                String start = data.getStartNode();
+                String end = data.getEndNode();
+                int startX = 0;
+                int startY = 0;
+                int endX = 0;
+                int endY = 0;
+                boolean checker1 = false;
+                boolean checker2 = false;
+                for (NodeData check : nd) {
+                    if (check.getNodeID().equals(start)) {
+                        checker1 = true;
+                        startX = (int) check.getxCoordinate();
+                        startY = (int) check.getyCoordinate();
+                    }
+                    if (check.getNodeID().equals(end)) {
+                        checker2 = true;
+                        endX = (int) check.getxCoordinate();
+                        endY = (int) check.getyCoordinate();
+                    }
+                }
+                if (checker1 && checker2) {
+                    Line line1 = new Line();
+                    line1.setStartX(startX);
+                    line1.setStartY(startY);
+                    line1.setEndX(endX);
+                    line1.setEndY(endY);
+                    line1.setStroke(Color.BLUE);
+                    line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+                    line1.setStrokeWidth(5);
+                    group.getChildren().add(line1);
+                }
+            }
+        }
+
+        group.setOnMouseClicked(null);
+    }
 }

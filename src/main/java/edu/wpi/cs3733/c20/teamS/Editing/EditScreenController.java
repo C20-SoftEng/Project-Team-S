@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
+        private MoveNodes moveNode = new MoveNodes();
         private Stage stage;
         public EditScreenController(Stage stage) {
             this.stage  = stage;
@@ -48,6 +50,7 @@ public class EditScreenController implements Initializable {
         @FXML JFXRadioButton removeNodeRadio;
         @FXML JFXRadioButton addEdgeRadio;
         @FXML JFXRadioButton removeEdgeRadio;
+        @FXML JFXRadioButton moveNodeRadio;
 
         @FXML private ImageView mapImage;
 
@@ -259,12 +262,14 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
+        moveNode.setScale(zoomer.zoomFactor());
     }
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        moveNode.setScale(zoomer.zoomFactor());
     }
 
     public JFXButton getFloor2() {
@@ -277,6 +282,7 @@ public class EditScreenController implements Initializable {
     }
 
     public void drawNodesEdges() {
+            moveNode.setScale(zoomer.zoomFactor());
 
         String floor = "0" + current_floor;
 
@@ -348,6 +354,7 @@ public class EditScreenController implements Initializable {
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
+        moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
 
         scrollPane.setContent(group);
     }

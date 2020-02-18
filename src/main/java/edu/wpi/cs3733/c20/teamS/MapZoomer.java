@@ -17,7 +17,7 @@ public class MapZoomer {
     }
 
 
-    private double zoomFactor() {
+    public double zoomFactor() {
         double result = 1.0 + 0.5 * Math.abs(zoomStage);
         if (zoomStage < 0) {
             return 1.0 / result;
