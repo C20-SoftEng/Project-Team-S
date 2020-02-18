@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTextField layoutX="141.0" layoutY="14.0" prefHeight="23.0" prefWidth="318.0" text="                               Active Services" />
+      <ScrollPane layoutY="37.0" prefHeight="282.0" prefWidth="600.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="283.0" prefWidth="602.0">
+               <children>
+                  <TableView prefHeight="340.0" prefWidth="940.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="114.66668701171875" text="Service ID" />
+                      <TableColumn minWidth="0.0" prefWidth="135.33331298828125" text="Assigned Employee " />
+                        <TableColumn prefWidth="79.66668701171875" text="Status" />
+                        <TableColumn prefWidth="125.0" text="Message" />
+                        <TableColumn prefWidth="136.0" text="Location" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <JFXButton buttonType="RAISED" layoutX="264.0" layoutY="389.0" style="-fx-border-color: gainsboro;" text="Complete" AnchorPane.bottomAnchor="30.0" />
+   </children>
+</AnchorPane>
