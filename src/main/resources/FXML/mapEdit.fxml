@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.MapEditController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.MapEditController">
     <children>
         <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -17,6 +17,11 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+            </Label>
+            <Label fx:id="errored" alignment="CENTER" text="Error! Some Fields are Missing" textAlignment="CENTER" textFill="RED" underline="true" visible="false">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
             </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0">
                <children>
@@ -37,7 +42,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="floor" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FloorNumber" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="floorNumber" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FloorNumber" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#ffffff00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -74,7 +79,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="floor1" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="BuildingName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="buildingName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="BuildingName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -111,7 +116,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="floor2" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="NodeType" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="nodeType" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="NodeType" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -148,7 +153,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="floor3" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="fullNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -185,7 +190,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="floor4" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="shortNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -205,7 +210,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" prefHeight="45.0" prefWidth="94.0" style="-fx-background-color: #bfbdbb; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Cancel">
+                  <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" onAction="#onCancelClicked" prefHeight="45.0" prefWidth="94.0" style="-fx-background-color: #bfbdbb; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>
@@ -213,7 +218,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </JFXButton>
-                  <JFXButton fx:id="confirmButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: green; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
+                  <JFXButton fx:id="confirmButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onConfirmClicked" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: green; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>

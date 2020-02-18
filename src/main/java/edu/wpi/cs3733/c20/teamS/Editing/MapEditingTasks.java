@@ -100,6 +100,7 @@ public class MapEditingTasks {
         ui.getOk().setOnAction(e ->  { result.set(2); stage.close();});
 
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.showAndWait();
 
     }
