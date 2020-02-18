@@ -35,6 +35,10 @@ public class SelectServiceScreen {
         stage.setResizable(false);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SelectServiceScreen.fxml"));
+        loader.setControllerFactory(e -> {
+            SelectServiceController cont = new SelectServiceController(stage);
+            return cont;
+        });
 
         try {
             Parent root = loader.load();
