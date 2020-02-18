@@ -25,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -302,12 +303,12 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML
-    void onPathfindClicked(ActionEvent event){
+    void onPathfindClicked(ActionEvent event) {
         drawNodesEdges();
     }
 
     @FXML
-    void onSwapButtonPressed(ActionEvent event){
+    void onSwapButtonPressed(ActionEvent event) {
         String temp = location2.getText();
         location2.setText(location1.getText());
         location1.setText(temp);
@@ -369,8 +370,6 @@ public class mainScreenController implements Initializable {
 
         for (EdgeData data : ed) {
             if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                String start = data.getStartNode();
-                String end = data.getEndNode();
                 int startX = 0;
                 int startY = 0;
                 int endX = 0;
@@ -407,13 +406,12 @@ public class mainScreenController implements Initializable {
             }
         }
 
-       tester2.pathDraw(current_floor);
+        tester2.pathDraw(current_floor);
 
-        //group.getChildren().add(pf);
         group.getChildren().add(group2);
 
         for (NodeData data : nd) {
-            if(data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/elevator.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -423,7 +421,7 @@ public class mainScreenController implements Initializable {
                 group.getChildren().add(elev);
             }
 
-            if(data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/bathroom.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -433,7 +431,7 @@ public class mainScreenController implements Initializable {
                 group.getChildren().add(elev);
             }
 
-            if(data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/staris.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -442,7 +440,6 @@ public class mainScreenController implements Initializable {
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
             }
-
         }
 
         scrollPane.setContent(group);
@@ -455,18 +452,21 @@ public class mainScreenController implements Initializable {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        for(NodeData temp : nd) {
-            if(temp.getFloor() == current_floor) {
+        for (NodeData temp : nd) {
+            if (temp.getFloor() == current_floor) {
                 if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
                     distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
                     nearest = temp;
                 }
             }
         }
-        if(flip) {
-            location1.setText(nearest.getLongName()); flip = false;}
-        else if(!flip) {
-        location2.setText(nearest.getLongName());flip = true;}
+        if (flip) {
+            location1.setText(nearest.getLongName());
+            flip = false;
+        } else if (!flip) {
+            location2.setText(nearest.getLongName());
+            flip = true;
+        }
         return nearest;
     }
 
