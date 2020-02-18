@@ -67,8 +67,8 @@ public class PathDisplay {
                 if(start != null && end != null && !sameFloor) {
                     graph.putEdge(start, end);
                 }
-                else if(start != null && end != null) {
-                    if(start.getNodeType() != "ELEV" && end.getNodeType() != "ELEV") {
+                else if(start != null && end != null && sameFloor) {
+                    if(!(start.getNodeType().equals("ELEV")) && !(end.getNodeType().equals("ELEV"))) {
                         graph.putEdge(start, end);
                     }
                 }
