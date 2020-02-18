@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -338,15 +339,16 @@ public class mainScreenController implements Initializable {
         group.getChildren().clear();
 
         group.getChildren().add(mapImage);
-        ;
 
         PathDisplay tester = new PathDisplay(group);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
+        group.setOnMouseClicked(e -> tester2.setNode(findNearestNode(e.getX(), e.getY())));
+
         for (NodeData data : nd) {
-            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
+            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 0);
             circle1.setStroke(Color.ORANGE);
             circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
             if (data.getNodeType().equals("ELEV")) {
@@ -392,7 +394,7 @@ public class mainScreenController implements Initializable {
                     line1.setEndY(endY);
                     line1.setStroke(Color.BLUE);
                     line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-                    line1.setStrokeWidth(5);
+                    line1.setStrokeWidth(0);
                     line1.setVisible(false);
                     if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
                         line1.setVisible(true);
@@ -409,4 +411,23 @@ public class mainScreenController implements Initializable {
 
         scrollPane.setContent(group);
     }
+
+    private NodeData findNearestNode(double x, double y) {
+        NodeData nearest = new NodeData();
+        double distance = 100;
+
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodes();
+
+        for(NodeData temp : nd) {
+            if(temp.getFloor() == current_floor) {
+                if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
+                    distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
+                    nearest = temp;
+                }
+            }
+        }
+        return nearest;
+    }
+
 }
