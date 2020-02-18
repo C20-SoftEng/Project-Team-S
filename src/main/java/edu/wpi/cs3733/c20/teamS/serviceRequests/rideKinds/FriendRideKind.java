@@ -6,6 +6,7 @@ public final class FriendRideKind extends RideKind {
     private String friendName_;
     private boolean isCool_;
 
+    public FriendRideKind() {}
     public FriendRideKind(String friendName) {
         this.friendName_ = friendName;
     }
