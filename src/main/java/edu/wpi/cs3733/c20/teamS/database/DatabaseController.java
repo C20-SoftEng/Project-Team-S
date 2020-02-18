@@ -5,8 +5,17 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
+import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import com.opencsv.CSVReader;
 
+import javax.xml.soap.Node;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
@@ -170,6 +179,7 @@ public class DatabaseController implements DBRepo{
         }
         catch (SQLException e) {
             System.out.println("Failed to insert into nodes");
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -327,21 +337,44 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
-        String path = getClass().getResource("/data/allnodes.csv").toString();
-        path = path.substring(5);
-        System.out.println("Getting Nodes from: " + path);
-        importData("NODES", path, true);
+//        String path = getClass().getResource("/data/allnodes.csv").toString();
+//        System.out.println("Path: " + path);
+//        path = path.substring(5);
+//        System.out.println("Getting Nodes from: " + path);
+//        importData("NODES", path, true);
+
+        importNodes();
+
+//        URL resource = getClass().getResource("/data/allnodes.csv");
+//        try{
+//            System.out.println("URL PATH: " + resource.toURI().toString());
+//        }catch(URISyntaxException e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//        String path = resource.getPath();
+//        path = path.substring(5);
+//        //Path path = Paths.get(URI.create(resource.toString()));
+//        System.out.println("PATHS GET: " + path);
+//        importData("NODES", path, true);
 
 
-        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
-        edgePath = edgePath.substring(5);
-        System.out.println("Getting Edges from: " + edgePath);
-        importData("EDGES", edgePath, true);
 
-        String empPath = getClass().getResource("/data/employees.csv").toString();
-        empPath = empPath.substring(5);
-        System.out.println("Getting Employees from: " + empPath);
-        importData("EMPLOYEES", empPath, true);
+//        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
+//        edgePath = edgePath.substring(5);
+//        System.out.println("Getting Edges from: " + edgePath);
+//        importData("EDGES", edgePath, true);
+
+        importEdges();
+
+//        String empPath = getClass().getResource("/data/employees.csv").toString();
+//        empPath = empPath.substring(5);
+//        System.out.println("Getting Employees from: " + empPath);
+//        importData("EMPLOYEES", empPath, true);
+
+        importEmployees();
+
+        System.out.println("Successfully imported Startup Data (Probably?)");
     }
     //tested, unable to export then import from exprted because of headers
     public int exportData(String toTable, String filePath){
@@ -649,5 +682,88 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
+
+
+    public void importNodes(){
+        try{
+            System.out.println("Importing Nodes...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    NodeData node = new NodeData(lineArray[0],Double.parseDouble(lineArray[1]),Double.parseDouble(lineArray[2]),Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6],lineArray[7]);
+                    System.out.println(node.toString());
+                    addNode(node);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    public void importEdges(){
+        try{
+            System.out.println("Importing Edges...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    EdgeData edge = new EdgeData(lineArray[0],lineArray[1],lineArray[2]);
+                    System.out.println(edge.toString());
+                    addEdge(edge);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void importEmployees(){
+        try{
+            System.out.println("Importing Employees...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/employees.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5]);
+                    System.out.println(emp.toString());
+                    addEmployee(emp);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }
