@@ -219,7 +219,6 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked2(ActionEvent event) {
         set2();
@@ -230,7 +229,6 @@ public class mainScreenController implements Initializable {
         mapImage.setImage(floor2);
         drawNodesEdges();
     }
-
 
     @FXML
     void onFloorClicked3(ActionEvent event) {
@@ -245,7 +243,6 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked4(ActionEvent event) {
         set4();
@@ -257,7 +254,6 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
 
     }
-
 
     @FXML
     void onFloorClicked5(ActionEvent event) {
@@ -292,6 +288,11 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML
+    void onPathfindClicked(ActionEvent event){
+
+    }
+
+    @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
     }
@@ -310,7 +311,6 @@ public class mainScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
     }
-
 
     public void drawNodesEdges() {
 
