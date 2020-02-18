@@ -264,8 +264,12 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
-        if (zoomer.getZoomFactor() == 3){
+        if (zoomer.getZoomStage() == 3){
             zoomInButton.setDisable(true);
+            zoomOutButton.setDisable(false);
+        }
+        else {
+            zoomOutButton.setDisable(false);
             zoomOutButton.setDisable(false);
         }
 
@@ -275,8 +279,11 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomOutClicked(ActionEvent event) {
         this.zoomer.zoomOut();
-        if (zoomer.getZoomFactor() == -2){
+        if (zoomer.getZoomStage() == -2) {
             zoomOutButton.setDisable(true);
+            zoomInButton.setDisable(false);
+        } else {
+            zoomOutButton.setDisable(false);
             zoomInButton.setDisable(false);
         }
     }

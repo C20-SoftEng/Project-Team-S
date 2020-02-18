@@ -103,7 +103,6 @@ public class mainScreenController implements Initializable {
             if (tester2.getCounter() >= 2) {
                 tester2.pathDraw(current_floor);
             }
-            this.zoomer.zoomSet();
             drawNodesEdges();
         }
     }
@@ -156,7 +155,6 @@ public class mainScreenController implements Initializable {
             if (tester2.getCounter() >= 2) {
                 tester2.pathDraw(current_floor);
             }
-            this.zoomer.zoomSet();
             drawNodesEdges();
         }
     }

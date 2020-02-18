@@ -61,7 +61,8 @@ public class MapZoomer {
 
     }
 
-    public double getZoomFactor(){
-        return this.zoomFactor();
+    public int getZoomStage(){
+        return this.zoomStage;
     }
+
 }

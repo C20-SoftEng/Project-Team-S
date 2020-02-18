@@ -17,6 +17,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane style="-fx-background-color: #b6b4b2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.EditScreenController">
@@ -47,7 +49,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -55,7 +57,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -63,7 +65,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -76,7 +78,7 @@
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#f5bc38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -255,7 +257,7 @@
                         </ScrollPane>
                         <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
                            <children>
-                              <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                              <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #962222; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
                                  <graphic>
                                     <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
                                        <image>
@@ -266,8 +268,16 @@
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <ripplerFill>
+                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                       <stops>
+                                          <Stop color="#962222" />
+                                          <Stop color="#610e0e" offset="1.0" />
+                                       </stops>
+                                    </RadialGradient>
+                                 </ripplerFill>
                               </JFXButton>
-                              <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: maroon; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                              <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #962222; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                  <graphic>
                                     <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
                                        <image>
@@ -278,6 +288,14 @@
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <ripplerFill>
+                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                       <stops>
+                                          <Stop color="#962222" />
+                                          <Stop color="#610e0e" offset="1.0" />
+                                       </stops>
+                                    </RadialGradient>
+                                 </ripplerFill>
                               </JFXButton>
                            </children>
                            <StackPane.margin>
