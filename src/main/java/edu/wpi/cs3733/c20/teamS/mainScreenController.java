@@ -42,6 +42,8 @@ public class mainScreenController implements Initializable {
     Group group2 = new Group();
     PathDisplay tester2 = new PathDisplay(group2);
 
+    private boolean flip = true;
+
     @FXML
     private ImageView mapImage;
     @FXML
@@ -68,6 +70,8 @@ public class mainScreenController implements Initializable {
     private Label location1;
     @FXML
     private Label location2;
+    private String start = "Start Location";
+    private String end = "End Location";
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -229,6 +233,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onFloorClicked2(ActionEvent event) {
+        //location1.setText(start);
+        //location2.setText(end);
         set2();
         current_floor = 2;
         if (tester2.getCounter() >= 2) {
@@ -298,7 +304,6 @@ public class mainScreenController implements Initializable {
     @FXML
     void onPathfindClicked(ActionEvent event){
         drawNodesEdges();
-//pathfind
     }
 
     @FXML
@@ -458,6 +463,10 @@ public class mainScreenController implements Initializable {
                 }
             }
         }
+        if(flip) {
+            location1.setText(nearest.getLongName()); flip = false;}
+        else if(!flip) {
+        location2.setText(nearest.getLongName());flip = true;}
         return nearest;
     }
 

@@ -285,7 +285,7 @@
                               <Font name="Leelawadee UI Bold" size="24.0" />
                            </font>
                         </JFXTextField>
-                        <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Position 1" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Select Start Location" textAlignment="CENTER" wrapText="true">
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin></Label>
@@ -307,7 +307,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="127.0" text="Position 2" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="127.0" text="Select End Location" textAlignment="CENTER" wrapText="true">
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin></Label>
