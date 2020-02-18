@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.applicationInitalizer;
+package edu.wpi.cs3733.c20.teamS.applicationInitializer;
 
 
 
@@ -18,11 +18,11 @@ import static edu.wpi.cs3733.c20.teamS.ThrowHelper.illegalNull;
  * Information to load: Nodes, Edges
  * Pasing target: MutableGraph<NodeData>
  */
-public class ApplicationInit {
+public class ApplicationInitializer {
     private MutableGraph<NodeData> graph;
     private DatabaseController controller;
 
-    public ApplicationInit(DatabaseController controller){
+    public ApplicationInitializer(DatabaseController controller){
         if(controller == null){
             illegalNull("DatabaseController");
         }
