@@ -396,6 +396,39 @@ public class mainScreenController implements Initializable {
         group.getChildren().add(pf);
         group.getChildren().add(group2);
 
+        for (NodeData data : nd) {
+            if(data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
+                ImageView elev = new ImageView();
+                elev.setImage(new Image("images/Balloons/elevator.png"));
+                elev.setX(data.getxCoordinate() - 20);
+                elev.setY(data.getyCoordinate() - 40);
+                elev.setPreserveRatio(true);
+                elev.setFitWidth(40);
+                group.getChildren().add(elev);
+            }
+
+            if(data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
+                ImageView elev = new ImageView();
+                elev.setImage(new Image("images/Balloons/bathroom.png"));
+                elev.setX(data.getxCoordinate() - 20);
+                elev.setY(data.getyCoordinate() - 40);
+                elev.setPreserveRatio(true);
+                elev.setFitWidth(40);
+                group.getChildren().add(elev);
+            }
+
+            if(data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
+                ImageView elev = new ImageView();
+                elev.setImage(new Image("images/Balloons/staris.png"));
+                elev.setX(data.getxCoordinate() - 20);
+                elev.setY(data.getyCoordinate() - 40);
+                elev.setPreserveRatio(true);
+                elev.setFitWidth(40);
+                group.getChildren().add(elev);
+            }
+
+        }
+
         scrollPane.setContent(group);
     }
 
