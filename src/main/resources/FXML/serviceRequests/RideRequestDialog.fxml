@@ -33,7 +33,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXTextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="riderNameField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -67,10 +67,10 @@
             </Label>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <children>
-                  <DateTimePicker layoutX="114.0" layoutY="30.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                  <DateTimePicker fx:id="pickupTimePicker" layoutX="114.0" layoutY="30.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
-            <JFXTextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <JFXTextField fx:id="destinationField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -85,31 +85,31 @@
             </Label>
             <JFXButton contentDisplay="GRAPHIC_ONLY" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitWidth="50.0" onDragDetected="#onLyftClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/Icons/serviceRequests/lyft.jpg" />
                      </image>
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton text="Friend" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <JFXButton onAction="#onFriendClicked" text="Friend" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXButton text="Shuttle" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <JFXButton onAction="#onShuttleClicked" text="Shuttle" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <Label text="Ride Kind" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2">
+            <Label fx:id="rideKindLabel" text="Ride Kind" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2">
                <font>
                   <Font size="48.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
-                  <JFXButton defaultButton="true" prefHeight="77.0" prefWidth="170.0" text="OK" textFill="#00c8a0">
+                  <JFXButton defaultButton="true" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" text="OK" textFill="#00c8a0">
                      <HBox.margin>
                         <Insets left="14.0" right="14.0" />
                      </HBox.margin>
@@ -121,7 +121,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <children>
-                  <JFXButton cancelButton="true" text="Cancel" textFill="RED">
+                  <JFXButton cancelButton="true" onAction="#onCancelClicked" text="Cancel" textFill="RED">
                      <font>
                         <Font size="36.0" />
                      </font>

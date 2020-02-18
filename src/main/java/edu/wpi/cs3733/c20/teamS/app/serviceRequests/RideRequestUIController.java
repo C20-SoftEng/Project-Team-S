@@ -40,7 +40,7 @@ public class RideRequestUIController {
     }
     private final RideKindSelector rideKindSelector = new RideKindSelector();
 
-    @FXML private JFXTextField riderField;
+    @FXML private JFXTextField riderNameField;
     @FXML private DateTimePicker pickupTimePicker;
     @FXML private JFXTextField destinationField;
     @FXML private Label rideKindLabel;
@@ -57,7 +57,7 @@ public class RideRequestUIController {
     @FXML private void onOKClicked() {
         RideServiceRequest request = new RideServiceRequest();
         request.setPickupTime(pickupTimePicker.getDateTimeValue());
-        request.setRiderName(riderField.getText());
+        request.setRiderName(riderNameField.getText());
         request.setDestination(destinationField.getText());
         request.setRideKind(rideKindSelector.current());
 
