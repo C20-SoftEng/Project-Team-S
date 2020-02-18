@@ -83,9 +83,9 @@
                   <Font size="48.0" />
                </font>
             </Label>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#onLyftClicked" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <graphic>
-                  <ImageView fitWidth="50.0" onDragDetected="#onLyftClicked" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/Icons/serviceRequests/lyft.jpg" />
                      </image>
