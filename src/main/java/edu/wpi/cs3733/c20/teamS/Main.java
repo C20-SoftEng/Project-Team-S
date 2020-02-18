@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   public void start(Stage primaryStage) {
-//    DatabaseController dbc = new DatabaseController();
-//    dbc.importStartUpData();
+    DatabaseController dbc = new DatabaseController();
+    dbc.importStartUpData();
 
-    mainToLoginScreen test = new mainToLoginScreen(primaryStage);
-    //MapEditingScreen test = new MapEditingScreen(primaryStage);
+    //mainToLoginScreen test = new mainToLoginScreen(primaryStage);
+    MapEditingScreen test = new MapEditingScreen(primaryStage);
   }
 
   public static void main(String[] args) {

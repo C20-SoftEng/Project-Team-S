@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.mainScreenController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.EditScreenController">
    <children>
       <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -56,7 +56,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#floorClicked3" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -64,15 +64,12 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#floorClicked2" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
                            <font>
-                              <Font name="Bookshelf Symbol 7" size="32.0" />
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
                         </JFXButton>
-                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#floorClicked1" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -113,7 +110,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
