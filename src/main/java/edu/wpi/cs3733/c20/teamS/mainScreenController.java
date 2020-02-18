@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,7 +61,14 @@ public class mainScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
-
+    @FXML
+    private JFXButton pathfindButton;
+    @FXML
+    private JFXButton swapButton;
+    @FXML
+    private Label location1;
+    @FXML
+    private Label location2;
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -289,7 +298,14 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onPathfindClicked(ActionEvent event){
+//pathfind
+    }
 
+    @FXML
+    void onSwapButtonPressed(ActionEvent event){
+        String temp = location2.getText();
+        location2.setText(location1.getText());
+        location1.setText(temp);
     }
 
     @FXML
