@@ -20,12 +20,12 @@
             <SplitPane dividerPositions="0.5" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton buttonType="RAISED" layoutX="58.0" layoutY="10.0" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-border-color: black; -fx-background-color: #ccc; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel" />
+                  <JFXButton fx:id="cancelButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-border-color: black; -fx-background-color: #ccc; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel" onAction="#onCancelClicked"/>
                </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton buttonType="RAISED" layoutX="58.0" layoutY="10.0" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit" />
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit" onAction="#onOKClicked"/>
                </children>
                 </AnchorPane>
             </SplitPane>
