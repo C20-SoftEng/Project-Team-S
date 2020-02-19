@@ -1,11 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.InterpreterRequestScreen;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +38,13 @@ public class SelectServiceController {
         drugStage.initModality(Modality.WINDOW_MODAL);
 
         DrugRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+    @FXML void onInterpreterClicked(ActionEvent event){
+        Stage interpreterStage = new Stage();
+        interpreterStage.initModality(Modality.WINDOW_MODAL);
+
+        InterpreterRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
 
