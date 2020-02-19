@@ -75,9 +75,10 @@ public class SelectServiceController {
         iv.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
         AnchorPane root = new AnchorPane(iv);
 
-        Scene scene = new Scene(root, 300, 290);
+        Scene scene = new Scene(root, 325, 250);
 
         dogStage.setScene(scene);
+        dogStage.setResizable(false);
         dogStage.show();
 
         this.stage.close();
