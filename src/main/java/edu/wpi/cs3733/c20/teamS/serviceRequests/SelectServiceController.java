@@ -99,6 +99,15 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+    @FXML void onJanitorClicked(ActionEvent event){
+        Stage janitorStage = new Stage();
+        janitorStage.initModality(Modality.WINDOW_MODAL);
+
+        JanitorRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
+
     @FXML void onDogClicked(ActionEvent event){
         Stage dogStage = new Stage();
         dogStage.initModality(Modality.WINDOW_MODAL);
