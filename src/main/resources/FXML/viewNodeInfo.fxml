@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="153.0" prefWidth="611.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.MapEditController">
+    <children>
+      <HBox prefHeight="179.0" prefWidth="611.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fillWidth="false" prefHeight="140.0" prefWidth="94.0">
+               <children>
+                  <Label text="Floor">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Building">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Node Type">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Long Name">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Short Name">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+              <VBox prefHeight="145.0" prefWidth="314.0" style="-fx-background-color: #ffffff;">
+                  <children>
+                  <Label fx:id="floor">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="building">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="nodetype">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="longname">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="shortname">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" />
+                     </padding>
+                  </Label>
+                      <Button fx:id="close" mnemonicParsing="false" text="Close" />
+                  </children>
+              </VBox>
+         </children>
+      </HBox>
+    </children>
+</AnchorPane>
