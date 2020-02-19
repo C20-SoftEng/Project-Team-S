@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
