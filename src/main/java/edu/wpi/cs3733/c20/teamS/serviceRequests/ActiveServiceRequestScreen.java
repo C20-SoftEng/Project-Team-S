@@ -1,10 +1,13 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,7 +21,7 @@ import java.util.Set;
 public class ActiveServiceRequestScreen {
     private ActiveServiceRequestScreenController screenController;
     //private DatabaseController databaseController;
-    private ObservableList<ServiceRequest> activeRequests;
+    private ObservableList<ServiceData> activeRequests;
     private Stage stage;
     private Scene scene;
 
@@ -34,13 +37,20 @@ public class ActiveServiceRequestScreen {
     }
     */
 
-    public ActiveServiceRequestScreen(Stage stage, ObservableList<ServiceRequest> requests){
-        this.stage = stage;
+    public ActiveServiceRequestScreen(ObservableList<ServiceData> requests){
+
+        //if(employee == null) ThrowHelper.illegalNull("employee");
+        this.stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        //this.loggedIn = employee;
         this.activeRequests = requests;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ActiveServiceRequestScreen.fxml"));
         loader.setControllerFactory(c -> {
-            this.screenController = new ActiveServiceRequestScreenController(this.stage, this.activeRequests);
-            return this.screenController;
+//            this.screenController = new ActiveServiceRequestScreenController(this.stage, this.activeRequests);
+//            return this.screenController;
+            ActiveServiceRequestScreenController cont = new ActiveServiceRequestScreenController(activeRequests);
+            return cont;
         });
 
         try{
@@ -49,13 +59,19 @@ public class ActiveServiceRequestScreen {
         }catch(IOException ex){
             throw new RuntimeException(ex);
         }
-
-        this.show();
     }
 
-    public void show(){
-        this.stage.setScene(this.scene);
-        this.screenController.showActiveRequests();
-        this.stage.show();
+    private void show() {
+
+        stage.setScene(scene);
+
+        stage.show();
     }
+
+    public static void showDialog(ObservableList<ServiceData> requests) {
+        ActiveServiceRequestScreen screen = new ActiveServiceRequestScreen(requests);
+        //screen.screenController.showActiveRequests();
+        screen.show();
+    }
+
 }

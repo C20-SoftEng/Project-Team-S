@@ -3,14 +3,25 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
+
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
+
+import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.PathDisplay;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
+
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +31,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,7 +43,9 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -105,6 +120,8 @@ public class EditScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
+    @FXML
+    private ToggleGroup pathGroup;
 
     @FXML
     JFXButton zoomInButton;
@@ -117,7 +134,19 @@ public class EditScreenController implements Initializable {
         public JFXButton getFloorButton2() {return floorButton2;}
 
     public void onLogOut() {
-        mainToLoginScreen back = new mainToLoginScreen(stage);
+        IPathfinding pathfinder = new A_Star();
+        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
+            case "A*":
+                pathfinder = new A_Star();
+                break;
+            case "BreadthFirst":
+                pathfinder = new BreadthFirst();
+                break;
+            case "DepthFirst":
+                pathfinder = new DepthFirst();
+                break;
+        }
+        mainToLoginScreen back = new mainToLoginScreen(stage, pathfinder);
     }
 
     private void unselectALL() {
@@ -492,7 +521,23 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML
-    void onActiveServiceClicked(ActionEvent event) {
+    void onActiveServiceClicked() {
+            ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
+            DatabaseController dbc = new DatabaseController();
+            Set<ServiceData> dbData = dbc.getAllServiceRequestData();
+            for(ServiceData sd : dbData){
+                //System.out.println(sd.getStatus());
+                if(!(sd.getStatus().equals("COMPLETE"))){
+                    setOfActives.add(sd);
+                    System.out.println(sd.toString());
+                }
+
+
+            }
+        //System.out.println("Is this printing");
+        ActiveServiceRequestScreen.showDialog(setOfActives);
+
+        //ActiveServiceRequestScreen ASRS = new ActiveServiceRequestScreen(stage, setOfActives);
 
     }
 }

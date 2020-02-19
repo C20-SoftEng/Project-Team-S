@@ -3,6 +3,8 @@ package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SecurityServiceRequest;
@@ -31,7 +33,17 @@ public final class SecurityServiceScreen {
             controller.dialogCompleted().subscribe(
                     next -> {
                         if(next.result() == DialogResult.OK){
-                            //Do database
+                            DatabaseController dbc = new DatabaseController();
+                            String serviceType = "SECU";
+                            String status = "Incomplete";
+                            String message = next.value().message();
+                            String data = next.value().threatLevel() + "~";
+                            int assignedEmployeeID = next.value().assignee().id();
+                            String serviceNode = next.value().location();
+                            int dummyID = 0;
+
+                            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+                            dbc.addServiceRequestData(sd);
                         }
                         this.stage.close();
                     }
