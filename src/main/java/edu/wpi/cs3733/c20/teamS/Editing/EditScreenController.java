@@ -34,8 +34,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
-        private MoveNodes moveNode = new MoveNodes();
-        private Stage stage;
+    private MoveNodes moveNode = new MoveNodes();
+    private Stage stage;
 
 
     private Employee loggedIn;
@@ -119,14 +119,14 @@ public class EditScreenController implements Initializable {
         mainToLoginScreen back = new mainToLoginScreen(stage);
     }
 
-        private void unselectALL() {
-            addNodeRadio.selectedProperty().set(false);
-            removeNodeRadio.selectedProperty().set(false);
-            removeEdgeRadio.selectedProperty().set(false);
-            addEdgeRadio.selectedProperty().set(false);
-            moveNodeRadio.selectedProperty().set(false);
-            showInfoRadio.selectedProperty().set(false);
-        }
+    private void unselectALL() {
+        addNodeRadio.selectedProperty().set(false);
+        removeNodeRadio.selectedProperty().set(false);
+        removeEdgeRadio.selectedProperty().set(false);
+        addEdgeRadio.selectedProperty().set(false);
+        moveNodeRadio.selectedProperty().set(false);
+        showInfoRadio.selectedProperty().set(false);
+    }
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -304,7 +304,6 @@ public class EditScreenController implements Initializable {
         } catch (Exception e) {
             System.out.println("Can't load new window");
         }
-
     }
 
     @FXML
@@ -317,8 +316,6 @@ public class EditScreenController implements Initializable {
             zoomOutButton.setDisable(false);
             zoomOutButton.setDisable(false);
         }
-
-
     }
 
     @FXML
@@ -337,10 +334,6 @@ public class EditScreenController implements Initializable {
         return floorButton2;
     }
 
-    @FXML
-    void openServiceOptionPopup(ActionEvent event){
-        SelectServiceScreen.showDialog(loggedIn);
-    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
@@ -350,8 +343,8 @@ public class EditScreenController implements Initializable {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
         unselectALL();
-            moveNode.setScale(zoomer.zoomFactor());
-            moveNode.setCurrent_floor(current_floor);
+        moveNode.setScale(zoomer.zoomFactor());
+        moveNode.setCurrent_floor(current_floor);
 
         String floor = "0" + current_floor;
 
@@ -426,10 +419,10 @@ public class EditScreenController implements Initializable {
         moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
         showInfoRadio.setOnAction(e -> tester.showNodeInfo(mapImage, current_floor));
         cancelEditButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
+
         addNodeRadio.setOnAction(e -> {
             tester.drawNodes();
             keepCurrentPosition(currentHval, currentVval, zoomer);
-
         });
 
         removeNodeRadio.setOnAction(e -> {
@@ -452,6 +445,7 @@ public class EditScreenController implements Initializable {
 
         confirmEditButton.setOnAction(e -> {
             tester.saveChanges();
+
         });
 
         cancelEditButton.setOnAction(e -> {
@@ -463,22 +457,11 @@ public class EditScreenController implements Initializable {
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
-
-    }
-
-    @FXML
-    void onCancelClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onConfirmClicked(ActionEvent event) {
-
     }
 
     @FXML
     void onNewServiceClicked(ActionEvent event) {
-
+        SelectServiceScreen.showDialog(loggedIn);
     }
 
     @FXML
