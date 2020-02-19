@@ -191,7 +191,7 @@
                <children>
                   <HBox prefHeight="73.0" prefWidth="1025.0">
                      <children>
-                        <ComboBox fx:id="searchComboBox" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="592.0" promptText="Search" />
+                        <ComboBox fx:id="searchComboBox" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="502.0" promptText="Search" />
                         <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Select Start Location" textAlignment="CENTER" wrapText="true">
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />

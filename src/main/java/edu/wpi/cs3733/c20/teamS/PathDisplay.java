@@ -94,10 +94,14 @@ public class PathDisplay {
             System.out.println(words.size());
             int offset = 30;
             parentVBox.getChildren().clear();
+            JFXTextField directionLabel = new JFXTextField();
+            directionLabel.setText("Directions");
+            JFXTextField space = new JFXTextField();
+            //directionLabel.setFont("Font name=System Bold size=24.0");
             for(String direct : words) {
                 JFXTextArea text = new JFXTextArea();
                 text.setText(direct);
-                text.setWrapText(true);
+                //text.setWrapText(true);
                 text.setPrefHeight(offset);
               //  text.setTranslateY(offset);
               //  offset += 10;
