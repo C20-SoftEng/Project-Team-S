@@ -33,7 +33,7 @@
                      </children></VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXButton id="upButton" fx:id="upButton" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" VBox.vgrow="ALWAYS">
+                        <JFXButton id="upButton" fx:id="upButton" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="BLACK" VBox.vgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
                                  <image>
@@ -51,7 +51,7 @@
                               <Insets />
                            </opaqueInsets>
                         </JFXButton>
-                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#f6bd38" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -62,7 +62,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" style="-fx-background-color: #fff;" text="4" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#f5bc38" style="-fx-background-color: #fff;" text="4" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -73,7 +73,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" style="-fx-background-color: #fff;" text="3" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#f6bd38" style="-fx-background-color: #fff;" text="3" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
@@ -84,7 +84,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" style="-fx-background-color: #f6bd38;" text="2" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#f5bc38" style="-fx-background-color: #f6bd38;" text="2" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font size="32.0" />
                               <Font name="Bookshelf Symbol 7" size="22.0" />
@@ -96,7 +96,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" style="-fx-background-color: #fff;" text="1" VBox.vgrow="SOMETIMES">
+                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#f5bc38" style="-fx-background-color: #fff;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>

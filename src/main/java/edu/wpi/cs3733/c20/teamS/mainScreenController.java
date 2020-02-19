@@ -81,6 +81,8 @@ public class mainScreenController implements Initializable {
     String newFloor;
     private MapZoomer zoomer;
     private LinkedList<String> instructions;
+    double currentHval;
+    double currentVval;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
     Image floor3 = new Image("images/Floors/HospitalFloor3.png");
@@ -120,6 +122,8 @@ public class mainScreenController implements Initializable {
     @FXML
     private VBox parentVBox;
 
+    @FXML private JFXButton zoomInButton;
+    @FXML private JFXButton zoomOutButton;
 
     @FXML
     private Label location2;
@@ -130,6 +134,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onUpClicked(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         current_floor += 1;
         if (current_floor == 1) {
             set1();
@@ -172,12 +178,14 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         }
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     @FXML
     void onDownClicked(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         current_floor -= 1;
-        ;
         if (current_floor == 1) {
             set1();
             mapImage.setImage(floor1);
@@ -224,6 +232,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         }
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     void set1() {
@@ -277,6 +286,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onFloorClicked1(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set1();
         mapImage.setImage(floor1);
         current_floor = 1;
@@ -285,12 +296,16 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked2(ActionEvent event) {
         //location1.setText(start);
         //location2.setText(end);
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set2();
         current_floor = 2;
         this.zoomer.zoomSet();
@@ -299,10 +314,14 @@ public class mainScreenController implements Initializable {
         }
         mapImage.setImage(floor2);
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked3(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
@@ -313,10 +332,14 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked4(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set4();
         mapImage.setImage(floor4);
         current_floor = 4;
@@ -325,11 +348,15 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
 
-    }
+
+        }
 
     @FXML
     void onFloorClicked5(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set5();
         mapImage.setImage(floor5);
         current_floor = 5;
@@ -338,6 +365,8 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
@@ -385,12 +414,26 @@ public class mainScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
+        if (zoomer.getZoomStage() == 3){
+            zoomInButton.setDisable(true);
+        }
+        else{
+            zoomOutButton.setDisable(false);
+            zoomInButton.setDisable(false);
+        }
     }
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        if (zoomer.getZoomStage() == -2){
+            zoomOutButton.setDisable(true);
+        }
+        else{
+            zoomOutButton.setDisable(false);
+            zoomInButton.setDisable(false);
+        }
     }
 
     public JFXButton getFloor2() {
