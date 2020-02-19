@@ -69,6 +69,9 @@
                            <font>
                               <Font name="Bookshelf Symbol 7" size="22.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                         <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
@@ -86,6 +89,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
                   </VBox>
@@ -300,70 +306,6 @@
                            <StackPane.margin>
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
-                        </VBox>
-                        <VBox maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
-                           <children>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" text="Departments" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Food" textFill="#a12b2b" textOverrun="CLIP" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Retail" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="48.0" prefWidth="119.0" text="Conference" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Services" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
                         </VBox>
                      </children>
                   </StackPane>
