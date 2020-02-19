@@ -65,13 +65,13 @@
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <JFXTextField prefHeight="61.0" prefWidth="357.0" />
+                  <JFXTextField fx:id="weaponthreat" prefHeight="61.0" prefWidth="357.0" />
                </children>
             </HBox>
-            <JFXTextField prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <JFXTextField fx:id="commentsField" prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <JFXTextField prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" />
-            <JFXTextField prefHeight="61.0" prefWidth="357.0" GridPane.columnIndex="1" />
-            <JFXTextField prefHeight="56.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXTextField fx:id="locationField" prefHeight="61.0" prefWidth="357.0" GridPane.columnIndex="1" />
+            <JFXTextField fx:id="threatlevel" prefHeight="56.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </GridPane>
         </center>
         <top>

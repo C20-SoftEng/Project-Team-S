@@ -36,9 +36,10 @@ public final class ServiceTechRequestScreen {
                         ServiceTechServiceRequest request = next.value();
                         if(next.result() == DialogResult.OK){
                             //Do database
+                            int dummyID = 0;
                             DatabaseController dbc = new DatabaseController();
-                            ServiceData sd = new ServiceData("Service Tech", request.status().toString(),
-                                    request.message(), null, loggedIn.id(), request.location());
+                            ServiceData sd = new ServiceData(dummyID,"TECH", request.status().toString(),
+                                    request.message(), "", loggedIn.id(), request.location());
                         }
                         this.stage.close();
                     }

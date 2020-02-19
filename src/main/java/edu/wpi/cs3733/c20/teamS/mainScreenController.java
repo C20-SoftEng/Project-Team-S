@@ -4,6 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -27,6 +32,7 @@ import javafx.scene.shape.Line;
 
 import java.net.URL;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import java.util.Set;
@@ -35,9 +41,13 @@ import java.util.stream.Collectors;
 public class mainScreenController implements Initializable {
 
     private Stage stage;
+    private IPathfinding algorithm;
+    private WrittenInstructions writtenInstructions;
 
-    public mainScreenController(Stage mainStage){
+    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
+        this.algorithm = pathAlgorithm;
         this.stage = mainStage;
+        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,6 +55,12 @@ public class mainScreenController implements Initializable {
 
         initSearchComboBoxFont();
         initSearchComboBoxAutoComplete();
+
+            zoomer = new MapZoomer(mapImage, scrollPane);
+
+            tester2 = new PathDisplay(group2, parentVBox, algorithm);
+            instructions = new LinkedList<String>();
+
     }
 
     private void initSearchComboBoxFont() {
@@ -64,13 +80,16 @@ public class mainScreenController implements Initializable {
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
+    private LinkedList<String> instructions;
+    double currentHval;
+    double currentVval;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
     Image floor3 = new Image("images/Floors/HospitalFloor3.png");
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
     Group group2 = new Group();
-    PathDisplay tester2 = new PathDisplay(group2);
+    PathDisplay tester2;
 
     private boolean flip = true;
 
@@ -101,6 +120,12 @@ public class mainScreenController implements Initializable {
     @FXML
     private Label location1;
     @FXML
+    private VBox parentVBox;
+
+    @FXML private JFXButton zoomInButton;
+    @FXML private JFXButton zoomOutButton;
+
+    @FXML
     private Label location2;
     @FXML
     private ComboBox<String> searchComboBox;
@@ -109,6 +134,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onUpClicked(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         current_floor += 1;
         if (current_floor == 1) {
             set1();
@@ -151,12 +178,14 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         }
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     @FXML
     void onDownClicked(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         current_floor -= 1;
-        ;
         if (current_floor == 1) {
             set1();
             mapImage.setImage(floor1);
@@ -203,6 +232,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         }
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     void set1() {
@@ -256,6 +286,8 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onFloorClicked1(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set1();
         mapImage.setImage(floor1);
         current_floor = 1;
@@ -264,12 +296,16 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked2(ActionEvent event) {
         //location1.setText(start);
         //location2.setText(end);
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set2();
         current_floor = 2;
         this.zoomer.zoomSet();
@@ -278,10 +314,14 @@ public class mainScreenController implements Initializable {
         }
         mapImage.setImage(floor2);
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked3(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
@@ -292,10 +332,14 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
     void onFloorClicked4(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set4();
         mapImage.setImage(floor4);
         current_floor = 4;
@@ -304,11 +348,15 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
 
-    }
+
+        }
 
     @FXML
     void onFloorClicked5(ActionEvent event) {
+        currentHval = scrollPane.getHvalue();
+        currentVval = scrollPane.getVvalue();
         set5();
         mapImage.setImage(floor5);
         current_floor = 5;
@@ -317,6 +365,8 @@ public class mainScreenController implements Initializable {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
@@ -364,17 +414,33 @@ public class mainScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
+        if (zoomer.getZoomStage() == 3){
+            zoomInButton.setDisable(true);
+        }
+        else{
+            zoomOutButton.setDisable(false);
+            zoomInButton.setDisable(false);
+        }
     }
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        if (zoomer.getZoomStage() == -2){
+            zoomOutButton.setDisable(true);
+        }
+        else{
+            zoomOutButton.setDisable(false);
+            zoomInButton.setDisable(false);
+        }
     }
 
     public JFXButton getFloor2() {
         return floorButton2;
     }
+
+
 
     public void drawNodesEdges() {
 
@@ -386,7 +452,7 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(mapImage);
 
-        PathDisplay tester = new PathDisplay(group);
+        PathDisplay tester = new PathDisplay(group, parentVBox, this.algorithm);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();

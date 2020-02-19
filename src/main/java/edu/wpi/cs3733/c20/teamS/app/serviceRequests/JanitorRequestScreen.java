@@ -35,10 +35,17 @@ public final class JanitorRequestScreen {
             controller.dialogCompleted().subscribe(
                     next -> {
                         if(next.result() == DialogResult.OK){
-                            //Do database
-                            JanitorServiceRequest janitorServiceRequest = next.value();
-                            DatabaseController db = new DatabaseController();
-                            //db.addServiceRequestData(new ServiceData(0, "JANT", janitorServiceRequest.id()));
+                            DatabaseController dbc = new DatabaseController();
+                            String serviceType = "JANI";
+                            String status = "Incomplete";
+                            String message = next.value().message();
+                            String data = "";
+                            int assignedEmployeeID = next.value().assignee().id();
+                            String serviceNode = next.value().location();
+                            int dummyID = 0;
+
+                            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+                            dbc.addServiceRequestData(sd);
                         }
                         this.stage.close();
                     }

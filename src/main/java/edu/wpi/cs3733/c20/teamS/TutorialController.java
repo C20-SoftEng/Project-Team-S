@@ -39,8 +39,8 @@ public class TutorialController {
     }
 
     public void addMediaView() throws MalformedURLException {
-        File f = new File("src/main/resources/videos/tutorial.mp4");
-        Media media = new Media(f.toURI().toURL().toString());
+        String path = getClass().getResource("/videos/tutorial.mp4").toString();
+        Media media = new Media(path);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
         mediaPlayer.setAutoPlay(true);

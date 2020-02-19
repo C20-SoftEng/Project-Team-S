@@ -6,14 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
-import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,9 +25,27 @@ public class DatabaseController implements DBRepo{
      */
     static {
         createDatabase();
+
         dropExistingTables();
 
         /////////////////////CREATE TABLES/////////////////////////////
+        createTables();
+    }
+    public DatabaseController() {}
+
+    public static void createTables(){
+
+        File dumbFile = new File("dumbFile.txt");
+
+        if(dumbFile.exists()){
+            System.out.println("File Found");
+            return;
+
+        }else{
+            System.out.println("File Not found...importing Data");
+
+        }
+
         try {
             Statement stm = connection.createStatement();
 
@@ -50,7 +60,6 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    public DatabaseController() {}
 
     private static void createDatabase() {
         try {
@@ -70,6 +79,18 @@ public class DatabaseController implements DBRepo{
         }
     }
     private static void dropExistingTables() {
+        File dumbFile = new File("dumbFile.txt");
+
+            if(dumbFile.exists()){
+                System.out.println("File Found");
+                return;
+
+            }else{
+                System.out.println("File Not found...importing Data");
+
+            }
+
+
         try{
             Statement stm = connection.createStatement();
             stm.execute("Drop table EDGES");
@@ -123,7 +144,7 @@ public class DatabaseController implements DBRepo{
                          "serviceType varchar(4)," +
                          "status varchar(50)," +
                          "message varchar(2056)," +
-                         "data varchar(9001)," +
+                         "data varchar(2056)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
                          "location varchar(1024))");
@@ -375,43 +396,36 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
-//        String path = getClass().getResource("/data/allnodes.csv").toString();
-//        System.out.println("Path: " + path);
-//        path = path.substring(5);
-//        System.out.println("Getting Nodes from: " + path);
-//        importData("NODES", path, true);
+        File dumbFile = new File("dumbFile.txt");
+
+            if(dumbFile.exists()){
+                System.out.println("File Found...Not importing Data");
+
+                return;
+
+            }else{
+                System.out.println("File Not Found");
+
+            }
+
+
+
 
         importNodes();
 
-//        URL resource = getClass().getResource("/data/allnodes.csv");
-//        try{
-//            System.out.println("URL PATH: " + resource.toURI().toString());
-//        }catch(URISyntaxException e){
-//            System.out.println(e.getMessage());
-//        }
-//
-//        String path = resource.getPath();
-//        path = path.substring(5);
-//        //Path path = Paths.get(URI.create(resource.toString()));
-//        System.out.println("PATHS GET: " + path);
-//        importData("NODES", path, true);
-
-
-
-//        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
-//        edgePath = edgePath.substring(5);
-//        System.out.println("Getting Edges from: " + edgePath);
-//        importData("EDGES", edgePath, true);
 
         importEdges();
 
-//        String empPath = getClass().getResource("/data/employees.csv").toString();
-//        empPath = empPath.substring(5);
-//        System.out.println("Getting Employees from: " + empPath);
-//        importData("EMPLOYEES", empPath, true);
 
         importEmployees();
 
+
+        File dumbAgainFile = new File("dumbFile.txt");
+        try {
+            dumbAgainFile.createNewFile();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
         System.out.println("Successfully imported Startup Data (Probably?)");
     }
     //tested, unable to export then import from exprted because of headers
@@ -508,7 +522,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    Set<ServiceData> getAllServiceRequestData(){
+    public Set<ServiceData> getAllServiceRequestData(){
         Statement stm = null;
         try{
             stm = connection.createStatement();
@@ -603,6 +617,7 @@ public class DatabaseController implements DBRepo{
             stm.setString(5,sd.getServiceNode());
             stm.setInt(6,sd.getServiceID());
             stm.executeUpdate();
+            System.out.println("Updated");
 
         }catch(java.sql.SQLException e){
             System.out.println(e.getMessage());
@@ -805,10 +820,6 @@ public class DatabaseController implements DBRepo{
             e.printStackTrace();
         }
     }
-
-
-
-
 
 
 

@@ -17,9 +17,9 @@ public class InterpreterRequestController {
     private Employee loggedIn;
 
     @FXML
-    private Button cancelButton;
+    private Button cancelButton1;
     @FXML
-    private Button submitButton;
+    private Button submitButton1;
     @FXML
     private TextField locationField;
     @FXML
@@ -43,6 +43,7 @@ public class InterpreterRequestController {
         request.setInterpreterType_(((RadioButton)One.getSelectedToggle()).getText());
         request.setLocation(locationField.getText());
         request.setMessage(commentsField.getText());
+        request.assignTo(this.loggedIn);
 
         dialogCompleted_.onNext(DialogEvent.ok(request));
     }

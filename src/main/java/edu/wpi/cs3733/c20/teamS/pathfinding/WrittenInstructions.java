@@ -19,17 +19,17 @@ public class WrittenInstructions {
     double ftRatio = realLifeMeasurementFt / pixelMeasurement;
     double mRatio = realLifeMeasurementM / pixelMeasurement;
 
-    LinkedList<NodeData> path;
-    LinkedList<String> instructions = new LinkedList<>();
+    ArrayList<NodeData> path;
+    ArrayList<String> instructions = new ArrayList<>();
 
     int savingDistance=0;
 
-    public WrittenInstructions(LinkedList<NodeData> path) {
+    public WrittenInstructions(ArrayList<NodeData> path) {
         this.path = path;
     }
 
 
-    public LinkedList<String> directions() {
+    public ArrayList<String> directions() {
         if (path.size() > 2) {
             for (int i = 0; i < path.size() - 2; i++) {
 
@@ -62,6 +62,10 @@ public class WrittenInstructions {
 
     }
 
+
+    public ArrayList<String> getInstructions() {
+        return instructions;
+    }
 
     //point A,point B, point P
     static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
