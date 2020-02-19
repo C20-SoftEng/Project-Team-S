@@ -8,6 +8,7 @@ class ServiceData{
     private String serviceType;
     private String status;
     private String message;
+    private String data;
     private int assignedEmployeeID;
     private Date date;
     private String serviceNode;
@@ -20,6 +21,15 @@ class ServiceData{
         this.serviceNode = serviceNode;
     }
 
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "ServiceData{" +
@@ -27,6 +37,7 @@ class ServiceData{
                 ", serviceType='" + serviceType + '\'' +
                 ", status='" + status + '\'' +
                 ", message='" + message + '\'' +
+                ", data='" + data + '\'' +
                 ", assignedEmployeeID=" + assignedEmployeeID +
                 ", date=" + date +
                 ", serviceNode='" + serviceNode + '\'' +
@@ -35,26 +46,25 @@ class ServiceData{
 
     public ServiceData(
             int serviceID, String serviceType,
-            String status, String message,
+            String status, String message, String data,
             int assignedEmployeeID,
             Date date, String serviceNode) {
         this.serviceID = serviceID;
         this.serviceType = serviceType;
         this.status = status;
         this.message = message;
+        this.data = data;
         this.assignedEmployeeID = assignedEmployeeID;
         this.date = date;
         this.serviceNode = serviceNode;
     }
 
-    public ServiceData(
-            String serviceType, String status,
-            String message, int assignedEmployeeID,
-            String serviceNode) {
+    public ServiceData(String serviceType, String status, String message, String data, int assignedEmployeeID, String serviceNode) {
         //this.serviceID = serviceID;
         this.serviceType = serviceType;
         this.status = status;
         this.message = message;
+        this.message = data;
         this.assignedEmployeeID = assignedEmployeeID;
         //this.date = date;
         this.serviceNode = serviceNode;
