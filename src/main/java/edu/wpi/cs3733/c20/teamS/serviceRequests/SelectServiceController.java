@@ -1,10 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.SecurityServiceScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ServiceTechRequestScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.LaundryRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
@@ -35,6 +32,7 @@ public class SelectServiceController {
     @FXML    private JFXButton serviceTechService;
     @FXML    private JFXButton dogButton;
 
+
     @FXML void onDrugClicked(ActionEvent event){
         Stage drugStage = new Stage();
         drugStage.initModality(Modality.WINDOW_MODAL);
@@ -63,6 +61,15 @@ public class SelectServiceController {
         laundryStage.initModality(Modality.WINDOW_MODAL);
 
         LaundryRequestScreen.showDialog(loggedIn).subscribe();
+
+        this.stage.close();
+    }
+
+    @FXML void onLastRitesClicked(ActionEvent event){
+        Stage lastRitesStage = new Stage();
+        lastRitesStage.initModality(Modality.WINDOW_MODAL);
+
+        LastRitesRequestScreen.showDialog(loggedIn).subscribe();
 
         this.stage.close();
     }
