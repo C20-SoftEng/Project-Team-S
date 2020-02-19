@@ -3,15 +3,14 @@ package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.FriendRideKind;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.LyftRideKind;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.RideKind;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.ShuttleRideKind;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.RideKind;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import tornadofx.control.DateTimePicker;
 
 import java.net.URL;
@@ -26,9 +25,6 @@ public final class RideRequestUIController implements Initializable {
     }
 
     private class RideKindSelector {
-        private final LyftRideKind lyftRide = new LyftRideKind();
-        private final FriendRideKind friendRide = new FriendRideKind();
-        private final ShuttleRideKind shuttleRide = new ShuttleRideKind();
         private RideKind current;
 
         public RideKind current() {
@@ -36,24 +32,63 @@ public final class RideRequestUIController implements Initializable {
         }
         private void setCurrent(RideKind value) {
             current = value;
-            RideRequestUIController.this.rideKindLabel.setText(current.toString());
+            riderNameLabel.setText(value.riderTitle());
+            switch (current) {
+                case FRIEND:
+                    rideKindImageView.setImage(friendLargeIcon);
+                    break;
+                case LYFT:
+                    rideKindImageView.setImage(lyftLargeIcon);
+                    break;
+                case HELICOPTER:
+                    rideKindImageView.setImage(heliLargeIcon);
+                    break;
+                case COP_CAR:
+                    rideKindImageView.setImage(copCarLargeIcon);
+                    break;
+                case AMBULANCE:
+                    rideKindImageView.setImage(ambulanceLargeIcon);
+                    break;
+                case SHUTTLE:
+                    rideKindImageView.setImage(shuttleLargeIcon);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected RideKind in Switch statement.");
+            }
         }
         public void setLyftRide() {
-            setCurrent(lyftRide);
+            setCurrent(RideKind.LYFT);
         }
         public void setFriendRide() {
-            setCurrent(friendRide);
+            setCurrent(RideKind.FRIEND);
         }
         public void setShuttleRide() {
-            setCurrent(shuttleRide);
+            setCurrent(RideKind.SHUTTLE);
+        }
+        public void setAmbulanceRide() {
+            setCurrent(RideKind.AMBULANCE);
+        }
+        public void setHeliRide() {
+            setCurrent(RideKind.HELICOPTER);
+        }
+        public void setCopCarRide() {
+            setCurrent(RideKind.COP_CAR);
         }
     }
     private final RideKindSelector rideKindSelector = new RideKindSelector();
 
+    @FXML private Label riderNameLabel;
     @FXML private JFXTextField riderNameField;
     @FXML private DateTimePicker pickupTimePicker;
     @FXML private JFXTextField destinationField;
-    @FXML private Label rideKindLabel;
+    @FXML private ImageView rideKindImageView;
+
+    private final Image friendLargeIcon = new Image("images/Icons/serviceRequests/bestFriends-large.jpm.jpg");
+    private final Image lyftLargeIcon = new Image("images/Icons/serviceRequests/lyft-large.png");
+    private final Image heliLargeIcon = new Image("images/Icons/serviceRequests/helicopter-large.png");
+    private final Image copCarLargeIcon = new Image("images/Icons/serviceRequests/handcuffs-large.png");
+    private final Image shuttleLargeIcon = new Image("images/Icons/serviceRequests/shuttle-large.png");
+    private final Image ambulanceLargeIcon = new Image("images/Icons/serviceRequests/ambulance-large.png");
 
     @FXML private void onLyftClicked() {
         rideKindSelector.setLyftRide();
@@ -63,6 +98,15 @@ public final class RideRequestUIController implements Initializable {
     }
     @FXML private void onShuttleClicked() {
         rideKindSelector.setShuttleRide();
+    }
+    @FXML private void onAmbulanceClicked() {
+        rideKindSelector.setAmbulanceRide();
+    }
+    @FXML private void onHeliClicked() {
+        rideKindSelector.setHeliRide();
+    }
+    @FXML private void onCopCarClicked() {
+        rideKindSelector.setCopCarRide();
     }
     @FXML private void onOKClicked() {
         RideServiceRequest request = new RideServiceRequest();
