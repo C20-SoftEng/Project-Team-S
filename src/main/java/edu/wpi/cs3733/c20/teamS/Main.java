@@ -12,9 +12,9 @@ public class Main extends Application {
     DatabaseController dbc = new DatabaseController();
     dbc.importStartUpData();
 
-    //mainToLoginScreen test = new mainToLoginScreen(primaryStage);
-    Employee bogus = new Employee(1, "Jay");
-    MapEditingScreen test = new MapEditingScreen(primaryStage, bogus);
+    mainToLoginScreen test = new mainToLoginScreen(primaryStage);
+    //Employee bogus = new Employee(1, "Jay");
+    //MapEditingScreen test = new MapEditingScreen(primaryStage, bogus);
   }
 
   public static void main(String[] args) {
