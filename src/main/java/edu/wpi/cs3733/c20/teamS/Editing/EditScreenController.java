@@ -75,6 +75,10 @@ public class EditScreenController implements Initializable {
     JFXRadioButton addEdgeRadio;
     @FXML
     JFXRadioButton removeEdgeRadio;
+    @FXML
+    JFXRadioButton moveNodeRadio;
+    @FXML
+    JFXRadioButton showInfoRadio;
 
     @FXML
     private ImageView mapImage;
@@ -421,7 +425,7 @@ public class EditScreenController implements Initializable {
 
         moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
         showInfoRadio.setOnAction(e -> tester.showNodeInfo(mapImage, current_floor));
-        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
+        cancelEditButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
         addNodeRadio.setOnAction(e -> {
             tester.drawNodes();
             keepCurrentPosition(currentHval, currentVval, zoomer);
@@ -452,7 +456,7 @@ public class EditScreenController implements Initializable {
 
         cancelEditButton.setOnAction(e -> {
             tester.cancelChanges();
-            new MapEditingScreen(stage);
+            new MapEditingScreen(stage, loggedIn);
         });
 
         scrollPane.setContent(group);

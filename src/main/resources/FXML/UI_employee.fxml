@@ -180,28 +180,27 @@
                               <ToggleGroup fx:id="editGroup" />
                            </toggleGroup>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" toggleGroup="$edit" VBox.vgrow="SOMETIMES">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup">
+                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" toggleGroup="$edit" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
+                        </JFXRadioButton>
                         <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$edit" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
+                        </JFXRadioButton>
+
                         <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
