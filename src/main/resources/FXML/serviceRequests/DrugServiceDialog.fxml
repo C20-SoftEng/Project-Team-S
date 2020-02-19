@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestController">
    <children>
       <BorderPane layoutX="-6.0" layoutY="14.0" prefHeight="401.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -22,12 +22,12 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <Button fx:id="cancelButton" layoutX="56.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="183.0" text="Cancel" />
+                        <Button fx:id="cancelButton" layoutX="56.0" layoutY="9.0" mnemonicParsing="false" onAction="#onCancelClicked" prefHeight="50.0" prefWidth="183.0" text="Cancel" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <Button fx:id="submitButton" layoutX="58.0" layoutY="10.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="179.0" text="Submit">
+                        <Button fx:id="submitButton" layoutX="58.0" layoutY="10.0" mnemonicParsing="false" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" text="Submit">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
@@ -45,6 +45,7 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <padding>
@@ -52,14 +53,16 @@
                </padding>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
-                  <TextField fx:id="locationField" prefHeight="92.0" prefWidth="275.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="2" />
+                  <TextField fx:id="locationField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Drug To Administer" textAlignment="CENTER" wrappingWidth="192.6982421875" GridPane.rowIndex="1" />
+                  <TextField fx:id="drugField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </center>
          <top>
-            <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Service Name" BorderPane.alignment="CENTER">
+            <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Medicine Request" BorderPane.alignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>

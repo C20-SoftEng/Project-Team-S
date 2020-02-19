@@ -1,28 +1,21 @@
-package edu.wpi.cs3733.c20.teamS;
+package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public class SelectServiceController {
     private Stage stage;
+    private Employee loggedIn;
 
     private final PublishSubject<DialogEvent<RideServiceRequest>> dialogCompleted_ = PublishSubject.create();
 
@@ -39,13 +32,16 @@ public class SelectServiceController {
     @FXML    private JFXButton serviceTechService;
     @FXML    private JFXButton dogButton;
 
-    @FXML void onDrugClick(ActionEvent event){
+    @FXML void onDrugClicked(ActionEvent event){
         Stage drugStage = new Stage();
         drugStage.initModality(Modality.WINDOW_MODAL);
 
+        DrugRequestScreen.showDialog(loggedIn).subscribe();
+
+        this.stage.close();
     }
 
-    @FXML void onDogClick(ActionEvent event){
+    @FXML void onDogClicked(ActionEvent event){
         Stage dogStage = new Stage();
         dogStage.initModality(Modality.WINDOW_MODAL);
 
@@ -64,9 +60,11 @@ public class SelectServiceController {
     /**
      * passes a stage so that the window can close from opening new dialog
      * @param stage
+     * @param employee the currently logged in employee
      */
-    public SelectServiceController(Stage stage){
+    public SelectServiceController(Stage stage, Employee employee){
         this.stage = stage;
+        this.loggedIn = employee;
     }
 
 }

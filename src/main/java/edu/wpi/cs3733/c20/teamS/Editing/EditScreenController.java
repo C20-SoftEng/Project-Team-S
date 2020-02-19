@@ -3,8 +3,8 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
-import edu.wpi.cs3733.c20.teamS.PathDisplay;
-import edu.wpi.cs3733.c20.teamS.SelectServiceScreen;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -17,7 +17,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +25,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,8 +32,16 @@ import java.util.Set;
 
 public class EditScreenController implements Initializable {
     private Stage stage;
-    public EditScreenController(Stage stage) {
+    private Employee loggedIn;
+
+    /**
+     *
+     * @param stage the stage to take over
+     * @param employee the employee that logged in
+     */
+    public EditScreenController(Stage stage, Employee employee) {
         this.stage  = stage;
+        this.loggedIn = employee;
     }
 
     int current_floor = 2;
@@ -72,6 +78,7 @@ public class EditScreenController implements Initializable {
 
     @FXML private JFXButton cancelEditsButton;
     @FXML private JFXButton confirmEditButton;
+
 
     public JFXButton getFloorButton2() {return floorButton2;}
 
@@ -279,7 +286,7 @@ public class EditScreenController implements Initializable {
 
     @FXML
     void openServiceOptionPopup(ActionEvent event){
-        SelectServiceScreen.showDialog();
+        SelectServiceScreen.showDialog(loggedIn);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -358,7 +365,7 @@ public class EditScreenController implements Initializable {
         addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
-        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
+        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
 
         scrollPane.setContent(group);
     }
