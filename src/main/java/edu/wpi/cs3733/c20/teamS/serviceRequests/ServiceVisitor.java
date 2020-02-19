@@ -4,4 +4,5 @@ public abstract class ServiceVisitor {
     public abstract void visit(JanitorServiceRequest request);
     public abstract void visit(RideServiceRequest request);
     public abstract void visit(DrugServiceRequest request);
+    public abstract void visit(MaintenanceServiceRequest request);
 }
