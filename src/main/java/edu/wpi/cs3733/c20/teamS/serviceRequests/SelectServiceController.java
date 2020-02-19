@@ -47,6 +47,7 @@ public class SelectServiceController {
         serviceTechStage.initModality(Modality.WINDOW_MODAL);
 
         ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
     }
 
     @FXML void onLaundryClicked(ActionEvent event){
