@@ -212,6 +212,7 @@ public class mainScreenController implements Initializable {
         set1();
         mapImage.setImage(floor1);
         current_floor = 1;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -223,6 +224,7 @@ public class mainScreenController implements Initializable {
     void onFloorClicked2(ActionEvent event) {
         set2();
         current_floor = 2;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -236,6 +238,7 @@ public class mainScreenController implements Initializable {
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
+        this.zoomer.zoomSet();
         upButton.setDisable(false);
         downButton.setDisable(false);
         if (tester2.getCounter() >= 2) {
@@ -250,6 +253,7 @@ public class mainScreenController implements Initializable {
         set4();
         mapImage.setImage(floor4);
         current_floor = 4;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -263,6 +267,7 @@ public class mainScreenController implements Initializable {
         set5();
         mapImage.setImage(floor5);
         current_floor = 5;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -297,7 +302,7 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
-        Node content = scrollPane.getContent();
+        //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
     }
 
