@@ -47,6 +47,9 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </JFXButton>
                         <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
@@ -115,6 +118,9 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
                   </VBox>
@@ -278,14 +284,45 @@
          <center>
             <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #bfbdba;" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: #FFFFFF;">
-                     <font>
-                        <Font name="Leelawadee UI Bold" size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="5.0" />
-                     </VBox.margin>
-                  </JFXTextField>
+                  <HBox prefHeight="73.0" prefWidth="1025.0">
+                     <children>
+                        <JFXTextField id="searchBar" prefHeight="75.0" prefWidth="537.0" promptText="Search" style="-fx-background-color: #FFFFFF;">
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="24.0" />
+                           </font>
+                        </JFXTextField>
+                        <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Select Start Location" textAlignment="CENTER" wrapText="true">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin></Label>
+                        <JFXButton fx:id="swapButton" buttonType="RAISED" onAction="#onSwapButtonPressed" text=" " translateY="13.0">
+                           <graphic>
+                              <ImageView id="swapButton" fx:id="onSwapButton" fitHeight="33.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/swap_arrows.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="127.0" text="Select End Location" textAlignment="CENTER" wrapText="true">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin></Label>
+                        <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#onPathfindClicked" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
+                     </children>
+                  </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
                         <VBox disable="true" maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
