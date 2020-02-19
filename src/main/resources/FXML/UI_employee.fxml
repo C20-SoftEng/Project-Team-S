@@ -191,6 +191,11 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
+                        <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0">
                            <children>
                               <JFXButton fx:id="cancelEditsButton" text="Cancel">

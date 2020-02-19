@@ -11,6 +11,7 @@ import org.apache.derby.iapi.db.Database;
 import java.util.Set;
 
 class MoveNodes {
+    private int current_floor;
 
     private double mouseX;
     private double mouseY;
@@ -30,6 +31,8 @@ class MoveNodes {
     public void setScale(double scale) {
         this.scale = scale;
     }
+
+    public void setCurrent_floor(int current_floor) {this.current_floor = current_floor;}
 
     public EventHandler<MouseEvent> getOnMousePressedEventHandler() {
         return onMousePressedEventHandler;
@@ -98,7 +101,7 @@ class MoveNodes {
         Set<NodeData> nd = dbc.getAllNodes();
 
         for(NodeData temp : nd) {
-            if(temp.getFloor() == 2) {
+            if(temp.getFloor() == current_floor) {
                 if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
                     distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
                     nearest = temp;

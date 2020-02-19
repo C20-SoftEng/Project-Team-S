@@ -51,6 +51,7 @@ public class EditScreenController implements Initializable {
         @FXML JFXRadioButton addEdgeRadio;
         @FXML JFXRadioButton removeEdgeRadio;
         @FXML JFXRadioButton moveNodeRadio;
+        @FXML JFXRadioButton showInfoRadio;
 
         @FXML private ImageView mapImage;
 
@@ -73,6 +74,15 @@ public class EditScreenController implements Initializable {
         public JFXButton getFloorButton2() {return floorButton2;}
 
         public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
+
+        private void unselectALL() {
+            addNodeRadio.selectedProperty().set(false);
+            removeNodeRadio.selectedProperty().set(false);
+            removeEdgeRadio.selectedProperty().set(false);
+            addEdgeRadio.selectedProperty().set(false);
+            moveNodeRadio.selectedProperty().set(false);
+            showInfoRadio.selectedProperty().set(false);
+        }
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -282,7 +292,9 @@ public class EditScreenController implements Initializable {
     }
 
     public void drawNodesEdges() {
+        unselectALL();
             moveNode.setScale(zoomer.zoomFactor());
+            moveNode.setCurrent_floor(current_floor);
 
         String floor = "0" + current_floor;
 
@@ -355,6 +367,7 @@ public class EditScreenController implements Initializable {
         confirmEditButton.setOnAction(e -> tester.saveChanges());
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
         moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
+        showInfoRadio.setOnAction(e -> tester.showNodeInfo(mapImage, current_floor));
 
         scrollPane.setContent(group);
     }
