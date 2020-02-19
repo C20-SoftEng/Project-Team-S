@@ -375,42 +375,15 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
-//        String path = getClass().getResource("/data/allnodes.csv").toString();
-//        System.out.println("Path: " + path);
-//        path = path.substring(5);
-//        System.out.println("Getting Nodes from: " + path);
-//        importData("NODES", path, true);
 
         importNodes();
 
-//        URL resource = getClass().getResource("/data/allnodes.csv");
-//        try{
-//            System.out.println("URL PATH: " + resource.toURI().toString());
-//        }catch(URISyntaxException e){
-//            System.out.println(e.getMessage());
-//        }
-//
-//        String path = resource.getPath();
-//        path = path.substring(5);
-//        //Path path = Paths.get(URI.create(resource.toString()));
-//        System.out.println("PATHS GET: " + path);
-//        importData("NODES", path, true);
-
-
-
-//        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
-//        edgePath = edgePath.substring(5);
-//        System.out.println("Getting Edges from: " + edgePath);
-//        importData("EDGES", edgePath, true);
 
         importEdges();
 
-//        String empPath = getClass().getResource("/data/employees.csv").toString();
-//        empPath = empPath.substring(5);
-//        System.out.println("Getting Employees from: " + empPath);
-//        importData("EMPLOYEES", empPath, true);
 
         importEmployees();
+
 
         System.out.println("Successfully imported Startup Data (Probably?)");
     }
@@ -806,10 +779,6 @@ public class DatabaseController implements DBRepo{
             e.printStackTrace();
         }
     }
-
-
-
-
 
 
 

@@ -15,6 +15,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import javax.xml.ws.Service;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -41,6 +42,8 @@ public class ActiveServiceRequestScreenController {
     @FXML
     private TableColumn<ServiceData, String> locationCol;
 
+    @FXML
+    private TableColumn<ServiceData, String> typeCol;
 
     @FXML
     private Label Screen_Title;
@@ -71,6 +74,7 @@ public class ActiveServiceRequestScreenController {
         statusCol = new TableColumn<ServiceData, String>("Status");
         messageCol = new TableColumn<ServiceData, String>("Message");
         locationCol = new TableColumn<ServiceData, String>("Location");
+        typeCol = new TableColumn<ServiceData, String>("Type");
 
         serviceIDCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ServiceData, Integer>,
                 ObservableValue<Integer>>(){
@@ -107,7 +111,14 @@ public class ActiveServiceRequestScreenController {
             }
         });
 
-        serviceRequestTable.getColumns().setAll(serviceIDCol, assignedEmployeeCol, statusCol, messageCol, locationCol);
+        typeCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ServiceData, String>,
+                ObservableValue<String>>(){
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ServiceData, String> p){
+                return new ReadOnlyObjectWrapper(p.getValue().getServiceType());
+            }
+        });
+
+        serviceRequestTable.getColumns().setAll(serviceIDCol, assignedEmployeeCol, statusCol, messageCol, locationCol, typeCol);
     }
 
     /**

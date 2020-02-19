@@ -20,6 +20,7 @@
                         <TableColumn fx:id="statusCol" prefWidth="79.66668701171875" text="Status" />
                         <TableColumn fx:id="messageCol" prefWidth="125.0" text="Message" />
                         <TableColumn fx:id="locationCol" prefWidth="136.0" text="Location" />
+                        <TableColumn fx:id="typeCol" prefWidth="136.0" text="Type" />
                     </columns>
                   </TableView>
                </children>
