@@ -2,16 +2,21 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathingContext;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -27,12 +32,15 @@ public class PathDisplay {
     Group groupPath = new Group();
     Group group;
     private IPathfinding algorithm;
+    VBox parentVBox;
 
     public int getCounter() {return counter;}
 
-    public PathDisplay(Group group, IPathfinding pathfinding) {
+    public PathDisplay(Group group, VBox parentVBox, IPathfinding pathfinding) {
         this.group = group;
+        this.parentVBox = parentVBox;
         this.algorithm = pathfinding;
+
     }
 
     public void setNode(NodeData data) {
@@ -81,6 +89,26 @@ public class PathDisplay {
 
             PathingContext pathContext = new PathingContext(this.algorithm);
             ArrayList<NodeData> work = pathContext.executePathfind(graph, startNode, endNode);
+            WrittenInstructions directions = new WrittenInstructions(work);
+            ArrayList<String> words = directions.directions();
+            System.out.println(words.size());
+            int offset = 30;
+            parentVBox.getChildren().clear();
+            JFXTextField directionLabel = new JFXTextField();
+            directionLabel.setText("Directions");
+            JFXTextField space = new JFXTextField();
+            //directionLabel.setFont("Font name=System Bold size=24.0");
+            for(String direct : words) {
+                JFXTextArea text = new JFXTextArea();
+                text.setText(direct);
+                //text.setWrapText(true);
+                text.setPrefHeight(offset);
+              //  text.setTranslateY(offset);
+              //  offset += 10;
+                parentVBox.getChildren().add(text);
+               // System.out.println(direct);
+            }
+
             for(int i = 0; i < work.size() - 1; i++) {
                 EdgeData data = new EdgeData(work.get(i).getNodeID() + "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
                 if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {
@@ -134,6 +162,7 @@ public class PathDisplay {
                     }
                 }
             }
+
             group.getChildren().add(groupPath);
         }
     }

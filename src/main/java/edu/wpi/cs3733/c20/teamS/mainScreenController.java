@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -29,6 +32,7 @@ import javafx.scene.shape.Line;
 
 import java.net.URL;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import java.util.Set;
@@ -38,11 +42,12 @@ public class mainScreenController implements Initializable {
 
     private Stage stage;
     private IPathfinding algorithm;
+    private WrittenInstructions writtenInstructions;
 
     public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
         this.algorithm = pathAlgorithm;
         this.stage = mainStage;
-        tester2 = new PathDisplay(group2, this.algorithm);
+        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,6 +55,12 @@ public class mainScreenController implements Initializable {
 
         initSearchComboBoxFont();
         initSearchComboBoxAutoComplete();
+
+            zoomer = new MapZoomer(mapImage, scrollPane);
+
+            tester2 = new PathDisplay(group2, parentVBox, algorithm);
+            instructions = new LinkedList<String>();
+
     }
 
     private void initSearchComboBoxFont() {
@@ -69,6 +80,7 @@ public class mainScreenController implements Initializable {
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
+    private LinkedList<String> instructions;
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
     Image floor3 = new Image("images/Floors/HospitalFloor3.png");
@@ -105,6 +117,10 @@ public class mainScreenController implements Initializable {
     private JFXButton swapButton;
     @FXML
     private Label location1;
+    @FXML
+    private VBox parentVBox;
+
+
     @FXML
     private Label location2;
     @FXML
@@ -381,6 +397,8 @@ public class mainScreenController implements Initializable {
         return floorButton2;
     }
 
+
+
     public void drawNodesEdges() {
 
         String floor = "0" + current_floor;
@@ -391,7 +409,7 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(mapImage);
 
-        PathDisplay tester = new PathDisplay(group, this.algorithm);
+        PathDisplay tester = new PathDisplay(group, parentVBox, this.algorithm);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();

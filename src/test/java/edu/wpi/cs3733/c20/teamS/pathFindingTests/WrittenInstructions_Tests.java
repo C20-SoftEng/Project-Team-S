@@ -38,7 +38,7 @@ public class WrittenInstructions_Tests {
 
     @Test
     public void turnLeftTest1() {
-        LinkedList<NodeData> pathtest1 = new LinkedList<>();
+        ArrayList<NodeData> pathtest1 = new ArrayList<>();
         pathtest1.add(nodeOne);
         pathtest1.add(nodeTwo);
         pathtest1.add(nodeThree);
@@ -62,7 +62,7 @@ public class WrittenInstructions_Tests {
 
     @Test
     public void turnRightTest1() {
-        LinkedList<NodeData> pathtest2 = new LinkedList<>();
+        ArrayList<NodeData> pathtest2 = new ArrayList<>();
         pathtest2.add(nodeSix);
         pathtest2.add(nodeSeven);
         pathtest2.add(nodeEight);
