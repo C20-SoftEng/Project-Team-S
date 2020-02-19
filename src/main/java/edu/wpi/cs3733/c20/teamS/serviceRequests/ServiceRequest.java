@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public abstract class ServiceRequest {
     private final Integer id_;
@@ -17,6 +16,7 @@ public abstract class ServiceRequest {
         this.id_ = id;
         status_ = ServiceStatus.CREATED;
     }
+
 
     public abstract void accept(ServiceVisitor visitor);
 
