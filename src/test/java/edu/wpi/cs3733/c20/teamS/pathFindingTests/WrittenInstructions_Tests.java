@@ -21,7 +21,7 @@ public class WrittenInstructions_Tests {
 
     NodeData nodeEleven = new NodeData("11",250, 20, 2, "Hospital", "Room", "longName11", "LN11");
 
-    NodeData nodeTwelve = new NodeData("12", 250,30,2, "Hospital", "Room", "longName12", "LN12");
+    NodeData nodeTwelve = new NodeData("12", 260,30,2, "Hospital", "Room", "longName12", "LN12");
 ///=========================================================================================================================================
     NodeData nodeSix = new NodeData("6", 300,700,2,"Hospital", "Room", "longName6", "LN6");
 
@@ -37,7 +37,7 @@ public class WrittenInstructions_Tests {
 
     @Test
     public void turnLeftTest1() {
-        ArrayList<NodeData> pathtest1 = new ArrayList<NodeData>();
+        LinkedList<NodeData> pathtest1 = new LinkedList<>();
         pathtest1.add(nodeOne);
         pathtest1.add(nodeTwo);
         pathtest1.add(nodeThree);
@@ -50,16 +50,19 @@ public class WrittenInstructions_Tests {
         WrittenInstructions wi = new WrittenInstructions(pathtest1);
 
       LinkedList<String> realInstructions = new LinkedList<>();
-        realInstructions.add("Go Straight For 5.3012FT or 1.6158M");
-        //realInstructions.add("Go Straight For ")
+        realInstructions.add("Go Straight For 5FT OR 2M");
+        realInstructions.add("Go Straight For 16FT OR 5M");
+        realInstructions.add("Turn Left In 5FT OR 2M");
+        realInstructions.add("Turn Right In 11FT OR 3M");
+        realInstructions.add("Turn Right In 13FT OR 4M");
 
 
-        assertEquals("Turn Left In 26FT OR 8M", wi.directions());
+        assertEquals(realInstructions, wi.directions());
     }
 
     @Test
     public void turnRightTest1() {
-        ArrayList<NodeData> pathtest2 = new ArrayList<NodeData>();
+        LinkedList<NodeData> pathtest2 = new LinkedList<>();
         pathtest2.add(nodeSix);
         pathtest2.add(nodeSeven);
         pathtest2.add(nodeEight);
@@ -73,38 +76,6 @@ public class WrittenInstructions_Tests {
     }
 
 
-    @Test
-    public void getAngle_twoNodes(){
-
-        double angle = WrittenInstructions.getAngle(nodeFour, nodeFive, nodeEleven);
-
-        double realAngle = 10.0;
-
-        assertEquals(realAngle, angle);
-
-    }
-
-    @Test
-    public void getAngle_tuenLeft(){
-
-        double angle = WrittenInstructions.getAngle(nodeThree, nodeFour, nodeFive);
-
-        double realAngle = 10.0;
-
-        assertEquals(realAngle, angle);
-
-    }
-
-    @Test
-    public void getAngle_tuenLeft2(){
-
-        double angle = WrittenInstructions.getAngle(nodeFive, nodeEleven, nodeTwelve);
-
-        double realAngle = 10.0;
-
-        assertEquals(realAngle, angle);
-
-    }
 
 
 
