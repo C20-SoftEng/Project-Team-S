@@ -37,7 +37,6 @@ public class SelectServiceController {
         drugStage.initModality(Modality.WINDOW_MODAL);
 
         DrugRequestScreen.showDialog(loggedIn).subscribe();
-
         this.stage.close();
     }
 
