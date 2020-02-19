@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.PathDisplay;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -36,6 +37,7 @@ import java.util.Set;
 public class EditScreenController implements Initializable {
     private MoveNodes moveNode = new MoveNodes();
     private Stage stage;
+    private boolean btwn = false;
 
 
     private Employee loggedIn;
@@ -61,6 +63,9 @@ public class EditScreenController implements Initializable {
         scrollPane.setHvalue(Hval);
         scrollPane.setVvalue(Vval);
     }
+
+    Group group2 = new Group();
+    MapEditingTasks tester2 = new MapEditingTasks(group2);
 
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -425,19 +430,19 @@ public class EditScreenController implements Initializable {
         }
 
 
-        moveNodeRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+        moveNodeRadio.setOnAction(e -> {btwn = false; currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();tester.moveNodes(mapImage, current_floor, moveNode); keepCurrentPosition(currentHval, currentVval, zoomer);});
-        showInfoRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+        showInfoRadio.setOnAction(e -> {btwn = false; currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();tester.showNodeInfo(mapImage, current_floor); keepCurrentPosition(currentHval, currentVval, zoomer);});
 
-        addNodeRadio.setOnAction(e -> {
+        addNodeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.drawNodes(current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
         });
 
-        removeNodeRadio.setOnAction(e -> {
+        removeNodeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.removeNodes(mapImage, current_floor);
@@ -445,15 +450,15 @@ public class EditScreenController implements Initializable {
 
         });
 
-        addEdgeRadio.setOnAction(e -> {
+        addEdgeRadio.setOnAction(e -> {btwn = true;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
-            tester.addEdge(mapImage, current_floor);
+            tester2.addEdge(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 
         });
 
-        removeEdgeRadio.setOnAction(e -> {
+        removeEdgeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.removeEdge(mapImage, current_floor);
@@ -471,10 +476,14 @@ public class EditScreenController implements Initializable {
             new MapEditingScreen(stage, loggedIn);
         });
 
+        group.getChildren().add(group2);
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
+        if(btwn) {
+            addEdgeRadio.fire();
+        }
     }
 
     @FXML
