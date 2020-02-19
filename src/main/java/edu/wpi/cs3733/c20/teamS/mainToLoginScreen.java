@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.File;
 import java.io.IOException;
 /**
@@ -34,12 +36,12 @@ public class mainToLoginScreen {
         ui.drawNodesEdges();
         ui.getFloor2().fire();
 
-
-
         this.show();
     }
     public void show() {
         stage.setScene(scene);
+        stage.setMaximized(true);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 }

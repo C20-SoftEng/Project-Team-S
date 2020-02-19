@@ -3,7 +3,8 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
-import edu.wpi.cs3733.c20.teamS.PathDisplay;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -16,7 +17,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,45 +31,58 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
-        private Stage stage;
-        public EditScreenController(Stage stage) {
-            this.stage  = stage;
-        }
+    private Stage stage;
+    private Employee loggedIn;
 
-        int current_floor = 2;
-        String newFloor;
-        private MapZoomer zoomer;
-        Image floor1 = new Image("images/Floors/HospitalFloor1.png");
-        Image floor2 = new Image("images/Floors/HospitalFloor2.png");
-        Image floor3 = new Image("images/Floors/HospitalFloor3.png");
-        Image floor4 = new Image("images/Floors/HospitalFloor4.png");
-        Image floor5 = new Image("images/Floors/HospitalFloor5.png");
-        @FXML JFXRadioButton addNodeRadio;
-        @FXML JFXRadioButton removeNodeRadio;
-        @FXML JFXRadioButton addEdgeRadio;
-        @FXML JFXRadioButton removeEdgeRadio;
+    /**
+     *
+     * @param stage the stage to take over
+     * @param employee the employee that logged in
+     */
+    public EditScreenController(Stage stage, Employee employee) {
+        this.stage  = stage;
+        this.loggedIn = employee;
+    }
 
-        @FXML private ImageView mapImage;
+    int current_floor = 2;
+    String newFloor;
+    private MapZoomer zoomer;
+    Image floor1 = new Image("images/Floors/HospitalFloor1.png");
+    Image floor2 = new Image("images/Floors/HospitalFloor2.png");
+    Image floor3 = new Image("images/Floors/HospitalFloor3.png");
+    Image floor4 = new Image("images/Floors/HospitalFloor4.png");
+    Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+    @FXML JFXRadioButton addNodeRadio;
+    @FXML JFXRadioButton removeNodeRadio;
+    @FXML JFXRadioButton addEdgeRadio;
+    @FXML JFXRadioButton removeEdgeRadio;
 
-        @FXML private ScrollPane scrollPane;
+    @FXML private ImageView mapImage;
 
-        @FXML private JFXButton floorButton1;
-        @FXML private JFXButton floorButton2;
-        @FXML private JFXButton floorButton3;
-        @FXML private JFXButton floorButton4;
-        @FXML private JFXButton floorButton5;
+    @FXML private ScrollPane scrollPane;
+
+    @FXML private JFXButton floorButton1;
+    @FXML private JFXButton floorButton2;
+    @FXML private JFXButton floorButton3;
+    @FXML private JFXButton floorButton4;
+    @FXML private JFXButton floorButton5;
+
+    @FXML private JFXButton serviceRequestOptionsButton;
+    @FXML private JFXButton activeServiceRequestButtons;
+
     @FXML
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
 
 
-        @FXML private JFXButton cancelEditsButton;
-        @FXML private JFXButton confirmEditButton;
+    @FXML private JFXButton cancelEditsButton;
+    @FXML private JFXButton confirmEditButton;
 
-        public JFXButton getFloorButton2() {return floorButton2;}
 
-        public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
+    public JFXButton getFloorButton2() {return floorButton2;}
+
+    public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -271,9 +284,14 @@ public class EditScreenController implements Initializable {
         return floorButton2;
     }
 
+    @FXML
+    void openServiceOptionPopup(ActionEvent event){
+        SelectServiceScreen.showDialog(loggedIn);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
+
     }
 
     public void drawNodesEdges() {
@@ -347,7 +365,7 @@ public class EditScreenController implements Initializable {
         addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
-        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
+        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
 
         scrollPane.setContent(group);
     }
