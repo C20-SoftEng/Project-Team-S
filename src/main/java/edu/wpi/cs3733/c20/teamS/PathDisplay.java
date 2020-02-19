@@ -48,7 +48,8 @@ public class PathDisplay {
             Set<NodeData> nd = dbc.getAllNodes();
 
             Set<EdgeData> ed = dbc.getAllEdges();
-            MutableGraph<NodeData> graph = GraphBuilder.undirected().build();
+            MutableGraph<NodeData> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+            graph.allowsSelfLoops();
 
             for(NodeData data: nd) {
                 if(data.getNodeID().equals(startNode.getNodeID())) {startNode = data;}
