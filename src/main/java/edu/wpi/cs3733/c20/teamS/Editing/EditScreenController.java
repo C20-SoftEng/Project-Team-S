@@ -3,13 +3,15 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +31,9 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -470,7 +474,23 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML
-    void onActiveServiceClicked(ActionEvent event) {
+    void onActiveServiceClicked() {
+            ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
+            DatabaseController dbc = new DatabaseController();
+            Set<ServiceData> dbData = dbc.getAllServiceRequestData();
+            for(ServiceData sd : dbData){
+                //System.out.println(sd.getStatus());
+                if(!(sd.getStatus().equals("COMPLETE"))){
+                    setOfActives.add(sd);
+                    System.out.println(sd.toString());
+                }
+
+
+            }
+        //System.out.println("Is this printing");
+        ActiveServiceRequestScreen.showDialog(setOfActives);
+
+        //ActiveServiceRequestScreen ASRS = new ActiveServiceRequestScreen(stage, setOfActives);
 
     }
 }

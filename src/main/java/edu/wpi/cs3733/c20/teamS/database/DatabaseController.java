@@ -119,7 +119,7 @@ public class DatabaseController implements DBRepo{
                          "serviceType varchar(4)," +
                          "status varchar(50)," +
                          "message varchar(2056)," +
-                         "data varchar(9001)," +
+                         "data varchar(2056)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
                          "location varchar(1024))");
@@ -504,7 +504,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    Set<ServiceData> getAllServiceRequestData(){
+    public Set<ServiceData> getAllServiceRequestData(){
         Statement stm = null;
         try{
             stm = connection.createStatement();
@@ -599,6 +599,7 @@ public class DatabaseController implements DBRepo{
             stm.setString(5,sd.getServiceNode());
             stm.setInt(6,sd.getServiceID());
             stm.executeUpdate();
+            System.out.println("Updated");
 
         }catch(java.sql.SQLException e){
             System.out.println(e.getMessage());
