@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 public class SelectServiceController {
     private Stage stage;
     private Employee loggedIn;
@@ -86,6 +88,14 @@ public class SelectServiceController {
 
         LastRitesRequestScreen.showDialog(loggedIn).subscribe();
 
+        this.stage.close();
+    }
+
+    @FXML void onFloristClicked(ActionEvent event){
+        Stage floristStage = new Stage();
+        floristStage.initModality(Modality.WINDOW_MODAL);
+
+        FloristRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
 
