@@ -18,22 +18,26 @@
    <children>
       <GridPane layoutX="6.0" prefHeight="405.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="98.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="95.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="209.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="210.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="67.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="71.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="69.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="96.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="71.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="71.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="72.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="83.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="180.0" minHeight="10.0" percentHeight="12.0" prefHeight="90.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="158.0" minHeight="10.0" percentHeight="15.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="174.0" minHeight="0.0" percentHeight="15.0" prefHeight="66.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="188.0" minHeight="10.0" percentHeight="15.0" prefHeight="64.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="146.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="109.0" minHeight="10.0" percentHeight="15.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="109.0" minHeight="10.0" percentHeight="15.0" prefHeight="87.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXTextField fx:id="riderNameField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <JFXTextField fx:id="riderNameField" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -41,36 +45,36 @@
                   <Font size="24.0" />
                </font>
             </JFXTextField>
-            <Label text="Rider Name: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Label fx:id="riderNameLabel" text="Rider Name: " GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Pickup time: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <Label text="Pickup time: " GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Destination: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Label text="Destination: " GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
             </Label>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="2">
                <children>
                   <DateTimePicker fx:id="pickupTimePicker" layoutX="114.0" layoutY="30.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
-            <JFXTextField fx:id="destinationField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <JFXTextField fx:id="destinationField" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -78,12 +82,12 @@
                   <Font size="24.0" />
                </font>
             </JFXTextField>
-            <Label text="Ride Request" GridPane.columnSpan="4" GridPane.halignment="CENTER">
+            <Label text="Ride Request" GridPane.columnSpan="8" GridPane.halignment="CENTER">
                <font>
                   <Font size="48.0" />
                </font>
             </Label>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#onLyftClicked" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#onLyftClicked" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <graphic>
                   <ImageView fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -92,38 +96,47 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton onAction="#onFriendClicked" text="Friend" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <JFXButton onAction="#onFriendClicked" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="6">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/bestFriends.jpg" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </JFXButton>
-            <JFXButton onAction="#onShuttleClicked" text="Shuttle" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <JFXButton onAction="#onShuttleClicked" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/shuttle.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </JFXButton>
-            <Label fx:id="rideKindLabel" text="Ride Kind" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="6">
                <children>
-                  <JFXButton defaultButton="true" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" text="OK" textFill="#00c8a0">
+                  <JFXButton buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;" text="OK" textFill="#00c8a0">
                      <HBox.margin>
                         <Insets left="14.0" right="14.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="36.0" />
+                        <Font size="24.0" />
                      </font>
                   </JFXButton>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <children>
-                  <JFXButton cancelButton="true" onAction="#onCancelClicked" text="Cancel" textFill="RED">
+                  <JFXButton buttonType="RAISED" cancelButton="true" onAction="#onCancelClicked" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000000;" text="Cancel" textFill="RED">
                      <font>
-                        <Font size="36.0" />
+                        <Font size="24.0" />
                      </font>
                      <opaqueInsets>
                         <Insets left="14.0" right="14.0" />
@@ -131,6 +144,59 @@
                   </JFXButton>
                </children>
             </HBox>
+            <JFXButton onAction="#onHeliClicked" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/heli.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton onAction="#onCopCarClicked" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/copCar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton onAction="#onAmbulanceClicked" text=" " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/ambulance.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Ride Kind:" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="14.0" />
+               </GridPane.margin>
+            </Label>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="5" GridPane.rowIndex="4" GridPane.rowSpan="2">
+               <children>
+                  <ImageView fx:id="rideKindImageView" fitHeight="100.0" fitWidth="300.0" layoutX="107.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="107.0" AnchorPane.rightAnchor="107.42857360839844" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/lyft-large.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
    </children>
