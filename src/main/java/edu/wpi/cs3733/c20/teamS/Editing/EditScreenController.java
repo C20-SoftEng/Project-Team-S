@@ -69,6 +69,8 @@ public class EditScreenController implements Initializable {
         @FXML private JFXButton cancelEditsButton;
         @FXML private JFXButton confirmEditButton;
 
+        NodeData nodeInfo;
+
         public JFXButton getFloorButton2() {return floorButton2;}
 
         public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
@@ -352,7 +354,7 @@ public class EditScreenController implements Initializable {
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
-        viewNodeRadio.setOnAction(e -> tester.getInfo(mapImage, current_floor));
+        viewNodeRadio.setOnAction(e -> tester.getInfo(nodeInfo));
 
         scrollPane.setContent(group);
 

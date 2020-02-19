@@ -53,7 +53,6 @@ public class MapEditingTasks {
         counter++;
     }
 
-
     public void drawNodes() {
         group.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -92,7 +91,6 @@ public class MapEditingTasks {
         });
     }
 
-
     Scene scene;
     public void showInfo() {
         Stage stage = new Stage();
@@ -116,38 +114,6 @@ public class MapEditingTasks {
         stage.setScene(scene);
         stage.showAndWait();
 
-    }
-
-    public void getInfo() {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/viewNodeInfo.fxml"));
-        //loader.setControllerFactory(c -> {
-        //    this.ui = new MapEditController();
-        //    return this.ui;
-        //});
-
-        floor.setText(node.getFloor());
-        //data.getEdgeID()
-        building;
-        nodetype;
-        longname;
-        shortname;
-
-        try {
-            Parent root = loader.load();
-            this.scene = new Scene(root);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        result.set(0);
-        ui.getCancel().setOnAction(e -> {result.set(1); stage.close(); });
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Viewing Node Data");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
     }
 
     public void removeNodes(ImageView imageView, int current_floor) {
@@ -372,7 +338,34 @@ public class MapEditingTasks {
         dbc.rollBack();
     }
 
-    public void getInfo(ImageView imageView, int current_floor){
-        getInfo();
+    public void getInfo(NodeData node) {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/viewNodeInfo.fxml"));
+        //loader.setControllerFactory(c -> {
+        //    this.ui = new MapEditController();
+        //    return this.ui;
+        //});
+
+        floor.setText(String.valueOf((node.getFloor())));
+        building.setText(node.getBuilding());
+        nodetype.setText(node.getNodeType());
+        longname.setText(node.getLongName());
+        shortname.setText(node.getShortName());
+
+        try {
+            Parent root = loader.load();
+            this.scene = new Scene(root);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        result.set(0);
+        ui.getCancel().setOnAction(e -> {result.set(1); stage.close(); });
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Viewing Node Data");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.showAndWait();
     }
 }
