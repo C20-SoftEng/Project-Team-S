@@ -381,6 +381,22 @@
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
                         </VBox>
+                        <ScrollPane maxHeight="400.0" maxWidth="200.0" minWidth="200.0" StackPane.alignment="TOP_LEFT">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                           <content>
+                              <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="400.0" maxWidth="200.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ccc; -fx-border-color: black;">
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
                      </children></StackPane>
                </children>
             </VBox>

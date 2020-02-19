@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -71,6 +72,10 @@ public class mainScreenController implements Initializable {
     private JFXButton swapButton;
     @FXML
     private Label location1;
+    @FXML
+    private VBox parentVBox;
+
+
     @FXML
     private Label location2;
     private String start = "Start Location";
@@ -333,6 +338,7 @@ public class mainScreenController implements Initializable {
         double currentVval = scrollPane.getVvalue();
         drawNodesEdges();
         keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
 
     @FXML
