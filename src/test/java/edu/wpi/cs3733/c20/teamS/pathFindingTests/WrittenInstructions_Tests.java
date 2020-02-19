@@ -50,11 +50,10 @@ public class WrittenInstructions_Tests {
         WrittenInstructions wi = new WrittenInstructions(pathtest1);
 
       LinkedList<String> realInstructions = new LinkedList<>();
-        realInstructions.add("Go Straight For 5FT OR 2M");
-        realInstructions.add("Go Straight For 16FT OR 5M");
-        realInstructions.add("Turn Left In 5FT OR 2M");
-        realInstructions.add("Turn Right In 11FT OR 3M");
-        realInstructions.add("Turn Right In 13FT OR 4M");
+        realInstructions.add("Go Straight For 27FT OR 8M Turn Left ");
+        realInstructions.add("Go Straight For 11FT OR 3M Turn Right ");
+        realInstructions.add("Go Straight For 13FT OR 4M Turn Right ");
+
 
 
         assertEquals(realInstructions, wi.directions());

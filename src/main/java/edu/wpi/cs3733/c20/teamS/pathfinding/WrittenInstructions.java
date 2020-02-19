@@ -21,8 +21,7 @@ public class WrittenInstructions {
     LinkedList<NodeData> path;
     LinkedList<String> instructions = new LinkedList<>();
 
-    Double savingDistanceM;
-    Double savingDistanceFT;
+    int savingDistance=0;
 
     public WrittenInstructions(LinkedList<NodeData> path) {
         this.path = path;
@@ -34,25 +33,20 @@ public class WrittenInstructions {
             for (int i = 0; i < path.size() - 2; i++) {
 
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
-                    instructions.add(("Turn Right In " + Math.round(distance(path.get(i),
-                            path.get(i + 1)) * ftRatio) + "FT OR " +
-                            Math.round(distance(path.get(i), path.get(i + 1)) * mRatio) + "M"));
-                    //System.out.println("Turn Right");
+                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
+                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
+                            "M " + "Turn Right "));
+                    savingDistance = 0;
                 }
-
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
-                    instructions.add(("Turn Left In " + Math.round(distance(path.get(i),
-                            path.get(i + 1)) * ftRatio) + "FT OR " +
-                            Math.round(distance(path.get(i), path.get(i + 1)) * mRatio) + "M"));
-                    //System.out.println("Turn Left");
+                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
+                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+ "M " + "Turn Left "));
+                    savingDistance = 0;
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
-                    instructions.add(("Go Straight For " + Math.round(distance(path.get(i),
-                            path.get(i + 1)) * ftRatio) + "FT OR " +
-                            Math.round(distance(path.get(i), path.get(i + 1)) * mRatio) + "M"));
-                    //System.out.println("Go straight");
+                    savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
                 if (i == path.size() - 2) {
-                    return instructions;
+                    return (instructions);
                 }
             }
         }
@@ -62,7 +56,6 @@ public class WrittenInstructions {
 
 
     public static double distance(NodeData nodeOne, NodeData nodeTwo) {
-        //return Math.sqrt(Math.pow((nodeOne.x()-nodeTwo.x()),2)+ Math.pow((nodeOne.y()-nodeTwo.y()),2));
         return Math.sqrt(Math.pow((nodeOne.x() - nodeTwo.x()), 2) + Math.pow((nodeOne.y() - nodeTwo.y()), 2));
 
 
@@ -71,8 +64,6 @@ public class WrittenInstructions {
 
     //point A,point B, point P
     static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
-        // subtracting co-ordinates of point A
-        // from B and P, to make A as origin
 
         Point A = new Point((int) NodeA.x(), (int) NodeA.y());
         Point B = new Point((int) NodeB.x(), (int) NodeB.y());
