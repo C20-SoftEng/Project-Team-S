@@ -7,7 +7,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
 import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import com.opencsv.CSVReader;
+
 
 import javax.xml.soap.Node;
 import java.io.*;
@@ -550,6 +550,7 @@ public class DatabaseController implements DBRepo{
             addStm.close();
         }catch(SQLException e){
             System.out.println("Failed to add service Request");
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
