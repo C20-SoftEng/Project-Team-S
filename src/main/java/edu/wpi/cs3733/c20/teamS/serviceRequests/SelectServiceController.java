@@ -41,6 +41,14 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+    @FXML void onMaintenanceClicked(ActionEvent event){
+        Stage maintenanceStage = new Stage();
+        maintenanceStage.initModality(Modality.WINDOW_MODAL);
+
+        MaintenanceServiceRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+  
     @FXML void onSecurityClicked(ActionEvent event) {
         Stage security = new Stage();
         security.initModality(Modality.WINDOW_MODAL);
