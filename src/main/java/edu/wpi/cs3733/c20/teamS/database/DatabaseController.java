@@ -1,5 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
+
+import javax.xml.crypto.Data;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
@@ -7,9 +14,6 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
 import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-
-//import javax.xml.soap.Node;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -145,8 +149,8 @@ public class DatabaseController implements DBRepo{
     private static void createEdgeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EDGES(" +
                         "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
-                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
-                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
+                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID) ON DELETE CASCADE," +
+                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID) ON DELETE CASCADE)");
         System.out.println("Created Table Edges");
     }
     private static void createNodesTable(Statement stm) throws SQLException {

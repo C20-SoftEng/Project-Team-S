@@ -1,20 +1,19 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.SecurityServiceScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ServiceTechRequestScreen;
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.LaundryRequestScreen;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class SelectServiceController {
     private Stage stage;
@@ -35,6 +34,7 @@ public class SelectServiceController {
     @FXML    private JFXButton serviceTechService;
     @FXML    private JFXButton dogButton;
 
+
     @FXML void onDrugClicked(ActionEvent event){
         Stage drugStage = new Stage();
         drugStage.initModality(Modality.WINDOW_MODAL);
@@ -42,7 +42,22 @@ public class SelectServiceController {
         DrugRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
+    @FXML void onInterpreterClicked(ActionEvent event){
+        Stage interpreterStage = new Stage();
+        interpreterStage.initModality(Modality.WINDOW_MODAL);
 
+        InterpreterRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
+    @FXML void onMaintenanceClicked(ActionEvent event){
+        Stage maintenanceStage = new Stage();
+        maintenanceStage.initModality(Modality.WINDOW_MODAL);
+
+        MaintenanceServiceRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+  
     @FXML void onSecurityClicked(ActionEvent event) {
         Stage security = new Stage();
         security.initModality(Modality.WINDOW_MODAL);
@@ -64,6 +79,23 @@ public class SelectServiceController {
 
         LaundryRequestScreen.showDialog(loggedIn).subscribe();
 
+        this.stage.close();
+    }
+
+    @FXML void onLastRitesClicked(ActionEvent event){
+        Stage lastRitesStage = new Stage();
+        lastRitesStage.initModality(Modality.WINDOW_MODAL);
+
+        LastRitesRequestScreen.showDialog(loggedIn).subscribe();
+
+        this.stage.close();
+    }
+
+    @FXML void onFloristClicked(ActionEvent event){
+        Stage floristStage = new Stage();
+        floristStage.initModality(Modality.WINDOW_MODAL);
+
+        FloristRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
 

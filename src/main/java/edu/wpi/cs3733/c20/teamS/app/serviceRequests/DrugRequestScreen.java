@@ -5,7 +5,6 @@ import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +29,7 @@ public final class DrugRequestScreen {
             DrugRequestController controller = new DrugRequestController(loggedIn);
             controller.dialogCompleted().subscribe(
                     next -> {
-                        if(next.result() == DialogResult.OK){
+                            if(next.result() == DialogResult.OK){
                             //Do database
                         }
                         this.stage.close();
