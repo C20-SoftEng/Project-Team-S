@@ -3,9 +3,9 @@
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -286,11 +286,7 @@
                <children>
                   <HBox prefHeight="73.0" prefWidth="1025.0">
                      <children>
-                        <JFXTextField id="searchBar" prefHeight="75.0" prefWidth="537.0" promptText="Search" style="-fx-background-color: #FFFFFF;">
-                           <font>
-                              <Font name="Leelawadee UI Bold" size="24.0" />
-                           </font>
-                        </JFXTextField>
+                        <ComboBox fx:id="searchComboBox" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="592.0" promptText="Search" />
                         <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Select Start Location" textAlignment="CENTER" wrapText="true">
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
