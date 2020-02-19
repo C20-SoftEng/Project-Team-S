@@ -4,31 +4,68 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class mainScreenController implements Initializable {
+
+    private Stage stage;
+    private IPathfinding algorithm;
+
+    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
+        this.algorithm = pathAlgorithm;
+        this.stage = mainStage;
+        tester2 = new PathDisplay(group2, this.algorithm);
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
+
+        initSearchComboBoxFont();
+        initSearchComboBoxAutoComplete();
+    }
+
+    private void initSearchComboBoxFont() {
+        String fontFamily = searchComboBox.getEditor().getFont().getFamily();
+        Font font = new Font(fontFamily, 18);
+        searchComboBox.getEditor().setFont(font);
+    }
+    private void initSearchComboBoxAutoComplete() {
+        DatabaseController db = new DatabaseController();
+        Set<NodeData> nodes = db.getAllNodes();
+        List<String> dictionary = nodes.stream()
+                .map(node -> node.getLongName() + ", " + node.getNodeID())
+                .collect(Collectors.toList());
+        AutoComplete.start(dictionary, searchComboBox);
+    }
+
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
@@ -38,7 +75,11 @@ public class mainScreenController implements Initializable {
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
     Group group2 = new Group();
-    PathDisplay tester2 = new PathDisplay(group2);
+    PathDisplay tester2;
+
+    private boolean flip = true;
+
+    //@FXML JFXButton elevatorButton;
 
     @FXML
     private ImageView mapImage;
@@ -58,7 +99,18 @@ public class mainScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
-
+    @FXML
+    private JFXButton pathfindButton;
+    @FXML
+    private JFXButton swapButton;
+    @FXML
+    private Label location1;
+    @FXML
+    private Label location2;
+    @FXML
+    private ComboBox<String> searchComboBox;
+    private String start = "Start Location";
+    private String end = "End Location";
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -212,17 +264,20 @@ public class mainScreenController implements Initializable {
         set1();
         mapImage.setImage(floor1);
         current_floor = 1;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked2(ActionEvent event) {
+        //location1.setText(start);
+        //location2.setText(end);
         set2();
         current_floor = 2;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -230,12 +285,12 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked3(ActionEvent event) {
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
+        this.zoomer.zoomSet();
         upButton.setDisable(false);
         downButton.setDisable(false);
         if (tester2.getCounter() >= 2) {
@@ -244,12 +299,12 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked4(ActionEvent event) {
         set4();
         mapImage.setImage(floor4);
         current_floor = 4;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -257,12 +312,12 @@ public class mainScreenController implements Initializable {
 
     }
 
-
     @FXML
     void onFloorClicked5(ActionEvent event) {
         set5();
         mapImage.setImage(floor5);
         current_floor = 5;
+        this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
             tester2.pathDraw(current_floor);
         }
@@ -271,23 +326,44 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onHelpClicked(ActionEvent event) {
-    }
-
-    @FXML
-    void onStaffClicked(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Login to the System");
+            window.setTitle("Help");
             window.setScene(new Scene(root1));
             window.setResizable(false);
             window.show();
         } catch (Exception e) {
             System.out.println("Can't load new window");
         }
+    }
 
+    @FXML
+    void onStaffClicked(ActionEvent event) {
+        LoginScreen.showDialog(this.stage);
+    }
+
+    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
+        zoomer.zoomSet();
+        scrollPane.setHvalue(Hval);
+        scrollPane.setVvalue(Vval);
+    }
+
+    @FXML
+    void onPathfindClicked(ActionEvent event) {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
+        drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+    }
+
+    @FXML
+    void onSwapButtonPressed(ActionEvent event) {
+        String temp = location2.getText();
+        location2.setText(location1.getText());
+        location1.setText(temp);
     }
 
     @FXML
@@ -297,19 +373,13 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
-        Node content = scrollPane.getContent();
+        //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
     }
 
     public JFXButton getFloor2() {
         return floorButton2;
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
-    }
-
 
     public void drawNodesEdges() {
 
@@ -321,7 +391,7 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(mapImage);
 
-        PathDisplay tester = new PathDisplay(group);
+        PathDisplay tester = new PathDisplay(group, this.algorithm);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
@@ -347,8 +417,6 @@ public class mainScreenController implements Initializable {
 
         for (EdgeData data : ed) {
             if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                String start = data.getStartNode();
-                String end = data.getEndNode();
                 int startX = 0;
                 int startY = 0;
                 int endX = 0;
@@ -385,19 +453,13 @@ public class mainScreenController implements Initializable {
             }
         }
 
-        Button pf = new Button();
-        pf.setText("Pathfind");
-        pf.setTranslateX(600);
-        pf.setTranslateY(600);
-        pf.setPrefWidth(100);
-        pf.setPrefHeight(100);
-        pf.setOnAction(e -> tester2.pathDraw(current_floor));
+        tester2.pathDraw(current_floor);
 
-        group.getChildren().add(pf);
         group.getChildren().add(group2);
 
-        for (NodeData data : nd) {
-            if(data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
+       /*Set<NodeData> ball = dbc.getAllNodesOfType("ELEV");
+
+        for (NodeData data : ball) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/elevator.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -405,19 +467,22 @@ public class mainScreenController implements Initializable {
                 elev.setPreserveRatio(true);
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
-            }
+        }
 
-            if(data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
-                ImageView elev = new ImageView();
-                elev.setImage(new Image("images/Balloons/bathroom.png"));
-                elev.setX(data.getxCoordinate() - 20);
-                elev.setY(data.getyCoordinate() - 40);
-                elev.setPreserveRatio(true);
-                elev.setFitWidth(40);
-                group.getChildren().add(elev);
-            }
+        ball = dbc.getAllNodesOfType("REST");
 
-            if(data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
+           for(NodeData data : ball) {
+               ImageView elev = new ImageView();
+               elev.setImage(new Image("images/Balloons/bathroom.png"));
+               elev.setX(data.getxCoordinate() - 20);
+               elev.setY(data.getyCoordinate() - 40);
+               elev.setPreserveRatio(true);
+               elev.setFitWidth(40);
+               group.getChildren().add(elev);
+           }
+
+        ball = dbc.getAllNodesOfType("STAI");
+          for(NodeData data: ball) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/staris.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -425,9 +490,8 @@ public class mainScreenController implements Initializable {
                 elev.setPreserveRatio(true);
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
-            }
+            }*/
 
-        }
 
         scrollPane.setContent(group);
     }
@@ -439,13 +503,20 @@ public class mainScreenController implements Initializable {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        for(NodeData temp : nd) {
-            if(temp.getFloor() == current_floor) {
+        for (NodeData temp : nd) {
+            if (temp.getFloor() == current_floor) {
                 if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
                     distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
                     nearest = temp;
                 }
             }
+        }
+        if (flip) {
+            location1.setText(nearest.getLongName());
+            flip = false;
+        } else if (!flip) {
+            location2.setText(nearest.getLongName());
+            flip = true;
         }
         return nearest;
     }

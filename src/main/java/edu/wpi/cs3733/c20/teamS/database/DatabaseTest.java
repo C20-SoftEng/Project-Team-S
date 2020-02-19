@@ -27,6 +27,11 @@ public class DatabaseTest extends Application {
             System.out.println(nd.toString());
         }
 
+        Set<NodeData> returnedSet2 = dbCont.getAllNodesOfType("ELEV");
+        for(NodeData nd: returnedSet2){
+            System.out.println(nd.toString());
+        }
+
         NodeData gotNode = dbCont.getNode("Hi");
         System.out.println(gotNode.toString());
         dbCont.addEdge(new EdgeData("EdgeNamee","Hi","No"));

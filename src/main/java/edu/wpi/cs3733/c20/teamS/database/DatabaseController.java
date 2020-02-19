@@ -1,5 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
+
+import javax.xml.crypto.Data;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
@@ -7,9 +14,6 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
 import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-
-import javax.xml.soap.Node;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -119,10 +123,10 @@ public class DatabaseController implements DBRepo{
                          "serviceType varchar(4)," +
                          "status varchar(50)," +
                          "message varchar(2056)," +
-                         "data varchar(9001)," +
+                         "data varchar(2056)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
-                         "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
+                         "location varchar(1024))");
         System.out.println("Created Table SERVICES");
     }
     private static void createServiceableTable(Statement stm) throws SQLException {
@@ -145,8 +149,8 @@ public class DatabaseController implements DBRepo{
     private static void createEdgeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EDGES(" +
                         "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
-                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
-                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
+                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID) ON DELETE CASCADE," +
+                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID) ON DELETE CASCADE)");
         System.out.println("Created Table Edges");
     }
     private static void createNodesTable(Statement stm) throws SQLException {
@@ -219,6 +223,39 @@ public class DatabaseController implements DBRepo{
         }
         return nodeSet;
     }
+
+    public Set<NodeData> getAllNodesOfType(String type){
+        PreparedStatement stm = null;
+        String allNodeString = "SELECT * FROM Nodes WHERE NODETYPE = ?";
+        System.out.println("Getting nodes of type: " + type);
+        try{
+            stm = connection.prepareStatement(allNodeString);
+            stm.setString(1,type);
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        ResultSet rset = null;
+        Set<NodeData> nodeSet = new HashSet<>();
+        try {
+            rset = stm.executeQuery();
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+            throw new RuntimeException(state);
+        }
+        nodeSet = parseNodeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return nodeSet;
+    }
+
+
     //Tested
     private Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
@@ -471,7 +508,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    Set<ServiceData> getAllServiceRequestData(){
+    public Set<ServiceData> getAllServiceRequestData(){
         Statement stm = null;
         try{
             stm = connection.createStatement();
@@ -554,7 +591,7 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    void updateServiceData(ServiceData sd){
+    public void updateServiceData(ServiceData sd){
         String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, DATA = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -566,13 +603,14 @@ public class DatabaseController implements DBRepo{
             stm.setString(5,sd.getServiceNode());
             stm.setInt(6,sd.getServiceID());
             stm.executeUpdate();
+            System.out.println("Updated");
 
         }catch(java.sql.SQLException e){
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
-    void deleteServiceWithId(int id){
+    public void deleteServiceWithId(int id){
         String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{

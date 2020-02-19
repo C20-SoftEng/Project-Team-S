@@ -3,9 +3,9 @@
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -47,6 +47,9 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </JFXButton>
                         <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
@@ -115,6 +118,9 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
                   </VBox>
@@ -166,7 +172,7 @@
                   </JFXBadge>
                   <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="50.0" prefWidth="53.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
+                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
@@ -236,12 +242,12 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton id="elevatorButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Elevator" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton id="elevatorButton" fx:id="elevatorButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Elevator" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="74.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="elevatorButton" fitHeight="74.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Elevator_Icon.png" />
                            </image>
@@ -278,80 +284,43 @@
          <center>
             <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #bfbdba;" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: #FFFFFF;">
-                     <font>
-                        <Font name="Leelawadee UI Bold" size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="5.0" />
-                     </VBox.margin>
-                  </JFXTextField>
+                  <HBox prefHeight="73.0" prefWidth="1025.0">
+                     <children>
+                        <ComboBox fx:id="searchComboBox" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="592.0" promptText="Search" />
+                        <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" prefHeight="62.0" prefWidth="131.0" text="Select Start Location" textAlignment="CENTER" wrapText="true">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin></Label>
+                        <JFXButton fx:id="swapButton" buttonType="RAISED" onAction="#onSwapButtonPressed" text=" " translateY="13.0">
+                           <graphic>
+                              <ImageView id="swapButton" fx:id="onSwapButton" fitHeight="33.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/swap_arrows.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="127.0" text="Select End Location" textAlignment="CENTER" wrapText="true">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin></Label>
+                        <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#onPathfindClicked" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></JFXButton>
+                     </children>
+                  </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox disable="true" maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
-                           <children>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" text="Departments" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Food" textFill="#a12b2b" textOverrun="CLIP" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Retail" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="48.0" prefWidth="119.0" text="Conference" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Services" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
                         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #bfbdba;" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
                            <content>

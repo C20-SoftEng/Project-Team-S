@@ -3,9 +3,10 @@ package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +31,18 @@ public final class DrugRequestScreen {
             DrugRequestController controller = new DrugRequestController(loggedIn);
             controller.dialogCompleted().subscribe(
                     next -> {
-                        if(next.result() == DialogResult.OK){
-                            //Do database
+                            if(next.result() == DialogResult.OK){
+                                DatabaseController dbc = new DatabaseController();
+                                String serviceType = "DRUG";
+                                String status = "Incomplete";
+                                String message = next.value().message();
+                                String data = "";
+                                int assignedEmployeeID = next.value().assignee().id();
+                                String serviceNode = next.value().location();
+                                int dummyID = 0;
+
+                                ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+                                dbc.addServiceRequestData(sd);
                         }
                         this.stage.close();
                     }
