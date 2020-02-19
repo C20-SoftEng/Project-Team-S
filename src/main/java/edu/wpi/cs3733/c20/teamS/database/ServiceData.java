@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c20.teamS.database;
 
 import java.sql.Date;
 
-class ServiceData{
+public class ServiceData{
     private int serviceID;
     private String serviceType;
     private String status;
