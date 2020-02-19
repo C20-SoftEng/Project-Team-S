@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.GiftServiceRequest;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,6 +33,19 @@ public class GiftRequestController {
     @FXML
     private Label serviceName;
 
+
+    @FXML void onCancelClicked(ActionEvent event){
+        dialogCompleted_.onNext(DialogEvent.cancel());
+    }
+
+    @FXML void onOKClicked(){
+        //request.setGiftType(giftRequestField.getText());
+        request.setLocation(locationField.getText());
+        request.setMessage(giftRequestField.getText());
+        request.assignTo(loggedIn);
+
+        dialogCompleted_.onNext(DialogEvent.ok(request));
+    }
 
     public GiftRequestController(Employee employee) {this.loggedIn = employee;}
 

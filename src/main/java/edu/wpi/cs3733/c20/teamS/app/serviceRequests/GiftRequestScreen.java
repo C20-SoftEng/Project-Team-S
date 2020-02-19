@@ -4,6 +4,8 @@ import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestController;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.GiftRequestController;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.GiftServiceRequest;
@@ -33,6 +35,8 @@ public final class GiftRequestScreen {
                     next -> {
                         if(next.result() == DialogResult.OK){
                             //Do database
+                            DatabaseController dbc = new DatabaseController();
+                            dbc.addServiceRequestData(new ServiceData("GIFT","INCOMPLETE",next.value().gift(),"",next.value().assignee().id(),next.value().location()));
                         }
                         this.stage.close();
                     }
