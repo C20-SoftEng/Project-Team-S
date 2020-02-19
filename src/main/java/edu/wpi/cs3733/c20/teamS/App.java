@@ -23,7 +23,7 @@ public class App extends Application {
     Employee tom = new Employee(1, "Tom");
     Employee patrickStar = new Employee(2,"PatrickStar");
     testServiceRequest.assignTo(tom);
-    testServiceRequest.assignTo(patrickStar);
+    testServiceRequest2.assignTo(patrickStar);
     testServiceRequest.setMessage("Kobe is on helicopter");
     testServiceRequest2.setMessage("Where is SpongeBob");
     testServiceRequest.setLocation("Morgue");

@@ -26,7 +26,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <JFXButton fx:id="Complete_Button" buttonType="RAISED" layoutX="264.0" layoutY="389.0" onMouseClicked="#onCompleteClicked" style="-fx-border-color: gainsboro;" text="Complete" AnchorPane.bottomAnchor="30.0" />
+      <JFXButton fx:id="completeButton" buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onCompleteClicked" style="-fx-border-color: gainsboro;" text="Complete" AnchorPane.bottomAnchor="30.0" />
       <Label fx:id="Screen_Title" layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="        Active Services" />
    </children>
 </AnchorPane>

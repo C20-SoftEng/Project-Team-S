@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class ActiveServiceRequestScreenController {
     @FXML
-    private JFXButton Completed_Button;
+    private JFXButton completeButton;
 
     @FXML
     private TableView<ServiceRequest> serviceRequestTable;
@@ -103,7 +103,13 @@ public class ActiveServiceRequestScreenController {
         serviceRequestTable.getColumns().setAll(serviceIDCol, assignedEmployeeCol, statusCol, messageCol, locationCol);
     }
 
-    public void onCompleteClicked(){
-
+    /**
+     * Remove all selected ServiceRequest upon clicking the Complete button
+     */
+    @FXML void onCompleteClicked(){
+        ObservableList<ServiceRequest> selected = this.serviceRequestTable.getSelectionModel().getSelectedItems();
+        for(ServiceRequest service : selected){
+            this.activeRequests.remove(service);
+        }
     }
 }
