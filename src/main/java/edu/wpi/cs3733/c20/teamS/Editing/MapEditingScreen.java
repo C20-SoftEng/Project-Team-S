@@ -41,6 +41,7 @@ public class MapEditingScreen {
         this.show();
         stage.setFullScreen(true);
     }
+
     public void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
