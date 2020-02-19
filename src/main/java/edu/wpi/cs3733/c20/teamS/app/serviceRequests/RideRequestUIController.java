@@ -9,6 +9,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import tornadofx.control.DateTimePicker;
 
 import java.net.URL;
@@ -30,24 +32,29 @@ public final class RideRequestUIController implements Initializable {
         }
         private void setCurrent(RideKind value) {
             current = value;
+            riderNameLabel.setText(value.riderTitle());
             switch (current) {
                 case FRIEND:
-                case LYFT:
-                case SHUTTLE:
-                    riderNameLabel.setText("Rider Name:");
+                    rideKindImageView.setImage(friendLargeIcon);
                     break;
-                case AMBULANCE:
+                case LYFT:
+                    rideKindImageView.setImage(lyftLargeIcon);
+                    break;
                 case HELICOPTER:
-                    riderNameLabel.setText("Patient Name:");
+                    rideKindImageView.setImage(heliLargeIcon);
                     break;
                 case COP_CAR:
-                    riderNameLabel.setText("Suspect Name:");
+                    rideKindImageView.setImage(copCarLargeIcon);
+                    break;
+                case AMBULANCE:
+                    rideKindImageView.setImage(ambulanceLargeIcon);
+                    break;
+                case SHUTTLE:
+                    rideKindImageView.setImage(shuttleLargeIcon);
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected RideKind value in switch statement.");
+                    throw new IllegalStateException("Unexpected RideKind in Switch statement.");
             }
-
-            RideRequestUIController.this.rideKindLabel.setText(current.toString());
         }
         public void setLyftRide() {
             setCurrent(RideKind.LYFT);
@@ -74,8 +81,14 @@ public final class RideRequestUIController implements Initializable {
     @FXML private JFXTextField riderNameField;
     @FXML private DateTimePicker pickupTimePicker;
     @FXML private JFXTextField destinationField;
-    @FXML private Label rideKindLabel;
+    @FXML private ImageView rideKindImageView;
 
+    private final Image friendLargeIcon = new Image("images/Icons/serviceRequests/bestFriends-large.jpm.jpg");
+    private final Image lyftLargeIcon = new Image("images/Icons/serviceRequests/lyft-large.png");
+    private final Image heliLargeIcon = new Image("images/Icons/serviceRequests/helicopter-large.png");
+    private final Image copCarLargeIcon = new Image("images/Icons/serviceRequests/handcuffs-large.png");
+    private final Image shuttleLargeIcon = new Image("images/Icons/serviceRequests/shuttle-large.png");
+    private final Image ambulanceLargeIcon = new Image("images/Icons/serviceRequests/ambulance-large.png");
 
     @FXML private void onLyftClicked() {
         rideKindSelector.setLyftRide();
