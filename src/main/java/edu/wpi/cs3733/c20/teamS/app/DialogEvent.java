@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.app;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 public final class DialogEvent<T> {
     private final DialogResult result_;
@@ -19,9 +19,11 @@ public final class DialogEvent<T> {
     }
 
     public static <T> DialogEvent<T> ok(T value) {
-        throw new NotImplementedException();
+        if (value == null) ThrowHelper.illegalNull("value");
+
+        return new DialogEvent<>(DialogResult.OK, value);
     }
     public static <T> DialogEvent<T> cancel() {
-        throw new NotImplementedException();
+        return new DialogEvent<>(DialogResult.CANCEL, null);
     }
 }

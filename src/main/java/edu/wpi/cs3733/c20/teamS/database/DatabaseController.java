@@ -5,8 +5,17 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
+import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+
+//import javax.xml.soap.Node;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
@@ -110,9 +119,10 @@ public class DatabaseController implements DBRepo{
                          "serviceType varchar(4)," +
                          "status varchar(50)," +
                          "message varchar(2056)," +
+                         "data varchar(9001)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
-                         "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
+                         "location varchar(1024))");
         System.out.println("Created Table SERVICES");
     }
     private static void createServiceableTable(Statement stm) throws SQLException {
@@ -135,8 +145,8 @@ public class DatabaseController implements DBRepo{
     private static void createEdgeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EDGES(" +
                         "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
-                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
-                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
+                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID) ON DELETE CASCADE," +
+                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID) ON DELETE CASCADE)");
         System.out.println("Created Table Edges");
     }
     private static void createNodesTable(Statement stm) throws SQLException {
@@ -170,6 +180,7 @@ public class DatabaseController implements DBRepo{
         }
         catch (SQLException e) {
             System.out.println("Failed to insert into nodes");
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -208,6 +219,39 @@ public class DatabaseController implements DBRepo{
         }
         return nodeSet;
     }
+
+    public Set<NodeData> getAllNodesOfType(String type){
+        PreparedStatement stm = null;
+        String allNodeString = "SELECT * FROM Nodes WHERE NODETYPE = ?";
+        System.out.println("Getting nodes of type: " + type);
+        try{
+            stm = connection.prepareStatement(allNodeString);
+            stm.setString(1,type);
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        ResultSet rset = null;
+        Set<NodeData> nodeSet = new HashSet<>();
+        try {
+            rset = stm.executeQuery();
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+            throw new RuntimeException(state);
+        }
+        nodeSet = parseNodeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return nodeSet;
+    }
+
+
     //Tested
     private Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
@@ -327,21 +371,44 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
-        String path = getClass().getResource("/data/allnodes.csv").toString();
-        path = path.substring(6);
-        System.out.println("Getting Nodes from: " + path);
-        importData("NODES", path, true);
+//        String path = getClass().getResource("/data/allnodes.csv").toString();
+//        System.out.println("Path: " + path);
+//        path = path.substring(5);
+//        System.out.println("Getting Nodes from: " + path);
+//        importData("NODES", path, true);
+
+        importNodes();
+
+//        URL resource = getClass().getResource("/data/allnodes.csv");
+//        try{
+//            System.out.println("URL PATH: " + resource.toURI().toString());
+//        }catch(URISyntaxException e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//        String path = resource.getPath();
+//        path = path.substring(5);
+//        //Path path = Paths.get(URI.create(resource.toString()));
+//        System.out.println("PATHS GET: " + path);
+//        importData("NODES", path, true);
 
 
-        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
-        edgePath = edgePath.substring(6);
-        System.out.println("Getting Edges from: " + edgePath);
-        importData("EDGES", edgePath, true);
 
-        String empPath = getClass().getResource("/data/employees.csv").toString();
-        empPath = empPath.substring(6);
-        System.out.println("Getting Employees from: " + empPath);
-        importData("EMPLOYEES", empPath, true);
+//        String edgePath = getClass().getResource("/data/allEdges.csv").toString();
+//        edgePath = edgePath.substring(5);
+//        System.out.println("Getting Edges from: " + edgePath);
+//        importData("EDGES", edgePath, true);
+
+        importEdges();
+
+//        String empPath = getClass().getResource("/data/employees.csv").toString();
+//        empPath = empPath.substring(5);
+//        System.out.println("Getting Employees from: " + empPath);
+//        importData("EMPLOYEES", empPath, true);
+
+        importEmployees();
+
+        System.out.println("Successfully imported Startup Data (Probably?)");
     }
     //tested, unable to export then import from exprted because of headers
     public int exportData(String toTable, String filePath){
@@ -468,6 +535,7 @@ public class DatabaseController implements DBRepo{
         String serviceType;
         String status;
         String message;
+        String data;
         int assignedEmployee;
         Date dateCreated;
         String locationNode;
@@ -478,11 +546,12 @@ public class DatabaseController implements DBRepo{
                 serviceType = rset.getString("serviceType");
                 status = rset.getString("STATUS");
                 message = rset.getString("message");
+                data =rset.getString("DATA");
                 assignedEmployee = rset.getInt("ASSIGNEDEMPLOYEE");
                 dateCreated = rset.getDate("timecreated");
                 locationNode = rset.getString("Location");
 
-                serviceSet.add(new ServiceData(serviceID,serviceType,status,message,assignedEmployee,dateCreated,locationNode));
+                serviceSet.add(new ServiceData(serviceID,serviceType,status,message,data,assignedEmployee,dateCreated,locationNode));
             }
 
         } catch (java.sql.SQLException rsetFailure) {
@@ -498,34 +567,37 @@ public class DatabaseController implements DBRepo{
     //Tested
     //  Package-private. Public method should take a ServiceRequest, and use the
     //  visitor pattern to save the correct concrete service-request type.
-    void addServiceRequestData(ServiceData sd) {
-        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?)";
+    public void addServiceRequestData(ServiceData sd) {
+        String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, DATA, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);
             Date currentDate = new Date(Instant.now().toEpochMilli());
             addStm.setString(1,sd.getServiceType());
             addStm.setString(2,sd.getStatus());
             addStm.setString(3,sd.getMessage());
-            addStm.setInt(4,sd.getAssignedEmployeeID());
-            addStm.setDate(5,currentDate);
-            addStm.setString(6,sd.getServiceNode());
+            addStm.setString(4,sd.getData());
+            addStm.setInt(5,sd.getAssignedEmployeeID());
+            addStm.setDate(6,currentDate);
+            addStm.setString(7,sd.getServiceNode());
             addStm.execute();
             addStm.close();
         }catch(SQLException e){
             System.out.println("Failed to add service Request");
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
-    void updateServiceData(ServiceData sd){
-        String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
+    public void updateServiceData(ServiceData sd){
+        String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, DATA = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
             stm = connection.prepareStatement(updateStr);
             stm.setString(1,sd.getStatus());
             stm.setString(2,sd.getMessage());
-            stm.setInt(3,sd.getAssignedEmployeeID());
-            stm.setString(4,sd.getServiceNode());
-            stm.setInt(5,sd.getServiceID());
+            stm.setString(3,sd.getData());
+            stm.setInt(4,sd.getAssignedEmployeeID());
+            stm.setString(5,sd.getServiceNode());
+            stm.setInt(6,sd.getServiceID());
             stm.executeUpdate();
 
         }catch(java.sql.SQLException e){
@@ -533,7 +605,7 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    void deleteServiceWithId(int id){
+    public void deleteServiceWithId(int id){
         String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -546,8 +618,6 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-
-
 
 
     public void removeNode(String nodeID) {
@@ -651,5 +721,91 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
+
+
+    public void importNodes(){
+        try{
+            System.out.println("Importing Nodes...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    NodeData node = new NodeData(lineArray[0],Double.parseDouble(lineArray[1]),Double.parseDouble(lineArray[2]),Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6],lineArray[7]);
+                    System.out.println(node.toString());
+                    addNode(node);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    public void importEdges(){
+        try{
+            System.out.println("Importing Edges...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    EdgeData edge = new EdgeData(lineArray[0],lineArray[1],lineArray[2]);
+                    System.out.println(edge.toString());
+                    addEdge(edge);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void importEmployees(){
+        try{
+            System.out.println("Importing Employees...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/employees.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5]);
+                    System.out.println(emp.toString());
+                    addEmployee(emp);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            System.out.println(f.getMessage());
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
 }

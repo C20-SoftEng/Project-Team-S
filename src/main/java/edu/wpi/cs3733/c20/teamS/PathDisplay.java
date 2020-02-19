@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -37,6 +38,7 @@ public class PathDisplay {
     }
 
     public void pathDraw(int currentFloor) {
+        int first = 1;
         String cf = "0" + currentFloor;
         group.getChildren().remove(groupPath);
         groupPath.getChildren().clear();
@@ -65,8 +67,8 @@ public class PathDisplay {
                 if(start != null && end != null && !sameFloor) {
                     graph.putEdge(start, end);
                 }
-                else if(start != null && end != null) {
-                    if(start.getNodeType() != "ELEV" && end.getNodeType() != "ELEV") {
+                else if(start != null && end != null && sameFloor) {
+                    if(!(start.getNodeType().equals("ELEV")) && !(end.getNodeType().equals("ELEV"))) {
                         graph.putEdge(start, end);
                     }
                 }
@@ -106,6 +108,23 @@ public class PathDisplay {
                         line1.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
                         line1.setStrokeWidth(10);
                         groupPath.getChildren().add(line1);
+                        if(first == 1) {
+                            if(startNode.getFloor() == currentFloor) {
+                            Circle circle = new Circle (startNode.getxCoordinate(),startNode.getyCoordinate(),15);
+                            circle.setFill(Color.RED);
+                            groupPath.getChildren().add(circle);}
+
+                            if(endNode.getFloor() == currentFloor && !(endNode.getNodeType().equals("ELEV")) && !(endNode.getNodeType().equals("REST")) && !(endNode.getNodeType().equals("STAI"))) {
+                                ImageView pinIcon = new ImageView();
+                                pinIcon.setImage(new Image("images/Icons/pin.png"));
+                                pinIcon.setX(endNode.getxCoordinate() - 20);
+                                pinIcon.setY(endNode.getyCoordinate() - 60);
+                                pinIcon.setPreserveRatio(true);
+                                pinIcon.setFitWidth(40);
+                                groupPath.getChildren().add(pinIcon);
+                            }
+                            first = 2;
+                        }
                     }
                 }
             }

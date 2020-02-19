@@ -27,6 +27,11 @@ public class DatabaseTest extends Application {
             System.out.println(nd.toString());
         }
 
+        Set<NodeData> returnedSet2 = dbCont.getAllNodesOfType("ELEV");
+        for(NodeData nd: returnedSet2){
+            System.out.println(nd.toString());
+        }
+
         NodeData gotNode = dbCont.getNode("Hi");
         System.out.println(gotNode.toString());
         dbCont.addEdge(new EdgeData("EdgeNamee","Hi","No"));
@@ -37,12 +42,15 @@ public class DatabaseTest extends Application {
         }
 
 
-        dbCont.addServiceRequestData(new ServiceData("YEET","Big yeets only", "Hello there",9000,"Hi"));
-        dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi",9001,"No"));
+        dbCont.addServiceRequestData(new ServiceData("YEET","Big yeets only", "Hello there", "Daterr",1,"Hi"));
+        dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi", "I barely know her",2,"No"));
         dbCont.commit();
 
-        dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",9000,"Hi"));
-        dbCont.deleteServiceWithId(1);
+        dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",2,"Hi"));
+
+        dbCont.commit();
+        //dbCont.deleteServiceWithId(1);
+        dbCont.commit();
 
         dbCont.rollBack();
 
