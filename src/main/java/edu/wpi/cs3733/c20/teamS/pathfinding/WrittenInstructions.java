@@ -2,7 +2,8 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import com.google.common.graph.MutableGraph;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import edu.wpi.cs3733.c20.teamS.NodeData;
+
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.Node;
 
 import java.awt.*;
@@ -56,7 +57,7 @@ public class WrittenInstructions {
 
 
     public static double distance(NodeData nodeOne, NodeData nodeTwo) {
-        return Math.sqrt(Math.pow((nodeOne.x() - nodeTwo.x()), 2) + Math.pow((nodeOne.y() - nodeTwo.y()), 2));
+        return sqrt(pow((nodeOne.getxCoordinate() - nodeTwo.getxCoordinate()), 2) + pow((nodeOne.getyCoordinate() - nodeTwo.getyCoordinate()), 2));
 
 
     }
@@ -65,9 +66,9 @@ public class WrittenInstructions {
     //point A,point B, point P
     static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
 
-        Point A = new Point((int) NodeA.x(), (int) NodeA.y());
-        Point B = new Point((int) NodeB.x(), (int) NodeB.y());
-        Point P = new Point((int) NodeP.x(), (int) NodeP.y());
+        Point A = new Point((int) NodeA.getxCoordinate(), (int) NodeA.getyCoordinate());
+        Point B = new Point((int) NodeB.getxCoordinate(), (int) NodeB.getyCoordinate());
+        Point P = new Point((int) NodeP.getxCoordinate(), (int) NodeP.getyCoordinate());
 
         B.x -= A.x;
         B.y -= A.y;
