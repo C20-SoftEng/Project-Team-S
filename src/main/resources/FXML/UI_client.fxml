@@ -242,12 +242,12 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton id="elevatorButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Elevator" wrapText="true" VBox.vgrow="SOMETIMES">
+                  <JFXButton id="elevatorButton" fx:id="elevatorButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Elevator" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="74.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="elevatorButton" fitHeight="74.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Elevator_Icon.png" />
                            </image>
@@ -325,70 +325,6 @@
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox disable="true" maxHeight="110.0" maxWidth="135.0" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="110.0" prefWidth="135.0" StackPane.alignment="TOP_LEFT">
-                           <children>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" text="Departments" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Food" textFill="#a12b2b" textOverrun="CLIP" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Retail" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="1.7976931348623157E308" prefHeight="48.0" prefWidth="119.0" text="Conference" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" text="Services" textFill="#a12b2b" wrapText="true">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Colors/color.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
                         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #bfbdba;" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
                            <content>

@@ -45,6 +45,8 @@ public class mainScreenController implements Initializable {
 
     private boolean flip = true;
 
+    //@FXML JFXButton elevatorButton;
+
     @FXML
     private ImageView mapImage;
     @FXML
@@ -319,9 +321,18 @@ public class mainScreenController implements Initializable {
 
     }
 
+    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
+        zoomer.zoomSet();
+        scrollPane.setHvalue(Hval);
+        scrollPane.setVvalue(Vval);
+    }
+
     @FXML
     void onPathfindClicked(ActionEvent event) {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
         drawNodesEdges();
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     @FXML
@@ -427,8 +438,9 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(group2);
 
-        for (NodeData data : nd) {
-            if (data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
+       /*Set<NodeData> ball = dbc.getAllNodesOfType("ELEV");
+
+        for (NodeData data : ball) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/elevator.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -436,19 +448,22 @@ public class mainScreenController implements Initializable {
                 elev.setPreserveRatio(true);
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
-            }
+        }
 
-            if (data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
-                ImageView elev = new ImageView();
-                elev.setImage(new Image("images/Balloons/bathroom.png"));
-                elev.setX(data.getxCoordinate() - 20);
-                elev.setY(data.getyCoordinate() - 40);
-                elev.setPreserveRatio(true);
-                elev.setFitWidth(40);
-                group.getChildren().add(elev);
-            }
+        ball = dbc.getAllNodesOfType("REST");
 
-            if (data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
+           for(NodeData data : ball) {
+               ImageView elev = new ImageView();
+               elev.setImage(new Image("images/Balloons/bathroom.png"));
+               elev.setX(data.getxCoordinate() - 20);
+               elev.setY(data.getyCoordinate() - 40);
+               elev.setPreserveRatio(true);
+               elev.setFitWidth(40);
+               group.getChildren().add(elev);
+           }
+
+        ball = dbc.getAllNodesOfType("STAI");
+          for(NodeData data: ball) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/staris.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -456,8 +471,8 @@ public class mainScreenController implements Initializable {
                 elev.setPreserveRatio(true);
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
-            }
-        }
+            }*/
+
 
         scrollPane.setContent(group);
     }
