@@ -36,10 +36,7 @@ import java.util.Set;
 public class EditScreenController implements Initializable {
         private MoveNodes moveNode = new MoveNodes();
         private Stage stage;
-        public EditScreenController(Stage stage, Employee employee) {
-            this.stage  = stage;
-            this.loggedIn = employee;
-        }
+
 
     private Employee loggedIn;
 
