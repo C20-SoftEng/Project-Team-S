@@ -15,7 +15,7 @@
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="111.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
+      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="55.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
          <font>
             <Font size="13.0" />
          </font>
@@ -23,7 +23,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXTextField>
-      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="55.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
+      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="111.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
          <font>
             <Font size="13.0" />
          </font>
