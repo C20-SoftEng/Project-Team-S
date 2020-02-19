@@ -124,6 +124,7 @@ public class EditScreenController implements Initializable {
         showInfoRadio.selectedProperty().set(false);
     }
 
+
     @FXML
     void onUpClicked(ActionEvent event) {
         current_floor += 1;
@@ -284,6 +285,18 @@ public class EditScreenController implements Initializable {
 
     @FXML
     void onHelpClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Help");
+            window.setScene(new Scene(root1));
+            window.setResizable(false);
+            window.show();
+        } catch (Exception e) {
+            System.out.println("Can't load new window");
+        }
     }
 
     @FXML
