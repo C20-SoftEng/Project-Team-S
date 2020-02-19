@@ -6,14 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.JanitorServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceRequest;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.ServiceVisitor;
-import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,9 +25,27 @@ public class DatabaseController implements DBRepo{
      */
     static {
         createDatabase();
+
         dropExistingTables();
 
         /////////////////////CREATE TABLES/////////////////////////////
+        createTables();
+    }
+    public DatabaseController() {}
+
+    public static void createTables(){
+
+        File dumbFile = new File("dumbFile.txt");
+
+        if(dumbFile.exists()){
+            System.out.println("File Found");
+            return;
+
+        }else{
+            System.out.println("File Not found...importing Data");
+
+        }
+
         try {
             Statement stm = connection.createStatement();
 
@@ -50,7 +60,6 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    public DatabaseController() {}
 
     private static void createDatabase() {
         try {
@@ -70,6 +79,18 @@ public class DatabaseController implements DBRepo{
         }
     }
     private static void dropExistingTables() {
+        File dumbFile = new File("dumbFile.txt");
+
+            if(dumbFile.exists()){
+                System.out.println("File Found");
+                return;
+
+            }else{
+                System.out.println("File Not found...importing Data");
+
+            }
+
+
         try{
             Statement stm = connection.createStatement();
             stm.execute("Drop table EDGES");
@@ -375,6 +396,20 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
+        File dumbFile = new File("dumbFile.txt");
+
+            if(dumbFile.exists()){
+                System.out.println("File Found...Not importing Data");
+
+                return;
+
+            }else{
+                System.out.println("File Not Found");
+
+            }
+
+
+
 
         importNodes();
 
@@ -385,6 +420,12 @@ public class DatabaseController implements DBRepo{
         importEmployees();
 
 
+        File dumbAgainFile = new File("dumbFile.txt");
+        try {
+            dumbAgainFile.createNewFile();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
         System.out.println("Successfully imported Startup Data (Probably?)");
     }
     //tested, unable to export then import from exprted because of headers
