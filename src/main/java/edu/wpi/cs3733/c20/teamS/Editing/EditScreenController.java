@@ -30,13 +30,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -50,6 +48,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
+
     private MoveNodes moveNode = new MoveNodes();
     private Stage stage;
     private boolean btwn = false;
@@ -99,6 +98,11 @@ public class EditScreenController implements Initializable {
     JFXRadioButton moveNodeRadio;
     @FXML
     JFXRadioButton showInfoRadio;
+
+    @FXML private VBox editPrivilegeBox;
+
+    @FXML
+    Label loggedInUserLabel;
 
     @FXML
     private ImageView mapImage;
@@ -380,6 +384,15 @@ public class EditScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
+
+        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
+
+        if(loggedIn.accessLevel() == AccessLevel.ADMIN){
+            editPrivilegeBox.setVisible(true);
+        }
+        else{
+            editPrivilegeBox.setVisible(false);
+        }
     }
 
     public void drawNodesEdges() {

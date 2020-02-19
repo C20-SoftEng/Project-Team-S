@@ -133,6 +133,14 @@
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </JFXButton>
+                  <Label fx:id="loggedInUserLabel" text="Welcome" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
                   <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -170,7 +178,7 @@
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
                   </Label>
-                  <VBox prefWidth="100.0" style="-fx-background-color: gainsboro;">
+                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
                      <children>
                         <JFXRadioButton fx:id="addNodeRadio" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
