@@ -28,6 +28,9 @@ public class ActiveServiceRequestScreenController {
     private TableView<ServiceData> serviceRequestTable;
 
     @FXML
+    private JFXButton cancelButton;
+
+    @FXML
     private TableColumn<ServiceData, Integer> serviceIDCol;
 
     @FXML
@@ -128,10 +131,18 @@ public class ActiveServiceRequestScreenController {
         ObservableList<ServiceData> selected = this.serviceRequestTable.getSelectionModel().getSelectedItems();
         DatabaseController dbc = new DatabaseController();
         for(ServiceData service : selected){
-            dbc.updateServiceData(new ServiceData(service.getServiceID(),service.getServiceType(),"COMPLETE",service.getMessage(),service.getData(),service.getAssignedEmployeeID(),service.getServiceNode()));
+//            dbc.updateServiceData(new ServiceData(service.getServiceID(),service.getServiceType(),"COMPLETE",service.getMessage(),service.getData(),service.getAssignedEmployeeID(),service.getServiceNode()));
+//            dbc.commit();
+            dbc.deleteServiceWithId(service.getServiceID());
             dbc.commit();
             this.activeRequests.remove(service);
 
         }
     }
+
+    @FXML void onCancelClicked(){
+        Stage toClose = (Stage)cancelButton.getScene().getWindow();
+        toClose.close();
+    }
+
 }

@@ -115,6 +115,13 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+    @FXML void onGiftClicked(ActionEvent event){
+        Stage janitorStage = new Stage();
+        janitorStage.initModality(Modality.WINDOW_MODAL);
+        GiftRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
 
     @FXML void onDogClicked(ActionEvent event){
         Stage dogStage = new Stage();

@@ -21,10 +21,12 @@ public class InterpreterRequestScreen {
     private final Stage stage;
     private final Scene scene;
     private final PublishSubject<DialogEvent<InterpreterServiceRequest>> subject;
+    private Employee loggedIn;
 
     public InterpreterRequestScreen(Employee loggedIn){
         this.stage = new Stage();
         subject = PublishSubject.create();
+        this.loggedIn = loggedIn;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/InterpreterServiceDialog.fxml"));
         loader.setControllerFactory(c -> {

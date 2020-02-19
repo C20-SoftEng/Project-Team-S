@@ -28,7 +28,7 @@ public final class GiftRequestScreen {
         this.stage = new Stage();
         subject = PublishSubject.create();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/GiftServiceDialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/GiftDialogScreen.fxml"));
         loader.setControllerFactory(c -> {
             GiftRequestController controller = new GiftRequestController(loggedIn);
             controller.dialogCompleted().subscribe(
