@@ -32,6 +32,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class mainScreenController implements Initializable {
+
+    private Stage stage;
+
+    public mainScreenController(Stage mainStage){
+        this.stage = mainStage;
+    }
+
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
@@ -304,19 +311,7 @@ public class mainScreenController implements Initializable {
 
     @FXML
     void onStaffClicked(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Login to the System");
-            window.setScene(new Scene(root1));
-            window.setResizable(false);
-            window.show();
-        } catch (Exception e) {
-            System.out.println("Can't load new window");
-        }
-
+        LoginScreen.showDialog(this.stage);
     }
 
     @FXML
