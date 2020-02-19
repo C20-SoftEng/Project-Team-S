@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -345,9 +346,9 @@ public class MapEditingTasks {
                 circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
                 if(data.getNodeType().equals("ELEV")) {
                     circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
-                circle1.setOnMouseClicked(e -> moveNode.setNodeID(data.getNodeID()));
                 circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, moveNode.getOnMousePressedEventHandler());
                 circle1.addEventFilter(MouseEvent.MOUSE_DRAGGED, moveNode.getOnMouseDraggedEventHandler());
+                circle1.addEventFilter(MouseEvent.MOUSE_RELEASED, moveNode.getOnMouseDragReleasedEventHandler());
                 group.getChildren().add(circle1);
             }
         }

@@ -21,8 +21,6 @@ class MoveNodes {
     private Group group;
     private Double scale;
 
-    private String nodeID;
-
     public MoveNodes() {}
 
     public void setGroup(Group group) {
@@ -33,16 +31,16 @@ class MoveNodes {
         this.scale = scale;
     }
 
-    public void setNodeID(String nodeID) {
-        this.nodeID = nodeID;
-    }
-
     public EventHandler<MouseEvent> getOnMousePressedEventHandler() {
         return onMousePressedEventHandler;
     }
 
     public EventHandler<MouseEvent> getOnMouseDraggedEventHandler() {
         return onMouseDraggedEventHandler;
+    }
+
+    public EventHandler<MouseEvent> getOnMouseDragReleasedEventHandler() {
+        return onMouseDragReleasedEventHandler;
     }
 
     private EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
@@ -76,24 +74,37 @@ class MoveNodes {
             node.setTranslateX(moveX + (( event.getSceneX() - mouseX) / scale));
             node.setTranslateY(moveY + (( event.getSceneY() - mouseY) / scale));
 
-            DatabaseController dbc = new DatabaseController();
-            Set<NodeData> nd = dbc.getAllNodes();
-            NodeData temp = new NodeData();
-            for(NodeData data : nd) {
-                if(data.getNodeID().equals(nodeID)) {
-                    System.out.println(nodeID);
-                    dbc.removeNode(nodeID);
-                    temp.setNodeID(data.getNodeID());
-                }
-            }
-
-            temp.setxCoordinate(1000);
-            temp.setyCoordinate(1000);
-            dbc.addNode(temp);
-
-
             event.consume();
 
         }
     };
+
+    private EventHandler<MouseEvent> onMouseDragReleasedEventHandler = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent event) {
+            NodeData data = findNearestNode(event.getX(), event.getY());
+            DatabaseController dbc = new DatabaseController();
+            dbc.removeNode(data.getNodeID());
+            data.setxCoordinate(data.getxCoordinate() + (moveX + (( event.getSceneX() - mouseX) / scale)));
+            data.setyCoordinate(data.getyCoordinate() + (moveY + (( event.getSceneY() - mouseY) / scale)));
+            dbc.addNode(data);
+        }
+    };
+
+    private NodeData findNearestNode(double x, double y) {
+        NodeData nearest = new NodeData();
+        double distance = 200;
+
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodes();
+
+        for(NodeData temp : nd) {
+            if(temp.getFloor() == 2) {
+                if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
+                    distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
+                    nearest = temp;
+                }
+            }
+        }
+        return nearest;
+    }
 }
