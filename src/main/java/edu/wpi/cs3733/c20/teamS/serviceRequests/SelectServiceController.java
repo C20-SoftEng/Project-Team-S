@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.SecurityServiceScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
@@ -38,6 +39,15 @@ public class SelectServiceController {
 
         DrugRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
+    }
+
+    @FXML void onSecurityClicked(ActionEvent event) {
+        Stage security = new Stage();
+        security.initModality(Modality.WINDOW_MODAL);
+
+        SecurityServiceScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+
     }
 
     @FXML void onDogClicked(ActionEvent event){
