@@ -170,21 +170,41 @@
                            <toggleGroup>
                               <ToggleGroup fx:id="editGroup" />
                            </toggleGroup>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </JFXRadioButton>
                         <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </JFXRadioButton>
                         <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </JFXRadioButton>
                         <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="viewNodeRadio" text="View Node " toggleGroup="$editGroup">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0">
                            <children>

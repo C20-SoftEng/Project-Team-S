@@ -4,17 +4,20 @@ import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +32,16 @@ public class MapEditingTasks {
     private NodeData endNode;
     MapEditController ui;
     Group group;
+    @FXML
+    private Label floor;
+    @FXML
+    private Label building;
+    @FXML
+    private Label nodetype;
+    @FXML
+    private Label longname;
+    @FXML
+    private Label shortname;
 
     public MapEditingTasks(Group group) {
         this.group = group;
@@ -79,6 +92,7 @@ public class MapEditingTasks {
         });
     }
 
+
     Scene scene;
     public void showInfo() {
         Stage stage = new Stage();
@@ -102,6 +116,38 @@ public class MapEditingTasks {
         stage.setScene(scene);
         stage.showAndWait();
 
+    }
+
+    public void getInfo() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/viewNodeInfo.fxml"));
+        //loader.setControllerFactory(c -> {
+        //    this.ui = new MapEditController();
+        //    return this.ui;
+        //});
+
+        floor.setText(node.getFloor());
+        //data.getEdgeID()
+        building;
+        nodetype;
+        longname;
+        shortname;
+
+        try {
+            Parent root = loader.load();
+            this.scene = new Scene(root);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        result.set(0);
+        ui.getCancel().setOnAction(e -> {result.set(1); stage.close(); });
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Viewing Node Data");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.showAndWait();
     }
 
     public void removeNodes(ImageView imageView, int current_floor) {
@@ -324,5 +370,9 @@ public class MapEditingTasks {
     public void cancelChanges() {
         DatabaseController dbc = new DatabaseController();
         dbc.rollBack();
+    }
+
+    public void getInfo(ImageView imageView, int current_floor){
+        getInfo();
     }
 }

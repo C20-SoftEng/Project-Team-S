@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +38,6 @@ public class EditScreenController implements Initializable {
         }
 
         int current_floor = 2;
-        String newFloor;
         private MapZoomer zoomer;
         Image floor1 = new Image("images/Floors/HospitalFloor1.png");
         Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -48,6 +48,7 @@ public class EditScreenController implements Initializable {
         @FXML JFXRadioButton removeNodeRadio;
         @FXML JFXRadioButton addEdgeRadio;
         @FXML JFXRadioButton removeEdgeRadio;
+    @FXML JFXRadioButton viewNodeRadio;
 
         @FXML private ImageView mapImage;
 
@@ -62,6 +63,7 @@ public class EditScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
+
 
 
         @FXML private JFXButton cancelEditsButton;
@@ -271,6 +273,8 @@ public class EditScreenController implements Initializable {
         return floorButton2;
     }
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
@@ -348,7 +352,11 @@ public class EditScreenController implements Initializable {
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage);});
+        viewNodeRadio.setOnAction(e -> tester.getInfo(mapImage, current_floor));
 
         scrollPane.setContent(group);
-    }
+
 }
+    }
+
+
