@@ -2,14 +2,18 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -24,11 +28,13 @@ public class PathDisplay {
     private NodeData endNode;
     Group groupPath = new Group();
     Group group;
+    VBox parentVBox;
 
     public int getCounter() {return counter;}
 
-    public PathDisplay(Group group) {
+    public PathDisplay(Group group, VBox parentVBox) {
         this.group = group;
+        this.parentVBox = parentVBox;
     }
 
     public void setNode(NodeData data) {
@@ -75,6 +81,20 @@ public class PathDisplay {
             }
             A_Star please = new A_Star();
             ArrayList<NodeData> work = please.findPath(graph, startNode, endNode);
+            WrittenInstructions directions = new WrittenInstructions(work);
+            ArrayList<String> words = directions.directions();
+            System.out.println(words.size());
+            int offset = 20;
+            for(String direct : words) {
+                JFXTextField text = new JFXTextField();
+                text.setText(direct);
+
+                text.setTranslateY(offset);
+                offset += 20;
+                parentVBox.getChildren().add(text);
+               // System.out.println(direct);
+            }
+
             for(int i = 0; i < work.size() - 1; i++) {
                 EdgeData data = new EdgeData(work.get(i).getNodeID() + "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
                 if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {
@@ -128,6 +148,7 @@ public class PathDisplay {
                     }
                 }
             }
+
             group.getChildren().add(groupPath);
         }
     }

@@ -186,101 +186,6 @@
                </children>
             </HBox>
          </top>
-         <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Quick Search" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="16.0" />
-                     </font>
-                  </Label>
-                  <JFXButton id="coffeeButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Coffee" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="63.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Icons/Coffee_Icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton id="vendingButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Vending Machine" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Icons/Vending_Machine_Icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton id="foodButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Food Court" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/Icons/Food_Icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton id="informationButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Information Desk" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Icons/Information_Desk_White.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton id="elevatorButton" fx:id="elevatorButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Elevator" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fx:id="elevatorButton" fitHeight="74.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Icons/Elevator_Icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Bathroom" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="84.0" fitWidth="83.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/Icons/Bathroom.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" text="Vending Machine" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Icons/Vending_Machine_Icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </VBox>
-         </right>
          <center>
             <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #bfbdba;" BorderPane.alignment="TOP_LEFT">
                <children>
@@ -320,7 +225,10 @@
                         <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#onPathfindClicked" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></JFXButton>
+                           </cursor>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin></JFXButton>
                      </children>
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
@@ -381,26 +289,21 @@
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
                         </VBox>
-                        <ScrollPane maxHeight="400.0" maxWidth="200.0" minWidth="200.0" StackPane.alignment="TOP_LEFT">
-                           <StackPane.margin>
-                              <Insets />
-                           </StackPane.margin>
-                           <content>
-                              <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="400.0" maxWidth="200.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ccc; -fx-border-color: black;">
-                                 <children>
-                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
-                                       <font>
-                                          <Font name="System Bold" size="24.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
                      </children></StackPane>
                </children>
             </VBox>
          </center>
+         <right>
+            <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
