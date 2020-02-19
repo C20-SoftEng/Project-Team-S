@@ -219,6 +219,39 @@ public class DatabaseController implements DBRepo{
         }
         return nodeSet;
     }
+
+    public Set<NodeData> getAllNodesOfType(String type){
+        PreparedStatement stm = null;
+        String allNodeString = "SELECT * FROM Nodes WHERE NODETYPE = ?";
+        System.out.println("Getting nodes of type: " + type);
+        try{
+            stm = connection.prepareStatement(allNodeString);
+            stm.setString(1,type);
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        ResultSet rset = null;
+        Set<NodeData> nodeSet = new HashSet<>();
+        try {
+            rset = stm.executeQuery();
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+            throw new RuntimeException(state);
+        }
+        nodeSet = parseNodeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return nodeSet;
+    }
+
+
     //Tested
     private Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
