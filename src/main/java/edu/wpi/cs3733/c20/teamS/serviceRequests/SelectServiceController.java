@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.LaundryRequestScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
@@ -37,6 +38,14 @@ public class SelectServiceController {
         drugStage.initModality(Modality.WINDOW_MODAL);
 
         DrugRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
+    @FXML void onLaundryClicked(ActionEvent event){
+        Stage laundryStage = new Stage();
+        laundryStage.initModality(Modality.WINDOW_MODAL);
+
+        LaundryRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
 
