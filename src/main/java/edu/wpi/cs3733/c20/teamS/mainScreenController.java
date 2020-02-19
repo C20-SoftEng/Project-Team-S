@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +42,8 @@ public class mainScreenController implements Initializable {
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
     Group group2 = new Group();
     PathDisplay tester2 = new PathDisplay(group2);
+
+    private boolean flip = true;
 
     @FXML
     private ImageView mapImage;
@@ -58,7 +63,16 @@ public class mainScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
-
+    @FXML
+    private JFXButton pathfindButton;
+    @FXML
+    private JFXButton swapButton;
+    @FXML
+    private Label location1;
+    @FXML
+    private Label location2;
+    private String start = "Start Location";
+    private String end = "End Location";
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -219,9 +233,10 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked2(ActionEvent event) {
+        //location1.setText(start);
+        //location2.setText(end);
         set2();
         current_floor = 2;
         this.zoomer.zoomSet();
@@ -231,7 +246,6 @@ public class mainScreenController implements Initializable {
         mapImage.setImage(floor2);
         drawNodesEdges();
     }
-
 
     @FXML
     void onFloorClicked3(ActionEvent event) {
@@ -247,7 +261,6 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
     }
 
-
     @FXML
     void onFloorClicked4(ActionEvent event) {
         set4();
@@ -260,7 +273,6 @@ public class mainScreenController implements Initializable {
         drawNodesEdges();
 
     }
-
 
     @FXML
     void onFloorClicked5(ActionEvent event) {
@@ -296,6 +308,18 @@ public class mainScreenController implements Initializable {
     }
 
     @FXML
+    void onPathfindClicked(ActionEvent event) {
+        drawNodesEdges();
+    }
+
+    @FXML
+    void onSwapButtonPressed(ActionEvent event) {
+        String temp = location2.getText();
+        location2.setText(location1.getText());
+        location1.setText(temp);
+    }
+
+    @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
     }
@@ -314,7 +338,6 @@ public class mainScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
     }
-
 
     public void drawNodesEdges() {
 
@@ -352,8 +375,6 @@ public class mainScreenController implements Initializable {
 
         for (EdgeData data : ed) {
             if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                String start = data.getStartNode();
-                String end = data.getEndNode();
                 int startX = 0;
                 int startY = 0;
                 int endX = 0;
@@ -390,19 +411,12 @@ public class mainScreenController implements Initializable {
             }
         }
 
-        Button pf = new Button();
-        pf.setText("Pathfind");
-        pf.setTranslateX(600);
-        pf.setTranslateY(600);
-        pf.setPrefWidth(100);
-        pf.setPrefHeight(100);
-        pf.setOnAction(e -> tester2.pathDraw(current_floor));
+        tester2.pathDraw(current_floor);
 
-        group.getChildren().add(pf);
         group.getChildren().add(group2);
 
         for (NodeData data : nd) {
-            if(data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("ELEV") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/elevator.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -412,7 +426,7 @@ public class mainScreenController implements Initializable {
                 group.getChildren().add(elev);
             }
 
-            if(data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("REST") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/bathroom.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -422,7 +436,7 @@ public class mainScreenController implements Initializable {
                 group.getChildren().add(elev);
             }
 
-            if(data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
+            if (data.getNodeType().equals("STAI") && data.getFloor() == current_floor) {
                 ImageView elev = new ImageView();
                 elev.setImage(new Image("images/Balloons/staris.png"));
                 elev.setX(data.getxCoordinate() - 20);
@@ -431,7 +445,6 @@ public class mainScreenController implements Initializable {
                 elev.setFitWidth(40);
                 group.getChildren().add(elev);
             }
-
         }
 
         scrollPane.setContent(group);
@@ -444,13 +457,20 @@ public class mainScreenController implements Initializable {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        for(NodeData temp : nd) {
-            if(temp.getFloor() == current_floor) {
+        for (NodeData temp : nd) {
+            if (temp.getFloor() == current_floor) {
                 if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
                     distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
                     nearest = temp;
                 }
             }
+        }
+        if (flip) {
+            location1.setText(nearest.getLongName());
+            flip = false;
+        } else if (!flip) {
+            location2.setText(nearest.getLongName());
+            flip = true;
         }
         return nearest;
     }

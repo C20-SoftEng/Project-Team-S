@@ -106,14 +106,10 @@ public class EditScreenController implements Initializable {
     @FXML
     JFXButton zoomOutButton;
 
-    @FXML
-    private JFXButton cancelEditButton;
-    @FXML
-    private JFXButton confirmEditButton;
+        @FXML private JFXButton cancelEditsButton;
+        @FXML private JFXButton confirmEditButton;
 
-    public JFXButton getFloorButton2() {
-        return floorButton2;
-    }
+        public JFXButton getFloorButton2() {return floorButton2;}
 
     public void onLogOut() {
         mainToLoginScreen back = new mainToLoginScreen(stage);
@@ -359,7 +355,7 @@ public class EditScreenController implements Initializable {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        for (NodeData data : nd) {
+        for(NodeData data : nd) {
             Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
             circle1.setStroke(Color.ORANGE);
             circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
