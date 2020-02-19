@@ -32,7 +32,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="rideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Ride" GridPane.rowIndex="1">
+            <JFXButton fx:id="rideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Ride" GridPane.rowIndex="1" onAction="#onRideClicked">
                <font>
                   <Font size="20.0" />
                </font>

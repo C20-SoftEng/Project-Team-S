@@ -99,6 +99,14 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+    @FXML void onRideClicked(ActionEvent event){
+        Stage rideStage = new Stage();
+        rideStage.initModality(Modality.WINDOW_MODAL);
+
+        RideRequestScreen.showDialog(rideStage, loggedIn).subscribe();
+        this.stage.close();
+    }
+
     @FXML void onJanitorClicked(ActionEvent event){
         Stage janitorStage = new Stage();
         janitorStage.initModality(Modality.WINDOW_MODAL);
