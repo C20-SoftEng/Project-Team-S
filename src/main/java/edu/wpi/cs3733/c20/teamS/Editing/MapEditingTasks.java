@@ -345,6 +345,7 @@ public class MapEditingTasks {
                 circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
                 if(data.getNodeType().equals("ELEV")) {
                     circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
+                circle1.setOnMouseClicked(e -> moveNode.setNodeID(data.getNodeID()));
                 circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, moveNode.getOnMousePressedEventHandler());
                 circle1.addEventFilter(MouseEvent.MOUSE_DRAGGED, moveNode.getOnMouseDraggedEventHandler());
                 group.getChildren().add(circle1);

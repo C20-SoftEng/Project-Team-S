@@ -186,10 +186,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="editGroup1" />
-                           </toggleGroup>
+                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>

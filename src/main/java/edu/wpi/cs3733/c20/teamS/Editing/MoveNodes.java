@@ -1,30 +1,29 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import org.apache.derby.iapi.db.Database;
 
-class DragContext {
-
-    double mouseAnchorX;
-    double mouseAnchorY;
-
-    double translateAnchorX;
-    double translateAnchorY;
-
-}
+import java.util.Set;
 
 class MoveNodes {
 
-    private DragContext nodeDragContext = new DragContext();
+    private double mouseX;
+    private double mouseY;
 
-    Group group;
-    Double scale;
+    private double moveX;
+    private double moveY;
 
-    public MoveNodes() {
+    private Group group;
+    private Double scale;
 
-    }
+    private String nodeID;
+
+    public MoveNodes() {}
 
     public void setGroup(Group group) {
         this.group = group;
@@ -32,6 +31,10 @@ class MoveNodes {
 
     public void setScale(double scale) {
         this.scale = scale;
+    }
+
+    public void setNodeID(String nodeID) {
+        this.nodeID = nodeID;
     }
 
     public EventHandler<MouseEvent> getOnMousePressedEventHandler() {
@@ -50,14 +53,13 @@ class MoveNodes {
             if( !event.isPrimaryButtonDown())
                 return;
 
-            nodeDragContext.mouseAnchorX = event.getSceneX();
-            nodeDragContext.mouseAnchorY = event.getSceneY();
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
 
             Node node = (Node) event.getSource();
 
-            nodeDragContext.translateAnchorX = node.getTranslateX();
-            nodeDragContext.translateAnchorY = node.getTranslateY();
-
+            moveX = node.getTranslateX();
+            moveY = node.getTranslateY();
         }
 
     };
@@ -71,8 +73,24 @@ class MoveNodes {
 
             Node node = (Node) event.getSource();
 
-            node.setTranslateX(nodeDragContext.translateAnchorX + (( event.getSceneX() - nodeDragContext.mouseAnchorX) / scale));
-            node.setTranslateY(nodeDragContext.translateAnchorY + (( event.getSceneY() - nodeDragContext.mouseAnchorY) / scale));
+            node.setTranslateX(moveX + (( event.getSceneX() - mouseX) / scale));
+            node.setTranslateY(moveY + (( event.getSceneY() - mouseY) / scale));
+
+            DatabaseController dbc = new DatabaseController();
+            Set<NodeData> nd = dbc.getAllNodes();
+            NodeData temp = new NodeData();
+            for(NodeData data : nd) {
+                if(data.getNodeID().equals(nodeID)) {
+                    System.out.println(nodeID);
+                    dbc.removeNode(nodeID);
+                    temp.setNodeID(data.getNodeID());
+                }
+            }
+
+            temp.setxCoordinate(1000);
+            temp.setyCoordinate(1000);
+            dbc.addNode(temp);
+
 
             event.consume();
 
