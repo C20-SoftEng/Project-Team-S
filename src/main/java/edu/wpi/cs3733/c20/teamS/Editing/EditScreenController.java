@@ -3,6 +3,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -19,7 +23,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -100,6 +106,8 @@ public class EditScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
+    @FXML
+    private ToggleGroup pathGroup;
 
     @FXML
     JFXButton zoomInButton;
@@ -112,7 +120,19 @@ public class EditScreenController implements Initializable {
         public JFXButton getFloorButton2() {return floorButton2;}
 
     public void onLogOut() {
-        mainToLoginScreen back = new mainToLoginScreen(stage);
+        IPathfinding pathfinder = new A_Star();
+        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
+            case "A*":
+                pathfinder = new A_Star();
+                break;
+            case "BreadthFirst":
+                pathfinder = new BreadthFirst();
+                break;
+            case "DepthFirst":
+                pathfinder = new DepthFirst();
+                break;
+        }
+        mainToLoginScreen back = new mainToLoginScreen(stage, pathfinder);
     }
 
     private void unselectALL() {

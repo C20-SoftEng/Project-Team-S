@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,9 +37,12 @@ import java.util.stream.Collectors;
 public class mainScreenController implements Initializable {
 
     private Stage stage;
+    private IPathfinding algorithm;
 
-    public mainScreenController(Stage mainStage){
+    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
+        this.algorithm = pathAlgorithm;
         this.stage = mainStage;
+        tester2 = new PathDisplay(group2, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,7 +75,7 @@ public class mainScreenController implements Initializable {
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
     Group group2 = new Group();
-    PathDisplay tester2 = new PathDisplay(group2);
+    PathDisplay tester2;
 
     private boolean flip = true;
 
@@ -386,7 +391,7 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(mapImage);
 
-        PathDisplay tester = new PathDisplay(group);
+        PathDisplay tester = new PathDisplay(group, this.algorithm);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
