@@ -5,71 +5,44 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="222.0" maxWidth="433.0" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: #BFBDBB;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
+<AnchorPane maxHeight="222.0" maxWidth="433.0" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
    <children>
-      <GridPane prefHeight="222.0" prefWidth="407.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0" />
-          <ColumnConstraints hgrow="ALWAYS" />
-          <ColumnConstraints hgrow="ALWAYS" percentWidth="20.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
-          <RowConstraints vgrow="ALWAYS" />
-          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
-        </rowConstraints>
-         <children>
-            <Pane prefHeight="182.0" prefWidth="391.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="49.0" layoutY="14.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="TEXT" />
-                     </cursor>
-                  </JFXTextField>
-                  <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="49.0" layoutY="76.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password" />
-                  <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="20.0" layoutY="128.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="165.0" layoutY="128.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <Label fx:id="wrongID" contentDisplay="TOP" layoutX="49.0" layoutY="41.0" prefHeight="22.0" prefWidth="156.0" text="Incorrect User ID" textFill="RED" visible="false">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="wrongPW" contentDisplay="TOP" layoutX="49.0" layoutY="103.0" prefHeight="22.0" prefWidth="156.0" text="Incorrect User Password" textFill="RED" visible="false">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Label>
-               </children>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" color="#6464ff" height="25.0" radius="12.0" spread="0.29" width="25.0" />
-               </effect>
-            </Pane>
-         </children>
-      </GridPane>
+      <Label fx:id="wrongStuff" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textFill="#cd0a0a" visible="false">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="111.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </JFXTextField>
+      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="55.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="38.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="304.0" layoutY="172.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

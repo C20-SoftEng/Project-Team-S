@@ -8,12 +8,12 @@ public final class Employee {
     private final int id_;
     private final AccessLevel accessLevel_;
 
-    public Employee(int id, String name) {
+    public Employee(int id, String name, AccessLevel level) {
         if (name == null) ThrowHelper.illegalNull("name");
 
         this.name_ = name;
         this.id_ = id;
-        this.accessLevel_ = AccessLevel.EMPLOYEE;
+        this.accessLevel_ = level;
     }
 
     public String name() {
