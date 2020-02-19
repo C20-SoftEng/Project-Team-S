@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -39,6 +40,8 @@ public class mainToLoginScreen {
 
         this.show();
         stage.setFullScreen(true);
+
+
     }
     public void show() {
         stage.setScene(scene);

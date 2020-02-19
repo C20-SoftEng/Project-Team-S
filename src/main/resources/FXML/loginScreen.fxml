@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -36,10 +37,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </JFXTextField>
-                  <JFXTextField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="49.0" layoutY="76.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
-                     <cursor>
-                        <Cursor fx:constant="TEXT" />
-                     </cursor></JFXTextField>
+                  <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="49.0" layoutY="76.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password" />
                   <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="20.0" layoutY="128.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
                      <font>
                         <Font size="13.0" />

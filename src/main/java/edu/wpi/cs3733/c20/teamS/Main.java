@@ -15,6 +15,7 @@ public class Main extends Application {
 
     mainToLoginScreen test = new mainToLoginScreen(primaryStage, new A_Star());
     //Employee bogus = new Employee(1, "Jay");
+    Employee bogus = new Employee(1, "Jay");
     //MapEditingScreen test = new MapEditingScreen(primaryStage, bogus);
   }
 
