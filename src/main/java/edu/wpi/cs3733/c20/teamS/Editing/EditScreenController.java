@@ -412,28 +412,37 @@ public class EditScreenController implements Initializable {
         }
 
 
-        moveNodeRadio.setOnAction(e -> {tester.moveNodes(mapImage, current_floor, moveNode); keepCurrentPosition(currentHval, currentVval, zoomer);});
-        showInfoRadio.setOnAction(e -> {tester.showNodeInfo(mapImage, current_floor); keepCurrentPosition(currentHval, currentVval, zoomer);});
-        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
+        moveNodeRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();tester.moveNodes(mapImage, current_floor, moveNode); keepCurrentPosition(currentHval, currentVval, zoomer);});
+        showInfoRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();tester.showNodeInfo(mapImage, current_floor); keepCurrentPosition(currentHval, currentVval, zoomer);});
 
         addNodeRadio.setOnAction(e -> {
-            tester.drawNodes();
+            currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();
+            tester.drawNodes(current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
         });
 
         removeNodeRadio.setOnAction(e -> {
+            currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();
             tester.removeNodes(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 
         });
 
         addEdgeRadio.setOnAction(e -> {
+            currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();
             tester.addEdge(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 
         });
 
         removeEdgeRadio.setOnAction(e -> {
+            currentHval = scrollPane.getHvalue();
+            currentVval = scrollPane.getVvalue();
             tester.removeEdge(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 

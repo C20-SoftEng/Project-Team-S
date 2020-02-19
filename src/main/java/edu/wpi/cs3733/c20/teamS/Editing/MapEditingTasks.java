@@ -41,11 +41,11 @@ public class MapEditingTasks {
     }
 
 
-    public void drawNodes() {
+    public void drawNodes(int current_floor) {
         group.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                showInfo();
+                showInfo(current_floor);
                 if(result.get() == 2) {
                     //popup node info (cancel -> delete circle, ok -> save node)  floor,building,nodetype,longname,shortname
                     Circle circle1 = new Circle(event.getX(), event.getY(), 25);
@@ -80,7 +80,7 @@ public class MapEditingTasks {
     }
 
     Scene scene;
-    public void showInfo() {
+    public void showInfo(int current_floor) {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/mapEdit.fxml"));
         loader.setControllerFactory(c -> {
@@ -98,6 +98,9 @@ public class MapEditingTasks {
         result.set(0);
         ui.getCancel().setOnAction(e -> {result.set(1); stage.close(); });
         ui.getOk().setOnAction(e ->  { result.set(2); stage.close();});
+        ui.getFloor().setText(Integer.toString(current_floor));
+        ui.getFloor().setEditable(false);
+
 
         stage.setScene(scene);
         stage.setResizable(false);
