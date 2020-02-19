@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.InterpreterServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -14,22 +14,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public final class DrugRequestScreen {
+public class InterpreterRequestScreen {
 
     private final Stage stage;
     private final Scene scene;
-    private final PublishSubject<DialogEvent<DrugServiceRequest>> subject;
+    private final PublishSubject<DialogEvent<InterpreterServiceRequest>> subject;
 
-    public DrugRequestScreen(Employee loggedIn){
+    public InterpreterRequestScreen(Employee loggedIn){
         this.stage = new Stage();
         subject = PublishSubject.create();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/DrugServiceDialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/InterpreterServiceDialog.fxml"));
         loader.setControllerFactory(c -> {
-            DrugRequestController controller = new DrugRequestController(loggedIn);
+            InterpreterRequestController controller = new InterpreterRequestController(loggedIn);
             controller.dialogCompleted().subscribe(
                     next -> {
-                            if(next.result() == DialogResult.OK){
+                        if(next.result() == DialogResult.OK){
                             //Do database
                         }
                         this.stage.close();
@@ -47,10 +47,10 @@ public final class DrugRequestScreen {
         }
     }
 
-    public static Observable<DialogEvent<DrugServiceRequest>> showDialog(Employee employee) {
+    public static Observable<DialogEvent<InterpreterServiceRequest>> showDialog(Employee employee) {
         if (employee == null) ThrowHelper.illegalNull("employee");
 
-        DrugRequestScreen screen = new DrugRequestScreen(employee);
+        InterpreterRequestScreen screen = new InterpreterRequestScreen(employee);
         screen.show();
 
         return screen.subject;
