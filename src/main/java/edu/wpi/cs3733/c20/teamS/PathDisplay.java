@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -91,13 +92,15 @@ public class PathDisplay {
             WrittenInstructions directions = new WrittenInstructions(work);
             ArrayList<String> words = directions.directions();
             System.out.println(words.size());
-            int offset = 20;
+            int offset = 30;
+            parentVBox.getChildren().clear();
             for(String direct : words) {
-                JFXTextField text = new JFXTextField();
+                JFXTextArea text = new JFXTextArea();
                 text.setText(direct);
-
-                text.setTranslateY(offset);
-                offset += 20;
+                text.setWrapText(true);
+                text.setPrefHeight(offset);
+              //  text.setTranslateY(offset);
+              //  offset += 10;
                 parentVBox.getChildren().add(text);
                // System.out.println(direct);
             }
