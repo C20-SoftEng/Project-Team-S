@@ -21,7 +21,7 @@ public class mainToLoginScreen {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
-            this.ui = new mainScreenController();
+            this.ui = new mainScreenController(stage);
             return this.ui;
         });
         try {
