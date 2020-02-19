@@ -57,8 +57,6 @@ public final class RideRequestScreen {
             ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
             dbc.addServiceRequestData(sd);
         }
-        //  This is supposed to be called in the handler for UIController.completed() event. That way, anyone using the
-        //  screen who wants to know when the dialog is completed will be able to know.
         subject.onNext(next);
         this.stage.close();
     }
