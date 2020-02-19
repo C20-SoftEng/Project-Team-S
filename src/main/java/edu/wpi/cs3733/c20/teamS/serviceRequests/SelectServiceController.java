@@ -2,6 +2,9 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.SecurityServiceScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ServiceTechRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.LaundryRequestScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
@@ -40,6 +43,30 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+    @FXML void onSecurityClicked(ActionEvent event) {
+        Stage security = new Stage();
+        security.initModality(Modality.WINDOW_MODAL);
+
+        SecurityServiceScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+    @FXML void onServiceTechClicked(ActionEvent event){
+        Stage serviceTechStage = new Stage();
+        serviceTechStage.initModality(Modality.WINDOW_MODAL);
+
+        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
+    @FXML void onLaundryClicked(ActionEvent event){
+        Stage laundryStage = new Stage();
+        laundryStage.initModality(Modality.WINDOW_MODAL);
+
+        LaundryRequestScreen.showDialog(loggedIn).subscribe();
+
+        this.stage.close();
+    }
+
     @FXML void onDogClicked(ActionEvent event){
         Stage dogStage = new Stage();
         dogStage.initModality(Modality.WINDOW_MODAL);
@@ -48,9 +75,10 @@ public class SelectServiceController {
         iv.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
         AnchorPane root = new AnchorPane(iv);
 
-        Scene scene = new Scene(root, 300, 290);
+        Scene scene = new Scene(root, 325, 250);
 
         dogStage.setScene(scene);
+        dogStage.setResizable(false);
         dogStage.show();
 
         this.stage.close();

@@ -9,7 +9,7 @@ import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
-import javax.xml.soap.Node;
+//import javax.xml.soap.Node;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -122,7 +122,7 @@ public class DatabaseController implements DBRepo{
                          "data varchar(9001)," +
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
-                         "location varchar(1024) constraint fKey_nodeService references NODES (nodeid))");
+                         "location varchar(1024))");
         System.out.println("Created Table SERVICES");
     }
     private static void createServiceableTable(Statement stm) throws SQLException {
@@ -219,6 +219,39 @@ public class DatabaseController implements DBRepo{
         }
         return nodeSet;
     }
+
+    public Set<NodeData> getAllNodesOfType(String type){
+        PreparedStatement stm = null;
+        String allNodeString = "SELECT * FROM Nodes WHERE NODETYPE = ?";
+        System.out.println("Getting nodes of type: " + type);
+        try{
+            stm = connection.prepareStatement(allNodeString);
+            stm.setString(1,type);
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        ResultSet rset = null;
+        Set<NodeData> nodeSet = new HashSet<>();
+        try {
+            rset = stm.executeQuery();
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+            throw new RuntimeException(state);
+        }
+        nodeSet = parseNodeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return nodeSet;
+    }
+
+
     //Tested
     private Set<NodeData> parseNodeResultSet(ResultSet rset) {
         Set<NodeData> nodeSet = new HashSet<NodeData>();
@@ -534,7 +567,7 @@ public class DatabaseController implements DBRepo{
     //Tested
     //  Package-private. Public method should take a ServiceRequest, and use the
     //  visitor pattern to save the correct concrete service-request type.
-    void addServiceRequestData(ServiceData sd) {
+    public void addServiceRequestData(ServiceData sd) {
         String addEntryStr = "INSERT INTO SERVICES (SERVICETYPE, STATUS, MESSAGE, DATA, ASSIGNEDEMPLOYEE, TIMECREATED, LOCATION) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);
@@ -554,7 +587,7 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    void updateServiceData(ServiceData sd){
+    public void updateServiceData(ServiceData sd){
         String updateStr = "UPDATE SERVICES SET STATUS = ?, MESSAGE = ?, DATA = ?, ASSIGNEDEMPLOYEE = ?, LOCATION = ? WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
@@ -572,7 +605,7 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-    void deleteServiceWithId(int id){
+    public void deleteServiceWithId(int id){
         String delStr = "DELETE FROM SERVICES WHERE SERVICEID = ?";
         PreparedStatement stm = null;
         try{
