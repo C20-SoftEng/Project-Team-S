@@ -218,7 +218,7 @@
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <JFXButton fx:id="serviceRequestOptionsButton" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true">
+                  <JFXButton fx:id="serviceRequestOptionsButton" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" onAction="#openServiceOptionPopup">
                      <font>
                         <Font size="24.0" />
                      </font>
