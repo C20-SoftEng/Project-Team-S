@@ -1,46 +1,73 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
-import javafx.scene.shape.Rectangle;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import java.net.URL;
+import java.util.List;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class mainScreenController implements Initializable {
 
     private Stage stage;
+    private IPathfinding algorithm;
     private WrittenInstructions writtenInstructions;
 
-    public mainScreenController(Stage mainStage){
+    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
+        this.algorithm = pathAlgorithm;
         this.stage = mainStage;
+        tester2 = new PathDisplay(group2, this.algorithm);
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
+
+        initSearchComboBoxFont();
+        initSearchComboBoxAutoComplete();
+    }
+
+    private void initSearchComboBoxFont() {
+        String fontFamily = searchComboBox.getEditor().getFont().getFamily();
+        Font font = new Font(fontFamily, 18);
+        searchComboBox.getEditor().setFont(font);
+    }
+    private void initSearchComboBoxAutoComplete() {
+        DatabaseController db = new DatabaseController();
+        Set<NodeData> nodes = db.getAllNodes();
+        List<String> dictionary = nodes.stream()
+                .map(node -> node.getLongName() + ", " + node.getNodeID())
+                .collect(Collectors.toList());
+        AutoComplete.start(dictionary, searchComboBox);
     }
 
     int current_floor = 2;
@@ -53,7 +80,7 @@ public class mainScreenController implements Initializable {
     Image floor4 = new Image("images/Floors/HospitalFloor4.png");
     Image floor5 = new Image("images/Floors/HospitalFloor5.png");
     Group group2 = new Group();
-
+    PathDisplay tester2;
 
     private boolean flip = true;
 
@@ -89,10 +116,10 @@ public class mainScreenController implements Initializable {
 
     @FXML
     private Label location2;
+    @FXML
+    private ComboBox<String> searchComboBox;
     private String start = "Start Location";
     private String end = "End Location";
-
-    PathDisplay tester2;
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -381,7 +408,7 @@ public class mainScreenController implements Initializable {
 
         group.getChildren().add(mapImage);
 
-        PathDisplay tester = new PathDisplay(group, parentVBox);
+        PathDisplay tester = new PathDisplay(group, this.algorithm, parentVBox);
 
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();

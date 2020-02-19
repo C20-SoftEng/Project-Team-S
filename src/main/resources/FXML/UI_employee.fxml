@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -171,11 +170,6 @@
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
                   </Label>
-                  <JFXToggleButton style="-fx-background-color: gainsboro;" text="Map Edit Mode" textAlignment="CENTER" wrapText="true">
-                     <VBox.margin>
-                        <Insets left="5.0" right="5.0" top="5.0" />
-                     </VBox.margin>
-                  </JFXToggleButton>
                   <VBox prefWidth="100.0" style="-fx-background-color: gainsboro;">
                      <children>
                         <JFXRadioButton fx:id="addNodeRadio" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
@@ -268,7 +262,35 @@
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: TRANSPARENT;" VBox.vgrow="SOMETIMES" />
+                  <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: gainsboro;" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <Label text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <JFXRadioButton selected="true" text="A*">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="pathGroup" />
+                           </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton text="Breadth First" toggleGroup="$pathGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
+                        <JFXRadioButton text="Depth First" toggleGroup="$pathGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></VBox>
                </children>
             </VBox>
          </right>

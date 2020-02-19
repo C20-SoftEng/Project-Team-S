@@ -8,6 +8,8 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.PathingContext;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,13 +30,16 @@ public class PathDisplay {
     private NodeData endNode;
     Group groupPath = new Group();
     Group group;
+    private IPathfinding algorithm;
     VBox parentVBox;
 
     public int getCounter() {return counter;}
 
-    public PathDisplay(Group group, VBox parentVBox) {
+    public PathDisplay(Group group, VBox parentVBox, IPathfinding pathfinding) {
         this.group = group;
         this.parentVBox = parentVBox;
+        this.algorithm = pathfinding;
+
     }
 
     public void setNode(NodeData data) {
@@ -54,7 +59,8 @@ public class PathDisplay {
             Set<NodeData> nd = dbc.getAllNodes();
 
             Set<EdgeData> ed = dbc.getAllEdges();
-            MutableGraph<NodeData> graph = GraphBuilder.undirected().build();
+            MutableGraph<NodeData> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+            graph.allowsSelfLoops();
 
             for(NodeData data: nd) {
                 if(data.getNodeID().equals(startNode.getNodeID())) {startNode = data;}
@@ -79,8 +85,9 @@ public class PathDisplay {
                     }
                 }
             }
-            A_Star please = new A_Star();
-            ArrayList<NodeData> work = please.findPath(graph, startNode, endNode);
+
+            PathingContext pathContext = new PathingContext(this.algorithm);
+            ArrayList<NodeData> work = pathContext.executePathfind(graph, startNode, endNode);
             WrittenInstructions directions = new WrittenInstructions(work);
             ArrayList<String> words = directions.directions();
             System.out.println(words.size());
