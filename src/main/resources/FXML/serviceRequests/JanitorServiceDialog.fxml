@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -22,26 +21,18 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" defaultButton="true" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #ccc; -fx-border-color: #000;" text="Cancel">
+                        <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: #000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel">
                            <font>
                               <Font size="18.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
+                           </font></JFXButton>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000; -fx-background-color: #ccc;" text="Submit">
+                        <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000;" text="Submit">
                            <font>
                               <Font size="18.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
+                           </font></JFXButton>
                      </children>
                   </AnchorPane>
               </items>
@@ -55,7 +46,6 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <padding>
@@ -63,16 +53,14 @@
                </padding>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
                   <TextField fx:id="locationField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Drug To Administer" textAlignment="CENTER" wrappingWidth="192.6982421875" GridPane.rowIndex="1" />
-                  <TextField fx:id="drugField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </center>
          <top>
-            <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Medicine Request" BorderPane.alignment="CENTER">
+            <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Janitor Request" BorderPane.alignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>

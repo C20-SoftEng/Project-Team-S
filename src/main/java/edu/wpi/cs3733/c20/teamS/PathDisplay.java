@@ -6,6 +6,8 @@ import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.PathingContext;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -24,11 +26,13 @@ public class PathDisplay {
     private NodeData endNode;
     Group groupPath = new Group();
     Group group;
+    private IPathfinding algorithm;
 
     public int getCounter() {return counter;}
 
-    public PathDisplay(Group group) {
+    public PathDisplay(Group group, IPathfinding pathfinding) {
         this.group = group;
+        this.algorithm = pathfinding;
     }
 
     public void setNode(NodeData data) {
@@ -48,7 +52,8 @@ public class PathDisplay {
             Set<NodeData> nd = dbc.getAllNodes();
 
             Set<EdgeData> ed = dbc.getAllEdges();
-            MutableGraph<NodeData> graph = GraphBuilder.undirected().build();
+            MutableGraph<NodeData> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+            graph.allowsSelfLoops();
 
             for(NodeData data: nd) {
                 if(data.getNodeID().equals(startNode.getNodeID())) {startNode = data;}
@@ -73,8 +78,9 @@ public class PathDisplay {
                     }
                 }
             }
-            A_Star please = new A_Star();
-            ArrayList<NodeData> work = please.findPath(graph, startNode, endNode);
+
+            PathingContext pathContext = new PathingContext(this.algorithm);
+            ArrayList<NodeData> work = pathContext.executePathfind(graph, startNode, endNode);
             for(int i = 0; i < work.size() - 1; i++) {
                 EdgeData data = new EdgeData(work.get(i).getNodeID() + "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
                 if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {

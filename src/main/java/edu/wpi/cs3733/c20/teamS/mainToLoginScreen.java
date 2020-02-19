@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -17,11 +19,11 @@ public class mainToLoginScreen {
     private mainScreenController ui;
     private Scene scene;
     private Stage stage;
-    public mainToLoginScreen(Stage stage) {
+    public mainToLoginScreen(Stage stage, IPathfinding pathAlgorithm) {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
-            this.ui = new mainScreenController();
+            this.ui = new mainScreenController(stage, pathAlgorithm);
             return this.ui;
         });
         try {
@@ -38,6 +40,8 @@ public class mainToLoginScreen {
 
         this.show();
         stage.setFullScreen(true);
+
+
     }
     public void show() {
         stage.setScene(scene);

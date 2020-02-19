@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -40,7 +41,9 @@ public class MapEditingScreen {
 
         this.show();
         stage.setFullScreen(true);
+
     }
+
     public void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
