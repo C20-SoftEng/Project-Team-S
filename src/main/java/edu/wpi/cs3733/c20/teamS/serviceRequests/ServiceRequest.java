@@ -18,6 +18,7 @@ public abstract class ServiceRequest {
         status_ = ServiceStatus.CREATED;
     }
 
+
     public abstract void accept(ServiceVisitor visitor);
 
     public Integer id() {
