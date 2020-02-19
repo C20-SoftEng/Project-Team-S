@@ -145,8 +145,8 @@ public class DatabaseController implements DBRepo{
     private static void createEdgeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EDGES(" +
                         "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
-                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID)," +
-                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID))");
+                        "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID) ON DELETE CASCADE," +
+                        "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID) ON DELETE CASCADE)");
         System.out.println("Created Table Edges");
     }
     private static void createNodesTable(Statement stm) throws SQLException {

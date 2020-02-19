@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +18,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -31,7 +34,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
-    private Stage stage;
+        private MoveNodes moveNode = new MoveNodes();
+        private Stage stage;
+        public EditScreenController(Stage stage, Employee employee) {
+            this.stage  = stage;
+            this.loggedIn = employee;
+        }
+
     private Employee loggedIn;
 
     /**
@@ -44,22 +53,24 @@ public class EditScreenController implements Initializable {
         this.loggedIn = employee;
     }
 
-    int current_floor = 2;
-    String newFloor;
-    private MapZoomer zoomer;
-    Image floor1 = new Image("images/Floors/HospitalFloor1.png");
-    Image floor2 = new Image("images/Floors/HospitalFloor2.png");
-    Image floor3 = new Image("images/Floors/HospitalFloor3.png");
-    Image floor4 = new Image("images/Floors/HospitalFloor4.png");
-    Image floor5 = new Image("images/Floors/HospitalFloor5.png");
-    @FXML JFXRadioButton addNodeRadio;
-    @FXML JFXRadioButton removeNodeRadio;
-    @FXML JFXRadioButton addEdgeRadio;
-    @FXML JFXRadioButton removeEdgeRadio;
+        int current_floor = 2;
+        String newFloor;
+        private MapZoomer zoomer;
+        Image floor1 = new Image("images/Floors/HospitalFloor1.png");
+        Image floor2 = new Image("images/Floors/HospitalFloor2.png");
+        Image floor3 = new Image("images/Floors/HospitalFloor3.png");
+        Image floor4 = new Image("images/Floors/HospitalFloor4.png");
+        Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+        @FXML JFXRadioButton addNodeRadio;
+        @FXML JFXRadioButton removeNodeRadio;
+        @FXML JFXRadioButton addEdgeRadio;
+        @FXML JFXRadioButton removeEdgeRadio;
+        @FXML JFXRadioButton moveNodeRadio;
+        @FXML JFXRadioButton showInfoRadio;
 
-    @FXML private ImageView mapImage;
+        @FXML private ImageView mapImage;
 
-    @FXML private ScrollPane scrollPane;
+        @FXML private ScrollPane scrollPane;
 
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
@@ -76,13 +87,21 @@ public class EditScreenController implements Initializable {
     private JFXButton upButton;
 
 
-    @FXML private JFXButton cancelEditsButton;
-    @FXML private JFXButton confirmEditButton;
+        @FXML private JFXButton cancelEditsButton;
+        @FXML private JFXButton confirmEditButton;
 
+        public JFXButton getFloorButton2() {return floorButton2;}
 
-    public JFXButton getFloorButton2() {return floorButton2;}
+        public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
 
-    public void onLogOut() { mainToLoginScreen back = new mainToLoginScreen(stage);}
+        private void unselectALL() {
+            addNodeRadio.selectedProperty().set(false);
+            removeNodeRadio.selectedProperty().set(false);
+            removeEdgeRadio.selectedProperty().set(false);
+            addEdgeRadio.selectedProperty().set(false);
+            moveNodeRadio.selectedProperty().set(false);
+            showInfoRadio.selectedProperty().set(false);
+        }
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -272,12 +291,14 @@ public class EditScreenController implements Initializable {
     @FXML
     void onZoomInClicked(ActionEvent event) {
         this.zoomer.zoomIn();
+        moveNode.setScale(zoomer.zoomFactor());
     }
 
     @FXML
     void onZoomOutClicked(ActionEvent event) {
         Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        moveNode.setScale(zoomer.zoomFactor());
     }
 
     public JFXButton getFloor2() {
@@ -291,10 +312,12 @@ public class EditScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
-
     }
 
     public void drawNodesEdges() {
+        unselectALL();
+            moveNode.setScale(zoomer.zoomFactor());
+            moveNode.setCurrent_floor(current_floor);
 
         String floor = "0" + current_floor;
 
@@ -365,6 +388,9 @@ public class EditScreenController implements Initializable {
         addEdgeRadio.setOnAction(e -> tester.addEdge(mapImage, current_floor));
         removeEdgeRadio.setOnAction(e -> tester.removeEdge(mapImage, current_floor));
         confirmEditButton.setOnAction(e -> tester.saveChanges());
+
+        moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
+        showInfoRadio.setOnAction(e -> tester.showNodeInfo(mapImage, current_floor));
         cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
 
         scrollPane.setContent(group);
