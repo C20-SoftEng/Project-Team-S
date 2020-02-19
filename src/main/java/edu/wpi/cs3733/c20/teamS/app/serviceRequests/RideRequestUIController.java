@@ -121,8 +121,8 @@ public final class RideRequestUIController implements Initializable {
         request.setDestination(destinationField.getText());
         request.setRideKind(rideKindSelector.current());
         request.assignTo(loggedIn);
-        request.setLocation("Outside");
-        request.setMessage("A ride");
+        request.setLocation("Valet Parking");
+        request.setMessage("\"" + request.riderName() + "\" needs a ride.");
 
         dialogCompleted_.onNext(DialogEvent.ok(request));
     }
