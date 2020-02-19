@@ -26,7 +26,7 @@ public final class FloristRequestScreen {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/FloristServiceDialog2.fxml"));
         loader.setControllerFactory(c -> {
-            DrugRequestController controller = new DrugRequestController(loggedIn);
+            FloristRequestController controller = new FloristRequestController(loggedIn);
             controller.dialogCompleted().subscribe(
                     next -> {
                         if(next.result() == DialogResult.OK){

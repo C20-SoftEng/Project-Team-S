@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.DrugRequestScreen;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.FloristRequestScreen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
@@ -12,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class SelectServiceController {
     private Stage stage;
@@ -37,6 +40,14 @@ public class SelectServiceController {
         drugStage.initModality(Modality.WINDOW_MODAL);
 
         DrugRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+    }
+
+    @FXML void onFloristClicked(ActionEvent event){
+        Stage floristStage = new Stage();
+        floristStage.initModality(Modality.WINDOW_MODAL);
+
+        FloristRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
 

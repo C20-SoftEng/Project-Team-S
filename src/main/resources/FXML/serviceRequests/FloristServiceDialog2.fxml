@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -24,20 +23,19 @@
                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
                 </columnConstraints>
                 <rowConstraints>
-               <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
-               <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
                     <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
                     <RowConstraints maxHeight="101.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <padding>
                     <Insets bottom="15.0" left="25.0" right="25.0" top="25.0" />
                 </padding>
-            <JFXTextField fx:id="locationField" focusColor="#ffffff00" prefHeight="97.0" prefWidth="357.0" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXTextField fx:id="locationField" focusColor="#ffffff00" prefHeight="97.0" prefWidth="357.0" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXTextArea fx:id="commentsField" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <JFXTextArea fx:id="commentsField" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -51,69 +49,21 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
                   <Label text="Location" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
                   <Label text="Comments" />
                </children>
             </HBox>
-            <GridPane GridPane.columnIndex="1">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <JFXCheckBox fx:id="Hydrangeas" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="105.0" text="Hydrangeas" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Lilies" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="92.0" text="Lilies" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Roses" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="92.0" text="Roses" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Daisies" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="92.0" text="Daisies" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Poppies" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="92.0" text="Poppies" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Orchids" alignment="CENTER" checkedColor="#ffccdd" prefHeight="26.0" prefWidth="92.0" text="Orchids" textAlignment="CENTER" unCheckedColor="#054a21" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXCheckBox>
-               </children>
-            </GridPane>
-            <JFXTextField fx:id="number" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <JFXTextField fx:id="flowerRequested" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </JFXTextField>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <children>
-                  <Label text="# of each Flower" />
-               </children>
-            </HBox>
             </GridPane>
         </center>
         <top>

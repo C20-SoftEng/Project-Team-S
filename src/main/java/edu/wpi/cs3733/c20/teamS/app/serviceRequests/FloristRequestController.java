@@ -7,20 +7,19 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.FloristServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
-import java.awt.*;
-import java.util.LinkedList;
+
 
 public class FloristRequestController {
 
     private final PublishSubject<DialogEvent<FloristServiceRequest>> dialogCompleted_ = PublishSubject.create();
     private FloristServiceRequest request = new FloristServiceRequest();
     private Employee loggedIn;
-    private int numFlowers;
-    private LinkedList<String> flowers;
 
     @FXML
     private JFXTextField locationField;
@@ -28,10 +27,9 @@ public class FloristRequestController {
     @FXML
     private JFXTextArea commentsField;
 
-    @FXML
-    private JFXTextField number;
-    @FXML
-    private Label greed;
+
+
+    @FXML private JFXTextField flowerRequested;
 
     @FXML
     private JFXCheckBox Hydrangeas;
@@ -46,8 +44,9 @@ public class FloristRequestController {
     @FXML
     private JFXCheckBox Orchids;
 
-    @FXML
-    private JFXTextField flowerNum;
+    public FloristRequestController(Employee loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 
 
     @FXML
@@ -57,36 +56,16 @@ public class FloristRequestController {
 
     @FXML
     void onSubmitClicked(ActionEvent event) {
-        if (locationField.getText() != null) {
 
-            if (Hydrangeas.isSelected() == true) {
-                flowers.add(Hydrangeas.getText());
-            }
-            if (Lilies.isSelected() == true) {
-                flowers.add(Lilies.getText());
-            }
-            if (Roses.isSelected() == true) {
-                flowers.add(Roses.getText());
-            }
-            if (Daisies.isSelected() == true) {
-                flowers.add(Daisies.getText());
-            }
-            if (Poppies.isSelected() == true) {
-                flowers.add(Poppies.getText());
-            }
-            if (Orchids.isSelected() == true) {
-                flowers.add(Orchids.getText());
-            }
-        }
-        if (flowers.size() >= 6)
-            greed.setVisible(true);
-
-        request.setFlowerTypes_(request.getFlowers());
-        request.setNumFlowers_(numFlowers);
+        request.setFlowerTypes_(flowerRequested.getText());
         request.setLocation(locationField.getText());
         request.setMessage(commentsField.getText());
         request.assignTo(loggedIn);
 
         dialogCompleted_.onNext(DialogEvent.ok(request));
+    }
+
+    public Observable<DialogEvent<FloristServiceRequest>> dialogCompleted() {
+        return dialogCompleted_;
     }
 }
