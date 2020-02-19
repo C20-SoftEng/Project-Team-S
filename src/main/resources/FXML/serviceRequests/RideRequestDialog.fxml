@@ -41,7 +41,7 @@
                   <Font size="24.0" />
                </font>
             </JFXTextField>
-            <Label text="Rider Name: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Label fx:id="riderNameLabel" text="Rider Name: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -92,21 +92,30 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton onAction="#onFriendClicked" text="Friend" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <JFXButton onAction="#onFriendClicked" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/friend.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </JFXButton>
-            <JFXButton onAction="#onShuttleClicked" text="Shuttle" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <JFXButton onAction="#onShuttleClicked" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/shuttle.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </JFXButton>
-            <Label fx:id="rideKindLabel" text="Ride Kind" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.rowSpan="2">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
                   <JFXButton defaultButton="true" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" text="OK" textFill="#00c8a0">
@@ -131,6 +140,42 @@
                   </JFXButton>
                </children>
             </HBox>
+            <JFXButton onAction="#onHeliClicked" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/heli.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton onAction="#onCopCarClicked" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/copCar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton onAction="#onAmbulanceClicked" text=" " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Icons/serviceRequests/ambulance.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
          </children>
       </GridPane>
    </children>

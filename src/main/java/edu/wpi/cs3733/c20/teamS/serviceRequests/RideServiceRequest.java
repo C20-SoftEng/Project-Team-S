@@ -1,19 +1,25 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
-import edu.wpi.cs3733.c20.teamS.serviceRequests.rideKinds.RideKind;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.RideKind;
 
 import java.time.LocalDateTime;
 
 public final class RideServiceRequest extends ServiceRequest {
-    private LocalDateTime pickupTime_;
-    private String riderName_;
-    private String destination_;
-    private RideKind rideKind_;
+    private static final class Members {
+        public LocalDateTime pickupTime;
+        public String riderName;
+        public String destination;
+        public RideKind rideKind;
+    }
+    private Members members = new Members();
 
     public RideServiceRequest() {
         super();
     }
     public RideServiceRequest(Integer id) {
+        this(id, new Members());
+    }
+    private RideServiceRequest(Integer id, Members members) {
         super(id);
     }
 
@@ -23,27 +29,27 @@ public final class RideServiceRequest extends ServiceRequest {
     }
 
     public LocalDateTime pickupTime() {
-        return pickupTime_;
+        return members.pickupTime;
     }
     public void setPickupTime(LocalDateTime value) {
-        pickupTime_ = value;
+        members.pickupTime = value;
     }
     public String riderName() {
-        return riderName_;
+        return members.riderName;
     }
     public void setRiderName(String value) {
-        riderName_ = value;
+        members.riderName = value;
     }
     public String destination() {
-        return destination_;
+        return members.destination;
     }
     public void setDestination(String value) {
-        destination_ = value;
+        members.destination = value;
     }
     public RideKind rideKind() {
-        return rideKind_;
+        return members.rideKind;
     }
     public void setRideKind(RideKind value) {
-        rideKind_ = value;
+        members.rideKind = value;
     }
 }
