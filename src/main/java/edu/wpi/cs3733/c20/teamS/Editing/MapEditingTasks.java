@@ -479,7 +479,9 @@ public class MapEditingTasks {
         ui.getShortName().setText(data.getShortName());
         ui.getNodeType().setText(data.getNodeType());
 
+
         ui.getCancel().setVisible(false);
+        ui.getOk().setText("OK");
         ui.getOk().setOnAction(e ->  { stage.close();});
 
         stage.setScene(scene2);

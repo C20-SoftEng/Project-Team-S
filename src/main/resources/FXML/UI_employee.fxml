@@ -205,15 +205,21 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                        </JFXRadioButton>
                         <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </JFXRadioButton>
 
                         <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
@@ -224,22 +230,14 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="viewNodeRadio" text="View Node " toggleGroup="$editGroup">
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                        </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditButton" text="Cancel">
+                              <JFXButton fx:id="cancelEditsButton" text="Cancel">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton"  text="OK">
+                              <JFXButton fx:id="confirmEditButton" text="OK">
                                  <font>
                                     <Font size="16.0" />
                                  </font>

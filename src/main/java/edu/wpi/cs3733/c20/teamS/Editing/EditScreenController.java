@@ -412,9 +412,9 @@ public class EditScreenController implements Initializable {
         }
 
 
-        moveNodeRadio.setOnAction(e -> tester.moveNodes(mapImage, current_floor, moveNode));
-        showInfoRadio.setOnAction(e -> tester.showNodeInfo(mapImage, current_floor));
-        cancelEditButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
+        moveNodeRadio.setOnAction(e -> {tester.moveNodes(mapImage, current_floor, moveNode); keepCurrentPosition(currentHval, currentVval, zoomer);});
+        showInfoRadio.setOnAction(e -> {tester.showNodeInfo(mapImage, current_floor); keepCurrentPosition(currentHval, currentVval, zoomer);});
+        cancelEditsButton.setOnAction(e -> {tester.cancelChanges(); new MapEditingScreen(stage, loggedIn);});
 
         addNodeRadio.setOnAction(e -> {
             tester.drawNodes();
@@ -444,7 +444,7 @@ public class EditScreenController implements Initializable {
 
         });
 
-        cancelEditButton.setOnAction(e -> {
+        cancelEditsButton.setOnAction(e -> {
             tester.cancelChanges();
             new MapEditingScreen(stage, loggedIn);
         });
