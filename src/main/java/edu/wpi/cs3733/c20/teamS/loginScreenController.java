@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -24,7 +25,7 @@ public class loginScreenController {
 
     @FXML private JFXTextField id;
 
-    @FXML private JFXTextField pw;
+    @FXML private JFXPasswordField pw;
 
     @FXML private JFXButton cancel;
 
