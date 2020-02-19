@@ -27,4 +27,9 @@ public final class Employee {
     public AccessLevel accessLevel() {
         return accessLevel_;
     }
+
+    @Override
+    public String toString(){
+        return this.name_;
+    }
 }

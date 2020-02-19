@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.MaintenanceServiceRequestController">
+    <BorderPane layoutX="-6.0" layoutY="14.0" prefHeight="401.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <bottom>
+            <SplitPane dividerPositions="0.5" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <JFXButton fx:id="cancelButton" layoutX="60.0" layoutY="11.0" onAction="#onCancelClicked" prefHeight="46.0" prefWidth="176.0" style="-fx-background-color: lightgrey;" text="Cancel" />
+               </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <JFXButton fx:id="submitButton" layoutX="62.0" layoutY="11.0" onAction="#onSubmitClicked" prefHeight="46.0" prefWidth="173.0" style="-fx-background-color: lightgrey;" text="Submit" />
+               </children>
+                </AnchorPane>
+            </SplitPane>
+        </bottom>
+        <center>
+            <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="597.0" BorderPane.alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="193.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <padding>
+                    <Insets bottom="15.0" left="25.0" right="25.0" top="25.0" />
+                </padding>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
+                <TextField fx:id="locationField" prefHeight="92.0" prefWidth="275.0" GridPane.columnIndex="1" />
+                <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Issue" textAlignment="CENTER" wrappingWidth="193.57357788085938" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" textAlignment="CENTER" wrappingWidth="194.90692138671875" GridPane.rowIndex="3" />
+            <TextField fx:id="issueField" prefHeight="82.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="equipmentField" prefHeight="79.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+        </center>
+        <top>
+          <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Maintenance" BorderPane.alignment="CENTER">
+              <font>
+                  <Font size="30.0" />
+              </font>
+          </Label>
+        </top>
+    </BorderPane>
+</AnchorPane>

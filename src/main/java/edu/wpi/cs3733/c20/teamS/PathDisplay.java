@@ -68,7 +68,7 @@ public class PathDisplay {
                     graph.putEdge(start, end);
                 }
                 else if(start != null && end != null && sameFloor) {
-                    if(!(start.getNodeType().equals("ELEV")) && !(end.getNodeType().equals("ELEV"))) {
+                    if(start.getFloor() == currentFloor && end.getFloor() == currentFloor) {
                         graph.putEdge(start, end);
                     }
                 }
@@ -114,7 +114,7 @@ public class PathDisplay {
                             circle.setFill(Color.RED);
                             groupPath.getChildren().add(circle);}
 
-                            if(endNode.getFloor() == currentFloor && !(endNode.getNodeType().equals("ELEV")) && !(endNode.getNodeType().equals("REST")) && !(endNode.getNodeType().equals("STAI"))) {
+                            if(endNode.getFloor() == currentFloor) {
                                 ImageView pinIcon = new ImageView();
                                 pinIcon.setImage(new Image("images/Icons/pin.png"));
                                 pinIcon.setX(endNode.getxCoordinate() - 20);

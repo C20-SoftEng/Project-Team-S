@@ -39,6 +39,7 @@ public class MapEditingScreen {
         ui.getFloorButton2().fire();
 
         this.show();
+        stage.setFullScreen(true);
     }
     public void show() {
         stage.setScene(scene);
