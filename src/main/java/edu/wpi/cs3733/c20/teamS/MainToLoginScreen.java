@@ -10,11 +10,12 @@ import java.io.IOException;
 /**
  * Simple screen for main client ui
  */
-public class mainToLoginScreen {
+public class MainToLoginScreen {
     private MainScreenController ui;
     private Scene scene;
     private Stage stage;
-    public mainToLoginScreen(Stage stage, IPathfinding pathAlgorithm) {
+
+    public MainToLoginScreen(Stage stage, IPathfinding pathAlgorithm) {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
@@ -23,13 +24,11 @@ public class mainToLoginScreen {
         });
         try {
             Parent root = loader.load();
-
             this.scene = new Scene(root);
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-
         ui.drawNodesEdges();
         this.show();
         stage.setFullScreen(true);
@@ -37,7 +36,6 @@ public class mainToLoginScreen {
     public void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
-        //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 }
