@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="222.0" maxWidth="433.0" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
+   <children>
+      <Label fx:id="wrongStuff" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textFill="#cd0a0a" visible="false">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="55.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </JFXTextField>
+      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="111.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="38.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="304.0" layoutY="172.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>

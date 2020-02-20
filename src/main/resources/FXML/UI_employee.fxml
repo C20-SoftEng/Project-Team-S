@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: #b6b4b2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.EditScreenController">
+   <children>
+      <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" style="-fx-background-color: #b6b4b2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: gray; -fx-border-color: black;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label contentDisplay="CENTER" text="Select Floor" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="26.0" />
+                           </font>
+                        </Label>
+                     </children></VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXButton id="upButton" fx:id="upButton" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="BLACK" VBox.vgrow="ALWAYS">
+                           <graphic>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/uparrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#f6bd38" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton id="downButton" fx:id="downButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" ripplerFill="BLACK" VBox.vgrow="ALWAYS">
+                           <graphic>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/downarrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </left>
+         <top>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="277.0" text="Squishy Squidward Production" textFill="WHITE">
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="17.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Icons/SquidwardCute.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <Label fx:id="loggedInUserLabel" text="Welcome" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXBadge prefHeight="57.0" prefWidth="183.0" text=" #2BA1DD" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </JFXBadge>
+                  <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="50.0" prefWidth="53.0" HBox.hgrow="SOMETIMES">
+                     <children>
+                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/Help_Icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </top>
+         <right>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="16.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
+                     <children>
+                        <JFXRadioButton fx:id="addNodeRadio" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="editGroup" />
+                           </toggleGroup>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+
+                        <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </JFXRadioButton>
+                        <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                           <children>
+                              <JFXButton fx:id="cancelEditsButton" text="Cancel">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="confirmEditButton" text="OK">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" style="-fx-background-color: gainsboro;" text="Active Service Requests" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: gainsboro;" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <Label text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <JFXRadioButton selected="true" text="A*">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="pathGroup" />
+                           </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton text="Breadth First" toggleGroup="$pathGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
+                        <JFXRadioButton text="Depth First" toggleGroup="$pathGroup">
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></VBox>
+               </children>
+            </VBox>
+         </right>
+         <center>
+            <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #b6b4b2;" BorderPane.alignment="TOP_LEFT">
+               <children>
+                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <StackPane style="-fx-background-color: #b6b4b2;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" style="-fx-background-color: #b6b4b2;" StackPane.alignment="TOP_LEFT" />
+                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" hmax="10.0" hvalue="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="701.0" prefWidth="1027.0" style="-fx-background-color: #b6b4b2; -fx-border-color: #b6b4b2;" vbarPolicy="NEVER" vmax="10.0" vvalue="5.0" StackPane.alignment="TOP_LEFT">
+                           <content>
+                              <ImageView fx:id="mapImage" focusTraversable="true" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Floors/HospitalFloor2.png" />
+                                 </image>
+                              </ImageView>
+                           </content>
+                        </ScrollPane>
+                        <VBox alignment="TOP_RIGHT" maxHeight="110.0" maxWidth="60.0" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="50.0" StackPane.alignment="TOP_RIGHT">
+                           <children>
+                              <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #962222; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                 <graphic>
+                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Mag_In_Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <ripplerFill>
+                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                       <stops>
+                                          <Stop color="#962222" />
+                                          <Stop color="#610e0e" offset="1.0" />
+                                       </stops>
+                                    </RadialGradient>
+                                 </ripplerFill>
+                              </JFXButton>
+                              <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #962222; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                 <graphic>
+                                    <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/Mag_Out_Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <ripplerFill>
+                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                       <stops>
+                                          <Stop color="#962222" />
+                                          <Stop color="#610e0e" offset="1.0" />
+                                       </stops>
+                                    </RadialGradient>
+                                 </ripplerFill>
+                              </JFXButton>
+                           </children>
+                           <StackPane.margin>
+                              <Insets right="20.0" top="10.0" />
+                           </StackPane.margin>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
