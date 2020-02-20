@@ -64,6 +64,7 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(mapImage, scrollPane);
         tester2 = new PathDisplay(group2, parentVBox, algorithm);
         instructions = new LinkedList<>();
+
         floorSelector = new FloorSelector(
                 upButton, downButton,
                 new Floor(floorImage1, floorButton1),
