@@ -18,7 +18,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
+import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -145,7 +145,7 @@ public class EditScreenController implements Initializable {
                 pathfinder = new DepthFirst();
                 break;
         }
-        mainToLoginScreen back = new mainToLoginScreen(stage, pathfinder);
+        MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
     }
 
     private void unselectALL() {
