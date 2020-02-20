@@ -6,7 +6,6 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,16 +33,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainScreenController implements Initializable {
-
     private Stage stage;
     private IPathfinding algorithm;
     private int currentFloor = 2;
-    private LinkedList<String> instructions;
-    private Image floorImage1 = new Image("images/Floors/HospitalFloor1.png");
-    private Image floorImage2 = new Image("images/Floors/HospitalFloor2.png");
-    private Image floorImage3 = new Image("images/Floors/HospitalFloor3.png");
-    private Image floorImage4 = new Image("images/Floors/HospitalFloor4.png");
-    private Image floorImage5 = new Image("images/Floors/HospitalFloor5.png");
+
     private Group group2 = new Group();
     private PathDisplay tester2;
     private boolean flip = true;
@@ -63,19 +56,22 @@ public class MainScreenController implements Initializable {
 
         zoomer = new MapZoomer(mapImage, scrollPane);
         tester2 = new PathDisplay(group2, parentVBox, algorithm);
-        instructions = new LinkedList<>();
+        LinkedList<String> instructions = new LinkedList<>();
 
+        initFloorSelector();
+    }
+
+    private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
-                new Floor(floorImage1, floorButton1),
-                new Floor(floorImage2, floorButton2),
-                new Floor(floorImage3, floorButton3),
-                new Floor(floorImage4, floorButton4),
-                new Floor(floorImage5, floorButton5)
+                new Floor(floorButton1, "images/Floors/HospitalFloor1.png"),
+                new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
+                new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
+                new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
         floorSelector.setCurrent(3);
     }
-
     private void initSearchComboBoxFont() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
         Font font = new Font(fontFamily, 18);
@@ -99,14 +95,10 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
-    @FXML private JFXButton pathfindButton;
-    @FXML private JFXButton swapButton;
     @FXML private Label location1;
     @FXML private VBox parentVBox;
-
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
-
     @FXML private Label location2;
     @FXML private ComboBox<String> searchComboBox;
 
@@ -114,15 +106,17 @@ public class MainScreenController implements Initializable {
         public final Image image;
         public final JFXButton button;
 
-        public Floor(Image image, JFXButton button) {
+        public Floor(JFXButton button, Image image) {
             this.image = image;
             this.button = button;
+        }
+        public Floor(JFXButton button, String imagePath) {
+            this(button, new Image(imagePath));
         }
     }
     private class FloorSelector {
         private final JFXButton upButton;
         private final JFXButton downButton;
-
         private final Floor[] floors;
         private int current;
         private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
@@ -137,9 +131,17 @@ public class MainScreenController implements Initializable {
             this.highestFloorNumber = floors.length;
         }
 
+        /**
+         * Gets the currently-selected floor number.
+         * @return
+         */
         public int current() {
             return this.current;
         }
+        /**
+         * Sets the currently-selected floor number. Floor numbers start at 1.
+         * @param floorNumber The floor number to select.
+         */
         public void setCurrent(int floorNumber) {
             if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
                 ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
