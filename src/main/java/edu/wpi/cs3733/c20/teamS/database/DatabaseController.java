@@ -35,16 +35,16 @@ public class DatabaseController implements DBRepo{
 
     public static void createTables(){
 
-        File dumbFile = new File("dumbFile.txt");
-
-        if(dumbFile.exists()){
-            System.out.println("File Found");
-            return;
-
-        }else{
-            System.out.println("File Not found...importing Data");
-
-        }
+//        File dumbFile = new File("dumbFile.txt");
+//
+//        if(dumbFile.exists()){
+//            System.out.println("File Found");
+//            return;
+//
+//        }else{
+//            System.out.println("File Not found...importing Data");
+//
+//        }
 
         try {
             Statement stm = connection.createStatement();
@@ -79,16 +79,17 @@ public class DatabaseController implements DBRepo{
         }
     }
     private static void dropExistingTables() {
-        File dumbFile = new File("dumbFile.txt");
 
-            if(dumbFile.exists()){
-                System.out.println("File Found");
-                return;
-
-            }else{
-                System.out.println("File Not found...importing Data");
-
-            }
+//        File dumbFile = new File("dumbFile.txt");
+//
+//            if(dumbFile.exists()){
+//                System.out.println("File Found");
+//                return;
+//
+//            }else{
+//                System.out.println("File Not found...importing Data");
+//
+//            }
 
 
         try{
@@ -396,17 +397,17 @@ public class DatabaseController implements DBRepo{
     //Tested
     public void importStartUpData() {
 
-        File dumbFile = new File("dumbFile.txt");
-
-            if(dumbFile.exists()){
-                System.out.println("File Found...Not importing Data");
-
-                return;
-
-            }else{
-                System.out.println("File Not Found");
-
-            }
+//        File dumbFile = new File("dumbFile.txt");
+//
+//            if(dumbFile.exists()){
+//                System.out.println("File Found...Not importing Data");
+//
+//                return;
+//
+//            }else{
+//                System.out.println("File Not Found");
+//
+//            }
 
 
 
@@ -420,12 +421,12 @@ public class DatabaseController implements DBRepo{
         importEmployees();
 
 
-        File dumbAgainFile = new File("dumbFile.txt");
-        try {
-            dumbAgainFile.createNewFile();
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-        }
+//        File dumbAgainFile = new File("dumbFile.txt");
+//        try {
+//            dumbAgainFile.createNewFile();
+//        }catch(IOException e){
+//            System.out.println(e.getMessage());
+//        }
         System.out.println("Successfully imported Startup Data (Probably?)");
     }
     //tested, unable to export then import from exprted because of headers
