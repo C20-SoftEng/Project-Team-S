@@ -29,11 +29,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import java.net.URL;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MainScreenController implements Initializable {
@@ -41,18 +38,17 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private int currentFloor = 2;
-    private MapZoomer zoomer;
     private LinkedList<String> instructions;
-    private double currentHval;
-    private double currentVval;
-    private Image floor1 = new Image("images/Floors/HospitalFloor1.png");
-    private Image floor2 = new Image("images/Floors/HospitalFloor2.png");
-    private Image floor3 = new Image("images/Floors/HospitalFloor3.png");
-    private Image floor4 = new Image("images/Floors/HospitalFloor4.png");
-    private Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+    private Image floorImage1 = new Image("images/Floors/HospitalFloor1.png");
+    private Image floorImage2 = new Image("images/Floors/HospitalFloor2.png");
+    private Image floorImage3 = new Image("images/Floors/HospitalFloor3.png");
+    private Image floorImage4 = new Image("images/Floors/HospitalFloor4.png");
+    private Image floorImage5 = new Image("images/Floors/HospitalFloor5.png");
     private Group group2 = new Group();
     private PathDisplay tester2;
     private boolean flip = true;
+    private MapZoomer zoomer;
+    private FloorSelector floorSelector;
 
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
@@ -61,15 +57,22 @@ public class MainScreenController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
 
         initSearchComboBoxFont();
         initSearchComboBoxAutoComplete();
 
-            zoomer = new MapZoomer(mapImage, scrollPane);
-
-            tester2 = new PathDisplay(group2, parentVBox, algorithm);
-            instructions = new LinkedList<String>();
+        zoomer = new MapZoomer(mapImage, scrollPane);
+        tester2 = new PathDisplay(group2, parentVBox, algorithm);
+        instructions = new LinkedList<>();
+        floorSelector = new FloorSelector(
+                upButton, downButton,
+                new Floor(floorImage1, floorButton1),
+                new Floor(floorImage2, floorButton2),
+                new Floor(floorImage3, floorButton3),
+                new Floor(floorImage4, floorButton4),
+                new Floor(floorImage5, floorButton5)
+        );
+        floorSelector.setCurrent(3);
     }
 
     private void initSearchComboBoxFont() {
@@ -106,227 +109,90 @@ public class MainScreenController implements Initializable {
     @FXML private Label location2;
     @FXML private ComboBox<String> searchComboBox;
 
-    @FXML private void onUpClicked(ActionEvent event) {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        currentFloor += 1;
-        if (currentFloor == 1) {
-            set1();
-            mapImage.setImage(floor1);
-            currentFloor = 1;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        } else if (currentFloor == 2) {
-            set2();
-            mapImage.setImage(floor2);
-            currentFloor = 2;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        } else if (currentFloor == 3) {
-            set3();
-            mapImage.setImage(floor3);
-            currentFloor = 3;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        } else if (currentFloor == 4) {
-            set4();
-            mapImage.setImage(floor4);
-            currentFloor = 4;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        } else if (currentFloor == 5) {
-            set5();
-            mapImage.setImage(floor5);
-            currentFloor = 5;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
+    private static class Floor {
+        public final Image image;
+        public final JFXButton button;
+
+        public Floor(Image image, JFXButton button) {
+            this.image = image;
+            this.button = button;
         }
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+    }
+    private class FloorSelector {
+        private final JFXButton upButton;
+        private final JFXButton downButton;
+
+        private final Floor[] floors;
+        private int current;
+        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
+        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
+        private final int lowestFloorNumber = 1;
+        private final int highestFloorNumber;
+
+        public FloorSelector(JFXButton upButton, JFXButton downButton, Floor... floors) {
+            this.upButton = upButton;
+            this.downButton = downButton;
+            this.floors = floors;
+            this.highestFloorNumber = floors.length;
+        }
+
+        public int current() {
+            return this.current;
+        }
+        public void setCurrent(int floorNumber) {
+            if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
+                ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
+
+            this.current = floorNumber;
+            updateFloorButtons(floorNumber);
+            updateMapPanPosition(floorNumber);
+        }
+
+        private void updateFloorButtons(int floorNumber) {
+            for (Floor floor : this.floors)
+                floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
+            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
+
+            this.upButton.setDisable(floorNumber == highestFloorNumber);
+            this.downButton.setDisable(floorNumber == lowestFloorNumber);
+        }
+        private void updateMapPanPosition(int floorNumber) {
+            double currentHval = scrollPane.getHvalue();
+            double currentVval = scrollPane.getVvalue();
+            mapImage.setImage(floor(floorNumber).image);
+            zoomer.zoomSet();
+            if (tester2.getCounter() >= 0)
+                tester2.pathDraw(this.current);
+            drawNodesEdges();
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+        }
+        private Floor floor(int floorNumber) {
+            return floors[floorNumber - 1];
+        }
     }
 
-    @FXML private void onDownClicked(ActionEvent event) {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        currentFloor -= 1;
-        if (currentFloor == 1) {
-            set1();
-            mapImage.setImage(floor1);
-            currentFloor = 1;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        }
-        if (currentFloor == 2) {
-            set2();
-            currentFloor = 2;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            mapImage.setImage(floor2);
-            drawNodesEdges();
-
-        }
-        if (currentFloor == 3) {
-            set3();
-            mapImage.setImage(floor3);
-            currentFloor = 3;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        }
-        if (currentFloor == 4) {
-            set4();
-            mapImage.setImage(floor4);
-            currentFloor = 4;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        }
-        if (currentFloor == 5) {
-            set5();
-            mapImage.setImage(floor5);
-            currentFloor = 5;
-            if (tester2.getCounter() >= 2) {
-                tester2.pathDraw(currentFloor);
-            }
-            drawNodesEdges();
-        }
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+    @FXML private void onUpClicked() {
+        floorSelector.setCurrent(floorSelector.current() + 1);
     }
-
-    private void set1() {
-        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(true);
+    @FXML private void onDownClicked() {
+        floorSelector.setCurrent(floorSelector.current() - 1);
     }
-    private void set2() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        mapImage.setImage(floor2);
-        upButton.setDisable(false);
-        downButton.setDisable(false);
+    @FXML private void onFloorClicked1() {
+        floorSelector.setCurrent(1);
     }
-    private void set3() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-    }
-    private void set4() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-    private void set5() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        upButton.setDisable(true);
-        downButton.setDisable(false);
-    }
-
-    @FXML private void onFloorClicked1(ActionEvent event) {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        set1();
-        mapImage.setImage(floor1);
-        currentFloor = 1;
-        this.zoomer.zoomSet();
-        if (tester2.getCounter() >= 2) {
-            tester2.pathDraw(currentFloor);
-        }
-        drawNodesEdges();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-    }
-
     @FXML private void onFloorClicked2() {
-        //location1.setText(start);
-        //location2.setText(end);
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        set2();
-        currentFloor = 2;
-        this.zoomer.zoomSet();
-        if (tester2.getCounter() >= 2) {
-            tester2.pathDraw(currentFloor);
-        }
-        mapImage.setImage(floor2);
-        drawNodesEdges();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-
+        floorSelector.setCurrent(2);
     }
     @FXML private void onFloorClicked3() {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        set3();
-        mapImage.setImage(floor3);
-        currentFloor = 3;
-        this.zoomer.zoomSet();
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-        if (tester2.getCounter() >= 2) {
-            tester2.pathDraw(currentFloor);
-        }
-        drawNodesEdges();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-
+        floorSelector.setCurrent(3);
     }
     @FXML private void onFloorClicked4() {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        set4();
-        mapImage.setImage(floor4);
-        currentFloor = 4;
-        this.zoomer.zoomSet();
-        if (tester2.getCounter() >= 2) {
-            tester2.pathDraw(currentFloor);
-        }
-        drawNodesEdges();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-
-
-        }
-    @FXML private void onFloorClicked5() {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        set5();
-        mapImage.setImage(floor5);
-        currentFloor = 5;
-        this.zoomer.zoomSet();
-        if (tester2.getCounter() >= 2) {
-            tester2.pathDraw(currentFloor);
-        }
-        drawNodesEdges();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-
+        floorSelector.setCurrent(4);
     }
+    @FXML private void onFloorClicked5() {
+        floorSelector.setCurrent(5);
+    }
+
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
@@ -383,26 +249,18 @@ public class MainScreenController implements Initializable {
         scrollPane.setVvalue(Vval);
     }
 
-    public JFXButton getFloor2() {
+    public JFXButton getFloorImage2() {
         return floorButton2;
     }
     public void drawNodesEdges() {
-
         String floor = "0" + currentFloor;
-
         Group group = new Group();
-
         group.getChildren().clear();
-
         group.getChildren().add(mapImage);
-
         PathDisplay tester = new PathDisplay(group, parentVBox, this.algorithm);
-
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
-
         group.setOnMouseClicked(e -> tester2.setNode(findNearestNode(e.getX(), e.getY())));
-
         for (NodeData data : nd) {
             Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 0);
             circle1.setStroke(Color.ORANGE);
@@ -417,9 +275,7 @@ public class MainScreenController implements Initializable {
             }
             group.getChildren().add(circle1);
         }
-
         Set<EdgeData> ed = dbc.getAllEdges();
-
         for (EdgeData data : ed) {
             if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
                 int startX = 0;
@@ -459,47 +315,8 @@ public class MainScreenController implements Initializable {
                 }
             }
         }
-
         tester2.pathDraw(currentFloor);
-
         group.getChildren().add(group2);
-
-       /*Set<NodeData> ball = dbc.getAllNodesOfType("ELEV");
-
-        for (NodeData data : ball) {
-                ImageView elev = new ImageView();
-                elev.setImage(new Image("images/Balloons/elevator.png"));
-                elev.setX(data.getxCoordinate() - 20);
-                elev.setY(data.getyCoordinate() - 40);
-                elev.setPreserveRatio(true);
-                elev.setFitWidth(40);
-                group.getChildren().add(elev);
-        }
-
-        ball = dbc.getAllNodesOfType("REST");
-
-           for(NodeData data : ball) {
-               ImageView elev = new ImageView();
-               elev.setImage(new Image("images/Balloons/bathroom.png"));
-               elev.setX(data.getxCoordinate() - 20);
-               elev.setY(data.getyCoordinate() - 40);
-               elev.setPreserveRatio(true);
-               elev.setFitWidth(40);
-               group.getChildren().add(elev);
-           }
-
-        ball = dbc.getAllNodesOfType("STAI");
-          for(NodeData data: ball) {
-                ImageView elev = new ImageView();
-                elev.setImage(new Image("images/Balloons/staris.png"));
-                elev.setX(data.getxCoordinate() - 20);
-                elev.setY(data.getyCoordinate() - 40);
-                elev.setPreserveRatio(true);
-                elev.setFitWidth(40);
-                group.getChildren().add(elev);
-            }*/
-
-
         scrollPane.setContent(group);
     }
 
