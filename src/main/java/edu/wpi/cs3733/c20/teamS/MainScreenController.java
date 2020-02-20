@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
 public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
-    private int currentFloor = 2;
-
     private Group group2 = new Group();
     private PathDisplay tester2;
     private boolean flip = true;
@@ -127,8 +125,6 @@ public class MainScreenController implements Initializable {
 
         zoomer = new MapZoomer(mapImage, scrollPane);
         tester2 = new PathDisplay(group2, parentVBox, algorithm);
-        LinkedList<String> instructions = new LinkedList<>();
-
         initFloorSelector();
     }
 
@@ -161,7 +157,7 @@ public class MainScreenController implements Initializable {
         return floorButton2;
     }
     public void drawNodesEdges() {
-        String floor = "0" + currentFloor;
+        String floor = "0" + floorSelector.current();
         Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
@@ -223,7 +219,7 @@ public class MainScreenController implements Initializable {
                 }
             }
         }
-        tester2.pathDraw(currentFloor);
+        tester2.pathDraw(floorSelector.current());
         group.getChildren().add(group2);
         scrollPane.setContent(group);
     }
@@ -235,7 +231,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> nd = dbc.getAllNodes();
 
         for (NodeData temp : nd) {
-            if (temp.getFloor() == currentFloor) {
+            if (temp.getFloor() == floorSelector.current()) {
                 if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
                     distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
                     nearest = temp;
