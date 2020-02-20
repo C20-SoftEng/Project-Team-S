@@ -30,23 +30,7 @@ public final class RideRequestScreen {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/serviceRequests/RideRequestDialog.fxml"));
         loader.setControllerFactory(c -> {
             RideRequestUIController controller = new RideRequestUIController(loggedIn);
-            controller.dialogCompleted().subscribe(next -> {
-                        if(next.result() == DialogResult.OK){
-                            DatabaseController dbc = new DatabaseController();
-                            String serviceType = "RIDE";
-                            String status = "Incomplete";
-                            String message = next.value().message();
-                            String data = "";
-                            int assignedEmployeeID = next.value().assignee().id();
-                            String serviceNode = next.value().location();
-                            int dummyID = 0;
-
-                            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
-                            dbc.addServiceRequestData(sd);
-                        }
-                        this.stage.close();
-                    }
-            );
+            controller.dialogCompleted().subscribe(this::onDialogCompleted);
             return controller;
         });
 
@@ -57,6 +41,24 @@ public final class RideRequestScreen {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private void onDialogCompleted(DialogEvent<RideServiceRequest> next) {
+        if(next.result() == DialogResult.OK){
+            DatabaseController dbc = new DatabaseController();
+            String serviceType = "RIDE";
+            String status = "Incomplete";
+            String message = next.value().message();
+            String data = "";
+            int assignedEmployeeID = next.value().assignee().id();
+            String serviceNode = next.value().location();
+            int dummyID = 0;
+
+            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+            dbc.addServiceRequestData(sd);
+        }
+        subject.onNext(next);
+        this.stage.close();
     }
 
     private void show() {

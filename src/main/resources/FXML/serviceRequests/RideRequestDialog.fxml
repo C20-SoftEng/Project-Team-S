@@ -122,7 +122,7 @@
             </JFXButton>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="6">
                <children>
-                  <JFXButton buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;" text="OK" textFill="#00c8a0">
+                  <JFXButton buttonType="RAISED" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;" text="OK" textFill="#00c8a0">
                      <HBox.margin>
                         <Insets left="14.0" right="14.0" />
                      </HBox.margin>
@@ -134,7 +134,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <children>
-                  <JFXButton buttonType="RAISED" cancelButton="true" onAction="#onCancelClicked" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000000;" text="Cancel" textFill="RED">
+                  <JFXButton buttonType="RAISED" onAction="#onCancelClicked" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000000;" text="Cancel" textFill="RED">
                      <font>
                         <Font size="24.0" />
                      </font>
