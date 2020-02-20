@@ -1,7 +1,5 @@
-package edu.wpi.cs3733.c20.teamS.serviceRequests;
+package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +9,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * The Screen should be able to load active ServiceData from database
