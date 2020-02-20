@@ -43,40 +43,6 @@ public class mainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private WrittenInstructions writtenInstructions;
-
-    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
-        this.algorithm = pathAlgorithm;
-        this.stage = mainStage;
-        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
-    }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
-
-        initSearchComboBoxFont();
-        initSearchComboBoxAutoComplete();
-
-            zoomer = new MapZoomer(mapImage, scrollPane);
-
-            tester2 = new PathDisplay(group2, parentVBox, algorithm);
-            instructions = new LinkedList<String>();
-
-    }
-
-    private void initSearchComboBoxFont() {
-        String fontFamily = searchComboBox.getEditor().getFont().getFamily();
-        Font font = new Font(fontFamily, 18);
-        searchComboBox.getEditor().setFont(font);
-    }
-    private void initSearchComboBoxAutoComplete() {
-        DatabaseController db = new DatabaseController();
-        Set<NodeData> nodes = db.getAllNodes();
-        List<String> dictionary = nodes.stream()
-                .map(node -> node.getLongName() + ", " + node.getNodeID())
-                .collect(Collectors.toList());
-        AutoComplete.start(dictionary, searchComboBox);
-    }
-
     int current_floor = 2;
     String newFloor;
     private MapZoomer zoomer;
@@ -93,44 +59,58 @@ public class mainScreenController implements Initializable {
 
     private boolean flip = true;
 
-    //@FXML JFXButton elevatorButton;
-
-    @FXML
-    private ImageView mapImage;
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private JFXButton floorButton1;
-    @FXML
-    private JFXButton floorButton2;
-    @FXML
-    private JFXButton floorButton3;
-    @FXML
-    private JFXButton floorButton4;
-    @FXML
-    private JFXButton floorButton5;
-    @FXML
-    private JFXButton downButton;
-    @FXML
-    private JFXButton upButton;
-    @FXML
-    private JFXButton pathfindButton;
-    @FXML
-    private JFXButton swapButton;
-    @FXML
-    private Label location1;
-    @FXML
-    private VBox parentVBox;
-
-    @FXML private JFXButton zoomInButton;
-    @FXML private JFXButton zoomOutButton;
-
-    @FXML
-    private Label location2;
-    @FXML
-    private ComboBox<String> searchComboBox;
+    //region Buttons
+    @FXML  private JFXButton floorButton1;
+    @FXML  private JFXButton floorButton2;
+    @FXML  private JFXButton floorButton3;
+    @FXML  private JFXButton floorButton4;
+    @FXML  private JFXButton floorButton5;
+    @FXML  private JFXButton downButton;
+    @FXML  private JFXButton upButton;
+    @FXML  private JFXButton pathfindButton;
+    @FXML  private JFXButton swapButton;
+    @FXML  private JFXButton zoomInButton;
+    @FXML  private JFXButton zoomOutButton;
+    //endregion
+    @FXML  private Label location1;
+    @FXML  private Label location2;
+    @FXML  private VBox parentVBox;
+    @FXML  private ComboBox<String> searchComboBox;
+    @FXML  private ImageView mapImage;
+    @FXML  private ScrollPane scrollPane;
     private String start = "Start Location";
     private String end = "End Location";
+
+    public mainScreenController(Stage mainStage, IPathfinding pathAlgorithm){
+        this.algorithm = pathAlgorithm;
+        this.stage = mainStage;
+        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
+
+        initSearchComboBoxFont();
+        initSearchComboBoxAutoComplete();
+
+        zoomer = new MapZoomer(mapImage, scrollPane);
+        tester2 = new PathDisplay(group2, parentVBox, algorithm);
+        instructions = new LinkedList<String>();
+    }
+
+    private void initSearchComboBoxFont() {
+        String fontFamily = searchComboBox.getEditor().getFont().getFamily();
+        Font font = new Font(fontFamily, 18);
+        searchComboBox.getEditor().setFont(font);
+    }
+    private void initSearchComboBoxAutoComplete() {
+        DatabaseController db = new DatabaseController();
+        Set<NodeData> nodes = db.getAllNodes();
+        List<String> dictionary = nodes.stream()
+                .map(node -> node.getLongName() + ", " + node.getNodeID())
+                .collect(Collectors.toList());
+        AutoComplete.start(dictionary, searchComboBox);
+    }
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -138,7 +118,7 @@ public class mainScreenController implements Initializable {
         currentVval = scrollPane.getVvalue();
         current_floor += 1;
         if (current_floor == 1) {
-            set1();
+            set(1);
             mapImage.setImage(floor1);
             current_floor = 1;
             if (tester2.getCounter() >= 2) {
@@ -146,7 +126,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         } else if (current_floor == 2) {
-            set2();
+            set(2);
             mapImage.setImage(floor2);
             current_floor = 2;
             if (tester2.getCounter() >= 2) {
@@ -154,7 +134,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         } else if (current_floor == 3) {
-            set3();
+            set(3);
             mapImage.setImage(floor3);
             current_floor = 3;
             if (tester2.getCounter() >= 2) {
@@ -162,7 +142,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         } else if (current_floor == 4) {
-            set4();
+            set(4);
             mapImage.setImage(floor4);
             current_floor = 4;
             if (tester2.getCounter() >= 2) {
@@ -170,7 +150,7 @@ public class mainScreenController implements Initializable {
             }
             drawNodesEdges();
         } else if (current_floor == 5) {
-            set5();
+            set(5);
             mapImage.setImage(floor5);
             current_floor = 5;
             if (tester2.getCounter() >= 2) {
@@ -187,7 +167,7 @@ public class mainScreenController implements Initializable {
         currentVval = scrollPane.getVvalue();
         current_floor -= 1;
         if (current_floor == 1) {
-            set1();
+            set(1);
             mapImage.setImage(floor1);
             current_floor = 1;
             if (tester2.getCounter() >= 2) {
@@ -196,7 +176,7 @@ public class mainScreenController implements Initializable {
             drawNodesEdges();
         }
         if (current_floor == 2) {
-            set2();
+            set(2);
             current_floor = 2;
             if (tester2.getCounter() >= 2) {
                 tester2.pathDraw(current_floor);
@@ -206,7 +186,7 @@ public class mainScreenController implements Initializable {
 
         }
         if (current_floor == 3) {
-            set3();
+            set(3);
             mapImage.setImage(floor3);
             current_floor = 3;
             if (tester2.getCounter() >= 2) {
@@ -215,7 +195,7 @@ public class mainScreenController implements Initializable {
             drawNodesEdges();
         }
         if (current_floor == 4) {
-            set4();
+            set(4);
             mapImage.setImage(floor4);
             current_floor = 4;
             if (tester2.getCounter() >= 2) {
@@ -224,7 +204,7 @@ public class mainScreenController implements Initializable {
             drawNodesEdges();
         }
         if (current_floor == 5) {
-            set5();
+            set(5);
             mapImage.setImage(floor5);
             current_floor = 5;
             if (tester2.getCounter() >= 2) {
@@ -235,52 +215,34 @@ public class mainScreenController implements Initializable {
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
-    void set1() {
-        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+    void set(int floor){
+        resetFloorButtons();
+        switch(floor){
+            case 1:
+                floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+                downButton.setDisable(true);
+                break;
+            case 2:
+                floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+                break;
+            case 3:
+                floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+                break;
+            case 4:
+                floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+                break;
+            case 5:
+                floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+                upButton.setDisable(true);
+        }
+    }
+    void resetFloorButtons(){
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
         upButton.setDisable(false);
-        downButton.setDisable(true);
-    }
-
-    void set2() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        mapImage.setImage(floor2);
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-
-    void set3() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-    }
-
-    void set4() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-
-    void set5() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        upButton.setDisable(true);
         downButton.setDisable(false);
     }
 
@@ -288,7 +250,7 @@ public class mainScreenController implements Initializable {
     void onFloorClicked1(ActionEvent event) {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
-        set1();
+        set(1);
         mapImage.setImage(floor1);
         current_floor = 1;
         this.zoomer.zoomSet();
@@ -306,7 +268,7 @@ public class mainScreenController implements Initializable {
         //location2.setText(end);
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
-        set2();
+        set(2);
         current_floor = 2;
         this.zoomer.zoomSet();
         if (tester2.getCounter() >= 2) {
@@ -322,7 +284,7 @@ public class mainScreenController implements Initializable {
     void onFloorClicked3(ActionEvent event) {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
-        set3();
+        set(3);
         mapImage.setImage(floor3);
         current_floor = 3;
         this.zoomer.zoomSet();
@@ -340,7 +302,7 @@ public class mainScreenController implements Initializable {
     void onFloorClicked4(ActionEvent event) {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
-        set4();
+        set(4);
         mapImage.setImage(floor4);
         current_floor = 4;
         this.zoomer.zoomSet();
@@ -351,13 +313,13 @@ public class mainScreenController implements Initializable {
         keepCurrentPosition(currentHval, currentVval, zoomer);
 
 
-        }
+    }
 
     @FXML
     void onFloorClicked5(ActionEvent event) {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
-        set5();
+        set(5);
         mapImage.setImage(floor5);
         current_floor = 5;
         this.zoomer.zoomSet();

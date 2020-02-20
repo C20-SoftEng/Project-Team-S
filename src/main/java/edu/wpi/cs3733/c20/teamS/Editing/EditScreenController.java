@@ -496,6 +496,7 @@ public class EditScreenController implements Initializable {
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester2.addEdge(mapImage, current_floor);
+            tester.addEdge(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 
         });
