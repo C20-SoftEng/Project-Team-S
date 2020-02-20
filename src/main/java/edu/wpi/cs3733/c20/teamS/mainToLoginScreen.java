@@ -31,12 +31,8 @@ public class mainToLoginScreen {
         }
 
         ui.drawNodesEdges();
-        ui.getFloorImage2().fire();
-
         this.show();
         stage.setFullScreen(true);
-
-
     }
     public void show() {
         stage.setScene(scene);

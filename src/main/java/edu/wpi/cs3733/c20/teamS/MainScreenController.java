@@ -153,9 +153,9 @@ public class MainScreenController implements Initializable {
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public JFXButton getFloorImage2() {
+/*    public JFXButton getFloorImage2() {
         return floorButton2;
-    }
+    }*/
     public void drawNodesEdges() {
         String floor = "0" + floorSelector.current();
         Group group = new Group();
