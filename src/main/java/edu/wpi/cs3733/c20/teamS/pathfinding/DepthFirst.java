@@ -9,74 +9,43 @@ import java.util.*;
 
 public class DepthFirst implements IPathfinding {
 
-    private boolean visited[];
-
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
 
+        Stack<Path> stack = new Stack<>();
+        Set<NodeData> seen = new HashSet<>();
+        Path empty = Path.empty();
+        stack.push(empty.push(start, 0));
+        seen.add(start);
 
-        if(graph.nodes().isEmpty() || !graph.nodes().contains(start) || !graph.nodes().contains(goal)){
-            return new ArrayList<>();
+        while (!stack.isEmpty()) {
+            Path frontier = stack.pop();
+            if (frontier.peek().equals(goal))
+                return frontier;
+            for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
+                if (!seen.add(friend))
+                    continue;
+                stack.push(frontier.push(friend, 0));
+            }
         }
-        else{
-            NodeData current = start;
-
-            Stack<NodeData> frontier = new Stack<>();
-            frontier.add(current);
-
-            LinkedList<NodeData> visited = new LinkedList<>();
-            visited.add(current);
-
-            HashMap<NodeData, NodeData> cameFrom = new HashMap<>();
-            cameFrom.put(current, null);
-
-            while(!frontier.isEmpty()){
-                current = frontier.pop();
-
-                if (current == goal){
-                    break;
-                }
-
-                for(NodeData next: graph.adjacentNodes(current)){
-                    if(current == next){
-                        cameFrom.clear();
-                        System.out.println("Start = next");
-                        break;
-                    }
-                    if (!visited.contains(next)){
-                        visited.add(next);
-                        frontier.add(next);
-                        cameFrom.put(next, current);}
-                }
-            }
-
-            //no valid path to destination
-            if(current != goal){
-                return new ArrayList<>();
-            }
-
-            ArrayList<NodeData> reversePath = new ArrayList<>();
-            reversePath.add(current);
-
-            //reconstruct the path goal->start
-            while (current != start){
-                //steps back through the path
-                current = cameFrom.get(current);
-                reversePath.add(current);
-            }
-
-            ArrayList<NodeData> path = new ArrayList<>();
-            for(int i = 0; i< reversePath.size(); i++){
-                path.add(reversePath.get(reversePath.size()-(i+1)));
-            }
-            return path;
-        }
+        return empty;
     }
 
+    /**
+     * A heuristic function that uses the euclidean distance
+     * @param goal the goal node
+     * @param current the current node
+     * @return the euclidean distance
+     */
+    public double euclideanDistance(NodeData goal, NodeData current){
+        if(goal == null) ThrowHelper.illegalNull("goal");
+        if(current == null) ThrowHelper.illegalNull("current");
 
+        return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) + (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
+    }
 
 
 
