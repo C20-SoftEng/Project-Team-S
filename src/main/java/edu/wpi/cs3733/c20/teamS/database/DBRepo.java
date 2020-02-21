@@ -23,8 +23,8 @@ public interface DBRepo {
     void addEmployee(EmployeeData ed);
     boolean checkLogin(String username, String password);
     EmployeeData getEmployee(String username);
-//    void removeEmployee(String username);
-//    void updateEmployee(EmployeeData emp);
+    void removeEmployee(String username);
+    void updateEmployee(EmployeeData emp);
 
     void addServiceRequestData(ServiceData sd);
     void updateServiceData(ServiceData sd);
