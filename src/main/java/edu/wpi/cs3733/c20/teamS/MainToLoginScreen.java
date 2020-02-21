@@ -29,7 +29,7 @@ public class MainToLoginScreen {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        ui.drawNodesEdges();
+        ui.updateFloorDisplay();
         this.show();
         stage.setFullScreen(true);
     }
