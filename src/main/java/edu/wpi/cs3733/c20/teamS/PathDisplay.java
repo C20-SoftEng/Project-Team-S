@@ -18,10 +18,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import java.util.ArrayList;
 import java.util.Set;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.scene.shape.*;
+import javafx.scene.effect.Reflection;
+
 
 public class PathDisplay {
     private String floornum;
@@ -33,6 +37,11 @@ public class PathDisplay {
     Group group;
     private IPathfinding algorithm;
     VBox parentVBox;
+    PathTransition pt = new PathTransition();
+    Path path = new Path();
+    Reflection reflection = new Reflection();
+    MoveTo moveTo = new MoveTo();
+    LineTo lineTo = new LineTo();
 
     public int getCounter() {return counter;}
 
@@ -142,12 +151,30 @@ public class PathDisplay {
                         line1.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
                         line1.setStrokeWidth(10);
                         groupPath.getChildren().add(line1);
+
+                        moveTo.setX(startX);
+                        moveTo.setY(startY);
+                        if(i==0){
+                            LineTo startLine = new LineTo();
+                            startLine.setX(startX);
+                            startLine.setY(startY);
+                            path.getElements().add(startLine);
+                        }
+
+                        lineTo.setX(endX);
+                        lineTo.setY(endY);
+
+                        path.getElements().add(lineTo);
+
                         if(first == 1) {
+                            //sets beginning positon icon
                             if(startNode.getFloor() == currentFloor) {
                             Circle circle = new Circle (startNode.getxCoordinate(),startNode.getyCoordinate(),15);
                             circle.setFill(Color.RED);
-                            groupPath.getChildren().add(circle);}
+                            groupPath.getChildren().add(circle);
+                            }
 
+                            //sets end position icon
                             if(endNode.getFloor() == currentFloor) {
                                 ImageView pinIcon = new ImageView();
                                 pinIcon.setImage(new Image("images/Icons/pin.png"));
@@ -157,13 +184,26 @@ public class PathDisplay {
                                 pinIcon.setFitWidth(40);
                                 groupPath.getChildren().add(pinIcon);
                             }
+
                             first = 2;
                         }
+
+                        //animates line
                     }
                 }
             }
 
             group.getChildren().add(groupPath);
         }
+
+        pt.setDuration(Duration.seconds(10));
+        pt.setDelay(Duration.seconds(5));
+        pt.setPath(path);
+        Circle circ = new Circle(moveTo.getX(),moveTo.getY(),10,Color.DEEPSKYBLUE);
+        pt.setNode(circ);
+        pt.setCycleCount(Timeline.INDEFINITE);
+        //pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        //groupPath.getChildren().add(pt);
+        pt.play();
     }
 }
