@@ -26,7 +26,10 @@ public class WrittenInstructions_Tests {
     NodeData nodeTwelve = new NodeData("12", 260,30,3, "Hospital", "Room", "longName12", "LN12");
 
     NodeData nodeThirteen = new NodeData("13", 200,20,3, "Hospital", "ELEV", "longName13", "LN13");
-///=========================================================================================================================================
+
+    NodeData nodeFourteen = new NodeData("14", 209, 20, 3, "Hospital", "Room", "longName14", "LN14");
+
+    ///=========================================================================================================================================
     NodeData nodeSix = new NodeData("6", 300,700,2,"Hospital", "Room", "longName6", "LN6");
 
     NodeData nodeSeven = new NodeData("7", 300,840,2,"Hospital", "Room", "longName7", "LN7");
@@ -55,29 +58,15 @@ public class WrittenInstructions_Tests {
         WrittenInstructions wi = new WrittenInstructions(pathtest1);
 
       LinkedList<String> realInstructions = new LinkedList<>();
-        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
-        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
-        realInstructions.add("Go Straight For 13FT OR 4M Turn Left ");
+        realInstructions.add("In 27FT (8M), Turn Right");
+        realInstructions.add("In 11FT (3M), Turn Left");
+        realInstructions.add("In 13FT (4M), Turn Left");
 
 
 
         assertEquals(realInstructions, wi.directions());
     }
 
-    @Test
-    public void turnRightTest1() {
-        ArrayList<NodeData> pathtest2 = new ArrayList<>();
-        pathtest2.add(nodeSix);
-        pathtest2.add(nodeSeven);
-        pathtest2.add(nodeEight);
-        pathtest2.add(nodeNine);
-        pathtest2.add(nodeTen);
-
-        WrittenInstructions test2 = new WrittenInstructions(pathtest2);
-
-
-        assertEquals("Turn Right In 26FT OR 8M",test2.directions());
-    }
 
     @Test
     public void secondLastTurnTest(){
@@ -92,8 +81,8 @@ public class WrittenInstructions_Tests {
         WrittenInstructions test3 = new WrittenInstructions(pathtest3);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
-        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
+        realInstructions.add("In 27FT (8M), Turn Right");
+        realInstructions.add("In 11FT (3M), Turn Left");
         realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
 
         assertEquals(realInstructions, test3.directions());
@@ -112,15 +101,37 @@ public class WrittenInstructions_Tests {
         WrittenInstructions test4 = new WrittenInstructions(pathtest4);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
-        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
-        realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
+        realInstructions.add("In 5FT (2M), Turn Right");
+        realInstructions.add("In 24FT (7M), Turn Left");
+        realInstructions.add("Take The Elevator To Floor 3");
+        realInstructions.add("In 13FT (4M), Turn Left");
+
 
         assertEquals(realInstructions, test4.directions());
 
     }
 
-// NEED TESTS FOR DISTANCES < 5!!!!!!
+    @Test
+    public void lessThan10FeetTest(){
+        ArrayList<NodeData> pathtest5  = new ArrayList<>();
+        pathtest5.add(nodeOne);
+        pathtest5.add(nodeTwo);
+        pathtest5.add(nodeThirteen);
+        pathtest5.add(nodeFourteen);
+        //pathtest5.add(nodeEleven);
+        pathtest5.add(nodeTwelve);
+
+        WrittenInstructions test5 = new WrittenInstructions(pathtest5);
+
+        List realInstructions = new ArrayList();
+        realInstructions.add("In 5FT (2M), Turn Right");
+        realInstructions.add("In 24FT (7M), Turn Left");
+        realInstructions.add("Take The Elevator To Floor 3");
+        realInstructions.add("Turn Left");
+
+        assertEquals(realInstructions, test5.directions());
+    }
+
 
 
 
