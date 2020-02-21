@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
@@ -100,56 +99,6 @@ public class PathDisplay {
         }
 
         group.getChildren().add(groupPath);
-//        if(counter >= 2) {
-//            PathingContext pathContext = new PathingContext(this.algorithm);
-//            Path path = pathContext.executePathfind(graph, startNode, endNode);
-//            List<NodeData> work = path.startToFinish();
-//
-//            for(int i = 0; i < work.size() - 1; i++) {
-//                EdgeData data = new EdgeData(work.get(i).getNodeID() +
-//                        "_" + work.get(i + 1).getNodeID(), work.get(i).getNodeID(),work.get(i + 1).getNodeID());
-//                if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(cf)) {
-//                    String start = data.getStartNode();
-//                    String end = data.getEndNode();
-//                    int startX = 0;
-//                    int startY = 0;
-//                    int endX = 0;
-//                    int endY = 0;
-//                    boolean checker1 = false;
-//                    boolean checker2 = false;
-//                    for(NodeData check: nd) {
-//                        if(check.getNodeID().equals(start)) {
-//                            checker1 = true;
-//                            startX = (int)check.getxCoordinate();
-//                            startY = (int)check.getyCoordinate();
-//                        }
-//                        if(check.getNodeID().equals(end)) {
-//                            checker2 = true;
-//                            endX = (int)check.getxCoordinate();
-//                            endY = (int)check.getyCoordinate();
-//                        }
-//                    }
-//                    if(checker1 && checker2) {
-//
-//                        groupPath.getChildren().add(line1);
-//                        if(first == 1) {
-//                            if(startNode.getFloor() == currentFloor) {
-//                            Circle circle = new Circle (startNode.getxCoordinate(),startNode.getyCoordinate(),15);
-//                            circle.setFill(Color.RED);
-//                            groupPath.getChildren().add(circle);}
-//
-//                            if(endNode.getFloor() == currentFloor) {
-//                                ImageView pinIcon = drawEndBalloon();
-//                                groupPath.getChildren().add(pinIcon);
-//                            }
-//                            first = 2;
-//                        }
-//                    }
-//                }
-//            }
-
-//            group.getChildren().add(groupPath);
-//        }
     }
 
     private ImageView drawEndBalloon(NodeData node) {
