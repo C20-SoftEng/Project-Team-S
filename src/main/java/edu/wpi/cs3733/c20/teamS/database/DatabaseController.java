@@ -743,7 +743,7 @@ public class DatabaseController implements DBRepo{
     }
 
 
-    public void importNodes(){
+    private void importNodes(){
         try{
             System.out.println("Importing Nodes...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
@@ -770,7 +770,7 @@ public class DatabaseController implements DBRepo{
 
     }
 
-    public void importEdges(){
+    private void importEdges(){
         try{
             System.out.println("Importing Edges...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
@@ -796,7 +796,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    public void importEmployees(){
+    private void importEmployees(){
         try{
             System.out.println("Importing Employees...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/employees.csv"));
