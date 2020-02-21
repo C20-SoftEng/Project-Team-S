@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.utilities;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,7 @@ public final class Board<TPost> {
         return start;
     }
     public TPost end() {
-        return end();
+        return end;
     }
     public boolean isEmpty() {
         return start == null && end == null;
@@ -41,10 +40,10 @@ public final class Board<TPost> {
 
     private Board<TPost> next(TPost nextPost) {
         if (start == null)
-            return new Board(nextPost, null);
+            return new Board<>(nextPost, null);
         if (end == null)
-            return new Board(start, nextPost);
-        return new Board(end, nextPost);
+            return new Board<>(start, nextPost);
+        return new Board<>(end, nextPost);
     }
 
     /**
@@ -76,6 +75,11 @@ public final class Board<TPost> {
         return Objects.hash(start, end);
     }
 
+    @Override
+    public String toString() {
+        return "[" + start + ", " + end + "]";
+    }
+
     private static class BoardIterator<TPost> implements Iterator<Board<TPost>> {
         private final Iterator<TPost> inner;
         private Board<TPost> current;
@@ -83,8 +87,7 @@ public final class Board<TPost> {
         public BoardIterator(Iterator<TPost> inner) {
             this.inner = inner;
             current = empty();
-
-            while (this.inner.hasNext() && !current.isComplete())
+            if (inner.hasNext())
                 current = current.next(inner.next());
         }
 
@@ -94,9 +97,8 @@ public final class Board<TPost> {
         }
         @Override
         public Board<TPost> next() {
-            final Board<TPost> result = current;
             current = current.next(inner.next());
-            return result;
+            return current;
         }
     }
 

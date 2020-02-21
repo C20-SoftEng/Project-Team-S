@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.*;
+import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,30 +47,13 @@ public class PathDisplay {
         public final NodeData start;
         public final NodeData end;
 
-        private Edge() {
-            this(null, null);
-        }
-        private Edge(NodeData start, NodeData end) {
+        public Edge(NodeData start, NodeData end) {
             this.start = start;
             this.end = end;
         }
-        public static Edge empty() {
-            return new Edge();
-        }
-        public Edge next(NodeData node) {
-            if (start == null)
-                return new Edge(node, null);
-            if (end == null)
-                return new Edge(start, node);
 
-            return new Edge(this.end, node);
-        }
         public boolean isComplete() {
             return start != null && end != null;
-        }
-        public boolean isElevator() {
-            return isComplete() &&
-                    start.getFloor() != end.getFloor();
         }
         public boolean isOnFloor(int floor) {
             if (!isComplete())
@@ -80,15 +64,9 @@ public class PathDisplay {
     }
 
     private static List<Edge> findCompleteEdges(Iterable<NodeData> nodes) {
-        Edge edge = Edge.empty();
-        List<Edge> result = new ArrayList<>();
-        for (NodeData node : nodes) {
-            edge = edge.next(node);
-            if (edge.isComplete())
-                result.add(edge);
-        }
-
-        return result;
+        return Board.asList(nodes).stream()
+                .map(board -> new Edge(board.start(), board.end()))
+                .collect(Collectors.toList());
     }
 
     public void pathDraw(MutableGraph<NodeData> graph, int currentFloor) {

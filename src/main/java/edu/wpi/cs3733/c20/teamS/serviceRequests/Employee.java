@@ -8,6 +8,9 @@ public final class Employee {
     private final int id_;
     private final AccessLevel accessLevel_;
 
+    public Employee(int id, String name) {
+        this(id, name, AccessLevel.EMPLOYEE);
+    }
     public Employee(int id, String name, AccessLevel level) {
         if (name == null) ThrowHelper.illegalNull("name");
 
