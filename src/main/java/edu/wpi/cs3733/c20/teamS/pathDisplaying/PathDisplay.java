@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -28,7 +29,9 @@ public class PathDisplay {
     private IPathfinding algorithm;
     private VBox parentVBox;
 
-    public int getCounter() {return counter;}
+    public int getCounter() {
+        return counter;
+    }
 
     public PathDisplay(Group group, VBox parentVBox, IPathfinding pathfinding) {
         this.group = group;
@@ -37,8 +40,14 @@ public class PathDisplay {
     }
 
     public void setNode(NodeData data) {
-        if(counter % 2 == 0) {startNode = data; floornum = "0" + data.getFloor();}
-        if(counter % 2 != 0) {endNode = data; floornum2 = "0" + data.getFloor();}
+        if (counter % 2 == 0) {
+            startNode = data;
+            floornum = "0" + data.getFloor();
+        }
+        if (counter % 2 != 0) {
+            endNode = data;
+            floornum2 = "0" + data.getFloor();
+        }
         counter++;
     }
 
@@ -54,6 +63,7 @@ public class PathDisplay {
         public boolean isComplete() {
             return start != null && end != null;
         }
+
         public boolean isOnFloor(int floor) {
             if (!isComplete())
                 return false;
@@ -97,8 +107,24 @@ public class PathDisplay {
             ImageView endBalloon = drawEndBalloon(endNode);
             groupPath.getChildren().add(endBalloon);
         }
+        for (NodeData node1 : graph.nodes()) {
+            if (node1.getNodeType() == "ELEV") {
+                ImageView elavator_gif = drawElevator(node1);
+                groupPath.getChildren().add(elavator_gif);
+            }
+        }
 
         group.getChildren().add(groupPath);
+    }
+
+    private ImageView drawElevator(NodeData node) {
+        ImageView elevator_icon = new ImageView();
+        elevator_icon.setImage(new Image("images/Baloons/elevator.png"));
+        elevator_icon.setX(node.getxCoordinate() - 20);
+        elevator_icon.setY(node.getyCoordinate() - 60);
+        elevator_icon.setPreserveRatio(true);
+        elevator_icon.setFitWidth(40);
+        return elevator_icon;
     }
 
     private ImageView drawEndBalloon(NodeData node) {
@@ -120,11 +146,11 @@ public class PathDisplay {
         line.setStroke(Color.RED);
         line.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(10);
-
         return line;
     }
+
     private Circle drawStartCircle(NodeData node) {
-        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(),15);
+        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 15);
         circle.setFill(Color.RED);
         return circle;
     }
@@ -138,7 +164,7 @@ public class PathDisplay {
         JFXTextField directionLabel = new JFXTextField();
         directionLabel.setText("Directions");
         JFXTextField space = new JFXTextField();
-        for(String direct : words) {
+        for (String direct : words) {
             JFXTextArea text = new JFXTextArea();
             text.setText(direct);
             text.setPrefHeight(offset);
