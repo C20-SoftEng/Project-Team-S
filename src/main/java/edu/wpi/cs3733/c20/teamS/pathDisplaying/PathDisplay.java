@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS;
+package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -7,10 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
-import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
-import edu.wpi.cs3733.c20.teamS.pathfinding.PathingContext;
+import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
@@ -49,7 +48,6 @@ public class PathDisplay {
         this.group = group;
         this.parentVBox = parentVBox;
         this.algorithm = pathfinding;
-
     }
 
     public void setNode(NodeData data) {
@@ -97,25 +95,21 @@ public class PathDisplay {
             }
 
             PathingContext pathContext = new PathingContext(this.algorithm);
-            ArrayList<NodeData> work = pathContext.executePathfind(graph, startNode, endNode);
+            Path path = pathContext.executePathfind(graph, startNode, endNode);
+            List<NodeData> work = path.startToFinish();
             WrittenInstructions directions = new WrittenInstructions(work);
-            ArrayList<String> words = directions.directions();
+            List<String> words = directions.directions();
             System.out.println(words.size());
             int offset = 30;
             parentVBox.getChildren().clear();
             JFXTextField directionLabel = new JFXTextField();
             directionLabel.setText("Directions");
             JFXTextField space = new JFXTextField();
-            //directionLabel.setFont("Font name=System Bold size=24.0");
             for(String direct : words) {
                 JFXTextArea text = new JFXTextArea();
                 text.setText(direct);
-                //text.setWrapText(true);
                 text.setPrefHeight(offset);
-              //  text.setTranslateY(offset);
-              //  offset += 10;
                 parentVBox.getChildren().add(text);
-               // System.out.println(direct);
             }
 
             for(int i = 0; i < work.size() - 1; i++) {

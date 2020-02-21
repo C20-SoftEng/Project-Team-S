@@ -8,6 +8,7 @@ import javafx.scene.Node;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedList;
 
 import static java.lang.Math.*;
@@ -19,17 +20,17 @@ public class WrittenInstructions {
     double ftRatio = realLifeMeasurementFt / pixelMeasurement;
     double mRatio = realLifeMeasurementM / pixelMeasurement;
 
-    ArrayList<NodeData> path;
-    ArrayList<String> instructions = new ArrayList<>();
+    List<NodeData> path;
+    List<String> instructions = new ArrayList<>();
 
     int savingDistance=0;
 
-    public WrittenInstructions(ArrayList<NodeData> path) {
+    public WrittenInstructions(List<NodeData> path) {
         this.path = path;
     }
 
 
-    public ArrayList<String> directions() {
+    public List<String> directions() {
         if (path.size() > 2) {
             for (int i = 0; i < path.size() - 2; i++) {
 
@@ -63,7 +64,7 @@ public class WrittenInstructions {
     }
 
 
-    public ArrayList<String> getInstructions() {
+    public List<String> getInstructions() {
         return instructions;
     }
 
