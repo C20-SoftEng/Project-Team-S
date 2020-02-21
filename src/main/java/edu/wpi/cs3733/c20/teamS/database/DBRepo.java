@@ -30,9 +30,9 @@ public interface DBRepo {
     void updateServiceData(ServiceData sd);
     void deleteServiceWithId(int id);
 
-    Set<Integer> getCapableEmployees(String serviceType);
-    void addCapability(int ID, String type);
-    void removeCapability(int ID, String type);
+    //Set<Integer> getCapableEmployees(String serviceType);
+    //void addCapability(int ID, String type);
+    //void removeCapability(int ID, String type);
 
 
 }

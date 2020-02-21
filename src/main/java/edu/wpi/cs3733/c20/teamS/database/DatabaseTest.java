@@ -49,11 +49,23 @@ public class DatabaseTest extends Application {
         dbCont.updateServiceData(new ServiceData(1,"REEE","No more big Doots", "Hi there lad","Hi",2,null,"Hi"));
 
 
+        EmployeeData BigMan = new EmployeeData(4, "BigMan2934", "password123", 1, "Jamal", "Lamar");
+        dbCont.addEmployee(BigMan);
 
-        dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
 
 
+        //Test removeEmployee
+        //dbCont.removeEmployee("BigMan2934");
+        //dbCont.removeEmployee("patient");
 
+        //Test updateEmployee
+
+        BigMan.setAccessLevel(2);
+        BigMan.setPassword("password456");
+        BigMan.setFirstName("Bon");
+        BigMan.setLastName("Jovi");
+
+        dbCont.updateEmployee(BigMan);
         Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
         for(ServiceData ed : servSet){
             System.out.println(ed.toString());

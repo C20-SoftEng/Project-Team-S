@@ -687,6 +687,50 @@ public class DatabaseController implements DBRepo{
     }
 
     //Tested
+    /**
+     * Remove Employee with specified username, assuming an employee's username never changes
+     * @param username Username of the Employee to be removed from EMPLOYEES.
+     *                 Each Employee has a unique username
+     */
+    public void removeEmployee(String username){
+        String rmvEmployeeStr = "DELETE FROM EMPLOYEES WHERE USERNAME = ?";
+        try{
+            PreparedStatement rmvStm = connection.prepareCall(rmvEmployeeStr);
+            rmvStm.setString(1, username);
+            rmvStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to remove employee " + username);
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed employee " + username);
+    }
+
+    //Tested
+    /**
+     * Updates attributes of a specified Employee
+     * @param emp The Employee whose data needs update
+     * Notice!!! An Employee's username cannot be changed!
+     */
+    public void updateEmployee(EmployeeData emp){
+        String updtEmployeeStr = "UPDATE EMPLOYEES SET PASSWORD = ?, ACCESSLEVEL = ?, FIRSTNAME = ?, LASTNAME = ? WHERE USERNAME = ?";
+        try{
+            PreparedStatement updtStm = connection.prepareCall(updtEmployeeStr);
+            updtStm.setString(1,emp.getPassword());
+            updtStm.setInt(2, emp.getAccessLevel());
+            updtStm.setString(3, emp.getFirstName());
+            updtStm.setString(4, emp.getLastName());
+            updtStm.setString(5, emp.getUsername());
+            updtStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to update employee " + emp.getUsername());
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully updated employee " + emp.getUsername());
+    }
+
+    //Tested
     public boolean checkLogin(String username, String password){
         String checkStr = "SELECT PASSWORD FROM EMPLOYEES WHERE USERNAME = ?";
         try{
