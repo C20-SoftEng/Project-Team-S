@@ -175,67 +175,11 @@ public class MainScreenController implements Initializable {
     }
 
     public void populateCollidersForCurrentFloor() {
-        String floor = "0" + floorSelector.current();
         Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
         group.setOnMouseClicked(e -> this.tester.setNode(findNearestNode(e.getX(), e.getY())));
-        for (NodeData data : nd) {
-            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 0);
-            circle1.setStroke(Color.ORANGE);
-            circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-            if (data.getNodeType().equals("ELEV")) {
-                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-            }
-            circle1.setOnMouseClicked(e -> this.tester.setNode(data));
-            circle1.setVisible(false);
-            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
-                circle1.setVisible(true);
-            }
-            group.getChildren().add(circle1);
-        }
-        Set<EdgeData> ed = dbc.getAllEdges();
-        for (EdgeData data : ed) {
-            if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                int startX = 0;
-                int startY = 0;
-                int endX = 0;
-                int endY = 0;
-                boolean checker1 = false;
-                boolean checker2 = false;
-                for (NodeData check : nd) {
-                    String start = "Start Location";
-                    if (check.getNodeID().equals(start)) {
-                        checker1 = true;
-                        startX = (int) check.getxCoordinate();
-                        startY = (int) check.getyCoordinate();
-                    }
-                    String end = "End Location";
-                    if (check.getNodeID().equals(end)) {
-                        checker2 = true;
-                        endX = (int) check.getxCoordinate();
-                        endY = (int) check.getyCoordinate();
-                    }
-                }
-                if (checker1 && checker2) {
-                    Line line1 = new Line();
-                    line1.setStartX(startX);
-                    line1.setStartY(startY);
-                    line1.setEndX(endX);
-                    line1.setEndY(endY);
-                    line1.setStroke(Color.BLUE);
-                    line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-                    line1.setStrokeWidth(0);
-                    line1.setVisible(false);
-                    if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                        line1.setVisible(true);
-                    }
-                    group.getChildren().add(line1);
-                }
-            }
-        }
+
         this.tester.pathDraw(floorSelector.current());
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
