@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,7 +37,7 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private Group pathGroup = new Group();
-    private PathDisplay tester;
+    private PathDisplay pathDrawer;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
@@ -105,9 +106,9 @@ public class MainScreenController implements Initializable {
             double currentVval = scrollPane.getVvalue();
             mapImage.setImage(floor(floorNumber).image);
             zoomer.zoomSet();
-            if (tester.getCounter() >= 0)
-                tester.pathDraw(this.current);
-            populateCollidersForCurrentFloor();
+            if (pathDrawer.getCounter() >= 0)
+                pathDrawer.pathDraw(this.current);
+            updateFloorDisplay();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
         private Floor floor(int floorNumber) {
@@ -118,7 +119,7 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        tester = new PathDisplay(pathGroup, parentVBox, this.algorithm);
+        pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -127,7 +128,7 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxAutoComplete();
 
         zoomer = new MapZoomer(mapImage, scrollPane);
-        tester = new PathDisplay(pathGroup, parentVBox, algorithm);
+        pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
 
         initGraph();
@@ -172,19 +173,22 @@ public class MainScreenController implements Initializable {
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public void populateCollidersForCurrentFloor() {
+    public void updateFloorDisplay() {
         Group group = new Group();
-        group.getChildren().clear();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> this.tester.setNode(updateNearestNodeLabels(e.getX(), e.getY())));
+        group.setOnMouseClicked(this::onMapClicked);
 
-        this.tester.pathDraw(floorSelector.current());
+        this.pathDrawer.pathDraw(floorSelector.current());
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
 
-    private NodeData updateNearestNodeLabels(double x, double y) {
+    private void onMapClicked(MouseEvent e) {
+        final double x = e.getX();
+        final double y = e.getY();
         NodeData nearest = findNearestNodeWithin(x, y, 200);
+        if (nearest == null)
+            return;
 
         if (flip) {
             location1.setText(nearest.getLongName());
@@ -193,7 +197,8 @@ public class MainScreenController implements Initializable {
             location2.setText(nearest.getLongName());
             flip = true;
         }
-        return nearest;
+
+        pathDrawer.setNode(nearest);
     }
 
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
@@ -288,7 +293,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onPathfindClicked() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
-        populateCollidersForCurrentFloor();
+        updateFloorDisplay();
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
     @FXML private void onSwapButtonPressed() {
