@@ -23,10 +23,10 @@ public class PathDisplay {
     private int counter = 0;
     private NodeData startNode;
     private NodeData endNode;
-    Group groupPath = new Group();
-    Group group;
+    private Group groupPath = new Group();
+    private Group group;
     private IPathfinding algorithm;
-    VBox parentVBox;
+    private VBox parentVBox;
 
     public int getCounter() {return counter;}
 
