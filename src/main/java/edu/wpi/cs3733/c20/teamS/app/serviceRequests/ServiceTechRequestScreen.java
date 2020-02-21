@@ -38,7 +38,7 @@ public final class ServiceTechRequestScreen {
                             //Do database
                             int dummyID = 0;
                             DatabaseController dbc = new DatabaseController();
-                            ServiceData sd = new ServiceData(dummyID,"TECH", request.status().toString(),
+                            ServiceData sd = new ServiceData("TECH", request.status().toString(),
                                     request.message(), "", loggedIn.id(), request.location());
                         }
                         this.stage.close();

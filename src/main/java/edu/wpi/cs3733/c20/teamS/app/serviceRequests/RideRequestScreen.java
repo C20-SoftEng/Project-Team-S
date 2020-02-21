@@ -54,7 +54,7 @@ public final class RideRequestScreen {
             String serviceNode = next.value().location();
             int dummyID = 0;
 
-            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+            ServiceData sd = new ServiceData(serviceType,status,message,data,assignedEmployeeID,serviceNode);
             dbc.addServiceRequestData(sd);
         }
         subject.onNext(next);

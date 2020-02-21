@@ -60,42 +60,16 @@ public class ServiceData{
     }
 
     public ServiceData(String serviceType, String status, String message, String data, int assignedEmployeeID, String serviceNode) {
-        //this.serviceID = serviceID;
-        this.serviceType = serviceType;
-        this.status = status;
-        this.message = message;
-        this.message = data;
-        this.assignedEmployeeID = assignedEmployeeID;
-        //this.date = date;
-        this.serviceNode = serviceNode;
-    }
-
-    public ServiceData(
-            int serviceID, String status,
-            String message, int assignedEmployeeID,
-            String serviceNode) {
-        this.serviceID = serviceID;
-        this.serviceType = null;
-        this.status = status;
-        this.message = message;
-        this.assignedEmployeeID = assignedEmployeeID;
-        this.date = null;
-        this.serviceNode = serviceNode;
-    }
-
-    public ServiceData(
-            int serviceID, String serviceType,
-            String status, String message, String data,
-            int assignedEmployeeID,
-            String serviceNode) {
-
+        this.serviceID = 0;
         this.serviceType = serviceType;
         this.status = status;
         this.message = message;
         this.data = data;
         this.assignedEmployeeID = assignedEmployeeID;
+        this.date = null;
         this.serviceNode = serviceNode;
     }
+
 
     public int getServiceID() {
         return serviceID;

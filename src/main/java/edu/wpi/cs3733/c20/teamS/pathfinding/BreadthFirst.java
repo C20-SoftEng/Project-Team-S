@@ -9,12 +9,30 @@ import java.util.*;
 public class BreadthFirst implements IPathfinding{
 
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (start == null) ThrowHelper.illegalNull("start");
         if (goal == null) ThrowHelper.illegalNull("goal");
 
-        if (graph.nodes().isEmpty() || !graph.nodes().contains(start) || !graph.nodes().contains(goal)) {
+        LinkedList<Path> queue = new LinkedList<>();
+        Path empty = Path.empty();
+        queue.addFirst(empty.push(start, 0));
+        Set<NodeData> seen = new HashSet<>();
+        seen.add(start);
+        while (!queue.isEmpty()) {
+            Path frontier = queue.pollLast();
+            if (frontier.peek().equals(goal))
+                return frontier;
+
+            for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
+                if (!seen.add(friend))
+                    continue;
+                queue.addFirst(frontier.push(friend, 0));
+            }
+        }
+        return empty;
+
+       /* if (graph.nodes().isEmpty() || !graph.nodes().contains(start) || !graph.nodes().contains(goal)) {
             return new ArrayList<>();
         } else {
             NodeData current = start;
@@ -46,7 +64,6 @@ public class BreadthFirst implements IPathfinding{
                 }
             }
 
-
             //no valid path to destination
             if (current != goal) {
                 return new ArrayList<>();
@@ -69,7 +86,7 @@ public class BreadthFirst implements IPathfinding{
             }
 
             return path;
-        }
+        }*/
     }
 
 

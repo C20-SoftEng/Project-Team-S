@@ -687,6 +687,50 @@ public class DatabaseController implements DBRepo{
     }
 
     //Tested
+    /**
+     * Remove Employee with specified username, assuming an employee's username never changes
+     * @param username Username of the Employee to be removed from EMPLOYEES.
+     *                 Each Employee has a unique username
+     */
+    public void removeEmployee(String username){
+        String rmvEmployeeStr = "DELETE FROM EMPLOYEES WHERE USERNAME = ?";
+        try{
+            PreparedStatement rmvStm = connection.prepareCall(rmvEmployeeStr);
+            rmvStm.setString(1, username);
+            rmvStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to remove employee " + username);
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed employee " + username);
+    }
+
+    //Tested
+    /**
+     * Updates attributes of a specified Employee
+     * @param emp The Employee whose data needs update
+     * Notice!!! An Employee's username cannot be changed!
+     */
+    public void updateEmployee(EmployeeData emp){
+        String updtEmployeeStr = "UPDATE EMPLOYEES SET PASSWORD = ?, ACCESSLEVEL = ?, FIRSTNAME = ?, LASTNAME = ? WHERE USERNAME = ?";
+        try{
+            PreparedStatement updtStm = connection.prepareCall(updtEmployeeStr);
+            updtStm.setString(1,emp.getPassword());
+            updtStm.setInt(2, emp.getAccessLevel());
+            updtStm.setString(3, emp.getFirstName());
+            updtStm.setString(4, emp.getLastName());
+            updtStm.setString(5, emp.getUsername());
+            updtStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to update employee " + emp.getUsername());
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully updated employee " + emp.getUsername());
+    }
+
+    //Tested
     public boolean checkLogin(String username, String password){
         String checkStr = "SELECT PASSWORD FROM EMPLOYEES WHERE USERNAME = ?";
         try{
@@ -743,7 +787,7 @@ public class DatabaseController implements DBRepo{
     }
 
 
-    public void importNodes(){
+    private void importNodes(){
         try{
             System.out.println("Importing Nodes...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
@@ -770,7 +814,7 @@ public class DatabaseController implements DBRepo{
 
     }
 
-    public void importEdges(){
+    private void importEdges(){
         try{
             System.out.println("Importing Edges...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
@@ -796,7 +840,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    public void importEmployees(){
+    private void importEmployees(){
         try{
             System.out.println("Importing Employees...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/employees.csv"));
@@ -822,6 +866,59 @@ public class DatabaseController implements DBRepo{
         }
     }
 
+
+
+
+    public Set<Integer> getCapableEmployees(String serviceType){
+        String getStr = "SELECT EMPLOYEEID FROM SERVICEABLE WHERE SERVICETYPE = ?";
+        Set<Integer> setOfIDs = new HashSet<Integer>();
+        try{
+            PreparedStatement getStm = connection.prepareStatement(getStr);
+            getStm.setString(1,serviceType);
+            ResultSet rset = getStm.executeQuery();
+            while(rset.next()){
+                setOfIDs.add(rset.getInt("EMPLOYEEID"));
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return setOfIDs;
+    }
+
+    public void addCapability(int ID, String serviceType){
+        String addStr = "INSERT INTO SERVICEABLE VALUES (?,?)";
+        try{
+            PreparedStatement addStm = connection.prepareStatement(addStr);
+            addStm.setInt(1,ID);
+            addStm.setString(2,serviceType);
+            addStm.execute();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
+
+    public void removeCapability(int ID, String serviceType){
+        String delStr = "DELETE FROM SERVICEABLE WHERE EMPLOYEEID = ? AND SERVICETYPE = ?";
+        try{
+            PreparedStatement delStm = connection.prepareStatement(delStr);
+            delStm.setInt(1,ID);
+            delStm.setString(2,serviceType);
+            delStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
+
+    public boolean checkCapable(int ID, String serviceType){
+        Set<Integer> capableIDSet = getCapableEmployees(serviceType);
+        return capableIDSet.contains(ID);
+    }
 
 
 }
