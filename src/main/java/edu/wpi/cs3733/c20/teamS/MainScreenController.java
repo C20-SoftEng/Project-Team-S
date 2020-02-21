@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -31,6 +33,8 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
@@ -39,6 +43,7 @@ public class MainScreenController implements Initializable {
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
+    private MutableGraph<NodeData> graph;
 
     private static class Floor {
         public final Image image;
@@ -104,7 +109,7 @@ public class MainScreenController implements Initializable {
             zoomer.zoomSet();
             if (tester.getCounter() >= 0)
                 tester.pathDraw(this.current);
-            drawNodesEdges();
+            populateCollidersForCurrentFloor();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
         private Floor floor(int floorNumber) {
@@ -126,8 +131,24 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(mapImage, scrollPane);
         tester = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
+
+        initGraph();
     }
 
+    private void initGraph() {
+        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+        DatabaseController database = new DatabaseController();
+        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
+                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
+        Set<EdgeData> edges = database.getAllEdges();
+        for (NodeData node : nodeIdMap.values())
+            graph.addNode(node);
+        for (EdgeData edge : edges) {
+            NodeData start = nodeIdMap.get(edge.getStartNode());
+            NodeData end = nodeIdMap.get(edge.getEndNode());
+            graph.putEdge(start, end);
+        }
+    }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -149,11 +170,11 @@ public class MainScreenController implements Initializable {
         Set<NodeData> nodes = db.getAllNodes();
         List<String> dictionary = nodes.stream()
                 .map(node -> node.getLongName() + ", " + node.getNodeID())
-                .collect(Collectors.toList());
+                .collect(toList());
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public void drawNodesEdges() {
+    public void populateCollidersForCurrentFloor() {
         String floor = "0" + floorSelector.current();
         Group group = new Group();
         group.getChildren().clear();
@@ -310,7 +331,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onPathfindClicked() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
-        drawNodesEdges();
+        populateCollidersForCurrentFloor();
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
     @FXML private void onSwapButtonPressed() {
