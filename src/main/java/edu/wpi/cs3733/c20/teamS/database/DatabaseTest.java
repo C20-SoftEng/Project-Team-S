@@ -13,7 +13,7 @@ public class DatabaseTest extends Application {
     public void start(Stage primaryStage) throws Exception {
         //App.launch(App.class, args);
         DatabaseController dbCont = new DatabaseController();
-        dbCont.autoCommit(false);
+        //dbCont.autoCommit(false);
         dbCont.importStartUpData();
 
 
@@ -46,16 +46,12 @@ public class DatabaseTest extends Application {
         dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi", "I barely know her",2,"No"));
         dbCont.commit();
 
-        dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",2,"Hi"));
+        dbCont.updateServiceData(new ServiceData(1,"REEE","No more big Doots", "Hi there lad","Hi",2,null,"Hi"));
 
-        dbCont.commit();
-        //dbCont.deleteServiceWithId(1);
-        dbCont.commit();
 
-        dbCont.rollBack();
 
         dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
-        dbCont.commit();
+
 
 
         Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
