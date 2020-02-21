@@ -29,6 +29,7 @@ public class MapEditingTasks {
     private NodeData endNode;
     MapEditController ui;
     Group group;
+    private int edgeOut = 0;
 
     public MapEditingTasks(Group group) {
         this.group = group;
@@ -191,7 +192,7 @@ public class MapEditingTasks {
                 circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
                 if(data.getNodeType().equals("ELEV")) {
                     circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));}
-                circle1.setOnMouseClicked(e -> {setNode(data); edgeCount.getAndIncrement(); drawingEdge(edgeCount.get());});
+                circle1.setOnMouseClicked(e -> {edgeOut++; setNode(data); edgeCount.getAndIncrement(); System.out.println(edgeCount.get());drawingEdge(edgeOut); });
                 group.getChildren().add(circle1);
             }
         }
@@ -237,22 +238,24 @@ public class MapEditingTasks {
 
     private void drawingEdge(int edgeCount) {
         if(edgeCount != 0 && edgeCount % 2 == 0) {
-            Line line1 = new Line();
-            int startX = (int)startNode.getxCoordinate();
-            int startY = (int)startNode.getyCoordinate();
-            int endX = (int)endNode.getxCoordinate();
-            int endY = (int)endNode.getyCoordinate();
-            line1.setStartX(startX);
-            line1.setStartY(startY);
-            line1.setEndX(endX);
-            line1.setEndY(endY);
-            line1.setStroke(Color.BLUE);
-            line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-            line1.setStrokeWidth(5);
-            group.getChildren().add(line1);
+            if(startNode.getFloor() == endNode.getFloor()) {
+                Line line1 = new Line();
+                int startX = (int) startNode.getxCoordinate();
+                int startY = (int) startNode.getyCoordinate();
+                int endX = (int) endNode.getxCoordinate();
+                int endY = (int) endNode.getyCoordinate();
+                line1.setStartX(startX);
+                line1.setStartY(startY);
+                line1.setEndX(endX);
+                line1.setEndY(endY);
+                line1.setStroke(Color.BLUE);
+                line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+                line1.setStrokeWidth(5);
+                group.getChildren().add(line1);
+            }
+                DatabaseController dbc = new DatabaseController();
+                dbc.addEdge(new EdgeData(startNode.getNodeID() + "_" + endNode.getNodeID(), startNode.getNodeID(), endNode.getNodeID()));
 
-            DatabaseController dbc = new DatabaseController();
-            dbc.addEdge(new EdgeData(startNode.getNodeID() + "_" + endNode.getNodeID(), startNode.getNodeID(), endNode.getNodeID()));
         }
     }
 

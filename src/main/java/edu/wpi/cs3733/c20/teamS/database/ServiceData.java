@@ -83,6 +83,20 @@ public class ServiceData{
         this.serviceNode = serviceNode;
     }
 
+    public ServiceData(
+            int serviceID, String serviceType,
+            String status, String message, String data,
+            int assignedEmployeeID,
+            String serviceNode) {
+
+        this.serviceType = serviceType;
+        this.status = status;
+        this.message = message;
+        this.data = data;
+        this.assignedEmployeeID = assignedEmployeeID;
+        this.serviceNode = serviceNode;
+    }
+
     public int getServiceID() {
         return serviceID;
     }
@@ -100,7 +114,7 @@ public class ServiceData{
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {

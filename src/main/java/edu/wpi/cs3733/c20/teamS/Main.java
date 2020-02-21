@@ -1,8 +1,9 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+
+import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,9 +13,7 @@ public class Main extends Application {
     DatabaseController dbc = new DatabaseController();
     dbc.importStartUpData();
 
-    mainToLoginScreen test = new mainToLoginScreen(primaryStage);
-    //Employee bogus = new Employee(1, "Jay");
-    //MapEditingScreen test = new MapEditingScreen(primaryStage, bogus);
+    MainToLoginScreen test = new MainToLoginScreen(primaryStage, new A_Star());
   }
 
   public static void main(String[] args) {

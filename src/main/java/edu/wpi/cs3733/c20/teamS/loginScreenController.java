@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import io.reactivex.rxjava3.core.Observable;
@@ -24,15 +26,13 @@ public class loginScreenController {
 
     @FXML private JFXTextField id;
 
-    @FXML private JFXTextField pw;
+    @FXML private JFXPasswordField pw;
 
     @FXML private JFXButton cancel;
 
     @FXML private JFXButton enter;
 
-    @FXML private Label wrongID;
-
-    @FXML private Label wrongPW;
+    @FXML private Label wrongStuff;
 
     @FXML void onCancelClicked(ActionEvent event) {
         dialogCompleted_.onNext(DialogEvent.cancel());
@@ -46,14 +46,13 @@ public class loginScreenController {
         boolean validLogin = dc.checkLogin(id.getText(), pw.getText());
         if (validLogin){
             EmployeeData ed = dc.getEmployee(id.getText());
-            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName());
+            AccessLevel[] al = AccessLevel.values();
+            AccessLevel accessLevel = al[ed.getAccessLevel()];
+            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
             dialogCompleted_.onNext(DialogEvent.ok(emp));
         }
-        if (!(id.getText().equals("admin"))){
-            wrongID.setVisible(true);
-        }
-        if (!pw.getText().equals("admin")){
-            wrongPW.setVisible(true);
+        else {
+            wrongStuff.setVisible(true);
         }
     }
 

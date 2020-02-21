@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,12 +21,24 @@
             <SplitPane dividerPositions="0.5" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="cancelButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-border-color: black; -fx-background-color: #ccc; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel" />
+                  <JFXButton fx:id="cancelButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-border-color: black; -fx-background-color: #ccc; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
                </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit" />
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
                </children>
                 </AnchorPane>
             </SplitPane>
@@ -52,13 +65,13 @@
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <JFXTextField prefHeight="61.0" prefWidth="357.0" />
+                  <JFXTextField fx:id="weaponthreat" prefHeight="61.0" prefWidth="357.0" />
                </children>
             </HBox>
-            <JFXTextField prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <JFXTextField fx:id="commentsField" prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <JFXTextField prefHeight="110.0" prefWidth="400.0" GridPane.columnIndex="1" />
-            <JFXTextField prefHeight="61.0" prefWidth="357.0" GridPane.columnIndex="1" />
-            <JFXTextField prefHeight="56.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXTextField fx:id="locationField" prefHeight="61.0" prefWidth="357.0" GridPane.columnIndex="1" />
+            <JFXTextField fx:id="threatlevel" prefHeight="56.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </GridPane>
         </center>
         <top>

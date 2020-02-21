@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.RideKind;
 import io.reactivex.rxjava3.core.Observable;
@@ -18,6 +19,11 @@ import java.util.ResourceBundle;
 
 public final class RideRequestUIController implements Initializable {
     private final PublishSubject<DialogEvent<RideServiceRequest>> dialogCompleted_ = PublishSubject.create();
+    private Employee loggedIn;
+
+    public RideRequestUIController(Employee employee){
+        this.loggedIn = employee;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -114,6 +120,9 @@ public final class RideRequestUIController implements Initializable {
         request.setRiderName(riderNameField.getText());
         request.setDestination(destinationField.getText());
         request.setRideKind(rideKindSelector.current());
+        request.assignTo(loggedIn);
+        request.setLocation("Valet Parking");
+        request.setMessage("\"" + request.riderName() + "\" needs a ride.");
 
         dialogCompleted_.onNext(DialogEvent.ok(request));
     }

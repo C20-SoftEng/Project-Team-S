@@ -1,4 +1,5 @@
 employeeID,userName,passWord,accessLevel,firstName,lastName
-9000,Doctor,doctor,2,Wilson,Wong
-9001,Patient,patient,0,Shane,Train
-9002,Admin,admin,1,Matt,Smith
+9001,patient,patient,0,Shane,Train
+9002,admin,admin,2,Chris,Myers
+9003,staff,staff,2,Wilson,Wong
+9004,employee,employee,1,Jamal,Jamarcus

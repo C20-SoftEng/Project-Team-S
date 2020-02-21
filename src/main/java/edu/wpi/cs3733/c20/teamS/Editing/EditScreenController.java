@@ -3,26 +3,35 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.MapZoomer;
+
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
+
+import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
+
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.mainToLoginScreen;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -34,8 +43,10 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
+
     private MoveNodes moveNode = new MoveNodes();
     private Stage stage;
+    private boolean btwn = false;
 
 
     private Employee loggedIn;
@@ -62,6 +73,9 @@ public class EditScreenController implements Initializable {
         scrollPane.setVvalue(Vval);
     }
 
+    Group group2 = new Group();
+    MapEditingTasks tester2 = new MapEditingTasks(group2);
+
     Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     Image floor2 = new Image("images/Floors/HospitalFloor2.png");
     Image floor3 = new Image("images/Floors/HospitalFloor3.png");
@@ -79,6 +93,11 @@ public class EditScreenController implements Initializable {
     JFXRadioButton moveNodeRadio;
     @FXML
     JFXRadioButton showInfoRadio;
+
+    @FXML private VBox editPrivilegeBox;
+
+    @FXML
+    Label loggedInUserLabel;
 
     @FXML
     private ImageView mapImage;
@@ -100,6 +119,8 @@ public class EditScreenController implements Initializable {
     private JFXButton downButton;
     @FXML
     private JFXButton upButton;
+    @FXML
+    private ToggleGroup pathGroup;
 
     @FXML
     JFXButton zoomInButton;
@@ -112,7 +133,19 @@ public class EditScreenController implements Initializable {
         public JFXButton getFloorButton2() {return floorButton2;}
 
     public void onLogOut() {
-        mainToLoginScreen back = new mainToLoginScreen(stage);
+        IPathfinding pathfinder = new A_Star();
+        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
+            case "A*":
+                pathfinder = new A_Star();
+                break;
+            case "BreadthFirst":
+                pathfinder = new BreadthFirst();
+                break;
+            case "DepthFirst":
+                pathfinder = new DepthFirst();
+                break;
+        }
+        MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
     }
 
     private void unselectALL() {
@@ -123,6 +156,7 @@ public class EditScreenController implements Initializable {
         moveNodeRadio.selectedProperty().set(false);
         showInfoRadio.selectedProperty().set(false);
     }
+
 
     @FXML
     void onUpClicked(ActionEvent event) {
@@ -284,6 +318,18 @@ public class EditScreenController implements Initializable {
 
     @FXML
     void onHelpClicked(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Help");
+            window.setScene(new Scene(root1));
+            window.setResizable(false);
+            window.show();
+        } catch (Exception e) {
+            System.out.println("Can't load new window");
+        }
     }
 
     @FXML
@@ -333,6 +379,15 @@ public class EditScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
+
+        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
+
+        if(loggedIn.accessLevel() == AccessLevel.ADMIN){
+            editPrivilegeBox.setVisible(true);
+        }
+        else{
+            editPrivilegeBox.setVisible(false);
+        }
     }
 
     public void drawNodesEdges() {
@@ -412,19 +467,19 @@ public class EditScreenController implements Initializable {
         }
 
 
-        moveNodeRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+        moveNodeRadio.setOnAction(e -> {btwn = false; currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();tester.moveNodes(mapImage, current_floor, moveNode); keepCurrentPosition(currentHval, currentVval, zoomer);});
-        showInfoRadio.setOnAction(e -> {currentHval = scrollPane.getHvalue();
+        showInfoRadio.setOnAction(e -> {btwn = false; currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();tester.showNodeInfo(mapImage, current_floor); keepCurrentPosition(currentHval, currentVval, zoomer);});
 
-        addNodeRadio.setOnAction(e -> {
+        addNodeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.drawNodes(current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
         });
 
-        removeNodeRadio.setOnAction(e -> {
+        removeNodeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.removeNodes(mapImage, current_floor);
@@ -432,15 +487,15 @@ public class EditScreenController implements Initializable {
 
         });
 
-        addEdgeRadio.setOnAction(e -> {
+        addEdgeRadio.setOnAction(e -> {btwn = true;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
-            tester.addEdge(mapImage, current_floor);
+            tester2.addEdge(mapImage, current_floor);
             keepCurrentPosition(currentHval, currentVval, zoomer);
 
         });
 
-        removeEdgeRadio.setOnAction(e -> {
+        removeEdgeRadio.setOnAction(e -> {btwn = false;
             currentHval = scrollPane.getHvalue();
             currentVval = scrollPane.getVvalue();
             tester.removeEdge(mapImage, current_floor);
@@ -458,10 +513,14 @@ public class EditScreenController implements Initializable {
             new MapEditingScreen(stage, loggedIn);
         });
 
+        group.getChildren().add(group2);
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
+        if(btwn) {
+            addEdgeRadio.fire();
+        }
     }
 
     @FXML
@@ -470,7 +529,23 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML
-    void onActiveServiceClicked(ActionEvent event) {
+    void onActiveServiceClicked() {
+            ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
+            DatabaseController dbc = new DatabaseController();
+            Set<ServiceData> dbData = dbc.getAllServiceRequestData();
+            for(ServiceData sd : dbData){
+                //System.out.println(sd.getStatus());
+                if(!(sd.getStatus().equals("COMPLETE"))){
+                    setOfActives.add(sd);
+                    System.out.println(sd.toString());
+                }
+
+
+            }
+        //System.out.println("Is this printing");
+        ActiveServiceRequestScreen.showDialog(setOfActives);
+
+        //ActiveServiceRequestScreen ASRS = new ActiveServiceRequestScreen(stage, setOfActives);
 
     }
 }
