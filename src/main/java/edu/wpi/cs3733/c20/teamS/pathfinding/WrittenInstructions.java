@@ -32,33 +32,45 @@ public class WrittenInstructions {
 
     public List<String> directions() {
         if (path.size() > 2) {
-            for (int i = 0; i < path.size() - 2; i++) {
+            for (int i = 0; i < path.size() -2  ; i++) {
                 System.out.println(path.get(i).getNodeType());
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
-                    //System.out.println(path.get(i).getNodeType());
 
                     if(path.get(i).getNodeType() == "ELEV"){
-                        System.out.printf("In elevator");
-                        instructions.add("Take Elevator to floor: " + path.get(i+1).getFloor());
+                        instructions.add("Take Elevator To Floor " + path.get(i+1).getFloor());
+
                     }
-                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
-                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
-                            "M " + "Turn Right "));
-                    savingDistance = 0;
+                    if(distance(path.get(i), path.get(i+1)) < 5){
+                        instructions.add("Turn Right");
+                    }
+                    else {
+                        instructions.add(("In " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
+                                ftRatio) + "FT (" + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
+                                "M), Turn Right"));
+                        savingDistance = 0;
+                    }
+
                 }
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
-                    //System.out.println(path.get(i).getNodeType());
                     if(path.get(i).getNodeType() == "ELEV"){
-                        System.out.printf("In elevator");
-                        instructions.add("Take Elevator to floor: " + path.get(i+1).getFloor());
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
                     }
-                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
-                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+ "M " + "Turn Left "));
-                    savingDistance = 0;
+                    if(distance(path.get(i), path.get(i+1)) < 5){
+                        instructions.add("Turn Left");
+                    }
+                    else {
+
+                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
+                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
+                        savingDistance = 0;
+                    }
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
                    // System.out.println(path.get(i).getNodeType());
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
+//                if(path.get(i) == path.get(path.size()) && distance(path.get(path.size()-1), path.get(i)) > 10){
+//                    instructions.add("Destination in " + distance(path.get(path.size()-1), path.get(i)));
+//                }
 
 
                 if (i == path.size() - 2) {
@@ -68,11 +80,14 @@ public class WrittenInstructions {
 
             }
 
-        }if (path.get(path.size()-1).getNodeType() == "ELEV"){
-            instructions.add("Take elevator to floor " + path.get(path.size()-1).getFloor());
-            instructions.add(" and go straight" +  distance(path.get(path.size()-1), path.get(path.size())));
         }
 
+        if (path.get(path.size()-2).getNodeType() == "ELEV"){
+            System.out.println("in last ");
+            instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
+        }
+
+        //System.out.println("in last ");
         return instructions;
     }
 

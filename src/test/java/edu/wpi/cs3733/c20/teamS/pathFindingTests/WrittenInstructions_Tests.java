@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,7 +48,6 @@ public class WrittenInstructions_Tests {
         pathtest1.add(nodeFour);
         pathtest1.add(nodeFive);
         pathtest1.add(nodeEleven);
-        //pathtest1.add(nodeThirteen);
         pathtest1.add(nodeTwelve);
 
 
@@ -88,21 +88,39 @@ public class WrittenInstructions_Tests {
         pathtest3.add(nodeFour);
         pathtest3.add(nodeThirteen);
         pathtest3.add(nodeEleven);
-        //pathtest1.add(nodeThirteen);
-        //pathtest3.add(nodeTwelve);
 
         WrittenInstructions test3 = new WrittenInstructions(pathtest3);
 
-        List realInstructions = new List();
+        List realInstructions = new ArrayList();
         realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
         realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
-        realInstructions.add("Go Straight For 13FT OR 4M Turn Left ");
+        realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
 
         assertEquals(realInstructions, test3.directions());
 
     }
 
+    @Test
+    public void elevatorTest(){
+        ArrayList<NodeData> pathtest4  = new ArrayList<>();
+        pathtest4.add(nodeOne);
+        pathtest4.add(nodeTwo);
+        pathtest4.add(nodeThirteen);
+        pathtest4.add(nodeEleven);
+        pathtest4.add(nodeTwelve);
 
+        WrittenInstructions test4 = new WrittenInstructions(pathtest4);
+
+        List realInstructions = new ArrayList();
+        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
+        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
+        realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
+
+        assertEquals(realInstructions, test4.directions());
+
+    }
+
+// NEED TESTS FOR DISTANCES < 5!!!!!!
 
 
 
