@@ -68,7 +68,7 @@ public class EditScreenController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
+        zoomer = new MapZoomer(scrollPane);
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
