@@ -1,24 +1,14 @@
 package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.MapZoomer;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-
-import javax.xml.ws.Service;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 public class ActiveServiceRequestScreenController {
     @FXML private TableView<ServiceData> serviceRequestTable;
