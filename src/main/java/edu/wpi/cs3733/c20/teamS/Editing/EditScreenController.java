@@ -44,16 +44,17 @@ import java.util.Set;
 
 public class EditScreenController implements Initializable {
     //region fields
-    private MoveNodes moveNode = new MoveNodes();
     private Stage stage;
     private boolean btwn = false;
     private Employee loggedIn;
     private int current_floor = 2;
-    private MapZoomer zoomer;
     private double currentHval;
     private double currentVval;
     private Group group2 = new Group();
     private MapEditingTasks tester2 = new MapEditingTasks(group2);
+    private MoveNodes moveNode = new MoveNodes();
+    private MapZoomer zoomer;
+    private FloorSelector floorSelector;
 
     private Image floor1 = new Image("images/Floors/HospitalFloor1.png");
     private Image floor2 = new Image("images/Floors/HospitalFloor2.png");
@@ -74,14 +75,71 @@ public class EditScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(mapImage, scrollPane);
-
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
+        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
-        if(loggedIn.accessLevel() == AccessLevel.ADMIN){
-            editPrivilegeBox.setVisible(true);
+        initFloorSelector();
+    }
+
+    private void initFloorSelector() {
+        floorSelector = new FloorSelector(
+                upButton, downButton,
+                new Floor(floorButton1, "images/Floors/HospitalFloor1.png"),
+                new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
+                new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
+                new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
+        );
+    }
+
+    private static class Floor {
+        public final Image image;
+        public final JFXButton button;
+
+        public Floor(JFXButton button, Image image) {
+            this.image = image;
+            this.button = button;
         }
-        else{
-            editPrivilegeBox.setVisible(false);
+        public Floor(JFXButton button, String imagePath) {
+            this(button, new Image(imagePath));
+        }
+    }
+    private class FloorSelector {
+        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
+        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
+        private final Floor[] floors_;
+        private final JFXButton upButton;
+        private final JFXButton downButton;
+        private int current;
+        private final int lowestFloor;
+        private final int highestFloor;
+
+        public FloorSelector(JFXButton upButton, JFXButton downButton, Floor... floors) {
+            this.upButton = upButton;
+            this.downButton = downButton;
+            this.floors_ = floors;
+            lowestFloor = 1;
+            highestFloor = floors_.length;
+        }
+
+        public int current() {
+            return current;
+        }
+        public void setCurrent(int floorNumber) {
+            for (Floor floor : floors_) {
+                floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
+            }
+            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
+            this.upButton.setDisable(floorNumber == this.highestFloor);
+            this.downButton.setDisable(floorNumber == this.lowestFloor);
+
+            mapImage.setImage(floor(floorNumber).image);
+            this.current = floorNumber;
+            drawNodesEdges();
+        }
+
+        private Floor floor(int floorNumber) {
+            return floors_[floorNumber - 1];
         }
     }
 
