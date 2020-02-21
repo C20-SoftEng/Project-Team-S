@@ -109,7 +109,7 @@ public class MainScreenController implements Initializable {
             mapImage.setImage(floor(floorNumber).image);
             zoomer.zoomSet();
             if (pathDrawer.getCounter() >= 0)
-                pathDrawer.pathDraw(this.current);
+                pathDrawer.pathDraw(graph, this.current);
             updateFloorDisplay();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
@@ -129,7 +129,7 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxFont();
         initSearchComboBoxAutoComplete();
 
-        zoomer = new MapZoomer(mapImage, scrollPane);
+        zoomer = new MapZoomer(scrollPane);
         pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
 
@@ -159,7 +159,7 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
-        floorSelector.setCurrent(3);
+        floorSelector.setCurrent(2);
     }
     private void initSearchComboBoxFont() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
@@ -180,7 +180,7 @@ public class MainScreenController implements Initializable {
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(this::onMapClicked);
 
-        this.pathDrawer.pathDraw(floorSelector.current());
+        this.pathDrawer.pathDraw(graph, floorSelector.current());
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
@@ -304,25 +304,13 @@ public class MainScreenController implements Initializable {
         location1.setText(temp);
     }
     @FXML private void onZoomInClicked() {
-        this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3){
-            zoomInButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomer.zoomIn();
+        zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
-        if (zoomer.getZoomStage() == -2){
-            zoomOutButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
 }

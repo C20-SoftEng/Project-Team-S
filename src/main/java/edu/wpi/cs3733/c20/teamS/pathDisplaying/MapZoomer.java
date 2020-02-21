@@ -1,23 +1,31 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import javafx.geometry.Bounds;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 
 public class MapZoomer {
-    private final ImageView mapView;
     private final ScrollPane scrollPane;
     private int zoomStage;
-    private static final int minZoomStage = -2;
-    private static final int maxZoomStage = 3;
+    private final int minZoomStage;
+    private final int maxZoomStage;
 
-    public MapZoomer(ImageView mapView, ScrollPane scrollPane) {
-        this.mapView = mapView;
+    public MapZoomer(ScrollPane scrollPane) {
+        this(scrollPane, -2, 3);
+    }
+    public MapZoomer(ScrollPane scrollPane, int minZoomStage, int maxZoomStage) {
+        if (scrollPane == null) ThrowHelper.illegalNull("scrollPane");
+        if (minZoomStage > maxZoomStage)
+            throw new IllegalArgumentException("'minZoomStage' can't be greater than 'maxZoomStage'.");
+
         this.scrollPane = scrollPane;
+        this.minZoomStage = minZoomStage;
+        this.maxZoomStage = maxZoomStage;
+        zoomStage = Numerics.clamp(0, minZoomStage, maxZoomStage);
     }
 
-
     public double zoomFactor() {
+        //  Zoom factor is incremented in stages, just like stat-changes in Pokemon.
         double result = 1.0 + 0.5 * Math.abs(zoomStage);
         if (zoomStage < 0) {
             return 1.0 / result;
@@ -27,38 +35,31 @@ public class MapZoomer {
     }
 
     private void updateImageSize() {
-        //this.mapView.setScaleX(zoomFactor());
-        //this.mapView.setScaleY(zoomFactor());
         scrollPane.getContent().setScaleX(zoomFactor());
         scrollPane.getContent().setScaleY(zoomFactor());
     }
 
+    public boolean canZoomIn() {
+        return zoomStage < maxZoomStage;
+    }
     public void zoomIn() {
-        if (zoomStage < maxZoomStage) {
+        if (canZoomIn()) {
             zoomStage++;
             updateImageSize();
         }
     }
-
+    public boolean canZoomOut() {
+        return zoomStage > minZoomStage;
+    }
     public void zoomOut() {
-        if (zoomStage > minZoomStage) {
+        if (canZoomOut()) {
             zoomStage--;
             updateImageSize();
         }
-        ;
     }
 
     public void zoomSet() {
         updateImageSize();
-    }
-    private void updateBounds() {
-
-        double rangeSize = zoomFactor();
-        double minRange = 0;
-        double maxRange = rangeSize;
-
-        Bounds newbound = mapView.getBoundsInParent();
-
     }
 
     public int getZoomStage(){
