@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
-    private Group group2 = new Group();
-    private PathDisplay tester2;
+    private Group pathGroup = new Group();
+    private PathDisplay tester;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
@@ -92,8 +92,8 @@ public class MainScreenController implements Initializable {
         private void updateFloorButtons(int floorNumber) {
             for (Floor floor : this.floors)
                 floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
-            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
 
+            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
             this.upButton.setDisable(floorNumber == highestFloorNumber);
             this.downButton.setDisable(floorNumber == lowestFloorNumber);
         }
@@ -102,8 +102,8 @@ public class MainScreenController implements Initializable {
             double currentVval = scrollPane.getVvalue();
             mapImage.setImage(floor(floorNumber).image);
             zoomer.zoomSet();
-            if (tester2.getCounter() >= 0)
-                tester2.pathDraw(this.current);
+            if (tester.getCounter() >= 0)
+                tester.pathDraw(this.current);
             drawNodesEdges();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
@@ -115,7 +115,7 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
+        tester = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -124,7 +124,7 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxAutoComplete();
 
         zoomer = new MapZoomer(mapImage, scrollPane);
-        tester2 = new PathDisplay(group2, parentVBox, algorithm);
+        tester = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
     }
 
@@ -158,10 +158,9 @@ public class MainScreenController implements Initializable {
         Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        PathDisplay tester = new PathDisplay(group, parentVBox, this.algorithm);
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
-        group.setOnMouseClicked(e -> tester2.setNode(findNearestNode(e.getX(), e.getY())));
+        group.setOnMouseClicked(e -> this.tester.setNode(findNearestNode(e.getX(), e.getY())));
         for (NodeData data : nd) {
             Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 0);
             circle1.setStroke(Color.ORANGE);
@@ -169,7 +168,7 @@ public class MainScreenController implements Initializable {
             if (data.getNodeType().equals("ELEV")) {
                 circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
             }
-            circle1.setOnMouseClicked(e -> tester2.setNode(data));
+            circle1.setOnMouseClicked(e -> this.tester.setNode(data));
             circle1.setVisible(false);
             if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
                 circle1.setVisible(true);
@@ -216,8 +215,8 @@ public class MainScreenController implements Initializable {
                 }
             }
         }
-        tester2.pathDraw(floorSelector.current());
-        group.getChildren().add(group2);
+        this.tester.pathDraw(floorSelector.current());
+        group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
     private NodeData findNearestNode(double x, double y) {
@@ -251,6 +250,7 @@ public class MainScreenController implements Initializable {
         scrollPane.setVvalue(Vval);
     }
 
+    //region ui widgets
     @FXML private ImageView mapImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
@@ -266,7 +266,9 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
     @FXML private ComboBox<String> searchComboBox;
+    //endregion
 
+    //region event handlers
     @FXML private void onUpClicked() {
         floorSelector.setCurrent(floorSelector.current() + 1);
     }
@@ -337,4 +339,5 @@ public class MainScreenController implements Initializable {
             zoomInButton.setDisable(false);
         }
     }
+    //endregion
 }
