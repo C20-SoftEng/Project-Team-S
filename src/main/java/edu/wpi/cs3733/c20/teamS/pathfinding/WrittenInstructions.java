@@ -20,7 +20,7 @@ public class WrittenInstructions {
     double mRatio = realLifeMeasurementM / pixelMeasurement;
 
     ArrayList<NodeData> path;
-    ArrayList<String> instructions = new ArrayList<>();
+    List instructions = new List();
 
     int savingDistance=0;
 
@@ -29,27 +29,48 @@ public class WrittenInstructions {
     }
 
 
-    public ArrayList<String> directions() {
+    public List directions() {
+
         if (path.size() > 2) {
             for (int i = 0; i < path.size() - 2; i++) {
+                System.out.println(path.get(i).getNodeType());
+                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
+                    //System.out.println(path.get(i).getNodeType());
 
-                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
+                    if(path.get(i).getNodeType() == "ELEV"){
+                        System.out.printf("In elevator");
+                        instructions.add("Take Elevator to floor: " + path.get(i+1).getFloor());
+                    }
                     instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
                             ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
                             "M " + "Turn Right "));
                     savingDistance = 0;
                 }
-                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
+                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
+                    //System.out.println(path.get(i).getNodeType());
+                    if(path.get(i).getNodeType() == "ELEV"){
+                        System.out.printf("In elevator");
+                        instructions.add("Take Elevator to floor: " + path.get(i+1).getFloor());
+                    }
                     instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
                             ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+ "M " + "Turn Left "));
                     savingDistance = 0;
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
+                   // System.out.println(path.get(i).getNodeType());
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
+
+
                 if (i == path.size() - 2) {
                     return (instructions);
                 }
+
+
             }
+
+        }if (path.get(path.size()-1).getNodeType() == "ELEV"){
+            instructions.add("Take elevator to floor " + path.get(path.size()-1).getFloor());
+            instructions.add(" and go straight" +  distance(path.get(path.size()-1), path.get(path.size())));
         }
 
         return instructions;
@@ -68,7 +89,7 @@ public class WrittenInstructions {
     }
 
     //point A,point B, point P
-    static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
+   public static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
 
         Point A = new Point((int) NodeA.getxCoordinate(), (int) NodeA.getyCoordinate());
         Point B = new Point((int) NodeB.getxCoordinate(), (int) NodeB.getyCoordinate());

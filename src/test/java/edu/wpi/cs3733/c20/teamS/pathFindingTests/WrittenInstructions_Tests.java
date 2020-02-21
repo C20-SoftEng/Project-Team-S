@@ -14,15 +14,17 @@ public class WrittenInstructions_Tests {
 
     NodeData nodeTwo = new NodeData("2", 120, 60, 2, "Hospital", "Room", "longName2", "LN2");
 
-    NodeData nodeThree = new NodeData("3", 180,60,2, "Hospital", "Room", "longName3", "LN3");
+    NodeData nodeThree = new NodeData("3", 180,60,3, "Hospital", "Room", "longName3", "LN3");
 
     NodeData nodeFour = new NodeData("4", 200,60, 2, "Hospital", "Room", "longName4", "LN4");
 
     NodeData nodeFive = new NodeData("5", 200,20, 2, "Hospital", "Room", "longName5", "LN5");
 
-    NodeData nodeEleven = new NodeData("11",250, 20, 2, "Hospital", "Room", "longName11", "LN11");
+    NodeData nodeEleven = new NodeData("11",250, 20, 3, "Hospital", "Room", "longName11", "LN11");
 
-    NodeData nodeTwelve = new NodeData("12", 260,30,2, "Hospital", "Room", "longName12", "LN12");
+    NodeData nodeTwelve = new NodeData("12", 260,30,3, "Hospital", "Room", "longName12", "LN12");
+
+    NodeData nodeThirteen = new NodeData("13", 200,20,3, "Hospital", "ELEV", "longName13", "LN13");
 ///=========================================================================================================================================
     NodeData nodeSix = new NodeData("6", 300,700,2,"Hospital", "Room", "longName6", "LN6");
 
@@ -45,15 +47,17 @@ public class WrittenInstructions_Tests {
         pathtest1.add(nodeFour);
         pathtest1.add(nodeFive);
         pathtest1.add(nodeEleven);
+        //pathtest1.add(nodeThirteen);
         pathtest1.add(nodeTwelve);
+
 
 
         WrittenInstructions wi = new WrittenInstructions(pathtest1);
 
       LinkedList<String> realInstructions = new LinkedList<>();
-        realInstructions.add("Go Straight For 27FT OR 8M Turn Left ");
-        realInstructions.add("Go Straight For 11FT OR 3M Turn Right ");
-        realInstructions.add("Go Straight For 13FT OR 4M Turn Right ");
+        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
+        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
+        realInstructions.add("Go Straight For 13FT OR 4M Turn Left ");
 
 
 
@@ -73,6 +77,29 @@ public class WrittenInstructions_Tests {
 
 
         assertEquals("Turn Right In 26FT OR 8M",test2.directions());
+    }
+
+    @Test
+    public void secondLastTurnTest(){
+        ArrayList<NodeData> pathtest3 = new ArrayList<>();
+        pathtest3.add(nodeOne);
+        pathtest3.add(nodeTwo);
+        pathtest3.add(nodeThree);
+        pathtest3.add(nodeFour);
+        pathtest3.add(nodeThirteen);
+        pathtest3.add(nodeEleven);
+        //pathtest1.add(nodeThirteen);
+        //pathtest3.add(nodeTwelve);
+
+        WrittenInstructions test3 = new WrittenInstructions(pathtest3);
+
+        List realInstructions = new List();
+        realInstructions.add("Go Straight For 27FT OR 8M Turn Right ");
+        realInstructions.add("Go Straight For 11FT OR 3M Turn Left ");
+        realInstructions.add("Go Straight For 13FT OR 4M Turn Left ");
+
+        assertEquals(realInstructions, test3.directions());
+
     }
 
 

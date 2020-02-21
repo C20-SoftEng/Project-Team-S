@@ -9,7 +9,6 @@ import java.util.*;
 
 public class DepthFirst implements IPathfinding {
 
-    private boolean visited[];
 
     @Override
     public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
