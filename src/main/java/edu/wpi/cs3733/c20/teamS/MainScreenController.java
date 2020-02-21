@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.*;
 
 public class MainScreenController implements Initializable {
+    //region fields
     private Stage stage;
     private IPathfinding algorithm;
     private Group pathGroup = new Group();
@@ -40,6 +41,7 @@ public class MainScreenController implements Initializable {
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
+    //endregion
 
     private static class Floor {
         public final Image image;
@@ -180,6 +182,7 @@ public class MainScreenController implements Initializable {
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
+
     private NodeData updateNearestNodeLabels(double x, double y) {
         NodeData nearest = findNearestNodeWithin(x, y, 200);
 
