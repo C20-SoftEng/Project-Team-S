@@ -43,7 +43,7 @@ public class MaintenanceServiceRequestScreen {
                         int employeeID = mrequest.assignee().id();
                         String location = mrequest.location();
                         int dummyID = 0;
-                        ServiceData mrequestData = new ServiceData(dummyID,type, status, message, data, employeeID, location);
+                        ServiceData mrequestData = new ServiceData(type, status, message, data, employeeID, location);
                         System.out.println(mrequestData.toString());
                         db_controller.addServiceRequestData(mrequestData);
 
