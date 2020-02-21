@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+
 import java.util.Objects;
 
 public class NodeData{
@@ -132,4 +134,12 @@ public class NodeData{
 
     public void setCost(double cost) {this.cost_ = cost; }
 
+    public double distanceTo(NodeData other) {
+        if (other == null) ThrowHelper.illegalNull("other");
+
+        double xOffset = getxCoordinate() - other.getxCoordinate();
+        double yOffset = getyCoordinate() - other.getyCoordinate();
+
+        return Math.sqrt(xOffset * xOffset + yOffset * yOffset);
+    }
 }
