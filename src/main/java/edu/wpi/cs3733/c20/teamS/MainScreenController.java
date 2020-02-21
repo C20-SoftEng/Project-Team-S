@@ -24,10 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-
 import java.net.URL;
 import java.util.*;
 
@@ -178,27 +174,15 @@ public class MainScreenController implements Initializable {
         Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> this.tester.setNode(findNearestNode(e.getX(), e.getY())));
+        group.setOnMouseClicked(e -> this.tester.setNode(updateNearestNodeLabels(e.getX(), e.getY())));
 
         this.tester.pathDraw(floorSelector.current());
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
-    private NodeData findNearestNode(double x, double y) {
-        NodeData nearest = new NodeData();
-        double distance = 200;
+    private NodeData updateNearestNodeLabels(double x, double y) {
+        NodeData nearest = findNearestNodeWithin(x, y, 200);
 
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
-
-        for (NodeData temp : nd) {
-            if (temp.getFloor() == floorSelector.current()) {
-                if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
-                    distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
-                    nearest = temp;
-                }
-            }
-        }
         if (flip) {
             location1.setText(nearest.getLongName());
             flip = false;
@@ -207,6 +191,32 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
         return nearest;
+    }
+
+    private NodeData findNearestNodeWithin(double x, double y, double radius) {
+        List<NodeData> sorted = graph.nodes().stream()
+                    .filter(node -> node.getFloor() == floorSelector.current())
+                    .filter(node -> distance(x, y, node) < radius)
+                    .sorted((a, b) -> Double.compare(
+                            distance(x, y, a),
+                            distance(x, y, b)
+                    ))
+                    .collect(Collectors.toList());
+        if (sorted.isEmpty())
+            return null;
+        return sorted.get(0);
+    }
+
+    private double distance(double x1, double y1, double x2, double y2) {
+        double xSquared = x1 - x2;
+        xSquared *= xSquared;
+        double ySquared = y1 - y2;
+        ySquared *= ySquared;
+
+        return Math.sqrt(xSquared + ySquared);
+    }
+    private double distance(double x, double y, NodeData node) {
+        return distance(x, y, node.getxCoordinate(), node.getyCoordinate());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
