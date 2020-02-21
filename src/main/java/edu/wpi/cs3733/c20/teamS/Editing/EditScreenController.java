@@ -43,13 +43,24 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditScreenController implements Initializable {
-
+    //region fields
     private MoveNodes moveNode = new MoveNodes();
     private Stage stage;
     private boolean btwn = false;
-
-
     private Employee loggedIn;
+    private int current_floor = 2;
+    private MapZoomer zoomer;
+    private double currentHval;
+    private double currentVval;
+    private Group group2 = new Group();
+    private MapEditingTasks tester2 = new MapEditingTasks(group2);
+
+    private Image floor1 = new Image("images/Floors/HospitalFloor1.png");
+    private Image floor2 = new Image("images/Floors/HospitalFloor2.png");
+    private Image floor3 = new Image("images/Floors/HospitalFloor3.png");
+    private Image floor4 = new Image("images/Floors/HospitalFloor4.png");
+    private Image floor5 = new Image("images/Floors/HospitalFloor5.png");
+    //endregion
 
     /**
      *
@@ -60,106 +71,47 @@ public class EditScreenController implements Initializable {
         this.stage  = stage;
         this.loggedIn = employee;
     }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(mapImage, scrollPane);
 
-    int current_floor = 2;
-    String newFloor;
-    private MapZoomer zoomer;
-    private double currentHval;
-    private double currentVval;
+        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
 
-    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
-        zoomer.zoomSet();
-        scrollPane.setHvalue(Hval);
-        scrollPane.setVvalue(Vval);
-    }
-
-    Group group2 = new Group();
-    MapEditingTasks tester2 = new MapEditingTasks(group2);
-
-    Image floor1 = new Image("images/Floors/HospitalFloor1.png");
-    Image floor2 = new Image("images/Floors/HospitalFloor2.png");
-    Image floor3 = new Image("images/Floors/HospitalFloor3.png");
-    Image floor4 = new Image("images/Floors/HospitalFloor4.png");
-    Image floor5 = new Image("images/Floors/HospitalFloor5.png");
-    @FXML
-    JFXRadioButton addNodeRadio;
-    @FXML
-    JFXRadioButton removeNodeRadio;
-    @FXML
-    JFXRadioButton addEdgeRadio;
-    @FXML
-    JFXRadioButton removeEdgeRadio;
-    @FXML
-    JFXRadioButton moveNodeRadio;
-    @FXML
-    JFXRadioButton showInfoRadio;
-
-    @FXML private VBox editPrivilegeBox;
-
-    @FXML
-    Label loggedInUserLabel;
-
-    @FXML
-    private ImageView mapImage;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private JFXButton floorButton1;
-    @FXML
-    private JFXButton floorButton2;
-    @FXML
-    private JFXButton floorButton3;
-    @FXML
-    private JFXButton floorButton4;
-    @FXML
-    private JFXButton floorButton5;
-    @FXML
-    private JFXButton downButton;
-    @FXML
-    private JFXButton upButton;
-    @FXML
-    private ToggleGroup pathGroup;
-
-    @FXML
-    JFXButton zoomInButton;
-    @FXML
-    JFXButton zoomOutButton;
-
-        @FXML private JFXButton cancelEditsButton;
-        @FXML private JFXButton confirmEditButton;
-
-        public JFXButton getFloorButton2() {return floorButton2;}
-
-    public void onLogOut() {
-        IPathfinding pathfinder = new AStar();
-        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
-            case "A*":
-                pathfinder = new AStar();
-                break;
-            case "BreadthFirst":
-                pathfinder = new BreadthFirst();
-                break;
-            case "DepthFirst":
-                pathfinder = new DepthFirst();
-                break;
+        if(loggedIn.accessLevel() == AccessLevel.ADMIN){
+            editPrivilegeBox.setVisible(true);
         }
-        MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
+        else{
+            editPrivilegeBox.setVisible(false);
+        }
     }
 
-    private void unselectALL() {
-        addNodeRadio.selectedProperty().set(false);
-        removeNodeRadio.selectedProperty().set(false);
-        removeEdgeRadio.selectedProperty().set(false);
-        addEdgeRadio.selectedProperty().set(false);
-        moveNodeRadio.selectedProperty().set(false);
-        showInfoRadio.selectedProperty().set(false);
-    }
+    //region gui components
+    @FXML private JFXRadioButton addNodeRadio;
+    @FXML private JFXRadioButton removeNodeRadio;
+    @FXML private JFXRadioButton addEdgeRadio;
+    @FXML private JFXRadioButton removeEdgeRadio;
+    @FXML private JFXRadioButton moveNodeRadio;
+    @FXML private JFXRadioButton showInfoRadio;
+    @FXML private VBox editPrivilegeBox;
+    @FXML private Label loggedInUserLabel;
+    @FXML private ImageView mapImage;
+    @FXML private ScrollPane scrollPane;
+    @FXML private JFXButton floorButton1;
+    @FXML private JFXButton floorButton2;
+    @FXML private JFXButton floorButton3;
+    @FXML private JFXButton floorButton4;
+    @FXML private JFXButton floorButton5;
+    @FXML private JFXButton downButton;
+    @FXML private JFXButton upButton;
+    @FXML private ToggleGroup pathGroup;
+    @FXML private JFXButton zoomInButton;
+    @FXML private JFXButton zoomOutButton;
+    @FXML private JFXButton cancelEditsButton;
+    @FXML private JFXButton confirmEditButton;
+    //endregion
 
-
-    @FXML
-    void onUpClicked(ActionEvent event) {
+    //region event handlers
+    @FXML void onUpClicked() {
         current_floor += 1;
         if (current_floor == 1) {
             set1();
@@ -188,9 +140,7 @@ public class EditScreenController implements Initializable {
             drawNodesEdges();
         }
     }
-
-    @FXML
-    void onDownClicked(ActionEvent event) {
+    @FXML void onDownClicked() {
         current_floor -= 1;
         if (current_floor == 1) {
             set1();
@@ -220,104 +170,38 @@ public class EditScreenController implements Initializable {
             drawNodesEdges();
         }
     }
-
-    void set1() {
-        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(true);
-    }
-
-    void set2() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-
-    void set3() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-
-    void set4() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        upButton.setDisable(false);
-        downButton.setDisable(false);
-    }
-
-    void set5() {
-        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
-        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
-        upButton.setDisable(true);
-        downButton.setDisable(false);
-    }
-
-    @FXML
-    void onFloorClicked1(ActionEvent event) {
+    @FXML void onFloorClicked1() {
         set1();
         mapImage.setImage(floor1);
         current_floor = 1;
         drawNodesEdges();
     }
-
-
-    @FXML
-    void onFloorClicked2(ActionEvent event) {
+    @FXML void onFloorClicked2() {
         set2();
         mapImage.setImage(floor2);
         current_floor = 2;
         drawNodesEdges();
     }
-
-
-    @FXML
-    void onFloorClicked3(ActionEvent event) {
+    @FXML void onFloorClicked3() {
         set3();
         mapImage.setImage(floor3);
         current_floor = 3;
         drawNodesEdges();
     }
-
-
-    @FXML
-    void onFloorClicked4(ActionEvent event) {
+    @FXML void onFloorClicked4() {
         set4();
         mapImage.setImage(floor4);
         current_floor = 4;
         drawNodesEdges();
 
     }
-
-
-    @FXML
-    void onFloorClicked5(ActionEvent event) {
+    @FXML void onFloorClicked5() {
         set5();
         mapImage.setImage(floor5);
         current_floor = 5;
         drawNodesEdges();
     }
-
-    @FXML
-    void onHelpClicked(ActionEvent event) {
+    @FXML void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -331,9 +215,7 @@ public class EditScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-
-    @FXML
-    void onStaffClicked(ActionEvent event) {
+    @FXML void onStaffClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -347,9 +229,7 @@ public class EditScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-
-    @FXML
-    void onZoomInClicked(ActionEvent event) {
+    @FXML void onZoomInClicked() {
         this.zoomer.zoomIn();
         if (zoomer.getZoomStage() == 3) {
             zoomInButton.setDisable(true);
@@ -359,9 +239,7 @@ public class EditScreenController implements Initializable {
             zoomOutButton.setDisable(false);
         }
     }
-
-    @FXML
-    void onZoomOutClicked(ActionEvent event) {
+    @FXML void onZoomOutClicked() {
         this.zoomer.zoomOut();
         if (zoomer.getZoomStage() == -2) {
             zoomOutButton.setDisable(true);
@@ -371,25 +249,70 @@ public class EditScreenController implements Initializable {
             zoomInButton.setDisable(false);
         }
     }
+    @FXML void onNewServiceClicked(ActionEvent event) {
+        SelectServiceScreen.showDialog(loggedIn);
+    }
+    @FXML void onActiveServiceClicked() {
+        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
+        DatabaseController dbc = new DatabaseController();
+        Set<ServiceData> dbData = dbc.getAllServiceRequestData();
+        for(ServiceData sd : dbData){
+            if(!(sd.getStatus().equals("COMPLETE"))){
+                setOfActives.add(sd);
+                System.out.println(sd.toString());
+            }
+        }
+        ActiveServiceRequestScreen.showDialog(setOfActives);
+    }
+    //endregion
 
-    public JFXButton getFloor2() {
-        return floorButton2;
+    void set1() {
+        floorButton1.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(true);
+    }
+    void set2() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+    }
+    void set3() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+    }
+    void set4() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        floorButton5.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        upButton.setDisable(false);
+        downButton.setDisable(false);
+    }
+    void set5() {
+        floorButton1.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton2.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton3.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton4.setStyle("-fx-background-color: #ffffff; -fx-font: 22 System;");
+        floorButton5.setStyle("-fx-background-color: #f6bd38; -fx-font: 32 System;");
+        upButton.setDisable(true);
+        downButton.setDisable(false);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(mapImage, scrollPane);
-
-        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
-
-        if(loggedIn.accessLevel() == AccessLevel.ADMIN){
-            editPrivilegeBox.setVisible(true);
-        }
-        else{
-            editPrivilegeBox.setVisible(false);
-        }
-    }
-
+    public JFXButton getFloorButton2() {return floorButton2;}
     public void drawNodesEdges() {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
@@ -398,15 +321,11 @@ public class EditScreenController implements Initializable {
         moveNode.setCurrent_floor(current_floor);
 
         String floor = "0" + current_floor;
-
         Group group = new Group();
-
         group.getChildren().clear();
-
         group.getChildren().add(mapImage);
 
         MapEditingTasks tester = new MapEditingTasks(group);
-
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodes();
 
@@ -522,30 +441,32 @@ public class EditScreenController implements Initializable {
             addEdgeRadio.fire();
         }
     }
-
-    @FXML
-    void onNewServiceClicked(ActionEvent event) {
-        SelectServiceScreen.showDialog(loggedIn);
+    public void onLogOut() {
+        IPathfinding pathfinder = new AStar();
+        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
+            case "A*":
+                pathfinder = new AStar();
+                break;
+            case "BreadthFirst":
+                pathfinder = new BreadthFirst();
+                break;
+            case "DepthFirst":
+                pathfinder = new DepthFirst();
+                break;
+        }
+        MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
     }
-
-    @FXML
-    void onActiveServiceClicked() {
-            ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
-            DatabaseController dbc = new DatabaseController();
-            Set<ServiceData> dbData = dbc.getAllServiceRequestData();
-            for(ServiceData sd : dbData){
-                //System.out.println(sd.getStatus());
-                if(!(sd.getStatus().equals("COMPLETE"))){
-                    setOfActives.add(sd);
-                    System.out.println(sd.toString());
-                }
-
-
-            }
-        //System.out.println("Is this printing");
-        ActiveServiceRequestScreen.showDialog(setOfActives);
-
-        //ActiveServiceRequestScreen ASRS = new ActiveServiceRequestScreen(stage, setOfActives);
-
+    private void unselectALL() {
+        addNodeRadio.selectedProperty().set(false);
+        removeNodeRadio.selectedProperty().set(false);
+        removeEdgeRadio.selectedProperty().set(false);
+        addEdgeRadio.selectedProperty().set(false);
+        moveNodeRadio.selectedProperty().set(false);
+        showInfoRadio.selectedProperty().set(false);
+    }
+    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
+        zoomer.zoomSet();
+        scrollPane.setHvalue(Hval);
+        scrollPane.setVvalue(Vval);
     }
 }
