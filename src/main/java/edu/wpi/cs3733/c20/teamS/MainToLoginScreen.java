@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +30,7 @@ public class MainToLoginScreen {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        ui.drawNodesEdges();
+        ui.updateFloorDisplay();
         this.show();
         stage.setFullScreen(true);
     }

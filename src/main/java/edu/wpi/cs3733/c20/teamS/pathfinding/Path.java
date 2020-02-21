@@ -2,7 +2,11 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Represents an immutable sequence of connected nodes that maintains the total cost
@@ -96,6 +100,18 @@ public abstract class Path implements Iterable<NodeData> {
 
             private Path path_ = Path.this;
         };
+    }
+
+    /**
+     * Gets an unmodifiable list of nodes in the path from start to finish.
+     * @return Nodes in start-to-finish order.
+     */
+    public final List<NodeData> startToFinish() {
+        LinkedList<NodeData> result = new LinkedList<>();
+        for (NodeData node : this)
+            result.addFirst(node);
+
+        return Collections.unmodifiableList(result);
     }
 
     /**

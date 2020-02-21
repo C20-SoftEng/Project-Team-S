@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import edu.wpi.cs3733.c20.teamS.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;

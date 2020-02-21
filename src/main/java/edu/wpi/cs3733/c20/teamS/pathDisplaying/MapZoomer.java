@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS;
+package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
