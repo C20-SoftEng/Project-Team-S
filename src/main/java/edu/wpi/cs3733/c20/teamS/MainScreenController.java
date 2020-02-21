@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -22,23 +24,22 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-
 import java.net.URL;
 import java.util.*;
 
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
-    private Group group2 = new Group();
-    private PathDisplay tester2;
+    private Group pathGroup = new Group();
+    private PathDisplay tester;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
+    private MutableGraph<NodeData> graph;
 
     private static class Floor {
         public final Image image;
@@ -92,8 +93,8 @@ public class MainScreenController implements Initializable {
         private void updateFloorButtons(int floorNumber) {
             for (Floor floor : this.floors)
                 floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
-            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
 
+            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
             this.upButton.setDisable(floorNumber == highestFloorNumber);
             this.downButton.setDisable(floorNumber == lowestFloorNumber);
         }
@@ -102,9 +103,9 @@ public class MainScreenController implements Initializable {
             double currentVval = scrollPane.getVvalue();
             mapImage.setImage(floor(floorNumber).image);
             zoomer.zoomSet();
-            if (tester2.getCounter() >= 0)
-                tester2.pathDraw(this.current);
-            drawNodesEdges();
+            if (tester.getCounter() >= 0)
+                tester.pathDraw(this.current);
+            populateCollidersForCurrentFloor();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
         private Floor floor(int floorNumber) {
@@ -115,7 +116,7 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        tester2 = new PathDisplay(group2, parentVBox, this.algorithm);
+        tester = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -124,10 +125,26 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxAutoComplete();
 
         zoomer = new MapZoomer(mapImage, scrollPane);
-        tester2 = new PathDisplay(group2, parentVBox, algorithm);
+        tester = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
+
+        initGraph();
     }
 
+    private void initGraph() {
+        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+        DatabaseController database = new DatabaseController();
+        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
+                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
+        Set<EdgeData> edges = database.getAllEdges();
+        for (NodeData node : nodeIdMap.values())
+            graph.addNode(node);
+        for (EdgeData edge : edges) {
+            NodeData start = nodeIdMap.get(edge.getStartNode());
+            NodeData end = nodeIdMap.get(edge.getEndNode());
+            graph.putEdge(start, end);
+        }
+    }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -149,92 +166,23 @@ public class MainScreenController implements Initializable {
         Set<NodeData> nodes = db.getAllNodes();
         List<String> dictionary = nodes.stream()
                 .map(node -> node.getLongName() + ", " + node.getNodeID())
-                .collect(Collectors.toList());
+                .collect(toList());
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public void drawNodesEdges() {
-        String floor = "0" + floorSelector.current();
+    public void populateCollidersForCurrentFloor() {
         Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        PathDisplay tester = new PathDisplay(group, parentVBox, this.algorithm);
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
-        group.setOnMouseClicked(e -> tester2.setNode(findNearestNode(e.getX(), e.getY())));
-        for (NodeData data : nd) {
-            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 0);
-            circle1.setStroke(Color.ORANGE);
-            circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-            if (data.getNodeType().equals("ELEV")) {
-                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-            }
-            circle1.setOnMouseClicked(e -> tester2.setNode(data));
-            circle1.setVisible(false);
-            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
-                circle1.setVisible(true);
-            }
-            group.getChildren().add(circle1);
-        }
-        Set<EdgeData> ed = dbc.getAllEdges();
-        for (EdgeData data : ed) {
-            if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                int startX = 0;
-                int startY = 0;
-                int endX = 0;
-                int endY = 0;
-                boolean checker1 = false;
-                boolean checker2 = false;
-                for (NodeData check : nd) {
-                    String start = "Start Location";
-                    if (check.getNodeID().equals(start)) {
-                        checker1 = true;
-                        startX = (int) check.getxCoordinate();
-                        startY = (int) check.getyCoordinate();
-                    }
-                    String end = "End Location";
-                    if (check.getNodeID().equals(end)) {
-                        checker2 = true;
-                        endX = (int) check.getxCoordinate();
-                        endY = (int) check.getyCoordinate();
-                    }
-                }
-                if (checker1 && checker2) {
-                    Line line1 = new Line();
-                    line1.setStartX(startX);
-                    line1.setStartY(startY);
-                    line1.setEndX(endX);
-                    line1.setEndY(endY);
-                    line1.setStroke(Color.BLUE);
-                    line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-                    line1.setStrokeWidth(0);
-                    line1.setVisible(false);
-                    if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                        line1.setVisible(true);
-                    }
-                    group.getChildren().add(line1);
-                }
-            }
-        }
-        tester2.pathDraw(floorSelector.current());
-        group.getChildren().add(group2);
+        group.setOnMouseClicked(e -> this.tester.setNode(updateNearestNodeLabels(e.getX(), e.getY())));
+
+        this.tester.pathDraw(floorSelector.current());
+        group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
-    private NodeData findNearestNode(double x, double y) {
-        NodeData nearest = new NodeData();
-        double distance = 200;
+    private NodeData updateNearestNodeLabels(double x, double y) {
+        NodeData nearest = findNearestNodeWithin(x, y, 200);
 
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
-
-        for (NodeData temp : nd) {
-            if (temp.getFloor() == floorSelector.current()) {
-                if (Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2)) < distance) {
-                    distance = Math.sqrt(Math.pow((x - temp.getxCoordinate()), 2) + Math.pow((y - temp.getyCoordinate()), 2));
-                    nearest = temp;
-                }
-            }
-        }
         if (flip) {
             location1.setText(nearest.getLongName());
             flip = false;
@@ -245,12 +193,39 @@ public class MainScreenController implements Initializable {
         return nearest;
     }
 
+    private NodeData findNearestNodeWithin(double x, double y, double radius) {
+        List<NodeData> sorted = graph.nodes().stream()
+                    .filter(node -> node.getFloor() == floorSelector.current())
+                    .filter(node -> distance(x, y, node) < radius)
+                    .sorted((a, b) -> Double.compare(
+                            distance(x, y, a),
+                            distance(x, y, b)
+                    ))
+                    .collect(Collectors.toList());
+        if (sorted.isEmpty())
+            return null;
+        return sorted.get(0);
+    }
+
+    private double distance(double x1, double y1, double x2, double y2) {
+        double xSquared = x1 - x2;
+        xSquared *= xSquared;
+        double ySquared = y1 - y2;
+        ySquared *= ySquared;
+
+        return Math.sqrt(xSquared + ySquared);
+    }
+    private double distance(double x, double y, NodeData node) {
+        return distance(x, y, node.getxCoordinate(), node.getyCoordinate());
+    }
+
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);
         scrollPane.setVvalue(Vval);
     }
 
+    //region ui widgets
     @FXML private ImageView mapImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
@@ -266,7 +241,9 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
     @FXML private ComboBox<String> searchComboBox;
+    //endregion
 
+    //region event handlers
     @FXML private void onUpClicked() {
         floorSelector.setCurrent(floorSelector.current() + 1);
     }
@@ -308,7 +285,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onPathfindClicked() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
-        drawNodesEdges();
+        populateCollidersForCurrentFloor();
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
     @FXML private void onSwapButtonPressed() {
@@ -337,4 +314,5 @@ public class MainScreenController implements Initializable {
             zoomInButton.setDisable(false);
         }
     }
+    //endregion
 }
