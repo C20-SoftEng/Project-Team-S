@@ -51,7 +51,7 @@ public class DatabaseTest extends Application {
 
 
         dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
-
+        dbCont.addEmployee(new EmployeeData("jebus","pworddog",1,"Jamal","Lamar"));
 
 
         Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
@@ -63,6 +63,37 @@ public class DatabaseTest extends Application {
         System.out.println(dbCont.checkLogin("Bigmun2934","password123"));
         System.out.println(dbCont.checkLogin("BigMan2934","passwod123"));
         System.out.println(dbCont.getEmployee(""));
+
+
+        dbCont.addCapability(1,"DOGS");
+        dbCont.addCapability(1,"DRUG");
+        dbCont.addCapability(1,"GIFT");
+        dbCont.addCapability(1,"GEDR");
+        dbCont.addCapability(1,"EDSR");
+
+
+        dbCont.addCapability(2,"MAIT");
+        dbCont.addCapability(2,"DOGS");
+
+        System.out.println("Employees capable of dogs");
+        for(int d : dbCont.getCapableEmployees("DOGS")){
+            System.out.println(d);
+        }
+
+        System.out.println("Removing capability of 1 to service dog");
+        dbCont.removeCapability(1,"DOGS");
+
+        System.out.println("Employees capable of dogs after removing 1's abilty for dogs");
+        for(int d : dbCont.getCapableEmployees("DOGS")){
+            System.out.println(d);
+        }
+
+        System.out.println(dbCont.checkCapable(2,"MAIT"));
+        System.out.println(dbCont.checkCapable(1,"MAIT"));
+
+
+
+
     }
 
 

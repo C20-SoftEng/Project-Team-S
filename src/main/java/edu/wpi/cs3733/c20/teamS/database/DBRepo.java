@@ -23,16 +23,16 @@ public interface DBRepo {
     void addEmployee(EmployeeData ed);
     boolean checkLogin(String username, String password);
     EmployeeData getEmployee(String username);
-    void removeEmployee(String username);
-    void updateEmployee(EmployeeData emp);
+//    void removeEmployee(String username);
+//    void updateEmployee(EmployeeData emp);
 
     void addServiceRequestData(ServiceData sd);
     void updateServiceData(ServiceData sd);
     void deleteServiceWithId(int id);
 
     Set<Integer> getCapableEmployees(String serviceType);
-    void addCapability(int ID, String type);
-    void removeCapability(int ID, String type);
-
+    void addCapability(int ID, String serviceType);
+    void removeCapability(int ID, String serviceType);
+    boolean checkCapable(int ID, String serviceType);
 
 }

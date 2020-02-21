@@ -824,4 +824,57 @@ public class DatabaseController implements DBRepo{
 
 
 
+
+    public Set<Integer> getCapableEmployees(String serviceType){
+        String getStr = "SELECT EMPLOYEEID FROM SERVICEABLE WHERE SERVICETYPE = ?";
+        Set<Integer> setOfIDs = new HashSet<Integer>();
+        try{
+            PreparedStatement getStm = connection.prepareStatement(getStr);
+            getStm.setString(1,serviceType);
+            ResultSet rset = getStm.executeQuery();
+            while(rset.next()){
+                setOfIDs.add(rset.getInt("EMPLOYEEID"));
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return setOfIDs;
+    }
+
+    public void addCapability(int ID, String serviceType){
+        String addStr = "INSERT INTO SERVICEABLE VALUES (?,?)";
+        try{
+            PreparedStatement addStm = connection.prepareStatement(addStr);
+            addStm.setInt(1,ID);
+            addStm.setString(2,serviceType);
+            addStm.execute();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
+
+    public void removeCapability(int ID, String serviceType){
+        String delStr = "DELETE FROM SERVICEABLE WHERE EMPLOYEEID = ? AND SERVICETYPE = ?";
+        try{
+            PreparedStatement delStm = connection.prepareStatement(delStr);
+            delStm.setInt(1,ID);
+            delStm.setString(2,serviceType);
+            delStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
+
+    public boolean checkCapable(int ID, String serviceType){
+        Set<Integer> capableIDSet = getCapableEmployees(serviceType);
+        return capableIDSet.contains(ID);
+    }
+
+
 }
