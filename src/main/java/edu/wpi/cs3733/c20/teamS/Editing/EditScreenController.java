@@ -47,7 +47,6 @@ public class EditScreenController implements Initializable {
     private Stage stage;
     private boolean btwn = false;
     private Employee loggedIn;
-    //private int current_floor = 2;
     private double currentHval;
     private double currentVval;
     private Group group2 = new Group();
@@ -56,36 +55,6 @@ public class EditScreenController implements Initializable {
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     //endregion
-
-    /**
-     *
-     * @param stage the stage to take over
-     * @param employee the employee that logged in
-     */
-    public EditScreenController(Stage stage, Employee employee) {
-        this.stage  = stage;
-        this.loggedIn = employee;
-    }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(scrollPane);
-        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
-        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
-
-        initFloorSelector();
-        floorSelector.setCurrent(2);
-    }
-
-    private void initFloorSelector() {
-        floorSelector = new FloorSelector(
-                upButton, downButton,
-                new Floor(floorButton1, "images/Floors/HospitalFloor1.png"),
-                new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
-                new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
-                new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
-                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
-        );
-    }
 
     private static class Floor {
         public final Image image;
@@ -138,6 +107,36 @@ public class EditScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param stage the stage to take over
+     * @param employee the employee that logged in
+     */
+    public EditScreenController(Stage stage, Employee employee) {
+        this.stage  = stage;
+        this.loggedIn = employee;
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        zoomer = new MapZoomer(scrollPane);
+        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
+        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
+
+        initFloorSelector();
+        floorSelector.setCurrent(2);
+    }
+
+    private void initFloorSelector() {
+        floorSelector = new FloorSelector(
+                upButton, downButton,
+                new Floor(floorButton1, "images/Floors/HospitalFloor1.png"),
+                new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
+                new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
+                new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
+        );
+    }
+
     //region gui components
     @FXML private JFXRadioButton addNodeRadio;
     @FXML private JFXRadioButton removeNodeRadio;
@@ -164,29 +163,28 @@ public class EditScreenController implements Initializable {
     //endregion
 
     //region event handlers
-    @FXML void onUpClicked() {
+    @FXML private void onUpClicked() {
         floorSelector.setCurrent(floorSelector.current() + 1);
     }
-    @FXML void onDownClicked() {
+    @FXML private void onDownClicked() {
         floorSelector.setCurrent(floorSelector.current() - 1);
     }
-    @FXML void onFloorClicked1() {
+    @FXML private void onFloorClicked1() {
         floorSelector.setCurrent(1);
     }
-    @FXML void onFloorClicked2() {
+    @FXML private void onFloorClicked2() {
         floorSelector.setCurrent(2);
     }
-    @FXML void onFloorClicked3() {
+    @FXML private void onFloorClicked3() {
         floorSelector.setCurrent(3);
     }
-    @FXML void onFloorClicked4() {
+    @FXML private void onFloorClicked4() {
         floorSelector.setCurrent(4);
-
     }
-    @FXML void onFloorClicked5() {
+    @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML void onHelpClicked() {
+    @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -200,7 +198,7 @@ public class EditScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-    @FXML void onStaffClicked() {
+    @FXML private void onStaffClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -214,7 +212,7 @@ public class EditScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-    @FXML void onZoomInClicked() {
+    @FXML private void onZoomInClicked() {
         this.zoomer.zoomIn();
         if (zoomer.getZoomStage() == 3) {
             zoomInButton.setDisable(true);
@@ -224,7 +222,7 @@ public class EditScreenController implements Initializable {
             zoomOutButton.setDisable(false);
         }
     }
-    @FXML void onZoomOutClicked() {
+    @FXML private void onZoomOutClicked() {
         this.zoomer.zoomOut();
         if (zoomer.getZoomStage() == -2) {
             zoomOutButton.setDisable(true);
@@ -234,10 +232,10 @@ public class EditScreenController implements Initializable {
             zoomInButton.setDisable(false);
         }
     }
-    @FXML void onNewServiceClicked(ActionEvent event) {
+    @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);
     }
-    @FXML void onActiveServiceClicked() {
+    @FXML private void onActiveServiceClicked() {
         ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
         DatabaseController dbc = new DatabaseController();
         Set<ServiceData> dbData = dbc.getAllServiceRequestData();
@@ -251,7 +249,6 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
-    public JFXButton getFloorButton2() {return floorButton2;}
     public void drawNodesEdges() {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();

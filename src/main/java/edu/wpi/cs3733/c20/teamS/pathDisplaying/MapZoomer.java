@@ -2,9 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import edu.wpi.cs3733.c20.teamS.Numerics;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 
 public class MapZoomer {
     private final ScrollPane scrollPane;

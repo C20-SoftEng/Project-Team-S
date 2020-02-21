@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import java.util.*;
 
 public class DepthFirst implements IPathfinding {
-
     @Override
     public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
