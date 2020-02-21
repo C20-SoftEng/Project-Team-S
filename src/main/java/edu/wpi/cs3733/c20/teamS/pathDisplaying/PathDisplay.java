@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import javax.sound.midi.Soundbank;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -108,6 +110,7 @@ public class PathDisplay {
             groupPath.getChildren().add(endBalloon);
         }
         for (NodeData node1 : graph.nodes()) {
+            System.out.println(node1.getNodeType());
             if (node1.getNodeType() == "ELEV") {
                 ImageView elavator_gif = drawElevator(node1);
                 groupPath.getChildren().add(elavator_gif);
@@ -117,11 +120,11 @@ public class PathDisplay {
         group.getChildren().add(groupPath);
     }
 
-    private ImageView drawElevator(NodeData node) {
+    private ImageView drawElevator(NodeData node2) {
         ImageView elevator_icon = new ImageView();
-        elevator_icon.setImage(new Image("images/Baloons/elevator.png"));
-        elevator_icon.setX(node.getxCoordinate() - 20);
-        elevator_icon.setY(node.getyCoordinate() - 60);
+        elevator_icon.setImage(new Image("images/Balloons/elevator.png"));
+        elevator_icon.setX(node2.getxCoordinate() - 20);
+        elevator_icon.setY(node2.getyCoordinate() - 60);
         elevator_icon.setPreserveRatio(true);
         elevator_icon.setFitWidth(40);
         return elevator_icon;
