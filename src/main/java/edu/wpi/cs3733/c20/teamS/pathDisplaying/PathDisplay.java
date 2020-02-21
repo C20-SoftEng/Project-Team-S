@@ -87,8 +87,7 @@ public class PathDisplay {
 
             PathingContext pathContext = new PathingContext(this.algorithm);
             Path path = pathContext.executePathfind(graph, startNode, endNode);
-            LinkedList<NodeData> work = new LinkedList<>();
-            path.forEach(node -> work.addFirst(node));
+            List<NodeData> work = path.startToFinish();
             WrittenInstructions directions = new WrittenInstructions(work);
             List<String> words = directions.directions();
             System.out.println(words.size());
