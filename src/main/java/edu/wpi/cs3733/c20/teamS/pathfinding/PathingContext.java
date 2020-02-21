@@ -12,7 +12,7 @@ public class PathingContext {
         this.algorithm = alg;
     }
 
-    public ArrayList<NodeData> executePathfind(MutableGraph<NodeData> graph, NodeData start, NodeData goal){
+    public Path executePathfind(MutableGraph<NodeData> graph, NodeData start, NodeData goal){
         return algorithm.findPath(graph, start, goal);
     }
 }
