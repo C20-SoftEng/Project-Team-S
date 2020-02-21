@@ -15,13 +15,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import javafx.scene.shape.*;
 
@@ -37,7 +38,7 @@ public class PathDisplay {
     private IPathfinding algorithm;
     VBox parentVBox;
     PathTransition pt = new PathTransition();
-    Path path = new Path();
+    Path path_animated = new Path();
     MoveTo moveTo = new MoveTo();
     LineTo lineTo = new LineTo();
 
@@ -151,13 +152,13 @@ public class PathDisplay {
                             LineTo startLine = new LineTo();
                             startLine.setX(startX);
                             startLine.setY(startY);
-                            path.getElements().add(startLine);
+                            path_animated.getElements().add(startLine);
                         }
 
                         lineTo.setX(endX);
                         lineTo.setY(endY);
 
-                        path.getElements().add(lineTo);
+                        path_animated.getElements().add(lineTo);
 
                         if(first == 1) {
                             //sets beginning positon icon
@@ -191,7 +192,7 @@ public class PathDisplay {
 
         pt.setDuration(Duration.seconds(10));
         pt.setDelay(Duration.seconds(5));
-        pt.setPath(path);
+        pt.setPath(path_animated);
         Circle circ = new Circle(moveTo.getX(),moveTo.getY(),10,Color.DEEPSKYBLUE);
         pt.setNode(circ);
         pt.setCycleCount(Timeline.INDEFINITE);
