@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class A_StarTests {
         newGraph.addNode(nodeOne);
         newGraph.addNode(nodeTwo);
         newGraph.putEdge(nodeOne, nodeTwo);
-       A_Star star = new A_Star();
+       AStar star = new AStar();
         List<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
         List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
@@ -61,7 +61,7 @@ public class A_StarTests {
         newGraph.putEdge(nodeThree, nodeNine);
         newGraph.addNode(nodeTen);
         newGraph.putEdge(nodeNine, nodeTen);
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
         List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
@@ -95,7 +95,7 @@ public class A_StarTests {
         newGraph.putEdge(nodeNine, nodeTen);
         newGraph.putEdge(nodeEight, nodeFour);
         newGraph.putEdge(nodeTen, nodeFour);
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         List<NodeData> path =  star.findPath(newGraph, nodeOne, nodeFour);
         List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
@@ -112,7 +112,7 @@ public class A_StarTests {
         newGraph.addNode(nodeTwo);
         newGraph.addNode(nodeThree);
 
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         List<NodeData> path = star.findPath(newGraph, nodeOne, nodeTwo);
         List<NodeData> realPath = new ArrayList<>();
 
@@ -126,7 +126,7 @@ public class A_StarTests {
     public void findPath_singleNodePath(){
         newGraph.addNode(nodeOne);
 
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         List<NodeData> path = star.findPath(newGraph, nodeOne, nodeOne);
         List<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
@@ -136,7 +136,7 @@ public class A_StarTests {
 
     @Test
     public void euclideanDistance_correctDistance(){
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         double distance = star.distance(nodeOne, nodeTwo);
         double realDistance =
                 Math.sqrt((nodeTwo.getxCoordinate()-nodeOne.getxCoordinate())*(nodeTwo.getxCoordinate()-nodeOne.getxCoordinate()) + (nodeTwo.getyCoordinate()-nodeOne.getyCoordinate())*(nodeTwo.getyCoordinate()-nodeOne.getyCoordinate()));
@@ -151,7 +151,7 @@ public class A_StarTests {
         newGraph.addNode(nodeThree);
         newGraph.putEdge(nodeTwo, nodeThree);
         newGraph.putEdge(nodeThree, nodeOne);
-        A_Star star = new A_Star();
+        AStar star = new AStar();
         ArrayList<NodeData> path = star.findPath(newGraph, nodeOne, nodeThree);
         ArrayList<NodeData> realPath = new ArrayList<>();
         realPath.add(nodeOne);
