@@ -16,8 +16,8 @@ public class MapZoomer {
         this.scrollPane = scrollPane;
     }
 
-
     public double zoomFactor() {
+        //  Zoom factor is incremented in stages, just like stat-changes in Pokemon.
         double result = 1.0 + 0.5 * Math.abs(zoomStage);
         if (zoomStage < 0) {
             return 1.0 / result;
@@ -27,38 +27,31 @@ public class MapZoomer {
     }
 
     private void updateImageSize() {
-        //this.mapView.setScaleX(zoomFactor());
-        //this.mapView.setScaleY(zoomFactor());
         scrollPane.getContent().setScaleX(zoomFactor());
         scrollPane.getContent().setScaleY(zoomFactor());
     }
 
+    public boolean canZoomIn() {
+        return zoomStage < maxZoomStage;
+    }
     public void zoomIn() {
-        if (zoomStage < maxZoomStage) {
+        if (canZoomIn()) {
             zoomStage++;
             updateImageSize();
         }
     }
-
+    public boolean canZoomOut() {
+        return zoomStage > minZoomStage;
+    }
     public void zoomOut() {
-        if (zoomStage > minZoomStage) {
+        if (canZoomOut()) {
             zoomStage--;
             updateImageSize();
         }
-        ;
     }
 
     public void zoomSet() {
         updateImageSize();
-    }
-    private void updateBounds() {
-
-        double rangeSize = zoomFactor();
-        double minRange = 0;
-        double maxRange = rangeSize;
-
-        Bounds newbound = mapView.getBoundsInParent();
-
     }
 
     public int getZoomStage(){
