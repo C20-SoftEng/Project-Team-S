@@ -129,7 +129,7 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxFont();
         initSearchComboBoxAutoComplete();
 
-        zoomer = new MapZoomer(mapImage, scrollPane);
+        zoomer = new MapZoomer(scrollPane);
         pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
         initFloorSelector();
 
@@ -304,25 +304,13 @@ public class MainScreenController implements Initializable {
         location1.setText(temp);
     }
     @FXML private void onZoomInClicked() {
-        this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3){
-            zoomInButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomer.zoomIn();
+        zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
-        if (zoomer.getZoomStage() == -2){
-            zoomOutButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
 }
