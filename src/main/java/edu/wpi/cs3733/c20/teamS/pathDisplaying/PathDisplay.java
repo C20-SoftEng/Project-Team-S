@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,6 @@ import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.shape.*;
-import javafx.scene.effect.Reflection;
 
 
 public class PathDisplay {
@@ -38,7 +38,6 @@ public class PathDisplay {
     VBox parentVBox;
     PathTransition pt = new PathTransition();
     Path path = new Path();
-    Reflection reflection = new Reflection();
     MoveTo moveTo = new MoveTo();
     LineTo lineTo = new LineTo();
 
