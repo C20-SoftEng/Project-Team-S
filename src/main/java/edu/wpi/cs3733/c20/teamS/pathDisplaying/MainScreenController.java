@@ -39,7 +39,8 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private Group pathGroup = new Group();
-    private PathDisplay pathDrawer;
+    //private PathDisplay pathDrawer;
+    private PathRenderer renderer;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
@@ -108,8 +109,9 @@ public class MainScreenController implements Initializable {
             double currentVval = scrollPane.getVvalue();
             mapImage.setImage(floor(floorNumber).image);
             zoomer.zoomSet();
-            if (pathDrawer.getCounter() >= 0)
-                pathDrawer.pathDraw(graph, this.current);
+//            if (pathDrawer.getCounter() >= 0)
+//                pathDrawer.pathDraw(graph, this.current);
+            renderer.redraw();
             updateFloorDisplay();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
@@ -121,7 +123,7 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
+        //pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,10 +132,12 @@ public class MainScreenController implements Initializable {
         initSearchComboBoxAutoComplete();
 
         zoomer = new MapZoomer(scrollPane);
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
-        initFloorSelector();
+        //pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
 
         initGraph();
+        renderer = new PathRenderer(graph, algorithm);
+        initFloorSelector();
+
     }
 
     private void initGraph() {
@@ -180,7 +184,8 @@ public class MainScreenController implements Initializable {
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(this::onMapClicked);
 
-        this.pathDrawer.pathDraw(graph, floorSelector.current());
+        //this.pathDrawer.pathDraw(graph, floorSelector.current());
+        renderer.redraw();
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
@@ -200,7 +205,8 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        pathDrawer.setNode(nearest);
+        renderer.onNodeClicked(nearest);
+        //pathDrawer.setNode(nearest);
     }
 
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
