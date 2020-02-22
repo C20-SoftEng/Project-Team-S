@@ -1,13 +1,11 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
 public final class RemoveNodeTool implements IEditingTool {
-    private final GraphEditor graph;
+    private final ObservableGraph graph;
 
-    public RemoveNodeTool(GraphEditor graph) {
+    public RemoveNodeTool(ObservableGraph graph) {
         this.graph = graph;
     }
 

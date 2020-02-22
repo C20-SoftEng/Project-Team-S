@@ -1,14 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public final class AddEdgeTool implements IEditingTool {
-    private final GraphEditor graph;
+    private final ObservableGraph graph;
     private State state;
 
-    public AddEdgeTool(GraphEditor graph) {
+    public AddEdgeTool(ObservableGraph graph) {
         this.graph = graph;
         this.state = new StandbyState();
     }

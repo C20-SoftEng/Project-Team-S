@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.stage.Stage;
@@ -11,10 +9,10 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class AddNodeTool implements IEditingTool {
-    private final GraphEditor graph;
+    private final ObservableGraph graph;
     private final Supplier<Integer> currentFloorSupplier;
 
-    public AddNodeTool(GraphEditor graph, Supplier<Integer> currentfloorSupplier) {
+    public AddNodeTool(ObservableGraph graph, Supplier<Integer> currentfloorSupplier) {
         this.graph = graph;
         this.currentFloorSupplier = currentfloorSupplier;
     }
