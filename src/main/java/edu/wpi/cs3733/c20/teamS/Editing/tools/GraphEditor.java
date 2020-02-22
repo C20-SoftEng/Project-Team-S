@@ -21,6 +21,7 @@ public final class GraphEditor {
     private final PublishSubject<NodeData> nodeRemoved = PublishSubject.create();
     private final PublishSubject<EndpointPair<NodeData>> edgeAdded = PublishSubject.create();
     private final PublishSubject<EndpointPair<NodeData>> edgeRemoved = PublishSubject.create();
+    private final PublishSubject<NodeData> nodeChanged = PublishSubject.create();
 
     public GraphEditor(MutableGraph<NodeData> graph, DatabaseController database) {
         if (graph == null) ThrowHelper.illegalNull("graph");

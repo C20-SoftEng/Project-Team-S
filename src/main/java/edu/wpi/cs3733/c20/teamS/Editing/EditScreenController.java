@@ -128,8 +128,10 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
-        floorSelector.setCurrent(2);
+        initEventHandlers();
+    }
 
+    private void initEventHandlers() {
         editor = new GraphEditor(graph, new DatabaseController());
         editor.nodeAdded().subscribe(e -> redrawMap());
         editor.nodeRemoved().subscribe(e -> redrawMap());
@@ -160,6 +162,7 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
+        floorSelector.setCurrent(2);
     }
 
     //region gui components
@@ -262,6 +265,7 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
+
     @FXML private void onAddNodeClicked() {
         editingTool = new AddNodeTool(editor, () -> floorSelector.current());
     }
@@ -272,7 +276,10 @@ public class EditScreenController implements Initializable {
         editingTool = new AddEdgeTool(editor);
     }
     @FXML private void onRemoveEdgeClicked() {
-
+        editingTool = new RemoveEdgeTool(editor);
+    }
+    @FXML private void onMoveNodeClicked() {
+        editingTool = new MoveNodeTool(editor, scrollPane);
     }
     //endregion
 
@@ -324,10 +331,25 @@ public class EditScreenController implements Initializable {
         }
         group.getChildren().add(circle);
 
+        node.positionChanged().subscribe(position -> {
+            circle.setCenterX(position.getX());
+            circle.setCenterY(position.getY());
+        });
+
         circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
+        circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
         Line line = new Line();
+        updateLineProperties(line, start, end);
+        group.getChildren().add(line);
+
+        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
+        start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+        end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+    }
+    private void updateLineProperties(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
         line.setStartY(start.getyCoordinate());
         line.setEndX(end.getxCoordinate());
@@ -335,8 +357,6 @@ public class EditScreenController implements Initializable {
         line.setStroke(Color.BLUE);
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
-        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
-        group.getChildren().add(line);
     }
 
     public void onLogOut() {
