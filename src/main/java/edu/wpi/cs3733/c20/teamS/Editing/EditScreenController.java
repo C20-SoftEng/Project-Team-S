@@ -55,8 +55,7 @@ public class EditScreenController implements Initializable {
     private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
-    private MutableGraph<NodeData> graph;
-    private GraphEditor editor;
+    private ObservableGraph graph;
     private IEditingTool editingTool;
     //endregion
 
@@ -132,26 +131,29 @@ public class EditScreenController implements Initializable {
     }
 
     private void initEventHandlers() {
-        editor = new GraphEditor(graph, new DatabaseController());
-        editor.nodeAdded().subscribe(e -> redrawMap());
-        editor.nodeRemoved().subscribe(e -> redrawMap());
-        editor.edgeAdded().subscribe(e -> redrawMap());
-        editor.edgeRemoved().subscribe(e -> redrawMap());
+        graph.nodeAdded().subscribe(e -> redrawMap());
+        graph.nodeRemoved().subscribe(e -> redrawMap());
+        graph.edgeAdded().subscribe(e -> redrawMap());
+        graph.edgeRemoved().subscribe(e -> redrawMap());
     }
 
     private void initGraph() {
-        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+        MutableGraph<NodeData> baseGraph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+
         DatabaseController database = new DatabaseController();
         Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
                 .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
         Set<EdgeData> edges = database.getAllEdges();
+
         for (NodeData node : nodeIdMap.values())
-            graph.addNode(node);
+            baseGraph.addNode(node);
         for (EdgeData edge : edges) {
             NodeData start = nodeIdMap.get(edge.getStartNode());
             NodeData end = nodeIdMap.get(edge.getEndNode());
-            graph.putEdge(start, end);
+            baseGraph.putEdge(start, end);
         }
+
+        this.graph = new ObservableGraph(baseGraph);
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -267,16 +269,16 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddNodeClicked() {
-        editingTool = new AddNodeTool(editor, () -> floorSelector.current());
+        editingTool = new AddNodeTool(graph, () -> floorSelector.current());
     }
     @FXML private void onRemoveNodeClicked() {
-        editingTool = new RemoveNodeTool(editor);
+        editingTool = new RemoveNodeTool(graph);
     }
     @FXML private void onAddEdgeClicked() {
-        editingTool = new AddEdgeTool(editor);
+        editingTool = new AddEdgeTool(graph);
     }
     @FXML private void onRemoveEdgeClicked() {
-        editingTool = new RemoveEdgeTool(editor);
+        editingTool = new RemoveEdgeTool(graph);
     }
     @FXML private void onMoveNodeClicked() {
         editingTool = new MoveNodeTool(scrollPane);

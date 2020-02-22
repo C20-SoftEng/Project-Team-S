@@ -4,9 +4,9 @@ import com.google.common.graph.EndpointPair;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
 public final class RemoveEdgeTool implements IEditingTool {
-    private final GraphEditor graph;
+    private final ObservableGraph graph;
 
-    public RemoveEdgeTool(GraphEditor graph) {
+    public RemoveEdgeTool(ObservableGraph graph) {
         this.graph = graph;
     }
 
