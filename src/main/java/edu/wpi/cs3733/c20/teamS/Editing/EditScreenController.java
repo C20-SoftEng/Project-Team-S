@@ -59,6 +59,7 @@ public class EditScreenController implements Initializable {
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
+    private MapEditor editor;
     //endregion
 
     private static class Floor {
@@ -130,6 +131,10 @@ public class EditScreenController implements Initializable {
         initGraph();
         initFloorSelector();
         floorSelector.setCurrent(2);
+
+        editor = new MapEditor(graph, () -> floorSelector.current());
+        editor.nodeAdded().subscribe(e -> drawNodesEdges());
+
     }
 
     private void initGraph() {
@@ -268,6 +273,7 @@ public class EditScreenController implements Initializable {
 
         Group group = new Group();
         group.getChildren().add(mapImage);
+        group.setOnMouseClicked(e -> editor.selectedTool().onMapClicked(e.getX(), e.getY()));
 
         Set<NodeData> nodes = graph.nodes().stream()
                 .filter(node -> node.getFloor() == floorSelector.current())
@@ -286,8 +292,6 @@ public class EditScreenController implements Initializable {
             drawLine(group, edge.nodeU(), edge.nodeV());
         }
 
-        MapEditingTasks tester = new MapEditingTasks(group);
-        radioButtonEventHandlers_fromDrawNodesEdges(tester);
 
         group.getChildren().add(group2);
         scrollPane.setContent(group);
@@ -318,60 +322,6 @@ public class EditScreenController implements Initializable {
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
         group.getChildren().add(line);
-    }
-
-    private void radioButtonEventHandlers_fromDrawNodesEdges(MapEditingTasks tester) {
-        moveNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.moveNodes(mapImage, floorSelector.current(), moveNode);
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        showInfoRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.showNodeInfo(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        addNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.drawNodes(floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        removeNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.removeNodes(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-
-        });
-        addEdgeRadio.setOnAction(e -> {
-            btwn = true;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester2.addEdge(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        removeEdgeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.removeEdge(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-
-        confirmEditButton.setOnAction(e -> {
-            tester.saveChanges();
-        });
-        cancelEditsButton.setOnAction(e -> {
-            tester.cancelChanges();
-            new MapEditingScreen(stage, loggedIn);
-        });
     }
 
     public void onLogOut() {

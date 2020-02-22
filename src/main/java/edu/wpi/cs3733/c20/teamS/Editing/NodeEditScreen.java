@@ -34,20 +34,17 @@ public class NodeEditScreen {
         stage.show();
     }
 
-    public static Observable<DialogEvent<NodeData>> showDialog(Stage stage, double x, double y) {
+    public static Observable<DialogEvent<NodeData>> showDialog(Stage stage) {
         if (stage == null) ThrowHelper.illegalNull("stage");
 
         PublishSubject<DialogEvent<NodeData>> subject = PublishSubject.create();
         NodeEditScreen screen = new NodeEditScreen(stage);
 
         screen.ui.okClicked().subscribe(o -> {
-            NodeData result = new NodeData(
-                    null, x, y,
-                    screen.ui.floorNumber(),
-                    screen.ui.buildingName(),
-                    screen.ui.nodeType(),
-                    screen.ui.fullNodeName(),
-                    screen.ui.shortNodeName());
+            NodeData result = new NodeData();
+            result.setNodeType(screen.ui.nodeType());
+            result.setShortName(screen.ui.shortNodeName());
+            result.setLongName(screen.ui.fullNodeName());
             subject.onNext(DialogEvent.ok(result));
         });
         screen.ui.cancelClicked().subscribe(o -> subject.onNext(DialogEvent.cancel()));
