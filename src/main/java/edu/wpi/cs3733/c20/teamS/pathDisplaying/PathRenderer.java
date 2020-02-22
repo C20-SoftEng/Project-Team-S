@@ -6,16 +6,18 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
-import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
 import java.util.List;
@@ -31,7 +33,7 @@ class PathRenderer {
      * @param floor The floor that is being rendered.
      * @return A new Group containing all the elements that were drawn.
      */
-    public Group draw(Path path, int floor) {
+    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) {
         Boolean down = true;
         if (path == null) ThrowHelper.illegalNull("path");
 
@@ -58,10 +60,12 @@ class PathRenderer {
             group.getChildren().add(endBalloon);
         }
 
+        //checks to see if your moving up or down to determine which way arrow goes
         if (start.getFloor() < end.getFloor()) {
             down = false;
         } else down = true;
 
+        //sets either an up or down arrow on the elevator depending on which way your going
         if (down) {
             for (NodeData node1 : nodes) {
                 if (node1.getNodeType().equals("ELEV")) {
@@ -76,8 +80,26 @@ class PathRenderer {
                     group.getChildren().add(elavator_up_gif);
                 }
             }
-
         }
+
+        Rectangle rectPath = new Rectangle (start.getxCoordinate(), start.getyCoordinate(), 100, 100);
+        //rectPath.setArcHeight(10);
+        //rectPath.setArcWidth(10);
+        rectPath.setFill(Color.ORANGE);
+
+        Path animated_path = new Path();
+        animated_path.getElements().add(new MoveTo(20,20));
+        animated_path.getElements().add(new LineTo(500,500));
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.seconds(10));
+        pathTransition.setPath(animated_path);
+        pathTransition.setNode(rectPath);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(Timeline.INDEFINITE);
+        pathTransition.setAutoReverse(true);
+        pathTransition.play();
+        group.getChildren().add(rectPath);
 
         return group;
     }
@@ -88,7 +110,7 @@ class PathRenderer {
      * @param path       The path to display instructions for.
      * @param displayBox The VBox to display the instructions in.
      */
-    public void printInstructions(Path path, VBox displayBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
 
@@ -183,6 +205,5 @@ class PathRenderer {
         elevator_icon_up.setPreserveRatio(true);
         elevator_icon_up.setFitWidth(40);
         return elevator_icon_up;
-
     }
 }
