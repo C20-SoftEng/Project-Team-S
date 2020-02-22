@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
@@ -20,7 +18,6 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
@@ -42,7 +39,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,12 +47,13 @@ public class EditScreenController implements Initializable {
     //region fields
     private Stage stage;
     private Employee loggedIn;
-    private Group group2 = new Group();
     private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private IEditingTool editingTool;
+    private DatabaseController database = new DatabaseController();
+    private final Group group = new Group();
     //endregion
 
     private static class Floor {
@@ -127,33 +124,14 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
-        initEventHandlers();
     }
 
-    private void initEventHandlers() {
+    private void initGraph() {
+        this.graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(e -> redrawMap());
         graph.nodeRemoved().subscribe(e -> redrawMap());
         graph.edgeAdded().subscribe(e -> redrawMap());
         graph.edgeRemoved().subscribe(e -> redrawMap());
-    }
-
-    private void initGraph() {
-        MutableGraph<NodeData> baseGraph = GraphBuilder.undirected().allowsSelfLoops(true).build();
-
-        DatabaseController database = new DatabaseController();
-        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
-                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
-        Set<EdgeData> edges = database.getAllEdges();
-
-        for (NodeData node : nodeIdMap.values())
-            baseGraph.addNode(node);
-        for (EdgeData edge : edges) {
-            NodeData start = nodeIdMap.get(edge.getStartNode());
-            NodeData end = nodeIdMap.get(edge.getEndNode());
-            baseGraph.putEdge(start, end);
-        }
-
-        this.graph = new ObservableGraph(baseGraph);
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -291,14 +269,13 @@ public class EditScreenController implements Initializable {
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
 
-        Group group = new Group();
+        group.getChildren().clear();
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
         drawAllNodes(group);
         drawAllEdges(group);
 
-        group.getChildren().add(group2);
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.

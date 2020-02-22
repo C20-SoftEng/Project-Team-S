@@ -22,4 +22,10 @@ public final class Numerics {
             return max;
         return value;
     }
+
+    public static double distance(double x1, double y1, double x2, double y2) {
+        double xOffset = x1 - x2;
+        double yOffset = y1 - y2;
+        return Math.sqrt(xOffset * xOffset + yOffset * yOffset);
+    }
 }
