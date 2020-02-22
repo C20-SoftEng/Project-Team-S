@@ -18,8 +18,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PathDisplay {
-    private String floornum;
-    private String floornum2;
     private int counter = 0;
     private NodeData startNode;
     private NodeData endNode;
@@ -37,8 +35,12 @@ public class PathDisplay {
     }
 
     public void setNode(NodeData data) {
-        if(counter % 2 == 0) {startNode = data; floornum = "0" + data.getFloor();}
-        if(counter % 2 != 0) {endNode = data; floornum2 = "0" + data.getFloor();}
+        if(counter % 2 == 0) {startNode = data;
+            String floornum = "0" + data.getFloor();
+        }
+        if(counter % 2 != 0) {endNode = data;
+            String floornum2 = "0" + data.getFloor();
+        }
         counter++;
     }
 
@@ -69,8 +71,6 @@ public class PathDisplay {
     }
 
     public void pathDraw(MutableGraph<NodeData> graph, int currentFloor) {
-        int first = 1;
-        String cf = "0" + currentFloor;
         group.getChildren().remove(groupPath);
         groupPath.getChildren().clear();
 
