@@ -26,11 +26,13 @@ class PathRenderer {
     /**
      * Draws the portion of the specified path that is on the specified floor, then
      * returns a new Group containing all the elements that were drawn.
-     * @param path The path to draw.
+     *
+     * @param path  The path to draw.
      * @param floor The floor that is being rendered.
      * @return A new Group containing all the elements that were drawn.
      */
     public Group draw(Path path, int floor) {
+        Boolean down = true;
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
@@ -56,12 +58,34 @@ class PathRenderer {
             group.getChildren().add(endBalloon);
         }
 
+        if (start.getFloor() < end.getFloor()) {
+            down = false;
+        } else down = true;
+
+        if (down) {
+            for (NodeData node1 : nodes) {
+                if (node1.getNodeType().equals("ELEV")) {
+                    ImageView elavator_down_gif = drawDownElevator(node1);
+                    group.getChildren().add(elavator_down_gif);
+                }
+            }
+        } else {
+            for (NodeData node1 : nodes) {
+                if (node1.getNodeType().equals("ELEV")) {
+                    ImageView elavator_up_gif = drawUpElevator(node1);
+                    group.getChildren().add(elavator_up_gif);
+                }
+            }
+
+        }
+
         return group;
     }
 
     /**
      * Displays the instructions for the specified Path in the specified VBox.
-     * @param path The path to display instructions for.
+     *
+     * @param path       The path to display instructions for.
      * @param displayBox The VBox to display the instructions in.
      */
     public void printInstructions(Path path, VBox displayBox) {
@@ -76,7 +100,7 @@ class PathRenderer {
         JFXTextField directionLabel = new JFXTextField();
         directionLabel.setText("Directions");
         JFXTextField space = new JFXTextField();
-        for(String direct : instructions) {
+        for (String direct : instructions) {
             JFXTextArea text = new JFXTextArea();
             text.setText(direct);
             text.setPrefHeight(offset);
@@ -96,6 +120,7 @@ class PathRenderer {
         public boolean isComplete() {
             return start != null && end != null;
         }
+
         public boolean isOnFloor(int floor) {
             if (!isComplete())
                 return false;
@@ -103,11 +128,13 @@ class PathRenderer {
             return start.getFloor() == floor || end.getFloor() == floor;
         }
     }
+
     private static List<Edge> findCompleteEdges(Iterable<NodeData> nodes) {
         return Board.asList(nodes).stream()
                 .map(board -> new Edge(board.start(), board.end()))
                 .collect(Collectors.toList());
     }
+
     private static Line drawEdge(Edge edge) {
         Line line = new Line();
         line.setStartX(edge.start.getxCoordinate());
@@ -120,8 +147,9 @@ class PathRenderer {
 
         return line;
     }
+
     private static Circle drawStartCircle(NodeData node) {
-        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(),15);
+        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 15);
         circle.setFill(Color.RED);
         return circle;
     }
@@ -136,4 +164,25 @@ class PathRenderer {
         return pinIcon;
     }
 
+    private ImageView drawDownElevator(NodeData node2) {
+        ImageView elevator_icon_down = new ImageView();
+        elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+        elevator_icon_down.setX(node2.getxCoordinate() - 25);
+        elevator_icon_down.setY(node2.getyCoordinate() - 20);
+        elevator_icon_down.setPreserveRatio(true);
+        elevator_icon_down.setFitWidth(40);
+        return elevator_icon_down;
+    }
+
+    private ImageView drawUpElevator(NodeData node2) {
+        ImageView elevator_icon_up = new ImageView();
+        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+        elevator_icon_up.setRotate(180);
+        elevator_icon_up.setX(node2.getxCoordinate() - 25);
+        elevator_icon_up.setY(node2.getyCoordinate() - 20);
+        elevator_icon_up.setPreserveRatio(true);
+        elevator_icon_up.setFitWidth(40);
+        return elevator_icon_up;
+
+    }
 }
