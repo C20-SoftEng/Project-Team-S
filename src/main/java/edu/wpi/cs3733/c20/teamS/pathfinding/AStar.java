@@ -9,7 +9,8 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import java.util.*;
 
 
-public class A_Star implements IPathfinding {
+public class AStar implements IPathfinding {
+    private static final double ELEVATOR_COST = 100000;
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
      *
@@ -24,7 +25,7 @@ public class A_Star implements IPathfinding {
      * @param goal a node on the graph (destination)
      */
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");
         if(start == null) ThrowHelper.illegalNull("start");
         if(goal == null) ThrowHelper.illegalNull("goal");
@@ -43,7 +44,7 @@ public class A_Star implements IPathfinding {
             if (!seen.add(frontier.peek()))
                 continue;
             if (frontier.peek().equals(goal))
-                return toArrayList(frontier);
+                return frontier;
 
             for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
                 double knownCost = distance(friend, frontier.peek());
@@ -51,7 +52,7 @@ public class A_Star implements IPathfinding {
             }
         }
 
-        return toArrayList(empty);
+        return empty;
     }
 
     /**
@@ -64,14 +65,10 @@ public class A_Star implements IPathfinding {
         if(goal == null) ThrowHelper.illegalNull("goal");
         if(current == null) ThrowHelper.illegalNull("current");
 
-         return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) +
-                 (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
-    }
+        double cost = current.distanceTo(goal);
+        if (current.getFloor() != goal.getFloor())
+            cost += ELEVATOR_COST;
 
-    private static ArrayList<NodeData> toArrayList(Path path) {
-        ArrayList<NodeData> result = new ArrayList<>();
-        path.forEach(node -> result.add(node));
-
-        return result;
+        return cost;
     }
 }

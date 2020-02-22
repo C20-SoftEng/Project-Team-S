@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,5 +31,14 @@ public final class Testing {
                 new HashSet<>(expected),
                 new HashSet<>(actual)
         );
+    }
+
+    public static <T> void assertSequenceEquals(Iterable<T> expected, Iterable<T> actual) {
+        List<T> expectedList = new ArrayList<>();
+        expected.forEach(t -> expectedList.add(t));
+        List<T> actualList = new ArrayList<>();
+        actual.forEach(t -> actualList.add(t));
+
+        assertEquals(expectedList, actualList);
     }
 }

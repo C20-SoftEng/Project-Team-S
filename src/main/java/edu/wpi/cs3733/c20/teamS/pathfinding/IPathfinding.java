@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 public interface IPathfinding {
 
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal);
+    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal);
 }
