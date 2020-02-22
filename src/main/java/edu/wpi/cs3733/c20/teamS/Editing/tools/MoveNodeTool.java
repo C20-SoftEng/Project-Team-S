@@ -2,16 +2,13 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
 
 public final class MoveNodeTool implements IEditingTool {
-    private final GraphEditor graph;
     private final ScrollPane scrollPane;
 
-    public MoveNodeTool(GraphEditor graph, ScrollPane scrollPane) {
-        this.graph = graph;
+    public MoveNodeTool(ScrollPane scrollPane) {
         this.scrollPane = scrollPane;
     }
 
