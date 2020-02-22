@@ -136,7 +136,7 @@ public class MainScreenController implements Initializable {
 
         initFloorSelector();
         floorSelector.currentChanged().subscribe(e -> redraw());
-        pathFinder.pathChanged().subscribe(path -> renderer.draw(path, floorSelector.current()));
+        pathFinder.pathChanged().subscribe(path -> redraw());
 
         redraw();
     }
@@ -189,15 +189,12 @@ public class MainScreenController implements Initializable {
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(this::onMapClicked);
 
-        renderer.draw(pathFinder.path(), floorSelector.current());
-        group.getChildren().add(pathGroup);
+        renderer.draw(group, pathFinder.path(), floorSelector.current());
+        //group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
-//    private void updateFloorDisplay() {
-//
-//    }
 
     private void onMapClicked(MouseEvent e) {
         final double x = e.getX();
