@@ -104,6 +104,7 @@ public class PathDisplay {
         if (startNode.getFloor() < endNode.getFloor()) {
             down = false;
         }
+        else down = true;
 
         if (startNode.getFloor() == currentFloor) {
             Circle startCircle = drawStartCircle(startNode);
@@ -137,7 +138,7 @@ public class PathDisplay {
     private ImageView drawDownElevator(NodeData node2) {
         ImageView elevator_icon_down = new ImageView();
         elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_down.setX(node2.getxCoordinate());
+        elevator_icon_down.setX(node2.getxCoordinate() - 25);
         elevator_icon_down.setY(node2.getyCoordinate());
         elevator_icon_down.setPreserveRatio(true);
         elevator_icon_down.setFitWidth(40);
@@ -148,7 +149,7 @@ public class PathDisplay {
         ImageView elevator_icon_up = new ImageView();
         elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
         elevator_icon_up.setRotate(180);
-        elevator_icon_up.setX(node2.getxCoordinate());
+        elevator_icon_up.setX(node2.getxCoordinate() - 25);
         elevator_icon_up.setY(node2.getyCoordinate());
         elevator_icon_up.setPreserveRatio(true);
         elevator_icon_up.setFitWidth(40);
