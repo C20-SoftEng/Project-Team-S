@@ -232,6 +232,11 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
+                        <JFXRadioButton onAction="#onEditNodeHitboxClicked" text="Edit Node Hitbox" toggleGroup="$editGroup">
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
                               <JFXButton fx:id="cancelEditsButton" text="Cancel">
