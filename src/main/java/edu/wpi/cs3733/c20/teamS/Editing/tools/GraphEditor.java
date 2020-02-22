@@ -10,6 +10,9 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
+import java.util.Collections;
+import java.util.Set;
+
 public final class GraphEditor {
     private final MutableGraph<NodeData> graph;
     private final DatabaseController database;
@@ -54,6 +57,9 @@ public final class GraphEditor {
         database.removeEdge(new EdgeData(start, end).getEdgeID());
         edgeRemoved.onNext(EndpointPair.unordered(start, end));
         return true;
+    }
+    public Set<NodeData> nodes() {
+        return Collections.unmodifiableSet(graph.nodes());
     }
 
     public Observable<NodeData> nodeAdded() {
