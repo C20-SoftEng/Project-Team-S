@@ -28,7 +28,7 @@ public class MapEditor {
     public MapEditor(MutableGraph<NodeData> graph, Supplier<Integer> floorNumberSupplier) {
         this.graph = graph;
         this.floorNumberSupplier = floorNumberSupplier;
-        selectedTool = new RemoveEdgeTool();
+        selectedTool = new AddNodeTool();
     }
 
     private EditingTool selectedTool;
@@ -47,6 +47,18 @@ public class MapEditor {
     }
     public Observable<EndpointPair<NodeData>> edgeRemoved() {
         return edgeRemoved;
+    }
+    public void selectAddNodeTool() {
+        selectedTool = new AddNodeTool();
+    }
+    public void selectRemoveNodeTool() {
+        selectedTool = new RemoveNodeTool();
+    }
+    public void selectAddEdgeTool() {
+        selectedTool = new AddEdgeTool();
+    }
+    public void selectRemoveEdgeTool() {
+        selectedTool = new RemoveEdgeTool();
     }
 
     private final class AddNodeTool extends EditingTool {

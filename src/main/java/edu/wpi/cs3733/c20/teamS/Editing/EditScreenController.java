@@ -133,6 +133,8 @@ public class EditScreenController implements Initializable {
         editor.nodeRemoved().subscribe(e -> redrawMap());
         editor.edgeAdded().subscribe(e -> redrawMap());
         editor.edgeRemoved().subscribe(e -> redrawMap());
+
+        editor.selectAddNodeTool();
     }
 
     private void initGraph() {
@@ -259,6 +261,18 @@ public class EditScreenController implements Initializable {
             }
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
+    }
+    @FXML private void onAddNodeClicked() {
+        editor.selectAddNodeTool();
+    }
+    @FXML private void onRemoveNodeClicked() {
+        editor.selectRemoveNodeTool();
+    }
+    @FXML private void onAddEdgeClicked() {
+        editor.selectAddEdgeTool();
+    }
+    @FXML private void onRemoveEdgeClicked() {
+        editor.selectRemoveEdgeTool();
     }
     //endregion
 
