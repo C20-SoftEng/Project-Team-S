@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
@@ -21,7 +24,6 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,8 +41,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EditScreenController implements Initializable {
     //region fields
@@ -54,6 +58,7 @@ public class EditScreenController implements Initializable {
     private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
+    private MutableGraph<NodeData> graph;
     //endregion
 
     private static class Floor {
@@ -122,10 +127,25 @@ public class EditScreenController implements Initializable {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
+        initGraph();
         initFloorSelector();
         floorSelector.setCurrent(2);
     }
 
+    private void initGraph() {
+        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+        DatabaseController database = new DatabaseController();
+        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
+                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
+        Set<EdgeData> edges = database.getAllEdges();
+        for (NodeData node : nodeIdMap.values())
+            graph.addNode(node);
+        for (EdgeData edge : edges) {
+            NodeData start = nodeIdMap.get(edge.getStartNode());
+            NodeData end = nodeIdMap.get(edge.getEndNode());
+            graph.putEdge(start, end);
+        }
+    }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -214,23 +234,13 @@ public class EditScreenController implements Initializable {
     }
     @FXML private void onZoomInClicked() {
         this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3) {
-            zoomInButton.setDisable(true);
-            zoomOutButton.setDisable(false);
-        } else {
-            zoomOutButton.setDisable(false);
-            zoomOutButton.setDisable(false);
-        }
+        zoomInButton.setDisable(!zoomer.canZoomIn());
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     @FXML private void onZoomOutClicked() {
         this.zoomer.zoomOut();
-        if (zoomer.getZoomStage() == -2) {
-            zoomOutButton.setDisable(true);
-            zoomInButton.setDisable(false);
-        } else {
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomInButton.setDisable(!zoomer.canZoomIn());
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);
@@ -249,78 +259,34 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
-    public void drawNodesEdges() {
+    private void drawNodesEdges() {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
         unselectALL();
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
 
-        String floor = "0" + floorSelector.current();
         Group group = new Group();
-        group.getChildren().clear();
         group.getChildren().add(mapImage);
 
+        Set<NodeData> nodes = graph.nodes().stream()
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .collect(Collectors.toSet());
+        for (NodeData node : nodes) {
+            drawCircle(group, node);
+        }
+
+        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
+                .filter(edge -> {
+                    return edge.nodeU().getFloor() == floorSelector.current() ||
+                            edge.nodeV().getFloor() == floorSelector.current();
+                })
+                .collect(Collectors.toSet());
+        for (EndpointPair<NodeData> edge : edges) {
+            drawLine(group, edge.nodeU(), edge.nodeV());
+        }
+
         MapEditingTasks tester = new MapEditingTasks(group);
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
-
-        for (NodeData data : nd) {
-            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
-            circle1.setStroke(Color.ORANGE);
-            circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-            if (data.getNodeType().equals("ELEV")) {
-                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-            }
-            circle1.setVisible(false);
-            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
-                circle1.setVisible(true);
-            }
-            group.getChildren().add(circle1);
-        }
-
-        Set<EdgeData> ed = dbc.getAllEdges();
-
-        for (EdgeData data : ed) {
-            if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floor)) {
-                String start = data.getStartNode();
-                String end = data.getEndNode();
-                int startX = 0;
-                int startY = 0;
-                int endX = 0;
-                int endY = 0;
-                boolean checker1 = false;
-                boolean checker2 = false;
-                for(NodeData check: nd) {
-                    if(check.getNodeID().equals(start)) {
-                        checker1 = true;
-                        startX = (int)check.getxCoordinate();
-                        startY = (int)check.getyCoordinate();
-                    }
-                    if(check.getNodeID().equals(end)) {
-                        checker2 = true;
-                        endX = (int)check.getxCoordinate();
-                        endY = (int)check.getyCoordinate();
-                    }
-                }
-                if(checker1 && checker2) {
-                    Line line1 = new Line();
-                    line1.setStartX(startX);
-                    line1.setStartY(startY);
-                    line1.setEndX(endX);
-                    line1.setEndY(endY);
-                    line1.setStroke(Color.BLUE);
-                    line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-                    line1.setStrokeWidth(5);
-                    line1.setVisible(false);
-                    if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                        line1.setVisible(true);
-                    }
-                    group.getChildren().add(line1);
-                }
-            }
-        }
-
         radioButtonEventHandlers_fromDrawNodesEdges(tester);
 
         group.getChildren().add(group2);
@@ -331,6 +297,27 @@ public class EditScreenController implements Initializable {
         if(btwn) {
             addEdgeRadio.fire();
         }
+    }
+
+    private void drawCircle(Group group, NodeData data) {
+        Circle circle = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
+        circle.setStroke(Color.ORANGE);
+        circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
+        if (data.getNodeType().equals("ELEV")) {
+            circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
+        }
+        group.getChildren().add(circle);
+    }
+    private void drawLine(Group group, NodeData start, NodeData end) {
+        Line line = new Line();
+        line.setStartX(start.getxCoordinate());
+        line.setStartY(start.getyCoordinate());
+        line.setEndX(end.getxCoordinate());
+        line.setEndY(end.getyCoordinate());
+        line.setStroke(Color.BLUE);
+        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+        line.setStrokeWidth(5);
+        group.getChildren().add(line);
     }
 
     private void radioButtonEventHandlers_fromDrawNodesEdges(MapEditingTasks tester) {
