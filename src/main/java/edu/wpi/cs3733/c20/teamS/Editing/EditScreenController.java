@@ -5,7 +5,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -57,6 +57,7 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private GraphEditor editor;
+    private IEditingTool editingTool;
     //endregion
 
     private static class Floor {
@@ -262,13 +263,13 @@ public class EditScreenController implements Initializable {
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
     @FXML private void onAddNodeClicked() {
-
+        editingTool = new AddNodeTool(editor, () -> floorSelector.current());
     }
     @FXML private void onRemoveNodeClicked() {
-
+        editingTool = new RemoveNodeTool(editor);
     }
     @FXML private void onAddEdgeClicked() {
-
+        editingTool = new AddEdgeTool(editor);
     }
     @FXML private void onRemoveEdgeClicked() {
 
@@ -283,7 +284,7 @@ public class EditScreenController implements Initializable {
 
         Group group = new Group();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> editor.selectedTool().onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
         drawAllNodes(group);
         drawAllEdges(group);
@@ -323,7 +324,7 @@ public class EditScreenController implements Initializable {
         }
         group.getChildren().add(circle);
 
-        circle.setOnMouseClicked(e -> editor.selectedTool().onNodeClicked(node));
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
         Line line = new Line();
@@ -334,7 +335,7 @@ public class EditScreenController implements Initializable {
         line.setStroke(Color.BLUE);
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
-        line.setOnMouseClicked(e -> editor.selectedTool().onEdgeClicked(start, end));
+        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
         group.getChildren().add(line);
     }
 
