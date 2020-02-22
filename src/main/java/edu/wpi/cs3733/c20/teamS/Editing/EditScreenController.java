@@ -49,12 +49,8 @@ import java.util.stream.Collectors;
 public class EditScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private boolean btwn = false;
     private Employee loggedIn;
-    private double currentHval;
-    private double currentVval;
     private Group group2 = new Group();
-    private MapEditingTasks tester2 = new MapEditingTasks(group2);
     private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
@@ -267,8 +263,8 @@ public class EditScreenController implements Initializable {
     //endregion
 
     private void redrawMap() {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
         unselectALL();
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
@@ -285,9 +281,6 @@ public class EditScreenController implements Initializable {
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
-        if (btwn) {
-            addEdgeRadio.fire();
-        }
     }
     private void drawAllNodes(Group group) {
         Set<NodeData> nodes = graph.nodes().stream()
