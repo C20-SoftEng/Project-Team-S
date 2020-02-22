@@ -180,7 +180,7 @@
                   </Label>
                   <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
                      <children>
-                        <JFXRadioButton fx:id="addNodeRadio" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddNodeClicked" selected="true" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -191,7 +191,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" text="Add Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddEdgeClicked" text="Add Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -199,7 +199,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeNodeRadio" text="Remove Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="removeNodeRadio" onAction="#onRemoveNodeClicked" text="Remove Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -207,7 +207,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeEdgeRadio" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="removeEdgeRadio" onAction="#onRemoveEdgeClicked" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -215,7 +215,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
+                        <JFXRadioButton fx:id="moveNodeRadio" onAction="#onMoveNodeClicked" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>

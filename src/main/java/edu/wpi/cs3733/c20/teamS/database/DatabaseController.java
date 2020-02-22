@@ -1,6 +1,10 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
 
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+
 import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +19,9 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DatabaseController implements DBRepo{
     private static Connection connection = null;
@@ -187,6 +193,33 @@ public class DatabaseController implements DBRepo{
                         "shortName varchar(50)," +
                         "constraint pkey_nodeID Primary Key (nodeID))");
         System.out.println("Created Table Nodes");
+    }
+
+    /**
+     * Loads a graph containing the entire database of nodes.
+     */
+    public MutableGraph<NodeData> loadGraph() {
+        MutableGraph<NodeData> graph = GraphBuilder
+                .undirected()
+                .allowsSelfLoops(true)
+                .build();
+        Map<String, NodeData> nodeIDMap = getAllNodes().stream()
+                .collect(Collectors.toMap(
+                        node -> node.getNodeID(),
+                        node -> node
+                ));
+
+        nodeIDMap.values().forEach(node -> graph.addNode(node));
+
+        getAllEdges().stream()
+                .map(ed -> {
+                    NodeData start = nodeIDMap.get(ed.getStartNode());
+                    NodeData end = nodeIDMap.get(ed.getEndNode());
+                    return EndpointPair.unordered(start, end);
+                })
+                .forEach(edge -> graph.putEdge(edge));
+
+        return graph;
     }
 
     //Tested
