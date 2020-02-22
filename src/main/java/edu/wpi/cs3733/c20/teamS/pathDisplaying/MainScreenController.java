@@ -143,18 +143,8 @@ public class MainScreenController implements Initializable {
     }
 
     private void initGraph() {
-        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
         DatabaseController database = new DatabaseController();
-        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
-                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
-        Set<EdgeData> edges = database.getAllEdges();
-        for (NodeData node : nodeIdMap.values())
-            graph.addNode(node);
-        for (EdgeData edge : edges) {
-            NodeData start = nodeIdMap.get(edge.getStartNode());
-            NodeData end = nodeIdMap.get(edge.getEndNode());
-            graph.putEdge(start, end);
-        }
+        graph = database.loadGraph();
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
