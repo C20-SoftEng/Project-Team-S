@@ -279,7 +279,6 @@ public class EditScreenController implements Initializable {
     private void redrawMap() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
-        unselectALL();
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
 
@@ -354,14 +353,7 @@ public class EditScreenController implements Initializable {
         }
         MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
     }
-    private void unselectALL() {
-        addNodeRadio.selectedProperty().set(false);
-        removeNodeRadio.selectedProperty().set(false);
-        removeEdgeRadio.selectedProperty().set(false);
-        addEdgeRadio.selectedProperty().set(false);
-        moveNodeRadio.selectedProperty().set(false);
-        showInfoRadio.selectedProperty().set(false);
-    }
+
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);
