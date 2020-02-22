@@ -436,6 +436,10 @@ public class DatabaseController implements DBRepo{
         }
     }
 
+    public void addEdge(EndpointPair<NodeData> edp){
+        addEdge(edp.nodeU(), edp.nodeV());
+    }
+
 
     //Tested
     public NodeData getNode(String ID){
