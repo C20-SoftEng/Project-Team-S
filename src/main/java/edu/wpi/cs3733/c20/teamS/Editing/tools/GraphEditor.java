@@ -2,43 +2,67 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
-
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
-import java.util.function.Supplier;
+import java.util.Collections;
+import java.util.Set;
 
-/**
- * A UI-agnostic object that is responsible for making edits to a graph based on user input.
- * To connect GraphEditor to your UI, simply call the methods on selectedTool in your UI event handlers.
- */
-public class GraphEditor {
-    private final Supplier<Integer> floorNumberSupplier;
-    private EditingTool selectedTool;
+public final class GraphEditor {
+    private final MutableGraph<NodeData> graph;
+    private final DatabaseController database;
 
-    final DatabaseController database = new DatabaseController();
-    final MutableGraph<NodeData> graph;
-    final PublishSubject<NodeData> nodeAdded = PublishSubject.create();
-    final PublishSubject<NodeData> nodeRemoved = PublishSubject.create();
-    final PublishSubject<EndpointPair<NodeData>> edgeAdded = PublishSubject.create();
-    final PublishSubject<EndpointPair<NodeData>> edgeRemoved = PublishSubject.create();
+    private final PublishSubject<NodeData> nodeAdded = PublishSubject.create();
+    private final PublishSubject<NodeData> nodeRemoved = PublishSubject.create();
+    private final PublishSubject<EndpointPair<NodeData>> edgeAdded = PublishSubject.create();
+    private final PublishSubject<EndpointPair<NodeData>> edgeRemoved = PublishSubject.create();
+    private final PublishSubject<NodeData> nodeChanged = PublishSubject.create();
 
-    public GraphEditor(MutableGraph<NodeData> graph, Supplier<Integer> floorNumberSupplier) {
+    public GraphEditor(MutableGraph<NodeData> graph, DatabaseController database) {
+        if (graph == null) ThrowHelper.illegalNull("graph");
+        if (database == null) ThrowHelper.illegalNull("database");
+
         this.graph = graph;
-        this.floorNumberSupplier = floorNumberSupplier;
-        selectedTool = new AddNodeTool(this);
+        this.database = database;
     }
 
-    /**
-     * The tool that is currently selected. Call the methods on this from the
-     * event handlers in your UI.
-     */
-    public EditingTool selectedTool() {
-        return selectedTool;
+    public boolean addNode(NodeData node) {
+        if (!graph.addNode(node))
+            return false;
+        database.addNode(node);
+        nodeAdded.onNext(node);
+        return true;
     }
+    public boolean removeNode(NodeData node) {
+        if (!graph.removeNode(node))
+            return false;
+        database.removeNode(node.getNodeID());
+        nodeRemoved.onNext(node);
+        return true;
+    }
+    public boolean putEdge(NodeData start, NodeData end) {
+        if (!graph.putEdge(start, end))
+            return false;
+        database.addEdge(new EdgeData(start, end));
+        edgeAdded.onNext(EndpointPair.unordered(start, end));
+        return true;
+    }
+    public boolean removeEdge(NodeData start, NodeData end) {
+        if (!graph.removeEdge(start, end))
+            return false;
+        database.removeEdge(new EdgeData(start, end).getEdgeID());
+        edgeRemoved.onNext(EndpointPair.unordered(start, end));
+        return true;
+    }
+    public Set<NodeData> nodes() {
+        return Collections.unmodifiableSet(graph.nodes());
+    }
+
     public Observable<NodeData> nodeAdded() {
         return nodeAdded;
     }
@@ -51,23 +75,4 @@ public class GraphEditor {
     public Observable<EndpointPair<NodeData>> edgeRemoved() {
         return edgeRemoved;
     }
-
-    public void selectAddNodeTool() {
-        selectedTool = new AddNodeTool(this);
-    }
-    public void selectRemoveNodeTool() {
-        selectedTool = new RemoveNodeTool(this);
-    }
-    public void selectAddEdgeTool() {
-        selectedTool = new AddEdgeTool(this);
-    }
-    public void selectRemoveEdgeTool() {
-        selectedTool = new RemoveEdgeTool(this);
-    }
-
-    int floorNumber() {
-        return floorNumberSupplier.get();
-    }
-
-
 }

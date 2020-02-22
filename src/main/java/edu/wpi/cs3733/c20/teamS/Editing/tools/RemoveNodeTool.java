@@ -1,24 +1,18 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import com.google.common.graph.EndpointPair;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
-final class RemoveNodeTool extends EditingTool {
+public final class RemoveNodeTool implements IEditingTool {
+    private final GraphEditor graph;
 
-    private final GraphEditor graphEditor;
-
-    public RemoveNodeTool(GraphEditor graphEditor) {
-        this.graphEditor = graphEditor;
+    public RemoveNodeTool(GraphEditor graph) {
+        this.graph = graph;
     }
 
     @Override
     public void onNodeClicked(NodeData node) {
-        graphEditor.graph.removeNode(node);
-        graphEditor.database.removeNode(node.getNodeID());
-        graphEditor.nodeRemoved.onNext(node);
+        graph.removeNode(node);
     }
-    @Override
-    public void onEdgeClicked(EndpointPair<NodeData> edge) {}
-    @Override
-    public void onMapClicked(double x, double y) {}
 }

@@ -1,24 +1,24 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import com.google.common.graph.EndpointPair;
 import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.stage.Stage;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
-final class AddNodeTool extends EditingTool {
-    private final GraphEditor graphEditor;
+public final class AddNodeTool implements IEditingTool {
+    private final GraphEditor graph;
+    private final Supplier<Integer> currentFloorSupplier;
 
-    public AddNodeTool(GraphEditor graphEditor) {
-        this.graphEditor = graphEditor;
+    public AddNodeTool(GraphEditor graph, Supplier<Integer> currentfloorSupplier) {
+        this.graph = graph;
+        this.currentFloorSupplier = currentfloorSupplier;
     }
 
-    @Override
-    public void onNodeClicked(NodeData node) {}
-    @Override
-    public void onEdgeClicked(EndpointPair<NodeData> edge) {}
     @Override
     public void onMapClicked(double x, double y) {
         Stage stage = new Stage();
@@ -30,20 +30,17 @@ final class AddNodeTool extends EditingTool {
                         e.value().setBuilding("Faulkner");
                         e.value().setxCoordinate(x);
                         e.value().setyCoordinate(y);
-                        e.value().setFloor(graphEditor.floorNumber());
+                        e.value().setFloor(currentFloorSupplier.get());
 
-                        graphEditor.database.addNode(e.value());
-                        graphEditor.graph.addNode(e.value());
-
-                        graphEditor.nodeAdded.onNext(e.value());
+                        graph.addNode(e.value());
                     }
                     stage.close();
                 });
     }
 
     private String generateUniqueID(NodeData node) {
-        Optional<Integer> max = graphEditor.graph.nodes().stream()
-                .filter(n -> n.getFloor() == graphEditor.floorNumber())
+        Optional<Integer> max = graph.nodes().stream()
+                .filter(n -> n.getFloor() == currentFloorSupplier.get())
                 .filter(n -> n.getNodeType().equals(node.getNodeType()))
                 .map(n -> n.getNodeID())
                 .map(id -> id.substring(5, 8))

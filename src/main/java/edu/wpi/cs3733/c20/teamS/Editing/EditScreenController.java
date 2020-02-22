@@ -5,7 +5,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -57,6 +57,7 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private GraphEditor editor;
+    private IEditingTool editingTool;
     //endregion
 
     private static class Floor {
@@ -127,15 +128,15 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
-        floorSelector.setCurrent(2);
+        initEventHandlers();
+    }
 
-        editor = new GraphEditor(graph, () -> floorSelector.current());
+    private void initEventHandlers() {
+        editor = new GraphEditor(graph, new DatabaseController());
         editor.nodeAdded().subscribe(e -> redrawMap());
         editor.nodeRemoved().subscribe(e -> redrawMap());
         editor.edgeAdded().subscribe(e -> redrawMap());
         editor.edgeRemoved().subscribe(e -> redrawMap());
-
-        editor.selectAddNodeTool();
     }
 
     private void initGraph() {
@@ -161,6 +162,7 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
+        floorSelector.setCurrent(2);
     }
 
     //region gui components
@@ -263,17 +265,21 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
+
     @FXML private void onAddNodeClicked() {
-        editor.selectAddNodeTool();
+        editingTool = new AddNodeTool(editor, () -> floorSelector.current());
     }
     @FXML private void onRemoveNodeClicked() {
-        editor.selectRemoveNodeTool();
+        editingTool = new RemoveNodeTool(editor);
     }
     @FXML private void onAddEdgeClicked() {
-        editor.selectAddEdgeTool();
+        editingTool = new AddEdgeTool(editor);
     }
     @FXML private void onRemoveEdgeClicked() {
-        editor.selectRemoveEdgeTool();
+        editingTool = new RemoveEdgeTool(editor);
+    }
+    @FXML private void onMoveNodeClicked() {
+        editingTool = new MoveNodeTool(editor, scrollPane);
     }
     //endregion
 
@@ -285,7 +291,7 @@ public class EditScreenController implements Initializable {
 
         Group group = new Group();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> editor.selectedTool().onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
         drawAllNodes(group);
         drawAllEdges(group);
@@ -323,11 +329,27 @@ public class EditScreenController implements Initializable {
         if (node.getNodeType().equals("ELEV")) {
             circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
         }
-        circle.setOnMouseClicked(e -> editor.selectedTool().onNodeClicked(node));
         group.getChildren().add(circle);
+
+        node.positionChanged().subscribe(position -> {
+            circle.setCenterX(position.getX());
+            circle.setCenterY(position.getY());
+        });
+
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
+        circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
         Line line = new Line();
+        updateLineProperties(line, start, end);
+        group.getChildren().add(line);
+
+        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
+        start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+        end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+    }
+    private void updateLineProperties(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
         line.setStartY(start.getyCoordinate());
         line.setEndX(end.getxCoordinate());
@@ -335,8 +357,6 @@ public class EditScreenController implements Initializable {
         line.setStroke(Color.BLUE);
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
-        line.setOnMouseClicked(e -> editor.selectedTool().onEdgeClicked(start, end));
-        group.getChildren().add(line);
     }
 
     public void onLogOut() {
