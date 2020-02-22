@@ -55,12 +55,18 @@ public class MapEditor {
         public void onMapClicked(double x, double y) {
             Stage stage = new Stage();
 
-            NodeEditScreen.showDialog(stage, x, y)
+            NodeEditScreen.showDialog(stage)
                     .subscribe(e -> {
                         if (e.result() == DialogResult.OK) {
                             e.value().setNodeID(generateUniqueID(e.value()));
-                            graph.addNode(e.value());
+                            e.value().setBuilding("Faulkner");
+                            e.value().setxCoordinate(x);
+                            e.value().setyCoordinate(y);
+                            e.value().setFloor(floorNumberSupplier.get());
+
                             database.addNode(e.value());
+                            graph.addNode(e.value());
+
                             nodeAdded.onNext(e.value());
                         }
                         stage.close();
@@ -71,7 +77,7 @@ public class MapEditor {
     private String generateUniqueID(NodeData node) {
         Optional<Integer> max = graph.nodes().stream()
                 .filter(n -> n.getFloor() == floorNumberSupplier.get())
-                .filter(n -> n.getNodeType() == node.getNodeType())
+                .filter(n -> n.getNodeType().equals(node.getNodeType()))
                 .map(n -> n.getNodeID())
                 .map(id -> id.substring(5, 8))
                 .map(id -> Integer.parseInt(id))
