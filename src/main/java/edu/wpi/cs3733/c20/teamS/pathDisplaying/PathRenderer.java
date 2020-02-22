@@ -14,13 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PathRenderer {
-    private final Group group;
-
-    public PathRenderer(Group group) {
-        if (group == null) ThrowHelper.illegalNull("group");
-
-        this.group = group;
-    }
 
     public void draw(Group group, Path path, int floor) {
         if (path == null) ThrowHelper.illegalNull("path");
