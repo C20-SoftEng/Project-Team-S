@@ -41,12 +41,13 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private PathRenderer renderer;
-    private PathFinderStateMachine pathFinder;
-    private boolean flip = true;
+    private SelectNodesStateMachine pathFinder;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
+
+    private boolean flip = true;
     //endregion
 
     private static class Floor {
@@ -120,23 +121,24 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        //pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initSearchComboBoxFont();
 
         zoomer = new MapZoomer(scrollPane);
-        //pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
-
         initGraph();
         renderer = new PathRenderer();
-        pathFinder = new PathFinderStateMachine(graph, algorithm);
+        pathFinder = new SelectNodesStateMachine(graph, algorithm);
 
         initFloorSelector();
         floorSelector.currentChanged().subscribe(e -> redraw());
-        pathFinder.pathChanged().subscribe(path -> redraw());
+        pathFinder.pathChanged().subscribe(path -> {
+            redraw();
+            renderer.printInstructions(path, instructionVBox);
+        });
         group.setOnMouseClicked(this::onMapClicked);
+        scrollPane.setContent(group);
         redraw();
     }
 
@@ -181,15 +183,15 @@ public class MainScreenController implements Initializable {
     private void redraw() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
+
         mapImage.setImage(floorSelector.floor(floorSelector.current()).image);
         zoomer.zoomSet();
 
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        renderer.draw(group, pathFinder.path(), floorSelector.current());
-        //group.getChildren().add(pathGroup);
-        scrollPane.setContent(group);
+        Group pathGroup = renderer.draw(pathFinder.path(), floorSelector.current());
+        group.getChildren().add(pathGroup);
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
@@ -256,7 +258,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private Label location1;
-    @FXML private VBox parentVBox;
+    @FXML private VBox instructionVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;

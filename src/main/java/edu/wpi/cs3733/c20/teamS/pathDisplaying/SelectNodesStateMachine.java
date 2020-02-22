@@ -7,28 +7,29 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Objects;
 
 /**
  * This class handles the logic of finding a path when the user has clicked on a start node and
- * an end node.
+ * an end node. Simply call onNodeClicked() from your UI.
  */
-final class PathFinderStateMachine {
+final class SelectNodesStateMachine {
     private final PublishSubject<Path> pathChanged = PublishSubject.create();
     private final MutableGraph<NodeData> graph;
     private final IPathfinding pathfinder;
 
-    private Path path = Path.empty();
-    private State state = new NoNodesSelectedState();
+    private Path path;
+    private State state;
 
-    public PathFinderStateMachine(MutableGraph<NodeData> graph, IPathfinding pathfinder) {
+    public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinding pathfinder) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
 
         this.graph = graph;
         this.pathfinder = pathfinder;
+        path = Path.empty();
+        state = new NothingChosenState();
     }
 
     /**
@@ -40,40 +41,45 @@ final class PathFinderStateMachine {
     public Observable<Path> pathChanged() {
         return pathChanged;
     }
+    private void setPath(Path value) {
+        if (!Objects.equals(path, value))
+            pathChanged.onNext(path = value);
+    }
     public void onNodeClicked(NodeData node) {
         state.onNodeClicked(node);
-    }
-
-    private void setPath(Path path) {
-        if (Objects.equals(this.path, path))
-            return;
-
-        this.path = path;
-        pathChanged.onNext(path);
     }
 
     private abstract static class State {
         public abstract void onNodeClicked(NodeData node);
     }
-    private final class NoNodesSelectedState extends State {
+
+    /**
+     * The user has not chosen a node yet, OR both nodes have been chosen
+     * and a previously-drawn path is being displayed.
+     */
+    private final class NothingChosenState extends State {
         @Override
         public void onNodeClicked(NodeData node) {
-            setPath(Path.empty());
             state = new StartNodeSelectedState(node);
         }
     }
+
+    /**
+     * The user has clicked on the start node, but not the end node, and no path is being displayed.
+     */
     private final class StartNodeSelectedState extends State {
         private final NodeData start;
 
         public StartNodeSelectedState(NodeData start) {
             this.start = start;
+            setPath(Path.empty());
         }
 
         @Override
         public void onNodeClicked(NodeData node) {
             Path path = pathfinder.findPath(graph, start, node);
             setPath(path);
-            state = new NoNodesSelectedState();
+            state = new NothingChosenState();
         }
     }
 }
