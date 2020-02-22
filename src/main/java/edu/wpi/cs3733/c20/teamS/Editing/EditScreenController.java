@@ -5,6 +5,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.GraphEditor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -55,7 +56,7 @@ public class EditScreenController implements Initializable {
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
-    private MapEditor editor;
+    private GraphEditor editor;
     //endregion
 
     private static class Floor {
@@ -128,7 +129,7 @@ public class EditScreenController implements Initializable {
         initFloorSelector();
         floorSelector.setCurrent(2);
 
-        editor = new MapEditor(graph, () -> floorSelector.current());
+        editor = new GraphEditor(graph, () -> floorSelector.current());
         editor.nodeAdded().subscribe(e -> redrawMap());
         editor.nodeRemoved().subscribe(e -> redrawMap());
         editor.edgeAdded().subscribe(e -> redrawMap());
