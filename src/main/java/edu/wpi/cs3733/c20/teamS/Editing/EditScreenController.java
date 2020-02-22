@@ -279,7 +279,7 @@ public class EditScreenController implements Initializable {
         editingTool = new RemoveEdgeTool(editor);
     }
     @FXML private void onMoveNodeClicked() {
-        editingTool = new MoveNodeTool(editor, scrollPane);
+        editingTool = new MoveNodeTool(scrollPane);
     }
     //endregion
 

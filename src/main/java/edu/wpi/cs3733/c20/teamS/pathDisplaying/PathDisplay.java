@@ -35,11 +35,11 @@ public class PathDisplay {
     }
 
     public void setNode(NodeData data) {
-        if(counter % 2 == 0) {startNode = data;
-            String floornum = "0" + data.getFloor();
+        if (counter % 2 == 0) {
+            startNode = data;
         }
-        if(counter % 2 != 0) {endNode = data;
-            String floornum2 = "0" + data.getFloor();
+        if (counter % 2 != 0) {
+            endNode = data;
         }
         counter++;
     }
