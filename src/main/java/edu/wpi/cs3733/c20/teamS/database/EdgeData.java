@@ -6,6 +6,9 @@ public class EdgeData{
     private String startNode;
     private String endNode;
 
+    public EdgeData(NodeData start, NodeData end) {
+        this(start.getNodeID() + end.getNodeID(), start.getNodeID(), end.getNodeID());
+    }
     public EdgeData(String edgeID, String startNode, String endNode){
         this.edgeID = edgeID;
         this.startNode = startNode;
