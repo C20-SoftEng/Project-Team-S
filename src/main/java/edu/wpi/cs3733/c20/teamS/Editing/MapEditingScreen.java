@@ -36,11 +36,8 @@ public class MapEditingScreen {
             throw new RuntimeException(ex);
         }
 
-        ui.drawNodesEdges();
-
         this.show();
         stage.setFullScreen(true);
-
     }
 
     public void show() {
