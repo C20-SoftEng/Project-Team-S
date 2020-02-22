@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class AddNodeTool implements IEditingTool {
+public final class AddNodeTool implements IEditingTool {
     private final GraphEditor graph;
     private final Supplier<Integer> currentFloorSupplier;
 

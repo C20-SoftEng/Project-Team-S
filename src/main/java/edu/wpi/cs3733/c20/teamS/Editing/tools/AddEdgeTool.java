@@ -12,6 +12,7 @@ public final class AddEdgeTool implements IEditingTool {
         this.graph = graph;
         this.state = new StandbyState();
     }
+
     @Override
     public void onNodeClicked(NodeData node) {
         state.onNodeClicked(node);
@@ -20,12 +21,14 @@ public final class AddEdgeTool implements IEditingTool {
     private abstract class State {
         public abstract void onNodeClicked(NodeData node);
     }
+
     private final class StandbyState extends State {
         @Override
         public void onNodeClicked(NodeData node) {
             AddEdgeTool.this.state = new StartNodeSelectedState(node);
         }
     }
+
     private final class StartNodeSelectedState extends State {
         private final NodeData start;
 

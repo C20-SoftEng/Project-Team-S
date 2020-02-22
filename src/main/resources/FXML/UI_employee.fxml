@@ -215,7 +215,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="moveNodeRadio" text="Move Nodes" toggleGroup="$editGroup">
+                        <JFXRadioButton fx:id="moveNodeRadio" onAction="#onMoveNodeClicked" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>

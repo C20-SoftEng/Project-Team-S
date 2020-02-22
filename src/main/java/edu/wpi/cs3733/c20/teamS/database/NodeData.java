@@ -2,10 +2,15 @@ package edu.wpi.cs3733.c20.teamS.database;
 
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import javafx.geometry.Point2D;
 
 import java.util.Objects;
 
-public class NodeData{
+public class NodeData {
+    private final PublishSubject<Point2D> positionChanged = PublishSubject.create();
+
     private String nodeID;
     private double xCoordinate;
     private double yCoordinate;
@@ -16,7 +21,10 @@ public class NodeData{
     private String shortName;
     private double cost_ = 0;
 
-    public NodeData(String nodeID, double xCoordinate, double yCoordinate, int floor, String building, String nodeType, String longName, String shortName) {
+    public NodeData(
+            String nodeID, double xCoordinate, double yCoordinate,
+            int floor, String building, String nodeType,
+            String longName, String shortName) {
         this.nodeID = nodeID;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
@@ -73,7 +81,6 @@ public class NodeData{
     public double getxCoordinate() {
         return xCoordinate;
     }
-
     public double getyCoordinate() {
         return yCoordinate;
     }
@@ -85,47 +92,46 @@ public class NodeData{
     public String getBuilding() {
         return building;
     }
-
     public String getNodeType() {
         return nodeType;
     }
-
     public String getLongName() {
         return longName;
     }
-
     public String getShortName() {
         return shortName;
     }
-
     public void setNodeID(String nodeID) {
         this.nodeID = nodeID;
     }
-
     public void setxCoordinate(double xCoordinate) {
         this.xCoordinate = xCoordinate;
+        positionChanged.onNext(new Point2D(this.xCoordinate, this.yCoordinate));
     }
-
     public void setyCoordinate(double yCoordinate) {
         this.yCoordinate = yCoordinate;
+        positionChanged.onNext(new Point2D(this.xCoordinate, this.yCoordinate));
     }
-
+    public void setPosition(double x, double y) {
+        xCoordinate = x;
+        yCoordinate = y;
+        positionChanged.onNext(new Point2D(x, y));
+    }
+    public Observable<Point2D> positionChanged() {
+        return positionChanged;
+    }
     public void setFloor(int floor) {
         this.floor = floor;
     }
-
     public void setBuilding(String building) {
         this.building = building;
     }
-
     public void setNodeType(String nodeType) {
         this.nodeType = nodeType;
     }
-
     public void setLongName(String longName) {
         this.longName = longName;
     }
-
     public void setShortName(String shortName) {
         this.shortName = shortName;
     }
