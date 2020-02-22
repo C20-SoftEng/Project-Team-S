@@ -30,6 +30,7 @@ public class PathDisplay {
     private Group group;
     private IPathfinding algorithm;
     private VBox parentVBox;
+    private Boolean down = true;
 
     public int getCounter() {
         return counter;
@@ -100,6 +101,10 @@ public class PathDisplay {
                 .collect(Collectors.toList());
         groupPath.getChildren().addAll(drawnEdges);
 
+        if (startNode.getFloor() < endNode.getFloor()) {
+            down = false;
+        }
+
         if (startNode.getFloor() == currentFloor) {
             Circle startCircle = drawStartCircle(startNode);
             groupPath.getChildren().add(startCircle);
@@ -109,25 +114,45 @@ public class PathDisplay {
             ImageView endBalloon = drawEndBalloon(endNode);
             groupPath.getChildren().add(endBalloon);
         }
-        for (NodeData node1 : nodes) {
-            System.out.println(node1.getNodeType());
-            if (node1.getNodeType().equals("ELEV")) {
-                ImageView elavator_gif = drawElevator(node1);
-                groupPath.getChildren().add(elavator_gif);
+        if (down) {
+            for (NodeData node1 : nodes) {
+                if (node1.getNodeType().equals("ELEV")) {
+                    ImageView elavator_gif = drawDownElevator(node1);
+                    groupPath.getChildren().add(elavator_gif);
+                }
             }
+        } else {
+            for (NodeData node1 : nodes) {
+                if (node1.getNodeType().equals("ELEV")) {
+                    ImageView elavator_gif = drawUpElevator(node1);
+                    groupPath.getChildren().add(elavator_gif);
+                }
+            }
+
         }
 
         group.getChildren().add(groupPath);
     }
 
-    private ImageView drawElevator(NodeData node2) {
-        ImageView elevator_icon = new ImageView();
-        elevator_icon.setImage(new Image("images/Balloons/arrows.gif"));
-        elevator_icon.setX(node2.getxCoordinate() - 20);
-        elevator_icon.setY(node2.getyCoordinate() - 60);
-        elevator_icon.setPreserveRatio(true);
-        elevator_icon.setFitWidth(40);
-        return elevator_icon;
+    private ImageView drawDownElevator(NodeData node2) {
+        ImageView elevator_icon_down = new ImageView();
+        elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+        elevator_icon_down.setX(node2.getxCoordinate());
+        elevator_icon_down.setY(node2.getyCoordinate());
+        elevator_icon_down.setPreserveRatio(true);
+        elevator_icon_down.setFitWidth(40);
+        return elevator_icon_down;
+    }
+
+    private ImageView drawUpElevator(NodeData node2) {
+        ImageView elevator_icon_up = new ImageView();
+        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+        elevator_icon_up.setRotate(180);
+        elevator_icon_up.setX(node2.getxCoordinate());
+        elevator_icon_up.setY(node2.getyCoordinate());
+        elevator_icon_up.setPreserveRatio(true);
+        elevator_icon_up.setFitWidth(40);
+        return elevator_icon_up;
     }
 
     private ImageView drawEndBalloon(NodeData node) {
