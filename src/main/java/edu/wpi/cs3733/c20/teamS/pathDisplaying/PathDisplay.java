@@ -109,9 +109,9 @@ public class PathDisplay {
             ImageView endBalloon = drawEndBalloon(endNode);
             groupPath.getChildren().add(endBalloon);
         }
-        for (NodeData node1 : graph.nodes()) {
+        for (NodeData node1 : nodes) {
             System.out.println(node1.getNodeType());
-            if (node1.getNodeType() == "ELEV") {
+            if (node1.getNodeType().equals("ELEV")) {
                 ImageView elavator_gif = drawElevator(node1);
                 groupPath.getChildren().add(elavator_gif);
             }
@@ -122,7 +122,7 @@ public class PathDisplay {
 
     private ImageView drawElevator(NodeData node2) {
         ImageView elevator_icon = new ImageView();
-        elevator_icon.setImage(new Image("images/Balloons/elevator.png"));
+        elevator_icon.setImage(new Image("images/Balloons/arrows.gif"));
         elevator_icon.setX(node2.getxCoordinate() - 20);
         elevator_icon.setY(node2.getyCoordinate() - 60);
         elevator_icon.setPreserveRatio(true);
