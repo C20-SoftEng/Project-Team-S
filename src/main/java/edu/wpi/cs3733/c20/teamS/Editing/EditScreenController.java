@@ -134,7 +134,9 @@ public class EditScreenController implements Initializable {
 
         editor = new MapEditor(graph, () -> floorSelector.current());
         editor.nodeAdded().subscribe(e -> drawNodesEdges());
-
+        editor.nodeRemoved().subscribe(e -> drawNodesEdges());
+        editor.edgeAdded().subscribe(e -> drawNodesEdges());
+        editor.edgeRemoved().subscribe(e -> drawNodesEdges());
     }
 
     private void initGraph() {
@@ -292,24 +294,24 @@ public class EditScreenController implements Initializable {
             drawLine(group, edge.nodeU(), edge.nodeV());
         }
 
-
         group.getChildren().add(group2);
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
-        if(btwn) {
+        if (btwn) {
             addEdgeRadio.fire();
         }
     }
 
-    private void drawCircle(Group group, NodeData data) {
-        Circle circle = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
+    private void drawCircle(Group group, NodeData node) {
+        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
         circle.setStroke(Color.ORANGE);
         circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-        if (data.getNodeType().equals("ELEV")) {
+        if (node.getNodeType().equals("ELEV")) {
             circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
         }
+        circle.setOnMouseClicked(e -> editor.selectedTool().onNodeClicked(node));
         group.getChildren().add(circle);
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
@@ -321,6 +323,7 @@ public class EditScreenController implements Initializable {
         line.setStroke(Color.BLUE);
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
+        line.setOnMouseClicked(e -> editor.selectedTool().onEdgeClicked(start, end));
         group.getChildren().add(line);
     }
 
