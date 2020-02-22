@@ -7,4 +7,8 @@ public abstract class EditingTool {
     public abstract void onNodeClicked(NodeData node);
     public abstract void onEdgeClicked(EndpointPair<NodeData> edge);
     public abstract void onMapClicked(double x, double y);
+
+    public final void onEdgeClicked(NodeData start, NodeData end) {
+        onEdgeClicked(EndpointPair.unordered(start, end));
+    }
 }
