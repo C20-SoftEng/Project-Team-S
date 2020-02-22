@@ -402,6 +402,41 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
+
+
+    public void addEdge(NodeData n1, NodeData n2){
+        String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
+        try {
+
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+
+            String nodeOneID = n1.getNodeID();
+            String nodeTwoID = n2.getNodeID();
+            String newEdgeID = nodeOneID + "_" + nodeTwoID;
+
+
+            String getEdgeIDStr = "SELECT EDGEID FROM EDGES WHERE EDGEID = ?";
+            PreparedStatement checkEdgeID = connection.prepareCall(getEdgeIDStr);
+            checkEdgeID.setString(1,nodeTwoID + "_" + nodeOneID);
+            ResultSet rset = checkEdgeID.executeQuery();
+            if(rset.next()){
+                System.out.println("The opposite of this edge already exists");
+                return;
+            }
+            addStm.setString(1,newEdgeID);
+            addStm.setString(2,nodeOneID);
+            addStm.setString(3,nodeTwoID);
+            addStm.execute();
+            addStm.close();
+
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+
     //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";

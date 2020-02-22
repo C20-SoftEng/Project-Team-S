@@ -101,6 +101,14 @@ public class DatabaseTest extends Application {
         System.out.println(dbCont.checkCapable(1,"MAIT"));
 
 
+        NodeData nd1 = new NodeData("MyNode",0,0,1,"Faulkner","BIGS","longgnamee","shortNammee");
+        NodeData nd2 = new NodeData("YourNode",0,0,1,"Faulkner","BIGS","longgnamee","shortNammee");
+        dbCont.addNode(nd1);
+        dbCont.addNode(nd2);
+
+        dbCont.addEdge(nd1,nd2);
+        dbCont.addEdge(nd2,nd1);
+        dbCont.addEdge(nd1,nd2);
 
 
     }
