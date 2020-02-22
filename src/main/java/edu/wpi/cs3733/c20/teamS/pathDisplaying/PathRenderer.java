@@ -22,10 +22,10 @@ public class PathRenderer {
         this.group = group;
     }
 
-    public void draw(Path path, int floor) {
+    public void draw(Group group, Path path, int floor) {
         if (path == null) ThrowHelper.illegalNull("path");
 
-        group.getChildren().clear();
+        //group.getChildren().clear();
 
         List<Line> lines = findCompleteEdges(path.startToFinish()).stream()
                 .filter(edge -> edge.isOnFloor(floor))
