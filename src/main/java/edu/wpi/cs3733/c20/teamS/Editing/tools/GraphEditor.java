@@ -11,6 +11,10 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import java.util.function.Supplier;
 
+/**
+ * A UI-agnostic object that is responsible for making edits to a graph based on user input.
+ * To connect GraphEditor to your UI, simply call the methods on selectedTool in your UI event handlers.
+ */
 public class GraphEditor {
     private final Supplier<Integer> floorNumberSupplier;
     private EditingTool selectedTool;
