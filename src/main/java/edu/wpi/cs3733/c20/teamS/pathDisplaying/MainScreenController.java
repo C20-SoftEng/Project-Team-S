@@ -40,14 +40,13 @@ public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
     private IPathfinding algorithm;
-    private Group pathGroup = new Group();
-    //private PathDisplay pathDrawer;
     private PathRenderer renderer;
     private PathFinderStateMachine pathFinder;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
+    private final Group group = new Group();
     //endregion
 
     private static class Floor {
@@ -131,13 +130,13 @@ public class MainScreenController implements Initializable {
         //pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
 
         initGraph();
-        renderer = new PathRenderer(pathGroup);
+        renderer = new PathRenderer();
         pathFinder = new PathFinderStateMachine(graph, algorithm);
 
         initFloorSelector();
         floorSelector.currentChanged().subscribe(e -> redraw());
         pathFinder.pathChanged().subscribe(path -> redraw());
-
+        group.setOnMouseClicked(this::onMapClicked);
         redraw();
     }
 
@@ -185,9 +184,8 @@ public class MainScreenController implements Initializable {
         mapImage.setImage(floorSelector.floor(floorSelector.current()).image);
         zoomer.zoomSet();
 
-        Group group = new Group();
+        group.getChildren().clear();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(this::onMapClicked);
 
         renderer.draw(group, pathFinder.path(), floorSelector.current());
         //group.getChildren().add(pathGroup);
