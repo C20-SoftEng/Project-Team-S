@@ -171,7 +171,8 @@ public class DatabaseController implements DBRepo{
                         "password varchar(25)," +
                         "accessLevel INTEGER," +
                         "firstName varchar(30)," +
-                        "lastName varchar(30))");
+                        "lastName varchar(30)," +
+                        "phoneNumber varchar(11))");
         System.out.println("Created Table Employees");
     }
     private static void createEdgeTable(Statement stm) throws SQLException {
@@ -741,7 +742,7 @@ public class DatabaseController implements DBRepo{
 
     //Tested
     public void addEmployee(EmployeeData ed){
-        String addEntryStr = "INSERT INTO EMPLOYEES (USERNAME, PASSWORD, ACCESSLEVEL, FIRSTNAME, LASTNAME) VALUES (?,?,?,?,?)";
+        String addEntryStr = "INSERT INTO EMPLOYEES (USERNAME, PASSWORD, ACCESSLEVEL, FIRSTNAME, LASTNAME, PHONENUMBER) VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);
             addStm.setString(1,ed.getUsername());
@@ -749,6 +750,7 @@ public class DatabaseController implements DBRepo{
             addStm.setInt(3,ed.getAccessLevel());
             addStm.setString(4,ed.getFirstName());
             addStm.setString(5,ed.getLastName());
+            addStm.setString(6,ed.getPhoneNumber());
             addStm.execute();
             addStm.close();
         }catch(SQLException e){
@@ -785,7 +787,7 @@ public class DatabaseController implements DBRepo{
      * Notice!!! An Employee's username cannot be changed!
      */
     public void updateEmployee(EmployeeData emp){
-        String updtEmployeeStr = "UPDATE EMPLOYEES SET PASSWORD = ?, ACCESSLEVEL = ?, FIRSTNAME = ?, LASTNAME = ? WHERE USERNAME = ?";
+        String updtEmployeeStr = "UPDATE EMPLOYEES SET PASSWORD = ?, ACCESSLEVEL = ?, FIRSTNAME = ?, LASTNAME = ?, PHONENUMBER=? WHERE USERNAME = ?";
         try{
             PreparedStatement updtStm = connection.prepareCall(updtEmployeeStr);
             updtStm.setString(1,emp.getPassword());
@@ -793,6 +795,7 @@ public class DatabaseController implements DBRepo{
             updtStm.setString(3, emp.getFirstName());
             updtStm.setString(4, emp.getLastName());
             updtStm.setString(5, emp.getUsername());
+            updtStm.setString(6,emp.getPhoneNumber());
             updtStm.executeUpdate();
         }catch(SQLException e){
             System.out.println("Failed to update employee " + emp.getUsername());
@@ -844,9 +847,10 @@ public class DatabaseController implements DBRepo{
                 int accessLevel = rset.getInt("ACCESSLEVEL");
                 String firstName = rset.getString("FIRSTNAME");
                 String lastName = rset.getString("LASTNAME");
+                String phoneNumber = rset.getString("PHONENUMBER");
 
 
-                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName);
+                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName,phoneNumber);
             }else{
                 System.out.println("Username not found");
                 return null;
@@ -923,7 +927,7 @@ public class DatabaseController implements DBRepo{
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
-                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5]);
+                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6]);
                     System.out.println(emp.toString());
                     addEmployee(emp);
                     line = br.readLine();

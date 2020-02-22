@@ -31,6 +31,9 @@ public class LoginScreen {
             cont.dialogCompleted().subscribe(
                     next -> {
                         if(next.result()== DialogResult.OK){
+                            //Intercepthere
+                            //Scene twoFactorScene = new Scene();
+                            //stage.show
                             MapEditingScreen mes = new MapEditingScreen(toPass, next.value());
                         }
                         this.stage.close();
