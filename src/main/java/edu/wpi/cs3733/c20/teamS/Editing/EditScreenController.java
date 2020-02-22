@@ -129,13 +129,11 @@ public class EditScreenController implements Initializable {
         initFloorSelector();
         floorSelector.setCurrent(2);
 
-        editor = new GraphEditor(graph, () -> floorSelector.current());
+        editor = new GraphEditor(graph, new DatabaseController());
         editor.nodeAdded().subscribe(e -> redrawMap());
         editor.nodeRemoved().subscribe(e -> redrawMap());
         editor.edgeAdded().subscribe(e -> redrawMap());
         editor.edgeRemoved().subscribe(e -> redrawMap());
-
-        editor.selectAddNodeTool();
     }
 
     private void initGraph() {
@@ -264,16 +262,16 @@ public class EditScreenController implements Initializable {
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
     @FXML private void onAddNodeClicked() {
-        editor.selectAddNodeTool();
+
     }
     @FXML private void onRemoveNodeClicked() {
-        editor.selectRemoveNodeTool();
+
     }
     @FXML private void onAddEdgeClicked() {
-        editor.selectAddEdgeTool();
+
     }
     @FXML private void onRemoveEdgeClicked() {
-        editor.selectRemoveEdgeTool();
+
     }
     //endregion
 
@@ -323,8 +321,9 @@ public class EditScreenController implements Initializable {
         if (node.getNodeType().equals("ELEV")) {
             circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
         }
-        circle.setOnMouseClicked(e -> editor.selectedTool().onNodeClicked(node));
         group.getChildren().add(circle);
+
+        circle.setOnMouseClicked(e -> editor.selectedTool().onNodeClicked(node));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
         Line line = new Line();
