@@ -41,6 +41,7 @@ public class MainScreenController implements Initializable {
     private Group pathGroup = new Group();
     //private PathDisplay pathDrawer;
     private PathRenderer renderer;
+    private PathFinderStateMachine pathFinder;
     private boolean flip = true;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
@@ -111,7 +112,7 @@ public class MainScreenController implements Initializable {
             zoomer.zoomSet();
 //            if (pathDrawer.getCounter() >= 0)
 //                pathDrawer.pathDraw(graph, this.current);
-            renderer.redraw();
+            renderer.draw(pathFinder.path(), floorSelector.current());
             updateFloorDisplay();
             keepCurrentPosition(currentHval, currentVval, zoomer);
         }
@@ -135,9 +136,11 @@ public class MainScreenController implements Initializable {
         //pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
 
         initGraph();
-        renderer = new PathRenderer(graph, algorithm);
-        initFloorSelector();
+        renderer = new PathRenderer(pathGroup);
+        pathFinder = new PathFinderStateMachine(graph, algorithm);
 
+        initFloorSelector();
+        pathFinder.pathChanged().subscribe(path -> renderer.draw(path, floorSelector.current()));
     }
 
     private void initGraph() {
@@ -185,7 +188,7 @@ public class MainScreenController implements Initializable {
         group.setOnMouseClicked(this::onMapClicked);
 
         //this.pathDrawer.pathDraw(graph, floorSelector.current());
-        renderer.redraw();
+        renderer.draw(pathFinder.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
         scrollPane.setContent(group);
     }
@@ -205,7 +208,7 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        renderer.onNodeClicked(nearest);
+        pathFinder.onNodeClicked(nearest);
         //pathDrawer.setNode(nearest);
     }
 

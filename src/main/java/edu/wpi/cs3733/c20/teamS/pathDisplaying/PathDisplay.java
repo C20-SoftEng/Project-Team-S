@@ -44,31 +44,7 @@ import java.util.stream.Collectors;
 //        counter++;
 //    }
 //
-//    private static final class Edge {
-//        public final NodeData start;
-//        public final NodeData end;
-//
-//        public Edge(NodeData start, NodeData end) {
-//            this.start = start;
-//            this.end = end;
-//        }
-//
-//        public boolean isComplete() {
-//            return start != null && end != null;
-//        }
-//        public boolean isOnFloor(int floor) {
-//            if (!isComplete())
-//                return false;
-//
-//            return start.getFloor() == floor || end.getFloor() == floor;
-//        }
-//    }
-//
-//    private static List<Edge> findCompleteEdges(Iterable<NodeData> nodes) {
-//        return Board.asList(nodes).stream()
-//                .map(board -> new Edge(board.start(), board.end()))
-//                .collect(Collectors.toList());
-//    }
+
 //
 //    public void pathDraw(MutableGraph<NodeData> graph, int currentFloor) {
 //        group.getChildren().remove(groupPath);
