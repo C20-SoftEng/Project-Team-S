@@ -53,6 +53,7 @@ public class EditScreenController implements Initializable {
     private ObservableGraph graph;
     private IEditingTool editingTool;
     private DatabaseController database = new DatabaseController();
+    private final Group group = new Group();
     //endregion
 
     private static class Floor {
@@ -268,7 +269,7 @@ public class EditScreenController implements Initializable {
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
 
-        Group group = new Group();
+        group.getChildren().clear();
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
