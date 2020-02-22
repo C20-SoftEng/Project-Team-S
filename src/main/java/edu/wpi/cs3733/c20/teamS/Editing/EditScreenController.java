@@ -105,7 +105,7 @@ public class EditScreenController implements Initializable {
 
             mapImage.setImage(floor(floorNumber).image);
             this.current = floorNumber;
-            drawNodesEdges();
+            redrawMap();
         }
 
         private Floor floor(int floorNumber) {
@@ -133,10 +133,10 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(2);
 
         editor = new MapEditor(graph, () -> floorSelector.current());
-        editor.nodeAdded().subscribe(e -> drawNodesEdges());
-        editor.nodeRemoved().subscribe(e -> drawNodesEdges());
-        editor.edgeAdded().subscribe(e -> drawNodesEdges());
-        editor.edgeRemoved().subscribe(e -> drawNodesEdges());
+        editor.nodeAdded().subscribe(e -> redrawMap());
+        editor.nodeRemoved().subscribe(e -> redrawMap());
+        editor.edgeAdded().subscribe(e -> redrawMap());
+        editor.edgeRemoved().subscribe(e -> redrawMap());
     }
 
     private void initGraph() {
@@ -266,7 +266,7 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
-    private void drawNodesEdges() {
+    private void redrawMap() {
         currentHval = scrollPane.getHvalue();
         currentVval = scrollPane.getVvalue();
         unselectALL();
@@ -277,22 +277,8 @@ public class EditScreenController implements Initializable {
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editor.selectedTool().onMapClicked(e.getX(), e.getY()));
 
-        Set<NodeData> nodes = graph.nodes().stream()
-                .filter(node -> node.getFloor() == floorSelector.current())
-                .collect(Collectors.toSet());
-        for (NodeData node : nodes) {
-            drawCircle(group, node);
-        }
-
-        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
-                .filter(edge -> {
-                    return edge.nodeU().getFloor() == floorSelector.current() ||
-                            edge.nodeV().getFloor() == floorSelector.current();
-                })
-                .collect(Collectors.toSet());
-        for (EndpointPair<NodeData> edge : edges) {
-            drawLine(group, edge.nodeU(), edge.nodeV());
-        }
+        drawAllNodes(group);
+        drawAllEdges(group);
 
         group.getChildren().add(group2);
         scrollPane.setContent(group);
@@ -301,6 +287,25 @@ public class EditScreenController implements Initializable {
         keepCurrentPosition(currentHval, currentVval, zoomer);
         if (btwn) {
             addEdgeRadio.fire();
+        }
+    }
+    private void drawAllNodes(Group group) {
+        Set<NodeData> nodes = graph.nodes().stream()
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .collect(Collectors.toSet());
+        for (NodeData node : nodes) {
+            drawCircle(group, node);
+        }
+    }
+    private void drawAllEdges(Group group) {
+        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
+                .filter(edge -> {
+                    return edge.nodeU().getFloor() == floorSelector.current() ||
+                            edge.nodeV().getFloor() == floorSelector.current();
+                })
+                .collect(Collectors.toSet());
+        for (EndpointPair<NodeData> edge : edges) {
+            drawLine(group, edge.nodeU(), edge.nodeV());
         }
     }
 
