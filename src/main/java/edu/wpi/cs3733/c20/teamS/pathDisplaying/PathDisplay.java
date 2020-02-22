@@ -141,7 +141,7 @@ public class PathDisplay {
         elevator_icon_down.setX(node2.getxCoordinate() - 25);
         elevator_icon_down.setY(node2.getyCoordinate()-20);
         elevator_icon_down.setPreserveRatio(true);
-        elevator_icon_down.setFitWidth(40);
+        elevator_icon_down.setFitWidth(50);
         return elevator_icon_down;
     }
 
@@ -152,7 +152,7 @@ public class PathDisplay {
         elevator_icon_up.setX(node2.getxCoordinate() - 25);
         elevator_icon_up.setY(node2.getyCoordinate()-20);
         elevator_icon_up.setPreserveRatio(true);
-        elevator_icon_up.setFitWidth(40);
+        elevator_icon_up.setFitWidth(50);
         return elevator_icon_up;
     }
 
