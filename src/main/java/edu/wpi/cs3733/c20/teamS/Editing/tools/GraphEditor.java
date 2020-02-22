@@ -32,6 +32,10 @@ public class GraphEditor {
         selectedTool = new AddNodeTool(this);
     }
 
+    /**
+     * The tool that is currently selected. Call the methods on this from the
+     * event handlers in your UI.
+     */
     public EditingTool selectedTool() {
         return selectedTool;
     }
