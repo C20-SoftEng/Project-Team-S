@@ -63,19 +63,26 @@ class PathRenderer {
                 .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
                 .forEach(image -> group.getChildren().add(image));
 
+        boolean runOnce = true;
+        Path animated_path = new Path();
+
+        for (NodeData node_itrat : nodes) {
+            if((node_itrat.getFloor() == floor) && runOnce){
+                animated_path = new Path();
+                animated_path.getElements().add(new MoveTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+                runOnce = false;
+            }
+
+            if (node_itrat.getFloor() == floor) {
+                animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+            }
+        }
+
         Image i = new Image("images/Icons/outlined_arrow.png");
         ImageView imageView = new ImageView();
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(50);
         imageView.setImage(i);
-
-        Path animated_path = new Path();
-        animated_path.getElements().add(new MoveTo(start.getxCoordinate(), start.getyCoordinate()));
-        for (NodeData node_itrat : nodes) {
-            if (node_itrat.getFloor() == floor) {
-                animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
-            }
-        }
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(7.5));
