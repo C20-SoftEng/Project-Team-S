@@ -68,12 +68,12 @@ public final class EditNodeHitboxTool implements IEditingTool {
         private final Polygon polygon;
         private final NodeData node;
         private final List<Circle> verticeHandles = new ArrayList<>();
-        private static final double HANDLE_RADIUS = 12;
+        private static final double HANDLE_RADIUS = 8;
 
         public EditHitboxState(NodeData node) {
             this.node = node;
             polygon = new Polygon();
-            polygon.setFill(Color.AQUA.deriveColor(0, 0, 0, 0.4));
+            polygon.setFill(Color.DEEPPINK.deriveColor(1, 1, 1, 0.4));
             groupSupplier.get().getChildren().add(polygon);
         }
 
@@ -88,7 +88,7 @@ public final class EditNodeHitboxTool implements IEditingTool {
 
             polygon.getPoints().addAll(x, y);
             Circle vertice = createVertice(x, y);
-            vertice.setFill(Color.BLUEVIOLET);
+            vertice.setFill(Color.BLUEVIOLET.deriveColor(1, 1, 1, 0.75));
             verticeHandles.add(vertice);
             groupSupplier.get().getChildren().add(vertice);
         }

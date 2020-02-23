@@ -38,6 +38,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -126,6 +127,9 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
+        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
+        hitboxes.addAll(shitty.shittyLoad(graph.nodes()));
+        redrawMap();
     }
 
     private void initGraph() {
@@ -148,12 +152,6 @@ public class EditScreenController implements Initializable {
     }
 
     //region gui components
-    @FXML private JFXRadioButton addNodeRadio;
-    @FXML private JFXRadioButton removeNodeRadio;
-    @FXML private JFXRadioButton addEdgeRadio;
-    @FXML private JFXRadioButton removeEdgeRadio;
-    @FXML private JFXRadioButton moveNodeRadio;
-    @FXML private JFXRadioButton showInfoRadio;
     @FXML private VBox editPrivilegeBox;
     @FXML private Label loggedInUserLabel;
     @FXML private ImageView mapImage;
@@ -269,6 +267,17 @@ public class EditScreenController implements Initializable {
         hitboxTool.hitboxAdded().subscribe(hitbox -> {
            hitboxes.add(hitbox);
         });
+    }
+
+    @FXML private void onConfirmEditClicked() throws IOException {
+        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
+        shitty.shittySave(hitboxes);
+    }
+    @FXML private void onCancelEditClicked() {
+        hitboxes.clear();
+        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
+        hitboxes.addAll(shitty.shittyLoad(graph.nodes()));
+        redrawMap();
     }
     //endregion
 

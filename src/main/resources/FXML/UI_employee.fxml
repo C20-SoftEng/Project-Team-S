@@ -239,12 +239,12 @@
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" text="Cancel">
+                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" text="Cancel">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" text="OK">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="OK">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
