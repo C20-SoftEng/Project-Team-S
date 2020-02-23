@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -33,8 +34,8 @@ public final class EditNodeHitboxTool implements IEditingTool {
     }
 
     @Override
-    public void onMapClicked(double x, double y) {
-        state.onMapClicked(x, y);
+    public void onMapClicked(MouseEvent event) {
+        state.onMapClicked(event.getX(), event.getY());
     }
     @Override
     public void onNodeClicked(NodeData node) {

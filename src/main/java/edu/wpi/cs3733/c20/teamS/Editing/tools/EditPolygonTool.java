@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -30,8 +31,8 @@ public class EditPolygonTool implements IEditingTool {
     }
 
     @Override
-    public void onMapClicked(double x, double y) {
-        state.onMapClicked(x, y);
+    public void onMapClicked(MouseEvent event) {
+        state.onMapClicked(event.getX(), event.getY());
     }
     @Override
     public void onMouseMovedOverMap(double x, double y) {
@@ -83,7 +84,6 @@ public class EditPolygonTool implements IEditingTool {
                 switchToStandbyState();
                 return;
             }
-
             setLastVertex(x, y);
             addVertex(x, y);
         }

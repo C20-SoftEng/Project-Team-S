@@ -130,7 +130,7 @@ public class EditScreenController implements Initializable {
         initGraph();
         initFloorSelector();
 
-        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
         redrawMap();

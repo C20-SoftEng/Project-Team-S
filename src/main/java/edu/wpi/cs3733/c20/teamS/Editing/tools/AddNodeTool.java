@@ -2,7 +2,9 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -18,16 +20,16 @@ public final class AddNodeTool implements IEditingTool {
     }
 
     @Override
-    public void onMapClicked(double x, double y) {
+    public void onMapClicked(MouseEvent event) {
         Stage stage = new Stage();
 
         NodeEditScreen.showDialog(stage)
                 .subscribe(e -> {
                     if (e.result() == DialogResult.OK) {
-                        e.value().setNodeID(generateUniqueID(e.value()));
+                        e.value().setNodeID(DatabaseController.generateUniqueNodeID(e.value(), graph.nodes()));
                         e.value().setBuilding("Faulkner");
-                        e.value().setxCoordinate(x);
-                        e.value().setyCoordinate(y);
+                        e.value().setxCoordinate(event.getX());
+                        e.value().setyCoordinate(event.getY());
                         e.value().setFloor(currentFloorSupplier.get());
 
                         graph.addNode(e.value());

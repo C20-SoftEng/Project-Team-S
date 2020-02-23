@@ -4,23 +4,18 @@ package edu.wpi.cs3733.c20.teamS.database;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DatabaseController implements DBRepo{
@@ -220,6 +215,51 @@ public class DatabaseController implements DBRepo{
                 .forEach(edge -> graph.putEdge(edge));
 
         return graph;
+    }
+
+    /**
+     * Generates a unique ID for the specified node and adds it to the database.
+     * The graph that the node is part of is required in order to generate
+     * a unique ID for the node.
+     * @param node The node to add.
+     * @param allNodes The complete set of all nodes. This is required in order for a unique ID
+     *              to be assigned to the node.
+     */
+    public void addNode(NodeData node, Set<NodeData> allNodes) {
+        if (allNodes == null) ThrowHelper.illegalNull("graph");
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        String uniqueID = generateUniqueNodeID(node, allNodes);
+        node.setNodeID(uniqueID);
+
+        addNode(node);
+    }
+
+    /**
+     * Generates a unique ID for the specified node. The graph that the node is a member of
+     * is required in order for the unique ID to be generated.
+     * @param node The node to generate a unique ID for.
+     * @param allNodes The complete set of all nodes in the database. This is required in order to generate
+     *                 a unique ID.
+     * @return A unique ID for the specified node.
+     */
+    public static String generateUniqueNodeID(NodeData node, Set<NodeData> allNodes) {
+        final int floor = node.getFloor();
+
+        Optional<Integer> max = allNodes.stream()
+                .filter(n -> n.getFloor() == floor)
+                .filter(n -> n.getNodeType().equals(node.getNodeType()))
+                .map(n -> n.getNodeID())
+                .map(id -> id.substring(5, 8))
+                .map(id -> Integer.parseInt(id))
+                .sorted()
+                .max((x, y) -> Integer.compare(x, y));
+        int num = max.isPresent() ? max.get() + 1 : 1;
+
+        return "S" + node.
+                getNodeType().toUpperCase() +
+                Numerics.padDigits(num, 3) +
+                Numerics.padDigits(node.getFloor(), 2);
     }
 
     //Tested
