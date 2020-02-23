@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import javafx.scene.input.MouseEvent;
 
 public final class AddEdgeTool implements IEditingTool {
     private final ObservableGraph graph;
@@ -12,7 +13,7 @@ public final class AddEdgeTool implements IEditingTool {
     }
 
     @Override
-    public void onNodeClicked(NodeData node) {
+    public void onNodeClicked(NodeData node, MouseEvent event) {
         state.onNodeClicked(node);
     }
 

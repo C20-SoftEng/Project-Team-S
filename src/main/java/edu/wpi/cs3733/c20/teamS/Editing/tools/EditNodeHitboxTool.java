@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.wpi.cs3733.c20.teamS.Editing.NodeHitbox;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -38,7 +37,7 @@ public final class EditNodeHitboxTool implements IEditingTool {
         state.onMapClicked(event.getX(), event.getY());
     }
     @Override
-    public void onNodeClicked(NodeData node) {
+    public void onNodeClicked(NodeData node, MouseEvent event) {
         state.onNodeClicked(node);
     }
 

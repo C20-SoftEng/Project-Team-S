@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
@@ -138,7 +137,10 @@ public class EditScreenController implements Initializable {
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
-        graph.nodeAdded().subscribe(e -> redrawMap());
+        graph.nodeAdded().subscribe(node -> {
+            database.addNode(node, graph.nodes());
+            redrawMap();
+        });
         graph.nodeRemoved().subscribe(e -> redrawMap());
         graph.edgeAdded().subscribe(e -> redrawMap());
         graph.edgeRemoved().subscribe(e -> redrawMap());
@@ -251,10 +253,10 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddNodeClicked() {
-        editingTool = new AddNodeTool(graph, () -> floorSelector.current());
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
     }
     @FXML private void onRemoveNodeClicked() {
-        editingTool = new RemoveNodeTool(graph);
+
     }
     @FXML private void onAddEdgeClicked() {
         editingTool = new AddEdgeTool(graph);
@@ -345,7 +347,7 @@ public class EditScreenController implements Initializable {
             circle.setCenterY(position.getY());
         });
 
-        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
         circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
     }
