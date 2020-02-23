@@ -69,7 +69,7 @@ public class WrittenInstructions_Tests {
 
 
     @Test
-    public void secondLastTurnTest(){
+    public void secondLastTurnTest_Elevator(){
         ArrayList<NodeData> pathtest3 = new ArrayList<>();
         pathtest3.add(nodeOne);
         pathtest3.add(nodeTwo);
