@@ -288,11 +288,12 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onHelpClicked() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
+            //Parent  root1 = fxmlLoader.getRoot();
             Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Help");
+           window.initModality(Modality.WINDOW_MODAL);
+           window.setFullScreen(false);
             window.setScene(new Scene(root1));
             window.setResizable(false);
             window.show();
@@ -300,6 +301,7 @@ public class MainScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
+
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
@@ -311,17 +313,12 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onZoomInClicked() {
         zoomer.zoomIn();
-        zoomOutButton.setDisable(false);
         zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     @FXML private void onZoomOutClicked() {
+        //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
-        zoomInButton.setDisable(false);
         zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
-
-    @FXML private void onResetPathClicked(){
-
-    }
 }

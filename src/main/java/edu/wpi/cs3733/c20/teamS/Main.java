@@ -15,9 +15,10 @@ public class Main extends Application {
     dbc.importStartUpData();
 
 
-    //new MainToLoginScreen(primaryStage, new AStar());
-   MapEditingScreen test = new MapEditingScreen(primaryStage,
-           new Employee(3, "Wilson Wong", AccessLevel.ADMIN));
+    new MainToLoginScreen(primaryStage, new AStar());
+    //MapEditingScreen test = new MapEditingScreen(primaryStage,
+    //        new Employee(17, "Bob", AccessLevel.ADMIN));
+
   }
 //9003,staff,staff,2,Wilson,Wong
   public static void main(String[] args) {
