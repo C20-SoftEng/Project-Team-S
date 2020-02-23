@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreenController;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.event.ActionEvent;
@@ -53,11 +54,20 @@ public class loginScreenController {
         if (validLogin){
             EmployeeData ed = dc.getEmployee(id.getText());
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/twoFactorScreen.fxml"));
-            TwoFactorScreenController twoFac = loader.getController();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
+            TwoFactorScreenController twoFac = new TwoFactorScreenController();
+            loader.setController(twoFac);
+            twoFac.ed = ed;
+            twoFac.dialogCompleted_ = dialogCompleted_;
             AnchorPane twoFactor = loader.load();
-            //AnchorPane twoFactor = FXMLLoader.load();
+//            //AnchorPane twoFactor = FXMLLoader.load();
             anchor.getChildren().setAll(twoFactor);
+            anchor.getScene().getWindow().setHeight(313);
+            anchor.getScene().getWindow().setWidth(438);
+
+
+
 //            AccessLevel[] al = AccessLevel.values();
 //            AccessLevel accessLevel = al[ed.getAccessLevel()];
 //            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);

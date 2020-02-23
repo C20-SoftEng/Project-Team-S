@@ -11,6 +11,7 @@ public class Main extends Application {
     DatabaseController dbc = new DatabaseController();
     dbc.importStartUpData();
 
+    //Mailer.sendMail(null);
     new MainToLoginScreen(primaryStage, new AStar());
 //    MapEditingScreen test = new MapEditingScreen(primaryStage,
 //            new Employee(17, "Bob", AccessLevel.ADMIN));
