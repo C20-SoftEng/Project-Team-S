@@ -63,25 +63,19 @@ class PathRenderer {
                 .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
                 .forEach(image -> group.getChildren().add(image));
 
-
-        //Rectangle rectPath = new Rectangle(start.getxCoordinate(), start.getyCoordinate(), 100, 100);
-        //rectPath.setArcHeight(10);
-        //rectPath.setArcWidth(10);
-        //rectPath.setFill(Color.ORANGE);
         Image i = new Image("images/Icons/outlined_arrow.png");
         ImageView imageView = new ImageView();
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(50);
         imageView.setImage(i);
 
-
         Path animated_path = new Path();
         animated_path.getElements().add(new MoveTo(start.getxCoordinate(), start.getyCoordinate()));
-
         for (NodeData node_itrat : nodes) {
-            animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+            if (node_itrat.getFloor() == floor) {
+                animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+            }
         }
-
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(7.5));
@@ -194,3 +188,5 @@ class PathRenderer {
         return result;
     }
 }
+
+
