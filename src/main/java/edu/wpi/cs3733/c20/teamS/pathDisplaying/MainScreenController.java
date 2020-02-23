@@ -10,6 +10,8 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,12 +40,14 @@ public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
     private IPathfinding algorithm;
-    private Group pathGroup = new Group();
-    private PathDisplay pathDrawer;
-    private boolean flip = true;
+    private PathRenderer renderer;
+    private SelectNodesStateMachine pathFinder;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
+    private final Group group = new Group();
+
+    private boolean flip = true;
     //endregion
 
     private static class Floor {
@@ -62,6 +66,7 @@ public class MainScreenController implements Initializable {
         private final JFXButton upButton;
         private final JFXButton downButton;
         private final Floor[] floors;
+        private final PublishSubject<Integer> currentChanged = PublishSubject.create();
         private int current;
         private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
         private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
@@ -89,10 +94,15 @@ public class MainScreenController implements Initializable {
         public void setCurrent(int floorNumber) {
             if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
                 ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
-
+            int previous = this.current;
             this.current = floorNumber;
             updateFloorButtons(floorNumber);
-            updateMapPanPosition(floorNumber);
+//            updateMapPanPosition(floorNumber);
+            if (previous != this.current)
+                currentChanged.onNext(this.current);
+        }
+        public Observable<Integer> currentChanged() {
+            return currentChanged;
         }
 
         private void updateFloorButtons(int floorNumber) {
@@ -103,17 +113,7 @@ public class MainScreenController implements Initializable {
             this.upButton.setDisable(floorNumber == highestFloorNumber);
             this.downButton.setDisable(floorNumber == lowestFloorNumber);
         }
-        private void updateMapPanPosition(int floorNumber) {
-            double currentHval = scrollPane.getHvalue();
-            double currentVval = scrollPane.getVvalue();
-            mapImage.setImage(floor(floorNumber).image);
-            zoomer.zoomSet();
-            if (pathDrawer.getCounter() >= 0)
-                pathDrawer.pathDraw(graph, this.current);
-            updateFloorDisplay();
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        }
-        private Floor floor(int floorNumber) {
+        public Floor floor(int floorNumber) {
             return floors[floorNumber - 1];
         }
     }
@@ -121,34 +121,30 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         initSearchComboBoxFont();
-        initSearchComboBoxAutoComplete();
 
         zoomer = new MapZoomer(scrollPane);
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
-        initFloorSelector();
-
         initGraph();
+        renderer = new PathRenderer();
+        pathFinder = new SelectNodesStateMachine(graph, algorithm);
+
+        initFloorSelector();
+        floorSelector.currentChanged().subscribe(e -> redraw());
+        pathFinder.pathChanged().subscribe(path -> {
+            redraw();
+            renderer.printInstructions(path, instructionVBox);
+        });
+        group.setOnMouseClicked(this::onMapClicked);
+        scrollPane.setContent(group);
+        redraw();
     }
 
     private void initGraph() {
-        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
         DatabaseController database = new DatabaseController();
-        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
-                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
-        Set<EdgeData> edges = database.getAllEdges();
-        for (NodeData node : nodeIdMap.values())
-            graph.addNode(node);
-        for (EdgeData edge : edges) {
-            NodeData start = nodeIdMap.get(edge.getStartNode());
-            NodeData end = nodeIdMap.get(edge.getEndNode());
-            graph.putEdge(start, end);
-        }
+        graph = database.loadGraph();
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -165,8 +161,7 @@ public class MainScreenController implements Initializable {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
-    }
-    private void initSearchComboBoxAutoComplete() {
+
         DatabaseController db = new DatabaseController();
         Set<NodeData> nodes = db.getAllNodes();
         List<String> dictionary = nodes.stream()
@@ -175,14 +170,20 @@ public class MainScreenController implements Initializable {
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public void updateFloorDisplay() {
-        Group group = new Group();
-        group.getChildren().add(mapImage);
-        group.setOnMouseClicked(this::onMapClicked);
+    private void redraw() {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
 
-        this.pathDrawer.pathDraw(graph, floorSelector.current());
+        mapImage.setImage(floorSelector.floor(floorSelector.current()).image);
+        zoomer.zoomSet();
+
+        group.getChildren().clear();
+        group.getChildren().add(mapImage);
+
+        Group pathGroup = renderer.draw(pathFinder.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
-        scrollPane.setContent(group);
+
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     private void onMapClicked(MouseEvent e) {
@@ -200,7 +201,8 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        pathDrawer.setNode(nearest);
+        pathFinder.onNodeClicked(nearest);
+        //pathDrawer.setNode(nearest);
     }
 
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
@@ -246,7 +248,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private Label location1;
-    @FXML private VBox parentVBox;
+    @FXML private VBox instructionVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
@@ -292,12 +294,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
-    @FXML private void onPathfindClicked() {
-        double currentHval = scrollPane.getHvalue();
-        double currentVval = scrollPane.getVvalue();
-        updateFloorDisplay();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-    }
+
     @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());

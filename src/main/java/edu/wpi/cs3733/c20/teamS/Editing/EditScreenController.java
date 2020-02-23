@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -16,12 +18,10 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,21 +39,23 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EditScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private boolean btwn = false;
     private Employee loggedIn;
-    private double currentHval;
-    private double currentVval;
-    private Group group2 = new Group();
-    private MapEditingTasks tester2 = new MapEditingTasks(group2);
     private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
+    private ObservableGraph graph;
+    private IEditingTool editingTool;
+    private DatabaseController database = new DatabaseController();
+    private final Group group = new Group();
+    private final Set<NodeHitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -99,7 +101,7 @@ public class EditScreenController implements Initializable {
 
             mapImage.setImage(floor(floorNumber).image);
             this.current = floorNumber;
-            drawNodesEdges();
+            redrawMap();
         }
 
         private Floor floor(int floorNumber) {
@@ -122,10 +124,17 @@ public class EditScreenController implements Initializable {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
+        initGraph();
         initFloorSelector();
-        floorSelector.setCurrent(2);
     }
 
+    private void initGraph() {
+        this.graph = new ObservableGraph(database.loadGraph());
+        graph.nodeAdded().subscribe(e -> redrawMap());
+        graph.nodeRemoved().subscribe(e -> redrawMap());
+        graph.edgeAdded().subscribe(e -> redrawMap());
+        graph.edgeRemoved().subscribe(e -> redrawMap());
+    }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -135,6 +144,7 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
+        floorSelector.setCurrent(2);
     }
 
     //region gui components
@@ -214,23 +224,13 @@ public class EditScreenController implements Initializable {
     }
     @FXML private void onZoomInClicked() {
         this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3) {
-            zoomInButton.setDisable(true);
-            zoomOutButton.setDisable(false);
-        } else {
-            zoomOutButton.setDisable(false);
-            zoomOutButton.setDisable(false);
-        }
+        zoomInButton.setDisable(!zoomer.canZoomIn());
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     @FXML private void onZoomOutClicked() {
         this.zoomer.zoomOut();
-        if (zoomer.getZoomStage() == -2) {
-            zoomOutButton.setDisable(true);
-            zoomInButton.setDisable(false);
-        } else {
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomInButton.setDisable(!zoomer.canZoomIn());
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);
@@ -247,144 +247,115 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
+
+    @FXML private void onAddNodeClicked() {
+        editingTool = new AddNodeTool(graph, () -> floorSelector.current());
+    }
+    @FXML private void onRemoveNodeClicked() {
+        editingTool = new RemoveNodeTool(graph);
+    }
+    @FXML private void onAddEdgeClicked() {
+        editingTool = new AddEdgeTool(graph);
+    }
+    @FXML private void onRemoveEdgeClicked() {
+        editingTool = new RemoveEdgeTool(graph);
+    }
+    @FXML private void onMoveNodeClicked() {
+        editingTool = new MoveNodeTool(scrollPane);
+    }
+    @FXML private void onEditNodeHitboxClicked() {
+        EditNodeHitboxTool hitboxTool;
+        editingTool = hitboxTool = new EditNodeHitboxTool(() -> group);
+        hitboxTool.hitboxAdded().subscribe(hitbox -> {
+           hitboxes.add(hitbox);
+        });
+    }
     //endregion
 
-    public void drawNodesEdges() {
-        currentHval = scrollPane.getHvalue();
-        currentVval = scrollPane.getVvalue();
-        unselectALL();
+    private void redrawMap() {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
         moveNode.setScale(zoomer.zoomFactor());
         moveNode.setCurrent_floor(floorSelector.current());
 
-        String floor = "0" + floorSelector.current();
-        Group group = new Group();
         group.getChildren().clear();
         group.getChildren().add(mapImage);
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
-        MapEditingTasks tester = new MapEditingTasks(group);
-        DatabaseController dbc = new DatabaseController();
-        Set<NodeData> nd = dbc.getAllNodes();
-
-        for (NodeData data : nd) {
-            Circle circle1 = new Circle(data.getxCoordinate(), data.getyCoordinate(), 25);
-            circle1.setStroke(Color.ORANGE);
-            circle1.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-            if (data.getNodeType().equals("ELEV")) {
-                circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-            }
-            circle1.setVisible(false);
-            if (data.getNodeID().substring(data.getNodeID().length() - 2).equals(floor)) {
-                circle1.setVisible(true);
-            }
-            group.getChildren().add(circle1);
-        }
-
-        Set<EdgeData> ed = dbc.getAllEdges();
-
-        for (EdgeData data : ed) {
-            if(data.getEdgeID().substring(data.getEdgeID().length()-2).equals(floor)) {
-                String start = data.getStartNode();
-                String end = data.getEndNode();
-                int startX = 0;
-                int startY = 0;
-                int endX = 0;
-                int endY = 0;
-                boolean checker1 = false;
-                boolean checker2 = false;
-                for(NodeData check: nd) {
-                    if(check.getNodeID().equals(start)) {
-                        checker1 = true;
-                        startX = (int)check.getxCoordinate();
-                        startY = (int)check.getyCoordinate();
-                    }
-                    if(check.getNodeID().equals(end)) {
-                        checker2 = true;
-                        endX = (int)check.getxCoordinate();
-                        endY = (int)check.getyCoordinate();
-                    }
-                }
-                if(checker1 && checker2) {
-                    Line line1 = new Line();
-                    line1.setStartX(startX);
-                    line1.setStartY(startY);
-                    line1.setEndX(endX);
-                    line1.setEndY(endY);
-                    line1.setStroke(Color.BLUE);
-                    line1.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-                    line1.setStrokeWidth(5);
-                    line1.setVisible(false);
-                    if (data.getEdgeID().substring(data.getEdgeID().length() - 2).equals(floor)) {
-                        line1.setVisible(true);
-                    }
-                    group.getChildren().add(line1);
-                }
-            }
-        }
-
-        radioButtonEventHandlers_fromDrawNodesEdges(tester);
-
-        group.getChildren().add(group2);
+        group.getChildren().add(drawAllNodes());
+        group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllHitboxes());
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
-        if(btwn) {
-            addEdgeRadio.fire();
+    }
+    private Group drawAllNodes() {
+        Group group = new Group();
+        Set<NodeData> nodes = graph.nodes().stream()
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .collect(Collectors.toSet());
+        for (NodeData node : nodes) {
+            drawCircle(group, node);
         }
+        return group;
+    }
+    private Group drawAllEdges() {
+        Group group = new Group();
+        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
+                .filter(edge -> {
+                    return edge.nodeU().getFloor() == floorSelector.current() ||
+                            edge.nodeV().getFloor() == floorSelector.current();
+                })
+                .collect(Collectors.toSet());
+        for (EndpointPair<NodeData> edge : edges) {
+            drawLine(group, edge.nodeU(), edge.nodeV());
+        }
+        return group;
+    }
+    private Group drawAllHitboxes() {
+        Group group = new Group();
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
+                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
+        return group;
     }
 
-    private void radioButtonEventHandlers_fromDrawNodesEdges(MapEditingTasks tester) {
-        moveNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.moveNodes(mapImage, floorSelector.current(), moveNode);
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        showInfoRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.showNodeInfo(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        addNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.drawNodes(floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        removeNodeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.removeNodes(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
+    private void drawCircle(Group group, NodeData node) {
+        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
+        circle.setStroke(Color.ORANGE);
+        circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
+        if (node.getNodeType().equals("ELEV")) {
+            circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
+        }
+        group.getChildren().add(circle);
 
-        });
-        addEdgeRadio.setOnAction(e -> {
-            btwn = true;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester2.addEdge(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        });
-        removeEdgeRadio.setOnAction(e -> {
-            btwn = false;
-            currentHval = scrollPane.getHvalue();
-            currentVval = scrollPane.getVvalue();
-            tester.removeEdge(mapImage, floorSelector.current());
-            keepCurrentPosition(currentHval, currentVval, zoomer);
+        node.positionChanged().subscribe(position -> {
+            circle.setCenterX(position.getX());
+            circle.setCenterY(position.getY());
         });
 
-        confirmEditButton.setOnAction(e -> {
-            tester.saveChanges();
-        });
-        cancelEditsButton.setOnAction(e -> {
-            tester.cancelChanges();
-            new MapEditingScreen(stage, loggedIn);
-        });
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
+        circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
+    }
+    private void drawLine(Group group, NodeData start, NodeData end) {
+        Line line = new Line();
+        updateLineProperties(line, start, end);
+        group.getChildren().add(line);
+
+        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
+        start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+        end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+    }
+    private void updateLineProperties(Line line, NodeData start, NodeData end) {
+        line.setStartX(start.getxCoordinate());
+        line.setStartY(start.getyCoordinate());
+        line.setEndX(end.getxCoordinate());
+        line.setEndY(end.getyCoordinate());
+        line.setStroke(Color.BLUE);
+        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+        line.setStrokeWidth(5);
     }
 
     public void onLogOut() {
@@ -402,14 +373,7 @@ public class EditScreenController implements Initializable {
         }
         MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
     }
-    private void unselectALL() {
-        addNodeRadio.selectedProperty().set(false);
-        removeNodeRadio.selectedProperty().set(false);
-        removeEdgeRadio.selectedProperty().set(false);
-        addEdgeRadio.selectedProperty().set(false);
-        moveNodeRadio.selectedProperty().set(false);
-        showInfoRadio.selectedProperty().set(false);
-    }
+
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);

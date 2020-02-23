@@ -1,6 +1,10 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
 
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+
 import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +19,9 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DatabaseController implements DBRepo{
     private static Connection connection = null;
@@ -187,6 +193,33 @@ public class DatabaseController implements DBRepo{
                         "shortName varchar(50)," +
                         "constraint pkey_nodeID Primary Key (nodeID))");
         System.out.println("Created Table Nodes");
+    }
+
+    /**
+     * Loads a graph containing the entire database of nodes.
+     */
+    public MutableGraph<NodeData> loadGraph() {
+        MutableGraph<NodeData> graph = GraphBuilder
+                .undirected()
+                .allowsSelfLoops(true)
+                .build();
+        Map<String, NodeData> nodeIDMap = getAllNodes().stream()
+                .collect(Collectors.toMap(
+                        node -> node.getNodeID(),
+                        node -> node
+                ));
+
+        nodeIDMap.values().forEach(node -> graph.addNode(node));
+
+        getAllEdges().stream()
+                .map(ed -> {
+                    NodeData start = nodeIDMap.get(ed.getStartNode());
+                    NodeData end = nodeIDMap.get(ed.getEndNode());
+                    return EndpointPair.unordered(start, end);
+                })
+                .forEach(edge -> graph.putEdge(edge));
+
+        return graph;
     }
 
     //Tested
@@ -369,6 +402,45 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
+
+
+    public void addEdge(NodeData n1, NodeData n2){
+        String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
+        try {
+
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+
+            String nodeOneID = n1.getNodeID();
+            String nodeTwoID = n2.getNodeID();
+            String newEdgeID = nodeOneID + "_" + nodeTwoID;
+
+
+            String getEdgeIDStr = "SELECT EDGEID FROM EDGES WHERE EDGEID = ?";
+            PreparedStatement checkEdgeID = connection.prepareCall(getEdgeIDStr);
+            checkEdgeID.setString(1,nodeTwoID + "_" + nodeOneID);
+            ResultSet rset = checkEdgeID.executeQuery();
+            if(rset.next()){
+                System.out.println("The opposite of this edge already exists");
+                return;
+            }
+            addStm.setString(1,newEdgeID);
+            addStm.setString(2,nodeOneID);
+            addStm.setString(3,nodeTwoID);
+            addStm.execute();
+            addStm.close();
+
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+    public void addEdge(EndpointPair<NodeData> edp){
+        addEdge(edp.nodeU(), edp.nodeV());
+    }
+
+
     //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
