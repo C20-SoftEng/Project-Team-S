@@ -40,15 +40,17 @@ public class SecurityServiceController {
         dialogCompleted_.onNext(DialogEvent.cancel());
     }
 
-    @FXML void onOKClicked(){
-        request.setThreatLevel_(threatlevel.getText());
-        request.setHasWeapon_(weaponthreat.getText());
+    @FXML void onOKClicked() {
+        if (!threatlevel.getText().equals("") && !weaponthreat.getText().equals("") && !locationField.getText().equals("")) {
+            request.setThreatLevel_(threatlevel.getText());
+            request.setHasWeapon_(weaponthreat.getText());
 
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(loggedIn);
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public SecurityServiceController(Employee employee){
