@@ -56,6 +56,7 @@ public class EditScreenController implements Initializable {
     private IEditingTool editingTool;
     private DatabaseController database = new DatabaseController();
     private final Group group = new Group();
+    private final Set<NodeHitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -259,7 +260,7 @@ public class EditScreenController implements Initializable {
         editingTool = new MoveNodeTool(scrollPane);
     }
     @FXML private void onEditNodeHitboxClicked() {
-
+        editingTool = new EditPolygonTool(() -> group);
     }
 
     @FXML private void onConfirmEditClicked() throws IOException {
@@ -278,6 +279,7 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
