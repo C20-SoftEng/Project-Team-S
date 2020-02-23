@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 
 public interface IEditingTool {
@@ -9,6 +11,8 @@ public interface IEditingTool {
     default void onMouseMovedOverMap(double x, double y) {}
     default void onNodeClicked(NodeData node, MouseEvent event) {}
     default void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
+    default void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
+    default void onRedrawn(Group group) {}
     default void onEscapeKey() {}
 
     default void onNodeDragged(NodeData node, MouseEvent e) {}

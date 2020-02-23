@@ -132,6 +132,7 @@ public class EditScreenController implements Initializable {
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
@@ -260,7 +261,14 @@ public class EditScreenController implements Initializable {
     }
     @FXML private void onAddRemoveHitboxClicked() {
         AddRemoveHitboxTool tool;
-        editingTool = tool = new AddRemoveHitboxTool(() -> group, () -> floorSelector.current());
+        editingTool = tool = new AddRemoveHitboxTool(
+                hitbox -> {
+                    hitboxes.remove(hitbox);
+                    redrawMap();
+                },
+                () -> group,
+                () -> floorSelector.current()
+        );
         tool.hitboxAdded().subscribe(hitbox -> {
             hitboxes.add(hitbox);
             redrawMap();
@@ -287,7 +295,6 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
         group.getChildren().add(drawAllHitboxes());
@@ -295,6 +302,7 @@ public class EditScreenController implements Initializable {
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
     private Group drawAllNodes() {
         Group group = new Group();
@@ -362,6 +370,7 @@ public class EditScreenController implements Initializable {
     private Polygon drawHitbox(Hitbox hitbox) {
         Polygon result = hitbox.toPolygon();
         result.setFill(Color.BLUE.deriveColor(1, 1, 1, .45));
+        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(hitbox, e));
         return result;
     }
 
