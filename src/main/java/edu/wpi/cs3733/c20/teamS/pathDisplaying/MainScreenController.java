@@ -311,12 +311,17 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onZoomInClicked() {
         zoomer.zoomIn();
+        zoomOutButton.setDisable(false);
         zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     @FXML private void onZoomOutClicked() {
-        //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
+        zoomInButton.setDisable(false);
         zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
+
+    @FXML private void onResetPathClicked(){
+
+    }
 }

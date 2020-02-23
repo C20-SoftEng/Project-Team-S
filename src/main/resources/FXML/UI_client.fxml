@@ -3,11 +3,14 @@
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -129,9 +132,9 @@
             </VBox>
          </left>
          <top>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="65.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label prefHeight="44.0" prefWidth="277.0" text="Squishy Squidward Production" textFill="WHITE">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="59.0" prefWidth="297.0" text="Squishy Squidward Production" textFill="WHITE" HBox.hgrow="SOMETIMES">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="17.0" />
                      </font>
@@ -157,7 +160,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="placeholder button" textAlignment="CENTER" visible="false" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
@@ -170,11 +173,11 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </JFXBadge>
-                  <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="50.0" prefWidth="53.0" HBox.hgrow="SOMETIMES">
+                  <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="63.0" prefWidth="66.0" HBox.hgrow="SOMETIMES">
                      <children>
                         <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+                              <ImageView fitHeight="64.0" fitWidth="67.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Icons/Help_Icon.png" />
                                  </image>
@@ -218,6 +221,13 @@
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin></Label>
+                        <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0" HBox.hgrow="SOMETIMES">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></JFXButton>
                      </children>
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
@@ -225,7 +235,7 @@
                         <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" StackPane.alignment="TOP_LEFT" />
                         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #bfbdba;" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
                            <content>
-                              <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true">
+                              <ImageView fx:id="mapImage" focusTraversable="true" preserveRatio="true" scaleX="0.4" scaleY="0.4">
                                  <image>
                                     <Image url="@../images/Floors/HospitalFloor2.png" />
                                  </image>
@@ -278,20 +288,156 @@
                               <Insets right="20.0" top="10.0" />
                            </StackPane.margin>
                         </VBox>
+                        <StackPane alignment="BOTTOM_CENTER" maxHeight="50.0" maxWidth="200.0" prefHeight="200.0" StackPane.alignment="BOTTOM_CENTER">
+                           <StackPane.margin>
+                              <Insets bottom="10.0" />
+                           </StackPane.margin>
+                           <children>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="43.0" prefWidth="206.0" style="-fx-background-color: maroon; -fx-border-color: black; -fx-background-radius: 10; -fx-border-radius: 10;" text="End Session" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </JFXButton>
+                              <Label fx:id="countDown" alignment="CENTER_RIGHT" text="30" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                                 <StackPane.margin>
+                                    <Insets bottom="12.0" left="170.0" />
+                                 </StackPane.margin>
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
                      </children></StackPane>
                </children>
             </VBox>
          </center>
          <right>
-            <VBox fx:id="instructionVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;" BorderPane.alignment="CENTER">
+            <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
+                  <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Directory" underline="true" VBox.vgrow="SOMETIMES">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <VBox fx:id="parentVBox1" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Accordion>
+                                      <panes>
+                                        <TitledPane fx:id="AccDEPT" text="Departments">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                        <TitledPane text="Services">
+                                          <content>
+                                            <AnchorPane fx:id="AccSERV" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                        <TitledPane fx:id="AccLABS" text="Labs">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                          <TitledPane fx:id="AccINFO" text="Information">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccRETL" text="Shops">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccREST" text="Restrooms">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccCONF" text="Conference Rooms">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccEXIT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Exits">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="413.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                      </panes>
+                                    </Accordion>
+                                 </children></VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <VBox fx:id="parentVBox" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextArea editable="false" focusTraversable="false" maxHeight="60.0" text="Jaynep was here">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                                 <children>
+                                    <JFXButton buttonType="RAISED" onAction="#onResetPathClicked" style="-fx-background-color: maroon; -fx-background-radius: 10;" text="Reset Path" textFill="WHITE" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </StackPane>
          </right>
       </BorderPane>
    </children>
