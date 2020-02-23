@@ -88,7 +88,9 @@ public final class EditNodeHitboxTool implements IEditingTool {
 
             polygon.getPoints().addAll(x, y);
             Circle vertice = createVertice(x, y);
-            vertice.setFill(Color.BLUEVIOLET.deriveColor(1, 1, 1, 0.75));
+            vertice.setFill(
+                    Color.BLUEVIOLET.deriveColor(
+                            1, 1, 1, 0.75));
             verticeHandles.add(vertice);
             groupSupplier.get().getChildren().add(vertice);
         }
