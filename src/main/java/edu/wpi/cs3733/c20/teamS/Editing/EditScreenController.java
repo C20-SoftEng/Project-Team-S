@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
@@ -130,15 +129,19 @@ public class EditScreenController implements Initializable {
         initGraph();
         initFloorSelector();
 
-        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
-        graph.nodeAdded().subscribe(e -> redrawMap());
+        graph.nodeAdded().subscribe(node -> {
+            database.addNode(node, graph.nodes());
+            redrawMap();
+        });
         graph.nodeRemoved().subscribe(e -> redrawMap());
         graph.edgeAdded().subscribe(e -> redrawMap());
         graph.edgeRemoved().subscribe(e -> redrawMap());
@@ -250,29 +253,31 @@ public class EditScreenController implements Initializable {
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
 
-    @FXML private void onAddNodeClicked() {
-        editingTool = new AddNodeTool(graph, () -> floorSelector.current());
+    @FXML private void onAddRemoveNodeClicked() {
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
     }
-    @FXML private void onRemoveNodeClicked() {
-        editingTool = new RemoveNodeTool(graph);
+    @FXML private void onAddRemoveEdgeClicked() {
+        editingTool = new AddRemoveEdgeTool(graph);
     }
-    @FXML private void onAddEdgeClicked() {
-        editingTool = new AddEdgeTool(graph);
-    }
-    @FXML private void onRemoveEdgeClicked() {
-        editingTool = new RemoveEdgeTool(graph);
-    }
-    @FXML private void onMoveNodeClicked() {
-        editingTool = new MoveNodeTool(scrollPane);
-    }
-    @FXML private void onEditNodeHitboxClicked() {
-        EditPolygonTool tool;
-        editingTool = tool = new EditPolygonTool(() -> group, () -> floorSelector.current());
+    @FXML private void onAddRemoveHitboxClicked() {
+        AddRemoveHitboxTool tool;
+        editingTool = tool = new AddRemoveHitboxTool(
+                hitbox -> {
+                    hitboxes.remove(hitbox);
+                    redrawMap();
+                },
+                () -> group,
+                () -> floorSelector.current()
+        );
         tool.hitboxAdded().subscribe(hitbox -> {
             hitboxes.add(hitbox);
             redrawMap();
         });
     }
+    @FXML private void onMoveNodeClicked() {
+        editingTool = new MoveNodeTool(scrollPane);
+    }
+
 
     @FXML private void onConfirmEditClicked() throws IOException {
 
@@ -290,7 +295,6 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
         group.getChildren().add(drawAllHitboxes());
@@ -298,6 +302,7 @@ public class EditScreenController implements Initializable {
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
     private Group drawAllNodes() {
         Group group = new Group();
@@ -345,32 +350,50 @@ public class EditScreenController implements Initializable {
             circle.setCenterY(position.getY());
         });
 
-        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
         circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
-        Line line = new Line();
-        updateLineProperties(line, start, end);
+        Line line = createEdgeLine(
+                start.getxCoordinate(), start.getyCoordinate(),
+                end.getxCoordinate(), end.getyCoordinate());
         group.getChildren().add(line);
 
-        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
-        start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
-        end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+        line.setOnMouseClicked(e -> {
+            EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
+            editingTool.onEdgeClicked(edge, e);
+        });
+        start.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
+        end.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
     }
     private Polygon drawHitbox(Hitbox hitbox) {
         Polygon result = hitbox.toPolygon();
         result.setFill(Color.BLUE.deriveColor(1, 1, 1, .45));
+        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(hitbox, e));
         return result;
     }
-    private void updateLineProperties(Line line, NodeData start, NodeData end) {
+
+    /**
+     * Creates a line used for rendering edges.
+     */
+    private Line createEdgeLine(double startX, double startY, double endX, double endY) {
+        Line line = new Line();
+        line.setStartX(startX);
+        line.setStartY(startY);
+        line.setEndX(endX);
+        line.setEndY(endY);
+        line.setStroke(Color.BLUE);
+        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+        line.setStrokeWidth(5);
+
+        return line;
+    }
+    private void updateLinePosition(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
         line.setStartY(start.getyCoordinate());
         line.setEndX(end.getxCoordinate());
         line.setEndY(end.getyCoordinate());
-        line.setStroke(Color.BLUE);
-        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-        line.setStrokeWidth(5);
     }
 
     public void onLogOut() {

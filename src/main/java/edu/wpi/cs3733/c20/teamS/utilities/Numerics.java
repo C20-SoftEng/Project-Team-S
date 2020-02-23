@@ -28,4 +28,20 @@ public final class Numerics {
         double yOffset = y1 - y2;
         return Math.sqrt(xOffset * xOffset + yOffset * yOffset);
     }
+
+    /**
+     * Converts the specified number to a string and pads it with leading zeros if it is below
+     * 'totalDigits'.
+     * @param value The value to convert to a string.
+     * @param totalDigits The number of digits the result must be padded to.
+     * @return The string-representation of the value, padded to the specified number of digits
+     * with leading zeros if necessary.
+     */
+    public static String padDigits(int value, int totalDigits) {
+        String result = Integer.toString(value);
+        while (result.length() < totalDigits)
+            result = '0' + result;
+
+        return result;
+    }
 }
