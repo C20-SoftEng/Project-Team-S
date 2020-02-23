@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -15,13 +14,15 @@ import java.util.ArrayList;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-public class EditPolygonTool implements IEditingTool {
+public class AddRemoveHitboxTool implements IEditingTool {
     private final PublishSubject<Hitbox> hitboxAdded = PublishSubject.create();
     private final Supplier<Group> groupSupplier;
     private final IntSupplier floorSupplier;
     private State state = new StandbyState();
 
-    public EditPolygonTool(Supplier<Group> groupSupplier, IntSupplier floorSupplier) {
+    public AddRemoveHitboxTool(
+            Supplier<Group> groupSupplier,
+            IntSupplier floorSupplier) {
         this.groupSupplier = groupSupplier;
         this.floorSupplier = floorSupplier;
     }
@@ -34,6 +35,7 @@ public class EditPolygonTool implements IEditingTool {
     public void onMapClicked(MouseEvent event) {
         state.onMapClicked(event.getX(), event.getY());
     }
+
     @Override
     public void onMouseMovedOverMap(double x, double y) {
         state.onMouseMoved(x, y);
@@ -79,15 +81,17 @@ public class EditPolygonTool implements IEditingTool {
 
         @Override
         public void onMapClicked(double x, double y) {
-            if (isTouchingVertex(x, y)) {
-                hitboxAdded.onNext(hitbox);
-                switchToStandbyState();
-                return;
-            }
             setLastVertex(x, y);
             addVertex(x, y);
         }
+        private void onHandleClicked(Circle handle, MouseEvent event) {
+            if (handle == cursorFollowingHandle())
+                return;
 
+            event.consume();
+            hitboxAdded.onNext(hitbox);
+            switchToStandbyState();
+        }
         @Override
         public void onMouseMoved(double x, double y) {
             setLastVertex(x, y);
@@ -104,16 +108,10 @@ public class EditPolygonTool implements IEditingTool {
             group.getChildren().remove(displayPolygon);
         }
 
-        private boolean isTouchingVertex(double x, double y) {
-            for (Circle handle : handles) {
-                if (handle == getLastHandle())
-                    continue;
-                if (Numerics.distance(x, y, handle.getCenterX(), handle.getCenterY()) <= radius)
-                    return true;
-            }
-            return false;
-        }
-        private Circle getLastHandle() {
+        /**
+         * Gets the handle that is following the mouse cursor.
+         */
+        private Circle cursorFollowingHandle() {
             return handles.get(handles.size() - 1);
         }
         private void addVertex(double x, double y) {
@@ -129,12 +127,13 @@ public class EditPolygonTool implements IEditingTool {
             handle.setCenterY(y);
             handle.setRadius(radius);
             handle.setFill(vertexColor);
+            handle.setOnMouseClicked(e -> onHandleClicked(handle, e));
             return handle;
         }
         private void setLastVertex(double x, double y) {
             hitbox.setLastVertex(x, y);
 
-            Circle handle = getLastHandle();
+            Circle handle = cursorFollowingHandle();
             handle.setCenterX(x);
             handle.setCenterY(y);
 

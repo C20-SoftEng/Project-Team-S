@@ -8,7 +8,7 @@ public interface IEditingTool {
     default void onMapClicked(MouseEvent event) {}
     default void onMouseMovedOverMap(double x, double y) {}
     default void onNodeClicked(NodeData node, MouseEvent event) {}
-    default void onEdgeClicked(EndpointPair<NodeData> edge) {}
+    default void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
     default void onEscapeKey() {}
 
     default void onNodeDragged(NodeData node, MouseEvent e) {}
