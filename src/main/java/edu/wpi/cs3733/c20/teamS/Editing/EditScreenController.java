@@ -4,6 +4,7 @@ import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -35,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -56,7 +58,7 @@ public class EditScreenController implements Initializable {
     private IEditingTool editingTool;
     private DatabaseController database = new DatabaseController();
     private final Group group = new Group();
-    private final Set<NodeHitbox> hitboxes = new HashSet<>();
+    private final Set<Hitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -127,6 +129,10 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
+
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
+
         redrawMap();
     }
 
@@ -260,7 +266,12 @@ public class EditScreenController implements Initializable {
         editingTool = new MoveNodeTool(scrollPane);
     }
     @FXML private void onEditNodeHitboxClicked() {
-        editingTool = new EditPolygonTool(() -> group);
+        EditPolygonTool tool;
+        editingTool = tool = new EditPolygonTool(() -> group, () -> floorSelector.current());
+        tool.hitboxAdded().subscribe(hitbox -> {
+            hitboxes.add(hitbox);
+            redrawMap();
+        });
     }
 
     @FXML private void onConfirmEditClicked() throws IOException {
@@ -278,11 +289,11 @@ public class EditScreenController implements Initializable {
 
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
-        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
+
 
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllHitboxes());
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
@@ -311,6 +322,14 @@ public class EditScreenController implements Initializable {
         }
         return group;
     }
+    private Group drawAllHitboxes() {
+        Group result = new Group();
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.floor() == floorSelector.current())
+                .map(hitbox -> drawHitbox(hitbox))
+                .forEach(polygon -> result.getChildren().add(polygon));
+        return result;
+    }
 
     private void drawCircle(Group group, NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
@@ -338,6 +357,11 @@ public class EditScreenController implements Initializable {
         line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
         start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
         end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+    }
+    private Polygon drawHitbox(Hitbox hitbox) {
+        Polygon result = hitbox.toPolygon();
+        result.setFill(Color.BLUE.deriveColor(1, 1, 1, .45));
+        return result;
     }
     private void updateLineProperties(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
