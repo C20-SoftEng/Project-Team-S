@@ -37,10 +37,15 @@ public class EditPolygonTool implements IEditingTool {
     public void onMouseMovedOverMap(double x, double y) {
         state.onMouseMoved(x, y);
     }
+    @Override
+    public void onEscapeKey() {
+        state.onEscapeKey();
+    }
 
     private abstract class State {
         public void onMapClicked(double x, double y) {}
         public void onMouseMoved(double x, double y) {}
+        public void onEscapeKey() {}
     }
     private final class StandbyState extends State {
         @Override
@@ -75,9 +80,7 @@ public class EditPolygonTool implements IEditingTool {
         public void onMapClicked(double x, double y) {
             if (isTouchingVertex(x, y)) {
                 hitboxAdded.onNext(hitbox);
-                state = new StandbyState();
-                groupSupplier.get().getChildren().removeAll(handles);
-                groupSupplier.get().getChildren().remove(displayPolygon);
+                switchToStandbyState();
                 return;
             }
 
@@ -88,6 +91,17 @@ public class EditPolygonTool implements IEditingTool {
         @Override
         public void onMouseMoved(double x, double y) {
             setLastVertex(x, y);
+        }
+        @Override
+        public void onEscapeKey() {
+            switchToStandbyState();
+        }
+
+        private void switchToStandbyState() {
+            state = new StandbyState();
+            Group group = groupSupplier.get();
+            group.getChildren().removeAll(handles);
+            group.getChildren().remove(displayPolygon);
         }
 
         private boolean isTouchingVertex(double x, double y) {
