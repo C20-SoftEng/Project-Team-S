@@ -32,7 +32,6 @@ class PathRenderer {
      * @return A new Group containing all the elements that were drawn.
      */
     public Group draw(Path path, int floor) {
-        Boolean down = true;
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
@@ -48,36 +47,19 @@ class PathRenderer {
 
         NodeData start = nodes.get(0);
         if (start.getFloor() == floor) {
-            Circle startCircle = drawStartCircle(nodes.get(0));
+            Circle startCircle = drawStartCircle(start);
             group.getChildren().add(startCircle);
         }
-
         NodeData end = nodes.get(nodes.size() - 1);
         if (end.getFloor() == floor) {
-            ImageView endBalloon = drawEndBalloon(nodes.get(nodes.size() - 1));
+            ImageView endBalloon = drawEndBalloon(end);
             group.getChildren().add(endBalloon);
         }
-
-        if (start.getFloor() < end.getFloor()) {
-            down = false;
-        } else down = true;
-
-        if (down) {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_down_gif = drawDownElevator(node1);
-                    group.getChildren().add(elavator_down_gif);
-                }
-            }
-        } else {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_up_gif = drawUpElevator(node1);
-                    group.getChildren().add(elavator_up_gif);
-                }
-            }
-
-        }
+        boolean down = start.getFloor() > end.getFloor();
+        nodes.stream()
+                .filter(node -> node.getNodeType().equals("ELEV"))
+                .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
+                .forEach(image -> group.getChildren().add(image));
 
         return group;
     }
@@ -175,14 +157,8 @@ class PathRenderer {
     }
 
     private ImageView drawUpElevator(NodeData node2) {
-        ImageView elevator_icon_up = new ImageView();
-        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_up.setRotate(180);
-        elevator_icon_up.setX(node2.getxCoordinate() - 25);
-        elevator_icon_up.setY(node2.getyCoordinate() - 20);
-        elevator_icon_up.setPreserveRatio(true);
-        elevator_icon_up.setFitWidth(40);
-        return elevator_icon_up;
-
+        ImageView result = drawDownElevator(node2);
+        result.setRotate(180);
+        return result;
     }
 }

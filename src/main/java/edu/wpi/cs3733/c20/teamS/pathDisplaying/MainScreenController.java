@@ -1,14 +1,14 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.Editing.NodeHitbox;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -24,6 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,11 +42,12 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     private IPathfinding algorithm;
     private PathRenderer renderer;
-    private SelectNodesStateMachine pathFinder;
+    private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
+    private Set<NodeHitbox> hitboxes;
 
     private boolean flip = true;
     //endregion
@@ -129,19 +131,33 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        pathFinder = new SelectNodesStateMachine(graph, algorithm);
+        nodeSelector = new SelectNodesStateMachine(graph, algorithm);
 
         initFloorSelector();
-        floorSelector.currentChanged().subscribe(e -> redraw());
-        pathFinder.pathChanged().subscribe(path -> {
+
+        nodeSelector.pathChanged().subscribe(path -> {
             redraw();
             renderer.printInstructions(path, instructionVBox);
         });
         group.setOnMouseClicked(this::onMapClicked);
         scrollPane.setContent(group);
+
+        initHitboxes();
+
         redraw();
     }
 
+    private void initHitboxes() {
+        HitboxRepo repo = new HitboxRepo();
+        hitboxes = repo.loadHitboxes(graph.nodes());
+        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+        for (NodeHitbox hitbox : hitboxes) {
+            hitbox.mask().setFill(invisible);
+            hitbox.mask().setOnMouseEntered(e -> hitbox.mask().setFill(visible));
+            hitbox.mask().setOnMouseExited(e -> hitbox.mask().setFill(invisible));
+        }
+    }
     private void initGraph() {
         DatabaseController database = new DatabaseController();
         graph = database.loadGraph();
@@ -156,6 +172,7 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
         floorSelector.setCurrent(2);
+        floorSelector.currentChanged().subscribe(e -> redraw());
     }
     private void initSearchComboBoxFont() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
@@ -180,8 +197,12 @@ public class MainScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        Group pathGroup = renderer.draw(pathFinder.path(), floorSelector.current());
+        Group pathGroup = renderer.draw(nodeSelector.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
+
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
+                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
@@ -201,34 +222,22 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        pathFinder.onNodeClicked(nearest);
+        nodeSelector.onNodeClicked(nearest);
         //pathDrawer.setNode(nearest);
     }
 
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
         List<NodeData> sorted = graph.nodes().stream()
                     .filter(node -> node.getFloor() == floorSelector.current())
-                    .filter(node -> distance(x, y, node) < radius)
+                    .filter(node -> Numerics.distance(x, y, node.getxCoordinate(), node.getyCoordinate()) < radius)
                     .sorted((a, b) -> Double.compare(
-                            distance(x, y, a),
-                            distance(x, y, b)
+                            Numerics.distance(x, y, a.getxCoordinate(), a.getyCoordinate()),
+                            Numerics.distance(x, y, b.getxCoordinate(), b.getyCoordinate())
                     ))
                     .collect(Collectors.toList());
         if (sorted.isEmpty())
             return null;
         return sorted.get(0);
-    }
-
-    private double distance(double x1, double y1, double x2, double y2) {
-        double xSquared = x1 - x2;
-        xSquared *= xSquared;
-        double ySquared = y1 - y2;
-        ySquared *= ySquared;
-
-        return Math.sqrt(xSquared + ySquared);
-    }
-    private double distance(double x, double y, NodeData node) {
-        return distance(x, y, node.getxCoordinate(), node.getyCoordinate());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){

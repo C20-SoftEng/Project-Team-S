@@ -38,6 +38,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -126,6 +127,7 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
+        redrawMap();
     }
 
     private void initGraph() {
@@ -148,12 +150,6 @@ public class EditScreenController implements Initializable {
     }
 
     //region gui components
-    @FXML private JFXRadioButton addNodeRadio;
-    @FXML private JFXRadioButton removeNodeRadio;
-    @FXML private JFXRadioButton addEdgeRadio;
-    @FXML private JFXRadioButton removeEdgeRadio;
-    @FXML private JFXRadioButton moveNodeRadio;
-    @FXML private JFXRadioButton showInfoRadio;
     @FXML private VBox editPrivilegeBox;
     @FXML private Label loggedInUserLabel;
     @FXML private ImageView mapImage;
@@ -264,11 +260,13 @@ public class EditScreenController implements Initializable {
         editingTool = new MoveNodeTool(scrollPane);
     }
     @FXML private void onEditNodeHitboxClicked() {
-        EditNodeHitboxTool hitboxTool;
-        editingTool = hitboxTool = new EditNodeHitboxTool(() -> group);
-        hitboxTool.hitboxAdded().subscribe(hitbox -> {
-           hitboxes.add(hitbox);
-        });
+        editingTool = new EditPolygonTool(() -> group);
+    }
+
+    @FXML private void onConfirmEditClicked() throws IOException {
+
+    }
+    @FXML private void onCancelEditClicked() {
     }
     //endregion
 
@@ -281,10 +279,10 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
-        group.getChildren().add(drawAllHitboxes());
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
@@ -311,13 +309,6 @@ public class EditScreenController implements Initializable {
         for (EndpointPair<NodeData> edge : edges) {
             drawLine(group, edge.nodeU(), edge.nodeV());
         }
-        return group;
-    }
-    private Group drawAllHitboxes() {
-        Group group = new Group();
-        hitboxes.stream()
-                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
-                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
         return group;
     }
 
