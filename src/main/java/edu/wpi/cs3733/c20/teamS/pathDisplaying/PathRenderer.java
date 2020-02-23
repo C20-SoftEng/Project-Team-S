@@ -88,8 +88,12 @@ class PathRenderer {
         rectPath.setFill(Color.ORANGE);
 
         Path animated_path = new Path();
-        animated_path.getElements().add(new MoveTo(20,20));
-        animated_path.getElements().add(new LineTo(500,500));
+        animated_path.getElements().add(new MoveTo(start.getxCoordinate(),start.getyCoordinate()));
+
+        for(NodeData node_itrat : nodes){
+            animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(),   node_itrat.getyCoordinate()));
+        }
+
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(10));
@@ -97,7 +101,7 @@ class PathRenderer {
         pathTransition.setNode(rectPath);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
-        pathTransition.setAutoReverse(true);
+        //pathTransition.setAutoReverse(true);
         pathTransition.play();
         group.getChildren().add(rectPath);
 
