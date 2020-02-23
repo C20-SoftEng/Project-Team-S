@@ -39,6 +39,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,6 +55,7 @@ public class EditScreenController implements Initializable {
     private IEditingTool editingTool;
     private DatabaseController database = new DatabaseController();
     private final Group group = new Group();
+    private final Set<NodeHitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -261,6 +263,13 @@ public class EditScreenController implements Initializable {
     @FXML private void onMoveNodeClicked() {
         editingTool = new MoveNodeTool(scrollPane);
     }
+    @FXML private void onEditNodeHitboxClicked() {
+        EditNodeHitboxTool hitboxTool;
+        editingTool = hitboxTool = new EditNodeHitboxTool(() -> group);
+        hitboxTool.hitboxAdded().subscribe(hitbox -> {
+           hitboxes.add(hitbox);
+        });
+    }
     //endregion
 
     private void redrawMap() {
@@ -273,23 +282,26 @@ public class EditScreenController implements Initializable {
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
-        drawAllNodes(group);
-        drawAllEdges(group);
-
+        group.getChildren().add(drawAllNodes());
+        group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllHitboxes());
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
-    private void drawAllNodes(Group group) {
+    private Group drawAllNodes() {
+        Group group = new Group();
         Set<NodeData> nodes = graph.nodes().stream()
                 .filter(node -> node.getFloor() == floorSelector.current())
                 .collect(Collectors.toSet());
         for (NodeData node : nodes) {
             drawCircle(group, node);
         }
+        return group;
     }
-    private void drawAllEdges(Group group) {
+    private Group drawAllEdges() {
+        Group group = new Group();
         Set<EndpointPair<NodeData>> edges = graph.edges().stream()
                 .filter(edge -> {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
@@ -299,6 +311,14 @@ public class EditScreenController implements Initializable {
         for (EndpointPair<NodeData> edge : edges) {
             drawLine(group, edge.nodeU(), edge.nodeV());
         }
+        return group;
+    }
+    private Group drawAllHitboxes() {
+        Group group = new Group();
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
+                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
+        return group;
     }
 
     private void drawCircle(Group group, NodeData node) {

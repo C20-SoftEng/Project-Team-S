@@ -1,9 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import edu.wpi.cs3733.c20.teamS.Editing.NodeHitbox;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -13,15 +16,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public final class CreateNodeHitboxTool implements IEditingTool {
+public final class EditNodeHitboxTool implements IEditingTool {
     private State state;
     private final Supplier<Group> groupSupplier;
+    private final PublishSubject<NodeHitbox> hitboxAdded = PublishSubject.create();
 
-    public CreateNodeHitboxTool(Supplier<Group> groupSupplier) {
+    public EditNodeHitboxTool(Supplier<Group> groupSupplier) {
         if (groupSupplier == null) ThrowHelper.illegalNull("groupSupplier");
 
         this.groupSupplier = groupSupplier;
         state = new StandbyState();
+    }
+
+    public Observable<NodeHitbox> hitboxAdded() {
+        return hitboxAdded;
     }
 
     @Override
@@ -73,6 +81,8 @@ public final class CreateNodeHitboxTool implements IEditingTool {
         public void onMapClicked(double x, double y) {
             if (isInsideHandle(x, y)) {
                 state = new StandbyState();
+                hitboxAdded.onNext(new NodeHitbox(node, polygon));
+                groupSupplier.get().getChildren().removeAll(verticeHandles);
                 return;
             }
 
