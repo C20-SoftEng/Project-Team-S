@@ -56,7 +56,6 @@ public class EditScreenController implements Initializable {
     private IEditingTool editingTool;
     private DatabaseController database = new DatabaseController();
     private final Group group = new Group();
-    private final Set<NodeHitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -127,8 +126,6 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
-        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
-        hitboxes.addAll(shitty.shittyLoad(graph.nodes()));
         redrawMap();
     }
 
@@ -262,22 +259,13 @@ public class EditScreenController implements Initializable {
         editingTool = new MoveNodeTool(scrollPane);
     }
     @FXML private void onEditNodeHitboxClicked() {
-        EditNodeHitboxTool hitboxTool;
-        editingTool = hitboxTool = new EditNodeHitboxTool(() -> group);
-        hitboxTool.hitboxAdded().subscribe(hitbox -> {
-           hitboxes.add(hitbox);
-        });
+
     }
 
     @FXML private void onConfirmEditClicked() throws IOException {
-        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
-        shitty.shittySave(hitboxes);
+
     }
     @FXML private void onCancelEditClicked() {
-        hitboxes.clear();
-        SuperShittyHitboxSaver shitty = new SuperShittyHitboxSaver();
-        hitboxes.addAll(shitty.shittyLoad(graph.nodes()));
-        redrawMap();
     }
     //endregion
 
@@ -293,7 +281,6 @@ public class EditScreenController implements Initializable {
 
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());
-        group.getChildren().add(drawAllHitboxes());
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
@@ -320,13 +307,6 @@ public class EditScreenController implements Initializable {
         for (EndpointPair<NodeData> edge : edges) {
             drawLine(group, edge.nodeU(), edge.nodeV());
         }
-        return group;
-    }
-    private Group drawAllHitboxes() {
-        Group group = new Group();
-        hitboxes.stream()
-                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
-                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
         return group;
     }
 
