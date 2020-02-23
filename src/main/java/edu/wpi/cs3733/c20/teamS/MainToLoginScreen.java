@@ -30,7 +30,7 @@ public class MainToLoginScreen {
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        ui.updateFloorDisplay();
+        //ui.updateFloorDisplay();
         this.show();
         stage.setFullScreen(true);
     }

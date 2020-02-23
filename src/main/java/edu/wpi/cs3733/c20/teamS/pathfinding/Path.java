@@ -131,17 +131,14 @@ public abstract class Path implements Iterable<NodeData> {
         public int size() {
             return 0;
         }
-
         @Override
         public double cost() {
             return 0;
         }
-
         @Override
         public NodeData peek() {
             throw new IllegalStateException("Can't peek an empty path.");
         }
-
         @Override
         public Path pop() {
             throw new IllegalStateException("Can't pop an empty path.");
@@ -149,6 +146,11 @@ public abstract class Path implements Iterable<NodeData> {
     }
 
     private static final class NonEmptyPath extends Path {
+        private final NodeData head_;
+        private final Path tail_;
+        private final double totalCost_;
+        private final int size_;
+
         public NonEmptyPath(Path tail, NodeData head, double additionalCost) {
             super();
             this.head_ = head;
@@ -161,25 +163,18 @@ public abstract class Path implements Iterable<NodeData> {
         public int size() {
             return size_;
         }
-
         @Override
         public double cost() {
             return totalCost_;
         }
-
         @Override
         public NodeData peek() {
             return head_;
         }
-
         @Override
         public Path pop() {
             return tail_;
         }
 
-        private final NodeData head_;
-        private final Path tail_;
-        private final double totalCost_;
-        private final int size_;
     }
 }

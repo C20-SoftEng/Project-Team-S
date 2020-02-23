@@ -13,7 +13,7 @@ public class DatabaseTest extends Application {
     public void start(Stage primaryStage) throws Exception {
         //App.launch(App.class, args);
         DatabaseController dbCont = new DatabaseController();
-        dbCont.autoCommit(false);
+        //dbCont.autoCommit(false);
         dbCont.importStartUpData();
 
 
@@ -46,18 +46,23 @@ public class DatabaseTest extends Application {
         dbCont.addServiceRequestData(new ServiceData("DOOT","Big Doots only", "Hello there, general kenobi", "I barely know her",2,"No"));
         dbCont.commit();
 
-        dbCont.updateServiceData(new ServiceData(1,"No more big Doots", "Hi there lad",2,"Hi"));
+        dbCont.updateServiceData(new ServiceData(1,"REEE","No more big Doots", "Hi there lad","Hi",2,null,"Hi"));
 
-        dbCont.commit();
-        //dbCont.deleteServiceWithId(1);
-        dbCont.commit();
 
-        dbCont.rollBack();
+        EmployeeData BigMan = new EmployeeData(4, "BigMan2954", "password123", 1, "Jamal", "Lamar");
+        dbCont.addEmployee(BigMan);
+
 
         dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
-        dbCont.commit();
+        dbCont.addEmployee(new EmployeeData("jebus","pworddog",1,"Jamal","Lamar"));
 
 
+        BigMan.setAccessLevel(2);
+        BigMan.setPassword("password456");
+        BigMan.setFirstName("Bon");
+        BigMan.setLastName("Jovi");
+
+        dbCont.updateEmployee(BigMan);
         Set<ServiceData> servSet = dbCont.getAllServiceRequestData();
         for(ServiceData ed : servSet){
             System.out.println(ed.toString());
@@ -67,6 +72,45 @@ public class DatabaseTest extends Application {
         System.out.println(dbCont.checkLogin("Bigmun2934","password123"));
         System.out.println(dbCont.checkLogin("BigMan2934","passwod123"));
         System.out.println(dbCont.getEmployee(""));
+
+
+        dbCont.addCapability(1,"DOGS");
+        dbCont.addCapability(1,"DRUG");
+        dbCont.addCapability(1,"GIFT");
+        dbCont.addCapability(1,"GEDR");
+        dbCont.addCapability(1,"EDSR");
+
+
+        dbCont.addCapability(2,"MAIT");
+        dbCont.addCapability(2,"DOGS");
+
+        System.out.println("Employees capable of dogs");
+        for(int d : dbCont.getCapableEmployees("DOGS")){
+            System.out.println(d);
+        }
+
+        System.out.println("Removing capability of 1 to service dog");
+        dbCont.removeCapability(1,"DOGS");
+
+        System.out.println("Employees capable of dogs after removing 1's abilty for dogs");
+        for(int d : dbCont.getCapableEmployees("DOGS")){
+            System.out.println(d);
+        }
+
+        System.out.println(dbCont.checkCapable(2,"MAIT"));
+        System.out.println(dbCont.checkCapable(1,"MAIT"));
+
+
+        NodeData nd1 = new NodeData("MyNode",0,0,1,"Faulkner","BIGS","longgnamee","shortNammee");
+        NodeData nd2 = new NodeData("YourNode",0,0,1,"Faulkner","BIGS","longgnamee","shortNammee");
+        dbCont.addNode(nd1);
+        dbCont.addNode(nd2);
+
+        dbCont.addEdge(nd1,nd2);
+        dbCont.addEdge(nd2,nd1);
+        dbCont.addEdge(nd1,nd2);
+
+
     }
 
 

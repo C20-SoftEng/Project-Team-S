@@ -1,15 +1,17 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.Editing.NodeHitbox;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,12 +41,15 @@ public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
     private IPathfinding algorithm;
-    private Group pathGroup = new Group();
-    private PathDisplay pathDrawer;
-    private boolean flip = true;
+    private PathRenderer renderer;
+    private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
+    private final Group group = new Group();
+    private Set<NodeHitbox> hitboxes;
+
+    private boolean flip = true;
     //endregion
 
     private static class Floor {
@@ -62,6 +68,7 @@ public class MainScreenController implements Initializable {
         private final JFXButton upButton;
         private final JFXButton downButton;
         private final Floor[] floors;
+        private final PublishSubject<Integer> currentChanged = PublishSubject.create();
         private int current;
         private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
         private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
@@ -89,10 +96,15 @@ public class MainScreenController implements Initializable {
         public void setCurrent(int floorNumber) {
             if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
                 ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
-
+            int previous = this.current;
             this.current = floorNumber;
             updateFloorButtons(floorNumber);
-            updateMapPanPosition(floorNumber);
+//            updateMapPanPosition(floorNumber);
+            if (previous != this.current)
+                currentChanged.onNext(this.current);
+        }
+        public Observable<Integer> currentChanged() {
+            return currentChanged;
         }
 
         private void updateFloorButtons(int floorNumber) {
@@ -103,17 +115,7 @@ public class MainScreenController implements Initializable {
             this.upButton.setDisable(floorNumber == highestFloorNumber);
             this.downButton.setDisable(floorNumber == lowestFloorNumber);
         }
-        private void updateMapPanPosition(int floorNumber) {
-            double currentHval = scrollPane.getHvalue();
-            double currentVval = scrollPane.getVvalue();
-            mapImage.setImage(floor(floorNumber).image);
-            zoomer.zoomSet();
-            if (pathDrawer.getCounter() >= 0)
-                pathDrawer.pathDraw(this.current);
-            updateFloorDisplay();
-            keepCurrentPosition(currentHval, currentVval, zoomer);
-        }
-        private Floor floor(int floorNumber) {
+        public Floor floor(int floorNumber) {
             return floors[floorNumber - 1];
         }
     }
@@ -121,34 +123,44 @@ public class MainScreenController implements Initializable {
     public MainScreenController(Stage stage, IPathfinding algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, this.algorithm);
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         initSearchComboBoxFont();
-        initSearchComboBoxAutoComplete();
 
-        zoomer = new MapZoomer(mapImage, scrollPane);
-        pathDrawer = new PathDisplay(pathGroup, parentVBox, algorithm);
+        zoomer = new MapZoomer(scrollPane);
+        initGraph();
+        renderer = new PathRenderer();
+        nodeSelector = new SelectNodesStateMachine(graph, algorithm);
+
         initFloorSelector();
 
-        initGraph();
+        nodeSelector.pathChanged().subscribe(path -> {
+            redraw();
+            renderer.printInstructions(path, instructionVBox);
+        });
+        group.setOnMouseClicked(this::onMapClicked);
+        scrollPane.setContent(group);
+
+        initHitboxes();
+
+        redraw();
     }
 
-    private void initGraph() {
-        graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
-        DatabaseController database = new DatabaseController();
-        Map<String, NodeData> nodeIdMap = database.getAllNodes().stream()
-                .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
-        Set<EdgeData> edges = database.getAllEdges();
-        for (NodeData node : nodeIdMap.values())
-            graph.addNode(node);
-        for (EdgeData edge : edges) {
-            NodeData start = nodeIdMap.get(edge.getStartNode());
-            NodeData end = nodeIdMap.get(edge.getEndNode());
-            graph.putEdge(start, end);
+    private void initHitboxes() {
+        HitboxRepo repo = new HitboxRepo();
+        hitboxes = repo.loadHitboxes(graph.nodes());
+        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+        for (NodeHitbox hitbox : hitboxes) {
+            hitbox.mask().setFill(invisible);
+            hitbox.mask().setOnMouseEntered(e -> hitbox.mask().setFill(visible));
+            hitbox.mask().setOnMouseExited(e -> hitbox.mask().setFill(invisible));
         }
+    }
+    private void initGraph() {
+        DatabaseController database = new DatabaseController();
+        graph = database.loadGraph();
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -159,14 +171,14 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
-        floorSelector.setCurrent(3);
+        floorSelector.setCurrent(2);
+        floorSelector.currentChanged().subscribe(e -> redraw());
     }
     private void initSearchComboBoxFont() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
-    }
-    private void initSearchComboBoxAutoComplete() {
+
         DatabaseController db = new DatabaseController();
         Set<NodeData> nodes = db.getAllNodes();
         List<String> dictionary = nodes.stream()
@@ -175,14 +187,24 @@ public class MainScreenController implements Initializable {
         AutoComplete.start(dictionary, searchComboBox);
     }
 
-    public void updateFloorDisplay() {
-        Group group = new Group();
-        group.getChildren().add(mapImage);
-        group.setOnMouseClicked(this::onMapClicked);
+    private void redraw() {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
 
-        this.pathDrawer.pathDraw(floorSelector.current());
+        mapImage.setImage(floorSelector.floor(floorSelector.current()).image);
+        zoomer.zoomSet();
+
+        group.getChildren().clear();
+        group.getChildren().add(mapImage);
+
+        Group pathGroup = renderer.draw(nodeSelector.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
-        scrollPane.setContent(group);
+
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
+                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
+
+        keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
     private void onMapClicked(MouseEvent e) {
@@ -200,33 +222,22 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        pathDrawer.setNode(nearest);
+        nodeSelector.onNodeClicked(nearest);
+        //pathDrawer.setNode(nearest);
     }
 
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
         List<NodeData> sorted = graph.nodes().stream()
                     .filter(node -> node.getFloor() == floorSelector.current())
-                    .filter(node -> distance(x, y, node) < radius)
+                    .filter(node -> Numerics.distance(x, y, node.getxCoordinate(), node.getyCoordinate()) < radius)
                     .sorted((a, b) -> Double.compare(
-                            distance(x, y, a),
-                            distance(x, y, b)
+                            Numerics.distance(x, y, a.getxCoordinate(), a.getyCoordinate()),
+                            Numerics.distance(x, y, b.getxCoordinate(), b.getyCoordinate())
                     ))
                     .collect(Collectors.toList());
         if (sorted.isEmpty())
             return null;
         return sorted.get(0);
-    }
-
-    private double distance(double x1, double y1, double x2, double y2) {
-        double xSquared = x1 - x2;
-        xSquared *= xSquared;
-        double ySquared = y1 - y2;
-        ySquared *= ySquared;
-
-        return Math.sqrt(xSquared + ySquared);
-    }
-    private double distance(double x, double y, NodeData node) {
-        return distance(x, y, node.getxCoordinate(), node.getyCoordinate());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
@@ -246,7 +257,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private Label location1;
-    @FXML private VBox parentVBox;
+    @FXML private VBox instructionVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
@@ -277,11 +288,12 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onHelpClicked() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
+            //Parent  root1 = fxmlLoader.getRoot();
             Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Help");
+           window.initModality(Modality.WINDOW_MODAL);
+           window.setFullScreen(false);
             window.setScene(new Scene(root1));
             window.setResizable(false);
             window.show();
@@ -289,40 +301,24 @@ public class MainScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
+
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
-    @FXML private void onPathfindClicked() {
-        double currentHval = scrollPane.getHvalue();
-        double currentVval = scrollPane.getVvalue();
-        updateFloorDisplay();
-        keepCurrentPosition(currentHval, currentVval, zoomer);
-    }
+
     @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());
         location1.setText(temp);
     }
     @FXML private void onZoomInClicked() {
-        this.zoomer.zoomIn();
-        if (zoomer.getZoomStage() == 3){
-            zoomInButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomer.zoomIn();
+        zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
-        if (zoomer.getZoomStage() == -2){
-            zoomOutButton.setDisable(true);
-        }
-        else{
-            zoomOutButton.setDisable(false);
-            zoomInButton.setDisable(false);
-        }
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
 }

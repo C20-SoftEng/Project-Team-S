@@ -42,7 +42,7 @@ public final class LaundryRequestScreen {
                             int assignedEmployeeID = next.value().assignee().id();
                             String serviceNode = next.value().location();
                             int dummyID = 0;
-                            ServiceData sd = new ServiceData(dummyID,serviceType,status,message,data,assignedEmployeeID,serviceNode);
+                            ServiceData sd = new ServiceData(serviceType,status,message,data,assignedEmployeeID,serviceNode);
                             dbc.addServiceRequestData(sd);
                         }
                         this.stage.close();

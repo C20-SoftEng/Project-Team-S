@@ -40,13 +40,15 @@ public class MaintenanceServiceRequestController {
     }
 
     @FXML void onSubmitClicked(){
-        this.request.setLocation(locationField.getText());
-        this.request.setMessage(commentsField.getText());
-        this.request.setIssue(issueField.getText());
-        this.request.setEquipment(equipmentField.getText());
-        this.request.assignTo(this.loggedIn);
+        if(!issueField.getText().equals("") && !locationField.getText().equals("") && !equipmentField.getText().equals("")) {
+            this.request.setLocation(locationField.getText());
+            this.request.setMessage(commentsField.getText());
+            this.request.setIssue(issueField.getText());
+            this.request.setEquipment(equipmentField.getText());
+            this.request.assignTo(this.loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(this.request));
+            dialogCompleted_.onNext(DialogEvent.ok(this.request));
+        }
     }
 
     public MaintenanceServiceRequestController(Employee employee){
