@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="222.0" maxWidth="433.0" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
+
+<AnchorPane fx:id="anchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
    <children>
       <Label fx:id="wrongStuff" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textFill="#cd0a0a" visible="false">
          <font>
@@ -36,7 +37,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="304.0" layoutY="172.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
+      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="304.0" layoutY="165.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
          <font>
             <Font size="13.0" />
          </font>

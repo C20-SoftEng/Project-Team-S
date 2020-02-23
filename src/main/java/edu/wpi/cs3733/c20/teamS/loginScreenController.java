@@ -17,22 +17,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.derby.iapi.db.Database;
 import org.apache.derby.iapi.db.DatabaseContext;
 
+import java.io.IOException;
+
 public class loginScreenController {
-
     @FXML private JFXTextField id;
-
     @FXML private JFXPasswordField pw;
-
     @FXML private JFXButton cancel;
-
     @FXML private JFXButton enter;
-
     @FXML private Label wrongStuff;
+    @FXML private AnchorPane anchor;
+
 
     @FXML void onCancelClicked(ActionEvent event) {
         dialogCompleted_.onNext(DialogEvent.cancel());
@@ -41,15 +41,21 @@ public class loginScreenController {
     /**
      * change this for later, just using admin
      */
-    @FXML void onEnterClicked(ActionEvent event) {
+    @FXML void onEnterClicked(ActionEvent event) throws IOException {
         DatabaseController dc = new DatabaseController();
         boolean validLogin = dc.checkLogin(id.getText(), pw.getText());
         if (validLogin){
             EmployeeData ed = dc.getEmployee(id.getText());
-            AccessLevel[] al = AccessLevel.values();
-            AccessLevel accessLevel = al[ed.getAccessLevel()];
-            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
-            dialogCompleted_.onNext(DialogEvent.ok(emp));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/twoFactorScreen.fxml"));
+            //TwoFactorScreenController twoFac = loader.getController();
+            AnchorPane twoFactor = loader.load();
+            //AnchorPane twoFactor = FXMLLoader.load();
+            anchor.getChildren().setAll(twoFactor);
+//            AccessLevel[] al = AccessLevel.values();
+//            AccessLevel accessLevel = al[ed.getAccessLevel()];
+//            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
+//            dialogCompleted_.onNext(DialogEvent.ok(emp));
         }
         else {
             wrongStuff.setVisible(true);

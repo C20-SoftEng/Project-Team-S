@@ -6,9 +6,11 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -158,7 +160,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="directoryButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onDirectoryClicked" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="Directory" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="placeholder button" textAlignment="CENTER" visible="false" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
@@ -219,7 +221,7 @@
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin></Label>
-                        <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#onPathfindClicked" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0" HBox.hgrow="SOMETIMES">
+                        <JFXButton id="pathfindButton" fx:id="pathfindButton" buttonType="RAISED" contentDisplay="CENTER" prefHeight="35.0" prefWidth="92.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Pathfind" translateY="13.0" HBox.hgrow="SOMETIMES">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -311,7 +313,7 @@
             </VBox>
          </center>
          <right>
-            <StackPane style="-fx-background-color: white; -fx-border-color: black;" BorderPane.alignment="CENTER">
+            <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: black;" BorderPane.alignment="CENTER">
                <children>
                   <VBox fx:id="parentVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
@@ -322,19 +324,77 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <VBox fx:id="parentVBox1" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
-                              <VBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                              <VBox fx:id="parentVBox1" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXButton buttonType="RAISED" onAction="#onResetPathClicked" style="-fx-background-color: maroon; -fx-background-radius: 10;" text="Reset Path" textFill="WHITE" VBox.vgrow="SOMETIMES">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </VBox>
+                                    <Accordion>
+                                      <panes>
+                                        <TitledPane fx:id="AccDEPT" text="Departments">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                        <TitledPane text="Services">
+                                          <content>
+                                            <AnchorPane fx:id="AccSERV" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                        <TitledPane fx:id="AccLABS" text="Labs">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                        </TitledPane>
+                                          <TitledPane fx:id="AccINFO" text="Information">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccRETL" text="Shops">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccREST" text="Restrooms">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccCONF" text="Conference Rooms">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccEXIT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Exits">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="413.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                      </panes>
+                                    </Accordion>
+                                 </children></VBox>
                            </children>
                         </VBox>
                      </children>

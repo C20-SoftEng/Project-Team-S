@@ -310,4 +310,8 @@ public class MainScreenController implements Initializable {
         zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     //endregion
+
+    @FXML private void onResetPathClicked(){
+
+    }
 }
