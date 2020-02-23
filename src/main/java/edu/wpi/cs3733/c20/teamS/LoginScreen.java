@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
+import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreen;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,7 +32,11 @@ public class LoginScreen {
             cont.dialogCompleted().subscribe(
                     next -> {
                         if(next.result()== DialogResult.OK){
-                            MapEditingScreen mes = new MapEditingScreen(toPass, next.value());
+                            //Intercepthere
+                            //Scene twoFactorScene = new Scene();
+                            //stage.show
+                            TwoFactorScreen mes = new TwoFactorScreen(toPass, next.value());
+
                         }
                         this.stage.close();
             });

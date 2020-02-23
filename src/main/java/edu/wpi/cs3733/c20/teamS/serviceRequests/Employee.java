@@ -31,6 +31,22 @@ public final class Employee {
         return accessLevel_;
     }
 
+    public static AccessLevel toAccess(int al){
+        switch(al){
+            case 0:
+                return AccessLevel.USER;
+
+            case 1:
+                return AccessLevel.EMPLOYEE;
+
+            case 2:
+                return AccessLevel.ADMIN;
+
+
+        }
+        return null;
+    }
+
     @Override
     public String toString(){
         return this.name_;

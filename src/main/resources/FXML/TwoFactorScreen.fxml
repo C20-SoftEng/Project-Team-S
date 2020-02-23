@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="297.0" maxWidth="432.0" minHeight="221.0" minWidth="432.0" prefHeight="297.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreenController">
+    <children>
+        <Label fx:id="twoFactorLabel" alignment="CENTER" contentDisplay="TOP" layoutX="87.0" layoutY="14.0" prefHeight="29.0" prefWidth="260.0" text="Two Factor Authentication" textFill="RED">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <JFXPasswordField fx:id="tfaCodeField" focusColor="#0ab4b4" labelFloat="true" layoutX="126.0" layoutY="141.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter 6-digit code">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </JFXPasswordField>
+      <Accordion layoutX="116.0" layoutY="66.0" />
+      <MenuButton fx:id="carrierSelector" layoutX="134.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" text="Carrier">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#onVerizonClicked" text="Verizon" />
+          <MenuItem mnemonicParsing="false" onAction="#onATTClicked" text="AT&amp;T" />
+            <MenuItem mnemonicParsing="false" onAction="#OnTMobileClicked" text="T-Mobile" />
+            <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
+        </items>
+      </MenuButton>
+        <JFXButton fx:id="enterButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="319.0" layoutY="236.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
+            <font>
+                <Font size="13.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+      <JFXButton fx:id="sendButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="177.0" layoutY="236.0" onAction="#onSendClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FFD700;" text="Send" textAlignment="CENTER">
+         <font>
+            <Font size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+        <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="32.0" layoutY="236.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
+            <font>
+                <Font size="13.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="58.0" text="Select the carrier for your account's phone number then hit send" textAlignment="CENTER" />
+    </children>
+</AnchorPane>

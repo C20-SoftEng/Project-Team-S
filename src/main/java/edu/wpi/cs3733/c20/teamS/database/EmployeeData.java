@@ -3,13 +3,14 @@ package edu.wpi.cs3733.c20.teamS.database;
 public class EmployeeData {
     private int employeeID;
 
-    public EmployeeData(int employeeID, String username, String password, int accessLevel, String firstName, String lastName) {
+    public EmployeeData(int employeeID, String username, String password, int accessLevel, String firstName, String lastName, String phoneNumber) {
         this.employeeID = employeeID;
         this.username = username;
         this.password = password;
         this.accessLevel = accessLevel;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -24,13 +25,14 @@ public class EmployeeData {
                 '}';
     }
 
-    public EmployeeData(String username, String password, int accessLevel, String firstName, String lastName) {
+    public EmployeeData(String username, String password, int accessLevel, String firstName, String lastName, String phoneNumber) {
         //this.employeeID = employeeID;
         this.username = username;
         this.password = password;
         this.accessLevel = accessLevel;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getEmployeeID() {
@@ -86,4 +88,13 @@ public class EmployeeData {
     private int accessLevel;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
