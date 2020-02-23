@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="221.0" minWidth="432.0" prefHeight="297.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreenController">
+<AnchorPane maxHeight="297.0" maxWidth="432.0" minHeight="221.0" minWidth="432.0" prefHeight="297.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreenController">
     <children>
         <Label fx:id="twoFactorLabel" alignment="CENTER" contentDisplay="TOP" layoutX="87.0" layoutY="14.0" prefHeight="29.0" prefWidth="260.0" text="Two Factor Authentication" textFill="RED">
             <font>
@@ -55,6 +55,6 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-      <Label fx:id="descLabel" layoutX="46.0" layoutY="58.0" text="Select the carrier for your account's phone number then hit send" />
+      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="58.0" text="Select the carrier for your account's phone number then hit send" textAlignment="CENTER" />
     </children>
 </AnchorPane>

@@ -13,8 +13,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.stage.Stage;
 
 public class TwoFactorScreenController {
+
+    Stage stage;
+    Employee loggedIn;
+    TwoFactorScreen tfaScreen;
+
+
+    public TwoFactorScreenController(Stage stage, Employee loggedIn) {
+        this.stage = stage;
+        this.loggedIn = loggedIn;
+    }
 
     @FXML
     private Label twoFactorLabel;
@@ -41,7 +52,7 @@ public class TwoFactorScreenController {
 
     @FXML
     void onCancelClicked(ActionEvent event) {
-
+        this.stage.close();
     }
 
     @FXML
@@ -66,15 +77,15 @@ public class TwoFactorScreenController {
 
     @FXML
     void onEnterClicked(ActionEvent event) {
-        DatabaseController dbc = new DatabaseController();
-        Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), Employee.toAccess(ed.getAccessLevel()));
-        dialogCompleted_.onNext(DialogEvent.ok(emp));
-//        DatabaseController dc = new DatabaseController();
-//        EmployeeData ed = dc.getEmployee(id.getText());
-//        AccessLevel[] al = AccessLevel.values();
-//        AccessLevel accessLevel = al[ed.getAccessLevel()];
-//        Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
-//        dialogCompleted_.onNext(DialogEvent.ok(emp));
+
+        if(Integer.parseInt(tfaCodeField.getText()) == tfaScreen.tfaCode){
+            tfaScreen.passedTFA();
+        }else{
+            descLabel.setText("Incorrect code");
+            tfaCodeField.setStyle("-fx-background-color:RED");
+        }
+
+
 
     }
 
@@ -85,10 +96,14 @@ public class TwoFactorScreenController {
             return;
         }
 
+
         sendButton.setDisable(true);
+        //tfaCodeField.setDisable(true);
         String carrier = carrierSelector.getText();
+        tfaScreen.setCarrier(carrier);
+        tfaScreen.sendTFA();
         carrierSelector.setDisable(true);
-        descLabel.setText("Text Sent");
+        descLabel.setText("Text sent to number on file");
 
 
 

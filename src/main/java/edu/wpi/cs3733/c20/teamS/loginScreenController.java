@@ -55,23 +55,24 @@ public class loginScreenController {
             EmployeeData ed = dc.getEmployee(id.getText());
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
-            TwoFactorScreenController twoFac = new TwoFactorScreenController();
-            loader.setController(twoFac);
-            twoFac.ed = ed;
-            twoFac.dialogCompleted_ = dialogCompleted_;
-            AnchorPane twoFactor = loader.load();
-//            //AnchorPane twoFactor = FXMLLoader.load();
-            anchor.getChildren().setAll(twoFactor);
-            anchor.getScene().getWindow().setHeight(313);
-            anchor.getScene().getWindow().setWidth(438);
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
+//            TwoFactorScreenController twoFac = new TwoFactorScreenController();
+//            loader.setController(twoFac);
+//            twoFac.ed = ed;
+//            twoFac.dialogCompleted_ = dialogCompleted_;
+//            //Parent root = loader.load();
+////            //AnchorPane twoFactor = FXMLLoader.load();
+//            anchor.getChildren().setAll();
+//            anchor.getScene().getWindow().setHeight(313);
+//            anchor.getScene().getWindow().setWidth(438);
 
 
 
-//            AccessLevel[] al = AccessLevel.values();
-//            AccessLevel accessLevel = al[ed.getAccessLevel()];
-//            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
-//            dialogCompleted_.onNext(DialogEvent.ok(emp));
+
+            AccessLevel[] al = AccessLevel.values();
+            AccessLevel accessLevel = al[ed.getAccessLevel()];
+            Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
+            dialogCompleted_.onNext(DialogEvent.ok(emp));
         }
         else {
             wrongStuff.setVisible(true);

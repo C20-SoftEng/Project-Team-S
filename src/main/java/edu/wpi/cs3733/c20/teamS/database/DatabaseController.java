@@ -862,6 +862,34 @@ public class DatabaseController implements DBRepo{
         }
     }
 
+    public EmployeeData getEmployeeFromID(int id){
+        String getEmployeeStr = "SELECT * FROM EMPLOYEES WHERE EMPLOYEEID = ?";
+        try{
+            PreparedStatement getStm = connection.prepareCall(getEmployeeStr);
+            getStm.setInt(1,id);
+            ResultSet rset = getStm.executeQuery();
+            if(rset.next()){
+                int employeeID = rset.getInt("EMPLOYEEID");
+                String usernameDB = rset.getString("USERNAME");
+                String password = rset.getString("PASSWORD");
+                int accessLevel = rset.getInt("ACCESSLEVEL");
+                String firstName = rset.getString("FIRSTNAME");
+                String lastName = rset.getString("LASTNAME");
+                String phoneNumber = rset.getString("PHONENUMBER");
+
+
+                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName,phoneNumber);
+            }else{
+                System.out.println("Username not found");
+                return null;
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
 
     private void importNodes(){
         try{
