@@ -45,6 +45,10 @@ public class NodeEditController {
     }
 
     public Observable<Object> okClicked() {
+        //if(!buildingName().equals("") && !nodeType().equals("") && !fullNodeName().equals("") && !shortNodeName().equals("")){
+        //    return okClicked;
+        //}else return null;
+
         return okClicked;
     }
     public Observable<Object> cancelClicked() {

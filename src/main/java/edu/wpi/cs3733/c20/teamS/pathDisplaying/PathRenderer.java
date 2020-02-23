@@ -50,37 +50,20 @@ class PathRenderer {
 
         NodeData start = nodes.get(0);
         if (start.getFloor() == floor) {
-            Circle startCircle = drawStartCircle(nodes.get(0));
+            Circle startCircle = drawStartCircle(start);
             group.getChildren().add(startCircle);
         }
-
         NodeData end = nodes.get(nodes.size() - 1);
         if (end.getFloor() == floor) {
-            ImageView endBalloon = drawEndBalloon(nodes.get(nodes.size() - 1));
+            ImageView endBalloon = drawEndBalloon(end);
             group.getChildren().add(endBalloon);
         }
+        boolean down = start.getFloor() > end.getFloor();
+        nodes.stream()
+                .filter(node -> node.getNodeType().equals("ELEV"))
+                .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
+                .forEach(image -> group.getChildren().add(image));
 
-        //checks to see if your moving up or down to determine which way arrow goes
-        if (start.getFloor() < end.getFloor()) {
-            down = false;
-        } else down = true;
-
-        //sets either an up or down arrow on the elevator depending on which way your going
-        if (down) {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_down_gif = drawDownElevator(node1);
-                    group.getChildren().add(elavator_down_gif);
-                }
-            }
-        } else {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_up_gif = drawUpElevator(node1);
-                    group.getChildren().add(elavator_up_gif);
-                }
-            }
-        }
 
         Rectangle rectPath = new Rectangle (start.getxCoordinate(), start.getyCoordinate(), 100, 100);
         //rectPath.setArcHeight(10);
@@ -104,6 +87,9 @@ class PathRenderer {
         //pathTransition.setAutoReverse(true);
         pathTransition.play();
         group.getChildren().add(rectPath);
+
+        return group;
+    }
 
         return group;
     }
@@ -201,13 +187,8 @@ class PathRenderer {
     }
 
     private ImageView drawUpElevator(NodeData node2) {
-        ImageView elevator_icon_up = new ImageView();
-        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_up.setRotate(180);
-        elevator_icon_up.setX(node2.getxCoordinate() - 25);
-        elevator_icon_up.setY(node2.getyCoordinate() - 20);
-        elevator_icon_up.setPreserveRatio(true);
-        elevator_icon_up.setFitWidth(40);
-        return elevator_icon_up;
+        ImageView result = drawDownElevator(node2);
+        result.setRotate(180);
+        return result;
     }
 }

@@ -115,17 +115,21 @@ public final class RideRequestUIController implements Initializable {
         rideKindSelector.setCopCarRide();
     }
     @FXML private void onOKClicked() {
-        RideServiceRequest request = new RideServiceRequest();
-        request.setPickupTime(pickupTimePicker.getDateTimeValue());
-        request.setRiderName(riderNameField.getText());
-        request.setDestination(destinationField.getText());
-        request.setRideKind(rideKindSelector.current());
-        request.assignTo(loggedIn);
-        request.setLocation("Valet Parking");
-        request.setMessage("\"" + request.riderName() + "\" needs a ride.");
+        if (!(pickupTimePicker.getDateTimeValue() == null) && !riderNameField.getText().equals("") && !destinationField.getText().equals("")) {
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            RideServiceRequest request = new RideServiceRequest();
+            request.setPickupTime(pickupTimePicker.getDateTimeValue());
+            request.setRiderName(riderNameField.getText());
+            request.setDestination(destinationField.getText());
+            request.setRideKind(rideKindSelector.current());
+            request.assignTo(loggedIn);
+            request.setLocation("Valet Parking");
+            request.setMessage("\"" + request.riderName() + "\" needs a ride.");
+
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
+
     @FXML private void onCancelClicked() {
         dialogCompleted_.onNext(DialogEvent.cancel());
     }

@@ -14,12 +14,14 @@ public class Main extends Application {
     DatabaseController dbc = new DatabaseController();
     dbc.importStartUpData();
 
-    //new MainToLoginScreen(primaryStage, new AStar());
-    MapEditingScreen test = new MapEditingScreen(primaryStage,
-            new Employee(17, "Bob", AccessLevel.ADMIN));
+
+    new MainToLoginScreen(primaryStage, new AStar());
+    //MapEditingScreen test = new MapEditingScreen(primaryStage,
+    //        new Employee(17, "Bob", AccessLevel.ADMIN));
+
 
   }
-
+//9003,staff,staff,2,Wilson,Wong
   public static void main(String[] args) {
     App.launch();
   }
