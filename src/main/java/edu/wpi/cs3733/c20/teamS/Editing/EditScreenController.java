@@ -279,6 +279,7 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
+        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
         group.getChildren().add(drawAllNodes());
         group.getChildren().add(drawAllEdges());

@@ -29,9 +29,14 @@ public class EditPolygonTool implements IEditingTool {
     public void onMapClicked(double x, double y) {
         state.onMapClicked(x, y);
     }
+    @Override
+    public void onMouseMovedOverMap(double x, double y) {
+        state.onMouseMovedOverMap(x, y);
+    }
 
     private abstract class State {
         public void onMapClicked(double x, double y) {}
+        public void onMouseMovedOverMap(double x, double y) {}
     }
     private final class StandbyState extends State {
         @Override
@@ -50,6 +55,9 @@ public class EditPolygonTool implements IEditingTool {
 
         public ChainingState(double x, double y) {
             addVertex(x, y);
+            //  We need to add the first vertex twice, since the last vertex will always be
+            //  "floating" with the mouse cursor.
+            addVertex(x, y);
             groupSupplier.get().getChildren().add(polygon);
             polygon.setFill(polygonColor);
         }
@@ -63,7 +71,13 @@ public class EditPolygonTool implements IEditingTool {
                 return;
             }
 
+            setLastVertex(x, y);
             addVertex(x, y);
+        }
+
+        @Override
+        public void onMouseMovedOverMap(double x, double y) {
+            setLastVertex(x, y);
         }
 
         private void addVertex(double x, double y) {
@@ -78,10 +92,24 @@ public class EditPolygonTool implements IEditingTool {
         }
         private boolean isTouchingVertex(double x, double y) {
             for (Circle vertex : vertices) {
+                if (vertex == getLastVertexHandle())
+                    continue;
                 if (Numerics.distance(x, y, vertex.getCenterX(), vertex.getCenterY()) <= radius)
                     return true;
             }
             return false;
+        }
+        private void setLastVertex(double x, double y) {
+            int size = polygon.getPoints().size();
+            polygon.getPoints().set(size - 2, x);
+            polygon.getPoints().set(size - 1, y);
+
+            Circle vertex = vertices.get(vertices.size() - 1);
+            vertex.setCenterX(x);
+            vertex.setCenterY(y);
+        }
+        private Circle getLastVertexHandle() {
+            return vertices.get(vertices.size() - 1);
         }
     }
 }
