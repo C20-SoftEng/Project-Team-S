@@ -78,6 +78,7 @@ public class TwoFactorScreenController {
     @FXML
     void onEnterClicked(ActionEvent event) {
 
+
         if(Integer.parseInt(tfaCodeField.getText()) == tfaScreen.tfaCode){
             tfaScreen.passedTFA();
         }else{
