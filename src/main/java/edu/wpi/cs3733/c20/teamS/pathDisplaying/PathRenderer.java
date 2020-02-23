@@ -175,14 +175,8 @@ class PathRenderer {
     }
 
     private ImageView drawUpElevator(NodeData node2) {
-        ImageView elevator_icon_up = new ImageView();
-        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_up.setRotate(180);
-        elevator_icon_up.setX(node2.getxCoordinate() - 25);
-        elevator_icon_up.setY(node2.getyCoordinate() - 20);
-        elevator_icon_up.setPreserveRatio(true);
-        elevator_icon_up.setFitWidth(40);
-        return elevator_icon_up;
-
+        ImageView result = drawDownElevator(node2);
+        result.setRotate(180);
+        return result;
     }
 }
