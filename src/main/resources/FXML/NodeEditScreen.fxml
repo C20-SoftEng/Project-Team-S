@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -116,14 +117,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXTextField fx:id="nodeType" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="NodeType" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
+                        <JFXComboBox fx:id="nodeType" prefHeight="25.0" prefWidth="175.0" promptText="NodeType" visibleRowCount="11" HBox.hgrow="SOMETIMES">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
-                        </JFXTextField>
+                        </JFXComboBox>
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
