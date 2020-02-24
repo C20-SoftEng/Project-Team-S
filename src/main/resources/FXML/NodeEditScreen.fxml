@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -43,6 +45,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
+                        <ImageView fx:id="floorError" fitWidth="11.0" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Icons/error_dot.png" />
+                           </image>
+                        </ImageView>
                         <JFXTextField fx:id="floorNumber" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FloorNumber" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#ffffff00">
                            <HBox.margin>
                               <Insets right="5.0" />
@@ -80,6 +87,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
+                        <ImageView fx:id="buildingError" fitWidth="11.0" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Icons/error_dot.png" />
+                           </image>
+                        </ImageView>
                         <JFXTextField fx:id="buildingName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="BuildingName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
@@ -117,10 +129,18 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXComboBox fx:id="nodeType" prefHeight="25.0" prefWidth="175.0" promptText="NodeType" visibleRowCount="11" HBox.hgrow="SOMETIMES">
+                        <ImageView fx:id="nodeError" fitWidth="11.0" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Icons/error_dot.png" />
+                           </image>
+                        </ImageView>
+                        <JFXComboBox fx:id="nodeType" prefHeight="25.0" prefWidth="200.0" promptText="NodeType" visibleRowCount="11">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
                         </JFXComboBox>
                      </children>
                      <HBox.margin>
@@ -151,6 +171,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
+                        <ImageView fx:id="fullError" fitWidth="11.0" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Icons/error_dot.png" />
+                           </image>
+                        </ImageView>
                         <JFXTextField fx:id="fullNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
@@ -188,6 +213,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                      <children>
+                        <ImageView fx:id="shortError" fitWidth="11.0" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Icons/error_dot.png" />
+                           </image>
+                        </ImageView>
                         <JFXTextField fx:id="shortNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
