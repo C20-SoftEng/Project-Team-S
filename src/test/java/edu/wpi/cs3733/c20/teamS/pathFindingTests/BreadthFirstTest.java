@@ -3,16 +3,15 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-//import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
+import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//public class DepthFirstTests {
+//public class BreadthFirstTest {
 //
 //    MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
 //
@@ -42,14 +41,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //        newGraph.addNode(nodeTwo);
 //        newGraph.putEdge(nodeOne, nodeTwo);
 //
-//        DepthFirst depth = new DepthFirst();
-//        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeTwo);
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path = breadthFirst.findPath(newGraph, nodeOne, nodeTwo);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //        realPath.add(nodeOne);
 //        realPath.add(nodeTwo);
 //
 //        assertEquals(realPath, path);
+//
 //    }
+//
 //
 //    @Test
 //    public void findPath_NoValidPath(){
@@ -57,8 +58,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //        newGraph.addNode(nodeTwo);
 //        newGraph.addNode(nodeThree);
 //
-//        DepthFirst depthFirst = new DepthFirst();
-//        ArrayList<NodeData> path = depthFirst.findPath(newGraph, nodeOne, nodeTwo);
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path = breadthFirst.findPath(newGraph, nodeOne, nodeTwo);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //
 //        for(NodeData data: path){
@@ -91,8 +92,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //        newGraph.putEdge(nodeNine, nodeTen);
 //        newGraph.putEdge(nodeEight, nodeFour);
 //        newGraph.putEdge(nodeTen, nodeFour);
-//        DepthFirst depthFirst = new DepthFirst();
-//        ArrayList<NodeData> path =  depthFirst.findPath(newGraph, nodeOne, nodeFour);
+//
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path =  breadthFirst.findPath(newGraph, nodeOne, nodeFour);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //        realPath.add(nodeOne);
 //        realPath.add(nodeTwo);
@@ -106,8 +108,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //    public void findPath_singleNodePath(){
 //        newGraph.addNode(nodeOne);
 //
-//        DepthFirst depth = new DepthFirst();
-//        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeOne);
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path = breadthFirst.findPath(newGraph, nodeOne, nodeOne);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //        realPath.add(nodeOne);
 //
@@ -126,16 +128,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //        newGraph.putEdge(nodeTwo, nodeSeven);
 //
 //
-//        DepthFirst depth = new DepthFirst();
-//        ArrayList<NodeData> path = depth.findPath(newGraph, nodeOne, nodeThree);
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path = breadthFirst.findPath(newGraph, nodeOne, nodeThree);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //        realPath.add(nodeOne);
 //        realPath.add(nodeTwo);
 //        realPath.add(nodeThree);
 //
-//    assertEquals(realPath,path);
+//        assertEquals(realPath,path);
 //
-//}
+//    }
 //
 //    @Test
 //    public void findPath_Recursion(){
@@ -145,14 +147,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //        newGraph.addNode(nodeThree);
 //        newGraph.putEdge(nodeTwo, nodeThree);
 //        newGraph.putEdge(nodeThree, nodeOne);
-//        DepthFirst depth = new DepthFirst();
-//        ArrayList<NodeData> path = depth.findPath(newGraph,nodeOne, nodeThree);
+//
+//        BreadthFirst breadthFirst = new BreadthFirst();
+//        ArrayList<NodeData> path = breadthFirst.findPath(newGraph,nodeOne, nodeThree);
 //        ArrayList<NodeData> realPath = new ArrayList<>();
 //        realPath.add(nodeOne);
 //        realPath.add(nodeThree);
 //
 //        assertEquals(realPath, path);
 //    }
-//
-//
+
 //}
