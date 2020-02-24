@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -134,14 +135,18 @@
                               <Image url="@../images/Icons/error_dot.png" />
                            </image>
                         </ImageView>
-                        <JFXComboBox fx:id="nodeType" prefHeight="25.0" prefWidth="200.0" promptText="NodeType" visibleRowCount="11">
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
+                        <Pane>
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
-                        </JFXComboBox>
+                           <children>
+                              <JFXComboBox fx:id="nodeType" focusColor="#ffffff00" prefHeight="25.0" prefWidth="200.0" promptText="NodeType" unFocusColor="BLACK" visibleRowCount="11">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" />
+                                 </padding>
+                              </JFXComboBox>
+                           </children>
+                        </Pane>
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -198,7 +203,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="160.0">
                      <children>
-                        <Label prefHeight="25.0" prefWidth="142.0" style="-fx-background-color: white;" text="Short Name of Node:">
+                        <Label prefHeight="21.0" prefWidth="148.0" style="-fx-background-color: white;" text="Short Name of Node:">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -249,7 +254,7 @@
                         <Font size="13.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: green; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: #0067b1; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>
