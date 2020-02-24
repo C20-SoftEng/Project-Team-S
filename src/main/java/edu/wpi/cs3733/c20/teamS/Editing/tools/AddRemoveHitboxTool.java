@@ -1,26 +1,39 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-public class EditPolygonTool implements IEditingTool {
+public class AddRemoveHitboxTool implements IEditingTool {
     private final PublishSubject<Hitbox> hitboxAdded = PublishSubject.create();
+    private final Consumer<Hitbox> hitboxRemover;
     private final Supplier<Group> groupSupplier;
     private final IntSupplier floorSupplier;
     private State state = new StandbyState();
 
-    public EditPolygonTool(Supplier<Group> groupSupplier, IntSupplier floorSupplier) {
+    /**
+     * @param hitboxRemover Function to delete a hitbox.
+     * @param groupSupplier Function to supply the group to draw in.
+     * @param floorSupplier Function to supply the current floor.
+     */
+    public AddRemoveHitboxTool(
+            Consumer<Hitbox> hitboxRemover,
+            Supplier<Group> groupSupplier,
+            IntSupplier floorSupplier) {
+
+        this.hitboxRemover = hitboxRemover;
         this.groupSupplier = groupSupplier;
         this.floorSupplier = floorSupplier;
     }
@@ -29,28 +42,45 @@ public class EditPolygonTool implements IEditingTool {
         return hitboxAdded;
     }
 
-    @Override
-    public void onMapClicked(double x, double y) {
-        state.onMapClicked(x, y);
+    @Override public void onMapClicked(MouseEvent event) {
+        state.onMapClicked(event);
     }
-    @Override
-    public void onMouseMovedOverMap(double x, double y) {
-        state.onMouseMoved(x, y);
+    @Override public void onMouseMoved(MouseEvent event) {
+        state.onMouseMoved(event.getX(), event.getY());
     }
-    @Override
-    public void onEscapeKey() {
+    @Override public void onEscapeKey() {
         state.onEscapeKey();
     }
+    @Override public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
+        state.onHitboxClicked(hitbox, event);
+    }
+    @Override public void onRedrawn(Group group) {
+        state.onRedrawn(group);
+    }
+
 
     private abstract class State {
-        public void onMapClicked(double x, double y) {}
+        public void onMapClicked(MouseEvent event) {}
         public void onMouseMoved(double x, double y) {}
         public void onEscapeKey() {}
+        public void onRedrawn(Group group) {}
+
+        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
     }
     private final class StandbyState extends State {
         @Override
-        public void onMapClicked(double x, double y) {
-            state = new ChainingState(x, y);
+        public void onMapClicked(MouseEvent event) {
+            if (event.getButton() != MouseButton.PRIMARY)
+                return;
+            state = new ChainingState(event.getX(), event.getY());
+        }
+
+        @Override
+        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
+            if (event.getButton() != MouseButton.SECONDARY)
+                return;
+
+            hitboxRemover.accept(hitbox);
         }
     }
     private final class ChainingState extends State {
@@ -77,17 +107,33 @@ public class EditPolygonTool implements IEditingTool {
         }
 
         @Override
-        public void onMapClicked(double x, double y) {
-            if (isTouchingVertex(x, y)) {
-                hitboxAdded.onNext(hitbox);
-                switchToStandbyState();
-                return;
+        public void onMapClicked(MouseEvent event) {
+            switch (event.getButton()) {
+                case PRIMARY:
+                    setLastVertex(event.getX(), event.getY());
+                    addVertex(event.getX(), event.getY());
+                    break;
+                case SECONDARY:
+                    switchToStandbyState();
+                    break;
+                default:
+                    break;
             }
-
-            setLastVertex(x, y);
-            addVertex(x, y);
         }
-
+        private void onHandleClicked(Circle handle, MouseEvent event) {
+            switch (event.getButton()) {
+                case PRIMARY:
+                    event.consume();
+                    hitboxAdded.onNext(hitbox);
+                    switchToStandbyState();
+                    break;
+                case SECONDARY:
+                    switchToStandbyState();
+                    break;
+                default:
+                    break;
+            }
+        }
         @Override
         public void onMouseMoved(double x, double y) {
             setLastVertex(x, y);
@@ -95,6 +141,11 @@ public class EditPolygonTool implements IEditingTool {
         @Override
         public void onEscapeKey() {
             switchToStandbyState();
+        }
+        @Override
+        public void onRedrawn(Group group) {
+            group.getChildren().addAll(handles);
+            group.getChildren().add(displayPolygon);
         }
 
         private void switchToStandbyState() {
@@ -104,24 +155,28 @@ public class EditPolygonTool implements IEditingTool {
             group.getChildren().remove(displayPolygon);
         }
 
-        private boolean isTouchingVertex(double x, double y) {
-            for (Circle handle : handles) {
-                if (handle == getLastHandle())
-                    continue;
-                if (Numerics.distance(x, y, handle.getCenterX(), handle.getCenterY()) <= radius)
-                    return true;
-            }
-            return false;
-        }
-        private Circle getLastHandle() {
+        /**
+         * Gets the handle that is following the mouse cursor.
+         */
+        private Circle cursorFollowingHandle() {
             return handles.get(handles.size() - 1);
         }
         private void addVertex(double x, double y) {
+            Circle lastHandle = getLastHandle();
+            if (lastHandle != null)
+                lastHandle.setVisible(true);
+
             Circle handle = createHandle(x, y);
+            handle.setVisible(false);
             handles.add(handle);
             hitbox.vertices().add(new Vector2(x, y));
             displayPolygon.getPoints().addAll(x, y);
             groupSupplier.get().getChildren().add(handle);
+        }
+        private Circle getLastHandle() {
+            if (handles.isEmpty())
+                return null;
+            return handles.get(handles.size() - 1);
         }
         private Circle createHandle(double x, double y) {
             Circle handle = new Circle();
@@ -129,12 +184,13 @@ public class EditPolygonTool implements IEditingTool {
             handle.setCenterY(y);
             handle.setRadius(radius);
             handle.setFill(vertexColor);
+            handle.setOnMouseClicked(e -> onHandleClicked(handle, e));
             return handle;
         }
         private void setLastVertex(double x, double y) {
             hitbox.setLastVertex(x, y);
 
-            Circle handle = getLastHandle();
+            Circle handle = cursorFollowingHandle();
             handle.setCenterX(x);
             handle.setCenterY(y);
 

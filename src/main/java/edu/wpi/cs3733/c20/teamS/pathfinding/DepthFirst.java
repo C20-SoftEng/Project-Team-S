@@ -3,11 +3,10 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import javafx.scene.Node;
 
 import java.util.*;
 
-public class DepthFirst implements IPathfinding {
+public class DepthFirst implements IPathfinder {
     @Override
     public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
         if(graph == null) ThrowHelper.illegalNull("graph");

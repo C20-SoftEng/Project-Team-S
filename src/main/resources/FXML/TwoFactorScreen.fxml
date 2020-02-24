@@ -17,7 +17,7 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <JFXPasswordField fx:id="tfaCodeField" focusColor="#0ab4b4" labelFloat="true" layoutX="126.0" layoutY="141.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter 6-digit code">
+        <JFXPasswordField fx:id="tfaCodeField" focusColor="#0ab4b4" labelFloat="true" layoutX="126.0" layoutY="141.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter code">
             <font>
                 <Font size="13.0" />
             </font>

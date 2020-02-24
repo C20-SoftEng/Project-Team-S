@@ -4,17 +4,14 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BreadthFirstTests extends PathfinderTests {
-    protected final IPathfinding pathFinder = new BreadthFirst();
+    protected final IPathfinder pathFinder = new BreadthFirst();
     protected final MutableGraph<NodeData> graph = GraphBuilder.undirected().build();
 
     public static class DisjointNodes extends BreadthFirstTests {

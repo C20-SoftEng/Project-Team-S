@@ -170,16 +170,16 @@
             </HBox>
          </top>
          <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="180.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
                   </Label>
                   <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
                      <children>
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddNodeClicked" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/remove nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -190,7 +190,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddEdgeClicked" text="Add Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddRemoveEdgeClicked" text="Add/remove edges" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -198,15 +198,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeNodeRadio" onAction="#onRemoveNodeClicked" text="Remove Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeEdgeRadio" onAction="#onRemoveEdgeClicked" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton onAction="#onAddRemoveHitboxClicked" text="Add/remove hitboxes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -230,11 +222,6 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding>
-                        </JFXRadioButton>
-                        <JFXRadioButton onAction="#onEditNodeHitboxClicked" text="Edit Node Hitbox" toggleGroup="$editGroup">
-                           <VBox.margin>
-                              <Insets left="10.0" top="10.0" />
-                           </VBox.margin>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
