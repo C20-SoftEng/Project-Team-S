@@ -16,9 +16,19 @@ public final class ReactiveProperty<T> {
     public ReactiveProperty(T value) {
         this.value = value;
     }
+
+    /**
+     * The current value of the reactive property.
+     */
     public T value() {
         return value;
     }
+
+    /**
+     * Sets the value of the reactive property. This will raise a changed() event if
+     * the new value is different from the old one.
+     * @param value
+     */
     public void setValue(T value) {
         T previous = this.value;
         if (Objects.equals(previous, value))
@@ -26,6 +36,11 @@ public final class ReactiveProperty<T> {
         this.value = value;
         changed.onNext(value);
     }
+
+    /**
+     * Observable stream that gets events pushed to it whenever the value of the property changes.
+     * @return
+     */
     public Observable<T> changed() {
         return changed;
     }
