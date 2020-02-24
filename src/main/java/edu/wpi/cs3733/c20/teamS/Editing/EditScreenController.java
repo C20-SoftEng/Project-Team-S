@@ -4,6 +4,9 @@ import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -39,7 +42,6 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -55,7 +57,8 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private IEditingTool editingTool;
-    private DatabaseController database = new DatabaseController();
+    private final DatabaseController database = new DatabaseController();
+    private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
     //endregion
@@ -133,6 +136,9 @@ public class EditScreenController implements Initializable {
         group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
 
         editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        if (hitboxRepo.canLoad())
+            hitboxes.addAll(hitboxRepo.load());
+
         redrawMap();
     }
 
@@ -278,11 +284,16 @@ public class EditScreenController implements Initializable {
         editingTool = new MoveNodeTool(scrollPane);
     }
 
-
-    @FXML private void onConfirmEditClicked() throws IOException {
-
+    @FXML private void onConfirmEditClicked() {
+        if (hitboxRepo.canSave())
+            hitboxRepo.save(hitboxes);
     }
     @FXML private void onCancelEditClicked() {
+        if (hitboxRepo.canLoad()) {
+            hitboxes.clear();
+            hitboxes.addAll(hitboxRepo.load());
+            redrawMap();
+        }
     }
     //endregion
 
