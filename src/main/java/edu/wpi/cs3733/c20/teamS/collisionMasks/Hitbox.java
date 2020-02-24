@@ -1,16 +1,16 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
-import javafx.geometry.Point2D;
-import javafx.scene.effect.Light;
 import javafx.scene.shape.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Hitbox {
     private int floor;
+    private String name = "";
     private final ArrayList<Vector2> vertices = new ArrayList<>();
 
+    public Hitbox() {}
     public Hitbox(int floor) {
         this.floor = floor;
     }
@@ -26,6 +26,12 @@ public final class Hitbox {
     }
     public void setFloor(int value) {
         floor = value;
+    }
+    public String name() {
+        return name;
+    }
+    public void setName(String value) {
+        name = value;
     }
     public List<Vector2> vertices() {
         return vertices;
