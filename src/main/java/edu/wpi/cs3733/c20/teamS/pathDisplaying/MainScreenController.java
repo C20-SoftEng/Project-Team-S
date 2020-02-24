@@ -12,6 +12,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
+import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
@@ -70,7 +71,7 @@ public class MainScreenController implements Initializable {
             this(button, new Image(imagePath));
         }
     }
-    private class FloorSelector {
+    private static class FloorSelector {
         private final JFXButton upButton;
         private final JFXButton downButton;
         private final Floor[] floors;
@@ -135,7 +136,7 @@ public class MainScreenController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initSearchComboBoxFont();
+        initSearchComboBox();
 
         zoomer = new MapZoomer(scrollPane);
         initGraph();
@@ -175,17 +176,18 @@ public class MainScreenController implements Initializable {
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
     }
-    private void initSearchComboBoxFont() {
+    private void initSearchComboBox() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
 
         DatabaseController db = new DatabaseController();
         Set<NodeData> nodes = db.getAllNodes();
-        List<String> dictionary = nodes.stream()
-                .map(node -> node.getLongName() + ", " + node.getNodeID())
-                .collect(toList());
-        AutoComplete.start(dictionary, searchComboBox);
+        AutoComplete.start(nodes, searchComboBox, NodeData::getLongName);
+        searchComboBox.valueProperty().addListener((sender, previous, current) -> {
+            floorSelector.setCurrent(current.value().getFloor());
+            onNodeClicked(current.value());
+        });
     }
 
     private void redraw() {
@@ -209,22 +211,25 @@ public class MainScreenController implements Initializable {
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
+    private void onNodeClicked(NodeData node) {
+        if (node == null)
+            return;
+
+        if (flip) {
+            location1.setText(node.getLongName());
+            flip = false;
+        } else if (!flip) {
+            location2.setText(node.getLongName());
+            flip = true;
+        }
+
+        nodeSelector.onNodeClicked(node);
+    }
     private void onMapClicked(MouseEvent e) {
         final double x = e.getX();
         final double y = e.getY();
         NodeData nearest = findNearestNodeWithin(x, y, 200);
-        if (nearest == null)
-            return;
-
-        if (flip) {
-            location1.setText(nearest.getLongName());
-            flip = false;
-        } else if (!flip) {
-            location2.setText(nearest.getLongName());
-            flip = true;
-        }
-
-        nodeSelector.onNodeClicked(nearest);
+        onNodeClicked(nearest);
         //pathDrawer.setNode(nearest);
     }
 
@@ -273,7 +278,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
-    @FXML private ComboBox<String> searchComboBox;
+    @FXML private ComboBox<LookupResult<NodeData>> searchComboBox;
     //endregion
 
     //region event handlers
