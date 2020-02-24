@@ -13,7 +13,6 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
-
 }
 
 dependencies {

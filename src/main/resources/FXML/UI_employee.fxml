@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -297,7 +296,7 @@
          <center>
             <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #b6b4b2;" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" disable="true" maxHeight="0.0" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: white;" visible="false" VBox.vgrow="NEVER">
                      <font>
                         <Font name="Leelawadee UI Bold" size="24.0" />
                      </font>
@@ -307,7 +306,6 @@
                   </JFXTextField>
                   <StackPane style="-fx-background-color: #b6b4b2;" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" style="-fx-background-color: #b6b4b2;" StackPane.alignment="TOP_LEFT" />
                         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" hmax="10.0" hvalue="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="701.0" prefWidth="1027.0" style="-fx-background-color: #b6b4b2; -fx-border-color: #b6b4b2;" vbarPolicy="NEVER" vmax="10.0" vvalue="5.0" StackPane.alignment="TOP_LEFT">
                            <content>
                               <ImageView fx:id="mapImage" focusTraversable="true" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
