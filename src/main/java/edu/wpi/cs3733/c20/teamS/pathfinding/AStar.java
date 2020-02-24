@@ -7,14 +7,15 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 
-public class AStar implements IPathfinder {
+public final class AStar implements IPathfinder {
     private static final double ELEVATOR_COST = 100000;
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
      *
-     * Returns an empty array list if:
+     * Returns an empty path if:
      *  start is not in the graph
      *  goal is not in the graph
      *  the graph is empty
@@ -23,20 +24,23 @@ public class AStar implements IPathfinder {
      * @param graph the graph to traverse
      * @param start a node on the graph (start)
      * @param goal a node on the graph (destination)
+     * @param costFunction
      */
-    @Override
-    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
-        if(graph == null) ThrowHelper.illegalNull("graph");
-        if(start == null) ThrowHelper.illegalNull("start");
-        if(goal == null) ThrowHelper.illegalNull("goal");
+    public Path findPath(
+            MutableGraph<NodeData> graph,
+            NodeData start, NodeData goal,
+            CostFunction costFunction) {
+        if (graph == null) ThrowHelper.illegalNull("graph");
+        if (start == null) ThrowHelper.illegalNull("start");
+        if (goal == null) ThrowHelper.illegalNull("goal");
+        if (costFunction == null) ThrowHelper.illegalNull("costFunction");
 
-        Comparator<Path> pathComparer = Comparator.comparingDouble(path -> {
-            return path.cost() + distance(path.peek(), goal);
-        });
+        Comparator<Path> pathComparer = Comparator.comparingDouble(
+                path -> path.cost() + costFunction.cost(path.peek(), goal)
+        );
         PriorityQueue<Path> queue = new PriorityQueue<>(pathComparer);
         HashSet<NodeData> seen = new HashSet<>();
-        Path empty = Path.empty();
-        queue.add(empty.push(start, 0));
+        queue.add(Path.empty().push(start, 0));
 
         while (!queue.isEmpty()) {
             Path frontier = queue.poll();
@@ -47,12 +51,22 @@ public class AStar implements IPathfinder {
                 return frontier;
 
             for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
-                double knownCost = distance(friend, frontier.peek());
+                //double knownCost = distance(friend, frontier.peek());
+                double knownCost = costFunction.cost(frontier.peek(), friend);
                 queue.add(frontier.push(friend, knownCost));
             }
         }
 
-        return empty;
+        return Path.empty();
+    }
+
+    @Override
+    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
+        CostFunction costFunction = (x, y) ->
+                x.getFloor() == y.getFloor() ?
+                        distance(x, y) :
+                        ELEVATOR_COST;
+        return findPath(graph, start, goal, costFunction);
     }
 
     /**
