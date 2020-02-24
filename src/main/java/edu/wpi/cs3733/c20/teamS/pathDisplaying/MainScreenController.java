@@ -13,8 +13,6 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +22,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -41,8 +38,6 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
-
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
@@ -58,74 +53,6 @@ public class MainScreenController implements Initializable {
 
     private boolean flip = true;
     //endregion
-
-    private static class Floor {
-        public final Image image;
-        public final JFXButton button;
-
-        public Floor(JFXButton button, Image image) {
-            this.image = image;
-            this.button = button;
-        }
-        public Floor(JFXButton button, String imagePath) {
-            this(button, new Image(imagePath));
-        }
-    }
-    private static class FloorSelector {
-        private final JFXButton upButton;
-        private final JFXButton downButton;
-        private final Floor[] floors;
-        private final PublishSubject<Integer> currentChanged = PublishSubject.create();
-        private int current;
-        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
-        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
-        private final int lowestFloorNumber = 1;
-        private final int highestFloorNumber;
-
-        public FloorSelector(JFXButton upButton, JFXButton downButton, Floor... floors) {
-            this.upButton = upButton;
-            this.downButton = downButton;
-            this.floors = floors;
-            this.highestFloorNumber = floors.length;
-        }
-
-        /**
-         * Gets the currently-selected floor number.
-         * @return
-         */
-        public int current() {
-            return this.current;
-        }
-        /**
-         * Sets the currently-selected floor number. Floor numbers start at 1.
-         * @param floorNumber The floor number to select.
-         */
-        public void setCurrent(int floorNumber) {
-            if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
-                ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
-            int previous = this.current;
-            this.current = floorNumber;
-            updateFloorButtons(floorNumber);
-//            updateMapPanPosition(floorNumber);
-            if (previous != this.current)
-                currentChanged.onNext(this.current);
-        }
-        public Observable<Integer> currentChanged() {
-            return currentChanged;
-        }
-
-        private void updateFloorButtons(int floorNumber) {
-            for (Floor floor : this.floors)
-                floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
-
-            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
-            this.upButton.setDisable(floorNumber == highestFloorNumber);
-            this.downButton.setDisable(floorNumber == lowestFloorNumber);
-        }
-        public Floor floor(int floorNumber) {
-            return floors[floorNumber - 1];
-        }
-    }
 
     public MainScreenController(Stage stage, IPathfinder pathfinder){
         if (stage == null) ThrowHelper.illegalNull("stage");
