@@ -7,13 +7,22 @@ import java.util.Random;
 
 public class TwoFactorAuthenticator {
 
-    private int generateCode(){
+    public EmployeeData ed;
+    public String carrier;
+    public int code;
+
+    public TwoFactorAuthenticator(EmployeeData ed, String carrier, int code) {
+        this.ed = ed;
+        this.carrier = carrier;
+        this.code = code;
+    }
+
+    public static int generateCode(){
         Random rand = new Random();
         return rand.nextInt(999999);
     }
 
-    public int runTextTFA(EmployeeData ed, String carrier){
-        int tfaCode = generateCode();
+    public int runTextTFA(EmployeeData ed, String carrier, int tfaCode){
         Mailer.sendTextToCarrier("Your two factor authentication code is: " + tfaCode,"Faulker Hospital",ed.getPhoneNumber(),carrier);
         return tfaCode;
     }
