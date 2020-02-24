@@ -150,7 +150,7 @@ public class MainScreenController implements Initializable {
             flip = true;
         }
 
-        nodeSelector.onNodeClicked(node);
+        nodeSelector.onNodeSelected(node);
     }
     private void onMapClicked(MouseEvent e) {
         final double x = e.getX();

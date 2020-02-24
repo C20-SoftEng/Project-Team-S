@@ -4,6 +4,8 @@ import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
+import java.util.function.Function;
+
 /**
  * An implementation of IPathfinder that allows the algorithm to be switched on the fly.
  */
@@ -30,7 +32,9 @@ public class PathfindingContext implements IPathfinder {
     }
 
     @Override
-    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
-        return pathfinder.findPath(graph, start, goal);
+    public Path findPath(
+            NodeData start, NodeData goal,
+            Function<NodeData, Iterable<NodeData>> friendSelector) {
+        return pathfinder.findPath(start, goal, friendSelector);
     }
 }
