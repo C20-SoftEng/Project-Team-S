@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.widgets;
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextField;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +31,7 @@ public final class AutoComplete {
                 .collect(Collectors.toList());
     }
 
-    private static <T> Observable<T> propertyStream(Property<T> property) {
+    public static <T> Observable<T> propertyStream(Property<T> property) {
         Subject<T> subject = PublishSubject.create();
         property.addListener((sender, previous, current) -> subject.onNext(current));
 
@@ -116,4 +119,24 @@ public final class AutoComplete {
     public static Disposable start(Collection<String> dictionary, ComboBox<String> inputComboBox ) {
         return start(dictionary, inputComboBox, 10);
     }
+
+    public static <T> Observable<Collection<LookupResult<T>>> createLookupStream(
+            Collection<T> dictionary,
+            Observable<String> textInput,
+            Function<T, String> textExtractor
+    ) {
+        if (dictionary == null) ThrowHelper.illegalNull("dictionary");
+        if (textInput == null) ThrowHelper.illegalNull("textInput");
+        if (textExtractor == null) ThrowHelper.illegalNull("textExtractor");
+
+        Map<String, T> lookup = dictionary.stream()
+                .collect(Collectors.toMap(textExtractor, t -> t));
+
+        return textInput
+                .map(text -> wordLookup(lookup.keySet(), text))
+                .map(words -> words.stream()
+                        .map(word -> new LookupResult<>(word, lookup.get(word)))
+                        .collect(Collectors.toList()));
+    }
+
 }
