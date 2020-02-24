@@ -1,11 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
 //import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
@@ -18,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
-import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
 import java.util.List;
 import java.util.stream.Collectors;
