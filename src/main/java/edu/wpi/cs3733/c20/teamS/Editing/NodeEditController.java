@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,16 +28,18 @@ public class NodeEditController implements Initializable {
     @FXML private JFXTextField shortNodeName;
     @FXML private JFXComboBox<String> nodeType;
 
-    boolean isMyComboBoxEmpty = nodeType.getSelectionModel().isEmpty();
-
+    /**
+     * There might be a better way to display errors, but this works. Feel free to refactor.
+     */
     @FXML private void onOKClicked() {
-        if (!isMyComboBoxEmpty){
-            errored.setVisible(true);
-        }
-        else {
+        //Verifiers
+        floorNumber(); buildingName(); nodeType(); fullNodeName(); shortNodeName();
+        if (!((floorNumber() == -1) ||
+                (buildingName().equals("Error")) || (nodeType().equals("Error"))
+                || (fullNodeName().equals("Error")) || (shortNodeName().equals("Error"))))
             okClicked.onNext(this);
-        }
     }
+
     @FXML private void onCancelClicked() {
         cancelClicked.onNext(this);
     }
@@ -48,28 +51,64 @@ public class NodeEditController implements Initializable {
     public NodeEditController() {}
 
     public int floorNumber() {
-        return Integer.parseInt(floorNumber.getText());
+        if (floorNumber.getText().equals("")) {
+            errored.setVisible(true);
+            floorError.setVisible(true);
+            return -1;
+        } else {
+            floorError.setVisible(false);
+            return Integer.parseInt(floorNumber.getText());
+        }
     }
+
     public String buildingName() {
-        return buildingName.getText();
+        if (buildingName.getText().equals("")){
+            errored.setVisible(true);
+            buildingError.setVisible(true);
+            return "Error";
+        } else {
+            buildingError.setVisible(false);
+            return buildingName.getText();
+        }
     }
+
     public String nodeType() {
+//        System.out.println("nodetype reached");
+        if (nodeType.getValue() == null){
+            errored.setVisible(true);
+            nodeError.setVisible(true);
+//            System.out.println("nulled" + nodeType.getValue());
+            return "Error";
+        } else {
+            nodeError.setVisible(false);
+//            System.out.println("Elsed");
             return nodeType.getValue();
+        }
     }
+
     public String fullNodeName() {
-        return fullNodeName.getText();
+        if (fullNodeName.getText().equals("")){
+            errored.setVisible(true);
+            fullError.setVisible(true);
+            return "Error";
+        } else {
+            fullError.setVisible(false);
+            return fullNodeName.getText();
+        }
     }
+
     public String shortNodeName() {
-        return shortNodeName.getText();
+        if (shortNodeName.getText().equals("")) {
+            errored.setVisible(true);
+            shortError.setVisible(true);
+            return "Error";
+        } else {
+            shortError.setVisible(false);
+            return shortNodeName.getText();
+        }
     }
 
     public Observable<Object> okClicked() {
-//        if(!buildingName().equals("") && !nodeType().equals("") && !fullNodeName().equals("") && !shortNodeName().equals("")){
-//            return okClicked;
-//        }
-//        else {
-//            return null;
-//        }
         return okClicked;
     }
     public Observable<Object> cancelClicked() {
@@ -77,7 +116,6 @@ public class NodeEditController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle rb)  {
-
 
         nodeType.getItems().addAll("HALL", "DEPT", "CONF",
                 "SERV", "RETL", "INFO",
