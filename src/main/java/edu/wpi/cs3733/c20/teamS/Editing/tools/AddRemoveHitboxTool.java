@@ -45,8 +45,8 @@ public class AddRemoveHitboxTool implements IEditingTool {
     @Override public void onMapClicked(MouseEvent event) {
         state.onMapClicked(event);
     }
-    @Override public void onMouseMovedOverMap(double x, double y) {
-        state.onMouseMoved(x, y);
+    @Override public void onMouseMoved(MouseEvent event) {
+        state.onMouseMoved(event.getX(), event.getY());
     }
     @Override public void onEscapeKey() {
         state.onEscapeKey();

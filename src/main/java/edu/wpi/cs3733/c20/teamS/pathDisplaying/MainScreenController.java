@@ -45,7 +45,7 @@ import static java.util.stream.Collectors.*;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private IPathfinder algorithm;
+    private IPathfinder pathfinder;
     private PathRenderer renderer;
     private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
@@ -126,9 +126,12 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    public MainScreenController(Stage stage, IPathfinder algorithm){
-        this.algorithm = algorithm;
+    public MainScreenController(Stage stage, IPathfinder pathfinder){
+        if (stage == null) ThrowHelper.illegalNull("stage");
+        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
+
         this.stage = stage;
+        this.pathfinder = pathfinder;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -137,7 +140,7 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, algorithm);
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder);
 
         initFloorSelector();
 
