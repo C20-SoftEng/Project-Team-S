@@ -31,28 +31,29 @@ public class WrittenInstructions {
 
 
     public List<String> directions() {
-        if (path.size() > 2) {
-            for (int i = 0; i < path.size() -2  ; i++) {
+        if (path.size()>2) {
+            for (int i = 0; i < path.size()-2  ; i++) {
 
-                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
 
-                    if(path.get(i).getNodeType() == "ELEV"){
-                        instructions.add("Take Elevator To Floor " + path.get(i+1).getFloor());
+                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
 
+//                    if(isElevator(path.get(i+1), path.get(i+3))){
+//                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
+//                    }
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV")){
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
                     }
-                    if(distance(path.get(i), path.get(i+1)) < 10){
-                        instructions.add("Turn Right");
-                    }
-                    else {
+                    else{
                         instructions.add(("In " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
                                 ftRatio) + "FT (" + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
                                 "M), Turn Right"));
-                        savingDistance = 0;
+                       savingDistance = 0;
                     }
 
                 }
-                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
-                    if(path.get(i).getNodeType() == "ELEV"){
+                if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
+
+                    if(path.get(i).getNodeType().equals("ELEV")){
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
                     }
                     if(distance(path.get(i), path.get(i+1)) < 10){
@@ -64,6 +65,14 @@ public class WrittenInstructions {
                                 ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
                         savingDistance = 0;
                     }
+//                    if(isElevator(path.get(i+1), path.get(i+3))){
+//                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
+//                    }
+//                    else{
+//                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
+//                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
+//                        savingDistance = 0;
+//                    }
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
 
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
@@ -71,21 +80,16 @@ public class WrittenInstructions {
 
 
 
-                if (i == path.size() - 2) {
+                if (i == path.size()-2) {
                     return (instructions);
                 }
 
 
             }
-
+            if (path.get(path.size()-2).getNodeType() == "ELEV"){
+                instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
+            }
         }
-
-        if (path.get(path.size()-2).getNodeType() == "ELEV"){
-
-            instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
-        }
-
-
         return instructions;
     }
 
@@ -99,6 +103,13 @@ public class WrittenInstructions {
 
     public List<String> getInstructions() {
         return instructions;
+    }
+
+    public boolean isElevator(NodeData nodeOne, NodeData nodeTwo){
+        if(nodeOne.getFloor() != nodeTwo.getFloor()){
+            return true;
+        }
+        return false;
     }
 
     //point A,point B, point P
