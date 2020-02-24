@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.utilities.EmailThread;
 import edu.wpi.cs3733.c20.teamS.utilities.Mailer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,11 +69,16 @@ public class TwoFactorScreen {
     }
 
     public void sendTFA(){
-        TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
         DatabaseController dbc = new DatabaseController();
         EmployeeData empData = dbc.getEmployeeFromID(loggedIn.id());
-        int code = tfa.runTextTFA(empData,carrier);
-        this.tfaCode = code;
+
+        int code = TwoFactorAuthenticator.generateCode();
+        TwoFactorAuthenticator tfa = new TwoFactorAuthenticator(empData, carrier, code);
+        EmailThread et = new EmailThread(tfa);
+        tfaCode = code;
+        et.start();
+        //int code = et.tfa.runTextTFA(empData,carrier);
+        System.out.println("this code: "+ code);
     }
 
     public void setCarrier(String carrier){
