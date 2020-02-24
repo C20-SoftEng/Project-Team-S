@@ -21,7 +21,7 @@ public final class ReactiveProperty<T> {
     }
     public void setValue(T value) {
         T previous = this.value;
-        if (!Objects.equals(previous, value))
+        if (Objects.equals(previous, value))
             return;
         this.value = value;
         changed.onNext(value);

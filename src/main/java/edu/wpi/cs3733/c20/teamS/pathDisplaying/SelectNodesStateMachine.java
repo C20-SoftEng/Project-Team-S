@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -15,11 +16,10 @@ import java.util.Objects;
  * an end node. Simply call onNodeClicked() from your UI.
  */
 final class SelectNodesStateMachine {
-    private final PublishSubject<Path> pathChanged = PublishSubject.create();
+    private final ReactiveProperty<Path> path = new ReactiveProperty<>(Path.empty());
     private final MutableGraph<NodeData> graph;
     private final IPathfinder pathfinder;
 
-    private Path path;
     private State state;
 
     public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinder pathfinder) {
@@ -28,7 +28,6 @@ final class SelectNodesStateMachine {
 
         this.graph = graph;
         this.pathfinder = pathfinder;
-        path = Path.empty();
         state = new NothingChosenState();
     }
 
@@ -36,14 +35,10 @@ final class SelectNodesStateMachine {
      * Gets the currently-computed path. Will never be null; if no path has been computed it will be empty.
      */
     public Path path() {
-        return path;
+        return path.value();
     }
     public Observable<Path> pathChanged() {
-        return pathChanged;
-    }
-    private void setPath(Path value) {
-        if (!Objects.equals(path, value))
-            pathChanged.onNext(path = value);
+        return path.changed();
     }
     public void onNodeClicked(NodeData node) {
         state.onNodeClicked(node);
@@ -72,13 +67,12 @@ final class SelectNodesStateMachine {
 
         public StartNodeSelectedState(NodeData start) {
             this.start = start;
-            setPath(Path.empty());
+            path.setValue(Path.empty());
         }
 
         @Override
         public void onNodeClicked(NodeData node) {
-            Path path = pathfinder.findPath(graph, start, node);
-            setPath(path);
+            path.setValue(pathfinder.findPath(graph, start, node));
             state = new NothingChosenState();
         }
     }
