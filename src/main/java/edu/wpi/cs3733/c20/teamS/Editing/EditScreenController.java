@@ -6,7 +6,6 @@ import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -16,7 +15,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 
@@ -408,7 +407,7 @@ public class EditScreenController implements Initializable {
     }
 
     public void onLogOut() {
-        IPathfinding pathfinder = new AStar();
+        IPathfinder pathfinder = new AStar();
         switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
             case "A*":
                 pathfinder = new AStar();

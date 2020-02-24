@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 import java.util.*;
 
-public class BreadthFirst implements IPathfinding{
+public class BreadthFirst implements IPathfinder {
 
     @Override
     public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {

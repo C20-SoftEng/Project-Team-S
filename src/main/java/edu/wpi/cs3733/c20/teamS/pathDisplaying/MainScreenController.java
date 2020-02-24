@@ -2,12 +2,14 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.Editing.NodeHitbox;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import io.reactivex.rxjava3.core.Observable;
@@ -25,14 +27,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -40,14 +45,15 @@ import static java.util.stream.Collectors.*;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private IPathfinding algorithm;
+    private IPathfinder algorithm;
     private PathRenderer renderer;
     private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
-    private Set<NodeHitbox> hitboxes;
+    private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
+    private final Set<Hitbox> hitboxes = new HashSet<>();
 
     private boolean flip = true;
     //endregion
@@ -120,7 +126,7 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    public MainScreenController(Stage stage, IPathfinding algorithm){
+    public MainScreenController(Stage stage, IPathfinder algorithm){
         this.algorithm = algorithm;
         this.stage = stage;
     }
@@ -148,15 +154,7 @@ public class MainScreenController implements Initializable {
     }
 
     private void initHitboxes() {
-        HitboxRepo repo = new HitboxRepo();
-        hitboxes = repo.loadHitboxes(graph.nodes());
-        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        for (NodeHitbox hitbox : hitboxes) {
-            hitbox.mask().setFill(invisible);
-            hitbox.mask().setOnMouseEntered(e -> hitbox.mask().setFill(visible));
-            hitbox.mask().setOnMouseExited(e -> hitbox.mask().setFill(invisible));
-        }
+        hitboxes.addAll(hitboxRepo.load());
     }
     private void initGraph() {
         DatabaseController database = new DatabaseController();
@@ -201,8 +199,9 @@ public class MainScreenController implements Initializable {
         group.getChildren().add(pathGroup);
 
         hitboxes.stream()
-                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
-                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
+                .filter(hitbox -> hitbox.floor() == floorSelector.current())
+                .map(this::createHitboxRenderingMask)
+                .forEach(polygon -> group.getChildren().add(polygon));
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
@@ -226,6 +225,16 @@ public class MainScreenController implements Initializable {
         //pathDrawer.setNode(nearest);
     }
 
+    private Polygon createHitboxRenderingMask(Hitbox hitbox) {
+        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+        Polygon polygon = hitbox.toPolygon();
+        polygon.setFill(invisible);
+        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
+        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
+
+        return polygon;
+    }
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
         List<NodeData> sorted = graph.nodes().stream()
                     .filter(node -> node.getFloor() == floorSelector.current())
@@ -289,15 +298,15 @@ public class MainScreenController implements Initializable {
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            Parent root = (Parent) fxmlLoader.load();
             //Parent  root1 = fxmlLoader.getRoot();
             Stage window = new Stage();
            window.initModality(Modality.WINDOW_MODAL);
            window.setFullScreen(false);
-            window.setScene(new Scene(root1));
+            window.setScene(new Scene(root));
             window.setResizable(false);
             window.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Can't load new window");
         }
     }

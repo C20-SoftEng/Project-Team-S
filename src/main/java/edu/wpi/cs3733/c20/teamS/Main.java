@@ -9,7 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static final boolean START_ON_ADMIN_SCREEN = true;
+    private static final boolean START_ON_ADMIN_SCREEN = false;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();

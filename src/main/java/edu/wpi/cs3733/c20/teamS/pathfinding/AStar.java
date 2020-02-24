@@ -9,7 +9,7 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import java.util.*;
 
 
-public class AStar implements IPathfinding {
+public class AStar implements IPathfinder {
     private static final double ELEVATOR_COST = 100000;
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
