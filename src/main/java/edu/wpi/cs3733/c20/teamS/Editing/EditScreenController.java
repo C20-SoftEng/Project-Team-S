@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -132,7 +133,7 @@ public class EditScreenController implements Initializable {
         initFloorSelector();
 
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
-        group.setOnMouseMoved(e -> editingTool.onMouseMovedOverMap(e.getX(), e.getY()));
+        group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
         editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         if (hitboxRepo.canLoad())
@@ -262,7 +263,7 @@ public class EditScreenController implements Initializable {
         editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
     }
     @FXML private void onAddRemoveEdgeClicked() {
-        editingTool = new AddRemoveEdgeTool(graph);
+        editingTool = new AddRemoveEdgeTool(graph, () -> group);
     }
     @FXML private void onAddRemoveHitboxClicked() {
         AddRemoveHitboxTool tool;
@@ -305,9 +306,10 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        group.getChildren().add(drawAllNodes());
-        group.getChildren().add(drawAllEdges());
         group.getChildren().add(drawAllHitboxes());
+        group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllNodes());
+
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
@@ -326,15 +328,13 @@ public class EditScreenController implements Initializable {
     }
     private Group drawAllEdges() {
         Group group = new Group();
-        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
+        graph.edges().stream()
                 .filter(edge -> {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
                             edge.nodeV().getFloor() == floorSelector.current();
                 })
-                .collect(Collectors.toSet());
-        for (EndpointPair<NodeData> edge : edges) {
-            drawLine(group, edge.nodeU(), edge.nodeV());
-        }
+                .forEach(edge -> drawLine(group, edge.nodeU(), edge.nodeV()));
+
         return group;
     }
     private Group drawAllHitboxes() {
@@ -349,17 +349,30 @@ public class EditScreenController implements Initializable {
     private void drawCircle(Group group, NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
         circle.setStroke(Color.ORANGE);
-        circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-        if (node.getNodeType().equals("ELEV")) {
-            circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-        }
-        group.getChildren().add(circle);
+        final Color normal = node.getNodeType().equals("ELEV") ?
+                Color.GREEN.deriveColor(1, 1, 1, 0.5) :
+                Color.ORANGE.deriveColor(1, 1, 1, 0.5);
+        final Color highlighted = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        circle.setFill(normal);
+        circle.setOnMouseEntered(e -> {
+            circle.setFill(highlighted);
+            circle.setStroke(highlighted);
+            circle.setStrokeWidth(3);
+            circle.setStrokeType(StrokeType.OUTSIDE);
+        });
+        circle.setOnMouseExited(e -> {
+            circle.setFill(normal);
+            circle.setStroke(normal);
+            circle.setStrokeWidth(1);
+            circle.setStrokeType(StrokeType.CENTERED);
 
+        });
+
+        group.getChildren().add(circle);
         node.positionChanged().subscribe(position -> {
             circle.setCenterX(position.getX());
             circle.setCenterY(position.getY());
         });
-
         circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
         circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
@@ -393,9 +406,13 @@ public class EditScreenController implements Initializable {
         line.setStartY(startY);
         line.setEndX(endX);
         line.setEndY(endY);
+        final Color normal = Color.BLUE;
+        final Color highlight = Color.AQUA;
         line.setStroke(Color.BLUE);
         line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(5);
+        line.setOnMouseEntered(e -> line.setStroke(highlight));
+        line.setOnMouseExited(e -> line.setStroke(normal));
 
         return line;
     }

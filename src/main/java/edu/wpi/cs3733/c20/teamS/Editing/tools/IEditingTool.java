@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 
 public interface IEditingTool {
     default void onMapClicked(MouseEvent event) {}
-    default void onMouseMovedOverMap(double x, double y) {}
+    default void onMouseMoved(MouseEvent event) {}
     default void onNodeClicked(NodeData node, MouseEvent event) {}
     default void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
     default void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
