@@ -1,7 +1,10 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
+
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
+import foodRequest.FoodRequest;
+import foodRequest.ServiceException;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.*;
 import javafx.event.ActionEvent;
@@ -32,7 +35,7 @@ public class SelectServiceController {
     @FXML    private JFXButton giftButton;
     @FXML    private JFXButton laundryButton;
     @FXML    private JFXButton serviceTechService;
-    @FXML    private JFXButton dogButton;
+    @FXML    private JFXButton foodButton;
 
 
     @FXML void onDrugClicked(ActionEvent event){
@@ -123,21 +126,10 @@ public class SelectServiceController {
     }
 
 
-    @FXML void onDogClicked(ActionEvent event){
-        Stage dogStage = new Stage();
-        dogStage.initModality(Modality.WINDOW_MODAL);
+    @FXML void onFoodClicked(ActionEvent event) throws ServiceException {
+        FoodRequest foodRequest = new FoodRequest();
+        foodRequest.run(0,0,500,500, null, "f","h");
 
-        ImageView iv = new ImageView();
-        iv.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
-        AnchorPane root = new AnchorPane(iv);
-
-        Scene scene = new Scene(root, 325, 250);
-
-        dogStage.setScene(scene);
-        dogStage.setResizable(false);
-        dogStage.show();
-
-        this.stage.close();
     }
 
     /**

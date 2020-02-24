@@ -2,8 +2,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -13,7 +15,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 
@@ -35,6 +37,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -53,9 +57,10 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private IEditingTool editingTool;
-    private DatabaseController database = new DatabaseController();
+    private final DatabaseController database = new DatabaseController();
+    private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
-    private final Set<NodeHitbox> hitboxes = new HashSet<>();
+    private final Set<Hitbox> hitboxes = new HashSet<>();
     //endregion
 
     private static class Floor {
@@ -126,11 +131,23 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
+
+        group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
+        group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
+
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        if (hitboxRepo.canLoad())
+            hitboxes.addAll(hitboxRepo.load());
+
+        redrawMap();
     }
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
-        graph.nodeAdded().subscribe(e -> redrawMap());
+        graph.nodeAdded().subscribe(node -> {
+            database.addNode(node, graph.nodes());
+            redrawMap();
+        });
         graph.nodeRemoved().subscribe(e -> redrawMap());
         graph.edgeAdded().subscribe(e -> redrawMap());
         graph.edgeRemoved().subscribe(e -> redrawMap());
@@ -148,12 +165,6 @@ public class EditScreenController implements Initializable {
     }
 
     //region gui components
-    @FXML private JFXRadioButton addNodeRadio;
-    @FXML private JFXRadioButton removeNodeRadio;
-    @FXML private JFXRadioButton addEdgeRadio;
-    @FXML private JFXRadioButton removeEdgeRadio;
-    @FXML private JFXRadioButton moveNodeRadio;
-    @FXML private JFXRadioButton showInfoRadio;
     @FXML private VBox editPrivilegeBox;
     @FXML private Label loggedInUserLabel;
     @FXML private ImageView mapImage;
@@ -248,27 +259,41 @@ public class EditScreenController implements Initializable {
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
 
-    @FXML private void onAddNodeClicked() {
-        editingTool = new AddNodeTool(graph, () -> floorSelector.current());
+    @FXML private void onAddRemoveNodeClicked() {
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
     }
-    @FXML private void onRemoveNodeClicked() {
-        editingTool = new RemoveNodeTool(graph);
+    @FXML private void onAddRemoveEdgeClicked() {
+        editingTool = new AddRemoveEdgeTool(graph, () -> group);
     }
-    @FXML private void onAddEdgeClicked() {
-        editingTool = new AddEdgeTool(graph);
-    }
-    @FXML private void onRemoveEdgeClicked() {
-        editingTool = new RemoveEdgeTool(graph);
+    @FXML private void onAddRemoveHitboxClicked() {
+        AddRemoveHitboxTool tool;
+        editingTool = tool = new AddRemoveHitboxTool(
+                hitbox -> {
+                    hitboxes.remove(hitbox);
+                    redrawMap();
+                },
+                () -> group,
+                () -> floorSelector.current()
+        );
+        tool.hitboxAdded().subscribe(hitbox -> {
+            hitboxes.add(hitbox);
+            redrawMap();
+        });
     }
     @FXML private void onMoveNodeClicked() {
         editingTool = new MoveNodeTool(scrollPane);
     }
-    @FXML private void onEditNodeHitboxClicked() {
-        EditNodeHitboxTool hitboxTool;
-        editingTool = hitboxTool = new EditNodeHitboxTool(() -> group);
-        hitboxTool.hitboxAdded().subscribe(hitbox -> {
-           hitboxes.add(hitbox);
-        });
+
+    @FXML private void onConfirmEditClicked() {
+        if (hitboxRepo.canSave())
+            hitboxRepo.save(hitboxes);
+    }
+    @FXML private void onCancelEditClicked() {
+        if (hitboxRepo.canLoad()) {
+            hitboxes.clear();
+            hitboxes.addAll(hitboxRepo.load());
+            redrawMap();
+        }
     }
     //endregion
 
@@ -280,15 +305,16 @@ public class EditScreenController implements Initializable {
 
         group.getChildren().clear();
         group.getChildren().add(mapImage);
-        group.setOnMouseClicked(e -> editingTool.onMapClicked(e.getX(), e.getY()));
 
-        group.getChildren().add(drawAllNodes());
-        group.getChildren().add(drawAllEdges());
         group.getChildren().add(drawAllHitboxes());
+        group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllNodes());
+
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
+
     }
     private Group drawAllNodes() {
         Group group = new Group();
@@ -302,64 +328,103 @@ public class EditScreenController implements Initializable {
     }
     private Group drawAllEdges() {
         Group group = new Group();
-        Set<EndpointPair<NodeData>> edges = graph.edges().stream()
+        graph.edges().stream()
                 .filter(edge -> {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
                             edge.nodeV().getFloor() == floorSelector.current();
                 })
-                .collect(Collectors.toSet());
-        for (EndpointPair<NodeData> edge : edges) {
-            drawLine(group, edge.nodeU(), edge.nodeV());
-        }
+                .forEach(edge -> drawLine(group, edge.nodeU(), edge.nodeV()));
+
         return group;
     }
     private Group drawAllHitboxes() {
-        Group group = new Group();
+        Group result = new Group();
         hitboxes.stream()
-                .filter(hitbox -> hitbox.node().getFloor() == floorSelector.current())
-                .forEach(hitbox -> group.getChildren().add(hitbox.mask()));
-        return group;
+                .filter(hitbox -> hitbox.floor() == floorSelector.current())
+                .map(hitbox -> drawHitbox(hitbox))
+                .forEach(polygon -> result.getChildren().add(polygon));
+        return result;
     }
 
     private void drawCircle(Group group, NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
         circle.setStroke(Color.ORANGE);
-        circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.5));
-        if (node.getNodeType().equals("ELEV")) {
-            circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.5));
-        }
-        group.getChildren().add(circle);
+        final Color normal = node.getNodeType().equals("ELEV") ?
+                Color.GREEN.deriveColor(1, 1, 1, 0.5) :
+                Color.ORANGE.deriveColor(1, 1, 1, 0.5);
+        final Color highlighted = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        circle.setFill(normal);
+        circle.setOnMouseEntered(e -> {
+            circle.setFill(highlighted);
+            circle.setStroke(highlighted);
+            circle.setStrokeWidth(3);
+            circle.setStrokeType(StrokeType.OUTSIDE);
+        });
+        circle.setOnMouseExited(e -> {
+            circle.setFill(normal);
+            circle.setStroke(normal);
+            circle.setStrokeWidth(1);
+            circle.setStrokeType(StrokeType.CENTERED);
 
+        });
+
+        group.getChildren().add(circle);
         node.positionChanged().subscribe(position -> {
             circle.setCenterX(position.getX());
             circle.setCenterY(position.getY());
         });
-
-        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node));
+        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
         circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
-        Line line = new Line();
-        updateLineProperties(line, start, end);
+        Line line = createEdgeLine(
+                start.getxCoordinate(), start.getyCoordinate(),
+                end.getxCoordinate(), end.getyCoordinate());
         group.getChildren().add(line);
 
-        line.setOnMouseClicked(e -> editingTool.onEdgeClicked(EndpointPair.unordered(start, end)));
-        start.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
-        end.positionChanged().subscribe(e -> updateLineProperties(line, start, end));
+        line.setOnMouseClicked(e -> {
+            EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
+            editingTool.onEdgeClicked(edge, e);
+        });
+        start.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
+        end.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
     }
-    private void updateLineProperties(Line line, NodeData start, NodeData end) {
+    private Polygon drawHitbox(Hitbox hitbox) {
+        Polygon result = hitbox.toPolygon();
+        result.setFill(Color.BLUE.deriveColor(1, 1, 1, .45));
+        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(hitbox, e));
+        return result;
+    }
+
+    /**
+     * Creates a line used for rendering edges.
+     */
+    private Line createEdgeLine(double startX, double startY, double endX, double endY) {
+        Line line = new Line();
+        line.setStartX(startX);
+        line.setStartY(startY);
+        line.setEndX(endX);
+        line.setEndY(endY);
+        final Color normal = Color.BLUE;
+        final Color highlight = Color.AQUA;
+        line.setStroke(Color.BLUE);
+        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
+        line.setStrokeWidth(5);
+        line.setOnMouseEntered(e -> line.setStroke(highlight));
+        line.setOnMouseExited(e -> line.setStroke(normal));
+
+        return line;
+    }
+    private void updateLinePosition(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
         line.setStartY(start.getyCoordinate());
         line.setEndX(end.getxCoordinate());
         line.setEndY(end.getyCoordinate());
-        line.setStroke(Color.BLUE);
-        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-        line.setStrokeWidth(5);
     }
 
     public void onLogOut() {
-        IPathfinding pathfinder = new AStar();
+        IPathfinder pathfinder = new AStar();
         switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
             case "A*":
                 pathfinder = new AStar();

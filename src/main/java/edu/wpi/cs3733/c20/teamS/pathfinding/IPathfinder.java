@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import java.util.ArrayList;
 
 
-public interface IPathfinding {
+public interface IPathfinder {
 
     public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal);
 }

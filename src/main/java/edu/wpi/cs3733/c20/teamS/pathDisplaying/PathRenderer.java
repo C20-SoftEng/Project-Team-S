@@ -1,22 +1,21 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
-import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +30,7 @@ class PathRenderer {
      * @param floor The floor that is being rendered.
      * @return A new Group containing all the elements that were drawn.
      */
-    public Group draw(Path path, int floor) {
-        Boolean down = true;
+    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) {
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
@@ -48,36 +46,50 @@ class PathRenderer {
 
         NodeData start = nodes.get(0);
         if (start.getFloor() == floor) {
-            Circle startCircle = drawStartCircle(nodes.get(0));
+            Circle startCircle = drawStartCircle(start);
             group.getChildren().add(startCircle);
         }
-
         NodeData end = nodes.get(nodes.size() - 1);
         if (end.getFloor() == floor) {
-            ImageView endBalloon = drawEndBalloon(nodes.get(nodes.size() - 1));
+            ImageView endBalloon = drawEndBalloon(end);
             group.getChildren().add(endBalloon);
         }
+        boolean down = start.getFloor() > end.getFloor();
+        nodes.stream()
+                .filter(node -> node.getNodeType().equals("ELEV"))
+                .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
+                .forEach(image -> group.getChildren().add(image));
 
-        if (start.getFloor() < end.getFloor()) {
-            down = false;
-        } else down = true;
+        boolean runOnce = true;
+        Path animated_path = new Path();
 
-        if (down) {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_down_gif = drawDownElevator(node1);
-                    group.getChildren().add(elavator_down_gif);
-                }
-            }
-        } else {
-            for (NodeData node1 : nodes) {
-                if (node1.getNodeType().equals("ELEV")) {
-                    ImageView elavator_up_gif = drawUpElevator(node1);
-                    group.getChildren().add(elavator_up_gif);
-                }
+        for (NodeData node_itrat : nodes) {
+            if((node_itrat.getFloor() == floor) && runOnce){
+                animated_path = new Path();
+                animated_path.getElements().add(new MoveTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+                runOnce = false;
             }
 
+            if (node_itrat.getFloor() == floor) {
+                animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+            }
         }
+
+        Image i = new Image("images/Icons/outlined_arrow.png");
+        ImageView imageView = new ImageView();
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(50);
+        imageView.setImage(i);
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.seconds(7.5));
+        pathTransition.setPath(animated_path);
+        pathTransition.setNode(imageView);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(Timeline.INDEFINITE);
+        //pathTransition.setAutoReverse(true);
+        pathTransition.play();
+        group.getChildren().add(imageView);
 
         return group;
     }
@@ -88,7 +100,7 @@ class PathRenderer {
      * @param path       The path to display instructions for.
      * @param displayBox The VBox to display the instructions in.
      */
-    public void printInstructions(Path path, VBox displayBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
 
@@ -175,14 +187,10 @@ class PathRenderer {
     }
 
     private ImageView drawUpElevator(NodeData node2) {
-        ImageView elevator_icon_up = new ImageView();
-        elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_up.setRotate(180);
-        elevator_icon_up.setX(node2.getxCoordinate() - 25);
-        elevator_icon_up.setY(node2.getyCoordinate() - 20);
-        elevator_icon_up.setPreserveRatio(true);
-        elevator_icon_up.setFitWidth(40);
-        return elevator_icon_up;
-
+        ImageView result = drawDownElevator(node2);
+        result.setRotate(180);
+        return result;
     }
 }
+
+

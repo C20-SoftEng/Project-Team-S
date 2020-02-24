@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.widgets;
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextField;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +31,7 @@ public final class AutoComplete {
                 .collect(Collectors.toList());
     }
 
-    private static <T> Observable<T> propertyStream(Property<T> property) {
+    public static <T> Observable<T> propertyStream(Property<T> property) {
         Subject<T> subject = PublishSubject.create();
         property.addListener((sender, previous, current) -> subject.onNext(current));
 
@@ -81,28 +84,28 @@ public final class AutoComplete {
      * Begins providing autocomplete services to the specified ComboBox. The combo-box's item collection
      * will be populated with the autocomplete results.
      * @param dictionary The collection of strings to search for autocomplete results in.
-     * @param inputComboBox The ComboBox that the user will be typing in.
+     * @param comboBox The ComboBox that the user will be typing in.
      * @param maxResultsDisplay The maximum number of rows to display in the ComboBox dropdown.
      * @return An object that can be used to cancel the autocomplete service.
      */
     public static Disposable start(
             Collection<String> dictionary,
-            ComboBox<String> inputComboBox,
+            ComboBox<String> comboBox,
             int maxResultsDisplay
     ) {
-        Observable<String> inputStream = propertyStream(inputComboBox.getEditor().textProperty());
+        Observable<String> inputStream = propertyStream(comboBox.getEditor().textProperty());
         return inputStream
                 .map(text -> wordLookup(dictionary, text))
                 .subscribe(words -> {
-                    List<String> items = inputComboBox.getItems();
+                    List<String> items = comboBox.getItems();
                     items.clear();
                     items.addAll(words);
                     int rowCount = Math.min(words.size(), maxResultsDisplay);
-                    inputComboBox.setVisibleRowCount(rowCount);
+                    comboBox.setVisibleRowCount(rowCount);
                     if (items.isEmpty())
-                        inputComboBox.hide();
+                        comboBox.hide();
                     else
-                        inputComboBox.show();
+                        comboBox.show();
                 });
     }
 
@@ -113,7 +116,59 @@ public final class AutoComplete {
      * @param inputComboBox The ComboBox that the user will be typing in.
      * @return An object that can be used to stop receiving autocomplete services.
      */
-    public static Disposable start(Collection<String> dictionary, ComboBox<String> inputComboBox ) {
+    public static Disposable start(Collection<String> dictionary, ComboBox<String> inputComboBox) {
         return start(dictionary, inputComboBox, 10);
     }
+
+    public static <T> Observable<Collection<LookupResult<T>>> createLookupStream(
+            Collection<T> dictionary,
+            Observable<String> textInput,
+            Function<T, String> textExtractor
+    ) {
+        if (dictionary == null) ThrowHelper.illegalNull("dictionary");
+        if (textInput == null) ThrowHelper.illegalNull("textInput");
+        if (textExtractor == null) ThrowHelper.illegalNull("textExtractor");
+
+        Map<String, List<T>> lookup = dictionary.stream()
+                .collect(Collectors.groupingBy(textExtractor));
+
+        return textInput
+                .map(text -> wordLookup(lookup.keySet(), text))
+                .map(words -> words.stream()
+                    .map(word -> lookup.get(word).stream()
+                            .map(t -> new LookupResult<T>(word, t)))
+                    .flatMap(lrs -> lrs)
+                    .collect(Collectors.toList()));
+    }
+
+    public static <T> Disposable start(
+            Collection<T> dictionary,
+            ComboBox<LookupResult<T>> comboBox,
+            Function<T, String> textExtractor,
+            int maxResultsDisplay
+    ) {
+        Observable<String> inputStream = propertyStream(comboBox.getEditor().textProperty());
+        return createLookupStream(dictionary, inputStream, textExtractor)
+                .subscribe(results -> {
+                    List<LookupResult<T>> items = comboBox.getItems();
+                    items.clear();
+                    items.addAll(results);
+                    int rowCount = Math.min(results.size(), maxResultsDisplay);
+                    comboBox.setVisibleRowCount(rowCount);
+                    if (items.isEmpty())
+                        comboBox.hide();
+                    else
+                        comboBox.show();
+                });
+    }
+
+    public static <T> Disposable start(
+            Collection<T> dictionary,
+            ComboBox<LookupResult<T>> comboBox,
+            Function<T, String> textExtractor
+    ) {
+        return start(dictionary, comboBox, textExtractor, 10);
+    }
+
+
 }

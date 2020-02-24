@@ -3,14 +3,16 @@ package edu.wpi.cs3733.c20.teamS.pathFindingTests;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+//import edu.wpi.cs3733.c20.teamS.pathfinding.A_Star;
 import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DepthFirstTests {
+//public class DepthFirstTests {
 //
 //    MutableGraph<NodeData> newGraph = GraphBuilder.undirected().build();
 //
@@ -152,13 +154,5 @@ public class DepthFirstTests {
 //        assertEquals(realPath, path);
 //    }
 //
-//    @Test
-//    public void euclideanDistance_correctDistance(){
-//        DepthFirst depth = new DepthFirst();
-//        double distance = depth.euclideanDistance(nodeOne, nodeTwo);
-//        double realDistance =
-//                Math.sqrt((nodeTwo.getxCoordinate()-nodeOne.getxCoordinate())*(nodeTwo.getxCoordinate()-nodeOne.getxCoordinate()) + (nodeTwo.getyCoordinate()-nodeOne.getyCoordinate())*(nodeTwo.getyCoordinate()-nodeOne.getyCoordinate()));
 //
-//        assertEquals(realDistance, distance);
-//    }
-}
+//}

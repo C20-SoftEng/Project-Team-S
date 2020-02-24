@@ -56,13 +56,14 @@ public class FloristRequestController {
 
     @FXML
     void onSubmitClicked(ActionEvent event) {
+        if(!flowerRequested.getText().equals("") && !locationField.getText().equals("")) {
+            request.setFlowerTypes_(flowerRequested.getText());
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(loggedIn);
 
-        request.setFlowerTypes_(flowerRequested.getText());
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(loggedIn);
-
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public Observable<DialogEvent<FloristServiceRequest>> dialogCompleted() {
