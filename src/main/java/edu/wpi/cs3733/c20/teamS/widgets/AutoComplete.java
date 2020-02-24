@@ -149,19 +149,6 @@ public final class AutoComplete {
             Function<T, String> textExtractor,
             int maxResultsDisplay
     ) {
-//        Observable<String> inputStream = propertyStream(comboBox.getEditor().textProperty());
-//        return createLookupStream(dictionary, inputStream, textExtractor)
-//                .subscribe(results -> {
-//                    List<LookupResult<T>> items = comboBox.getItems();
-//                    items.clear();
-//                    items.addAll(results);
-//                    int rowCount = Math.min(results.size(), maxResultsDisplay);
-//                    comboBox.setVisibleRowCount(rowCount);
-//                    if (items.isEmpty())
-//                        comboBox.hide();
-//                    else
-//                        comboBox.show();
-//                });
 
         class Result implements Disposable {
             private boolean isDisposed = false;
