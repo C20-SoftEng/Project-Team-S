@@ -25,7 +25,6 @@ class FloorSelector {
 
     /**
      * Gets the currently-selected floor number.
-     * @return
      */
     public int current() {
         return this.current;
@@ -40,7 +39,6 @@ class FloorSelector {
         int previous = this.current;
         this.current = floorNumber;
         updateFloorButtons(floorNumber);
-//            updateMapPanPosition(floorNumber);
         if (previous != this.current)
             currentChanged.onNext(this.current);
     }
