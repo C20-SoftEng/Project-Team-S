@@ -181,7 +181,7 @@
                               <Image url="@../images/Icons/error_dot.png" />
                            </image>
                         </ImageView>
-                        <JFXTextField fx:id="fullNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="fullName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -223,7 +223,7 @@
                               <Image url="@../images/Icons/error_dot.png" />
                            </image>
                         </ImageView>
-                        <JFXTextField fx:id="shortNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="shortName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>

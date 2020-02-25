@@ -310,7 +310,9 @@ public class EditScreenController implements Initializable {
     @FXML private void onMoveNodeClicked() {
         editingTool = new MoveNodeTool(scrollPane);
     }
-    @FXML private void onShowInfoClicked() {}
+    @FXML private void onShowInfoClicked() {
+        editingTool = new ShowNodeInfoTool();
+    }
     @FXML private void onEditRoomEntrancesClicked() {
         editingTool = new AddRemoveRoomEntrancesTool(
                 graph.nodes(),
