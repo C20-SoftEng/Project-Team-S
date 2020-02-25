@@ -15,13 +15,10 @@ import java.util.ResourceBundle;
 public class NodeEditController implements Initializable {
 
     @FXML private Label errored;
-    @FXML private ImageView floorError;
-    @FXML private ImageView buildingError;
     @FXML private ImageView nodeError;
     @FXML private ImageView fullError;
     @FXML private ImageView shortError;
-    @FXML private JFXTextField floorNumber;
-    @FXML private JFXTextField buildingName;
+
     @FXML private JFXTextField fullName;
     @FXML private JFXTextField shortName;
     @FXML private JFXComboBox<String> nodeType;
@@ -31,9 +28,8 @@ public class NodeEditController implements Initializable {
      */
     @FXML private void onOKClicked() {
         //Verifiers
-        floorNumber(); buildingName(); nodeType(); fullName(); shortName();
-        if (!((floorNumber() == -1) ||
-                (buildingName().equals("Error")) || (nodeType().equals("Error"))
+        nodeType(); fullName(); shortName();
+        if (!((nodeType().equals("Error"))
                 || (fullName().equals("Error")) || (shortName().equals("Error"))))
             okClicked.onNext(this);
     }
@@ -48,32 +44,7 @@ public class NodeEditController implements Initializable {
 
     public NodeEditController() {}
 
-    public int floorNumber() {
-        if (floorNumber.getText().equals("")) {
-            errored.setVisible(true);
-            floorError.setVisible(true);
-            return -1;
-        } else {
-            floorError.setVisible(false);
-            return Integer.parseInt(floorNumber.getText());
-        }
-    }
-
-    public String buildingName() {
-        if (buildingName.getText().equals("")){
-            errored.setVisible(true);
-            buildingError.setVisible(true);
-            return "Error";
-        } else {
-            buildingError.setVisible(false);
-            return buildingName.getText();
-        }
-    }
-    public void setBuildingName(String value) {
-        buildingName.setText(value);
-    }
     public String nodeType() {
-//        System.out.println("nodetype reached");
         if (nodeType.getValue() == null){
             errored.setVisible(true);
             nodeError.setVisible(true);
