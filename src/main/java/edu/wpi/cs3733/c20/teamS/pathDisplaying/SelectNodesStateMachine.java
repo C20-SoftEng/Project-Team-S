@@ -11,8 +11,10 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.input.MouseEvent;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.IntSupplier;
 
 /**
@@ -27,6 +29,7 @@ final class SelectNodesStateMachine {
     private final ReactiveProperty<Optional<NodeData>> start;
     private final ReactiveProperty<Optional<NodeData>> goal;
     private State state;
+    private final Set<NodeData> tempNodes = new HashSet<>();
 
     public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinder pathfinder, IntSupplier floorSupplier) {
         if (graph == null) ThrowHelper.illegalNull("graph");
@@ -50,9 +53,30 @@ final class SelectNodesStateMachine {
                 .filter(node -> node.getFloor() == floorSupplier.getAsInt())
                 .findFirst();
     }
-    public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-
+    private void removeTempNodes() {
+        for (NodeData node : tempNodes)
+            graph.removeNode(node);
+        tempNodes.clear();
     }
+    public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
+        event.consume();
+        Optional<NodeData> nearest = findNearestFakeNode(hitbox, event.getX(), event.getY());
+        if (!nearest.isPresent())
+            return;
+
+        NodeData temp = createFakeNode(event.getX(), event.getY());
+        graph.addNode(temp);
+        tempNodes.add(temp);
+        graph.putEdge(temp, nearest.get());
+
+        onNodeSelected(temp);
+    }
+
+    private NodeData createFakeNode(double x, double y) {
+        return new NodeData("FAKE", x, y,
+                    floorSupplier.getAsInt(), "NONE", "FAKE", "FAKE NODE", "FAKE NODE");
+    }
+
     public Path path() {
         return path.value();
     }
@@ -91,6 +115,7 @@ final class SelectNodesStateMachine {
             outer().goal.setValue(Optional.of(node));
             Path path = pathfinder.findPath(graph, start.value().get(), goal.value().get());
             outer().path.setValue(path);
+            removeTempNodes();
             outer().state = new NoSelectionState();
         }
     }

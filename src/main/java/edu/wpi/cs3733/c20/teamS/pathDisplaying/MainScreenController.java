@@ -68,7 +68,7 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, pathfinder);
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder, () -> floorSelector.current());
 
         initFloorSelector();
 
@@ -158,9 +158,6 @@ public class MainScreenController implements Initializable {
         NodeData nearest = findNearestNodeWithin(x, y, 200);
         onNodeClicked(nearest);
     }
-    private void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-        nodeSelector.onHitboxClicked(Hitbox hitbox, MouseEvent event);
-    }
 
     private Polygon createHitboxRenderingMask(Hitbox hitbox) {
         Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
@@ -169,7 +166,7 @@ public class MainScreenController implements Initializable {
         polygon.setFill(invisible);
         polygon.setOnMouseEntered(e -> polygon.setFill(visible));
         polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-
+        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(hitbox, e));
         return polygon;
     }
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
