@@ -421,8 +421,6 @@ public class EditScreenController implements Initializable {
     }
 
     public void onLogOut() {
-
-        //IPathfinding pathfinder = new AStar();
         switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
             case "A*":
                 Settings.settings().setPathFinder(new AStar());

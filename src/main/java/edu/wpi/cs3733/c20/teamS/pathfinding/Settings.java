@@ -14,9 +14,6 @@ public class Settings {
 
     }
 
-
-
-
     private Settings(){}
 
     private static class SingletonHelper{
