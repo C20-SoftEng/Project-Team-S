@@ -159,20 +159,19 @@ public class EditScreenController implements Initializable {
         graph.nodeAdded().subscribe(node -> {
             database.addNode(node);
             redrawMap();
-        });
+        }, e -> System.out.println(e.getMessage()));
         graph.nodeRemoved().subscribe(e -> {
-            //database.removeNode(e.getNodeID());
+            database.removeNode(e.getNodeID());
             redrawMap();
-
-        });
+        }, e -> System.out.println(e.getMessage()));
         graph.edgeAdded().subscribe(e -> {
-            //database.addEdge(e.nodeU(), e.nodeV());
+            database.addEdge(e.nodeU(), e.nodeV());
             redrawMap();
-        });
+        }, e -> System.out.println(e.getMessage()));
         graph.edgeRemoved().subscribe(e -> {
-            //database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
+            database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
             redrawMap();
-        });
+        }, e -> System.out.println(e.getMessage()));
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(

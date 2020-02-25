@@ -1,0 +1,6 @@
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\bin\Debug\SwapEdgeIDs.exe.config
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\bin\Debug\SwapEdgeIDs.exe
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\bin\Debug\SwapEdgeIDs.pdb
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\obj\Debug\SwapEdgeIDs.csprojAssemblyReference.cache
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\obj\Debug\SwapEdgeIDs.exe
+D:\Classes\Software Engineering\Repository\Reloaded\SwapEdgeIDs\SwapEdgeIDs\obj\Debug\SwapEdgeIDs.pdb
