@@ -96,10 +96,12 @@ public class WrittenInstructions {
             if (path.get(path.size()-2).getNodeType().equals("ELEV")){
                 instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
             }
-            if(path.size() == 0){
+            if(instructions.isEmpty()){
+                int pathSize = path.size();
+                int sub = pathSize-1;
 
-                savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-2)));
-                instructions.add("Go straight for"  + savingDistance);
+                savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-sub)));
+                instructions.add("Go straight for "  + Math.round(savingDistance*ftRatio) + "ft " + "(" + Math.round(savingDistance*mRatio) +"M)");
             }
 
         }
