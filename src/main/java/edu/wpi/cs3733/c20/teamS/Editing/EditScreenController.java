@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -156,12 +157,22 @@ public class EditScreenController implements Initializable {
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
-            redrawMap();
             database.addNode(node);
+            redrawMap();
         });
-        graph.nodeRemoved().subscribe(e -> redrawMap());
-        graph.edgeAdded().subscribe(e -> redrawMap());
-        graph.edgeRemoved().subscribe(e -> redrawMap());
+        graph.nodeRemoved().subscribe(e -> {
+            //database.removeNode(e.getNodeID());
+            redrawMap();
+
+        });
+        graph.edgeAdded().subscribe(e -> {
+            //database.addEdge(e.nodeU(), e.nodeV());
+            redrawMap();
+        });
+        graph.edgeRemoved().subscribe(e -> {
+            //database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
+            redrawMap();
+        });
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(

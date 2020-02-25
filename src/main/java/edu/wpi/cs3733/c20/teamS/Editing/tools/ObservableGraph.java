@@ -52,6 +52,9 @@ public final class ObservableGraph {
         edgeRemoved.onNext(EndpointPair.unordered(start, end));
         return true;
     }
+    public MutableGraph<NodeData> inner() {
+        return graph;
+    }
     public Set<NodeData> nodes() {
         return Collections.unmodifiableSet(graph.nodes());
     }

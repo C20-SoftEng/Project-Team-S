@@ -40,7 +40,11 @@ public class QuickAddRemoveNodeTool implements IEditingTool {
 
         NodeData node = createNodeAt(event.getX(), event.getY());
         graph.addNode(node);
-        //DatabaseController.generateUniqueNodeID(node, graph.nodes());
+    }
+
+    @Override
+    public void onClosed() {
+        ui.vbox.getChildren().clear();
     }
 
     private NodeData createNodeAt(double x, double y) {
