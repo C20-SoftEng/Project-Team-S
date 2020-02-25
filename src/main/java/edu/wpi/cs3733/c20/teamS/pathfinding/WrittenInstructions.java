@@ -70,7 +70,7 @@ public class WrittenInstructions {
                     if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
                         elevatorX = path.get(i).getxCoordinate();
                         elevatorY = path.get(i).getyCoordinate();
-                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor() + "Node Coordinates ");
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
 
                     }
                     if(distance(path.get(i), path.get(i+1)) < 5){
