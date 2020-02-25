@@ -57,7 +57,7 @@ class PathRenderer {
         boolean down = start.getFloor() > end.getFloor();
         nodes.stream()
                 .filter(node -> node.getNodeType().equals("ELEV"))
-                .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
+                .map(node -> down ? drawDownElevator(node, start, end) : drawUpElevator(node, start, end))
                 .forEach(image -> group.getChildren().add(image));
 
         boolean runOnce = true;
@@ -176,20 +176,31 @@ class PathRenderer {
         return pinIcon;
     }
 
-    private ImageView drawDownElevator(NodeData node2) {
-        ImageView elevator_icon_down = new ImageView();
-        elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_down.setX(node2.getxCoordinate() - 25);
-        elevator_icon_down.setY(node2.getyCoordinate() - 20);
-        elevator_icon_down.setPreserveRatio(true);
-        elevator_icon_down.setFitWidth(40);
-        return elevator_icon_down;
+    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode) {
+        if((node2 != startNode) && (node2 != endNode)) {
+            ImageView elevator_icon_down = new ImageView();
+            elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_down.setX(node2.getxCoordinate() - 25);
+            elevator_icon_down.setY(node2.getyCoordinate() - 20);
+            elevator_icon_down.setPreserveRatio(true);
+            elevator_icon_down.setFitWidth(40);
+            return elevator_icon_down;
+        }else
+            return new ImageView();
     }
 
-    private ImageView drawUpElevator(NodeData node2) {
-        ImageView result = drawDownElevator(node2);
-        result.setRotate(180);
-        return result;
+    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode) {
+        if((node2 != startNode) && (node2 != endNode)) {
+            ImageView elevator_icon_up = new ImageView();
+            elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_up.setX(node2.getxCoordinate() - 25);
+            elevator_icon_up.setY(node2.getyCoordinate() - 20);
+            elevator_icon_up.setPreserveRatio(true);
+            elevator_icon_up.setFitWidth(40);
+            elevator_icon_up.setRotate(180);
+            return elevator_icon_up;
+        }else
+            return new ImageView();
     }
 }
 
