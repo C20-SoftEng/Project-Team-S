@@ -15,4 +15,5 @@ public interface IEditingTool {
 
     default void onNodeDragged(NodeData node, MouseEvent e) {}
     default void onNodeReleased(NodeData node, MouseEvent e) {}
+    default void onClosed() {}
 }

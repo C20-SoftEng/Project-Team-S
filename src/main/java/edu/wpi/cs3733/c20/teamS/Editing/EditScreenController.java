@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -145,22 +146,33 @@ public class EditScreenController implements Initializable {
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
 
+        editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
+        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
-            database.addNode(node, graph.nodes());
+            database.addNode(node);
             redrawMap();
         });
-        graph.nodeRemoved().subscribe(e -> redrawMap());
-        graph.edgeAdded().subscribe(e -> redrawMap());
-        graph.edgeRemoved().subscribe(e -> redrawMap());
+        graph.nodeRemoved().subscribe(e -> {
+            //database.removeNode(e.getNodeID());
+            redrawMap();
+
+        });
+        graph.edgeAdded().subscribe(e -> {
+            //database.addEdge(e.nodeU(), e.nodeV());
+            redrawMap();
+        });
+        graph.edgeRemoved().subscribe(e -> {
+            //database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
+            redrawMap();
+        });
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -191,6 +203,7 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private JFXButton cancelEditsButton;
     @FXML private JFXButton confirmEditButton;
+    @FXML private VBox editToolFieldsVBox;
     //endregion
 
     //region event handlers
@@ -270,7 +283,11 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        editingTool = new QuickAddRemoveNodeTool(
+                graph, editToolFieldsVBox,
+                () -> floorSelector.current()
+        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
         editingTool = new AddRemoveEdgeTool(graph, () -> group);

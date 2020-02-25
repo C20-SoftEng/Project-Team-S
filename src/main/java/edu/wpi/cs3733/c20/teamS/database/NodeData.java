@@ -6,10 +6,12 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.geometry.Point2D;
 
+import java.security.SecureRandom;
 import java.util.Objects;
 
 public class NodeData {
     private final PublishSubject<Point2D> positionChanged = PublishSubject.create();
+    private static final SecureRandom rng = new SecureRandom();
 
     private String nodeID;
     private double xCoordinate;
@@ -35,7 +37,9 @@ public class NodeData {
         this.shortName = shortName;
     }
 
-    public NodeData() {}
+    public NodeData() {
+        this.nodeID = nextUniqueID();
+    }
 
 
     //Getters and setters.
@@ -147,5 +151,16 @@ public class NodeData {
         double yOffset = getyCoordinate() - other.getyCoordinate();
 
         return Math.sqrt(xOffset * xOffset + yOffset * yOffset);
+    }
+
+    private static String nextUniqueID() {
+        byte[] random = new byte[30];
+        rng.nextBytes(random);
+        StringBuilder result = new StringBuilder();
+        for (byte n : random) {
+            result.append(n % 10);
+        }
+
+        return result.toString();
     }
 }

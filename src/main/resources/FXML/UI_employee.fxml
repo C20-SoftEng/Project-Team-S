@@ -197,9 +197,9 @@
             </HBox>
          </top>
          <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="180.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
@@ -373,6 +373,7 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
+                  <VBox fx:id="editToolFieldsVBox" />
                </children>
             </VBox>
          </right>
