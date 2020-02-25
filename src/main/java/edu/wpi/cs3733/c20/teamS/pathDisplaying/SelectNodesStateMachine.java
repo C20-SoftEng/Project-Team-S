@@ -8,11 +8,9 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.input.MouseEvent;
-
 import java.util.HashSet;
-import java.util.Objects;
+
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.IntSupplier;
