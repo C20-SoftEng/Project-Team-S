@@ -30,6 +30,7 @@ class PathRenderer {
      * @param floor The floor that is being rendered.
      * @return A new Group containing all the elements that were drawn.
      */
+    private List<NodeData> TDnodes;
     public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) throws Exception {
         if (path == null) ThrowHelper.illegalNull("path");
 
@@ -38,7 +39,7 @@ class PathRenderer {
             return group;
 
         List<NodeData> nodes = path.startToFinish();
-        ThreeDimensions viewModel = new ThreeDimensions(nodes);
+        TDnodes = nodes;
         List<Line> lines = findCompleteEdges(nodes).stream()
                 .filter(edge -> edge.isOnFloor(floor))
                 .map(PathRenderer::drawEdge)
@@ -100,6 +101,8 @@ class PathRenderer {
 
         return group;
     }
+
+    public List<NodeData> getTDnodes() {return TDnodes;}
 
     private double getPathTime(double lengthOfPath){
         return lengthOfPath/250;

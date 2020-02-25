@@ -203,6 +203,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
+    @FXML private JFXButton viewThreeD;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -234,6 +235,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
