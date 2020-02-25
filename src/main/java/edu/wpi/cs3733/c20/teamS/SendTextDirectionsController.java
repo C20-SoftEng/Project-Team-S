@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.stage.Stage;
 
 public class SendTextDirectionsController {
 
@@ -50,7 +51,8 @@ public class SendTextDirectionsController {
 
     @FXML
     void onDoneClicked(ActionEvent event) {
-
+        Stage stage = (Stage) descLabel.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
