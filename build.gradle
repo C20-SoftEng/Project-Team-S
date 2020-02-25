@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(
             [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.9'],
             [group: 'io.reactivex.rxjava3', name: 'rxjava', version: '3.0.0'],
