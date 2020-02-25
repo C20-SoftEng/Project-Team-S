@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,12 +54,12 @@ public class ThreeDimensions extends Application {
     private PathTransition pathTrans;
 
     private List<NodeData> nodes;
-    private Stage stage;
+    private Stage primaryStage = new Stage();
     private double cost;
 
     public ThreeDimensions(List<NodeData> nodes) throws Exception {
         this.nodes = nodes;
-        start(stage);
+        start(primaryStage);
     }
 
     public static final float WIDTH = 1400;
@@ -118,7 +119,7 @@ public class ThreeDimensions extends Application {
         s.setStrokeLineCap(StrokeLineCap.ROUND);
         s.setStroke(Color.AQUA);
         // s.setEffect(new Bloom());
-        s.setTranslateZ(-70);
+        s.setTranslateZ(-20);
 
         Box wongBox = new Box();
         wongBox.setHeight(40);
@@ -130,39 +131,33 @@ public class ThreeDimensions extends Application {
         wongBox.setMaterial(material);
         wongBox.setTranslateZ(-70);
 
-//        Sphere sphere = new Sphere(20);
-//        PhongMaterial material = new PhongMaterial();
-//        Image image = new Image(("images/wwong2.jpg"));
-//        material.setDiffuseMap(image);
-//        sphere.setMaterial(material);
-//        sphere.setTranslateZ(-300);
         double total  =  0;
-//        SequentialTransition sequentialTransition = new SequentialTransition();
-//        for(int i = 0; i < nodes.size() - 1; i++) {
-//            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-//            zplace.put(1, 100);
-//            zplace.put(2, 0);
-//            zplace.put(3, -100);
-//            zplace.put(4, -200);
-//            zplace.put(5, -300);
-//            NodeData startNode = nodes.get(i);
-//            NodeData endNode = nodes.get(i + 1);
-//            int floor1 = startNode.getFloor();
-//            int floor2 = endNode.getFloor();
-//            boolean sameFloor = (floor1 == floor2);
-//            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), wongBox); //can change mph
-//            translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
-//            translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
-//            translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
-//            translateTransition.setToZ(zplace.get(endNode.getFloor()) - 50 - 30);
-//            translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
-//            translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
-//            translateTransition.setCycleCount(1);
-//            total += 1000;
-//            //translateTransition.setAutoReverse(true);
-//            //sequentialTransition.getChildren().add(createTransition(animated_path, wongBox));
-//            sequentialTransition.getChildren().addAll(translateTransition);
-//
+        SequentialTransition sequentialTransition = new SequentialTransition();
+        for(int i = 0; i < nodes.size() - 1; i++) {
+            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+            zplace.put(1, 100);
+            zplace.put(2, 0);
+            zplace.put(3, -100);
+            zplace.put(4, -200);
+            zplace.put(5, -300);
+            NodeData startNode = nodes.get(i);
+            NodeData endNode = nodes.get(i + 1);
+            int floor1 = startNode.getFloor();
+            int floor2 = endNode.getFloor();
+            boolean sameFloor = (floor1 == floor2);
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), wongBox); //can change mph
+            translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
+            translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
+            translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
+            translateTransition.setToZ(zplace.get(endNode.getFloor()) - 50 - 30);
+            translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
+            translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
+            translateTransition.setCycleCount(1);
+            total += 1000;
+            //translateTransition.setAutoReverse(true);
+            //sequentialTransition.getChildren().add(createTransition(animated_path, wongBox));
+            sequentialTransition.getChildren().addAll(translateTransition);
+
 //            if(i+1 < anglez.size()) {
 //                RotateTransition rt = new RotateTransition();
 //                rt.setDuration(Duration.millis(500));
@@ -174,10 +169,10 @@ public class ThreeDimensions extends Application {
 //
 //                sequentialTransition.getChildren().add(rt);
 //            }
-//        }
-//        sequentialTransition.setCycleCount(Timeline.INDEFINITE);
-//        //sequentialTransition.setAutoReverse(true);
-//        sequentialTransition.play();
+        }
+        sequentialTransition.setCycleCount(Timeline.INDEFINITE);
+        //sequentialTransition.setAutoReverse(true);
+        sequentialTransition.play();
 
         double MODEL_SCALE_FACTOR = 10;
 
@@ -191,7 +186,7 @@ public class ThreeDimensions extends Application {
             meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -297,7 +292,7 @@ public class ThreeDimensions extends Application {
             clari[i].setScaleZ(MODEL_SCALE_FACTOR7);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -350,7 +345,7 @@ public class ThreeDimensions extends Application {
             hati[i].setScaleZ(MODEL_SCALE_FACTOR8);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -421,6 +416,30 @@ public class ThreeDimensions extends Application {
 
 
         group.getChildren().add(wongBox);
+
+        Group buttonsGroup = new Group();
+        Button aych = new Button();
+        aych.setTranslateY(200);
+        aych.setText("down");
+        aych.setOnAction(e -> {KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.H, false, false, false, false);
+        primaryStage.fireEvent(press);});
+        Button ghee = new Button();
+        ghee.setTranslateY(100);
+        ghee.setText("up");
+        ghee.setOnAction(e -> {KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.G, false, false, false, false);
+            primaryStage.fireEvent(press);});
+        Button thee = new Button();
+        thee.setText("left");
+        thee.setTranslateY(300);
+        thee.setOnAction(e -> {KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
+            primaryStage.fireEvent(press);});
+        Button why = new Button();
+        why.setText("right");
+        why.setTranslateY(400);
+
+        why.setOnAction(e -> {KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.Y, false, false, false, false);
+            primaryStage.fireEvent(press);});
+
 
        /* for(NodeData data : nodes) {
             if(data.getFloor() == 2 || data.getFloor() == 3) {
@@ -584,7 +603,7 @@ public class ThreeDimensions extends Application {
             KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
             primaryStage.fireEvent(press);}
         group.setTranslateY(group.getTranslateY() + 70);
-
+        root2.getChildren().addAll(aych,ghee,thee,why);
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(-600);
@@ -805,6 +824,7 @@ public class ThreeDimensions extends Application {
         if(endNode.getFloor() == nodes.get(0).getFloor()) {
             PathTransition transitionEarth = new PathTransition();
             Line liner = new Line(point3.getX(), point3.getY(), point4.getX(), point4.getY());
+            liner.setVisible(false);
             group.getChildren().add(liner);
             transitionEarth.setPath(liner);
             transitionEarth.setNode(s);
@@ -828,6 +848,7 @@ public class ThreeDimensions extends Application {
         else if(endNode.getFloor() == nodes.get(nodes.size()-1).getFloor()) {
             PathTransition transitionEarth = new PathTransition();
             Line liner = new Line(point3.getX(), point3.getY(), point4.getX(), point4.getY());
+            liner.setVisible(false);
             group.getChildren().add(liner);
             transitionEarth.setPath(liner);
             transitionEarth.setNode(s);
