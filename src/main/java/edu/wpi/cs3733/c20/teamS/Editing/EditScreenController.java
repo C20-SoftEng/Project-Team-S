@@ -10,12 +10,9 @@ import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
+import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
 
-import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
-import edu.wpi.cs3733.c20.teamS.pathfinding.BreadthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.DepthFirst;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 
@@ -424,19 +421,19 @@ public class EditScreenController implements Initializable {
     }
 
     public void onLogOut() {
-        IPathfinder pathfinder = new AStar();
+
+        //IPathfinding pathfinder = new AStar();
         switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
             case "A*":
-                pathfinder = new AStar();
-                break;
+                Settings.settings().setPathFinder(new AStar());
             case "BreadthFirst":
-                pathfinder = new BreadthFirst();
+                Settings.settings().setPathFinder(new BreadthFirst());
                 break;
             case "DepthFirst":
-                pathfinder = new DepthFirst();
+                Settings.settings().setPathFinder(new DepthFirst());
                 break;
         }
-        MainToLoginScreen back = new MainToLoginScreen(stage, pathfinder);
+        MainToLoginScreen back = new MainToLoginScreen(stage, Settings.settings().pathfinder());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
