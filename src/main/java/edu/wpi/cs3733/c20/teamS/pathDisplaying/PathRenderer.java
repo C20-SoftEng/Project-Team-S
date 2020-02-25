@@ -89,10 +89,6 @@ class PathRenderer {
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
-        //pathTransition.setDuration(Duration.seconds(5));
-        System.out.print("The path is: ");
-        System.out.print(length);
-        System.out.println(" pixels long");
         pathTransition.setPath(animated_path);
         pathTransition.setNode(imageView);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -105,9 +101,6 @@ class PathRenderer {
     }
 
     private double getPathTime(double lengthOfPath){
-        System.out.print("The arrow will complete the path in : ");
-        System.out.print(lengthOfPath/250);
-        System.out.println(" seconds");
         return lengthOfPath/250;
     }
     /**
