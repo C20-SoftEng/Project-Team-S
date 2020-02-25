@@ -33,6 +33,8 @@ import javafx.util.Duration;
 import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,17 +42,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ThreeDimensions extends Application {
-    private static final String MESH_FILENAME =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\squidward.stl";
+    private static  String MESH_FILENAME = null;
+
     private static final String STARTICON =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\start.stl";
+            ThreeDimensions.class.getResource("/images/ThreeDim/start.stl").toString();
     private static final String FINISHICON =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\finish.stl";
+            ThreeDimensions.class.getResource("/images/ThreeDim/finish.stl").toString();
 
     private static final String clarinet =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\Clarinet.stl";
+            ThreeDimensions.class.getResource("/images/ThreeDim/Clarinet.stl").toString();
 
-    private static final String hat = "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\hat.stl";
+    private static final String hat = ThreeDimensions.class.getResource("/images/ThreeDim/hat.stl").toString();
     private PathTransition pathTrans;
 
     private List<NodeData> nodes;
@@ -176,7 +178,11 @@ public class ThreeDimensions extends Application {
 
         double MODEL_SCALE_FACTOR = 10;
 
-        MeshView[] meshViews = loadMeshViews(MESH_FILENAME);
+        String thing = getClass().getResource("/images/ThreeDim/squidward.stl").toURI().getPath();
+        //String thing2 = thing.substring(6).replaceAll("/","\\");
+
+
+        MeshView[] meshViews = loadMeshViews(thing);
         for (int i = 0; i < meshViews.length; i++) {
 //            meshViews[i].setTranslateX(0);
 //            meshViews[i].setTranslateY(0);
@@ -195,8 +201,9 @@ public class ThreeDimensions extends Application {
             meshViews[i].getTransforms().setAll(new Rotate(90, Rotate.X_AXIS));
         }
 
+        String thing2 = getClass().getResource("/images/ThreeDim/start.stl").toURI().getPath();
         int MODEL_SCALE_FACTOR2 = 3;
-        MeshView[] meshViews2 = loadMeshViews(STARTICON);
+        MeshView[] meshViews2 = loadMeshViews(thing2);
         for (int i = 0; i < meshViews2.length; i++) {
             HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
             zplace.put(1, 100);
@@ -221,7 +228,9 @@ public class ThreeDimensions extends Application {
             meshViews2[i].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
         }
 
-        MeshView[] meshViews3 = loadMeshViews(FINISHICON);
+        String thing3 = getClass().getResource("/images/ThreeDim/finish.stl").toURI().getPath();
+
+        MeshView[] meshViews3 = loadMeshViews(thing3);
         for (int i = 0; i < meshViews3.length; i++) {
             HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
             zplace.put(1, 100);
@@ -281,7 +290,8 @@ public class ThreeDimensions extends Application {
         // st.setAutoReverse(true);
         st.play();
 
-        MeshView[] clari = loadMeshViews(clarinet);
+        String thing4 = getClass().getResource("/images/ThreeDim/Clarinet.stl").toURI().getPath();
+        MeshView[] clari = loadMeshViews(thing4);
         double MODEL_SCALE_FACTOR7 = 0.7;
         for (int i = 0; i < clari.length; i++) {
 //            meshViews[i].setTranslateX(0);
@@ -331,10 +341,13 @@ public class ThreeDimensions extends Application {
             }
         }
         st2.setCycleCount(Timeline.INDEFINITE);
-        // st.setAutoReverse(true);
         st2.play();
+        // st.setAutoReverse(true);
 
-        MeshView[] hati = loadMeshViews(hat);
+
+        String thing5 = getClass().getResource("/images/ThreeDim/hat.stl").toURI().getPath();
+
+        MeshView[] hati = loadMeshViews(thing5);
         double MODEL_SCALE_FACTOR8 = 0.2;
         for (int i = 0; i < hati.length; i++) {
 //            meshViews[i].setTranslateX(0);
