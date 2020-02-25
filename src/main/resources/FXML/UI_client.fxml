@@ -128,7 +128,7 @@
                            <graphic>
                               <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../3dglasses.png" />
+                                    <Image url="@../images/Icons/3dglasses.png" />
                                  </image>
                               </ImageView>
                            </graphic>
