@@ -50,4 +50,6 @@ public class SendTextDirectionsScreen {
         screen.show();
     }
 
+    public void runEmailThread()
+
 }
