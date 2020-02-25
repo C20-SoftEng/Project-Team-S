@@ -149,8 +149,8 @@ public class EditScreenController implements Initializable {
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
 
-        editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
-        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        //editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
@@ -283,11 +283,11 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
-        editingTool = new QuickAddRemoveNodeTool(
-                graph, editToolFieldsVBox,
-                () -> floorSelector.current()
-        );
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+//        editingTool = new QuickAddRemoveNodeTool(
+//                graph, editToolFieldsVBox,
+//                () -> floorSelector.current()
+//        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
         editingTool = new AddRemoveEdgeTool(graph, () -> group);
