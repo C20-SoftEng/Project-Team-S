@@ -201,6 +201,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton upButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
+    @FXML private VBox directoryVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
