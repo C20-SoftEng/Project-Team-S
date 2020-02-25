@@ -40,8 +40,14 @@ public class WrittenInstructions {
 //                    if(isElevator(path.get(i+1), path.get(i+3))){
 //                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
 //                    }
-                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV")){
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI")){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
+                    }
+                    else if(distance(path.get(i), path.get(i+1))*ftRatio < 5){
+                        instructions.add("Turn Right");
                     }
                     else{
                         instructions.add(("In " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
@@ -53,11 +59,14 @@ public class WrittenInstructions {
                 }
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
 
-                    if(path.get(i).getNodeType().equals("ELEV")){
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
                     }
-                    if(distance(path.get(i), path.get(i+1)) < 10){
+                    if(distance(path.get(i), path.get(i+1)) < 5){
                         instructions.add("Turn Left");
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI")){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
                     }
                     else {
 

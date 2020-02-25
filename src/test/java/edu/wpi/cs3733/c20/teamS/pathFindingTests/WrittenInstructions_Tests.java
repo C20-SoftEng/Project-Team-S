@@ -101,10 +101,10 @@ public class WrittenInstructions_Tests {
         WrittenInstructions test4 = new WrittenInstructions(pathtest4);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("In 5FT (2M), Turn Right");
-        realInstructions.add("In 24FT (7M), Turn Left");
+        realInstructions.add("In 5FT (2M), Turn Left");
+        realInstructions.add("In 24FT (7M), Turn Right");
         realInstructions.add("Take The Elevator To Floor 3");
-        realInstructions.add("In 13FT (4M), Turn Left");
+        realInstructions.add("In 13FT (4M), Turn Right");
 
 
         assertEquals(realInstructions, test4.directions());
