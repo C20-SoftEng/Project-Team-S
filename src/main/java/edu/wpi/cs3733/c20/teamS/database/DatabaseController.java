@@ -263,6 +263,7 @@ public class DatabaseController implements DBRepo{
                 Numerics.padDigits(node.getFloor(), 2);
     }
 
+
     //Tested
     public void addNode(NodeData nd){
         String insert = "INSERT INTO NODES VALUES(?,?,?,?,?,?,?,?)";

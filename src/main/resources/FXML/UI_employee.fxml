@@ -197,9 +197,9 @@
             </HBox>
          </top>
          <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="180.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
@@ -254,16 +254,27 @@
                            </cursor>
                         </JFXRadioButton>
 
-                        <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton onAction="#onShowInfoClicked" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                            <padding>
-                              <Insets left="5.0" />
+                              <Insets left="5.0" top="5.0" />
                            </padding>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                        </JFXRadioButton>
+                        <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomEntrancesClicked" text="Edit room entrances" toggleGroup="$editGroup">
+                           <padding>
+                              <Insets left="5.0" top="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
@@ -362,6 +373,7 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
+                  <VBox fx:id="editToolFieldsVBox" />
                </children>
             </VBox>
          </right>

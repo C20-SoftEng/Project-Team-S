@@ -52,6 +52,7 @@ public final class ObservableGraph {
         edgeRemoved.onNext(EndpointPair.unordered(start, end));
         return true;
     }
+
     public Set<NodeData> nodes() {
         return Collections.unmodifiableSet(graph.nodes());
     }

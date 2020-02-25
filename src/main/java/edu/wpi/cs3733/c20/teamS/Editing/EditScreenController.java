@@ -6,6 +6,8 @@ import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
+import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -41,11 +43,10 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.URL;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EditScreenController implements Initializable {
@@ -61,6 +62,16 @@ public class EditScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
+
+    private static final Color NODE_COLOR_ELEVATOR = Color.GREEN.deriveColor(
+            1, 1, 1, 0.5);
+    private static final Color NODE_COLOR_NORMAL = Color.ORANGE.deriveColor(
+            1, 1, 1, 0.5);
+    private static final Color NODE_COLOR_HIGHLIGHT = Color.AQUA.deriveColor(
+            1, 1, 1, 0.5);
+    private static Color getNodeColorNonHighlighted(NodeData node) {
+        return node.getNodeType() == "ELEV" ? NODE_COLOR_ELEVATOR : NODE_COLOR_NORMAL;
+    }
     //endregion
 
     private static class Floor {
@@ -135,22 +146,33 @@ public class EditScreenController implements Initializable {
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
 
+        //editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
+        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
-            database.addNode(node, graph.nodes());
+            database.addNode(node);
             redrawMap();
         });
-        graph.nodeRemoved().subscribe(e -> redrawMap());
-        graph.edgeAdded().subscribe(e -> redrawMap());
-        graph.edgeRemoved().subscribe(e -> redrawMap());
+        graph.nodeRemoved().subscribe(e -> {
+            //database.removeNode(e.getNodeID());
+            redrawMap();
+
+        });
+        graph.edgeAdded().subscribe(e -> {
+            //database.addEdge(e.nodeU(), e.nodeV());
+            redrawMap();
+        });
+        graph.edgeRemoved().subscribe(e -> {
+            //database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
+            redrawMap();
+        });
     }
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
@@ -181,6 +203,7 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private JFXButton cancelEditsButton;
     @FXML private JFXButton confirmEditButton;
+    @FXML private VBox editToolFieldsVBox;
     //endregion
 
     //region event handlers
@@ -261,6 +284,10 @@ public class EditScreenController implements Initializable {
 
     @FXML private void onAddRemoveNodeClicked() {
         editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+//        editingTool = new QuickAddRemoveNodeTool(
+//                graph, editToolFieldsVBox,
+//                () -> floorSelector.current()
+//        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
         editingTool = new AddRemoveEdgeTool(graph, () -> group);
@@ -282,6 +309,15 @@ public class EditScreenController implements Initializable {
     }
     @FXML private void onMoveNodeClicked() {
         editingTool = new MoveNodeTool(scrollPane);
+    }
+    @FXML private void onShowInfoClicked() {
+        editingTool = new ShowNodeInfoTool();
+    }
+    @FXML private void onEditRoomEntrancesClicked() {
+        editingTool = new AddRemoveRoomEntrancesTool(
+                graph.nodes(),
+                () -> group
+        );
     }
 
     @FXML private void onConfirmEditClicked() {
@@ -321,8 +357,10 @@ public class EditScreenController implements Initializable {
         Set<NodeData> nodes = graph.nodes().stream()
                 .filter(node -> node.getFloor() == floorSelector.current())
                 .collect(Collectors.toSet());
+
         for (NodeData node : nodes) {
-            drawCircle(group, node);
+            Circle circle = drawCircle(node);
+            group.getChildren().add(circle);
         }
         return group;
     }
@@ -346,13 +384,11 @@ public class EditScreenController implements Initializable {
         return result;
     }
 
-    private void drawCircle(Group group, NodeData node) {
+    private Circle drawCircle(NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
         circle.setStroke(Color.ORANGE);
-        final Color normal = node.getNodeType().equals("ELEV") ?
-                Color.GREEN.deriveColor(1, 1, 1, 0.5) :
-                Color.ORANGE.deriveColor(1, 1, 1, 0.5);
-        final Color highlighted = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        final Color normal = getNodeColorNonHighlighted(node);
+        final Color highlighted = NODE_COLOR_HIGHLIGHT;
         circle.setFill(normal);
         circle.setOnMouseEntered(e -> {
             circle.setFill(highlighted);
@@ -365,10 +401,8 @@ public class EditScreenController implements Initializable {
             circle.setStroke(normal);
             circle.setStrokeWidth(1);
             circle.setStrokeType(StrokeType.CENTERED);
-
         });
 
-        group.getChildren().add(circle);
         node.positionChanged().subscribe(position -> {
             circle.setCenterX(position.getX());
             circle.setCenterY(position.getY());
@@ -376,6 +410,7 @@ public class EditScreenController implements Initializable {
         circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
         circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
+        return circle;
     }
     private void drawLine(Group group, NodeData start, NodeData end) {
         Line line = createEdgeLine(

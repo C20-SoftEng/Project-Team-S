@@ -1,14 +1,18 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import javafx.scene.shape.Polygon;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class Hitbox {
     private int floor;
     private String name = "";
     private final ArrayList<Vector2> vertices = new ArrayList<>();
+    private final HashSet<String> touchingNodes = new HashSet<>();
 
     public Hitbox() {}
     public Hitbox(int floor) {
@@ -35,6 +39,9 @@ public final class Hitbox {
     }
     public List<Vector2> vertices() {
         return vertices;
+    }
+    public Set<String> touchingNodes() {
+        return touchingNodes;
     }
     public Vector2 firstVertex() {
         return vertices.get(0);
