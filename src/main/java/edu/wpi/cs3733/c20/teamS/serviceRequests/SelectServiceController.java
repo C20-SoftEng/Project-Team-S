@@ -129,7 +129,6 @@ public class SelectServiceController {
     @FXML void onFoodClicked(ActionEvent event) throws ServiceException {
         FoodRequest foodRequest = new FoodRequest();
         foodRequest.run(0,0,500,500, null, "f","h");
-
     }
 
     /**
