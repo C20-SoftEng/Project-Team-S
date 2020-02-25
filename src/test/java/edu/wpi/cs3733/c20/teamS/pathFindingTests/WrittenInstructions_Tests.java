@@ -136,6 +136,20 @@ public class WrittenInstructions_Tests {
         assertEquals(realInstructions, test5.directions());
     }
 
+    @Test
+    public void directions_StraightPath(){
+        ArrayList<NodeData> pathtest6  = new ArrayList<>();
+        pathtest6.add(nodeOne);
+        pathtest6.add(nodeTwo);
+
+        WrittenInstructions test5 = new WrittenInstructions(pathtest6);
+
+        List realInstructions = new ArrayList();
+        realInstructions.add("Go Straight For 5FT (2M)");
+
+        assertEquals(realInstructions, test5.directions());
+    }
+
 
 
 

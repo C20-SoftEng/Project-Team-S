@@ -31,23 +31,20 @@ public class WrittenInstructions {
 
 
     public List<String> directions() {
-        double elevatorX = 0;
-        double elevatorY = 0;
+        System.out.println(path.size());
 
-//        path.get(path.size()-1).getxCoordinate();
-//        path.get(path.size()-1).getyCoordinate();
+        if(path.size() == 2){
+            System.out.println("in comparator");
+            savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-2)));
+            instructions.add("Go Straight For "  + Math.round(savingDistance*ftRatio) + "FT " + "(" + Math.round(savingDistance*mRatio )+ "M)");
+        }
         if (path.size()>2) {
             for (int i = 0; i < path.size()-2  ; i++) {
 
 
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
 
-//                    if(isElevator(path.get(i+1), path.get(i+3))){
-//                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
-//                    }
                     if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
-                        elevatorX = path.get(i).getxCoordinate();
-                        elevatorY = path.get(i).getyCoordinate();
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor() );
 
                     }
@@ -68,8 +65,6 @@ public class WrittenInstructions {
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
 
                     if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
-                        elevatorX = path.get(i).getxCoordinate();
-                        elevatorY = path.get(i).getyCoordinate();
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
 
                     }
@@ -92,7 +87,6 @@ public class WrittenInstructions {
                 }
 
 
-
                 if (i == path.size()-2) {
                     return (instructions);
                 }
@@ -102,8 +96,15 @@ public class WrittenInstructions {
             if (path.get(path.size()-2).getNodeType().equals("ELEV")){
                 instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
             }
+            if(path.size() == 0){
+
+                savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-2)));
+                instructions.add("Go straight for"  + savingDistance);
+            }
 
         }
+
+
         return instructions;
     }
 
