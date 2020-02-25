@@ -15,7 +15,6 @@ import java.util.Set;
 public final class ObservableGraph {
     private final MutableGraph<NodeData> graph;
 
-
     private final PublishSubject<NodeData> nodeAdded = PublishSubject.create();
     private final PublishSubject<NodeData> nodeRemoved = PublishSubject.create();
     private final PublishSubject<EndpointPair<NodeData>> edgeAdded = PublishSubject.create();
@@ -41,14 +40,23 @@ public final class ObservableGraph {
         return true;
     }
     public boolean putEdge(NodeData start, NodeData end) {
+        assert start != null : "start node was null in putEdge()";
+        assert end != null : "end node was null in putEdge()";
+
         if (!graph.putEdge(start, end))
             return false;
         edgeAdded.onNext(EndpointPair.unordered(start, end));
         return true;
     }
     public boolean removeEdge(NodeData start, NodeData end) {
+        assert start != null : "start was null in removeEdge()";
+        assert end != null : "end was null in removeEdge()";
+
         if (!graph.removeEdge(start, end))
             return false;
+        if (graph.removeEdge(end, start)) {
+            System.out.println("Opposite edge was removed while normal one wasn't.");
+        }
         edgeRemoved.onNext(EndpointPair.unordered(start, end));
         return true;
     }
