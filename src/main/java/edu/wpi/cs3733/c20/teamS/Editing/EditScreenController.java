@@ -297,7 +297,6 @@ public class EditScreenController implements Initializable {
     @FXML private void onEditRoomEntrancesClicked() {
         editingTool = new AddRemoveRoomEntrancesTool(
                 graph.nodes(),
-                () -> floorSelector.current(),
                 () -> group
         );
     }
