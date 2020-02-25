@@ -157,7 +157,9 @@ public class MainScreenController implements Initializable {
         final double y = e.getY();
         NodeData nearest = findNearestNodeWithin(x, y, 200);
         onNodeClicked(nearest);
-        //pathDrawer.setNode(nearest);
+    }
+    private void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
+        nodeSelector.onHitboxClicked(Hitbox hitbox, MouseEvent event);
     }
 
     private Polygon createHitboxRenderingMask(Hitbox hitbox) {
