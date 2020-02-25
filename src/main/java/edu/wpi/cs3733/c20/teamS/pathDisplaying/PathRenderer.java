@@ -57,11 +57,14 @@ class PathRenderer {
         boolean down = start.getFloor() > end.getFloor();
         nodes.stream()
                 .filter(node -> node.getNodeType().equals("ELEV"))
-                .map(node -> down ? drawDownElevator(node) : drawUpElevator(node))
+                .map(node -> down ? drawDownElevator(node, start, end) : drawUpElevator(node, start, end))
                 .forEach(image -> group.getChildren().add(image));
 
         boolean runOnce = true;
+        double length = 0;
         Path animated_path = new Path();
+        double X = start.getxCoordinate();
+        double Y = start.getyCoordinate();
 
         for (NodeData node_itrat : nodes) {
             if((node_itrat.getFloor() == floor) && runOnce){
@@ -72,6 +75,9 @@ class PathRenderer {
 
             if (node_itrat.getFloor() == floor) {
                 animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+                length += Math.sqrt(Math.pow((Math.abs(X - node_itrat.getxCoordinate())), 2) + Math.pow((Math.abs(Y - node_itrat.getyCoordinate())),2));
+                X = node_itrat.getxCoordinate();
+                Y = node_itrat.getyCoordinate();
             }
         }
 
@@ -82,18 +88,24 @@ class PathRenderer {
         imageView.setImage(i);
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(7.5));
+        pathTransition.setDuration(Duration.seconds(getPathTime(length)));
+        //pathTransition.setDuration(Duration.seconds(5));
+        System.out.println(length);
         pathTransition.setPath(animated_path);
         pathTransition.setNode(imageView);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
-        //pathTransition.setAutoReverse(true);
+        //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
 
         return group;
     }
 
+    private double getPathTime(double lengthOfPath){
+        System.out.println(lengthOfPath/250);
+        return lengthOfPath/250;
+    }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
      *
@@ -176,20 +188,31 @@ class PathRenderer {
         return pinIcon;
     }
 
-    private ImageView drawDownElevator(NodeData node2) {
-        ImageView elevator_icon_down = new ImageView();
-        elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
-        elevator_icon_down.setX(node2.getxCoordinate() - 25);
-        elevator_icon_down.setY(node2.getyCoordinate() - 20);
-        elevator_icon_down.setPreserveRatio(true);
-        elevator_icon_down.setFitWidth(40);
-        return elevator_icon_down;
+    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode) {
+        if((node2 != startNode) && (node2 != endNode)) {
+            ImageView elevator_icon_down = new ImageView();
+            elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_down.setX(node2.getxCoordinate() - 25);
+            elevator_icon_down.setY(node2.getyCoordinate() - 20);
+            elevator_icon_down.setPreserveRatio(true);
+            elevator_icon_down.setFitWidth(40);
+            return elevator_icon_down;
+        }else
+            return new ImageView();
     }
 
-    private ImageView drawUpElevator(NodeData node2) {
-        ImageView result = drawDownElevator(node2);
-        result.setRotate(180);
-        return result;
+    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode) {
+        if((node2 != startNode) && (node2 != endNode)) {
+            ImageView elevator_icon_up = new ImageView();
+            elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_up.setX(node2.getxCoordinate() - 25);
+            elevator_icon_up.setY(node2.getyCoordinate() - 20);
+            elevator_icon_up.setPreserveRatio(true);
+            elevator_icon_up.setFitWidth(40);
+            elevator_icon_up.setRotate(180);
+            return elevator_icon_up;
+        }else
+            return new ImageView();
     }
 }
 
