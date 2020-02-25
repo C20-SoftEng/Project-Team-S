@@ -18,43 +18,8 @@ public final class ResourceFolderHitboxRepository extends HitboxRepository {
                 new InputStreamReader(getClass().getResourceAsStream(path))
         );
 
-        return triplets(reader.lines()).stream()
-                .map(this::parseTriplet)
-                .collect(Collectors.toList());
-    }
-
-    private List<String[]> triplets(Stream<String> lines) {
-        Iterator<String> iterator = lines.iterator();
-        List<String[]> result = new ArrayList<>();
-
-        while (iterator.hasNext()) {
-            String[] triplet = new String[] {
-                    iterator.next(),
-                    iterator.next(),
-                    iterator.next()
-            };
-            result.add(triplet);
-        }
-
-        return result;
-    }
-    private Hitbox parseTriplet(String[] triplet) {
-        assert triplet.length == 3;
-
-        Hitbox result = new Hitbox();
-        result.setName(triplet[0]);
-        result.setFloor(Integer.parseInt(triplet[1]));
-
-        Iterator<String> iter = Arrays.asList(triplet[2].split("\\s")).iterator();
-        while (iter.hasNext()) {
-            Vector2 vertex = new Vector2(
-                    Double.parseDouble(iter.next()),
-                    Double.parseDouble(iter.next())
-            );
-            result.vertices().add(vertex);
-        }
-
-        return result;
+        HitboxParser parser = new HitboxParser();
+        return parser.parse(reader.lines());
     }
 
     /**
