@@ -47,12 +47,6 @@ final class SelectNodesStateMachine {
     public void onNodeSelected(NodeData node) {
         state.onNodeSelected(node);
     }
-//    private Optional<NodeData> findNearestRealNode(Hitbox hitbox, double x, double y) {
-//        return graph.nodes().stream()
-//                .filter(node -> hitbox.touchingNodes().contains(node.getNodeID()))
-//                .filter(node -> !tempNodes.contains(node))
-//                .min(Comparator.comparingDouble(node -> nodeDistance(node, x, y)));
-//    }
 
     public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
         state.onHitboxClicked(hitbox, event);
@@ -110,7 +104,6 @@ final class SelectNodesStateMachine {
             return SelectNodesStateMachine.this;
         }
     }
-
     private final class NoSelectionState extends State {
         @Override
         public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
@@ -176,19 +169,5 @@ final class SelectNodesStateMachine {
                     .filter(node -> hitbox.touchingNodes().contains(node.getNodeID()))
                     .collect(Collectors.toSet());
         }
-
-        //        public StartSelectedState(NodeData start) {
-//            outer().start.setValue(Optional.of(start));
-//            outer().goal.setValue(Optional.empty());
-//            outer().path.setValue(Path.empty());
-//        }
-//
-//        @Override public void onNodeSelected(NodeData node) {
-//            outer().goal.setValue(Optional.of(node));
-//            Path path = pathfinder.findPath(graph, start.value().get(), goal.value().get());
-//            outer().path.setValue(path);
-//            removeTempNodes();
-//            outer().state = new NoSelectionState();
-//        }
     }
 }
