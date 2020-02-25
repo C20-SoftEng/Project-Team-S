@@ -202,6 +202,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton upButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
+    @FXML private VBox directoryVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
@@ -230,7 +231,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML private void onHelpClicked() {
+    @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root = (Parent) fxmlLoader.load();
