@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -58,7 +59,7 @@ public class EditScreenController implements Initializable {
     private ObservableGraph graph;
     private IEditingTool editingTool;
     private final DatabaseController database = new DatabaseController();
-    private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
+    private final HitboxRepository hitboxRepo = new ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
     //endregion

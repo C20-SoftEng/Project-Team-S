@@ -19,7 +19,7 @@ public final class ResourceFolderHitboxRepository extends HitboxRepository {
         );
 
         HitboxParser parser = new HitboxParser();
-        return parser.parse(reader.lines());
+        return parser.parse(() -> reader.lines().iterator());
     }
 
     /**
