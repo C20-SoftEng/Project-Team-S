@@ -40,16 +40,16 @@ import java.util.stream.Collectors;
 
 public class ThreeDimensions extends Application {
     private static final String MESH_FILENAME =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\squidward.stl";
+            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\squidward.stl";
     private static final String STARTICON =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\start.stl";
+            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\start.stl";
     private static final String FINISHICON =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\finish.stl";
+            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\finish.stl";
 
     private static final String clarinet =
-            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\Clarinet.stl";
+            "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\Clarinet.stl";
 
-    private static final String hat = "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\hat.stl";
+    private static final String hat = "C:\\Users\\mcapo\\Desktop\\Reloaded\\src\\main\\resources\\images\\ThreeDim\\hat.stl";
     private PathTransition pathTrans;
 
     private List<NodeData> nodes;
@@ -125,7 +125,7 @@ public class ThreeDimensions extends Application {
         wongBox.setWidth(40);
         wongBox.setDepth(40);
         PhongMaterial material = new PhongMaterial();
-        Image image = new Image(("images/wwong2.jpg"));
+        Image image = new Image(("images/ThreeDim/wwong2.jpg"));
         material.setDiffuseMap(image);
         wongBox.setMaterial(material);
         wongBox.setTranslateZ(-70);
@@ -191,7 +191,7 @@ public class ThreeDimensions extends Application {
             meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -217,7 +217,7 @@ public class ThreeDimensions extends Application {
             meshViews2[i].setScaleZ(MODEL_SCALE_FACTOR2);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/geometric.jpg"));
+            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -242,7 +242,7 @@ public class ThreeDimensions extends Application {
             meshViews3[i].setScaleZ(MODEL_SCALE_FACTOR2);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/geometric.jpg"));
+            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -297,7 +297,7 @@ public class ThreeDimensions extends Application {
             clari[i].setScaleZ(MODEL_SCALE_FACTOR7);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -350,7 +350,7 @@ public class ThreeDimensions extends Application {
             hati[i].setScaleZ(MODEL_SCALE_FACTOR8);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/gold.jpg"));
+            Image image2 = new Image(("images/ThreeDim/gold.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -593,7 +593,7 @@ public class ThreeDimensions extends Application {
         scene.setCamera(camera);
         initMouseControl(group, scene, primaryStage);
 
-        primaryStage.setTitle("lol ez");
+        primaryStage.setTitle("qwertyuiop");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -608,7 +608,7 @@ public class ThreeDimensions extends Application {
     }
 
     private ImageView prepareImageView() {
-        Image image = new Image("images/space.jpg");
+        Image image = new Image("images/ThreeDim/space.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.getTransforms().add(new Translate(0,-200,0));
@@ -640,7 +640,7 @@ public class ThreeDimensions extends Application {
 
         if (radius >= 5) {
             PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/gif.gif"));
+            Image image = new Image(("images/ThreeDim/gif.gif"));
             material.setDiffuseMap(image);
 
             line.setMaterial(material);
@@ -648,7 +648,7 @@ public class ThreeDimensions extends Application {
 
         if (radius < 5) {
             PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/geometric.jpg"));
+            Image image = new Image(("images/ThreeDim/geometric.jpg"));
             material.setDiffuseMap(image);
 
             line.setMaterial(material);
@@ -679,7 +679,7 @@ public class ThreeDimensions extends Application {
     private Node prepareSecondBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/greif3.png"));
+        Image image = new Image(("images/ThreeDim/greif3.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-100);
@@ -691,7 +691,7 @@ public class ThreeDimensions extends Application {
     private Node prepareThirdBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief1.png"));
+        Image image = new Image(("images/ThreeDim/grief1.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(+100);
@@ -703,7 +703,7 @@ public class ThreeDimensions extends Application {
     private Node prepareFourthBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief4.png"));
+        Image image = new Image(("images/ThreeDim/grief4.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-200);
@@ -715,7 +715,7 @@ public class ThreeDimensions extends Application {
     private Node prepareFifthBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief5.png"));
+        Image image = new Image(("images/ThreeDim/grief5.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-300);
@@ -727,7 +727,7 @@ public class ThreeDimensions extends Application {
     private Box prepareBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief2.png"));
+        Image image = new Image(("images/ThreeDim/grief2.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setMaterial(material);
