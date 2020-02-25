@@ -145,18 +145,19 @@ public class EditScreenController implements Initializable {
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
 
+        editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
+        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
     private void initGraph() {
         this.graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
-            database.addNode(node, graph.nodes());
             redrawMap();
+            database.addNode(node);
         });
         graph.nodeRemoved().subscribe(e -> redrawMap());
         graph.edgeAdded().subscribe(e -> redrawMap());
@@ -191,6 +192,7 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private JFXButton cancelEditsButton;
     @FXML private JFXButton confirmEditButton;
+    @FXML private VBox editToolFieldsVBox;
     //endregion
 
     //region event handlers
@@ -270,7 +272,11 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        editingTool = new QuickAddRemoveNodeTool(
+                graph, editToolFieldsVBox,
+                () -> floorSelector.current()
+        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
         editingTool = new AddRemoveEdgeTool(graph, () -> group);
