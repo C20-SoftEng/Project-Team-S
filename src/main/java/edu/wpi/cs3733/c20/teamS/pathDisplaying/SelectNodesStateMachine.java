@@ -6,9 +6,12 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Comparator;
 import java.util.HashSet;
 
 import java.util.Optional;
@@ -45,11 +48,15 @@ final class SelectNodesStateMachine {
     public void onNodeSelected(NodeData node) {
         state.onNodeSelected(node);
     }
-    private Optional<NodeData> findNearestFakeNode(Hitbox hitbox, double x, double y) {
+    private Optional<NodeData> findNearestRealNode(Hitbox hitbox, double x, double y) {
         return graph.nodes().stream()
-                .filter(node -> hitbox.toPolygon().contains(node.getxCoordinate(), node.getyCoordinate()))
-                .filter(node -> node.getFloor() == floorSupplier.getAsInt())
-                .findFirst();
+                .filter(node -> hitbox.touchingNodes().contains(node.getNodeID()))
+                .filter(node -> !tempNodes.contains(node))
+                .min(Comparator.comparingDouble(node -> nodeDistance(node, x, y)));
+    }
+
+    private static double nodeDistance(NodeData node, double x, double y) {
+        return Numerics.distance(x, y, node.getxCoordinate(), node.getyCoordinate());
     }
     private void removeTempNodes() {
         for (NodeData node : tempNodes)
@@ -58,7 +65,7 @@ final class SelectNodesStateMachine {
     }
     public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
         event.consume();
-        Optional<NodeData> nearest = findNearestFakeNode(hitbox, event.getX(), event.getY());
+        Optional<NodeData> nearest = findNearestRealNode(hitbox, event.getX(), event.getY());
         if (!nearest.isPresent())
             return;
 
@@ -72,7 +79,9 @@ final class SelectNodesStateMachine {
 
     private NodeData createFakeNode(double x, double y) {
         return new NodeData("FAKE", x, y,
-                    floorSupplier.getAsInt(), "NONE", "FAKE", "FAKE NODE", "FAKE NODE");
+                    floorSupplier.getAsInt(), "NONE",
+                "FAKE", "FAKE NODE",
+                "FAKE NODE");
     }
 
     public Path path() {

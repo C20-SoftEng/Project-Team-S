@@ -17,22 +17,19 @@ import java.util.stream.Collectors;
 
 public class AddRemoveRoomEntrancesTool implements IEditingTool {
     private final Map<String, NodeData> nodeLookup;
-    private final IntSupplier floorSupplier;
     private final Supplier<Group> groupSupplier;
 
     private State state;
 
     public AddRemoveRoomEntrancesTool(
             Set<NodeData> nodes,
-            IntSupplier floorSupplier,
             Supplier<Group> groupSupplier
     ) {
         if (nodes == null) ThrowHelper.illegalNull("nodes");
-        if (floorSupplier == null) ThrowHelper.illegalNull("floorSupplier");
+        if (groupSupplier == null) ThrowHelper.illegalNull("groupSupplier");
 
         this.nodeLookup = nodes.stream()
                 .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
-        this.floorSupplier = floorSupplier;
         this.groupSupplier = groupSupplier;
 
         state = new StandbyState();
