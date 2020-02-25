@@ -30,7 +30,7 @@ class PathRenderer {
      * @param floor The floor that is being rendered.
      * @return A new Group containing all the elements that were drawn.
      */
-    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) {
+    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) throws Exception {
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
@@ -38,6 +38,7 @@ class PathRenderer {
             return group;
 
         List<NodeData> nodes = path.startToFinish();
+        ThreeDimensions viewModel = new ThreeDimensions(nodes);
         List<Line> lines = findCompleteEdges(nodes).stream()
                 .filter(edge -> edge.isOnFloor(floor))
                 .map(PathRenderer::drawEdge)

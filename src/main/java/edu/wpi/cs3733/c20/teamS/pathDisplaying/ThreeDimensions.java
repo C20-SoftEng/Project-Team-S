@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -21,8 +20,6 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,70 +67,32 @@ public class ThreeDimensions extends Application {
 
         Shape s = new Polygon(0, 0, -10, -10, 10, 0, -10, 10);
         s.setStrokeWidth(3);
-        s.setStrokeLineCap(StrokeLineCap.ROUND);
+        //s.setStrokeLineCap(StrokeLineCap.ROUND);
         s.setStroke(Color.AQUA);
-        s.setTranslateZ(-70);
+        s.setTranslateZ(-20);
 
         Group root2 = new Group();
         root2.getChildren().add(group);
         root2.getChildren().add(prepareImageView());
 
         SequentialTransition str = new SequentialTransition();
-        Ellipse ellipseEarth = new Ellipse();
-        ellipseEarth.setRadiusX(100);
-        ellipseEarth.setCenterY(100);
-        group.getChildren().add(ellipseEarth);
 
         group.getChildren().add(s);
 
 
         for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
             NodeData startNode = nodes.get(i);
             NodeData endNode = nodes.get(i + 1);
-            if (startNode.getFloor() == 2) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, 0);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, 0);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 3) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -100);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -100);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 1) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, +100);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, +100);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 4) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -200);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -200);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 5) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -300);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -300);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+
+            for(int floor = 1; floor <= 5; floor++) {
+                if(startNode.getFloor() == floor) {
+                    group.getChildren().add(createConnection(genPoint3(startNode, floor), genPoint4(endNode, floor), 2));
+                    magical(startNode, endNode, str, s, group, genPoint3(startNode, floor), genPoint4(endNode, floor));
+                }
             }
 
             if (startNode.getNodeType().equals("ELEV")) {
-                int floor1 = startNode.getFloor();
-                int floor2 = endNode.getFloor();
-                //String xyz = spec1.getNodeID().substring(7,8);
-                Point3D elev1 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(floor1));
-                Point3D elev2 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(floor2));
-                group.getChildren().add(createConnection(elev1, elev2, 5));
+                group.getChildren().add(createConnection(genPoint3(startNode, startNode.getFloor()), genPoint4(endNode, endNode.getFloor()), 5));
             }
         }
 
@@ -195,26 +154,34 @@ public class ThreeDimensions extends Application {
         primaryStage.show();
     }
 
-    static MeshView[] loadMeshViews(String filename) {
-        File file = new File(filename);
-        StlMeshImporter importer = new StlMeshImporter();
-        importer.read(file);
-        Mesh mesh = importer.getImport();
+    private Point3D genPoint3(NodeData startNode, int floor) {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+        Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(floor));
+        return point3;
+    }
 
-        return new MeshView[] { new MeshView(mesh) };
+    private Point3D genPoint4(NodeData endNode, int floor) {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+        Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(floor));
+        return point4;
     }
 
     private ImageView prepareImageView() {
-        Image image = new Image("images/space.jpg");
+        Image image = new Image("images/3DModel/background.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.getTransforms().add(new Translate(0,-200,0));
         return imageView;
-    }
-
-    public double distance3D(Point3D start, Point3D end) {
-        double result = Math.sqrt(Math.pow((end.getX() - start.getX()), 2) + Math.pow((end.getX() - start.getX()), 2) + Math.pow((end.getX() - start.getX()), 2));
-        return result;
     }
 
     public Cylinder createConnection(Point3D origin, Point3D target, int radius) {
@@ -233,7 +200,7 @@ public class ThreeDimensions extends Application {
 
         if (radius >= 5) {
             PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/gif.gif"));
+            Image image = new Image(("images/3DModel/ELEVCYL.gif"));
             material.setDiffuseMap(image);
 
             line.setMaterial(material);
@@ -241,7 +208,7 @@ public class ThreeDimensions extends Application {
 
         if (radius < 5) {
             PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/geometric.jpg"));
+            Image image = new Image(("images/3DModel/LINECYL.jpg"));
             material.setDiffuseMap(image);
 
             line.setMaterial(material);
@@ -252,27 +219,10 @@ public class ThreeDimensions extends Application {
         return line;
     }
 
-    double calculateAngle(double P1X, double P1Y, double P2X, double P2Y,
-                          double P3X, double P3Y){
-
-        double numerator = P2Y*(P1X-P3X) + P1Y*(P3X-P2X) + P3Y*(P2X-P1X);
-        double denominator = (P2X-P1X)*(P1X-P3X) + (P2Y-P1Y)*(P1Y-P3Y);
-        double ratio = numerator/denominator;
-
-        double angleRad = Math.atan(ratio);
-        double angleDeg = (angleRad*180)/Math.PI;
-
-        if(angleDeg<0){
-            angleDeg = 180+angleDeg;
-        }
-
-        return angleDeg;
-    }
-
     private Node prepareSecondBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/greif3.png"));
+        Image image = new Image(("images/3DModel/F3OL.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-100);
@@ -284,7 +234,7 @@ public class ThreeDimensions extends Application {
     private Node prepareThirdBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief1.png"));
+        Image image = new Image(("images/3DModel/F1OL.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(+100);
@@ -296,7 +246,7 @@ public class ThreeDimensions extends Application {
     private Node prepareFourthBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief4.png"));
+        Image image = new Image(("images/3DModel/F4OL.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-200);
@@ -308,7 +258,7 @@ public class ThreeDimensions extends Application {
     private Node prepareFifthBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief5.png"));
+        Image image = new Image(("images/3DModel/F5OL.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setTranslateZ(-300);
@@ -320,7 +270,7 @@ public class ThreeDimensions extends Application {
     private Box prepareBox() {
         PhongMaterial material = new PhongMaterial();
 
-        Image image = new Image(("images/grief2.png"));
+        Image image = new Image(("images/3DModel/F2OL.png"));
         material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
         box.setMaterial(material);

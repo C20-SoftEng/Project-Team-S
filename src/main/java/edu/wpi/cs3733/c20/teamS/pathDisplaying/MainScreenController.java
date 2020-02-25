@@ -81,7 +81,11 @@ public class MainScreenController implements Initializable {
 
         initHitboxes();
 
-        redraw();
+        try {
+            redraw();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initHitboxes() {
@@ -117,7 +121,7 @@ public class MainScreenController implements Initializable {
         });
     }
 
-    private void redraw() {
+    private void redraw() throws Exception {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
