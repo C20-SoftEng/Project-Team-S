@@ -16,7 +16,7 @@ public class Main extends Application {
 
     //new MainToLoginScreen(primaryStage, new AStar());
     MapEditingScreen test = new MapEditingScreen(primaryStage,
-            new Employee(17, "Bob", AccessLevel.ADMIN));
+            new Employee(3, "Wilson Wong", AccessLevel.ADMIN));
 
   }
 
