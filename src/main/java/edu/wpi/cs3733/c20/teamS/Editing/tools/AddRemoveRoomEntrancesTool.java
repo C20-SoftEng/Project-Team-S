@@ -45,9 +45,15 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
         state.onNodeClicked(node, event);
     }
 
+    @Override
+    public void onClosed() {
+        state.onClosed();
+    }
+
     private abstract static class State  {
         public abstract void onHitboxClicked(Hitbox hitbox, MouseEvent event);
         public abstract void onNodeClicked(NodeData node, MouseEvent event);
+        public abstract void onClosed();
     }
 
     private final class StandbyState extends State {
@@ -55,6 +61,9 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
             state = new EditingHitboxState(hitbox);
         }
         @Override public void onNodeClicked(NodeData node, MouseEvent event) {}
+
+        @Override
+        public void onClosed() {}
     }
     private final class EditingHitboxState extends State {
         private final Hitbox hitbox;
@@ -92,6 +101,9 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
                 default:
                     break;
             }
+        }
+        @Override public void onClosed() {
+            group.getChildren().removeAll(highlighters.values());
         }
 
         private Circle createNodeHighlighter(NodeData node) {

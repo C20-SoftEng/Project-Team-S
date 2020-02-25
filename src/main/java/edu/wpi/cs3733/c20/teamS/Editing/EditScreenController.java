@@ -58,6 +58,13 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private IEditingTool editingTool;
+    private void changeEditingTool(IEditingTool editingTool) {
+        IEditingTool previous = this.editingTool;
+        this.editingTool = editingTool;
+        if (previous == null)
+            return;
+        previous.onClosed();
+    }
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
@@ -282,18 +289,19 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        IEditingTool tool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
+        changeEditingTool(tool);
 //        editingTool = new QuickAddRemoveNodeTool(
 //                graph, editToolFieldsVBox,
 //                () -> floorSelector.current()
 //        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
-        editingTool = new AddRemoveEdgeTool(graph, () -> group);
+        IEditingTool tool = new AddRemoveEdgeTool(graph, () -> group);
+        changeEditingTool(tool);
     }
     @FXML private void onAddRemoveHitboxClicked() {
-        AddRemoveHitboxTool tool;
-        editingTool = tool = new AddRemoveHitboxTool(
+        AddRemoveHitboxTool tool = new AddRemoveHitboxTool(
                 hitbox -> {
                     hitboxes.remove(hitbox);
                     redrawMap();
@@ -305,18 +313,20 @@ public class EditScreenController implements Initializable {
             hitboxes.add(hitbox);
             redrawMap();
         });
+        changeEditingTool(tool);
     }
     @FXML private void onMoveNodeClicked() {
-        editingTool = new MoveNodeTool(scrollPane);
+        changeEditingTool(new MoveNodeTool(scrollPane));
     }
     @FXML private void onShowInfoClicked() {
-        editingTool = new ShowNodeInfoTool();
+        changeEditingTool(new ShowNodeInfoTool());
     }
     @FXML private void onEditRoomEntrancesClicked() {
-        editingTool = new AddRemoveRoomEntrancesTool(
+        IEditingTool tool = new AddRemoveRoomEntrancesTool(
                 graph.nodes(),
                 () -> group
         );
+        changeEditingTool(tool);
     }
 
     @FXML private void onConfirmEditClicked() {
