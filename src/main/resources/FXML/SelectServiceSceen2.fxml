@@ -13,18 +13,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="700.0" style="-fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="700.0" style="-fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController">
    <children>
       <BorderPane prefHeight="546.0" prefWidth="826.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="799.0" style="-fx-background-color: #eee;" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="628.0" prefWidth="700.0" style="-fx-background-color: #eee;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="TOP_CENTER" focusTraversable="false" prefHeight="41.0" prefWidth="246.0" text="Select a Service" textAlignment="CENTER">
+                  <Label alignment="TOP_CENTER" focusTraversable="false" prefHeight="30.0" prefWidth="246.0" text="Select a Service" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="34.0" />
                      </font>
                   </Label>
-                  <VBox alignment="TOP_CENTER" prefHeight="114.0" prefWidth="826.0" style="-fx-border-color: black;" VBox.vgrow="SOMETIMES">
+                  <VBox alignment="TOP_CENTER" prefHeight="114.0" prefWidth="826.0" VBox.vgrow="SOMETIMES">
                      <children>
                         <Label alignment="CENTER" text="Amenities" textAlignment="CENTER">
                            <font>
@@ -40,27 +40,44 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="rideButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" prefHeight="90.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="rideButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="laundryButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" prefHeight="90.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Laundry" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="laundryButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Laundry" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
                            </children>
                         </GridPane>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black;" VBox.vgrow="SOMETIMES">
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="SOMETIMES">
                      <children>
                         <Label alignment="CENTER" text="Assistance" textAlignment="CENTER">
                            <font>
@@ -78,7 +95,7 @@
                               <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton fx:id="janitorButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onJanitorClicked" prefHeight="90.0" prefWidth="156.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Janitor" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="janitorButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onJanitorClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Janitor" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -93,7 +110,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="interpreterButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onInterpreterClicked" prefHeight="90.0" prefWidth="133.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Interpreter" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="interpreterButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onInterpreterClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Interpreter" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -108,31 +125,52 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="securityButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSecurityClicked" prefHeight="90.0" prefWidth="192.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Security" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="securityButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSecurityClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Security" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="serviceTechService" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefHeight="90.0" prefWidth="170.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="serviceTechService" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="lastRitesButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLastRitesClicked" prefHeight="90.0" prefWidth="144.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Last Rites" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="lastRitesButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLastRitesClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Last Rites" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/serviceRequests/Gift.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="maintenanceButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" prefHeight="90.0" prefWidth="146.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Maintenance" GridPane.columnIndex="2">
+                              <JFXButton fx:id="maintenanceButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Maintenance" GridPane.columnIndex="2">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -150,8 +188,11 @@
                            </children>
                         </GridPane>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black;" VBox.vgrow="SOMETIMES">
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="SOMETIMES">
                      <children>
                         <Label alignment="CENTER" text="Deliveries" textAlignment="CENTER">
                            <font>
@@ -169,15 +210,22 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton fx:id="floristButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFloristClicked" prefHeight="60.0" prefWidth="193.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Florist" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="floristButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFloristClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Florist" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
+                                       <image>
+                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="medicineButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" prefHeight="91.0" prefWidth="160.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Medicine" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="medicineButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Medicine" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -192,7 +240,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="giftButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onGiftClicked" prefHeight="92.0" prefWidth="166.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Gift" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="giftButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onGiftClicked" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Gift" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -200,14 +248,14 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                                  <graphic>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0">
+                                    <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
                                           <Image url="@../images/Icons/serviceRequests/Gift.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="foodButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFoodClicked" prefHeight="90.0" prefWidth="161.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Food Request" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="foodButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFoodClicked" prefWidth="152.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Food Request" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -226,7 +274,7 @@
                         </GridPane>
                      </children>
                      <VBox.margin>
-                        <Insets />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
                </children>
