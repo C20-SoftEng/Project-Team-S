@@ -61,7 +61,10 @@ class PathRenderer {
                 .forEach(image -> group.getChildren().add(image));
 
         boolean runOnce = true;
+        double length = 0;
         Path animated_path = new Path();
+        double X = start.getxCoordinate();
+        double Y = start.getyCoordinate();
 
         for (NodeData node_itrat : nodes) {
             if((node_itrat.getFloor() == floor) && runOnce){
@@ -72,6 +75,9 @@ class PathRenderer {
 
             if (node_itrat.getFloor() == floor) {
                 animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate(), node_itrat.getyCoordinate()));
+                length += Math.sqrt(Math.pow((Math.abs(X - node_itrat.getxCoordinate())), 2) + Math.pow((Math.abs(Y - node_itrat.getyCoordinate())),2));
+                X = node_itrat.getxCoordinate();
+                Y = node_itrat.getyCoordinate();
             }
         }
 
@@ -82,18 +88,24 @@ class PathRenderer {
         imageView.setImage(i);
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(7.5));
+        pathTransition.setDuration(Duration.seconds(getPathTime(length)));
+        //pathTransition.setDuration(Duration.seconds(5));
+        System.out.println(length);
         pathTransition.setPath(animated_path);
         pathTransition.setNode(imageView);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
-        //pathTransition.setAutoReverse(true);
+        //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
 
         return group;
     }
 
+    private double getPathTime(double lengthOfPath){
+        System.out.println(lengthOfPath/250);
+        return lengthOfPath/250;
+    }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
      *
