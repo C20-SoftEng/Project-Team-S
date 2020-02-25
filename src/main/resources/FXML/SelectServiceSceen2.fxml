@@ -40,7 +40,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="rideButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" prefHeight="60.0" prefWidth="226.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="rideButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" prefHeight="90.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -48,7 +48,7 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="laundryButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" prefHeight="60.0" prefWidth="204.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Laundry" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="laundryButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" prefHeight="90.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Laundry" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -78,7 +78,7 @@
                               <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton fx:id="janitorButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onJanitorClicked" prefHeight="91.0" prefWidth="156.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Janitor" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="janitorButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onJanitorClicked" prefHeight="90.0" prefWidth="156.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Janitor" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -108,7 +108,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="securityButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSecurityClicked" prefHeight="60.0" prefWidth="192.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Security" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="securityButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSecurityClicked" prefHeight="90.0" prefWidth="192.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Security" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -116,7 +116,7 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="serviceTechService" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefHeight="63.0" prefWidth="170.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="serviceTechService" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefHeight="90.0" prefWidth="170.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -124,7 +124,7 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="lastRitesButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLastRitesClicked" prefHeight="63.0" prefWidth="144.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Last Rites" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="lastRitesButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLastRitesClicked" prefHeight="90.0" prefWidth="144.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Last Rites" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -132,7 +132,7 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="maintenanceButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" prefHeight="91.0" prefWidth="146.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Maintenance" GridPane.columnIndex="2">
+                              <JFXButton fx:id="maintenanceButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" prefHeight="90.0" prefWidth="146.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Maintenance" GridPane.columnIndex="2">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -177,7 +177,7 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="medicineButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" prefHeight="92.0" prefWidth="160.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Medicine" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="medicineButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" prefHeight="91.0" prefWidth="160.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Medicine" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -207,13 +207,20 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="foodButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFoodClicked" prefHeight="60.0" prefWidth="215.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Food Request" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="foodButton" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFoodClicked" prefHeight="90.0" prefWidth="161.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Food Request" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="10.0" />
                                  </GridPane.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0">
+                                       <image>
+                                          <Image url="@../images/Icons/Food_Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
                            </children>
                         </GridPane>
