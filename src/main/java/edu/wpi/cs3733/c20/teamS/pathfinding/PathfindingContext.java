@@ -9,25 +9,31 @@ import java.util.function.Function;
 /**
  * An implementation of IPathfinder that allows the algorithm to be switched on the fly.
  */
-public class PathfindingContext implements IPathfinder {
+public final class PathfindingContext implements IPathfinder {
     private IPathfinder pathfinder;
 
     public PathfindingContext(IPathfinder pathfinder) {
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
-
-        this.pathfinder = pathfinder;
+        setCurrent(pathfinder);
     }
 
     /**
      * Sets the algorithm used for pathfinding.
      * @param pathfinder The algorithm to use for pathfinding.
      */
-    public void setPathfinder(IPathfinder pathfinder) {
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
+    public void setCurrent(IPathfinder pathfinder) {
+        if (pathfinder == null) ThrowHelper.illegalNull("current");
+        if (pathfinder == this)
+            throw new IllegalArgumentException(
+                    "Setting current IPathfinder to 'this' is " +
+                    "a recipe for unbounded recursion.");
 
         this.pathfinder = pathfinder;
     }
-    public IPathfinder pathfinder() {
+
+    /**
+     * Gets the currently-selected pathfinding algorithm.
+     */
+    public IPathfinder current() {
         return pathfinder;
     }
 

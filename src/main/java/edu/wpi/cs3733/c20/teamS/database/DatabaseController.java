@@ -536,6 +536,8 @@ public class DatabaseController implements DBRepo{
         importEmployees();
 
 
+        importServiceables();
+
 //        File dumbAgainFile = new File("dumbFile.txt");
 //        try {
 //            dumbAgainFile.createNewFile();
@@ -698,6 +700,63 @@ public class DatabaseController implements DBRepo{
 
 
     }
+
+    public Set<EmployeeData> getAllEmployeeData(){
+        Statement stm = null;
+        try{
+            stm = connection.createStatement();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+        }
+        String allString = "SELECT * FROM EMPLOYEES";
+        ResultSet rset = null;
+        try{
+            rset = stm.executeQuery(allString);
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+        }
+        Set<EmployeeData> employeeSet = parseEmployeeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return employeeSet;
+    }
+
+    Set<EmployeeData> parseEmployeeResultSet(ResultSet rset){
+        Set<EmployeeData> employeeSet = new HashSet<>();
+        int employeeID;
+        String userName;
+        String password;
+        int accessLevel;
+        String firstName;
+        String lastName;
+        String phoneNumber;
+
+        try{
+            while(rset.next()){
+                employeeID = rset.getInt("employeeID");
+                userName = rset.getString("userName");
+                password = rset.getString("password");
+                accessLevel = rset.getInt("accessLevel");
+                firstName = rset.getString("firstName");
+                lastName = rset.getString("lastName");
+                phoneNumber = rset.getString("phoneNumber");
+
+                employeeSet.add(new EmployeeData(employeeID, userName, password, accessLevel, firstName, lastName, phoneNumber));
+            }
+        }catch(java.sql.SQLException rsetFailure){
+            System.out.println(rsetFailure.getMessage());
+            rsetFailure.printStackTrace();
+            throw new RuntimeException(rsetFailure);
+        }
+        return employeeSet;
+    }
+
     //Tested
     //  Package-private. Public method should take a ServiceRequest, and use the
     //  visitor pattern to save the correct concrete service-request type.
@@ -1013,7 +1072,61 @@ public class DatabaseController implements DBRepo{
     }
 
 
+    private void importServiceables(){
+        try{
+            System.out.println("importing Serviceables...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/serviceable.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    System.out.println("Adding Capability: " + lineArray[1] + " " + "To Employee: " + lineArray[0]);
+                    addCapability(Integer.parseInt(lineArray[0]), lineArray[1]);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+
+    public Set<String> getEmployeeCapabilities(int employeeID){
+        String getStr = "SELECT SERVICETYPE FROM SERVICEABLE WHERE EMPLOYEEID = ?";
+        Set<String> setofServices = new HashSet<>();
+        try{
+            PreparedStatement getStm = connection.prepareStatement(getStr);
+            getStm.setInt(1, employeeID);
+            ResultSet rset = getStm.executeQuery();
+            while(rset.next()){
+                setofServices.add(rset.getString("SERVICETYPE"));
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return setofServices;
+    }
+
+    public void removeEmployeeCapabilities(int employeeID){
+        String rmStr = "DELETE FROM SERVICEABLE WHERE EMPLOYEEID = ?";
+        try{
+            PreparedStatement rmStm = connection.prepareStatement(rmStr);
+            rmStm.setInt(1,employeeID);
+            rmStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to remove Capabilities of Employee " + Integer.toString(employeeID));
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed Capabilities of Employee " + Integer.toString(employeeID));
+    }
 
     public Set<Integer> getCapableEmployees(String serviceType){
         String getStr = "SELECT EMPLOYEEID FROM SERVICEABLE WHERE SERVICETYPE = ?";
@@ -1056,10 +1169,13 @@ public class DatabaseController implements DBRepo{
             delStm.executeUpdate();
         }catch(SQLException e){
             System.out.println(e.getMessage());
+            System.out.println("Failed to remove " + serviceType + "Capability of Employee " + Integer.toString(ID));
             throw new RuntimeException();
         }
-
+        System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
     }
+
+
 
     public boolean checkCapable(int ID, String serviceType){
         Set<Integer> capableIDSet = getCapableEmployees(serviceType);

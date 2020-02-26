@@ -1,16 +1,12 @@
 package edu.wpi.cs3733.c20.teamS.twoFactor;
-import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
 import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
-import edu.wpi.cs3733.c20.teamS.utilities.EmailThread;
-import edu.wpi.cs3733.c20.teamS.utilities.Mailer;
+import edu.wpi.cs3733.c20.teamS.utilities.TFAThread;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -74,7 +70,7 @@ public class TwoFactorScreen {
 
         int code = TwoFactorAuthenticator.generateCode();
         TwoFactorAuthenticator tfa = new TwoFactorAuthenticator(empData, carrier, code);
-        EmailThread et = new EmailThread(tfa);
+        TFAThread et = new TFAThread(tfa);
         tfaCode = code;
         et.start();
         //int code = et.tfa.runTextTFA(empData,carrier);

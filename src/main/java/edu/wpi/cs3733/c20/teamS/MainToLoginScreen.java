@@ -16,11 +16,11 @@ public class MainToLoginScreen {
     private Scene scene;
     private Stage stage;
 
-    public MainToLoginScreen(Stage stage, IPathfinder pathAlgorithm) {
+    public MainToLoginScreen(Stage stage) {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
-            this.ui = new MainScreenController(stage, pathAlgorithm);
+            this.ui = new MainScreenController(stage);
             return this.ui;
         });
         try {

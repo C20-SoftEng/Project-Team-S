@@ -11,7 +11,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import javafx.scene.input.MouseEvent;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -33,7 +33,7 @@ final class SelectNodesStateMachine {
 
     public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinder pathfinder, IntSupplier floorSupplier) {
         if (graph == null) ThrowHelper.illegalNull("graph");
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
+        if (pathfinder == null) ThrowHelper.illegalNull("current");
         if (floorSupplier == null) ThrowHelper.illegalNull("floorSupplier");
 
         this.graph = graph;
