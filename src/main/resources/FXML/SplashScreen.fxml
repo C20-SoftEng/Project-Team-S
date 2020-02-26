@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -27,7 +28,7 @@
                            <children>
                               <VBox fx:id="weatherBox" prefHeight="145.0" prefWidth="277.0" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="288.0" style="-fx-background-color: white;" text="            Weather" textFill="#070707" wrapText="true">
+                                    <Label contentDisplay="CENTER" focusTraversable="false" prefHeight="31.0" prefWidth="288.0" style="-fx-background-color: white;" text="            Weather" textFill="#070707">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
@@ -35,14 +36,14 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <JFXTextField fx:id="weatherField" style="-fx-background-color: white;" />
+                                    <JFXTextField fx:id="weatherField" editable="false" focusTraversable="false" style="-fx-background-color: white;" />
                                     <ImageView fx:id="imageID" fitHeight="171.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
-                                    <JFXTextArea fx:id="weatherSummary" prefHeight="77.0" prefWidth="95.0" style="-fx-background-color: white;" />
+                                    <JFXTextArea fx:id="weatherSummary" focusTraversable="false" prefHeight="77.0" prefWidth="95.0" style="-fx-background-color: white;" />
                                  </children>
                               </VBox>
                               <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <JFXTextArea fx:id="timeField" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff" />
+                                    <JFXTextArea fx:id="timeField" focusTraversable="false" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff" />
                                  </children>
                               </VBox>
                            </children>
@@ -51,7 +52,7 @@
                            <children>
                               <HBox alignment="CENTER" style="-fx-background-color: #1DA1F2;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <Label text="Twitter" textFill="WHITE">
+                                    <Label focusTraversable="false" text="Twitter" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="48.0" />
                                        </font>
@@ -67,11 +68,11 @@
                               </HBox>
                               <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-background-color: #1DA1F2;" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextArea fx:id="firstTweet" prefWidth="286.0" />
-                                    <JFXTextArea fx:id="secondTweet" />
-                                    <JFXTextArea fx:id="ThirdTweet" />
-                                    <JFXTextArea fx:id="fourthTweet" />
-                                    <JFXTextArea fx:id="fifthTweet" />
+                                    <JFXTextArea fx:id="firstTweet" focusTraversable="false" prefWidth="286.0" />
+                                    <JFXTextArea fx:id="secondTweet" focusTraversable="false" />
+                                    <JFXTextArea fx:id="ThirdTweet" focusTraversable="false" />
+                                    <JFXTextArea fx:id="fourthTweet" focusTraversable="false" />
+                                    <JFXTextArea fx:id="fifthTweet" focusTraversable="false" />
                                  </children></VBox>
                            </children>
                         </VBox>
@@ -111,22 +112,16 @@
                   </HBox>
                </top>
                <center>
-                  <StackPane fx:id="startScreenTap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="631.0" prefWidth="888.0"
-                             BorderPane.alignment="TOP_LEFT">
-                     <children>
-                        <Label text="&lt;Tap to Start&gt;" StackPane.alignment="BOTTOM_CENTER">
-                           <font>
-                              <Font size="96.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets bottom="10.0" />
-                           </StackPane.margin>
-                        </Label>
-                     </children>
-                  </StackPane>
+                  <StackPane fx:id="startScreenTap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="631.0" prefWidth="888.0" BorderPane.alignment="TOP_LEFT" />
                </center>
             </BorderPane>
          </children>
       </StackPane>
+      <Label alignment="CENTER" text="&lt;Tap to Start&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <JFXButton onAction="#onScreenClicked" />
    </children>
 </AnchorPane>

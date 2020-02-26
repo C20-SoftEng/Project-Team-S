@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static final boolean START_ON_ADMIN_SCREEN = false;
-    private static final boolean START_ON_SPLASH_SCREEN = false;
+    private static final boolean START_ON_SPLASH_SCREEN = true;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
