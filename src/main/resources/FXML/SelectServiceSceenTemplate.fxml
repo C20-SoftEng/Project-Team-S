@@ -32,13 +32,13 @@
                            </font>
                         </Label>
                         <GridPane hgap="50.0" prefHeight="82.0" prefWidth="629.0" VBox.vgrow="SOMETIMES">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
                               <JFXButton fx:id="rideButton" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" prefWidth="152.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
