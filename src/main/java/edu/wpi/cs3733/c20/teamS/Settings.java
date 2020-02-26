@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
 
 public final class Settings {
     private final PathfindingContext pathfinder = new PathfindingContext(new AStar());
-    private boolean useQuickNodePlacingTool = false;
+    private boolean useQuickNodePlacingTool = true;
 
     public PathfindingContext pathfinder(){
         return pathfinder;
