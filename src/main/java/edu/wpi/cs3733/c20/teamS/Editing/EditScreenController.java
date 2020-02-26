@@ -2,8 +2,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
@@ -22,6 +24,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -58,7 +61,7 @@ public class EditScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
-    private PathfindingAlgorithmSelector pathfindingAlgorithmSelector;
+    private ExportToDirectoryController exportController;
 
     private static final Color NODE_COLOR_ELEVATOR = Color.GREEN.deriveColor(
             1, 1, 1, 0.5);
@@ -147,6 +150,7 @@ public class EditScreenController implements Initializable {
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
         editingTool = createAddRemoveNodeTool();
+        exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> hitboxes);
 
         redrawMap();
     }
@@ -182,7 +186,7 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(2);
     }
     private void initPathfindingAlgorithmSelector() {
-        pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
+        PathfindingAlgorithmSelector pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
                 astarRadioButton, djikstraRadioButton,
                 depthFirstRadioButton, breadthFirstRadioButton
         );
@@ -200,17 +204,24 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
+
     @FXML private ToggleGroup pathGroup;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
-    @FXML private JFXButton cancelEditsButton;
-    @FXML private JFXButton confirmEditButton;
+
     @FXML private VBox editToolFieldsVBox;
+
+    @FXML private JFXButton editEmpButton;
 
     @FXML private RadioButton astarRadioButton;
     @FXML private RadioButton djikstraRadioButton;
     @FXML private RadioButton depthFirstRadioButton;
     @FXML private RadioButton breadthFirstRadioButton;
+
+    @FXML private JFXButton cancelEditsButton;
+    @FXML private JFXButton confirmEditButton;
+    @FXML private JFXTextField directoryPathTextField;
+    @FXML private JFXButton exportButton;
     //endregion
 
     //region event handlers
@@ -235,6 +246,13 @@ public class EditScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+
+
+    @FXML
+    void onEditButtonPressed(ActionEvent event) {
+        EmployeeEditingScreen.showDialog();
+    }
+
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));

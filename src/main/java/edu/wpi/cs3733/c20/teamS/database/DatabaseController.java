@@ -995,11 +995,10 @@ public class DatabaseController implements DBRepo{
     private void importNodes(){
         try{
             System.out.println("Importing Nodes...");
-            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/nodes.csv"));
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -1022,11 +1021,10 @@ public class DatabaseController implements DBRepo{
     private void importEdges(){
         try{
             System.out.println("Importing Edges...");
-            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/edges.csv"));
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -1053,7 +1051,6 @@ public class DatabaseController implements DBRepo{
             String line;
             if(br.ready()){
                 line = br.readLine();
-                line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6]);
@@ -1079,7 +1076,6 @@ public class DatabaseController implements DBRepo{
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -1174,8 +1170,6 @@ public class DatabaseController implements DBRepo{
         }
         System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
     }
-
-
 
     public boolean checkCapable(int ID, String serviceType){
         Set<Integer> capableIDSet = getCapableEmployees(serviceType);
