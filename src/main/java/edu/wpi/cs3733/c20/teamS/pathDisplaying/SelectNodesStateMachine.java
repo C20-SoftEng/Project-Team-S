@@ -33,7 +33,7 @@ final class SelectNodesStateMachine {
 
     public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinder pathfinder, IntSupplier floorSupplier) {
         if (graph == null) ThrowHelper.illegalNull("graph");
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
+        if (pathfinder == null) ThrowHelper.illegalNull("current");
         if (floorSupplier == null) ThrowHelper.illegalNull("floorSupplier");
 
         this.graph = graph;
