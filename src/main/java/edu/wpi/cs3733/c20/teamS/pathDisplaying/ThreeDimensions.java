@@ -291,7 +291,7 @@ public class ThreeDimensions extends Application {
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), meshViews[j]); //can change mph
                 tt.setInterpolator(Interpolator.LINEAR);
                 if (!sameFloor) {
-                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    length = Math.abs(endNode.getFloor() - startNode.getFloor())*100.0;
                     tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
@@ -348,7 +348,7 @@ public class ThreeDimensions extends Application {
                 length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), clari[j]); //can change mph
                 if (!sameFloor) {
-                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    length = Math.abs(endNode.getFloor() - startNode.getFloor())*100.0;
                     tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
@@ -407,7 +407,7 @@ public class ThreeDimensions extends Application {
                 length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), hati[j]); //can change mph
                 if (!sameFloor) {
-                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    length = Math.abs(endNode.getFloor() - startNode.getFloor())*100.0;
                     tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
