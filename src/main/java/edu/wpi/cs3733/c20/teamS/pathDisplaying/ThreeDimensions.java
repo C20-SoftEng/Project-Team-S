@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -15,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,12 +118,22 @@ public class ThreeDimensions extends Application {
         //dbc.importStartUpData();
         Set<NodeData> nd = dbc.getAllNodes();
 
-        Shape s = new Polygon(0, 0, -10, -10, 10, 0, -10, 10);
+        HashMap<Integer, Integer> zplace1 = new HashMap<Integer, Integer>();
+        zplace1.put(1, 100);
+        zplace1.put(2, 0);
+        zplace1.put(3, -100);
+        zplace1.put(4, -200);
+        zplace1.put(5, -300);
+
+        Shape s = new Circle(10);
         s.setStrokeWidth(3);
         s.setStrokeLineCap(StrokeLineCap.ROUND);
         s.setStroke(Color.AQUA);
-        // s.setEffect(new Bloom());
-        s.setTranslateZ(-20);
+        s.setFill(Color.LIGHTYELLOW);
+        //s.setEffect(new Bloom());
+        s.setTranslateX(nodes.get(nodes.size()-1).getxCoordinate() / 5 - 247);
+        s.setTranslateZ(zplace1.get(nodes.get(nodes.size()-1).getFloor()));
+        s.setTranslateY(nodes.get(nodes.size()-1).getyCoordinate() / 5 - 148);
 
         Box wongBox = new Box();
         wongBox.setHeight(40);
@@ -176,9 +188,9 @@ public class ThreeDimensions extends Application {
         //sequentialTransition.setAutoReverse(true);
         sequentialTransition.play();
 
-        double MODEL_SCALE_FACTOR = 10;
+        double MODEL_SCALE_FACTOR = 4.3;
 
-        String thing = getClass().getResource("/images/ThreeDim/squidward.stl").toURI().getPath();
+        String thing = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
         //String thing2 = thing.substring(6).replaceAll("/","\\");
 
 
@@ -192,13 +204,13 @@ public class ThreeDimensions extends Application {
             meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
+            Image image2 = new Image(("images/ThreeDim/gray.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
             meshViews[i].setMaterial(sample);
 
-            meshViews[i].getTransforms().setAll(new Rotate(90, Rotate.X_AXIS));
+            meshViews[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS));
         }
 
         String thing2 = getClass().getResource("/images/ThreeDim/start.stl").toURI().getPath();
@@ -219,7 +231,7 @@ public class ThreeDimensions extends Application {
             meshViews2[i].setScaleZ(MODEL_SCALE_FACTOR2);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
+            Image image2 = new Image(("images/ThreeDim/space.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -231,6 +243,7 @@ public class ThreeDimensions extends Application {
         String thing3 = getClass().getResource("/images/ThreeDim/finish.stl").toURI().getPath();
 
         MeshView[] meshViews3 = loadMeshViews(thing3);
+        double MODEL_SCALE_FACTOR22 = 0.15;
         for (int i = 0; i < meshViews3.length; i++) {
             HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
             zplace.put(1, 100);
@@ -238,15 +251,15 @@ public class ThreeDimensions extends Application {
             zplace.put(3, -100);
             zplace.put(4, -200);
             zplace.put(5, -300);
-            meshViews3[i].setTranslateX(nodes.get(nodes.size()-1).getxCoordinate()/ 5 - 347);
-            meshViews3[i].setTranslateY(nodes.get(nodes.size()-1).getyCoordinate()/ 5 - 148);
-            meshViews3[i].setTranslateZ(zplace.get(nodes.get(nodes.size()-1).getFloor()));
-            meshViews3[i].setScaleX(MODEL_SCALE_FACTOR2);
-            meshViews3[i].setScaleY(MODEL_SCALE_FACTOR2);
-            meshViews3[i].setScaleZ(MODEL_SCALE_FACTOR2);
+            meshViews3[i].setTranslateX(nodes.get(nodes.size()-1).getxCoordinate()/ 5 - 307);
+            meshViews3[i].setTranslateY(nodes.get(nodes.size()-1).getyCoordinate()/ 5 - 70);
+            meshViews3[i].setTranslateZ(zplace.get(nodes.get(nodes.size()-1).getFloor()) + 45);
+            meshViews3[i].setScaleX(MODEL_SCALE_FACTOR22);
+            meshViews3[i].setScaleY(MODEL_SCALE_FACTOR22);
+            meshViews3[i].setScaleZ(MODEL_SCALE_FACTOR22);
 
             PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
+            Image image2 = new Image(("images/ThreeDim/starticonreplace.jpg"));
             sample.setDiffuseMap(image2);
             //sample.setSpecularColor(Color.BEIGE);
             //sample.setSpecularPower(16);
@@ -274,12 +287,12 @@ public class ThreeDimensions extends Application {
                 if (!sameFloor) {
                     tt.setDuration(Duration.millis(500));
                 }
-                tt.setFromZ(zplace.get(startNode.getFloor()));
+                tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
                 tt.setFromX(startNode.getxCoordinate() / 5 - 247);
-                tt.setFromY(startNode.getyCoordinate() / 5 - 148 -47);
-                tt.setToZ(zplace.get(endNode.getFloor()));
+                tt.setFromY(startNode.getyCoordinate() / 5 - 148 -47 + 42);
+                tt.setToZ(zplace.get(endNode.getFloor()) - 27);
                 tt.setToX(endNode.getxCoordinate() / 5 - 247);
-                tt.setToY(endNode.getyCoordinate() / 5 - 148 -47);
+                tt.setToY(endNode.getyCoordinate() / 5 - 148 -47 + 42);
                 tt.setCycleCount(1);
                 st.getChildren().add(tt);
                 //tt.setAutoReverse(true);
@@ -406,10 +419,10 @@ public class ThreeDimensions extends Application {
         Group root9 = new Group(clari);
         Group root80 = new Group(hati);
         group.getChildren().add(root);
-        group.getChildren().add(root10);
+        //group.getChildren().add(root10);
         group.getChildren().add(root6);
-        group.getChildren().add(root9);
-        group.getChildren().add(root80);
+        //group.getChildren().add(root9);
+        //group.getChildren().add(root80);
 
 
 //        Path animated_path = new Path();
@@ -428,7 +441,7 @@ public class ThreeDimensions extends Application {
 
 
 
-        group.getChildren().add(wongBox);
+        //group.getChildren().add(wongBox);
 
         Group buttonsGroup = new Group();
         Button aych = new Button();
@@ -490,7 +503,9 @@ public class ThreeDimensions extends Application {
         }*/
         Group root2 = new Group();
         root2.getChildren().add(group);
+       // root2.getChildren().add(slider);
         root2.getChildren().add(prepareImageView());
+
 
         SequentialTransition str = new SequentialTransition();
         Ellipse ellipseEarth = new Ellipse();
@@ -514,31 +529,31 @@ public class ThreeDimensions extends Application {
                 Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, 0);
                 Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, 0);
                 group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+               // magical(startNode, endNode, str, s, group, point3, point4);
             }
             if (startNode.getFloor() == 3) {
                 Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -100);
                 Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -100);
                 group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+               // magical(startNode, endNode, str, s, group, point3, point4);
             }
             if (startNode.getFloor() == 1) {
                 Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, +100);
                 Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, +100);
                 group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+               // magical(startNode, endNode, str, s, group, point3, point4);
             }
             if (startNode.getFloor() == 4) {
                 Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -200);
                 Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -200);
                 group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+                //magical(startNode, endNode, str, s, group, point3, point4);
             }
             if (startNode.getFloor() == 5) {
                 Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -300);
                 Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -300);
                 group.getChildren().add(createConnection(point3, point4, 2));
-                magical(startNode, endNode, str, s, group, point3, point4);
+               // magical(startNode, endNode, str, s, group, point3, point4);
             }
 
             if (startNode.getNodeType().equals("ELEV")) {
@@ -606,6 +621,18 @@ public class ThreeDimensions extends Application {
                 case H:
                     group.setTranslateY(group.getTranslateY() + 100);
                     break;
+                case UP:
+                    group.setTranslateY(group.getTranslateY() - 100);
+                    break;
+                case DOWN:
+                    group.setTranslateY(group.getTranslateY() + 100);
+                    break;
+                case LEFT:
+                    group.rotateByZ(-10);
+                    break;
+                case RIGHT:
+                    group.rotateByZ(10);
+                    break;
             }
         });
 
@@ -616,7 +643,6 @@ public class ThreeDimensions extends Application {
             KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
             primaryStage.fireEvent(press);}
         group.setTranslateY(group.getTranslateY() + 70);
-        root2.getChildren().addAll(aych,ghee,thee,why);
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(-600);
@@ -640,14 +666,14 @@ public class ThreeDimensions extends Application {
     }
 
     private ImageView prepareImageView() {
-        Image image = new Image("images/ThreeDim/space.jpg");
+        Image image = new Image("images/ThreeDim/background.jpg");
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-        imageView.getTransforms().add(new Translate(0,-200,0));
-        double scale = 1;
-//        imageView.setScaleX(scale);
-//        imageView.setScaleY(scale);
-//        imageView.setScaleZ(scale);
+        double scale = 0.7;
+        imageView.setScaleX(scale);
+        imageView.setScaleY(scale);
+        imageView.setScaleZ(scale);
+        imageView.getTransforms().add(new Translate(-800,-1100,0));
         return imageView;
     }
 
@@ -672,7 +698,7 @@ public class ThreeDimensions extends Application {
 
         if (radius >= 5) {
             PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/ThreeDim/gif.gif"));
+            Image image = new Image(("images/ThreeDim/stairs.png"));
             material.setDiffuseMap(image);
 
             line.setMaterial(material);
@@ -768,26 +794,27 @@ public class ThreeDimensions extends Application {
     }
 
     private void initMouseControl(SmartGroup group, Scene scene, Stage stage) {
-        Rotate xRotate;
-        Rotate yRotate;
-        group.getTransforms().addAll(
-                xRotate = new Rotate(0, Rotate.X_AXIS),
-                yRotate = new Rotate(0, Rotate.Y_AXIS)
-        );
-        xRotate.angleProperty().bind(angleX);
-        yRotate.angleProperty().bind(angleY);
-
-        scene.setOnMousePressed(event -> {
-            anchorX = event.getSceneX();
-            anchorY = event.getSceneY();
-            anchorAngleX = angleX.get();
-            anchorAngleY = angleY.get();
-        });
-
-        scene.setOnMouseDragged(event -> {
-            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-            angleY.set(anchorAngleY + anchorX - event.getSceneX());
-        });
+//        Rotate xRotate;
+//        Rotate yRotate;
+//
+//        group.getTransforms().addAll(
+//                xRotate = new Rotate(0, Rotate.X_AXIS),
+//                yRotate = new Rotate(0, Rotate.Y_AXIS)
+//        );
+//        xRotate.angleProperty().bind(angleX);
+//        yRotate.angleProperty().bind(angleY);
+//
+//        scene.setOnMousePressed(event -> {
+//            anchorX = event.getSceneX();
+//            anchorY = event.getSceneY();
+//            anchorAngleX = angleX.get();
+//            anchorAngleY = angleY.get();
+//        });
+//
+//        scene.setOnMouseDragged(event -> {
+//            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+//            angleY.set(anchorAngleY + anchorX - event.getSceneX());
+//        });
 
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
@@ -871,6 +898,19 @@ public class ThreeDimensions extends Application {
             transitionEarth.setCycleCount(1);
             str.getChildren().add(transitionEarth);
         }
+    }
+
+    private Slider prepareSlider() {
+        Slider slider = new Slider();
+        slider.setMax(800);
+        slider.setMin(-400);
+        slider.setPrefWidth(300d);
+        slider.setLayoutX(100);
+        slider.setLayoutY(200);
+        slider.setShowTickLabels(true);
+        slider.setTranslateZ(5);
+        slider.setStyle("-fx-base: black");
+        return slider;
     }
 }
 
