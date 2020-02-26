@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreenController">
+    <children>
+        <ScrollPane layoutY="37.0" prefHeight="282.0" prefWidth="600.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="283.0" prefWidth="602.0">
+                    <children>
+                        <TableView fx:id="employeeTable" editable="true" layoutX="14.0" prefHeight="340.0" prefWidth="940.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0">
+                            <columns>
+                                <TableColumn fx:id="employeeIDCol" prefWidth="87.33334350585938" text="Employee ID" />
+                                <TableColumn fx:id="usernameCol" minWidth="0.0" prefWidth="69.33331298828125" text="Username" />
+                                <TableColumn fx:id="passwordCol" prefWidth="68.0" text="Password" />
+                                <TableColumn fx:id="accessLevelCol" prefWidth="84.33331298828125" text="AccessLevel" />
+                                <TableColumn fx:id="firstNameCol" prefWidth="79.0" text="Firstname" />
+                        <TableColumn fx:id="lastNameCol" prefWidth="66.66668701171875" text="Lastname" />
+                        <TableColumn fx:id="phoneNumberCol" prefWidth="118.33331298828125" text="Phone Number" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <JFXButton buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onDeleteClicked" style="-fx-border-color: gainsboro;" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        <Label layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="           Employees" textAlignment="CENTER" />
+        <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" style="-fx-border-color: gainsboro;" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+      <JFXButton fx:id="addEmployeeButton" layoutX="457.0" layoutY="362.0" onAction="#onAddClicked" prefHeight="25.0" prefWidth="57.0" style="-fx-border-color: gainsboro;" text="Add " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="86.0" />
+      <JFXButton fx:id="showCapabilitiesButton" layoutX="187.0" layoutY="379.0" onAction="#onShowCapabilitiesClicked" prefHeight="25.0" prefWidth="186.0" style="-fx-border-color: gainsboro;" text="Show Capabilities" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="187.0" />
+    </children>
+</AnchorPane>
