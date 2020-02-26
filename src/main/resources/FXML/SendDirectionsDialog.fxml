@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -17,11 +17,6 @@
             </font>
         </Label>
       <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="43.0" text="Enter your email or phone number to recieve directions." textAlignment="CENTER" />
-        <JFXPasswordField fx:id="emailField" focusColor="#0ab4b4" labelFloat="true" layoutX="82.0" layoutY="83.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter Email">
-            <font>
-                <Font size="13.0" />
-            </font>
-        </JFXPasswordField>
         <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" layoutX="177.0" layoutY="234.0" onAction="#onDoneClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-border-color: gray; -fx-border-radius: 5; -fx-background-color: #ddd; -fx-background-radius: 5;" text="Done" textAlignment="CENTER" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="177.0">
             <font>
                 <Font size="13.0" />
@@ -38,11 +33,6 @@
             <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
          </items>
       </MenuButton>
-      <JFXPasswordField fx:id="phoneNumberField" focusColor="#0ab4b4" labelFloat="true" layoutX="82.0" layoutY="134.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter Phone Number">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </JFXPasswordField>
       <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="80.0" onAction="#onSendEmailClicked" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" style="-fx-background-color: #0153A6; -fx-border-color: #125CA6; -fx-background-radius: 5; -fx-border-radius: 5;" text="Send Email" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="13.0" />
@@ -59,5 +49,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <JFXTextField fx:id="emailField" layoutX="82.0" layoutY="84.0" prefHeight="29.0" prefWidth="183.0" promptText="Enter Email" />
+      <JFXTextField fx:id="phoneNumberField" layoutX="82.0" layoutY="134.0" prefHeight="29.0" prefWidth="183.0" promptText="Enter Email" />
     </children>
 </AnchorPane>

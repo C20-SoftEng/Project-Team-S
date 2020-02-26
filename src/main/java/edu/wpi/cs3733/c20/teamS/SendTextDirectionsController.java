@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.utilities.SendEmailDirectionsThread;
 import edu.wpi.cs3733.c20.teamS.utilities.SendTextDirectionsThread;
 import javafx.event.ActionEvent;
@@ -28,7 +29,7 @@ public class SendTextDirectionsController {
     private Label descLabel;
 
     @FXML
-    private JFXPasswordField emailField;
+    private JFXTextField emailField;
 
     @FXML
     private JFXButton cancelButton;
@@ -37,7 +38,7 @@ public class SendTextDirectionsController {
     private MenuButton carrierSelector;
 
     @FXML
-    private JFXPasswordField phoneNumberField;
+    private JFXTextField phoneNumberField;
 
     @FXML
     private JFXButton sendEmailButton;
@@ -73,7 +74,7 @@ public class SendTextDirectionsController {
         }else{
             String email = emailField.getText();
             SendEmailDirectionsThread SEDT = new SendEmailDirectionsThread(this.directions,email);
-            SEDT.run();
+            SEDT.start();
 
         }
 
@@ -87,7 +88,7 @@ public class SendTextDirectionsController {
             String carrier = carrierSelector.getText();
             String number = phoneNumberField.getText();
             SendTextDirectionsThread STDT = new SendTextDirectionsThread(this.directions,number,carrier);
-            STDT.run();
+            STDT.start();
         }
     }
 
