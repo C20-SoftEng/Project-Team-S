@@ -64,6 +64,7 @@ public class EditScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
+    private PathfindingAlgorithmSelector pathfindingAlgorithmSelector;
 
     private static final Color NODE_COLOR_ELEVATOR = Color.GREEN.deriveColor(
             1, 1, 1, 0.5);
@@ -144,6 +145,10 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
+        pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
+                astarRadioButton, djikstraRadioButton,
+                depthFirstRadioButton, breadthFirstRadioButton
+        );
 
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
@@ -152,7 +157,6 @@ public class EditScreenController implements Initializable {
             hitboxes.addAll(hitboxRepo.load());
 
         editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
-        //editingTool = new AddRemoveNodeTool(graph, () -> floorSelector.current());
         redrawMap();
     }
 
@@ -205,6 +209,11 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton cancelEditsButton;
     @FXML private JFXButton confirmEditButton;
     @FXML private VBox editToolFieldsVBox;
+
+    @FXML private RadioButton astarRadioButton;
+    @FXML private RadioButton djikstraRadioButton;
+    @FXML private RadioButton depthFirstRadioButton;
+    @FXML private RadioButton breadthFirstRadioButton;
     //endregion
 
     //region event handlers
@@ -466,17 +475,17 @@ public class EditScreenController implements Initializable {
     }
 
     public void onLogOut() {
-        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
-            case "A*":
-                Settings.settings().setPathFinder(new AStar());
-            case "BreadthFirst":
-                Settings.settings().setPathFinder(new BreadthFirst());
-                break;
-            case "DepthFirst":
-                Settings.settings().setPathFinder(new DepthFirst());
-                break;
-        }
-        MainToLoginScreen back = new MainToLoginScreen(stage, Settings.settings().pathfinder());
+//        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
+//            case "A*":
+//                Settings.get().setPathFinder(new AStar());
+//            case "BreadthFirst":
+//                Settings.get().setPathFinder(new BreadthFirst());
+//                break;
+//            case "DepthFirst":
+//                Settings.get().setPathFinder(new DepthFirst());
+//                break;
+//        }
+        MainToLoginScreen back = new MainToLoginScreen(stage, Settings.get().pathfinder());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){

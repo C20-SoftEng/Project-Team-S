@@ -56,7 +56,7 @@ public class MainScreenController implements Initializable {
 
     public MainScreenController(Stage stage, IPathfinder pathfinder){
         if (stage == null) ThrowHelper.illegalNull("stage");
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
+        if (pathfinder == null) ThrowHelper.illegalNull("current");
 
         this.stage = stage;
         this.pathfinder = pathfinder;
