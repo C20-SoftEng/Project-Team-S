@@ -146,6 +146,7 @@ public class ThreeDimensions extends Application {
         wongBox.setTranslateZ(-70);
 
         double total  =  0;
+        double length;
         SequentialTransition sequentialTransition = new SequentialTransition();
         for(int i = 0; i < nodes.size() - 1; i++) {
             HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
@@ -159,13 +160,16 @@ public class ThreeDimensions extends Application {
             int floor1 = startNode.getFloor();
             int floor2 = endNode.getFloor();
             boolean sameFloor = (floor1 == floor2);
-            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), wongBox); //can change mph
+
+            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()),2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(getPathTime(length)), wongBox); //can change mph
             translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
             translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
             translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
             translateTransition.setToZ(zplace.get(endNode.getFloor()) - 50 - 30);
             translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
             translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
+            translateTransition.setInterpolator(Interpolator.LINEAR);
             translateTransition.setCycleCount(1);
             total += 1000;
             //translateTransition.setAutoReverse(true);
@@ -174,7 +178,7 @@ public class ThreeDimensions extends Application {
 
 //            if(i+1 < anglez.size()) {
 //                RotateTransition rt = new RotateTransition();
-//                rt.setDuration(Duration.millis(500));
+//                rt.setDuration(Duration.seconds(getPathTime(length)));
 //                rt.setNode(wongBox);
 //                rt.setAxis(Rotate.Z_AXIS);
 //                rt.setCycleCount(1);
@@ -283,9 +287,12 @@ public class ThreeDimensions extends Application {
             boolean sameFloor = (floor1 == floor2);
 
             for(int j = 0; j < meshViews.length; j++) {
-                TranslateTransition tt = new TranslateTransition(Duration.millis(1000), meshViews[j]); //can change mph
+                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()),2) + Math.pow(Math.abs((endNode.getyCoordinate()- startNode.getyCoordinate())),2));
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), meshViews[j]); //can change mph
+                tt.setInterpolator(Interpolator.LINEAR);
                 if (!sameFloor) {
-                    tt.setDuration(Duration.millis(500));
+                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
                 tt.setFromX(startNode.getxCoordinate() / 5 - 247);
@@ -338,9 +345,11 @@ public class ThreeDimensions extends Application {
             boolean sameFloor = (floor1 == floor2);
 
             for(int j = 0; j < clari.length; j++) {
-                TranslateTransition tt = new TranslateTransition(Duration.millis(1000), clari[j]); //can change mph
+                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), clari[j]); //can change mph
                 if (!sameFloor) {
-                    tt.setDuration(Duration.millis(500));
+                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
                 tt.setFromX(startNode.getxCoordinate() / 5 - 247);
@@ -348,6 +357,7 @@ public class ThreeDimensions extends Application {
                 tt.setToZ(zplace.get(endNode.getFloor()) - 80);
                 tt.setToX(endNode.getxCoordinate() / 5 - 247);
                 tt.setToY(endNode.getyCoordinate() / 5 - 148 -47 + 110);
+                tt.setInterpolator(Interpolator.LINEAR);
                 tt.setCycleCount(1);
                 //tt.setAutoReverse(true);
                 st2.getChildren().add(tt);
@@ -394,21 +404,26 @@ public class ThreeDimensions extends Application {
             boolean sameFloor = (floor1 == floor2);
 
             for(int j = 0; j < clari.length; j++) {
-                TranslateTransition tt = new TranslateTransition(Duration.millis(1000), hati[j]); //can change mph
+                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), hati[j]); //can change mph
                 if (!sameFloor) {
-                    tt.setDuration(Duration.millis(500));
+                    length = (endNode.getFloor() - startNode.getFloor())*100.0;
+                    tt.setDuration(Duration.seconds(getPathTime(length)));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
                 tt.setFromX(startNode.getxCoordinate() / 5 - 247);
                 tt.setFromY(startNode.getyCoordinate() / 5 - 148 -47 + 150);
                 tt.setToZ(zplace.get(endNode.getFloor()) - 80);
                 tt.setToX(endNode.getxCoordinate() / 5 - 247);
+                tt.setInterpolator(Interpolator.LINEAR);
                 tt.setToY(endNode.getyCoordinate() / 5 - 148 -47 + 150);
                 tt.setCycleCount(1);
                 //tt.setAutoReverse(true);
                 st3.getChildren().add(tt);
             }
         }
+
+
         st3.setCycleCount(Timeline.INDEFINITE);
         // st.setAutoReverse(true);
         st3.play();
@@ -434,6 +449,7 @@ public class ThreeDimensions extends Application {
 //        pathTransition.setDuration(Duration.seconds(0.5));
 //        pathTransition.setPath(animated_path);
 //        pathTransition.setNode(sphere);
+ //       pathTransition.setInterpolator(Interpolator.LINEAR);
 //        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 //        pathTransition.setCycleCount(Timeline.INDEFINITE);
 ////pathTransition.setAutoReverse(true);
@@ -856,6 +872,7 @@ public class ThreeDimensions extends Application {
 
     private void magical(NodeData startNode, NodeData endNode, SequentialTransition str, Shape s, SmartGroup group, Point3D point3, Point3D point4) {
         HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        double length;
         zplace.put(1, 100);
         zplace.put(2, 0);
         zplace.put(3, -100);
@@ -869,13 +886,16 @@ public class ThreeDimensions extends Application {
             transitionEarth.setPath(liner);
             transitionEarth.setNode(s);
             transitionEarth.setInterpolator(Interpolator.LINEAR);
-            transitionEarth.setDuration(Duration.seconds(1));
+            length = Math.sqrt(Math.pow(Math.abs(point4.getX()-point3.getX()), 2) + Math.pow(Math.abs(point4.getY()-point3.getY()), 2));
+            transitionEarth.setDuration(Duration.seconds(getPathTime(length)));
+            transitionEarth.setInterpolator(Interpolator.LINEAR);
             transitionEarth.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
             transitionEarth.setCycleCount(1);
 
             str.getChildren().add(transitionEarth);}
         else if(endNode.getNodeType().equals("ELEV")) {
-            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), s); //can change mph
+            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(getPathTime(length)), s); //can change mph
             translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
             translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
             translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
@@ -883,6 +903,9 @@ public class ThreeDimensions extends Application {
             translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
             translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
             translateTransition.setCycleCount(1);
+            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate()-startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate()-startNode.getyCoordinate()), 2));
+            translateTransition.setDuration(Duration.seconds(getPathTime(length)));
+            translateTransition.setInterpolator(Interpolator.LINEAR);
             str.getChildren().add(translateTransition);
         }
         else if(endNode.getFloor() == nodes.get(nodes.size()-1).getFloor()) {
@@ -893,9 +916,11 @@ public class ThreeDimensions extends Application {
             transitionEarth.setPath(liner);
             transitionEarth.setNode(s);
             transitionEarth.setInterpolator(Interpolator.LINEAR);
-            transitionEarth.setDuration(Duration.seconds(1));
+            length = Math.sqrt(Math.pow(Math.abs(point4.getX()-point3.getX()), 2) + Math.pow(Math.abs(point4.getY()-point3.getY()), 2));
+            transitionEarth.setDuration(Duration.seconds(getPathTime(length)));
             transitionEarth.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
             transitionEarth.setCycleCount(1);
+            transitionEarth.setInterpolator(Interpolator.LINEAR);
             str.getChildren().add(transitionEarth);
         }
     }
@@ -911,6 +936,9 @@ public class ThreeDimensions extends Application {
         slider.setTranslateZ(5);
         slider.setStyle("-fx-base: black");
         return slider;
+    }
+    private double getPathTime(double lengthOfPath){
+        return lengthOfPath/200;
     }
 }
 
