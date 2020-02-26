@@ -168,7 +168,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/serviceRequests/Gift.png" />
+                                          <Image url="@../images/Icons/serviceRequests/Last_Rites.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
