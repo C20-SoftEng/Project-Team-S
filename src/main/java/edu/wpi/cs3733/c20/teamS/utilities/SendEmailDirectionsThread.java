@@ -7,7 +7,7 @@ public class SendEmailDirectionsThread extends Thread {
     String email;
     //String carrier;
 
-    SendEmailDirectionsThread(Set<String> directions, String email){
+    public SendEmailDirectionsThread(Set<String> directions, String email){
         this.directions = directions;
         this.email = email;
 

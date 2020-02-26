@@ -2,13 +2,23 @@ package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import edu.wpi.cs3733.c20.teamS.utilities.SendEmailDirectionsThread;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.stage.Stage;
 
+import java.util.List;
+import java.util.Set;
+
 public class SendTextDirectionsController {
+
+    List<String> directions;
+
+    public SendTextDirectionsController(List<String> directions){
+        this.directions = directions;
+    }
 
     @FXML
     private Label sendDirectionsLabel;
@@ -57,6 +67,13 @@ public class SendTextDirectionsController {
 
     @FXML
     void onSendEmailClicked(ActionEvent event) {
+        if(emailField.getText().equals("")){
+            return;
+        }else{
+            String email = emailField.getText();
+
+
+        }
 
     }
 

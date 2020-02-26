@@ -9,9 +9,10 @@ public class SendTextDirectionsThread extends Thread {
     String number;
     String carrier;
 
-    SendTextDirectionsThread(Set<String> directions, String number){
+    public SendTextDirectionsThread(Set<String> directions, String number, String carrier){
         this.directions = directions;
         this.number = number;
+        this.carrier = carrier;
 
     }
 

@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.utilities.SendEmailDirectionsThread;
+import edu.wpi.cs3733.c20.teamS.utilities.SendTextDirectionsThread;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public class SendTextDirectionsScreen {
 
@@ -25,7 +28,7 @@ public class SendTextDirectionsScreen {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SendDirectionsDialog.fxml"));
         loader.setControllerFactory(e -> {
-            SendTextDirectionsScreen cont = new SendTextDirectionsScreen(directions);
+            SendTextDirectionsController cont = new SendTextDirectionsController(directions);
             return cont;
         });
 
@@ -50,6 +53,16 @@ public class SendTextDirectionsScreen {
         screen.show();
     }
 
-    public void runEmailThread()
+    public void runEmailThread(Set<String> directions, String email){
+        SendEmailDirectionsThread SEDT = new SendEmailDirectionsThread(directions,email);
+        SEDT.run();
+
+    }
+
+    public void runTextThread(Set<String> directions, String number, String carrier){
+        SendTextDirectionsThread STDT = new SendTextDirectionsThread(directions,number,carrier);
+        STDT.run();
+
+    }
 
 }
