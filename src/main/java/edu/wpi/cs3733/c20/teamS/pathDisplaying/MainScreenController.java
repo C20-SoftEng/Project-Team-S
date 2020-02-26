@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Settings;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
@@ -41,7 +42,7 @@ import java.util.stream.Collectors;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private IPathfinder pathfinder;
+    //private IPathfinder pathfinder;
     private PathRenderer renderer;
     private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
@@ -54,12 +55,10 @@ public class MainScreenController implements Initializable {
     private boolean flip = true;
     //endregion
 
-    public MainScreenController(Stage stage, IPathfinder pathfinder){
+    public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-        if (pathfinder == null) ThrowHelper.illegalNull("current");
 
         this.stage = stage;
-        this.pathfinder = pathfinder;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,7 +67,7 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, pathfinder, () -> floorSelector.current());
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder(), () -> floorSelector.current());
 
         initFloorSelector();
 
@@ -121,6 +120,9 @@ public class MainScreenController implements Initializable {
         });
     }
 
+    private IPathfinder pathfinder() {
+        return Settings.get().pathfinder();
+    }
     private void redraw() throws Exception {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();

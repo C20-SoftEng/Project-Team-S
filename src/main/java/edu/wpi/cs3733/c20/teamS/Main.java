@@ -19,7 +19,7 @@ public class Main extends Application {
         if (START_ON_ADMIN_SCREEN)
             new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));
         else
-            new MainToLoginScreen(primaryStage, new AStar());
+            new MainToLoginScreen(primaryStage);
     }
     //9003,staff,staff,2,Wilson,Wong
     public static void main(String[] args) {

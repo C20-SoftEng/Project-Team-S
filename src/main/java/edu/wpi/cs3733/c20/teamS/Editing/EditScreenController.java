@@ -485,7 +485,7 @@ public class EditScreenController implements Initializable {
 //                Settings.get().setPathFinder(new DepthFirst());
 //                break;
 //        }
-        MainToLoginScreen back = new MainToLoginScreen(stage, Settings.get().pathfinder());
+        MainToLoginScreen back = new MainToLoginScreen(stage);
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
