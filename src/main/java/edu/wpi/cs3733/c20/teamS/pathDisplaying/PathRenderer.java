@@ -110,27 +110,27 @@ class PathRenderer {
     }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
-     *
-     * @param path       The path to display instructions for.
+     *  @param path       The path to display instructions for.
+     * @param directoryBox The VBox to display the directory
      * @param displayBox The VBox to display the instructions in.
      */
-    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox,  VBox directoryBox) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
+        if (directoryBox == null) ThrowHelper.illegalNull("directoryBox");
 
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
-        int offset = 21;
         displayBox.getChildren().clear();
         //JFXTextField directionLabel = new JFXTextField();
         //directionLabel.setText("Directions");
-        JFXTextField space = new JFXTextField();
+        //JFXTextField space = new JFXTextField();
+        directoryBox.setVisible(true);
         for (String direct : instructions) {
             JFXTextArea text = new JFXTextArea();
             text.setText(direct);
             text.setEditable(false);
-            //text.setPrefHeight(offset);
             if (text.getLength() > 27){
                 text.setFont(Font.font ("System", 15));
                 text.setMinHeight(50);
@@ -140,7 +140,6 @@ class PathRenderer {
             }
             else if (text.getLength() > 24){
                 text.setFont(Font.font ("System", 16));
-                System.out.println(text.getText() + "Long");
                 text.setPrefHeight(30);
             }
             else {
@@ -148,6 +147,7 @@ class PathRenderer {
                 text.setPrefHeight(10);
             }
             displayBox.getChildren().add(text);
+            directoryBox.setVisible(false);
         }
     }
 

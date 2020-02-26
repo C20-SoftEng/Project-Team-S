@@ -71,7 +71,7 @@
                   </JFXButton>
                   <HBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="64.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="51.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
+                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onAboutClicked" prefHeight="50.0" prefWidth="51.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
@@ -326,7 +326,7 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="25.0" />
                                  </VBox.margin>
                               </VBox>
                               <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="142.0">
@@ -374,7 +374,7 @@
                            </font>
                         </Label>
                         <VBox fx:id="instructionVBox" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
-                        <JFXButton alignment="CENTER" buttonType="RAISED" style="-fx-background-color: #0067B1; -fx-background-radius: 5; -fx-border-color: gray; -fx-border-radius: 5;" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
+                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onTextClicked" style="-fx-background-color: #0067B1; -fx-background-radius: 5; -fx-border-color: gray; -fx-border-radius: 5;" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
@@ -384,14 +384,14 @@
                         </JFXButton>
                      </children>
                   </VBox>
-                  <VBox style="-fx-background-color: white;">
+                  <VBox fx:id="directoryVBox" style="-fx-background-color: white;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Directory" underline="true" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <VBox fx:id="directoryVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
                            <children>
                               <VBox fx:id="parentVBox1" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                                  <children>
