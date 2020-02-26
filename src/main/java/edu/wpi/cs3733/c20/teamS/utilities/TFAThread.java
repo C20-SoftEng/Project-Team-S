@@ -3,11 +3,11 @@ package edu.wpi.cs3733.c20.teamS.utilities;
 import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorAuthenticator;
 
-public class EmailThread extends Thread {
+public class TFAThread extends Thread {
 
     public TwoFactorAuthenticator tfa;
 
-    public EmailThread(TwoFactorAuthenticator tfa){
+    public TFAThread(TwoFactorAuthenticator tfa){
         this.tfa = tfa;
     }
 
