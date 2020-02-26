@@ -2,7 +2,10 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.QuickAddRemoveNodeTool;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
+import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
@@ -10,6 +13,8 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
+import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
@@ -22,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -41,7 +47,7 @@ import java.util.stream.Collectors;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private IPathfinder pathfinder;
+    //private IPathfinder pathfinder;
     private PathRenderer renderer;
     private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
@@ -54,12 +60,10 @@ public class MainScreenController implements Initializable {
     private boolean flip = true;
     //endregion
 
-    public MainScreenController(Stage stage, IPathfinder pathfinder){
+    public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
 
         this.stage = stage;
-        this.pathfinder = pathfinder;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,13 +72,13 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, pathfinder, () -> floorSelector.current());
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder(), () -> floorSelector.current());
 
         initFloorSelector();
 
         nodeSelector.pathChanged().subscribe(path -> {
             redraw();
-            renderer.printInstructions(path, instructionVBox);
+            renderer.printInstructions(path, instructionVBox, directoryVBox);
         });
         group.setOnMouseClicked(this::onMapClicked);
         scrollPane.setContent(group);
@@ -119,6 +123,10 @@ public class MainScreenController implements Initializable {
             floorSelector.setCurrent(current.value().getFloor());
             onNodeClicked(current.value());
         });
+    }
+
+    private IPathfinder pathfinder() {
+        return Settings.get().pathfinder();
     }
 
     private void redraw() throws Exception {
@@ -167,6 +175,7 @@ public class MainScreenController implements Initializable {
         Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
         Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
         Polygon polygon = hitbox.toPolygon();
+        polygon.setTranslateY(-10);
         polygon.setFill(invisible);
         polygon.setOnMouseEntered(e -> polygon.setFill(visible));
         polygon.setOnMouseExited(e -> polygon.setFill(invisible));
@@ -211,6 +220,14 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
     @FXML private ComboBox<LookupResult<NodeData>> searchComboBox;
+    @FXML private TitledPane AccDEPT;
+    @FXML private TitledPane AccSERV;
+    @FXML private TitledPane AccLABS;
+    @FXML private TitledPane AccINFO;
+    @FXML private TitledPane AccRETL;
+    @FXML private TitledPane AccREST;
+    @FXML private TitledPane AccCONF;
+    @FXML private TitledPane AccEXIT;
     //endregion
 
     //region event handlers
@@ -271,6 +288,11 @@ public class MainScreenController implements Initializable {
         this.zoomer.zoomOut();
         zoomOutButton.setDisable(!zoomer.canZoomOut());
         zoomInButton.setDisable(!zoomer.canZoomIn());
+    }
+
+    @FXML private void onTextClicked(){
+        WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
+        SendTextDirectionsScreen.showDialog(wr.directions());
     }
     //endregion
 }

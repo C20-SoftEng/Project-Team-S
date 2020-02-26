@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 //import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -98,7 +99,7 @@ class PathRenderer {
         //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
-
+        //directoryVbox.setVisible(false);
         return group;
     }
 
@@ -109,27 +110,44 @@ class PathRenderer {
     }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
-     *
-     * @param path       The path to display instructions for.
+     *  @param path       The path to display instructions for.
+     * @param directoryBox The VBox to display the directory
      * @param displayBox The VBox to display the instructions in.
      */
-    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox,  VBox directoryBox) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
+        if (directoryBox == null) ThrowHelper.illegalNull("directoryBox");
 
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
-        int offset = 30;
         displayBox.getChildren().clear();
-        JFXTextField directionLabel = new JFXTextField();
-        directionLabel.setText("Directions");
-        JFXTextField space = new JFXTextField();
+        //JFXTextField directionLabel = new JFXTextField();
+        //directionLabel.setText("Directions");
+        //JFXTextField space = new JFXTextField();
+        directoryBox.setVisible(true);
         for (String direct : instructions) {
             JFXTextArea text = new JFXTextArea();
             text.setText(direct);
-            text.setPrefHeight(offset);
+            text.setEditable(false);
+            if (text.getLength() > 27){
+                text.setFont(Font.font ("System", 15));
+                text.setMinHeight(50);
+                text.setPrefHeight(50);
+                text.setMaxHeight(200);
+
+            }
+            else if (text.getLength() > 24){
+                text.setFont(Font.font ("System", 16));
+                text.setPrefHeight(30);
+            }
+            else {
+                text.setFont(Font.font ("System", 18));
+                text.setPrefHeight(10);
+            }
             displayBox.getChildren().add(text);
+            directoryBox.setVisible(false);
         }
     }
 
@@ -166,8 +184,10 @@ class PathRenderer {
         line.setStartY(edge.start.getyCoordinate());
         line.setEndX(edge.end.getxCoordinate());
         line.setEndY(edge.end.getyCoordinate());
-        line.setStroke(Color.RED);
-        line.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
+        line.setStroke(Settings.get().pathColor());
+        line.setFill(
+                Settings.get().pathColor()
+                .deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(10);
 
         return line;
@@ -175,7 +195,7 @@ class PathRenderer {
 
     private static Circle drawStartCircle(NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 15);
-        circle.setFill(Color.RED);
+        circle.setFill(Settings.get().pathColor());
         return circle;
     }
 

@@ -52,6 +52,17 @@ public class NodeEditScreen {
         screen.show();
         return subject;
     }
+    public static Observable<DialogEvent<NodeData>> showDialog(
+            Stage stage, String nodeType,
+            String shortName, String longName
+    ) {
+        NodeData node = new NodeData();
+        node.setNodeType(nodeType);
+        node.setShortName(shortName);
+        node.setLongName(longName);
+
+        return showDialog(stage, node);
+    }
     public static Observable<DialogEvent<NodeData>> showDialog(Stage stage, NodeData node) {
         if (stage == null) ThrowHelper.illegalNull("stage");
         if (node == null) ThrowHelper.illegalNull("node");

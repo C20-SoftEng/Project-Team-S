@@ -31,33 +31,48 @@ public class WrittenInstructions {
 
 
     public List<String> directions() {
+        System.out.println(path.size());
+
+        if(path.size() == 2){
+            System.out.println("in comparator");
+            savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-2)));
+            instructions.add("Go Straight For "  + Math.round(savingDistance*ftRatio) + "FT " + "(" + Math.round(savingDistance*mRatio )+ "M)");
+        }
         if (path.size()>2) {
             for (int i = 0; i < path.size()-2  ; i++) {
 
 
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
 
-//                    if(isElevator(path.get(i+1), path.get(i+3))){
-//                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
-//                    }
-                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV")){
-                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor() );
+
                     }
-                    else{
-                        instructions.add(("In " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
-                                ftRatio) + "FT (" + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
-                                "M), Turn Right"));
-                       savingDistance = 0;
+                    if(distance(path.get(i), path.get(i+1)) < 5){
+                        instructions.add("Turn Right");
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI") && !path.get(i+1).getNodeType().equals("STAI") && i != 0){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
+                    }
+                    else {
+
+                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
+                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Right"));
+                        savingDistance = 0;
                     }
 
                 }
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
 
-                    if(path.get(i).getNodeType().equals("ELEV")){
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
                         instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
+
                     }
-                    if(distance(path.get(i), path.get(i+1)) < 10){
+                    if(distance(path.get(i), path.get(i+1)) < 5){
                         instructions.add("Turn Left");
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI") && !path.get(i+1).getNodeType().equals("STAI") && i != 0){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
                     }
                     else {
 
@@ -65,19 +80,11 @@ public class WrittenInstructions {
                                 ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
                         savingDistance = 0;
                     }
-//                    if(isElevator(path.get(i+1), path.get(i+3))){
-//                        instructions.add("Take The Elevator To Floor " + path.get(i+2).getFloor());
-//                    }
-//                    else{
-//                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
-//                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
-//                        savingDistance = 0;
-//                    }
+
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
 
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
-
 
 
                 if (i == path.size()-2) {
@@ -86,10 +93,20 @@ public class WrittenInstructions {
 
 
             }
-            if (path.get(path.size()-2).getNodeType() == "ELEV"){
+            if (path.get(path.size()-2).getNodeType().equals("ELEV")){
                 instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
             }
+            if(instructions.isEmpty()){
+                int pathSize = path.size();
+                int sub = pathSize-1;
+
+                savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-sub)));
+                instructions.add("Go straight for "  + Math.round(savingDistance*ftRatio) + "ft " + "(" + Math.round(savingDistance*mRatio) +"M)");
+            }
+
         }
+
+
         return instructions;
     }
 
@@ -101,16 +118,6 @@ public class WrittenInstructions {
     }
 
 
-    public List<String> getInstructions() {
-        return instructions;
-    }
-
-    public boolean isElevator(NodeData nodeOne, NodeData nodeTwo){
-        if(nodeOne.getFloor() != nodeTwo.getFloor()){
-            return true;
-        }
-        return false;
-    }
 
     //point A,point B, point P
    public static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
