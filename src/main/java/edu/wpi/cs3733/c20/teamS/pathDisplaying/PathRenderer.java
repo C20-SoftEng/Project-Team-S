@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -98,7 +99,7 @@ class PathRenderer {
         //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
-
+        //directoryVbox.setVisible(false);
         return group;
     }
 
@@ -120,15 +121,32 @@ class PathRenderer {
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
-        int offset = 30;
+        int offset = 21;
         displayBox.getChildren().clear();
-        JFXTextField directionLabel = new JFXTextField();
-        directionLabel.setText("Directions");
+        //JFXTextField directionLabel = new JFXTextField();
+        //directionLabel.setText("Directions");
         JFXTextField space = new JFXTextField();
         for (String direct : instructions) {
             JFXTextArea text = new JFXTextArea();
             text.setText(direct);
-            text.setPrefHeight(offset);
+            text.setEditable(false);
+            //text.setPrefHeight(offset);
+            if (text.getLength() > 27){
+                text.setFont(Font.font ("System", 15));
+                text.setMinHeight(50);
+                text.setPrefHeight(50);
+                text.setMaxHeight(200);
+
+            }
+            else if (text.getLength() > 24){
+                text.setFont(Font.font ("System", 16));
+                System.out.println(text.getText() + "Long");
+                text.setPrefHeight(30);
+            }
+            else {
+                text.setFont(Font.font ("System", 18));
+                text.setPrefHeight(10);
+            }
             displayBox.getChildren().add(text);
         }
     }

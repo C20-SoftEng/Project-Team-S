@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -83,9 +84,13 @@ public class MainScreenController implements Initializable {
 
         try {
             redraw();
+            directoryVBox.getParent().setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+       // AccDEPT.setContent();
+
     }
 
     private void initHitboxes() {
@@ -211,6 +216,14 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
     @FXML private ComboBox<LookupResult<NodeData>> searchComboBox;
+    @FXML private TitledPane AccDEPT;
+    @FXML private TitledPane AccSERV;
+    @FXML private TitledPane AccLABS;
+    @FXML private TitledPane AccINFO;
+    @FXML private TitledPane AccRETL;
+    @FXML private TitledPane AccREST;
+    @FXML private TitledPane AccCONF;
+    @FXML private TitledPane AccEXIT;
     //endregion
 
     //region event handlers
