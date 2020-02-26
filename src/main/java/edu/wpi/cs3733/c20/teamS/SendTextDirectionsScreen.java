@@ -53,13 +53,13 @@ public class SendTextDirectionsScreen {
         screen.show();
     }
 
-    public void runEmailThread(Set<String> directions, String email){
+    public void runEmailThread(List<String> directions, String email){
         SendEmailDirectionsThread SEDT = new SendEmailDirectionsThread(directions,email);
         SEDT.run();
 
     }
 
-    public void runTextThread(Set<String> directions, String number, String carrier){
+    public void runTextThread(List<String> directions, String number, String carrier){
         SendTextDirectionsThread STDT = new SendTextDirectionsThread(directions,number,carrier);
         STDT.run();
 

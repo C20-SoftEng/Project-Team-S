@@ -1,13 +1,14 @@
 package edu.wpi.cs3733.c20.teamS.utilities;
 
+import java.util.List;
 import java.util.Set;
 
 public class SendEmailDirectionsThread extends Thread {
-    Set<String> directions;
+    List<String> directions;
     String email;
     //String carrier;
 
-    public SendEmailDirectionsThread(Set<String> directions, String email){
+    public SendEmailDirectionsThread(List<String> directions, String email){
         this.directions = directions;
         this.email = email;
 
