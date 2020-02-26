@@ -50,7 +50,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                          <Image url="@../images/Icons/serviceRequests/Ride.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -65,7 +65,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                          <Image url="@../images/Icons/serviceRequests/Laundry.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -138,7 +138,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                          <Image url="@../images/Icons/serviceRequests/Security.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -225,7 +225,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/SquidwardCute.png" />
+                                          <Image url="@../images/Icons/serviceRequests/Florist.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
