@@ -176,6 +176,9 @@
                                        <font>
                                           <Font size="32.0" />
                                        </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="5.0" />
+                                       </VBox.margin>
                                     </Label>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                        <children>
