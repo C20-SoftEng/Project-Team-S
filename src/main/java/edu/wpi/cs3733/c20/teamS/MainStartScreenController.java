@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
+import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import javafx.application.Application;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -42,22 +44,38 @@ import java.time.LocalDateTime;
 import java.util.Timer;
 
 public class MainStartScreenController implements Initializable {
+    private MainStartScreen splash;
+    private Scene scene;
+    private Stage stage;
 
-
-    @FXML AnchorPane startScreen;
-    @FXML VBox weatherBox;
-    @FXML VBox timeBox;
-    @FXML JFXButton screenButton;
-    @FXML JFXTextField weatherField;
-    @FXML JFXTextArea weatherSummary;
-    @FXML JFXTextArea firstTweet;
-    @FXML JFXTextArea secondTweet;
-    @FXML JFXTextArea ThirdTweet;
-    @FXML JFXTextArea fourthTweet;
-    @FXML JFXTextArea fifthTweet;
-    @FXML JFXTextArea timeField;
-    @FXML ImageView imageID;
-    @FXML StackPane startScreenTap;
+    @FXML
+    AnchorPane startScreen;
+    @FXML
+    VBox weatherBox;
+    @FXML
+    VBox timeBox;
+    @FXML
+    JFXButton screenButton;
+    @FXML
+    JFXTextField weatherField;
+    @FXML
+    JFXTextArea weatherSummary;
+    @FXML
+    JFXTextArea firstTweet;
+    @FXML
+    JFXTextArea secondTweet;
+    @FXML
+    JFXTextArea ThirdTweet;
+    @FXML
+    JFXTextArea fourthTweet;
+    @FXML
+    JFXTextArea fifthTweet;
+    @FXML
+    JFXTextArea timeField;
+    @FXML
+    ImageView imageID;
+    @FXML
+    StackPane startScreenTap;
 
 
     @Override
@@ -130,34 +148,20 @@ public class MainStartScreenController implements Initializable {
         startScreenTap.getChildren().add(tutorialView);
 
 
-        tutorialView.setImage(new Image(this.getClass().getResource("/images/kingTut.gif").toExternalForm()));
+        tutorialView.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
         tutorialView.setPreserveRatio(true);
 
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
-
-        //tutorialView.setFitHeight(startScreenTap.getPrefHeight());
-        System.out.println(startScreenTap.getMaxHeight());
-        //tutorialView.setFitWidth(startScreenTap.getPrefWidth());
     }
 
     MainStartScreenController() {
 
     }
 
-    @FXML private void onScreenClicked() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
-            //Parent  root1 = fxmlLoader.getRoot();
-            Stage window = new Stage();
-            window.setFullScreen(true);
-            window.setScene(new Scene(root));
-            window.setResizable(true);
-            window.show();
-        } catch (IOException e) {
-            System.out.println("Can't load new window");
-        }
+    @FXML
+    private void onScreenClicked(ActionEvent event) {
+        MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        maintolog.show();
+
     }
-
-
 }
