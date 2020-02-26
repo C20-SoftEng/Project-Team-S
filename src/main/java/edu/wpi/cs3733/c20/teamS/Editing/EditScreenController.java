@@ -4,6 +4,7 @@ import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
@@ -22,6 +23,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -207,6 +209,8 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton confirmEditButton;
     @FXML private VBox editToolFieldsVBox;
 
+    @FXML private JFXButton editEmpButton;
+
     @FXML private RadioButton astarRadioButton;
     @FXML private RadioButton djikstraRadioButton;
     @FXML private RadioButton depthFirstRadioButton;
@@ -235,6 +239,13 @@ public class EditScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+
+
+    @FXML
+    void onEditButtonPressed(ActionEvent event) {
+        EmployeeEditingScreen.showDialog();
+    }
+
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));

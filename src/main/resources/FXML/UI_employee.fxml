@@ -328,7 +328,7 @@
                   </JFXButton>
                   <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: gainsboro;" VBox.vgrow="SOMETIMES">
                      <children>
-                        <Label text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
+                        <Label alignment="CENTER" prefHeight="26.0" prefWidth="242.0" text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -384,7 +384,20 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
-                  <VBox fx:id="editToolFieldsVBox" />
+                  <VBox fx:id="editToolFieldsVBox" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <JFXButton fx:id="editEmpButton" onAction="#onEditButtonPressed" prefHeight="60.0" prefWidth="240.0" style="-fx-background-color: gainsboro;" text="Edit Employees" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></VBox>
                </children>
             </VBox>
          </right>
