@@ -65,13 +65,20 @@ public class MainScreenController implements Initializable {
         initGraph();
         renderer = new PathRenderer();
         initFloorSelector();
-
         initNodeSelector();
-        scrollPane.setContent(group);
-
         initHitboxes();
-<<<<<<< HEAD
+        initDirectorySidebar();
+        initSearchComboBox();
 
+        scrollPane.setContent(group);
+        try {
+            redraw();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initDirectorySidebar() {
         popDeptList();
         popLabList();
         popServList();
@@ -80,15 +87,6 @@ public class MainScreenController implements Initializable {
         popRestRoomList();
         popConfList();
         popExitList();
-
-=======
-        initSearchComboBox();
->>>>>>> bugfix_autocomplete_whichIBroke
-        try {
-            redraw();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void initNodeSelector() {
