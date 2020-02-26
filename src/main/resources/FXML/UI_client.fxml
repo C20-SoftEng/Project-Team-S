@@ -199,7 +199,7 @@
                                           <Insets />
                                        </opaqueInsets>
                                     </JFXButton>
-                                    <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
+                                    <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
                                        <font>
                                           <Font name="Bookshelf Symbol 7" size="22.0" />
                                        </font>
@@ -210,7 +210,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </JFXButton>
-                                    <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="4" VBox.vgrow="SOMETIMES">
+                                    <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="4" VBox.vgrow="SOMETIMES">
                                        <font>
                                           <Font name="Bookshelf Symbol 7" size="22.0" />
                                        </font>
@@ -221,7 +221,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </JFXButton>
-                                    <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="3" VBox.vgrow="SOMETIMES">
+                                    <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="3" VBox.vgrow="SOMETIMES">
                                        <font>
                                           <Font name="Bookshelf Symbol 7" size="22.0" />
                                        </font>
@@ -244,7 +244,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </JFXButton>
-                                    <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="1" VBox.vgrow="SOMETIMES">
+                                    <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="1" VBox.vgrow="SOMETIMES">
                                        <font>
                                           <Font name="Bookshelf Symbol 7" size="22.0" />
                                        </font>
