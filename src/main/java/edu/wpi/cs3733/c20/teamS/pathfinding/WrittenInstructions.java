@@ -135,11 +135,11 @@ public class WrittenInstructions {
         int cross_product = B.x * P.y - B.y * P.x;
 
         // return RIGHT if cross product is positive
-        if (cross_product > 0)
+        if (cross_product > 45)
             return 1;
 
         // return LEFT if cross product is negative
-        if (cross_product < 0)
+        if (cross_product < 45)
             return -1;
 
         // return ZERO if cross product is zero.
