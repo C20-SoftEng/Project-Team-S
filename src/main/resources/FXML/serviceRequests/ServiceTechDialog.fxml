@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +14,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.ServiceTechRequestController">
     <BorderPane layoutX="-6.0" layoutY="14.0" prefHeight="401.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <bottom>
@@ -22,7 +21,7 @@
                 <items>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                         <children>
-                            <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: #000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel">
+                            <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" focusTraversable="false" layoutX="58.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: #000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel">
                                 <cursor>
                                     <Cursor fx:constant="HAND" />
                                 </cursor>
@@ -33,7 +32,7 @@
                     </AnchorPane>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                         <children>
-                            <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000;" text="Submit">
+                            <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" focusTraversable="false" layoutX="58.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="48.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000;" text="Submit">
                                 <cursor>
                                     <Cursor fx:constant="HAND" />
                                 </cursor>
@@ -65,7 +64,7 @@
             </GridPane>
         </center>
         <top>
-          <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Service Tech" BorderPane.alignment="CENTER">
+          <Label fx:id="serviceName" alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Service Tech" BorderPane.alignment="CENTER">
               <font>
                   <Font size="30.0" />
               </font>
