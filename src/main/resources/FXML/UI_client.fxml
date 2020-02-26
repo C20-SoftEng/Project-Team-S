@@ -37,7 +37,7 @@
                      <graphic>
                         <ImageView fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
                            <image>
-                              <Image url="@../images/Icons/SquidwardCute.png" />
+                              <Image url="@../images/Icons/Brigham_and_Womens_Hospital_logo.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -75,7 +75,7 @@
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/Icons/Help_Icon.png" />
+                                    <Image url="@../images/Icons/About_Us.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -368,12 +368,20 @@
                <children>
                   <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;">
                      <children>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-border-color: gray;" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-border-color: gray; -fx-background-color: white;" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
                         <VBox fx:id="instructionVBox" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                        <JFXButton alignment="CENTER" buttonType="RAISED" style="-fx-background-color: #0067B1; -fx-background-radius: 5; -fx-border-color: gray; -fx-border-radius: 5;" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXButton>
                      </children>
                   </VBox>
                   <VBox style="-fx-background-color: white;">
