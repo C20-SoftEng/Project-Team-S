@@ -68,15 +68,15 @@ public class QuickAddRemoveNodeTool implements IEditingTool {
 
     @Override
     public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-//        if (event.getButton() != MouseButton.PRIMARY)
-//            return;
-//
-//        graph.removeEdge(edge.nodeU(), edge.nodeV());
-//        NodeData node = createNodeAt(event.getX(), event.getY());
-//        graph.addNode(node);
-//        graph.putEdge(edge.nodeU(), node);
-//        graph.putEdge(node, edge.nodeV());
-//        event.consume();
+        if (event.getButton() != MouseButton.PRIMARY)
+            return;
+
+        graph.removeEdge(edge.nodeU(), edge.nodeV());
+        NodeData node = createNodeAt(event.getX(), event.getY());
+        graph.addNode(node);
+        graph.putEdge(edge.nodeU(), node);
+        graph.putEdge(node, edge.nodeV());
+        event.consume();
     }
 
     private static class UI {
