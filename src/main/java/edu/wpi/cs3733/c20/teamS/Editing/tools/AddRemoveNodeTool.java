@@ -14,6 +14,9 @@ import java.util.function.Supplier;
 public final class AddRemoveNodeTool implements IEditingTool {
     private final ObservableGraph graph;
     private final Supplier<Integer> currentFloorSupplier;
+    private String previousNodeType = "HALL";
+    private String previousShortName = "NA";
+    private String previousLongName = "Unnamed";
 
     public AddRemoveNodeTool(ObservableGraph graph, Supplier<Integer> currentfloorSupplier) {
         this.graph = graph;
@@ -34,15 +37,22 @@ public final class AddRemoveNodeTool implements IEditingTool {
             return;
 
         Stage stage = new Stage();
-        NodeEditScreen.showDialog(stage)
+        NodeEditScreen.showDialog(
+                stage, previousNodeType,
+                previousShortName,
+                previousLongName
+        )
                 .subscribe(e -> {
                     if (e.result() == DialogResult.OK) {
                         e.value().setBuilding("Faulkner");
                         e.value().setxCoordinate(event.getX());
                         e.value().setyCoordinate(event.getY());
                         e.value().setFloor(currentFloorSupplier.get());
-
                         graph.addNode(e.value());
+
+                        previousNodeType = e.value().getNodeType();
+                        previousShortName = e.value().getShortName();
+                        previousLongName = e.value().getLongName();
                     }
                     stage.close();
                 });
