@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
@@ -60,7 +61,7 @@ public class EditScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Hitbox> hitboxes = new HashSet<>();
-    private PathfindingAlgorithmSelector pathfindingAlgorithmSelector;
+    private ExportToDirectoryController exportController;
 
     private static final Color NODE_COLOR_ELEVATOR = Color.GREEN.deriveColor(
             1, 1, 1, 0.5);
@@ -149,6 +150,7 @@ public class EditScreenController implements Initializable {
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
         editingTool = createAddRemoveNodeTool();
+        exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> hitboxes);
 
         redrawMap();
     }
@@ -184,7 +186,7 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(2);
     }
     private void initPathfindingAlgorithmSelector() {
-        pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
+        PathfindingAlgorithmSelector pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
                 astarRadioButton, djikstraRadioButton,
                 depthFirstRadioButton, breadthFirstRadioButton
         );
@@ -202,11 +204,11 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
+
     @FXML private ToggleGroup pathGroup;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
-    @FXML private JFXButton cancelEditsButton;
-    @FXML private JFXButton confirmEditButton;
+
     @FXML private VBox editToolFieldsVBox;
 
     @FXML private JFXButton editEmpButton;
@@ -215,6 +217,11 @@ public class EditScreenController implements Initializable {
     @FXML private RadioButton djikstraRadioButton;
     @FXML private RadioButton depthFirstRadioButton;
     @FXML private RadioButton breadthFirstRadioButton;
+
+    @FXML private JFXButton cancelEditsButton;
+    @FXML private JFXButton confirmEditButton;
+    @FXML private JFXTextField directoryPathTextField;
+    @FXML private JFXButton exportButton;
     //endregion
 
     //region event handlers
