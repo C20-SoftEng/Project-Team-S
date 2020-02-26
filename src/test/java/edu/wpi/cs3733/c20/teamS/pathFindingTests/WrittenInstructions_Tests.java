@@ -15,6 +15,9 @@ public class WrittenInstructions_Tests {
 
     NodeData nodeTwo = new NodeData("2", 120, 60, 2, "Hospital", "Room", "longName2", "LN2");
 
+    NodeData nodeTwo2 = new NodeData("2", 102, 60, 2, "Hospital", "Room", "longName2", "LN2");
+
+
     NodeData nodeThree = new NodeData("3", 180,60,3, "Hospital", "Room", "longName3", "LN3");
 
     NodeData nodeFour = new NodeData("4", 200,60, 2, "Hospital", "Room", "longName4", "LN4");
@@ -58,9 +61,9 @@ public class WrittenInstructions_Tests {
         WrittenInstructions wi = new WrittenInstructions(pathtest1);
 
       LinkedList<String> realInstructions = new LinkedList<>();
-        realInstructions.add("In 27FT (8M), Turn Right");
-        realInstructions.add("In 11FT (3M), Turn Left");
-        realInstructions.add("In 13FT (4M), Turn Left");
+        realInstructions.add("In 27FT (8M), Turn Left");
+        realInstructions.add("In 11FT (3M), Turn Right");
+        realInstructions.add("In 13FT (4M), Turn Right");
 
 
 
@@ -81,8 +84,8 @@ public class WrittenInstructions_Tests {
         WrittenInstructions test3 = new WrittenInstructions(pathtest3);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("In 27FT (8M), Turn Right");
-        realInstructions.add("In 11FT (3M), Turn Left");
+        realInstructions.add("In 27FT (8M), Turn Left");
+        realInstructions.add("In 11FT (3M), Turn Right");
         realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
 
         assertEquals(realInstructions, test3.directions());
@@ -97,14 +100,15 @@ public class WrittenInstructions_Tests {
         pathtest4.add(nodeThirteen);
         pathtest4.add(nodeEleven);
         pathtest4.add(nodeTwelve);
+        //pathtest4.add(node)
 
         WrittenInstructions test4 = new WrittenInstructions(pathtest4);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("In 5FT (2M), Turn Right");
-        realInstructions.add("In 24FT (7M), Turn Left");
+        realInstructions.add("In 5FT (2M), Turn Left");
+        realInstructions.add("In 24FT (7M), Turn Right");
         realInstructions.add("Take The Elevator To Floor 3");
-        realInstructions.add("In 13FT (4M), Turn Left");
+        realInstructions.add("In 13FT (4M), Turn Right");
 
 
         assertEquals(realInstructions, test4.directions());
@@ -115,19 +119,33 @@ public class WrittenInstructions_Tests {
     public void lessThan10FeetTest(){
         ArrayList<NodeData> pathtest5  = new ArrayList<>();
         pathtest5.add(nodeOne);
-        pathtest5.add(nodeTwo);
+        pathtest5.add(nodeTwo2);
         pathtest5.add(nodeThirteen);
         pathtest5.add(nodeFourteen);
         //pathtest5.add(nodeEleven);
-        pathtest5.add(nodeTwelve);
+        //pathtest5.add(nodeTwelve);
 
         WrittenInstructions test5 = new WrittenInstructions(pathtest5);
 
         List realInstructions = new ArrayList();
-        realInstructions.add("In 5FT (2M), Turn Right");
-        realInstructions.add("In 24FT (7M), Turn Left");
-        realInstructions.add("Take The Elevator To Floor 3");
         realInstructions.add("Turn Left");
+        realInstructions.add("In 28FT (9M), Turn Right");
+        realInstructions.add("Take The Elevator To Floor 3, Then Go Straight");
+       // realInstructions.add("Turn Left");
+
+        assertEquals(realInstructions, test5.directions());
+    }
+
+    @Test
+    public void directions_StraightPath(){
+        ArrayList<NodeData> pathtest6  = new ArrayList<>();
+        pathtest6.add(nodeOne);
+        pathtest6.add(nodeTwo);
+
+        WrittenInstructions test5 = new WrittenInstructions(pathtest6);
+
+        List realInstructions = new ArrayList();
+        realInstructions.add("Go Straight For 5FT (2M)");
 
         assertEquals(realInstructions, test5.directions());
     }
