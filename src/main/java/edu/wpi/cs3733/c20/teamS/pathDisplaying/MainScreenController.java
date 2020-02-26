@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.QuickAddRemoveNodeTool;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
+import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
@@ -13,6 +14,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
@@ -289,7 +291,8 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML private void onTextClicked(){
-
+        WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
+        SendTextDirectionsScreen.showDialog(wr.directions());
     }
     //endregion
 }
