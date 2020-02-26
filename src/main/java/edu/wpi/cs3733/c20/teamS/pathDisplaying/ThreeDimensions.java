@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -423,8 +424,6 @@ public class ThreeDimensions extends Application {
         //group.getChildren().add(root9);
         //group.getChildren().add(root80);
 
-        Slider slider = prepareSlider();
-        group.translateZProperty().bindBidirectional(slider.valueProperty());
 
 //        Path animated_path = new Path();
 //        animated_path.getElements().add(new MoveTo(nodes.get(0).getxCoordinate() / 5 - 247, nodes.get(0).getyCoordinate() / 5 - 148));
@@ -504,8 +503,9 @@ public class ThreeDimensions extends Application {
         }*/
         Group root2 = new Group();
         root2.getChildren().add(group);
+       // root2.getChildren().add(slider);
         root2.getChildren().add(prepareImageView());
-        root2.getChildren().add(slider);
+
 
         SequentialTransition str = new SequentialTransition();
         Ellipse ellipseEarth = new Ellipse();
@@ -621,6 +621,18 @@ public class ThreeDimensions extends Application {
                 case H:
                     group.setTranslateY(group.getTranslateY() + 100);
                     break;
+                case UP:
+                    group.setTranslateY(group.getTranslateY() - 100);
+                    break;
+                case DOWN:
+                    group.setTranslateY(group.getTranslateY() + 100);
+                    break;
+                case LEFT:
+                    group.rotateByZ(-10);
+                    break;
+                case RIGHT:
+                    group.rotateByZ(10);
+                    break;
             }
         });
 
@@ -631,7 +643,6 @@ public class ThreeDimensions extends Application {
             KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
             primaryStage.fireEvent(press);}
         group.setTranslateY(group.getTranslateY() + 70);
-        root2.getChildren().addAll(aych,ghee,thee,why);
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(-600);
@@ -783,26 +794,27 @@ public class ThreeDimensions extends Application {
     }
 
     private void initMouseControl(SmartGroup group, Scene scene, Stage stage) {
-        Rotate xRotate;
-        Rotate yRotate;
-        group.getTransforms().addAll(
-                xRotate = new Rotate(0, Rotate.X_AXIS),
-                yRotate = new Rotate(0, Rotate.Y_AXIS)
-        );
-        xRotate.angleProperty().bind(angleX);
-        yRotate.angleProperty().bind(angleY);
-
-        scene.setOnMousePressed(event -> {
-            anchorX = event.getSceneX();
-            anchorY = event.getSceneY();
-            anchorAngleX = angleX.get();
-            anchorAngleY = angleY.get();
-        });
-
-        scene.setOnMouseDragged(event -> {
-            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-            angleY.set(anchorAngleY + anchorX - event.getSceneX());
-        });
+//        Rotate xRotate;
+//        Rotate yRotate;
+//
+//        group.getTransforms().addAll(
+//                xRotate = new Rotate(0, Rotate.X_AXIS),
+//                yRotate = new Rotate(0, Rotate.Y_AXIS)
+//        );
+//        xRotate.angleProperty().bind(angleX);
+//        yRotate.angleProperty().bind(angleY);
+//
+//        scene.setOnMousePressed(event -> {
+//            anchorX = event.getSceneX();
+//            anchorY = event.getSceneY();
+//            anchorAngleX = angleX.get();
+//            anchorAngleY = angleY.get();
+//        });
+//
+//        scene.setOnMouseDragged(event -> {
+//            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+//            angleY.set(anchorAngleY + anchorX - event.getSceneX());
+//        });
 
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
@@ -893,7 +905,7 @@ public class ThreeDimensions extends Application {
         slider.setMax(800);
         slider.setMin(-400);
         slider.setPrefWidth(300d);
-        slider.setLayoutX(-150);
+        slider.setLayoutX(100);
         slider.setLayoutY(200);
         slider.setShowTickLabels(true);
         slider.setTranslateZ(5);
