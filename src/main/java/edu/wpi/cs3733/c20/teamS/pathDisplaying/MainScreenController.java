@@ -79,8 +79,6 @@ public class MainScreenController implements Initializable {
         nodeSelector.pathChanged().subscribe(path -> {
             redraw();
             renderer.printInstructions(path, instructionVBox, directoryVBox);
-            ///System.out.println("done");
-            //directoryVBox.getParent().setVisible(false);
         });
         group.setOnMouseClicked(this::onMapClicked);
         scrollPane.setContent(group);
@@ -92,8 +90,6 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       // AccDEPT.setContent();
     }
 
     private void initHitboxes() {

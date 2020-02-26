@@ -50,17 +50,6 @@ final class SelectNodesStateMachine {
 
     public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
         state.onHitboxClicked(hitbox, event);
-//        event.consume();
-//        Optional<NodeData> nearest = findNearestRealNode(hitbox, event.getX(), event.getY());
-//        if (!nearest.isPresent())
-//            return;
-//
-//        NodeData temp = createFakeNode(event.getX(), event.getY());
-//        graph.addNode(temp);
-//        tempNodes.add(temp);
-//        graph.putEdge(temp, nearest.get());
-//
-//        onNodeSelected(temp);
     }
 
     private NodeData createFakeNode(double x, double y) {
