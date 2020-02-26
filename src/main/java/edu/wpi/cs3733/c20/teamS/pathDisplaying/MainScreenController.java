@@ -18,16 +18,15 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -37,6 +36,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -86,6 +86,15 @@ public class MainScreenController implements Initializable {
         scrollPane.setContent(group);
 
         initHitboxes();
+
+        popDeptList();
+        popLabList();
+        popServList();
+        popInfoList();
+        popShopList();
+        popRestRoomList();
+        popConfList();
+        popExitList();
 
         try {
             redraw();
@@ -232,6 +241,114 @@ public class MainScreenController implements Initializable {
     @FXML private TitledPane AccREST;
     @FXML private TitledPane AccCONF;
     @FXML private TitledPane AccEXIT;
+
+    @FXML private ListView<String> deptList;
+    @FXML private ListView<String> servList;
+    @FXML private ListView<String> labList;
+    @FXML private ListView infoList;
+    @FXML private ListView shopList;
+    @FXML private ListView restRoomList;
+    @FXML private ListView confList;
+    @FXML private ListView exitList;
+
+
+    //Lists of longNames
+    private ObservableList<String> deptLocs;
+    private ObservableList<String> servLocs;
+    private ObservableList<String> labLocs;
+    private ObservableList<String> infoLocs;
+    private ObservableList<String> shopLocs;
+    private ObservableList<String> restRoomLocs;
+    private ObservableList<String> confLocs;
+    private ObservableList<String> exitLocs;
+
+    private void popDeptList(){
+        deptLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
+        for(NodeData node : deptNodes){
+            deptLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to depLocs");
+        }
+        deptList.setItems(deptLocs);
+    }
+
+    private void popServList(){
+        servLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
+        for(NodeData node : servNodes){
+            servLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to servLocs");
+        }
+        servList.setItems(servLocs);
+    }
+
+    private void popLabList(){
+        labLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
+        for(NodeData node : labNodes){
+            labLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to labLocs");
+        }
+        labList.setItems(labLocs);
+    }
+
+    private void popInfoList(){
+        infoLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
+        for(NodeData node : infoNodes){
+            infoLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to infoLocs");
+        }
+        infoList.setItems(infoLocs);
+    }
+
+    private void popShopList(){
+        shopLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
+        for(NodeData node : shopNodes){
+            shopLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to shopLocs");
+        }
+        shopList.setItems(shopLocs);
+    }
+
+    private void popRestRoomList(){
+        restRoomLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
+        for(NodeData node : restRoomNodes){
+            restRoomLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to restRoomLocs");
+        }
+        restRoomList.setItems(restRoomLocs);
+    }
+
+    private void popConfList(){
+        confLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
+        for(NodeData node : confNodes){
+            confLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to confLocs");
+        }
+        confList.setItems(confLocs);
+    }
+
+    private void popExitList(){
+        exitLocs = FXCollections.observableArrayList();
+        DatabaseController dbController = new DatabaseController();
+        Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
+        for(NodeData node : exitNodes){
+            exitLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
+            System.out.println("Added " + node + " to exitLocs");
+        }
+        exitList.setItems(exitLocs);
+    }
     //endregion
 
     //region event handlers
