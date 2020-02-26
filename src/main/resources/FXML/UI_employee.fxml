@@ -304,6 +304,34 @@
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </VBox>
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <Label text="Directory path:" />
+                        <JFXTextField fx:id="directoryPathTextField" promptText="Enter directory path:">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <HBox alignment="TOP_RIGHT" prefWidth="200.0">
+                           <children>
+                              <JFXButton fx:id="exportButton" text="Export">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                   <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
                         <Font size="24.0" />

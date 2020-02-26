@@ -1,13 +1,19 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 
 import java.io.*;
 import java.util.*;
 
-public final class ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer extends HitboxRepository {
-    private static final String path =
-            "D:\\Classes\\Software Engineering\\MajorImageEditingEndeavor\\Hitboxes2\\hitboxes.txt";
+public final class FileSystemHitboxRepository extends HitboxRepository {
+    private final String path;
+
+    public FileSystemHitboxRepository(String path) {
+        if (path == null) ThrowHelper.illegalNull("path");
+
+        this.path = path;
+    }
 
     @Override
     public boolean canLoad() {
