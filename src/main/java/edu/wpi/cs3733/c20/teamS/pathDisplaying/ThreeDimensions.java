@@ -470,11 +470,40 @@ public class ThreeDimensions extends Application {
 ////pathTransition.setAutoReverse(true);
 //        pathTransition.play();
 
-        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (1).png")), 0));
-        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (5).png")), -100));
-        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (4).png")), -200));
-        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (3).png")), -300));
-        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (2).png")), -400));
+        if(nodes.get(0).getFloor() == 1 || nodes.get(nodes.size()-1).getFloor() == 1) {
+
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/oney.png")), 0));
+        }
+        else {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (1).png")), 0));
+        }
+        if(nodes.get(0).getFloor() == 2 || nodes.get(nodes.size()-1).getFloor() == 2) {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/twoy.png")), -100));
+        }
+        else {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (5).png")), -100));
+        }
+        if(nodes.get(0).getFloor() == 3 || nodes.get(nodes.size()-1).getFloor() == 3) {
+
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/threey.png")), -200));
+        }
+        else {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (4).png")), -200));
+        }
+        if(nodes.get(0).getFloor() == 4 || nodes.get(nodes.size()-1).getFloor() == 4) {
+
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/foury.png")), -300));
+        }
+        else {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (3).png")), -300));
+        }
+        if(nodes.get(0).getFloor() == 5 || nodes.get(nodes.size()-1).getFloor() == 5) {
+
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/fivey.png")), -400));
+        }
+        else {
+            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (2).png")), -400));
+        }
 
         //group.getChildren().add(wongBox);
 
