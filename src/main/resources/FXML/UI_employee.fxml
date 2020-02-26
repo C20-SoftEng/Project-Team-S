@@ -28,10 +28,13 @@
                <children>
                   <VBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label contentDisplay="CENTER" text="Select Floor" textAlignment="CENTER" wrapText="true">
+                        <Label contentDisplay="CENTER" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" text="Select Floor" textAlignment="CENTER" wrapText="true">
                            <font>
-                              <Font name="Bookshelf Symbol 7" size="26.0" />
+                              <Font name="Bookshelf Symbol 7" size="24.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
                         </Label>
                      </children></VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
@@ -145,9 +148,9 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" ripplerFill="BLACK" style="-fx-background-color: #0067B1;" text="Logout" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Calibri" size="18.0" />
@@ -199,13 +202,13 @@
          <right>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Bookshelf Symbol 7" size="16.0" />
-                     </font>
-                  </Label>
-                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
+                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
                      <children>
+                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Bookshelf Symbol 7" size="16.0" />
+                           </font>
+                        </Label>
                         <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
@@ -278,15 +281,18 @@
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" text="Cancel">
+                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="33.0" prefWidth="69.0" style="-fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" right="20.0" />
+                                 </HBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="Save">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -301,13 +307,12 @@
                         </HBox>
                      </children>
                      <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
+                        <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox prefWidth="100.0">
+                  <VBox prefWidth="100.0" style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
                      <children>
-                        <Label text="Directory path:" />
-                        <JFXTextField fx:id="directoryPathTextField" promptText="Enter directory path:">
+                        <JFXTextField fx:id="directoryPathTextField" promptText="Enter Export Path:">
                            <VBox.margin>
                               <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
@@ -320,7 +325,7 @@
                         </JFXTextField>
                         <HBox alignment="TOP_RIGHT" prefWidth="200.0">
                            <children>
-                              <JFXButton fx:id="exportButton" text="Export">
+                              <JFXButton fx:id="exportButton" prefHeight="39.0" prefWidth="236.0" style="-fx-background-color: #0067B1;" text="Export" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -331,30 +336,40 @@
                            </children>
                         </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" style="-fx-background-color: gainsboro;" text="New Service Request" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
+                  <VBox style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
+                     <children>
+                        <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" prefHeight="51.0" prefWidth="239.0" style="-fx-background-color: #0067B1;" text="New Service" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" prefHeight="51.0" prefWidth="262.0" style="-fx-background-color: #0067B1;" text="Active Services" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
                      <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" style="-fx-background-color: gainsboro;" text="Active Service Requests" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: gainsboro;" VBox.vgrow="SOMETIMES">
+                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" VBox.vgrow="SOMETIMES">
                      <children>
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="242.0" text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
                            <font>
@@ -375,7 +390,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="djikstraRadioButton" layoutX="15.0" layoutY="46.0" text="Djikstra (for wasting CPU cycles)" toggleGroup="$pathGroup">
+                        <JFXRadioButton fx:id="djikstraRadioButton" layoutX="15.0" layoutY="46.0" text="Djikstra" toggleGroup="$pathGroup">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
@@ -412,15 +427,18 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
-                  <VBox fx:id="editToolFieldsVBox" VBox.vgrow="SOMETIMES">
+                  <VBox fx:id="editToolFieldsVBox" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" VBox.vgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="editEmpButton" onAction="#onEditButtonPressed" prefHeight="60.0" prefWidth="240.0" style="-fx-background-color: gainsboro;" text="Edit Employees" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
+                        <JFXButton fx:id="editEmpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onEditButtonPressed" prefHeight="42.0" prefWidth="230.0" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" text="Edit Employees" textAlignment="CENTER" textFill="WHITE" wrapText="true" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font size="24.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
                      <VBox.margin>
