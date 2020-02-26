@@ -69,6 +69,13 @@ class PathRenderer {
         double X = start.getxCoordinate();
         double Y = start.getyCoordinate();
 
+        Image i = new Image("images/Icons/outlined_arrow.png");
+        ImageView imageView = new ImageView();
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(50);
+        imageView.setImage(i);
+        imageView.setVisible(false);
+
         for (NodeData node_itrat : nodes) {
             if((node_itrat.getFloor() == floor) && runOnce){
                 animated_path = new Path();
@@ -81,14 +88,9 @@ class PathRenderer {
                 length += Math.sqrt(Math.pow((Math.abs(X - node_itrat.getxCoordinate())), 2) + Math.pow((Math.abs(Y - node_itrat.getyCoordinate())),2));
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
+                imageView.setVisible(true);
             }
         }
-
-        Image i = new Image("images/Icons/outlined_arrow.png");
-        ImageView imageView = new ImageView();
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(50);
-        imageView.setImage(i);
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
@@ -99,7 +101,6 @@ class PathRenderer {
         //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
-        //directoryVbox.setVisible(false);
         return group;
     }
 
