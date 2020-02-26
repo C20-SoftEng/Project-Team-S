@@ -23,6 +23,7 @@ public interface DBRepo {
     void addEmployee(EmployeeData ed);
     boolean checkLogin(String username, String password);
     EmployeeData getEmployee(String username);
+    Set<EmployeeData> getAllEmployeeData();
     void removeEmployee(String username);
     void updateEmployee(EmployeeData emp);
 
@@ -35,4 +36,6 @@ public interface DBRepo {
     void removeCapability(int ID, String serviceType);
     boolean checkCapable(int ID, String serviceType);
 
+    Set<String> getEmployeeCapabilities(int employeeID);
+    void removeEmployeeCapabilities(int employeeID);
 }

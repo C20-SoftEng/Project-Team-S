@@ -18,9 +18,9 @@ import java.io.IOException;
  */
 
 public class EmployeeEditingScreen {
-    private ActiveServiceRequestScreenController screenController;
+    //private EmployeeEditingScreenController screenController;
     //private DatabaseController databaseController;
-    private ObservableList<EmployeeData> employees;
+    //private ObservableList<EmployeeData> employees;
     private Stage stage;
     private Scene scene;
 
@@ -36,19 +36,51 @@ public class EmployeeEditingScreen {
     }
     */
 
-    public EmployeeEditingScreen(ObservableList<EmployeeData> employees){
+//    public EmployeeEditingScreen(ObservableList<EmployeeData> employees){
+//
+//        //if(employee == null) ThrowHelper.illegalNull("employee");
+//        this.stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.setResizable(false);
+//        //this.loggedIn = employee;
+//        this.employees = employees;
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/EmployeeEditingScreen.fxml"));
+//        loader.setControllerFactory(c -> {
+////            this.screenController = new ActiveServiceRequestScreenController(this.stage, this.activeRequests);
+////            return this.screenController;
+//            EmployeeEditingScreenController cont = new EmployeeEditingScreenController(this.employees);
+//            return cont;
+//        });
+//
+//        try{
+//            Parent root = loader.load();
+//            this.scene = new Scene(root);
+//        }catch(IOException ex){
+//            throw new RuntimeException(ex);
+//        }
+//    }
+//
+//    private void show() {
+//
+//        stage.setScene(scene);
+//
+//        stage.show();
+//    }
+
+    public EmployeeEditingScreen(){
 
         //if(employee == null) ThrowHelper.illegalNull("employee");
         this.stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setResizable(false);
+        //stage.setResizable(false);
         //this.loggedIn = employee;
-        this.employees = employees;
+        //this.employees = employees;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/EmployeeEditingScreen.fxml"));
         loader.setControllerFactory(c -> {
 //            this.screenController = new ActiveServiceRequestScreenController(this.stage, this.activeRequests);
 //            return this.screenController;
-            EmployeeEditingScreenController cont = new EmployeeEditingScreenController(this.employees);
+//            EmployeeEditingScreenController cont = new EmployeeEditingScreenController(this.employees);
+            EmployeeEditingScreenController cont = new EmployeeEditingScreenController();
             return cont;
         });
 
@@ -67,9 +99,16 @@ public class EmployeeEditingScreen {
         stage.show();
     }
 
-    public static void showDialog(ObservableList<EmployeeData> employees) {
-        EmployeeEditingScreen screen = new EmployeeEditingScreen(employees);
+//    public static void showDialog(ObservableList<EmployeeData> employees) {
+//        EmployeeEditingScreen screen = new EmployeeEditingScreen(employees);
+//        //screen.screenController.showActiveRequests();
+//        screen.show();
+//    }
+
+    public static void showDialog() {
+        EmployeeEditingScreen screen = new EmployeeEditingScreen();
         //screen.screenController.showActiveRequests();
         screen.show();
     }
+
 }
