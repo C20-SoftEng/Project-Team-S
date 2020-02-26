@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXBadge?>
-<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -12,8 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="startScreen" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.MainStartScreenController">
@@ -24,11 +23,11 @@
                <left>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="740.0" prefWidth="292.0" style="-fx-background-color: gray; -fx-border-color: black;" BorderPane.alignment="CENTER">
                      <children>
-                        <VBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-border-color: #000;" VBox.vgrow="ALWAYS">
+                        <VBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-border-color: white;" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox fx:id="weatherBox" prefHeight="145.0" prefWidth="277.0" VBox.vgrow="SOMETIMES">
+                              <VBox fx:id="weatherBox" prefHeight="145.0" prefWidth="277.0" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <Label contentDisplay="CENTER" text="Weather Box" textAlignment="CENTER" wrapText="true">
+                                    <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="288.0" style="-fx-background-color: white;" text="            Weather" textFill="#070707" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
@@ -36,41 +35,44 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Label>
+                                    <JFXTextField fx:id="weatherField" style="-fx-background-color: white;" />
+                                    <ImageView fx:id="imageID" fitHeight="171.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
+                                    <JFXTextArea fx:id="weatherSummary" prefHeight="77.0" prefWidth="95.0" style="-fx-background-color: white;" />
                                  </children>
                               </VBox>
-                              <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: black;" VBox.vgrow="SOMETIMES">
+                              <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <Label contentDisplay="CENTER" text="Time Box" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font size="26.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </Label>
+                                    <JFXTextArea fx:id="timeField" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff" />
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="277.0" style="-fx-border-color: black; -fx-border-width: 2;" VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                              <HBox alignment="CENTER" style="-fx-background-color: #1DA1F2;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <Label text="Twitter">
+                                    <Label text="Twitter" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="48.0" />
                                        </font>
                                        <graphic>
                                           <ImageView fitHeight="93.0" fitWidth="57.0" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/Icons/Twitter.png" />
+                                                <Image url="@../images/Twitter/246x0w.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Label>
                                  </children>
                               </HBox>
-                              <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-background-color: #ccc;" VBox.vgrow="ALWAYS" />
+                              <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-background-color: #1DA1F2;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextArea fx:id="firstTweet" prefWidth="286.0" />
+                                    <JFXTextArea fx:id="secondTweet" />
+                                    <JFXTextArea fx:id="ThirdTweet" />
+                                    <JFXTextArea fx:id="fourthTweet" />
+                                    <JFXTextArea fx:id="fifthTweet" />
+                                 </children></VBox>
                            </children>
                         </VBox>
                      </children>
@@ -104,24 +106,13 @@
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
                         </JFXBadge>
-                        <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="63.0" prefWidth="66.0" HBox.hgrow="SOMETIMES">
-                           <children>
-                              <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
-                                 <graphic>
-                                    <ImageView fitHeight="64.0" fitWidth="67.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/Icons/Help_Icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </HBox>
+                        <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="63.0" prefWidth="66.0" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                </top>
                <center>
-                  <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="TOP_LEFT">
+                  <StackPane fx:id="startScreenTap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="631.0" prefWidth="888.0"
+                             BorderPane.alignment="TOP_LEFT">
                      <children>
                         <Label text="&lt;Tap to Start&gt;" StackPane.alignment="BOTTOM_CENTER">
                            <font>
@@ -135,16 +126,6 @@
                   </StackPane>
                </center>
             </BorderPane>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Button" StackPane.alignment="TOP_LEFT">
-               <ripplerFill>
-                  <RadialGradient centerX="0.5166666666666667" centerY="0.5" cycleMethod="REFLECT" radius="0.4186046511627907">
-                     <stops>
-                        <Stop color="#012d5a" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </ripplerFill>
-            </JFXButton>
          </children>
       </StackPane>
    </children>

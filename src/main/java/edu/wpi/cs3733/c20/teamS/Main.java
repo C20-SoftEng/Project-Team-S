@@ -11,15 +11,22 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static final boolean START_ON_ADMIN_SCREEN = false;
+    private static final boolean START_ON_SPLASH_SCREEN = false;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
         dbc.importStartUpData();
 
-        if (START_ON_ADMIN_SCREEN)
-            new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));
+
+//        if (START_ON_ADMIN_SCREEN)
+//            new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));
+//        else
+//            new MainToLoginScreen(primaryStage, new AStar());
+
+        if (START_ON_SPLASH_SCREEN)
+            new MainStartScreen(primaryStage);
         else
-            new MainToLoginScreen(primaryStage, new AStar());
+            new MainStartScreen(primaryStage);
     }
     //9003,staff,staff,2,Wilson,Wong
     public static void main(String[] args) {
