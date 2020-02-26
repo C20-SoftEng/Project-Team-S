@@ -651,7 +651,7 @@ public class ThreeDimensions extends Application {
         scene.setCamera(camera);
         initMouseControl(group, scene, primaryStage);
 
-        primaryStage.setTitle("qwertyuiop");
+        primaryStage.setTitle("3D View");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
