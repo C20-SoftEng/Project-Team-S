@@ -63,14 +63,10 @@ public class EditScreenController implements Initializable {
     private final Set<Hitbox> hitboxes = new HashSet<>();
     private ExportToDirectoryController exportController;
 
-    private static final Color NODE_COLOR_ELEVATOR = Color.GREEN.deriveColor(
-            1, 1, 1, 0.5);
-    private static final Color NODE_COLOR_NORMAL = Color.ORANGE.deriveColor(
-            1, 1, 1, 0.5);
-    private static final Color NODE_COLOR_HIGHLIGHT = Color.AQUA.deriveColor(
-            1, 1, 1, 0.5);
     private static Color getNodeColorNonHighlighted(NodeData node) {
-        return node.getNodeType() == "ELEV" ? NODE_COLOR_ELEVATOR : NODE_COLOR_NORMAL;
+        return node.getNodeType().equals("ELEV") ?
+                Settings.get().nodeColorElevator() :
+                Settings.get().nodeFillColorNormal();
     }
     //endregion
 
@@ -337,9 +333,10 @@ public class EditScreenController implements Initializable {
         changeEditingTool(new ShowNodeInfoTool());
     }
     @FXML private void onEditRoomEntrancesClicked() {
-        IEditingTool tool = new AddRemoveRoomEntrancesTool(
+        IEditingTool tool = new EditHitboxTool(
                 graph.nodes(),
-                () -> group
+                () -> group,
+                editToolFieldsVBox
         );
         changeEditingTool(tool);
     }
@@ -422,9 +419,9 @@ public class EditScreenController implements Initializable {
 
     private Circle drawCircle(NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
-        circle.setStroke(Color.ORANGE);
+        circle.setStroke(Settings.get().nodeStrokeColorNormal());
         final Color normal = getNodeColorNonHighlighted(node);
-        final Color highlighted = NODE_COLOR_HIGHLIGHT;
+        final Color highlighted = Settings.get().nodeFillColorHighlight();
         circle.setFill(normal);
         circle.setOnMouseEntered(e -> {
             circle.setFill(highlighted);
@@ -463,7 +460,7 @@ public class EditScreenController implements Initializable {
     }
     private Polygon drawHitbox(Hitbox hitbox) {
         Polygon result = hitbox.toPolygon();
-        result.setFill(Color.BLUE.deriveColor(1, 1, 1, .45));
+        result.setFill(Settings.get().editHitboxColor());
         result.setOnMouseClicked(e -> editingTool.onHitboxClicked(hitbox, e));
         return result;
     }
@@ -477,11 +474,11 @@ public class EditScreenController implements Initializable {
         line.setStartY(startY);
         line.setEndX(endX);
         line.setEndY(endY);
-        final Color normal = Color.BLUE;
-        final Color highlight = Color.AQUA;
-        line.setStroke(Color.BLUE);
-        line.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.5));
-        line.setStrokeWidth(5);
+        final Color normal = Settings.get().editEdgeColorNormal();
+        final Color highlight = Settings.get().editEdgeColorHighlight();
+        line.setStroke(normal);
+        line.setFill(normal.deriveColor(1, 1, 1, 0.5));
+        line.setStrokeWidth(Settings.get().editEdgeStrokeWidth());
         line.setOnMouseEntered(e -> line.setStroke(highlight));
         line.setOnMouseExited(e -> line.setStroke(normal));
 

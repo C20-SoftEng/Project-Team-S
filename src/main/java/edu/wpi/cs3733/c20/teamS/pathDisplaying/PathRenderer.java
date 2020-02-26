@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 //import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
@@ -185,8 +185,10 @@ class PathRenderer {
         line.setStartY(edge.start.getyCoordinate());
         line.setEndX(edge.end.getxCoordinate());
         line.setEndY(edge.end.getyCoordinate());
-        line.setStroke(Color.RED);
-        line.setFill(Color.RED.deriveColor(1, 1, 1, 0.5));
+        line.setStroke(Settings.get().pathColor());
+        line.setFill(
+                Settings.get().pathColor()
+                .deriveColor(1, 1, 1, 0.5));
         line.setStrokeWidth(10);
 
         return line;
@@ -194,7 +196,7 @@ class PathRenderer {
 
     private static Circle drawStartCircle(NodeData node) {
         Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 15);
-        circle.setFill(Color.RED);
+        circle.setFill(Settings.get().pathColor());
         return circle;
     }
 
