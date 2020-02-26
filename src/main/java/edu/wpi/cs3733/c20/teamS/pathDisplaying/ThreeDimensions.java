@@ -49,9 +49,9 @@ public class ThreeDimensions extends Application {
     private static String MESH_FILENAME = null;
 
     private static final String STARTICON =
-            ThreeDimensions.class.getResource("/images/ThreeDim/start.stl").toString();
+            ThreeDimensions.class.getResource("/images/ThreeDim/start.STL").toString();
     private static final String FINISHICON =
-            ThreeDimensions.class.getResource("/images/ThreeDim/finish.stl").toString();
+            ThreeDimensions.class.getResource("/images/ThreeDim/finish.STL").toString();
 
     private static final String clarinet =
             ThreeDimensions.class.getResource("/images/ThreeDim/Clarinet.stl").toString();

@@ -19,7 +19,7 @@ public class MainStartScreen {
     public MainStartScreen(Stage stage) {
 
         this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.FXML"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
         loader.setControllerFactory(c-> {
             this.ui = new MainStartScreenController();
             return this.ui;
