@@ -18,6 +18,8 @@ import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -88,23 +90,36 @@ public class ThreeDimensions extends Application {
         System.out.println(nodes.size());
         System.out.println(anglez.size());
 
-        Box box = prepareBox();
-
         SmartGroup group = new SmartGroup();
         if(nodes.get(0).getFloor() == 2 || nodes.get(nodes.size()-1).getFloor() == 2) {
-            group.getChildren().add(box); //second
+            group.getChildren().add(prepareBox(0)); //second
+        }
+        else {
+            group.getChildren().add(prepareBox(1));
         }
         if(nodes.get(0).getFloor() == 3 || nodes.get(nodes.size()-1).getFloor() == 3) {
-            group.getChildren().add(prepareSecondBox()); //third
+            group.getChildren().add(prepareSecondBox(0)); //third
+        }
+        else {
+            group.getChildren().add(prepareSecondBox(1));
         }
         if(nodes.get(0).getFloor() == 1 || nodes.get(nodes.size()-1).getFloor() == 1) {
-            group.getChildren().add(prepareThirdBox()); //first
+            group.getChildren().add(prepareThirdBox(0)); //first
+        }
+        else {
+            group.getChildren().add(prepareThirdBox(1));
         }
         if(nodes.get(0).getFloor() == 4 || nodes.get(nodes.size()-1).getFloor() == 4) {
-            group.getChildren().add(prepareFourthBox()); //fourth
+            group.getChildren().add(prepareFourthBox(0)); //fourth
+        }
+        else {
+            group.getChildren().add(prepareFourthBox(1));
         }
         if(nodes.get(0).getFloor() == 5 || nodes.get(nodes.size()-1).getFloor() == 5) {
-            group.getChildren().add(prepareFifthBox()); //fifth
+            group.getChildren().add(prepareFifthBox(0)); //fifth
+        }
+        else {
+            group.getChildren().add(prepareFifthBox(1));
         }
         group.getChildren().add(new AmbientLight(Color.WHITE));
         Point3D point1 = new Point3D(0, 0, 0);
@@ -439,7 +454,11 @@ public class ThreeDimensions extends Application {
 ////pathTransition.setAutoReverse(true);
 //        pathTransition.play();
 
-
+        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (1).png")), 0));
+        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (5).png")), -100));
+        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (4).png")), -200));
+        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (3).png")), -300));
+        group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (2).png")), -400));
 
         //group.getChildren().add(wongBox);
 
@@ -587,6 +606,7 @@ public class ThreeDimensions extends Application {
             }*/
         }
 
+
         str.setCycleCount(Timeline.INDEFINITE);
         str.play();
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -639,14 +659,16 @@ public class ThreeDimensions extends Application {
         for(int i = 0; i < 7;i++){
             KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.E, false, false, false, false);
             primaryStage.fireEvent(press);}
-        for(int i = 0; i < 12;i++){
+        for(int i = 0; i < 1;i++){
             KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
             primaryStage.fireEvent(press);}
         group.setTranslateY(group.getTranslateY() + 70);
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
-        group.translateZProperty().set(-600);
+        group.translateZProperty().set(zplace1.get(nodes.get(0).getFloor()));
         Scene scene = new Scene(root2, WIDTH, HEIGHT, true);
+        group.translateZProperty().set(group.getTranslateZ() - 700);
+        camera.setFarClip(1000);
         scene.setFill(Color.DIMGRAY);
         scene.setCamera(camera);
         initMouseControl(group, scene, primaryStage);
@@ -734,62 +756,110 @@ public class ThreeDimensions extends Application {
         return angleDeg;
     }
 
-    private Node prepareSecondBox() {
+    private Node prepareSecondBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-
-        Image image = new Image(("images/ThreeDim/greif3.png"));
-        material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
-        box.setTranslateZ(-100);
-        box.setMaterial(material);
-        box.setOpacity(0.1);
+
+        if(flip == 0) {
+            Image image = new Image(("images/ThreeDim/greif3.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(-100);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
+
+        if(flip == 1) {
+            Image image = new Image(("images/ThreeDim/san.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(-100);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
         return box;
     }
 
-    private Node prepareThirdBox() {
+    private Node prepareThirdBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-
-        Image image = new Image(("images/ThreeDim/grief1.png"));
-        material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
-        box.setTranslateZ(+100);
-        box.setMaterial(material);
-        box.setOpacity(0.1);
+
+        if(flip == 0) {
+            Image image = new Image(("images/ThreeDim/grief1.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(+100);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
+        if(flip == 1) {
+            Image image = new Image(("images/ThreeDim/yi.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(+100);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
         return box;
     }
 
-    private Node prepareFourthBox() {
+    private Node prepareFourthBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-
-        Image image = new Image(("images/ThreeDim/grief4.png"));
-        material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
-        box.setTranslateZ(-200);
-        box.setMaterial(material);
-        box.setOpacity(0.1);
+
+        if(flip == 0) {
+            Image image = new Image(("images/ThreeDim/grief4.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(-200);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
+        if(flip == 1) {
+            Image image = new Image(("images/ThreeDim/si.png"));
+            material.setDiffuseMap(image);
+            box.setTranslateZ(-200);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
         return box;
     }
 
-    private Node prepareFifthBox() {
+    private Node prepareFifthBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-
-        Image image = new Image(("images/ThreeDim/grief5.png"));
-        material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
-        box.setTranslateZ(-300);
-        box.setMaterial(material);
-        box.setOpacity(0.1);
+
+        if(flip == 0) {
+            Image image = new Image(("images/ThreeDim/grief5.png"));
+            material.setDiffuseMap(image);
+
+            box.setTranslateZ(-300);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
+        if(flip == 1) {
+            Image image = new Image(("images/ThreeDim/wu.png"));
+            material.setDiffuseMap(image);
+
+            box.setTranslateZ(-300);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
         return box;
     }
 
-    private Box prepareBox() {
+    private Box prepareBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-
-        Image image = new Image(("images/ThreeDim/grief2.png"));
-        material.setDiffuseMap(image);
         Box box = new Box(495, 297, 0);
-        box.setMaterial(material);
-        box.setOpacity(0.1);
+
+        if(flip == 0) {
+            Image image = new Image(("images/ThreeDim/grief2.png"));
+            material.setDiffuseMap(image);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
+
+        if(flip == 1) {
+            Image image = new Image(("images/ThreeDim/er.png"));
+            material.setDiffuseMap(image);
+            box.setMaterial(material);
+            box.setOpacity(0.1);
+        }
         return box;
     }
 
@@ -911,6 +981,17 @@ public class ThreeDimensions extends Application {
         slider.setTranslateZ(5);
         slider.setStyle("-fx-base: black");
         return slider;
+    }
+
+    private Box getJuan(Image image, double zee) {
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseMap(image);
+        Box box = new Box(40, 0, 70);
+        box.setTranslateZ(zee + 100);
+        box.setTranslateX(250);
+        box.setTranslateY(100);
+        box.setMaterial(material);
+        return box;
     }
 }
 
