@@ -14,6 +14,42 @@ import java.util.function.Function;
 
 public final class AStar implements IPathfinder {
     private static final double ELEVATOR_COST = 100000;
+
+    public Path findPath(
+            NodeData start,
+            NodeData goal,
+            Function<NodeData, Iterable<NodeData>> friendSelector,
+            CostFunction knownCost,
+            CostFunction estimatedCost
+    ) {
+        if (start == null) ThrowHelper.illegalNull("start");
+        if (goal == null) ThrowHelper.illegalNull("goal");
+        if (friendSelector == null) ThrowHelper.illegalNull("friendSelector");
+        if (knownCost == null) ThrowHelper.illegalNull("knownCost");
+        if (estimatedCost == null) ThrowHelper.illegalNull("estimatedCost");
+
+        Comparator<Path> pathComparer = Comparator.comparingDouble(
+                path -> path.cost() + estimatedCost.cost(path.peek(), goal)
+        );
+        HashSet<NodeData> seen = new HashSet<>();
+        PriorityQueue<Path> queue = new PriorityQueue<>(pathComparer);
+        queue.add(Path.empty().push(start, 0));
+
+        while (!queue.isEmpty()) {
+            Path frontier = queue.poll();
+
+            if (!seen.add(frontier.peek()))
+                continue;
+            if (frontier.peek().equals(goal))
+                return frontier;
+
+            for (NodeData friend : friendSelector.apply(frontier.peek())) {
+                double cost = knownCost.cost(frontier.peek(), friend);
+                queue.add(frontier.push(friend, cost));
+            }
+        }
+        return Path.empty();
+    }
     /**
      * Uses A* to find the path in the graph from the start node to the goal node
      *
@@ -33,33 +69,7 @@ public final class AStar implements IPathfinder {
             NodeData goal,
             Function<NodeData, Iterable<NodeData>> friendSelector,
             CostFunction costFunction) {
-
-        if (start == null) ThrowHelper.illegalNull("start");
-        if (goal == null) ThrowHelper.illegalNull("goal");
-        if (friendSelector == null) ThrowHelper.illegalNull("friendSelector");
-        if (costFunction == null) ThrowHelper.illegalNull("costFunction");
-
-        Comparator<Path> pathComparer = Comparator.comparingDouble(
-                path -> path.cost() + costFunction.cost(path.peek(), goal)
-        );
-        HashSet<NodeData> seen = new HashSet<>();
-        PriorityQueue<Path> queue = new PriorityQueue<>(pathComparer);
-        queue.add(Path.empty().push(start, 0));
-
-        while (!queue.isEmpty()) {
-            Path frontier = queue.poll();
-
-            if (!seen.add(frontier.peek()))
-                continue;
-            if (frontier.peek().equals(goal))
-                return frontier;
-
-            for (NodeData friend : friendSelector.apply(frontier.peek())) {
-                double knownCost = costFunction.cost(frontier.peek(), friend);
-                queue.add(frontier.push(friend, knownCost));
-            }
-        }
-        return Path.empty();
+        return findPath(start, goal, friendSelector, costFunction, costFunction);
     }
 
     @Override
