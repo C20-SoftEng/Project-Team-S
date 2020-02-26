@@ -112,7 +112,7 @@
                         </ScrollPane>
                         <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="1030.0" StackPane.alignment="TOP_LEFT">
                            <children>
-                              <ComboBox fx:id="searchComboBox" editable="true" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="600.0" promptText="Search Location" style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5; -fx-effect: drop shadow;" HBox.hgrow="SOMETIMES">
+                              <ComboBox fx:id="searchComboBox" editable="true" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="600.0" promptText="Search Location" style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
