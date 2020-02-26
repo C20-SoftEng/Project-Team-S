@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="297.0" maxWidth="432.0" minHeight="221.0" minWidth="432.0" prefHeight="297.0" prefWidth="433.0" style="-fx-background-color: #eee; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.twoFactor.SendTextDirectionsController">
+<AnchorPane maxHeight="297.0" maxWidth="432.0" minHeight="221.0" minWidth="432.0" prefHeight="297.0" prefWidth="433.0" style="-fx-background-color: #eee; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.SendTextDirectionsController">
     <children>
         <Label fx:id="sendDirectionsLabel" alignment="CENTER" contentDisplay="TOP" focusTraversable="false" layoutX="87.0" layoutY="14.0" prefHeight="29.0" prefWidth="260.0" text="Send Directions">
             <font>
