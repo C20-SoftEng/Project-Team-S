@@ -1,4 +1,3 @@
-employeeID,userName,passWord,accessLevel,firstName,lastName,phoneNumber
 9001,patient,patient,0,Shane,Train,1234567899
 9002,admin,admin,2,Chris,Myers,4134494634
 9003,staff,staff,2,Wilson,Wong,6177753211

@@ -1000,7 +1000,6 @@ public class DatabaseController implements DBRepo{
             String line;
             if(br.ready()){
                 line = br.readLine();
-                line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     NodeData node = new NodeData(lineArray[0],Double.parseDouble(lineArray[1]),Double.parseDouble(lineArray[2]),Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6],lineArray[7]);
@@ -1027,7 +1026,6 @@ public class DatabaseController implements DBRepo{
             String line;
             if(br.ready()){
                 line = br.readLine();
-                line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     EdgeData edge = new EdgeData(lineArray[0],lineArray[1],lineArray[2]);
@@ -1052,7 +1050,6 @@ public class DatabaseController implements DBRepo{
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -1079,7 +1076,6 @@ public class DatabaseController implements DBRepo{
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -1174,8 +1170,6 @@ public class DatabaseController implements DBRepo{
         }
         System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
     }
-
-
 
     public boolean checkCapable(int ID, String serviceType){
         Set<Integer> capableIDSet = getCapableEmployees(serviceType);
