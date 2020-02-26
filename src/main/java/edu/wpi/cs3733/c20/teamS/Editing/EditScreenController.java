@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
@@ -11,7 +12,6 @@ import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
-import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
 
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
@@ -53,13 +53,7 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private IEditingTool editingTool;
-    private void changeEditingTool(IEditingTool editingTool) {
-        IEditingTool previous = this.editingTool;
-        this.editingTool = editingTool;
-        if (previous == null)
-            return;
-        previous.onClosed();
-    }
+
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
@@ -145,18 +139,15 @@ public class EditScreenController implements Initializable {
 
         initGraph();
         initFloorSelector();
-        pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
-                astarRadioButton, djikstraRadioButton,
-                depthFirstRadioButton, breadthFirstRadioButton
-        );
+        initPathfindingAlgorithmSelector();
 
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
         if (hitboxRepo.canLoad())
             hitboxes.addAll(hitboxRepo.load());
+        editingTool = createAddRemoveNodeTool();
 
-        editingTool = new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current());
         redrawMap();
     }
 
@@ -189,6 +180,12 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
         floorSelector.setCurrent(2);
+    }
+    private void initPathfindingAlgorithmSelector() {
+        pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
+                astarRadioButton, djikstraRadioButton,
+                depthFirstRadioButton, breadthFirstRadioButton
+        );
     }
 
     //region gui components
@@ -293,15 +290,8 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        IEditingTool tool = new QuickAddRemoveNodeTool(
-                graph, editToolFieldsVBox,
-                () -> floorSelector.current()
-        );
+        IEditingTool tool = createAddRemoveNodeTool();
         changeEditingTool(tool);
-//        editingTool = new QuickAddRemoveNodeTool(
-//                graph, editToolFieldsVBox,
-//                () -> floorSelector.current()
-//        );
     }
     @FXML private void onAddRemoveEdgeClicked() {
         IEditingTool tool = new AddRemoveEdgeTool(graph, () -> group);
@@ -349,6 +339,18 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
+    private void changeEditingTool(IEditingTool editingTool) {
+        IEditingTool previous = this.editingTool;
+        this.editingTool = editingTool;
+        if (previous == null)
+            return;
+        previous.onClosed();
+    }
+    private IEditingTool createAddRemoveNodeTool() {
+        return Settings.get().useQuickNodePlacingTool() ?
+                new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current()) :
+                new AddRemoveNodeTool(graph, () -> floorSelector.current());
+    }
     private void redrawMap() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
@@ -475,22 +477,12 @@ public class EditScreenController implements Initializable {
     }
 
     public void onLogOut() {
-//        switch(((RadioButton)pathGroup.getSelectedToggle()).getText()){
-//            case "A*":
-//                Settings.get().setPathFinder(new AStar());
-//            case "BreadthFirst":
-//                Settings.get().setPathFinder(new BreadthFirst());
-//                break;
-//            case "DepthFirst":
-//                Settings.get().setPathFinder(new DepthFirst());
-//                break;
-//        }
         MainToLoginScreen back = new MainToLoginScreen(stage);
     }
 
-    private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
+    private void keepCurrentPosition(double hval, double vval, MapZoomer zoomer){
         zoomer.zoomSet();
-        scrollPane.setHvalue(Hval);
-        scrollPane.setVvalue(Vval);
+        scrollPane.setHvalue(hval);
+        scrollPane.setVvalue(vval);
     }
 }

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.pathfinding.*;
 import javafx.scene.control.RadioButton;
 

@@ -13,6 +13,11 @@ public final class Djikstra implements IPathfinder {
             NodeData start, NodeData goal,
             Function<NodeData, Iterable<NodeData>> friendSelector
     ) {
-        return astar.findPath(start, goal, friendSelector, (x, y) -> 0);
+        return astar.findPath(
+                start, goal,
+                friendSelector,
+                NodeData::distanceTo,
+                (x, y) -> 0
+        );
     }
 }
