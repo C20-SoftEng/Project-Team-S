@@ -19,12 +19,12 @@
             <SplitPane dividerPositions="0.5" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="cancelButton" buttonType="RAISED" layoutX="37.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="49.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: CCC; -fx-border-color: BLACK; -fx-background-radius: 10; -fx-border-radius: 10;" text="Cancel" />
+                  <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" focusTraversable="false" layoutX="37.0" layoutY="10.0" onAction="#onCancelClicked" prefHeight="49.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: CCC; -fx-border-color: BLACK; -fx-background-radius: 10; -fx-border-radius: 10;" text="Cancel" />
                </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="submitButton" buttonType="RAISED" layoutX="59.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="49.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: CCC; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit" />
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" focusTraversable="false" layoutX="59.0" layoutY="10.0" onAction="#onOKClicked" prefHeight="49.0" prefWidth="179.0" ripplerFill="BLACK" style="-fx-background-color: CCC; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-background-radius: 10;" text="Submit" />
                </children>
                 </AnchorPane>
             </SplitPane>
@@ -49,7 +49,7 @@
             </GridPane>
         </center>
         <top>
-          <Label fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Gift Service" BorderPane.alignment="CENTER">
+          <Label fx:id="serviceName" alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Gift Service" BorderPane.alignment="CENTER">
               <font>
                   <Font size="30.0" />
               </font>

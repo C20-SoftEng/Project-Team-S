@@ -33,12 +33,14 @@ public class DrugRequestController {
     }
 
     @FXML void onOKClicked(){
-        request.setDrugType_(drugField.getText());
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(loggedIn);
+        if(!drugField.getText().equals("") && !locationField.getText().equals("")) {
+            request.setDrugType_(drugField.getText());
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public DrugRequestController(Employee employee){

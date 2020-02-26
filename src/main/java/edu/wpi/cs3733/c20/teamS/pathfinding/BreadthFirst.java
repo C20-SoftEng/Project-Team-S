@@ -5,75 +5,35 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 import java.util.*;
+import java.util.function.Function;
 
-public class BreadthFirst implements IPathfinding{
+public class BreadthFirst implements IPathfinder {
 
     @Override
-    public ArrayList<NodeData> findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
-        if (graph == null) ThrowHelper.illegalNull("graph");
+    public Path findPath(
+            NodeData start, NodeData goal,
+            Function<NodeData, Iterable<NodeData>> friendSelector
+    ) {
         if (start == null) ThrowHelper.illegalNull("start");
         if (goal == null) ThrowHelper.illegalNull("goal");
+        if (friendSelector == null) ThrowHelper.illegalNull("friendSelector");
 
-        if (graph.nodes().isEmpty() || !graph.nodes().contains(start) || !graph.nodes().contains(goal)) {
-            return new ArrayList<>();
-        } else {
-            NodeData current = start;
+        HashSet<NodeData> seen = new HashSet<>();
+        LinkedList<Path> queue = new LinkedList<>();
+        queue.addFirst(Path.empty().push(start, 0));
+        seen.add(start);
 
-            LinkedList<NodeData> queue = new LinkedList<>();
-            queue.add(current);
+        while (!queue.isEmpty()) {
+            Path frontier = queue.pollLast();
+            if (frontier.peek().equals(goal))
+                return frontier;
 
-            LinkedList<NodeData> visited = new LinkedList<>();
-            visited.add(current);
-
-            HashMap<NodeData, NodeData> cameFrom = new HashMap<>();
-            cameFrom.put(current, null);
-
-            while (queue.size() != 0) {
-                if (current == goal) {
-                    break;
-                }
-                current = queue.poll();
-
-                Iterator<NodeData> i = graph.adjacentNodes(current).iterator();
-                while (i.hasNext()) {
-
-                    NodeData n = i.next();
-                    if (!visited.contains(n)) {
-                        visited.add(n);
-                        queue.add(n);
-                        cameFrom.put(n, current);
-                    }
-                }
+            for (NodeData friend : friendSelector.apply(frontier.peek())) {
+                if (!seen.add(friend))
+                    continue;
+                queue.addFirst(frontier.push(friend, 0));
             }
-
-
-            //no valid path to destination
-            if (current != goal) {
-                return new ArrayList<>();
-
-            }
-
-            ArrayList<NodeData> reversePath = new ArrayList<>();
-            reversePath.add(current);
-
-            //reconstruct the path goal->start
-            while (current != start) {
-                //steps back through the path
-                current = cameFrom.get(current);
-                reversePath.add(current);
-            }
-
-            ArrayList<NodeData> path = new ArrayList<>();
-            for (int i = 0; i < reversePath.size(); i++) {
-                path.add(reversePath.get(reversePath.size() - (i + 1)));
-            }
-
-            return path;
         }
+        return Path.empty();
     }
-
-
-
-
-
 }

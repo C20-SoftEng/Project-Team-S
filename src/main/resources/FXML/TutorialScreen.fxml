@@ -6,7 +6,7 @@
 
 <AnchorPane fx:id="rootvid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.TutorialController">
    <children>
-      <JFXButton fx:id="back" alignment="CENTER" maxHeight="50.0" maxWidth="86.0" minHeight="50.0" minWidth="50.0" onMouseClicked="#BackClicked" prefHeight="50.0" prefWidth="86.0" ripplerFill="RED" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Play" AnchorPane.rightAnchor="414.0" AnchorPane.topAnchor="550.0">
+      <JFXButton fx:id="back" alignment="CENTER" layoutX="400.0" layoutY="536.0" maxHeight="50.0" maxWidth="86.0" minHeight="50.0" minWidth="50.0" onMouseClicked="#BackClicked" prefHeight="50.0" prefWidth="86.0" ripplerFill="RED" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" text="Play" textFill="WHITE" AnchorPane.rightAnchor="414.0" AnchorPane.topAnchor="536.0">
          <font>
             <Font size="22.0" />
          </font>

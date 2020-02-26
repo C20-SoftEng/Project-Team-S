@@ -8,6 +8,9 @@ public final class Employee {
     private final int id_;
     private final AccessLevel accessLevel_;
 
+    public Employee(int id, String name) {
+        this(id, name, AccessLevel.EMPLOYEE);
+    }
     public Employee(int id, String name, AccessLevel level) {
         if (name == null) ThrowHelper.illegalNull("name");
 
@@ -26,6 +29,22 @@ public final class Employee {
 
     public AccessLevel accessLevel() {
         return accessLevel_;
+    }
+
+    public static AccessLevel toAccess(int al){
+        switch(al){
+            case 0:
+                return AccessLevel.USER;
+
+            case 1:
+                return AccessLevel.EMPLOYEE;
+
+            case 2:
+                return AccessLevel.ADMIN;
+
+
+        }
+        return null;
     }
 
     @Override

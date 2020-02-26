@@ -39,12 +39,14 @@ public class GiftRequestController {
     }
 
     @FXML void onOKClicked(){
-        //request.setGiftType(giftRequestField.getText());
-        request.setLocation(locationField.getText());
-        request.setMessage(giftRequestField.getText());
-        request.assignTo(loggedIn);
+        if(!giftRequestField.getText().equals("") && !locationField.getText().equals("")) {
+            //request.setGiftType(giftRequestField.getText());
+            request.setLocation(locationField.getText());
+            request.setMessage(giftRequestField.getText());
+            request.assignTo(loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public GiftRequestController(Employee employee) {this.loggedIn = employee;}

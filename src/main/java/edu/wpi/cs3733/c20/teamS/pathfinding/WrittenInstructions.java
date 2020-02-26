@@ -8,6 +8,7 @@ import javafx.scene.Node;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedList;
 
 import static java.lang.Math.*;
@@ -19,38 +20,92 @@ public class WrittenInstructions {
     double ftRatio = realLifeMeasurementFt / pixelMeasurement;
     double mRatio = realLifeMeasurementM / pixelMeasurement;
 
-    ArrayList<NodeData> path;
-    ArrayList<String> instructions = new ArrayList<>();
+    List<NodeData> path;
+    List<String> instructions = new ArrayList<>();
 
     int savingDistance=0;
 
-    public WrittenInstructions(ArrayList<NodeData> path) {
+    public WrittenInstructions(List<NodeData> path) {
         this.path = path;
     }
 
 
-    public ArrayList<String> directions() {
-        if (path.size() > 2) {
-            for (int i = 0; i < path.size() - 2; i++) {
+    public List<String> directions() {
+        System.out.println(path.size());
+
+        if(path.size() == 2){
+            System.out.println("in comparator");
+            savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-2)));
+            instructions.add("Go Straight For "  + Math.round(savingDistance*ftRatio) + "FT " + "(" + Math.round(savingDistance*mRatio )+ "M)");
+        }
+        if (path.size()>2) {
+            for (int i = 0; i < path.size()-2  ; i++) {
+
 
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
-                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
-                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+
-                            "M " + "Turn Right "));
-                    savingDistance = 0;
+
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor() );
+
+                    }
+                    if(distance(path.get(i), path.get(i+1)) < 5){
+                        instructions.add("Turn Right");
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI") && !path.get(i+1).getNodeType().equals("STAI") && i != 0){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
+                    }
+                    else {
+
+                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
+                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Right"));
+                        savingDistance = 0;
+                    }
+
                 }
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
-                    instructions.add(("Go Straight For " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*
-                            ftRatio) + "FT OR " + Math.round((savingDistance+distance(path.get(i), path.get(i + 1)))*mRatio)+ "M " + "Turn Left "));
-                    savingDistance = 0;
+
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
+                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
+
+                    }
+                    if(distance(path.get(i), path.get(i+1)) < 5){
+                        instructions.add("Turn Left");
+                    }
+                    else if(path.get(i).getNodeType().equals("STAI") && !path.get(i+1).getNodeType().equals("STAI") && i != 0){
+                        instructions.add("Take The Stairs To Floor " + path.get(i+1).getFloor());
+                    }
+                    else {
+
+                        instructions.add(("In " + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) *
+                                ftRatio) + "FT (" + Math.round((savingDistance + distance(path.get(i), path.get(i + 1))) * mRatio) + "M), Turn Left"));
+                        savingDistance = 0;
+                    }
+
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
+
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
-                if (i == path.size() - 2) {
+
+
+                if (i == path.size()-2) {
                     return (instructions);
                 }
+
+
             }
+            if (path.get(path.size()-2).getNodeType().equals("ELEV")){
+                instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
+            }
+            if(instructions.isEmpty()){
+                int pathSize = path.size();
+                int sub = pathSize-1;
+
+                savingDistance += Math.round(distance(path.get(path.size()-1), path.get(path.size()-sub)));
+                instructions.add("Go straight for "  + Math.round(savingDistance*ftRatio) + "ft " + "(" + Math.round(savingDistance*mRatio) +"M)");
+            }
+
         }
+
 
         return instructions;
     }
@@ -63,12 +118,9 @@ public class WrittenInstructions {
     }
 
 
-    public ArrayList<String> getInstructions() {
-        return instructions;
-    }
 
     //point A,point B, point P
-    static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
+   public static int directionOfPoint(NodeData NodeA, NodeData NodeB, NodeData NodeP) {
 
         Point A = new Point((int) NodeA.getxCoordinate(), (int) NodeA.getyCoordinate());
         Point B = new Point((int) NodeB.getxCoordinate(), (int) NodeB.getyCoordinate());
@@ -83,11 +135,11 @@ public class WrittenInstructions {
         int cross_product = B.x * P.y - B.y * P.x;
 
         // return RIGHT if cross product is positive
-        if (cross_product > 0)
+        if (cross_product > 45)
             return 1;
 
         // return LEFT if cross product is negative
-        if (cross_product < 0)
+        if (cross_product < 45)
             return -1;
 
         // return ZERO if cross product is zero.

@@ -40,12 +40,14 @@ public class InterpreterRequestController {
     }
 
     @FXML void onOKClicked(){
-        request.setInterpreterType_(((RadioButton)One.getSelectedToggle()).getText());
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(this.loggedIn);
+        if(!locationField.getText().equals("")) {
+            request.setInterpreterType_(((RadioButton) One.getSelectedToggle()).getText());
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(this.loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public InterpreterRequestController(Employee employee){

@@ -2,7 +2,11 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Represents an immutable sequence of connected nodes that maintains the total cost
@@ -74,6 +78,8 @@ public abstract class Path implements Iterable<NodeData> {
      */
     public abstract Path pop();
 
+
+
     /**
      * Gets an iterator that iterates the current path in LIFO order.
      * @return A new iterator that iterates the current path in LIFO order.
@@ -99,6 +105,18 @@ public abstract class Path implements Iterable<NodeData> {
     }
 
     /**
+     * Gets an unmodifiable list of nodes in the path from start to finish.
+     * @return Nodes in start-to-finish order.
+     */
+    public final List<NodeData> startToFinish() {
+        LinkedList<NodeData> result = new LinkedList<>();
+        for (NodeData node : this)
+            result.addFirst(node);
+
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
      * Indicates whether the current path is empty.
      * @return True if the current path is empty.
      */
@@ -115,17 +133,14 @@ public abstract class Path implements Iterable<NodeData> {
         public int size() {
             return 0;
         }
-
         @Override
         public double cost() {
             return 0;
         }
-
         @Override
         public NodeData peek() {
             throw new IllegalStateException("Can't peek an empty path.");
         }
-
         @Override
         public Path pop() {
             throw new IllegalStateException("Can't pop an empty path.");
@@ -133,6 +148,11 @@ public abstract class Path implements Iterable<NodeData> {
     }
 
     private static final class NonEmptyPath extends Path {
+        private final NodeData head_;
+        private final Path tail_;
+        private final double totalCost_;
+        private final int size_;
+
         public NonEmptyPath(Path tail, NodeData head, double additionalCost) {
             super();
             this.head_ = head;
@@ -145,25 +165,18 @@ public abstract class Path implements Iterable<NodeData> {
         public int size() {
             return size_;
         }
-
         @Override
         public double cost() {
             return totalCost_;
         }
-
         @Override
         public NodeData peek() {
             return head_;
         }
-
         @Override
         public Path pop() {
             return tail_;
         }
 
-        private final NodeData head_;
-        private final Path tail_;
-        private final double totalCost_;
-        private final int size_;
     }
 }

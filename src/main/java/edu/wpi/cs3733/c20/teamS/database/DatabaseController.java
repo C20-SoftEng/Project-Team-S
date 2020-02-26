@@ -1,21 +1,22 @@
 package edu.wpi.cs3733.c20.teamS.database;
 
 
-import javax.xml.crypto.Data;
+import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DatabaseController implements DBRepo{
     private static Connection connection = null;
@@ -165,7 +166,8 @@ public class DatabaseController implements DBRepo{
                         "password varchar(25)," +
                         "accessLevel INTEGER," +
                         "firstName varchar(30)," +
-                        "lastName varchar(30))");
+                        "lastName varchar(30)," +
+                        "phoneNumber varchar(11))");
         System.out.println("Created Table Employees");
     }
     private static void createEdgeTable(Statement stm) throws SQLException {
@@ -188,6 +190,79 @@ public class DatabaseController implements DBRepo{
                         "constraint pkey_nodeID Primary Key (nodeID))");
         System.out.println("Created Table Nodes");
     }
+
+    /**
+     * Loads a graph containing the entire database of nodes.
+     */
+    public MutableGraph<NodeData> loadGraph() {
+        MutableGraph<NodeData> graph = GraphBuilder
+                .undirected()
+                .allowsSelfLoops(true)
+                .build();
+        Map<String, NodeData> nodeIDMap = getAllNodes().stream()
+                .collect(Collectors.toMap(
+                        node -> node.getNodeID(),
+                        node -> node
+                ));
+
+        nodeIDMap.values().forEach(node -> graph.addNode(node));
+
+        getAllEdges().stream()
+                .map(ed -> {
+                    NodeData start = nodeIDMap.get(ed.getStartNode());
+                    NodeData end = nodeIDMap.get(ed.getEndNode());
+                    return EndpointPair.unordered(start, end);
+                })
+                .forEach(edge -> graph.putEdge(edge));
+
+        return graph;
+    }
+
+    /**
+     * Generates a unique ID for the specified node and adds it to the database.
+     * The graph that the node is part of is required in order to generate
+     * a unique ID for the node.
+     * @param node The node to add.
+     * @param allNodes The complete set of all nodes. This is required in order for a unique ID
+     *              to be assigned to the node.
+     */
+    public void addNode(NodeData node, Set<NodeData> allNodes) {
+        if (allNodes == null) ThrowHelper.illegalNull("graph");
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        String uniqueID = generateUniqueNodeID(node, allNodes);
+        node.setNodeID(uniqueID);
+
+        addNode(node);
+    }
+
+    /**
+     * Generates a unique ID for the specified node. The graph that the node is a member of
+     * is required in order for the unique ID to be generated.
+     * @param node The node to generate a unique ID for.
+     * @param allNodes The complete set of all nodes in the database. This is required in order to generate
+     *                 a unique ID.
+     * @return A unique ID for the specified node.
+     */
+    public static String generateUniqueNodeID(NodeData node, Set<NodeData> allNodes) {
+        final int floor = node.getFloor();
+
+        Optional<Integer> max = allNodes.stream()
+                .filter(n -> n.getFloor() == floor)
+                .filter(n -> n.getNodeType().equals(node.getNodeType()))
+                .map(n -> n.getNodeID())
+                .map(id -> id.substring(5, 8))
+                .map(id -> Integer.parseInt(id))
+                .sorted()
+                .max((x, y) -> Integer.compare(x, y));
+        int num = max.isPresent() ? max.get() + 1 : 1;
+
+        return "S" + node.
+                getNodeType().toUpperCase() +
+                Numerics.padDigits(num, 3) +
+                Numerics.padDigits(node.getFloor(), 2);
+    }
+
 
     //Tested
     public void addNode(NodeData nd){
@@ -370,6 +445,46 @@ public class DatabaseController implements DBRepo{
         }
     }
     //Tested
+    public void addEdge(NodeData n1, NodeData n2){
+        if (n1 == null) ThrowHelper.illegalNull("n1");
+        if (n2 == null) ThrowHelper.illegalNull("n2");
+
+        String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
+        try {
+
+            PreparedStatement addStm = connection.prepareCall(addEntryStr);
+
+            String nodeOneID = n1.getNodeID();
+            String nodeTwoID = n2.getNodeID();
+            String newEdgeID = new EdgeData(n1, n2).getEdgeID();
+
+            String getEdgeIDStr = "SELECT EDGEID FROM EDGES WHERE EDGEID = ?";
+            PreparedStatement checkEdgeID = connection.prepareCall(getEdgeIDStr);
+            checkEdgeID.setString(1,nodeTwoID + "_" + nodeOneID);
+            ResultSet rset = checkEdgeID.executeQuery();
+            if(rset.next()){
+                System.out.println("The opposite of this edge already exists");
+                return;
+            }
+            addStm.setString(1,newEdgeID);
+            addStm.setString(2,nodeOneID);
+            addStm.setString(3,nodeTwoID);
+            addStm.execute();
+            addStm.close();
+
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+    public void addEdge(EndpointPair<NodeData> edp){
+        addEdge(edp.nodeU(), edp.nodeV());
+    }
+
+
+    //Tested
     public NodeData getNode(String ID){
         String getNodeStr = "SELECT * FROM NODES WHERE NODEID = ?";
         ResultSet rset = null;
@@ -420,6 +535,8 @@ public class DatabaseController implements DBRepo{
 
         importEmployees();
 
+
+        importServiceables();
 
 //        File dumbAgainFile = new File("dumbFile.txt");
 //        try {
@@ -583,6 +700,63 @@ public class DatabaseController implements DBRepo{
 
 
     }
+
+    public Set<EmployeeData> getAllEmployeeData(){
+        Statement stm = null;
+        try{
+            stm = connection.createStatement();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+        }
+        String allString = "SELECT * FROM EMPLOYEES";
+        ResultSet rset = null;
+        try{
+            rset = stm.executeQuery(allString);
+        }catch(java.sql.SQLException state){
+            System.out.println(state.getMessage());
+            state.printStackTrace();
+        }
+        Set<EmployeeData> employeeSet = parseEmployeeResultSet(rset);
+        try{
+            rset.close();
+        }catch(java.sql.SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return employeeSet;
+    }
+
+    Set<EmployeeData> parseEmployeeResultSet(ResultSet rset){
+        Set<EmployeeData> employeeSet = new HashSet<>();
+        int employeeID;
+        String userName;
+        String password;
+        int accessLevel;
+        String firstName;
+        String lastName;
+        String phoneNumber;
+
+        try{
+            while(rset.next()){
+                employeeID = rset.getInt("employeeID");
+                userName = rset.getString("userName");
+                password = rset.getString("password");
+                accessLevel = rset.getInt("accessLevel");
+                firstName = rset.getString("firstName");
+                lastName = rset.getString("lastName");
+                phoneNumber = rset.getString("phoneNumber");
+
+                employeeSet.add(new EmployeeData(employeeID, userName, password, accessLevel, firstName, lastName, phoneNumber));
+            }
+        }catch(java.sql.SQLException rsetFailure){
+            System.out.println(rsetFailure.getMessage());
+            rsetFailure.printStackTrace();
+            throw new RuntimeException(rsetFailure);
+        }
+        return employeeSet;
+    }
+
     //Tested
     //  Package-private. Public method should take a ServiceRequest, and use the
     //  visitor pattern to save the correct concrete service-request type.
@@ -669,7 +843,7 @@ public class DatabaseController implements DBRepo{
 
     //Tested
     public void addEmployee(EmployeeData ed){
-        String addEntryStr = "INSERT INTO EMPLOYEES (USERNAME, PASSWORD, ACCESSLEVEL, FIRSTNAME, LASTNAME) VALUES (?,?,?,?,?)";
+        String addEntryStr = "INSERT INTO EMPLOYEES (USERNAME, PASSWORD, ACCESSLEVEL, FIRSTNAME, LASTNAME, PHONENUMBER) VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement addStm = connection.prepareCall(addEntryStr);
             addStm.setString(1,ed.getUsername());
@@ -677,6 +851,7 @@ public class DatabaseController implements DBRepo{
             addStm.setInt(3,ed.getAccessLevel());
             addStm.setString(4,ed.getFirstName());
             addStm.setString(5,ed.getLastName());
+            addStm.setString(6,ed.getPhoneNumber());
             addStm.execute();
             addStm.close();
         }catch(SQLException e){
@@ -684,6 +859,51 @@ public class DatabaseController implements DBRepo{
             System.out.println(e.getMessage());
             throw new RuntimeException();
         }
+    }
+
+    //Tested
+    /**
+     * Remove Employee with specified username, assuming an employee's username never changes
+     * @param username Username of the Employee to be removed from EMPLOYEES.
+     *                 Each Employee has a unique username
+     */
+    public void removeEmployee(String username){
+        String rmvEmployeeStr = "DELETE FROM EMPLOYEES WHERE USERNAME = ?";
+        try{
+            PreparedStatement rmvStm = connection.prepareCall(rmvEmployeeStr);
+            rmvStm.setString(1, username);
+            rmvStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to remove employee " + username);
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed employee " + username);
+    }
+
+    //Tested
+    /**
+     * Updates attributes of a specified Employee
+     * @param emp The Employee whose data needs update
+     * Notice!!! An Employee's username cannot be changed!
+     */
+    public void updateEmployee(EmployeeData emp){
+        String updtEmployeeStr = "UPDATE EMPLOYEES SET PASSWORD = ?, ACCESSLEVEL = ?, FIRSTNAME = ?, LASTNAME = ?, PHONENUMBER=? WHERE USERNAME = ?";
+        try{
+            PreparedStatement updtStm = connection.prepareCall(updtEmployeeStr);
+            updtStm.setString(1,emp.getPassword());
+            updtStm.setInt(2, emp.getAccessLevel());
+            updtStm.setString(3, emp.getFirstName());
+            updtStm.setString(4, emp.getLastName());
+            updtStm.setString(5, emp.getUsername());
+            updtStm.setString(6,emp.getPhoneNumber());
+            updtStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Failed to update employee " + emp.getUsername());
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully updated employee " + emp.getUsername());
     }
 
     //Tested
@@ -728,9 +948,38 @@ public class DatabaseController implements DBRepo{
                 int accessLevel = rset.getInt("ACCESSLEVEL");
                 String firstName = rset.getString("FIRSTNAME");
                 String lastName = rset.getString("LASTNAME");
+                String phoneNumber = rset.getString("PHONENUMBER");
 
 
-                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName);
+                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName,phoneNumber);
+            }else{
+                System.out.println("Username not found");
+                return null;
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+    public EmployeeData getEmployeeFromID(int id){
+        String getEmployeeStr = "SELECT * FROM EMPLOYEES WHERE EMPLOYEEID = ?";
+        try{
+            PreparedStatement getStm = connection.prepareCall(getEmployeeStr);
+            getStm.setInt(1,id);
+            ResultSet rset = getStm.executeQuery();
+            if(rset.next()){
+                int employeeID = rset.getInt("EMPLOYEEID");
+                String usernameDB = rset.getString("USERNAME");
+                String password = rset.getString("PASSWORD");
+                int accessLevel = rset.getInt("ACCESSLEVEL");
+                String firstName = rset.getString("FIRSTNAME");
+                String lastName = rset.getString("LASTNAME");
+                String phoneNumber = rset.getString("PHONENUMBER");
+
+
+                return new EmployeeData(employeeID,usernameDB,password,accessLevel,firstName,lastName,phoneNumber);
             }else{
                 System.out.println("Username not found");
                 return null;
@@ -743,14 +992,13 @@ public class DatabaseController implements DBRepo{
     }
 
 
-    public void importNodes(){
+    private void importNodes(){
         try{
             System.out.println("Importing Nodes...");
-            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allnodes.csv"));
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/nodes.csv"));
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -770,14 +1018,13 @@ public class DatabaseController implements DBRepo{
 
     }
 
-    public void importEdges(){
+    private void importEdges(){
         try{
             System.out.println("Importing Edges...");
-            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/allEdges.csv"));
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/edges.csv"));
             BufferedReader br = new BufferedReader(isr);
             String line;
             if(br.ready()){
-                line = br.readLine();
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
@@ -796,7 +1043,7 @@ public class DatabaseController implements DBRepo{
         }
     }
 
-    public void importEmployees(){
+    private void importEmployees(){
         try{
             System.out.println("Importing Employees...");
             InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/employees.csv"));
@@ -804,10 +1051,9 @@ public class DatabaseController implements DBRepo{
             String line;
             if(br.ready()){
                 line = br.readLine();
-                line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
-                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5]);
+                    EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6]);
                     System.out.println(emp.toString());
                     addEmployee(emp);
                     line = br.readLine();
@@ -822,6 +1068,113 @@ public class DatabaseController implements DBRepo{
         }
     }
 
+
+    private void importServiceables(){
+        try{
+            System.out.println("importing Serviceables...");
+            InputStreamReader isr = new InputStreamReader(getClass().getResourceAsStream("/data/serviceable.csv"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            if(br.ready()){
+                line = br.readLine();
+                while(line != null){
+                    String[] lineArray = line.split(",",-1);
+                    System.out.println("Adding Capability: " + lineArray[1] + " " + "To Employee: " + lineArray[0]);
+                    addCapability(Integer.parseInt(lineArray[0]), lineArray[1]);
+                    line = br.readLine();
+                }
+            }
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public Set<String> getEmployeeCapabilities(int employeeID){
+        String getStr = "SELECT SERVICETYPE FROM SERVICEABLE WHERE EMPLOYEEID = ?";
+        Set<String> setofServices = new HashSet<>();
+        try{
+            PreparedStatement getStm = connection.prepareStatement(getStr);
+            getStm.setInt(1, employeeID);
+            ResultSet rset = getStm.executeQuery();
+            while(rset.next()){
+                setofServices.add(rset.getString("SERVICETYPE"));
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return setofServices;
+    }
+
+    public void removeEmployeeCapabilities(int employeeID){
+        String rmStr = "DELETE FROM SERVICEABLE WHERE EMPLOYEEID = ?";
+        try{
+            PreparedStatement rmStm = connection.prepareStatement(rmStr);
+            rmStm.setInt(1,employeeID);
+            rmStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to remove Capabilities of Employee " + Integer.toString(employeeID));
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed Capabilities of Employee " + Integer.toString(employeeID));
+    }
+
+    public Set<Integer> getCapableEmployees(String serviceType){
+        String getStr = "SELECT EMPLOYEEID FROM SERVICEABLE WHERE SERVICETYPE = ?";
+        Set<Integer> setOfIDs = new HashSet<Integer>();
+        try{
+            PreparedStatement getStm = connection.prepareStatement(getStr);
+            getStm.setString(1,serviceType);
+            ResultSet rset = getStm.executeQuery();
+            while(rset.next()){
+                setOfIDs.add(rset.getInt("EMPLOYEEID"));
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        return setOfIDs;
+    }
+
+    public void addCapability(int ID, String serviceType){
+        String addStr = "INSERT INTO SERVICEABLE VALUES (?,?)";
+        try{
+            PreparedStatement addStm = connection.prepareStatement(addStr);
+            addStm.setInt(1,ID);
+            addStm.setString(2,serviceType);
+            addStm.execute();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+
+    }
+
+    public void removeCapability(int ID, String serviceType){
+        String delStr = "DELETE FROM SERVICEABLE WHERE EMPLOYEEID = ? AND SERVICETYPE = ?";
+        try{
+            PreparedStatement delStm = connection.prepareStatement(delStr);
+            delStm.setInt(1,ID);
+            delStm.setString(2,serviceType);
+            delStm.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to remove " + serviceType + "Capability of Employee " + Integer.toString(ID));
+            throw new RuntimeException();
+        }
+        System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
+    }
+
+    public boolean checkCapable(int ID, String serviceType){
+        Set<Integer> capableIDSet = getCapableEmployees(serviceType);
+        return capableIDSet.contains(ID);
+    }
 
 
 }
