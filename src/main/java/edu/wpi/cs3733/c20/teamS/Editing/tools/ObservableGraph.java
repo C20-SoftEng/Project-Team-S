@@ -61,6 +61,10 @@ public final class ObservableGraph {
         return true;
     }
 
+    public MutableGraph<NodeData> inner() {
+        return graph;
+    }
+
     public Set<NodeData> nodes() {
         return Collections.unmodifiableSet(graph.nodes());
     }

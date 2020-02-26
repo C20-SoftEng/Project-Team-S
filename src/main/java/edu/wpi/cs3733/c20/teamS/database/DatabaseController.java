@@ -444,9 +444,11 @@ public class DatabaseController implements DBRepo{
             throw new RuntimeException();
         }
     }
-
-
+    //Tested
     public void addEdge(NodeData n1, NodeData n2){
+        if (n1 == null) ThrowHelper.illegalNull("n1");
+        if (n2 == null) ThrowHelper.illegalNull("n2");
+
         String addEntryStr = "INSERT INTO EDGES VALUES (?, ?, ?)";
         try {
 
@@ -454,8 +456,7 @@ public class DatabaseController implements DBRepo{
 
             String nodeOneID = n1.getNodeID();
             String nodeTwoID = n2.getNodeID();
-            String newEdgeID = nodeOneID + "_" + nodeTwoID;
-
+            String newEdgeID = new EdgeData(n1, n2).getEdgeID();
 
             String getEdgeIDStr = "SELECT EDGEID FROM EDGES WHERE EDGEID = ?";
             PreparedStatement checkEdgeID = connection.prepareCall(getEdgeIDStr);
