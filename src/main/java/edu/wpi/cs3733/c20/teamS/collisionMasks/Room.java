@@ -8,14 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public final class Hitbox {
+public final class Room {
     private int floor;
     private String name = "";
     private final ArrayList<Vector2> vertices = new ArrayList<>();
     private final HashSet<String> touchingNodes = new HashSet<>();
 
-    public Hitbox() {}
-    public Hitbox(int floor) {
+    public Room() {}
+    public Room(int floor) {
         this.floor = floor;
     }
     public Polygon toPolygon() {

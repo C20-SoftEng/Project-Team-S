@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
@@ -60,7 +60,7 @@ public class EditScreenController implements Initializable {
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
-    private final Set<Hitbox> hitboxes = new HashSet<>();
+    private final Set<Room> rooms = new HashSet<>();
     private ExportToDirectoryController exportController;
 
     private static Color getNodeColorNonHighlighted(NodeData node) {
@@ -144,9 +144,9 @@ public class EditScreenController implements Initializable {
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
 
         if (hitboxRepo.canLoad())
-            hitboxes.addAll(hitboxRepo.load());
+            rooms.addAll(hitboxRepo.load());
         editingTool = createAddRemoveNodeTool();
-        exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> hitboxes);
+        exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
 
         redrawMap();
     }
@@ -314,14 +314,14 @@ public class EditScreenController implements Initializable {
     @FXML private void onAddRemoveHitboxClicked() {
         AddRemoveHitboxTool tool = new AddRemoveHitboxTool(
                 hitbox -> {
-                    hitboxes.remove(hitbox);
+                    rooms.remove(hitbox);
                     redrawMap();
                 },
                 () -> group,
                 () -> floorSelector.current()
         );
         tool.hitboxAdded().subscribe(hitbox -> {
-            hitboxes.add(hitbox);
+            rooms.add(hitbox);
             redrawMap();
         });
         changeEditingTool(tool);
@@ -343,12 +343,12 @@ public class EditScreenController implements Initializable {
 
     @FXML private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())
-            hitboxRepo.save(hitboxes);
+            hitboxRepo.save(rooms);
     }
     @FXML private void onCancelEditClicked() {
         if (hitboxRepo.canLoad()) {
-            hitboxes.clear();
-            hitboxes.addAll(hitboxRepo.load());
+            rooms.clear();
+            rooms.addAll(hitboxRepo.load());
             redrawMap();
         }
     }
@@ -410,7 +410,7 @@ public class EditScreenController implements Initializable {
     }
     private Group drawAllHitboxes() {
         Group result = new Group();
-        hitboxes.stream()
+        rooms.stream()
                 .filter(hitbox -> hitbox.floor() == floorSelector.current())
                 .map(hitbox -> drawHitbox(hitbox))
                 .forEach(polygon -> result.getChildren().add(polygon));
@@ -458,10 +458,10 @@ public class EditScreenController implements Initializable {
         start.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
         end.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
     }
-    private Polygon drawHitbox(Hitbox hitbox) {
-        Polygon result = hitbox.toPolygon();
+    private Polygon drawHitbox(Room room) {
+        Polygon result = room.toPolygon();
         result.setFill(Settings.get().editHitboxColor());
-        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(hitbox, e));
+        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(room, e));
         return result;
     }
 

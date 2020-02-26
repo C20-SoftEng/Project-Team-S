@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import io.reactivex.rxjava3.core.Observable;
@@ -74,8 +74,8 @@ public class EditHitboxTool implements IEditingTool {
     }
 
     @Override
-    public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-        state.onHitboxClicked(hitbox, event);
+    public void onHitboxClicked(Room room, MouseEvent event) {
+        state.onHitboxClicked(room, event);
     }
 
     @Override
@@ -90,51 +90,51 @@ public class EditHitboxTool implements IEditingTool {
     }
 
     private abstract static class State  {
-        public abstract void onHitboxClicked(Hitbox hitbox, MouseEvent event);
+        public abstract void onHitboxClicked(Room room, MouseEvent event);
         public abstract void onNodeClicked(NodeData node, MouseEvent event);
         public abstract void onClosed();
         public abstract void onNameChanged(String name);
     }
 
     private final class StandbyState extends State {
-        @Override public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-            state = new EditingHitboxState(hitbox);
+        @Override public void onHitboxClicked(Room room, MouseEvent event) {
+            state = new EditingHitboxState(room);
         }
         @Override public void onNodeClicked(NodeData node, MouseEvent event) {}
         @Override public void onClosed() {}
         @Override public void onNameChanged(String name) {}
     }
     private final class EditingHitboxState extends State {
-        private final Hitbox hitbox;
+        private final Room room;
         private final Map<NodeData, Circle> highlighters;
         private final Group group;
         private boolean respondToNameChanged = true;
 
-        public EditingHitboxState(Hitbox hitbox) {
-            if (hitbox == null) ThrowHelper.illegalNull("hitbox");
+        public EditingHitboxState(Room room) {
+            if (room == null) ThrowHelper.illegalNull("hitbox");
 
-            this.hitbox = hitbox;
-            ui.setName(hitbox.name());
+            this.room = room;
+            ui.setName(room.name());
             highlighters = new HashMap<>();
             group = groupSupplier.get();
-            hitbox.touchingNodes().removeIf(id -> !nodeLookup.containsKey(id));
-            hitbox.touchingNodes().stream()
+            room.touchingNodes().removeIf(id -> !nodeLookup.containsKey(id));
+            room.touchingNodes().stream()
                     .map(nodeLookup::get)
                     .forEach(this::addNodeHighlighter);
         }
 
-        @Override public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-            if (hitbox == this.hitbox)
+        @Override public void onHitboxClicked(Room room, MouseEvent event) {
+            if (room == this.room)
                 return;
             group.getChildren().removeAll(highlighters.values());
             highlighters.clear();
             respondToNameChanged = false;
-            state = new EditingHitboxState(hitbox);
+            state = new EditingHitboxState(room);
         }
         @Override public void onNodeClicked(NodeData node, MouseEvent event) {
             switch (event.getButton()) {
                 case PRIMARY:
-                    if (hitbox.touchingNodes().add(node.getNodeID()))
+                    if (room.touchingNodes().add(node.getNodeID()))
                         addNodeHighlighter(node);
                     break;
                 case SECONDARY:
@@ -150,7 +150,7 @@ public class EditHitboxTool implements IEditingTool {
         @Override public void onNameChanged(String name) {
             if (!respondToNameChanged)
                 return;
-            hitbox.setName(name);
+            room.setName(name);
         }
 
         private Circle createNodeHighlighter(NodeData node) {
@@ -170,7 +170,7 @@ public class EditHitboxTool implements IEditingTool {
         }
 
         private void removeNode(NodeData node) {
-            if (!hitbox.touchingNodes().remove(node.getNodeID()))
+            if (!room.touchingNodes().remove(node.getNodeID()))
                 return;
             Circle circle = highlighters.get(node);
             group.getChildren().remove(circle);

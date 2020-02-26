@@ -2,15 +2,12 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
-import javafx.scene.input.MouseEvent;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -22,16 +19,16 @@ import java.util.stream.Collectors;
  * This class handles the logic of finding a path when the user has clicked on a start node and
  * an end node. Simply call onNodeClicked() from your UI.
  */
-final class SelectNodesStateMachine {
+final class NodeSelector {
     private final MutableGraph<NodeData> graph;
     private final IPathfinder pathfinder;
     private final IntSupplier floorSupplier;
     private final ReactiveProperty<Path> path;
-    private final ReactiveProperty<Optional<NodeData>> start;
-    private final ReactiveProperty<Optional<NodeData>> goal;
+    private final ReactiveProperty<Optional<PinDrop>> start;
+    private final ReactiveProperty<Optional<PinDrop>> goal;
     private State state;
 
-    public SelectNodesStateMachine(MutableGraph<NodeData> graph, IPathfinder pathfinder, IntSupplier floorSupplier) {
+    public NodeSelector(MutableGraph<NodeData> graph, IPathfinder pathfinder, IntSupplier floorSupplier) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (pathfinder == null) ThrowHelper.illegalNull("current");
         if (floorSupplier == null) ThrowHelper.illegalNull("floorSupplier");
@@ -44,12 +41,9 @@ final class SelectNodesStateMachine {
         goal = new ReactiveProperty<>(Optional.empty());
         state = new NoSelectionState();
     }
-    public void onNodeSelected(NodeData node) {
-        state.onNodeSelected(node);
-    }
 
-    public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-        state.onHitboxClicked(hitbox, event);
+    public void onHitboxClicked(Room room, double x, double y) {
+        state.onRoomClicked(room, x, y);
     }
 
     private NodeData createFakeNode(double x, double y) {
@@ -65,42 +59,34 @@ final class SelectNodesStateMachine {
     public Observable<Path> pathChanged() {
         return path.changed();
     }
-    public Optional<NodeData> start() {
+    public Optional<PinDrop> start() {
         return start.value();
     }
-    public Optional<NodeData> goal() {
+    public Observable<Optional<PinDrop>> startChanged() {
+        return start.changed();
+    }
+    public Optional<PinDrop> goal() {
         return goal.value();
     }
-
-    private final class PinDrop {
-        public final Hitbox hitbox;
-        public final Vector2 position;
-
-        public PinDrop(Hitbox hitbox, Vector2 position) {
-            this.hitbox = hitbox;
-            this.position = position;
-        }
-        public PinDrop(Hitbox hitbox, double x, double y) {
-            this(hitbox, new Vector2(x, y));
-        }
+    public Observable<Optional<PinDrop>> goalChanged() {
+        return goal.changed();
     }
+
     private abstract class State {
 
-        public void onNodeSelected(NodeData node) {}
-        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
-
-        public final SelectNodesStateMachine outer() {
-            return SelectNodesStateMachine.this;
+        public void onRoomClicked(Room room, double x, double y) {}
+        public final NodeSelector outer() {
+            return NodeSelector.this;
         }
     }
     private final class NoSelectionState extends State {
         @Override
-        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-            NodeData fakeStart = createFakeNode(event.getX(), event.getY());
-            outer().start.setValue(Optional.of(fakeStart));
+        public void onRoomClicked(Room room, double x, double y) {
+            NodeData fakeStart = createFakeNode(x, y);
+            outer().start.setValue(Optional.of(new PinDrop(room, fakeStart)));
             outer().goal.setValue(Optional.empty());
             outer().path.setValue(Path.empty());
-            outer().state = new StartSelectedState(new PinDrop(hitbox, event.getX(), event.getY()));
+            outer().state = new StartSelectedState(start.value().get());
         }
     }
     private final class StartSelectedState extends State {
@@ -111,21 +97,22 @@ final class SelectNodesStateMachine {
         }
 
         @Override
-        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-            PinDrop end = new PinDrop(hitbox, event.getX(), event.getY());
-            NodeData fakeStart = outer().start().get();
+        public void onRoomClicked(Room room, double x, double y) {
+            PinDrop goal = new PinDrop(room, createFakeNode(x, y));
 
-            NodeData fakeGoal = createFakeNode(end.position.x(), end.position.y());
-            outer().goal.setValue(Optional.of(fakeGoal));
-            Set<NodeData> realStartNodes = realNodesInHitbox(start.hitbox);
-            Set<NodeData> realEndNodes = realNodesInHitbox(end.hitbox);
+            Set<NodeData> realStartNodes = realNodesInHitbox(start.room());
+            Set<NodeData> realEndNodes = realNodesInHitbox(goal.room());
 
-            Collection<Path> results = findAllPossiblePaths(fakeStart, fakeGoal, realStartNodes, realEndNodes);
+            Collection<Path> results = findAllPossiblePaths(
+                    start.node(), goal.node(),
+                    realStartNodes, realEndNodes
+            );
 
             Path bestPath = results.stream()
                     .min(Comparator.comparingDouble(p -> p.cost()))
                     .orElse(Path.empty());
 
+            outer().goal.setValue(Optional.of(goal));
             outer().path.setValue(bestPath);
 
             outer().state = new NoSelectionState();
@@ -153,9 +140,9 @@ final class SelectNodesStateMachine {
             return results;
         }
 
-        private Set<NodeData> realNodesInHitbox(Hitbox hitbox) {
+        private Set<NodeData> realNodesInHitbox(Room room) {
             return graph.nodes().stream()
-                    .filter(node -> hitbox.touchingNodes().contains(node.getNodeID()))
+                    .filter(node -> room.touchingNodes().contains(node.getNodeID()))
                     .collect(Collectors.toSet());
         }
     }

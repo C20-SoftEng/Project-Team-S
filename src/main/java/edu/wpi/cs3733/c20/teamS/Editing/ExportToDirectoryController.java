@@ -2,10 +2,9 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.FileSystemHitboxRepository;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
@@ -25,13 +24,13 @@ public class ExportToDirectoryController {
     private final JFXTextField directoryTextField;
     private final Observable<String> directoryPathChanged;
     private final JFXButton exportButton;
-    private final Supplier<Collection<Hitbox>> hitboxSupplier;
+    private final Supplier<Collection<Room>> hitboxSupplier;
     private final DatabaseController db;
 
     public ExportToDirectoryController(
             JFXTextField directoryTextField,
             JFXButton exportButton,
-            Supplier<Collection<Hitbox>> hitboxSupplier) {
+            Supplier<Collection<Room>> hitboxSupplier) {
 
         if (directoryTextField == null) ThrowHelper.illegalNull("directoryTextField");
         if (exportButton == null) ThrowHelper.illegalNull("exportButton");

@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -17,8 +17,8 @@ import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 public class AddRemoveHitboxTool implements IEditingTool {
-    private final PublishSubject<Hitbox> hitboxAdded = PublishSubject.create();
-    private final Consumer<Hitbox> hitboxRemover;
+    private final PublishSubject<Room> hitboxAdded = PublishSubject.create();
+    private final Consumer<Room> hitboxRemover;
     private final Supplier<Group> groupSupplier;
     private final IntSupplier floorSupplier;
     private State state = new StandbyState();
@@ -29,7 +29,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
      * @param floorSupplier Function to supply the current floor.
      */
     public AddRemoveHitboxTool(
-            Consumer<Hitbox> hitboxRemover,
+            Consumer<Room> hitboxRemover,
             Supplier<Group> groupSupplier,
             IntSupplier floorSupplier) {
 
@@ -38,7 +38,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
         this.floorSupplier = floorSupplier;
     }
 
-    public Observable<Hitbox> hitboxAdded() {
+    public Observable<Room> hitboxAdded() {
         return hitboxAdded;
     }
 
@@ -48,8 +48,8 @@ public class AddRemoveHitboxTool implements IEditingTool {
     @Override public void onMouseMoved(MouseEvent event) {
         state.onMouseMoved(event.getX(), event.getY());
     }
-    @Override public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
-        state.onHitboxClicked(hitbox, event);
+    @Override public void onHitboxClicked(Room room, MouseEvent event) {
+        state.onHitboxClicked(room, event);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
         public void onMapClicked(MouseEvent event) {}
         public void onMouseMoved(double x, double y) {}
 
-        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
+        public void onHitboxClicked(Room room, MouseEvent event) {}
 
         public void onClosed() {}
     }
@@ -74,16 +74,16 @@ public class AddRemoveHitboxTool implements IEditingTool {
         }
 
         @Override
-        public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
+        public void onHitboxClicked(Room room, MouseEvent event) {
             if (event.getButton() != MouseButton.SECONDARY)
                 return;
 
-            hitboxRemover.accept(hitbox);
+            hitboxRemover.accept(room);
         }
     }
     private final class ChainingState extends State {
         private final ArrayList<Circle> handles = new ArrayList<>();
-        private final Hitbox hitbox;
+        private final Room room;
         private final Polygon displayPolygon;
         private final double radius = 7;
         private final Color vertexColor = Color.BLUEVIOLET.deriveColor(
@@ -92,7 +92,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
                 1, 1, 1, .45);
 
         public ChainingState(double x, double y) {
-            hitbox = new Hitbox(floorSupplier.getAsInt());
+            room = new Room(floorSupplier.getAsInt());
             displayPolygon = new Polygon();
             displayPolygon.setFill(polygonColor);
 
@@ -129,7 +129,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
             switch (event.getButton()) {
                 case PRIMARY:
                     event.consume();
-                    hitboxAdded.onNext(hitbox);
+                    hitboxAdded.onNext(room);
                     switchToStandbyState();
                     break;
                 case SECONDARY:
@@ -165,7 +165,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
             Circle handle = createHandle(x, y);
             handle.setVisible(false);
             handles.add(handle);
-            hitbox.vertices().add(new Vector2(x, y));
+            room.vertices().add(new Vector2(x, y));
             displayPolygon.getPoints().addAll(x, y);
             groupSupplier.get().getChildren().add(handle);
         }
@@ -184,7 +184,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
             return handle;
         }
         private void setLastVertex(double x, double y) {
-            hitbox.setLastVertex(x, y);
+            room.setLastVertex(x, y);
 
             Circle handle = cursorFollowingHandle();
             handle.setCenterX(x);

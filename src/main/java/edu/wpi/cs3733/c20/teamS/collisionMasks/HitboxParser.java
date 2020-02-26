@@ -1,18 +1,16 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
-import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public final class HitboxParser {
-    public List<Hitbox> parse(Iterable<String> lines) {
+    public List<Room> parse(Iterable<String> lines) {
 
-        List<Hitbox> result = new ArrayList<>();
+        List<Room> result = new ArrayList<>();
         Iterator<String> iter = lines.iterator();
 
         if (!iter.hasNext())
@@ -34,7 +32,7 @@ public final class HitboxParser {
         return result;
     }
 
-    public List<String> save(Iterable<Hitbox> hitboxes) {
+    public List<String> save(Iterable<Room> hitboxes) {
         Stream<String> hitboxLines = StreamSupport.stream(hitboxes.spliterator(), false)
                 .map(hitbox -> Arrays.asList(
                         hitbox.name(),
@@ -48,21 +46,21 @@ public final class HitboxParser {
                 .collect(Collectors.toList());
     }
 
-    private Hitbox parseThreeLineFormat(Iterator<String> iter) {
-        Hitbox hitbox = new Hitbox();
-        hitbox.setName(iter.next());
-        hitbox.setFloor(Integer.parseInt(iter.next()));
-        hitbox.vertices().addAll(parseVertices(iter.next()));
+    private Room parseThreeLineFormat(Iterator<String> iter) {
+        Room room = new Room();
+        room.setName(iter.next());
+        room.setFloor(Integer.parseInt(iter.next()));
+        room.vertices().addAll(parseVertices(iter.next()));
 
-        return hitbox;
+        return room;
     }
 
-    private Hitbox parseFourLineFormat(Iterator<String> iter) {
-        Hitbox hitbox = parseThreeLineFormat(iter);
+    private Room parseFourLineFormat(Iterator<String> iter) {
+        Room room = parseThreeLineFormat(iter);
         for (String nodeID : iter.next().split("\\s"))
-            hitbox.touchingNodes().add(nodeID);
+            room.touchingNodes().add(nodeID);
 
-        return hitbox;
+        return room;
     }
 
     private String saveVertices(Iterable<Vector2> vertices) {

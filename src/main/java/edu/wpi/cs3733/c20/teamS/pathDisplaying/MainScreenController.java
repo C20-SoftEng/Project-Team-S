@@ -2,12 +2,10 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.QuickAddRemoveNodeTool;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -15,7 +13,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.fxml.FXML;
@@ -29,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
@@ -41,21 +38,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
     //private IPathfinder pathfinder;
     private PathRenderer renderer;
-    private SelectNodesStateMachine nodeSelector;
+    private NodeSelector nodeSelector;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
-    private final Set<Hitbox> hitboxes = new HashSet<>();
+    private final Set<Room> rooms = new HashSet<>();
 
     private boolean flip = true;
     //endregion
@@ -67,24 +61,16 @@ public class MainScreenController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initSearchComboBox();
-
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, pathfinder(), () -> floorSelector.current());
-
         initFloorSelector();
 
-        nodeSelector.pathChanged().subscribe(path -> {
-            redraw();
-            renderer.printInstructions(path, instructionVBox, directoryVBox);
-        });
-        group.setOnMouseClicked(this::onMapClicked);
+        initNodeSelector();
         scrollPane.setContent(group);
 
         initHitboxes();
-
+        initSearchComboBox();
         try {
             redraw();
         } catch (Exception e) {
@@ -92,8 +78,26 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    private void initNodeSelector() {
+        nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
+        nodeSelector.pathChanged().subscribe(path -> {
+            redraw();
+            renderer.printInstructions(path, instructionVBox, directoryVBox);
+        });
+        nodeSelector.startChanged()
+                .subscribe(pin -> {
+                    String text = pin.isPresent() ? pin.get().room().name() : "";
+                    location1.setText(text);
+                });
+        nodeSelector.goalChanged()
+                .subscribe(pin -> {
+                    String text = pin.isPresent() ? pin.get().room().name() : "";
+                    location2.setText(text);
+                });
+    }
+
     private void initHitboxes() {
-        hitboxes.addAll(hitboxRepo.load());
+        rooms.addAll(hitboxRepo.load());
     }
     private void initGraph() {
         DatabaseController database = new DatabaseController();
@@ -116,13 +120,17 @@ public class MainScreenController implements Initializable {
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
 
-        DatabaseController db = new DatabaseController();
-        Set<NodeData> nodes = db.getAllNodes();
-        AutoComplete.start(nodes, searchComboBox, NodeData::getLongName);
-        searchComboBox.valueProperty().addListener((sender, previous, current) -> {
-            floorSelector.setCurrent(current.value().getFloor());
-            onNodeClicked(current.value());
-        });
+        AutoComplete.start(rooms, searchComboBox, Room::name);
+        AutoComplete.propertyStream(searchComboBox.valueProperty())
+                .subscribe(result -> {
+                    Room room = result.value();
+                    Vector2 centroid = room.vertices().stream()
+                            .reduce(new Vector2(0, 0), Vector2::add)
+                            .divide(Math.max(1, room.vertices().size()));
+                    floorSelector.setCurrent(room.floor());
+                    nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
+
+                });
     }
 
     private IPathfinder pathfinder() {
@@ -142,7 +150,7 @@ public class MainScreenController implements Initializable {
         Group pathGroup = renderer.draw(nodeSelector.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
 
-        hitboxes.stream()
+        rooms.stream()
                 .filter(hitbox -> hitbox.floor() == floorSelector.current())
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
@@ -150,50 +158,16 @@ public class MainScreenController implements Initializable {
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
-    private void onNodeClicked(NodeData node) {
-        if (node == null)
-            return;
-
-        if (flip) {
-            location1.setText(node.getLongName());
-            flip = false;
-        } else if (!flip) {
-            location2.setText(node.getLongName());
-            flip = true;
-        }
-
-        nodeSelector.onNodeSelected(node);
-    }
-    private void onMapClicked(MouseEvent e) {
-        final double x = e.getX();
-        final double y = e.getY();
-        NodeData nearest = findNearestNodeWithin(x, y, 200);
-        onNodeClicked(nearest);
-    }
-
-    private Polygon createHitboxRenderingMask(Hitbox hitbox) {
+    private Polygon createHitboxRenderingMask(Room room) {
         Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
         Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        Polygon polygon = hitbox.toPolygon();
+        Polygon polygon = room.toPolygon();
         polygon.setTranslateY(-10);
         polygon.setFill(invisible);
         polygon.setOnMouseEntered(e -> polygon.setFill(visible));
         polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(hitbox, e));
+        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
         return polygon;
-    }
-    private NodeData findNearestNodeWithin(double x, double y, double radius) {
-        List<NodeData> sorted = graph.nodes().stream()
-                    .filter(node -> node.getFloor() == floorSelector.current())
-                    .filter(node -> Numerics.distance(x, y, node.getxCoordinate(), node.getyCoordinate()) < radius)
-                    .sorted((a, b) -> Double.compare(
-                            Numerics.distance(x, y, a.getxCoordinate(), a.getyCoordinate()),
-                            Numerics.distance(x, y, b.getxCoordinate(), b.getyCoordinate())
-                    ))
-                    .collect(Collectors.toList());
-        if (sorted.isEmpty())
-            return null;
-        return sorted.get(0);
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
@@ -219,7 +193,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
-    @FXML private ComboBox<LookupResult<NodeData>> searchComboBox;
+    @FXML private ComboBox<LookupResult<Room>> searchComboBox;
     @FXML private TitledPane AccDEPT;
     @FXML private TitledPane AccSERV;
     @FXML private TitledPane AccLABS;

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +24,11 @@ public final class FileSystemHitboxRepository extends HitboxRepository {
     }
 
     @Override
-    public void save(Collection<Hitbox> hitboxes) {
+    public void save(Collection<Room> rooms) {
         try {
             HitboxParser parser = new HitboxParser();
             PrintWriter writer = new PrintWriter(new FileWriter(path));
-            for (String line : parser.save(hitboxes)) {
+            for (String line : parser.save(rooms)) {
                 writer.println(line);
             }
 
@@ -42,7 +41,7 @@ public final class FileSystemHitboxRepository extends HitboxRepository {
     }
 
     @Override
-    public Collection<Hitbox> load() {
+    public Collection<Room> load() {
         try {
             HitboxParser parser = new HitboxParser();
             Scanner scanner = new Scanner(new File(path));
