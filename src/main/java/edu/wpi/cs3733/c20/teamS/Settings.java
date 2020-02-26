@@ -3,13 +3,41 @@ package edu.wpi.cs3733.c20.teamS;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
+import javafx.scene.paint.Color;
 
 public final class Settings {
     private final PathfindingContext pathfinder = new PathfindingContext(new AStar());
-    private boolean useQuickNodePlacingTool = true;
+    private boolean useQuickNodePlacingTool = false;
 
     public PathfindingContext pathfinder(){
         return pathfinder;
+    }
+    public Color pathColor() {
+        return Color.RED;
+    }
+    public Color nodeColorElevator() {
+        return Color.GREEN.deriveColor(1, 1, 1, 0.5);
+    }
+    public Color nodeFillColorNormal() {
+        return Color.ORANGE.deriveColor(1, 1, 1, 0.5);
+    }
+    public Color nodeStrokeColorNormal() {
+        return Color.ORANGE;
+    }
+    public Color nodeFillColorHighlight() {
+        return Color.AQUA.deriveColor(1, 1, 1, 0.5);
+    }
+    public Color editHitboxColor() {
+        return Color.BLUE.deriveColor(1, 1, 1, .45);
+    }
+    public Color editEdgeColorNormal() {
+        return Color.BLUE;
+    }
+    public Color editEdgeColorHighlight() {
+        return Color.AQUA;
+    }
+    public int editEdgeStrokeWidth() {
+        return 5;
     }
 
     /**
