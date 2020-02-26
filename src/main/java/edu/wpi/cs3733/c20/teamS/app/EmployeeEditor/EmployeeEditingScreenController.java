@@ -32,6 +32,7 @@ public class EmployeeEditingScreenController implements Initializable{
     @FXML private TableColumn<EmployeeData, Integer> accessLevelCol;
     @FXML private TableColumn<EmployeeData, String> firstNameCol;
     @FXML private TableColumn<EmployeeData, String> lastNameCol;
+    @FXML private TableColumn<EmployeeData, String> phoneNumberCol;
 
     private ObservableList<EmployeeData> employees;
 
@@ -110,6 +111,18 @@ public class EmployeeEditingScreenController implements Initializable{
                     (t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                     ).setLastName(t.getNewValue());
+                    dbController.updateEmployee((t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ));
+                });
+
+        phoneNumberCol.setCellValueFactory(new PropertyValueFactory<EmployeeData, String>("PhoneNumber"));
+        phoneNumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        phoneNumberCol.setOnEditCommit(
+                (TableColumn.CellEditEvent<EmployeeData, String> t) -> {
+                    (t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setPhoneNumber(t.getNewValue());
                     dbController.updateEmployee((t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                     ));

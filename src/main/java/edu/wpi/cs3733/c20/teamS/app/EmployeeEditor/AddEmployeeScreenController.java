@@ -19,6 +19,7 @@ public class AddEmployeeScreenController implements Initializable {
     @FXML private ComboBox<Integer> accessLevel;
     @FXML private TextField firstName;
     @FXML private TextField lastName;
+    @FXML private TextField phoneNumber;
 
     @FXML private JFXButton addEmployeeButton;
     @FXML private JFXButton cancelButton;
@@ -38,7 +39,7 @@ public class AddEmployeeScreenController implements Initializable {
 //                this.accessLevel.getValue(), this.firstName.getText(), this.lastName.getText());
 //        this.controller.update(employeeToAdd);
         EmployeeData employeeToAdd = new EmployeeData(this.username.getText(), this.password.getText(),
-                this.accessLevel.getValue(), this.firstName.getText(), this.lastName.getText());
+                this.accessLevel.getValue(), this.firstName.getText(), this.lastName.getText(), this.phoneNumber.getText());
         DatabaseController dbController = new DatabaseController();
         boolean employeeAlreadyExist = false;
         Set<EmployeeData> existingEmployees = dbController.getAllEmployeeData();

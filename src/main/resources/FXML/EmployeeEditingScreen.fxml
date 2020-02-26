@@ -15,12 +15,13 @@
                     <children>
                         <TableView fx:id="employeeTable" editable="true" layoutX="14.0" prefHeight="340.0" prefWidth="940.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0">
                             <columns>
-                                <TableColumn fx:id="employeeIDCol" prefWidth="93.0" text="Employee ID" />
-                                <TableColumn fx:id="usernameCol" minWidth="0.0" prefWidth="76.66665649414062" text="Username" />
-                                <TableColumn fx:id="passwordCol" prefWidth="90.0" text="Password" />
-                                <TableColumn fx:id="accessLevelCol" prefWidth="100.0" text="AccessLevel" />
-                                <TableColumn fx:id="firstNameCol" prefWidth="97.0" text="Firstname" />
-                        <TableColumn fx:id="lastNameCol" prefWidth="112.0" text="Lastname" />
+                                <TableColumn fx:id="employeeIDCol" prefWidth="87.33334350585938" text="Employee ID" />
+                                <TableColumn fx:id="usernameCol" minWidth="0.0" prefWidth="69.33331298828125" text="Username" />
+                                <TableColumn fx:id="passwordCol" prefWidth="68.0" text="Password" />
+                                <TableColumn fx:id="accessLevelCol" prefWidth="84.33331298828125" text="AccessLevel" />
+                                <TableColumn fx:id="firstNameCol" prefWidth="79.0" text="Firstname" />
+                        <TableColumn fx:id="lastNameCol" prefWidth="66.66668701171875" text="Lastname" />
+                        <TableColumn fx:id="phoneNumberCol" prefWidth="118.33331298828125" text="Phone Number" />
                             </columns>
                         </TableView>
                     </children>

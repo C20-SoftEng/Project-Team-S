@@ -735,6 +735,7 @@ public class DatabaseController implements DBRepo{
         int accessLevel;
         String firstName;
         String lastName;
+        String phoneNumber;
 
         try{
             while(rset.next()){
@@ -744,8 +745,9 @@ public class DatabaseController implements DBRepo{
                 accessLevel = rset.getInt("accessLevel");
                 firstName = rset.getString("firstName");
                 lastName = rset.getString("lastName");
+                phoneNumber = rset.getString("phoneNumber");
 
-                employeeSet.add(new EmployeeData(employeeID, userName, password, accessLevel, firstName, lastName));
+                employeeSet.add(new EmployeeData(employeeID, userName, password, accessLevel, firstName, lastName, phoneNumber));
             }
         }catch(java.sql.SQLException rsetFailure){
             System.out.println(rsetFailure.getMessage());
