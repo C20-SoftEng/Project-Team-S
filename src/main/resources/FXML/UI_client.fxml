@@ -55,12 +55,12 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </JFXBadge>
-                  <JFXButton fx:id="staffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="41.0" prefWidth="132.0" style="-fx-background-color: beige;" text="Staff Login" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="staffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="41.0" prefWidth="132.0" style="-fx-background-color: beige;" text="Staff Login" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                      <font>
-                        <Font name="Calibri" size="23.0" />
+                        <Font size="20.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -174,7 +174,7 @@
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.7" prefHeight="40.0" prefWidth="105.0" text="FLOOR" VBox.vgrow="NEVER">
                                        <font>
-                                          <Font name="System Bold" size="32.0" />
+                                          <Font size="32.0" />
                                        </font>
                                     </Label>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
