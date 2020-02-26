@@ -54,11 +54,14 @@ public class CapabilityEditingScreenController implements Initializable {
     }
 
     @FXML void onAddClicked(){
-
+        AddCapabilityScreen.showDialog(this.employee, this);
     }
 
     @FXML void onRemoveClicked(){
-
+        String selected = this.capabilitiesTable.getSelectionModel().getSelectedItem();
+        DatabaseController dbController = new DatabaseController();
+        dbController.removeCapability(this.employee.getEmployeeID(), selected);
+        this.update();
     }
 
     public void update(){
