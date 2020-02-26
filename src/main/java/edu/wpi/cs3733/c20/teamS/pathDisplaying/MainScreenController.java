@@ -172,6 +172,7 @@ public class MainScreenController implements Initializable {
         Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
         Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
         Polygon polygon = hitbox.toPolygon();
+        polygon.setTranslateY(-10);
         polygon.setFill(invisible);
         polygon.setOnMouseEntered(e -> polygon.setFill(visible));
         polygon.setOnMouseExited(e -> polygon.setFill(invisible));
