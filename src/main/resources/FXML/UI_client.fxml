@@ -5,9 +5,11 @@
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -122,6 +124,18 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
+                        <JFXButton fx:id="viewThreeD" contentDisplay="GRAPHIC_ONLY" onAction="#onViewThreeD" text="3DModel">
+                           <graphic>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Icons/3dglasses.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                        </JFXButton>
                      </children>
                   </VBox>
                   <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" VBox.vgrow="ALWAYS" />
@@ -172,7 +186,7 @@
                   </JFXBadge>
                   <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="50.0" prefWidth="53.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
+                        <JFXButton fx:id="AboutButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onAboutClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
@@ -180,6 +194,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                      </children>
                   </HBox>
@@ -283,15 +300,104 @@
             </VBox>
          </center>
          <right>
-            <VBox fx:id="instructionVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;" BorderPane.alignment="CENTER">
+            <StackPane BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
+                  <VBox fx:id="instructionVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="directoryVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Directory" underline="true" VBox.vgrow="SOMETIMES">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <VBox fx:id="parentVBox1" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Accordion>
+                                       <panes>
+                                          <TitledPane fx:id="AccDEPT" text="Departments">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane text="Services">
+                                             <content>
+                                                <AnchorPane fx:id="AccSERV" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccLABS" text="Labs">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccINFO" text="Information">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccRETL" text="Shops">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccREST" text="Restrooms">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccCONF" text="Conference Rooms">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane fx:id="AccEXIT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Exits">
+                                             <content>
+                                                <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="413.0" prefWidth="198.0" />
+                                             </content>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </panes>
+                                    </Accordion>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </StackPane>
          </right>
       </BorderPane>
    </children>

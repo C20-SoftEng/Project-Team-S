@@ -1,17 +1,18 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinding;
+import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
+import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.subjects.PublishSubject;
+import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,127 +22,75 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.*;
 
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    private IPathfinding algorithm;
+    private IPathfinder pathfinder;
     private PathRenderer renderer;
-    private SelectNodesStateMachine pathFinder;
+    private SelectNodesStateMachine nodeSelector;
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
+    private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
+    private final Set<Hitbox> hitboxes = new HashSet<>();
 
     private boolean flip = true;
     //endregion
 
-    private static class Floor {
-        public final Image image;
-        public final JFXButton button;
+    public MainScreenController(Stage stage, IPathfinder pathfinder){
+        if (stage == null) ThrowHelper.illegalNull("stage");
+        if (pathfinder == null) ThrowHelper.illegalNull("pathfinder");
 
-        public Floor(JFXButton button, Image image) {
-            this.image = image;
-            this.button = button;
-        }
-        public Floor(JFXButton button, String imagePath) {
-            this(button, new Image(imagePath));
-        }
-    }
-    private class FloorSelector {
-        private final JFXButton upButton;
-        private final JFXButton downButton;
-        private final Floor[] floors;
-        private final PublishSubject<Integer> currentChanged = PublishSubject.create();
-        private int current;
-        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
-        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
-        private final int lowestFloorNumber = 1;
-        private final int highestFloorNumber;
-
-        public FloorSelector(JFXButton upButton, JFXButton downButton, Floor... floors) {
-            this.upButton = upButton;
-            this.downButton = downButton;
-            this.floors = floors;
-            this.highestFloorNumber = floors.length;
-        }
-
-        /**
-         * Gets the currently-selected floor number.
-         * @return
-         */
-        public int current() {
-            return this.current;
-        }
-        /**
-         * Sets the currently-selected floor number. Floor numbers start at 1.
-         * @param floorNumber The floor number to select.
-         */
-        public void setCurrent(int floorNumber) {
-            if (floorNumber < lowestFloorNumber || floorNumber > highestFloorNumber)
-                ThrowHelper.outOfRange("floorNumber", lowestFloorNumber, highestFloorNumber);
-            int previous = this.current;
-            this.current = floorNumber;
-            updateFloorButtons(floorNumber);
-//            updateMapPanPosition(floorNumber);
-            if (previous != this.current)
-                currentChanged.onNext(this.current);
-        }
-        public Observable<Integer> currentChanged() {
-            return currentChanged;
-        }
-
-        private void updateFloorButtons(int floorNumber) {
-            for (Floor floor : this.floors)
-                floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
-
-            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
-            this.upButton.setDisable(floorNumber == highestFloorNumber);
-            this.downButton.setDisable(floorNumber == lowestFloorNumber);
-        }
-        public Floor floor(int floorNumber) {
-            return floors[floorNumber - 1];
-        }
-    }
-
-    public MainScreenController(Stage stage, IPathfinding algorithm){
-        this.algorithm = algorithm;
         this.stage = stage;
+        this.pathfinder = pathfinder;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initSearchComboBoxFont();
+        initSearchComboBox();
 
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        pathFinder = new SelectNodesStateMachine(graph, algorithm);
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder, () -> floorSelector.current());
 
         initFloorSelector();
-        floorSelector.currentChanged().subscribe(e -> redraw());
-        pathFinder.pathChanged().subscribe(path -> {
+
+        nodeSelector.pathChanged().subscribe(path -> {
             redraw();
             renderer.printInstructions(path, instructionVBox);
         });
         group.setOnMouseClicked(this::onMapClicked);
         scrollPane.setContent(group);
-        redraw();
+
+        initHitboxes();
+
+        try {
+            redraw();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private void initHitboxes() {
+        hitboxes.addAll(hitboxRepo.load());
+    }
     private void initGraph() {
         DatabaseController database = new DatabaseController();
         graph = database.loadGraph();
@@ -156,21 +105,23 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
         floorSelector.setCurrent(2);
+        floorSelector.currentChanged().subscribe(e -> redraw());
     }
-    private void initSearchComboBoxFont() {
+    private void initSearchComboBox() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
 
         DatabaseController db = new DatabaseController();
         Set<NodeData> nodes = db.getAllNodes();
-        List<String> dictionary = nodes.stream()
-                .map(node -> node.getLongName() + ", " + node.getNodeID())
-                .collect(toList());
-        AutoComplete.start(dictionary, searchComboBox);
+        AutoComplete.start(nodes, searchComboBox, NodeData::getLongName);
+        searchComboBox.valueProperty().addListener((sender, previous, current) -> {
+            floorSelector.setCurrent(current.value().getFloor());
+            onNodeClicked(current.value());
+        });
     }
 
-    private void redraw() {
+    private void redraw() throws Exception {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
@@ -180,55 +131,60 @@ public class MainScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        Group pathGroup = renderer.draw(pathFinder.path(), floorSelector.current());
+        Group pathGroup = renderer.draw(nodeSelector.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
+
+        hitboxes.stream()
+                .filter(hitbox -> hitbox.floor() == floorSelector.current())
+                .map(this::createHitboxRenderingMask)
+                .forEach(polygon -> group.getChildren().add(polygon));
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
 
+    private void onNodeClicked(NodeData node) {
+        if (node == null)
+            return;
+
+        if (flip) {
+            location1.setText(node.getLongName());
+            flip = false;
+        } else if (!flip) {
+            location2.setText(node.getLongName());
+            flip = true;
+        }
+
+        nodeSelector.onNodeSelected(node);
+    }
     private void onMapClicked(MouseEvent e) {
         final double x = e.getX();
         final double y = e.getY();
         NodeData nearest = findNearestNodeWithin(x, y, 200);
-        if (nearest == null)
-            return;
-
-        if (flip) {
-            location1.setText(nearest.getLongName());
-            flip = false;
-        } else if (!flip) {
-            location2.setText(nearest.getLongName());
-            flip = true;
-        }
-
-        pathFinder.onNodeClicked(nearest);
-        //pathDrawer.setNode(nearest);
+        onNodeClicked(nearest);
     }
 
+    private Polygon createHitboxRenderingMask(Hitbox hitbox) {
+        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+        Polygon polygon = hitbox.toPolygon();
+        polygon.setFill(invisible);
+        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
+        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
+        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(hitbox, e));
+        return polygon;
+    }
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
         List<NodeData> sorted = graph.nodes().stream()
                     .filter(node -> node.getFloor() == floorSelector.current())
-                    .filter(node -> distance(x, y, node) < radius)
+                    .filter(node -> Numerics.distance(x, y, node.getxCoordinate(), node.getyCoordinate()) < radius)
                     .sorted((a, b) -> Double.compare(
-                            distance(x, y, a),
-                            distance(x, y, b)
+                            Numerics.distance(x, y, a.getxCoordinate(), a.getyCoordinate()),
+                            Numerics.distance(x, y, b.getxCoordinate(), b.getyCoordinate())
                     ))
                     .collect(Collectors.toList());
         if (sorted.isEmpty())
             return null;
         return sorted.get(0);
-    }
-
-    private double distance(double x1, double y1, double x2, double y2) {
-        double xSquared = x1 - x2;
-        xSquared *= xSquared;
-        double ySquared = y1 - y2;
-        ySquared *= ySquared;
-
-        return Math.sqrt(xSquared + ySquared);
-    }
-    private double distance(double x, double y, NodeData node) {
-        return distance(x, y, node.getxCoordinate(), node.getyCoordinate());
     }
 
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
@@ -247,12 +203,14 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
+    @FXML private JFXButton viewThreeD;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
+    @FXML private VBox directoryVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
-    @FXML private ComboBox<String> searchComboBox;
+    @FXML private ComboBox<LookupResult<NodeData>> searchComboBox;
     //endregion
 
     //region event handlers
@@ -277,20 +235,23 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML private void onHelpClicked() {
+    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+    @FXML private void onAboutClicked() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            //Parent  root1 = fxmlLoader.getRoot();
             Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Help");
-            window.setScene(new Scene(root1));
+           window.initModality(Modality.WINDOW_MODAL);
+           window.setFullScreen(false);
+            window.setScene(new Scene(root));
             window.setResizable(false);
             window.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Can't load new window");
         }
     }
+
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
@@ -303,11 +264,13 @@ public class MainScreenController implements Initializable {
     @FXML private void onZoomInClicked() {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
+        zoomOutButton.setDisable(!zoomer.canZoomOut());
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
         this.zoomer.zoomOut();
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        zoomInButton.setDisable(!zoomer.canZoomIn());
     }
     //endregion
 }

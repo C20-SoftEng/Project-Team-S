@@ -32,11 +32,13 @@ public class ServiceTechRequestController {
     }
 
     @FXML void onOKClicked(){
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(loggedIn);
+        if(!locationField.getText().equals("")) {
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public ServiceTechRequestController(Employee employee){

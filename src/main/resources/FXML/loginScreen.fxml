@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="222.0" maxWidth="433.0" minHeight="221.0" minWidth="432.0" prefHeight="222.0" prefWidth="433.0" style="-fx-background-color: gainsboro; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
+<AnchorPane fx:id="anchor" maxHeight="302.0" maxWidth="433.0" minHeight="221.0" minWidth="400.0" prefHeight="260.0" prefWidth="400.0" style="-fx-background-color: #eee; -fx-border-color: gray; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
    <children>
       <Label fx:id="wrongStuff" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textFill="#cd0a0a" visible="false">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="55.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID">
+      <JFXTextField fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="110.0" layoutY="67.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -23,12 +23,12 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXTextField>
-      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="125.0" layoutY="111.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password">
+      <JFXPasswordField fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="112.0" layoutY="138.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="112.0">
          <font>
             <Font size="13.0" />
          </font>
       </JFXPasswordField>
-      <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="38.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #FF0A0A;" text="Cancel" textAlignment="CENTER">
+      <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="85.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: gray;" text="Cancel" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="85.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -36,7 +36,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="304.0" layoutY="172.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #00ff0F;" text="Enter" textAlignment="CENTER">
+      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="281.0" layoutY="165.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" style="-fx-background-color: #0153A6; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #125CA6;" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="85.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -44,5 +44,10 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <Label alignment="CENTER" focusTraversable="false" layoutX="163.0" layoutY="13.0" prefHeight="38.0" prefWidth="87.0" text="Login" textAlignment="CENTER" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="11.0">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

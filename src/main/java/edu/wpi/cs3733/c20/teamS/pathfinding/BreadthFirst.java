@@ -5,19 +5,22 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
 import java.util.*;
+import java.util.function.Function;
 
-public class BreadthFirst implements IPathfinding{
+public class BreadthFirst implements IPathfinder {
 
     @Override
-    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
-        if (graph == null) ThrowHelper.illegalNull("graph");
+    public Path findPath(
+            NodeData start, NodeData goal,
+            Function<NodeData, Iterable<NodeData>> friendSelector
+    ) {
         if (start == null) ThrowHelper.illegalNull("start");
         if (goal == null) ThrowHelper.illegalNull("goal");
+        if (friendSelector == null) ThrowHelper.illegalNull("friendSelector");
 
-        LinkedList<Path> queue = new LinkedList<>();
         HashSet<NodeData> seen = new HashSet<>();
-        Path empty = Path.empty();
-        queue.addFirst(empty.push(start, 0));
+        LinkedList<Path> queue = new LinkedList<>();
+        queue.addFirst(Path.empty().push(start, 0));
         seen.add(start);
 
         while (!queue.isEmpty()) {
@@ -25,12 +28,12 @@ public class BreadthFirst implements IPathfinding{
             if (frontier.peek().equals(goal))
                 return frontier;
 
-            for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
+            for (NodeData friend : friendSelector.apply(frontier.peek())) {
                 if (!seen.add(friend))
                     continue;
                 queue.addFirst(frontier.push(friend, 0));
             }
         }
-        return empty;
+        return Path.empty();
     }
 }
