@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.DrugServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreenController;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.event.ActionEvent;
@@ -17,10 +18,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.derby.iapi.db.Database;
 import org.apache.derby.iapi.db.DatabaseContext;
+
+import java.io.IOException;
 
 public class loginScreenController {
 
@@ -34,6 +38,9 @@ public class loginScreenController {
 
     @FXML private Label wrongStuff;
 
+    @FXML
+    private AnchorPane anchor;
+
     @FXML void onCancelClicked(ActionEvent event) {
         dialogCompleted_.onNext(DialogEvent.cancel());
     }
@@ -41,11 +48,27 @@ public class loginScreenController {
     /**
      * change this for later, just using admin
      */
-    @FXML void onEnterClicked(ActionEvent event) {
+    @FXML void onEnterClicked(ActionEvent event) throws IOException {
         DatabaseController dc = new DatabaseController();
         boolean validLogin = dc.checkLogin(id.getText(), pw.getText());
         if (validLogin){
             EmployeeData ed = dc.getEmployee(id.getText());
+
+
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
+//            TwoFactorScreenController twoFac = new TwoFactorScreenController();
+//            loader.setController(twoFac);
+//            twoFac.ed = ed;
+//            twoFac.dialogCompleted_ = dialogCompleted_;
+//            //Parent root = loader.load();
+////            //AnchorPane twoFactor = FXMLLoader.load();
+//            anchor.getChildren().setAll();
+//            anchor.getScene().getWindow().setHeight(313);
+//            anchor.getScene().getWindow().setWidth(438);
+
+
+
+
             AccessLevel[] al = AccessLevel.values();
             AccessLevel accessLevel = al[ed.getAccessLevel()];
             Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);

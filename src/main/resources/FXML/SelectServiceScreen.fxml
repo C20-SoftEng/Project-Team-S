@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: gainsboro; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController">
+<AnchorPane prefHeight="519.0" prefWidth="1055.0" style="-fx-border-color: gainsboro; -fx-border-width: 10; -fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController">
    <children>
-      <Label alignment="CENTER" layoutX="42.0" style="-fx-background-color: gainsboro;" text="Services" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label alignment="CENTER" focusTraversable="false" layoutX="416.0" layoutY="20.0" prefHeight="51.0" prefWidth="334.0" text="Services" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="20.0" layoutY="109.0" prefHeight="320.0" prefWidth="290.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-      <GridPane gridLinesVisible="true" layoutX="20.0" layoutY="207.0" prefHeight="330.0" prefWidth="580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <GridPane gridLinesVisible="true" hgap="5.0" layoutX="20.0" layoutY="207.0" prefHeight="330.0" prefWidth="580.0" style="-fx-background-color: transparent;" vgap="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -32,120 +35,116 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="rideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Ride" GridPane.rowIndex="1" onAction="#onRideClicked">
+            <JFXButton fx:id="interpreterButton" alignment="CENTER" graphicTextGap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onInterpreterClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Interpreter" GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Icons/serviceRequests/Interpreter.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="janitorButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onJanitorClicked" prefHeight="60.0" prefWidth="222.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Janitor">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="interpreterButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Interpreter" onAction="#onInterpreterClicked">
+            <JFXButton fx:id="rideButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onRideClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Ride" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="floristButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFloristClicked" prefHeight="60.0" prefWidth="280.0" text="Florist" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <JFXButton fx:id="floristButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFloristClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Florist" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="janitorButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Janitor" GridPane.columnIndex="1" onAction="#onJanitorClicked">
+            <JFXButton fx:id="medicineButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Medicine" GridPane.columnIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="maintenanceButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" prefHeight="60.0" prefWidth="280.0" text="Maintenance" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXButton fx:id="maintenanceButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onMaintenanceClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Maintenance" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="medicineButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDrugClicked" prefHeight="60.0" prefWidth="280.0" text="Medicine" GridPane.rowIndex="2">
+            <JFXButton fx:id="securityButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSecurityClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Security" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="securityButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Security" GridPane.rowIndex="3" onAction="#onSecurityClicked">
+            <JFXButton fx:id="lastRitesButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLastRitesClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Last Rites" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="lastRitesButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Last Rites" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#onLastRitesClicked">
+            <JFXButton fx:id="giftButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onGiftClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Gift" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="giftButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="280.0" text="Gift" GridPane.rowIndex="4" onAction="#onGiftClicked">
+            <JFXButton fx:id="laundryButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Laundry" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="laundryButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLaundryClicked" prefHeight="60.0" prefWidth="280.0" text="Laundry" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <JFXButton fx:id="serviceTechService" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefHeight="60.0" prefWidth="207.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="serviceTechService" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefHeight="60.0" prefWidth="280.0" text="Service Tech" GridPane.rowIndex="5">
+            <JFXButton fx:id="foodButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onFoodClicked" prefHeight="60.0" prefWidth="280.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Food Request" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="dogButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDogClicked" prefHeight="60.0" prefWidth="280.0" text="Screen Cleaner" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </JFXButton>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Tommy" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Shane" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Marc" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Mario" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Zeynep" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Owen" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Newell" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Jordan" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Keming" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Made by Amy" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
          </children>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </GridPane>
    </children>
 </AnchorPane>

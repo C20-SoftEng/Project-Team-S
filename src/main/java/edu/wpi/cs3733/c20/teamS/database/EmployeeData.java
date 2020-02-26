@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 public class EmployeeData {
     private SimpleIntegerProperty employeeID;
 
-    public EmployeeData(int employeeID, String username, String password, int accessLevel, String firstName, String lastName) {
+    public EmployeeData(int employeeID, String username, String password, int accessLevel, String firstName, String lastName, int phoneNumber) {
         this.employeeID = new SimpleIntegerProperty(employeeID);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
@@ -28,13 +28,14 @@ public class EmployeeData {
                 '}';
     }
 
-    public EmployeeData(String username, String password, int accessLevel, String firstName, String lastName) {
+    public EmployeeData(String username, String password, int accessLevel, String firstName, String lastName, String phoneNumber) {
         //this.employeeID = employeeID;
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
         this.accessLevel = new SimpleIntegerProperty(accessLevel);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
+        this.phoneNumber = new SimpleStringProperty(phoneNumber);
     }
 
     public int getEmployeeID() {
@@ -90,4 +91,5 @@ public class EmployeeData {
     private SimpleIntegerProperty accessLevel;
     private SimpleStringProperty firstName;
     private SimpleStringProperty lastName;
+    private SimpleStringProperty phoneNumber;
 }

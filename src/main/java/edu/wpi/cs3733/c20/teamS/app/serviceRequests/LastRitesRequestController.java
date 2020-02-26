@@ -32,12 +32,14 @@ public class LastRitesRequestController {
     }
 
     @FXML void onOKClicked(){
-        request.setDrugType_(religionField.getText());
-        request.setLocation(locationField.getText());
-        request.setMessage(commentsField.getText());
-        request.assignTo(loggedIn);
+        if(!religionField.getText().equals("") && !locationField.getText().equals("")) {
+            request.setDrugType_(religionField.getText());
+            request.setLocation(locationField.getText());
+            request.setMessage(commentsField.getText());
+            request.assignTo(loggedIn);
 
-        dialogCompleted_.onNext(DialogEvent.ok(request));
+            dialogCompleted_.onNext(DialogEvent.ok(request));
+        }
     }
 
     public LastRitesRequestController(Employee employee){

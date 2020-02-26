@@ -16,6 +16,8 @@ import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+import javax.swing.text.html.ImageView;
+
 public class TutorialController {
 
     @FXML
@@ -33,6 +35,7 @@ public class TutorialController {
         }
 
     }
+
 
     public TutorialController() {
 

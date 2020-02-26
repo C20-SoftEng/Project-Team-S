@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="AboutMePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1001.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.AboutMeController">
+   <children>
+      <ImageView fitHeight="${AboutMePane.prefHeight}" fitWidth="${AboutMePane.prefWidth}" layoutX="38.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../images/AboutMe/AboutUs.PNG" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="goBack" alignment="CENTER" layoutX="816.0" layoutY="20.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="145.0" style="-fx-border-color: Black; -fx-border-radius: 5; -fx-background-color: #eee; -fx-background-radius: 5;" text="Go Back" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -49,12 +49,12 @@ public class DatabaseTest extends Application {
         dbCont.updateServiceData(new ServiceData(1,"REEE","No more big Doots", "Hi there lad","Hi",2,null,"Hi"));
 
 
-        EmployeeData BigMan = new EmployeeData(4, "BigMan2954", "password123", 1, "Jamal", "Lamar");
+        EmployeeData BigMan = new EmployeeData(4, "BigMan2954", "password123", 1, "Jamal", "Lamar","1234567899");
         dbCont.addEmployee(BigMan);
 
 
-        dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar"));
-        dbCont.addEmployee(new EmployeeData("jebus","pworddog",1,"Jamal","Lamar"));
+        dbCont.addEmployee(new EmployeeData("BigMan2934","password123",1,"Jamal","Lamar","4134494634"));
+        dbCont.addEmployee(new EmployeeData("jebus","pworddog",1,"Jamal","Lamar","4149598766"));
 
 
         BigMan.setAccessLevel(2);
@@ -108,7 +108,7 @@ public class DatabaseTest extends Application {
 
         dbCont.addEdge(nd1,nd2);
         dbCont.addEdge(nd2,nd1);
-        dbCont.addEdge(nd1,nd2);
+        //dbCont.addEdge(nd1,nd2);
 
 
     }

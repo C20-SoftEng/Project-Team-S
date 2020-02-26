@@ -78,6 +78,8 @@ public abstract class Path implements Iterable<NodeData> {
      */
     public abstract Path pop();
 
+
+
     /**
      * Gets an iterator that iterates the current path in LIFO order.
      * @return A new iterator that iterates the current path in LIFO order.

@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -48,6 +47,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="5" VBox.vgrow="SOMETIMES">
                            <font>
@@ -56,6 +58,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="4" VBox.vgrow="SOMETIMES">
                            <font>
@@ -64,6 +69,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="3" VBox.vgrow="SOMETIMES">
                            <font>
@@ -72,6 +80,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#f6bd38" style="-fx-background-color: #f6bd38; -fx-border-color: #000;" text="2" VBox.vgrow="SOMETIMES">
                            <font>
@@ -80,6 +91,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#f6bd38" style="-fx-background-color: #fff; -fx-border-color: #000;" text="1" VBox.vgrow="SOMETIMES">
                            <font>
@@ -88,6 +102,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                         <JFXButton id="downButton" fx:id="downButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" ripplerFill="BLACK" VBox.vgrow="ALWAYS">
                            <graphic>
@@ -100,6 +117,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                      </children>
                   </VBox>
@@ -125,13 +145,16 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" ripplerFill="BLACK" style="-fx-background-color: beige;" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                   <Label fx:id="loggedInUserLabel" text="Welcome" textFill="WHITE">
                      <font>
@@ -156,7 +179,7 @@
                   </JFXBadge>
                   <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="0.0" prefHeight="50.0" prefWidth="53.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
+                        <JFXButton fx:id="helpButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onHelpClicked" prefHeight="50.0" prefWidth="50.0" ripplerFill="BLACK" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
@@ -164,6 +187,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXButton>
                      </children>
                   </HBox>
@@ -171,16 +197,16 @@
             </HBox>
          </top>
          <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-border-color: #000;" text="Edit Nodes" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="16.0" />
                      </font>
                   </Label>
                   <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro;">
                      <children>
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddNodeClicked" selected="true" text="Add Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -190,30 +216,31 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddEdgeClicked" text="Add Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddRemoveEdgeClicked" text="Add/Remove Edges" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                            <padding>
                               <Insets left="5.0" />
                            </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeNodeRadio" onAction="#onRemoveNodeClicked" text="Remove Node" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton onAction="#onAddRemoveHitboxClicked" text="Add/Remove Hitboxes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                            <padding>
                               <Insets left="5.0" />
                            </padding>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="removeEdgeRadio" onAction="#onRemoveEdgeClicked" text="Remove Edge" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
                         <JFXRadioButton fx:id="moveNodeRadio" onAction="#onMoveNodeClicked" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
@@ -222,32 +249,50 @@
                            <padding>
                               <Insets left="5.0" />
                            </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
 
-                        <JFXRadioButton fx:id="showInfoRadio" text="Show Info" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton onAction="#onShowInfoClicked" text="Edit/Info Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                            <padding>
-                              <Insets left="5.0" />
+                              <Insets left="5.0" top="5.0" />
                            </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton onAction="#onEditNodeHitboxClicked" text="Edit Node Hitbox" toggleGroup="$editGroup">
+                        <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomEntrancesClicked" text="Edit Room Entrances" toggleGroup="$editGroup">
+                           <padding>
+                              <Insets left="5.0" top="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                            <VBox.margin>
-                              <Insets left="10.0" top="10.0" />
+                              <Insets left="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" text="Cancel">
+                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" text="Cancel">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" text="OK">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="Save">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                            </children>
                            <VBox.margin>
@@ -266,6 +311,9 @@
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                   <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" style="-fx-background-color: gainsboro;" text="Active Service Requests" textAlignment="CENTER" wrapText="true" VBox.vgrow="SOMETIMES">
                      <font>
@@ -274,6 +322,9 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                   <VBox prefHeight="227.0" prefWidth="150.0" style="-fx-background-color: gainsboro;" VBox.vgrow="SOMETIMES">
                      <children>
@@ -289,28 +340,47 @@
                            <toggleGroup>
                               <ToggleGroup fx:id="pathGroup" />
                            </toggleGroup>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
                         <JFXRadioButton text="Breadth First" toggleGroup="$pathGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
                         <JFXRadioButton text="Depth First" toggleGroup="$pathGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </JFXRadioButton>
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
+                  <VBox fx:id="editToolFieldsVBox" />
                </children>
             </VBox>
          </right>
          <center>
             <VBox prefHeight="788.0" prefWidth="1035.0" style="-fx-background-color: #b6b4b2;" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                  <JFXTextField id="searchBar" alignment="BOTTOM_LEFT" disable="true" maxHeight="0.0" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" prefWidth="1030.0" promptText="Search" style="-fx-background-color: white;" visible="false" VBox.vgrow="NEVER">
                      <font>
                         <Font name="Leelawadee UI Bold" size="24.0" />
                      </font>
@@ -320,7 +390,6 @@
                   </JFXTextField>
                   <StackPane style="-fx-background-color: #b6b4b2;" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXScrollPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="701.0" prefWidth="1029.0" style="-fx-background-color: #b6b4b2;" StackPane.alignment="TOP_LEFT" />
                         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" hmax="10.0" hvalue="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="701.0" prefWidth="1027.0" style="-fx-background-color: #b6b4b2; -fx-border-color: #b6b4b2;" vbarPolicy="NEVER" vmax="10.0" vvalue="5.0" StackPane.alignment="TOP_LEFT">
                            <content>
                               <ImageView fx:id="mapImage" focusTraversable="true" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
@@ -351,6 +420,9 @@
                                        </stops>
                                     </RadialGradient>
                                  </ripplerFill>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                               <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #962222; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                  <graphic>
@@ -371,6 +443,9 @@
                                        </stops>
                                     </RadialGradient>
                                  </ripplerFill>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                            </children>
                            <StackPane.margin>

@@ -3,16 +3,18 @@ package edu.wpi.cs3733.c20.teamS.pathfinding;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import javafx.scene.Node;
 
 import java.util.*;
+import java.util.function.Function;
 
-public class DepthFirst implements IPathfinding {
+public class DepthFirst implements IPathfinder {
     @Override
-    public Path findPath(MutableGraph<NodeData> graph, NodeData start, NodeData goal) {
-        if(graph == null) ThrowHelper.illegalNull("graph");
-        if(start == null) ThrowHelper.illegalNull("start");
-        if(goal == null) ThrowHelper.illegalNull("goal");
+    public Path findPath(
+            NodeData start, NodeData goal,
+            Function<NodeData, Iterable<NodeData>> friendSelector) {
+        if (start == null) ThrowHelper.illegalNull("start");
+        if (goal == null) ThrowHelper.illegalNull("goal");
+        if (friendSelector == null) ThrowHelper.illegalNull("friendSelector");
 
         Stack<Path> stack = new Stack<>();
         Set<NodeData> seen = new HashSet<>();
@@ -24,7 +26,7 @@ public class DepthFirst implements IPathfinding {
             Path frontier = stack.pop();
             if (frontier.peek().equals(goal))
                 return frontier;
-            for (NodeData friend : graph.adjacentNodes(frontier.peek())) {
+            for (NodeData friend : friendSelector.apply(frontier.peek())) {
                 if (!seen.add(friend))
                     continue;
                 stack.push(frontier.push(friend, 0));
@@ -32,21 +34,6 @@ public class DepthFirst implements IPathfinding {
         }
         return empty;
     }
-
-    /**
-     * A heuristic function that uses the euclidean distance
-     * @param goal the goal node
-     * @param current the current node
-     * @return the euclidean distance
-     */
-    public double euclideanDistance(NodeData goal, NodeData current){
-        if(goal == null) ThrowHelper.illegalNull("goal");
-        if(current == null) ThrowHelper.illegalNull("current");
-
-        return Math.sqrt((goal.getxCoordinate()-current.getxCoordinate())*(goal.getxCoordinate()-current.getxCoordinate()) + (goal.getyCoordinate()-current.getyCoordinate())*(goal.getyCoordinate()-current.getyCoordinate()));
-    }
-
-
 
 
 }
