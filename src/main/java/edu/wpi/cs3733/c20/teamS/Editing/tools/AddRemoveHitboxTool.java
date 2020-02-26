@@ -48,24 +48,22 @@ public class AddRemoveHitboxTool implements IEditingTool {
     @Override public void onMouseMoved(MouseEvent event) {
         state.onMouseMoved(event.getX(), event.getY());
     }
-    @Override public void onEscapeKey() {
-        state.onEscapeKey();
-    }
     @Override public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {
         state.onHitboxClicked(hitbox, event);
     }
-    @Override public void onRedrawn(Group group) {
-        state.onRedrawn(group);
+
+    @Override
+    public void onClosed() {
+        state.onClosed();
     }
 
-
-    private abstract class State {
+    private abstract static class State {
         public void onMapClicked(MouseEvent event) {}
         public void onMouseMoved(double x, double y) {}
-        public void onEscapeKey() {}
-        public void onRedrawn(Group group) {}
 
         public void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
+
+        public void onClosed() {}
     }
     private final class StandbyState extends State {
         @Override
@@ -107,6 +105,13 @@ public class AddRemoveHitboxTool implements IEditingTool {
         }
 
         @Override
+        public void onClosed() {
+            Group group = groupSupplier.get();
+            group.getChildren().removeAll(handles);
+            group.getChildren().remove(displayPolygon);
+        }
+
+        @Override
         public void onMapClicked(MouseEvent event) {
             switch (event.getButton()) {
                 case PRIMARY:
@@ -137,15 +142,6 @@ public class AddRemoveHitboxTool implements IEditingTool {
         @Override
         public void onMouseMoved(double x, double y) {
             setLastVertex(x, y);
-        }
-        @Override
-        public void onEscapeKey() {
-            switchToStandbyState();
-        }
-        @Override
-        public void onRedrawn(Group group) {
-            group.getChildren().addAll(handles);
-            group.getChildren().add(displayPolygon);
         }
 
         private void switchToStandbyState() {

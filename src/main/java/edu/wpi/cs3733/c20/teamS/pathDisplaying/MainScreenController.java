@@ -68,7 +68,7 @@ public class MainScreenController implements Initializable {
         zoomer = new MapZoomer(scrollPane);
         initGraph();
         renderer = new PathRenderer();
-        nodeSelector = new SelectNodesStateMachine(graph, pathfinder);
+        nodeSelector = new SelectNodesStateMachine(graph, pathfinder, () -> floorSelector.current());
 
         initFloorSelector();
 
@@ -81,7 +81,11 @@ public class MainScreenController implements Initializable {
 
         initHitboxes();
 
-        redraw();
+        try {
+            redraw();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initHitboxes() {
@@ -117,7 +121,7 @@ public class MainScreenController implements Initializable {
         });
     }
 
-    private void redraw() {
+    private void redraw() throws Exception {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
@@ -157,7 +161,6 @@ public class MainScreenController implements Initializable {
         final double y = e.getY();
         NodeData nearest = findNearestNodeWithin(x, y, 200);
         onNodeClicked(nearest);
-        //pathDrawer.setNode(nearest);
     }
 
     private Polygon createHitboxRenderingMask(Hitbox hitbox) {
@@ -167,7 +170,7 @@ public class MainScreenController implements Initializable {
         polygon.setFill(invisible);
         polygon.setOnMouseEntered(e -> polygon.setFill(visible));
         polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-
+        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(hitbox, e));
         return polygon;
     }
     private NodeData findNearestNodeWithin(double x, double y, double radius) {
@@ -200,8 +203,10 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton5;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
+    @FXML private JFXButton viewThreeD;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
+    @FXML private VBox directoryVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
@@ -230,7 +235,8 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML private void onHelpClicked() {
+    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+    @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root = (Parent) fxmlLoader.load();

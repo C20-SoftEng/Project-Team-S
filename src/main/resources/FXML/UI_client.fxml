@@ -5,11 +5,10 @@
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -257,6 +256,18 @@
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="viewThreeD" contentDisplay="GRAPHIC_ONLY" onAction="#onViewThreeD" text="3DModel">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/3dglasses.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="OPEN_HAND" />
+                                 </cursor>
                               </JFXButton>
                               <VBox alignment="CENTER" maxHeight="304.0" maxWidth="98.0" minHeight="1.0" minWidth="1.0" prefHeight="164.0" prefWidth="98.0">
                                  <children>

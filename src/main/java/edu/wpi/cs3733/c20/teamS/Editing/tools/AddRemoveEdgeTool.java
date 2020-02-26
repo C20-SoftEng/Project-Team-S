@@ -57,6 +57,9 @@ public final class AddRemoveEdgeTool implements IEditingTool {
             if (event.getButton() != MouseButton.SECONDARY)
                 return;
 
+            assert edge.nodeU() != null : "nodeU is null";
+            assert edge.nodeV() != null : "nodeV is null";
+
             graph.removeEdge(edge.nodeU(), edge.nodeV());
         }
     }
@@ -67,6 +70,7 @@ public final class AddRemoveEdgeTool implements IEditingTool {
         private static final double LINE_WIDTH = 5.0;
 
         public StartNodeSelectedState(NodeData start) {
+            assert start != null : "start was null.";
             this.start = start;
             edgeDisplay = new Line();
             edgeDisplay.setStartX(start.getxCoordinate());
@@ -82,6 +86,8 @@ public final class AddRemoveEdgeTool implements IEditingTool {
         @Override
         public void onNodeClicked(NodeData node, MouseEvent event) {
             if (event.getButton() != MouseButton.PRIMARY)
+                return;
+            if (graph.inner().adjacentNodes(node).contains(start))
                 return;
 
             graph.putEdge(start, node);
