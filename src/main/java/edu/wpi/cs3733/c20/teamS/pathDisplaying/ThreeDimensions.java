@@ -302,7 +302,7 @@ public class ThreeDimensions extends Application {
                 tt.setInterpolator(Interpolator.LINEAR);
                 if (!sameFloor) {
                     length = Math.abs(endNode.getFloor() - startNode.getFloor()) * 100.0;
-                    tt.setDuration(Duration.millis(50));
+                    tt.setDuration(Duration.millis(1000));
                 }
                 tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
                 tt.setFromX(startNode.getxCoordinate() / 5 - 247);
