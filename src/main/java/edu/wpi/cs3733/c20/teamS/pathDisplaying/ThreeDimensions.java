@@ -204,7 +204,7 @@ public class ThreeDimensions extends Application {
 
         double MODEL_SCALE_FACTOR = 4.3;
 
-        String thing = getClass().getResource("/images/ThreeDim/funky.stl").toURI().getPath();
+        String thing = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
         //String thing2 = thing.substring(6).replaceAll("/","\\");
 
 
@@ -313,18 +313,18 @@ public class ThreeDimensions extends Application {
                 tt.setCycleCount(1);
                 st.getChildren().add(tt);
                 //tt.setAutoReverse(true);
-                if (i + 1 < anglez.size()) {
-                    RotateTransition rt = new RotateTransition();
-                    rt.setDuration(Duration.seconds(getPathTime(length)));
-                    rt.setNode(meshViews[j]);
-                    rt.setAxis(Rotate.Z_AXIS);
-                    rt.setCycleCount(1);
-                    rt.setFromAngle(anglez.get(i));
-                    rt.setToAngle(-anglez.get(i));
-                    rt.getNode().getTransforms().setAll(new Rotate((-anglez.get(i + 1)+25), Rotate.Z_AXIS), new Rotate(180, Rotate.Y_AXIS));
-
-                    st.getChildren().add(rt);
-                }
+//                if (i + 1 < anglez.size()) {
+//                    RotateTransition rt = new RotateTransition();
+//                    rt.setDuration(Duration.seconds(getPathTime(length)));
+//                    rt.setNode(meshViews[j]);
+//                    rt.setAxis(Rotate.Z_AXIS);
+//                    rt.setCycleCount(1);
+//                    rt.setFromAngle(anglez.get(i));
+//                    rt.setToAngle(-anglez.get(i));
+//                    rt.getNode().getTransforms().setAll(new Rotate((-anglez.get(i + 1)+25), Rotate.Z_AXIS), new Rotate(180, Rotate.Y_AXIS));
+//
+//                    st.getChildren().add(rt);
+//                }
 
             }
         }
