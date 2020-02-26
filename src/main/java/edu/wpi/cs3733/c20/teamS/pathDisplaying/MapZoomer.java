@@ -11,7 +11,7 @@ public class MapZoomer {
     private final int maxZoomStage;
 
     public MapZoomer(ScrollPane scrollPane) {
-        this(scrollPane, -2, 3);
+        this(scrollPane, -3, 3);
     }
     public MapZoomer(ScrollPane scrollPane, int minZoomStage, int maxZoomStage) {
         if (scrollPane == null) ThrowHelper.illegalNull("scrollPane");
@@ -21,7 +21,7 @@ public class MapZoomer {
         this.scrollPane = scrollPane;
         this.minZoomStage = minZoomStage;
         this.maxZoomStage = maxZoomStage;
-        zoomStage = Numerics.clamp(0, minZoomStage, maxZoomStage);
+        zoomStage = Numerics.clamp(-2, minZoomStage, maxZoomStage);
     }
 
     public double zoomFactor() {
