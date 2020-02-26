@@ -7,6 +7,7 @@ public interface DBRepo {
     void addNode(NodeData nd);
     void addSetOfNodes(Set<NodeData> set);
     Set<NodeData> getAllNodes();
+    Set<NodeData> getAllNodesOfType(String type);
     NodeData getNode(String ID);
     void removeNode(String nodeID);
 
