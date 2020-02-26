@@ -93,18 +93,23 @@ public class TwoFactorScreenController {
     @FXML
     void onSendClicked(ActionEvent event) {
 
-        if(carrierSelector.getText()=="Carrier"){
+
+        System.out.println("Carrier selected is: " + carrierSelector.getText());
+        if(carrierSelector.getText().equals("Carrier")){
+            System.out.println("No carrier selected");
             return;
         }
 
 
         sendButton.setDisable(true);
+        enterButton.setDisable(false);
         //tfaCodeField.setDisable(true);
         String carrier = carrierSelector.getText();
         tfaScreen.setCarrier(carrier);
         tfaScreen.sendTFA();
         carrierSelector.setDisable(true);
         descLabel.setText("Text sent to number on file");
+
 
 
 

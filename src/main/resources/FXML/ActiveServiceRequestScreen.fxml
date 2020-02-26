@@ -29,6 +29,6 @@
       </ScrollPane>
       <JFXButton buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onCompleteClicked" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5;" text="Complete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
       <Label layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="        Active Services" />
-      <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5;" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+      <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5;" text="Close" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
    </children>
 </AnchorPane>
