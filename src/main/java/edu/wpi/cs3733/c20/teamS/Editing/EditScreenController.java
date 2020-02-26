@@ -333,9 +333,10 @@ public class EditScreenController implements Initializable {
         changeEditingTool(new ShowNodeInfoTool());
     }
     @FXML private void onEditRoomEntrancesClicked() {
-        IEditingTool tool = new AddRemoveRoomEntrancesTool(
+        IEditingTool tool = new EditHitboxTool(
                 graph.nodes(),
-                () -> group
+                () -> group,
+                editToolFieldsVBox
         );
         changeEditingTool(tool);
     }

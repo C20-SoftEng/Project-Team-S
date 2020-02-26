@@ -1,36 +1,74 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Hitbox;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
+import io.reactivex.rxjava3.core.Observable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class AddRemoveRoomEntrancesTool implements IEditingTool {
+public class EditHitboxTool implements IEditingTool {
+    private static class UI {
+        private final JFXTextField nameField;
+        private final VBox vbox;
+
+        public UI(VBox vbox) {
+            this.vbox = vbox;
+            Label label = new Label();
+            label.setText("Hitbox name: ");
+            Insets insets = new Insets(8, 5, 8, 5);
+            label.setPadding(insets);
+            nameField = new JFXTextField();
+            nameField.setPadding(insets);
+            vbox.getChildren().addAll(label, nameField);
+        }
+
+        public String name() {
+            return nameField.getText();
+        }
+        public void setName(String value) {
+            nameField.setText(value);
+        }
+        public Observable<String> nameChanged() {
+            return AutoComplete.propertyStream(nameField.textProperty());
+        }
+        public void clear() {
+            vbox.getChildren().clear();
+        }
+    }
+
     private final Map<String, NodeData> nodeLookup;
     private final Supplier<Group> groupSupplier;
-
+    private final UI ui;
     private State state;
 
-    public AddRemoveRoomEntrancesTool(
+    public EditHitboxTool(
             Set<NodeData> nodes,
-            Supplier<Group> groupSupplier
+            Supplier<Group> groupSupplier,
+            VBox vbox
     ) {
         if (nodes == null) ThrowHelper.illegalNull("nodes");
         if (groupSupplier == null) ThrowHelper.illegalNull("groupSupplier");
+        if (vbox == null) ThrowHelper.illegalNull("vbox");
 
         this.nodeLookup = nodes.stream()
                 .collect(Collectors.toMap(node -> node.getNodeID(), node -> node));
         this.groupSupplier = groupSupplier;
+        ui = new UI(vbox);
+        ui.nameChanged().subscribe(name -> state.onNameChanged(name));
 
         state = new StandbyState();
     }
@@ -48,12 +86,14 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
     @Override
     public void onClosed() {
         state.onClosed();
+        ui.clear();
     }
 
     private abstract static class State  {
         public abstract void onHitboxClicked(Hitbox hitbox, MouseEvent event);
         public abstract void onNodeClicked(NodeData node, MouseEvent event);
         public abstract void onClosed();
+        public abstract void onNameChanged(String name);
     }
 
     private final class StandbyState extends State {
@@ -61,19 +101,20 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
             state = new EditingHitboxState(hitbox);
         }
         @Override public void onNodeClicked(NodeData node, MouseEvent event) {}
-
-        @Override
-        public void onClosed() {}
+        @Override public void onClosed() {}
+        @Override public void onNameChanged(String name) {}
     }
     private final class EditingHitboxState extends State {
         private final Hitbox hitbox;
         private final Map<NodeData, Circle> highlighters;
         private final Group group;
+        private boolean respondToNameChanged = true;
 
         public EditingHitboxState(Hitbox hitbox) {
             if (hitbox == null) ThrowHelper.illegalNull("hitbox");
 
             this.hitbox = hitbox;
+            ui.setName(hitbox.name());
             highlighters = new HashMap<>();
             group = groupSupplier.get();
             hitbox.touchingNodes().removeIf(id -> !nodeLookup.containsKey(id));
@@ -87,6 +128,7 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
                 return;
             group.getChildren().removeAll(highlighters.values());
             highlighters.clear();
+            respondToNameChanged = false;
             state = new EditingHitboxState(hitbox);
         }
         @Override public void onNodeClicked(NodeData node, MouseEvent event) {
@@ -104,6 +146,11 @@ public class AddRemoveRoomEntrancesTool implements IEditingTool {
         }
         @Override public void onClosed() {
             group.getChildren().removeAll(highlighters.values());
+        }
+        @Override public void onNameChanged(String name) {
+            if (!respondToNameChanged)
+                return;
+            hitbox.setName(name);
         }
 
         private Circle createNodeHighlighter(NodeData node) {
