@@ -12,9 +12,8 @@ public interface IEditingTool {
     default void onNodeClicked(NodeData node, MouseEvent event) {}
     default void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
     default void onHitboxClicked(Hitbox hitbox, MouseEvent event) {}
-    default void onRedrawn(Group group) {}
-    default void onEscapeKey() {}
 
     default void onNodeDragged(NodeData node, MouseEvent e) {}
     default void onNodeReleased(NodeData node, MouseEvent e) {}
+    default void onClosed() {}
 }

@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,11 +44,34 @@ public class NodeEditScreen {
         screen.ui.okClicked().subscribe(o -> {
             NodeData result = new NodeData();
             result.setNodeType(screen.ui.nodeType());
-            result.setShortName(screen.ui.shortNodeName());
-            result.setLongName(screen.ui.fullNodeName());
+            result.setShortName(screen.ui.shortName());
+            result.setLongName(screen.ui.fullName());
             subject.onNext(DialogEvent.ok(result));
         });
         screen.ui.cancelClicked().subscribe(o -> subject.onNext(DialogEvent.cancel()));
+        screen.show();
+        return subject;
+    }
+    public static Observable<DialogEvent<NodeData>> showDialog(Stage stage, NodeData node) {
+        if (stage == null) ThrowHelper.illegalNull("stage");
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        PublishSubject<DialogEvent<NodeData>> subject = PublishSubject.create();
+        NodeEditScreen screen = new NodeEditScreen(stage);
+
+        screen.ui.setNodeType(node.getNodeType());
+        screen.ui.setShortName(node.getShortName());
+        screen.ui.setFullName(node.getLongName());
+
+        screen.ui.okClicked().subscribe(o -> {
+            node.setNodeType(screen.ui.nodeType());
+            node.setShortName(screen.ui.shortName());
+            node.setLongName(screen.ui.fullName());
+
+            subject.onNext(DialogEvent.ok(node));
+        });
+        screen.ui.cancelClicked().subscribe(o -> subject.onNext(DialogEvent.cancel()));
+
         screen.show();
         return subject;
     }

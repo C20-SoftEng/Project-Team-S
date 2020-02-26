@@ -1,17 +1,19 @@
 package edu.wpi.cs3733.c20.teamS.widgets;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.DisposableContainer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
+import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
 import javafx.beans.property.Property;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -136,7 +138,7 @@ public final class AutoComplete {
                 .map(text -> wordLookup(lookup.keySet(), text))
                 .map(words -> words.stream()
                     .map(word -> lookup.get(word).stream()
-                            .map(t -> new LookupResult<T>(word, t)))
+                            .map(t -> new LookupResult<>(word, t)))
                     .flatMap(lrs -> lrs)
                     .collect(Collectors.toList()));
     }
@@ -147,9 +149,29 @@ public final class AutoComplete {
             Function<T, String> textExtractor,
             int maxResultsDisplay
     ) {
-        Observable<String> inputStream = propertyStream(comboBox.getEditor().textProperty());
-        return createLookupStream(dictionary, inputStream, textExtractor)
-                .subscribe(results -> {
+
+        class Result implements Disposable {
+            private boolean isDisposed = false;
+            private boolean propogateNextTextInput = true;
+            private final ArrayList<Disposable> disposables = new ArrayList<>();
+
+            public Result() {
+                Observable<String> textStream = propertyStream(comboBox.getEditor().textProperty())
+                        .filter(text -> {
+                            if (!propogateNextTextInput) {
+                                propogateNextTextInput = true;
+                                return false;
+                            }
+                            return true;
+                        });
+
+                Disposable valueSubscription = propertyStream(comboBox.valueProperty())
+                        .subscribe(value -> propogateNextTextInput = false);
+                disposables.add(valueSubscription);
+                Observable<Collection<LookupResult<T>>> lookupStream = createLookupStream(
+                        dictionary, textStream, textExtractor
+                );
+                Disposable lookupSubscription = lookupStream.subscribe(results -> {
                     List<LookupResult<T>> items = comboBox.getItems();
                     items.clear();
                     items.addAll(results);
@@ -160,6 +182,19 @@ public final class AutoComplete {
                     else
                         comboBox.show();
                 });
+                disposables.add(lookupSubscription);
+            }
+            @Override public void dispose() {
+                if (!isDisposed)
+                    return;
+                for (Disposable disposable : disposables) disposable.dispose();
+            }
+            @Override public boolean isDisposed() {
+                return isDisposed;
+            }
+        }
+
+        return new Result();
     }
 
     public static <T> Disposable start(
@@ -169,6 +204,4 @@ public final class AutoComplete {
     ) {
         return start(dictionary, comboBox, textExtractor, 10);
     }
-
-
 }

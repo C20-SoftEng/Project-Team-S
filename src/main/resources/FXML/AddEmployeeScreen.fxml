@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.AddEmployeeScreenController">
    <children>
       <GridPane layoutX="55.0" layoutY="42.0" prefHeight="180.0" prefWidth="211.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="40.0">
@@ -21,6 +20,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -35,6 +35,8 @@
             <TextField fx:id="firstName" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="lastName" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="accessLevel" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label prefHeight="36.0" prefWidth="118.0" text="  PhoneNumber" GridPane.rowIndex="5" />
+            <TextField fx:id="phoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <JFXButton fx:id="addEmployeeButton" layoutX="164.0" layoutY="273.0" onAction="#onAddEmployeeClicked" style="-fx-border-color: gainsboro;" text="Add Employee" textAlignment="CENTER" AnchorPane.bottomAnchor="40.0" />

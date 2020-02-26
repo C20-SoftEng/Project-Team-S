@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.NodeEditController">
+<AnchorPane prefHeight="304.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.NodeEditController">
     <children>
-        <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" layoutX="6.0" layoutY="6.0" prefHeight="314.0" prefWidth="392.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
             <children>
             <Label alignment="CENTER" style="-fx-border-color: black;" text="Please Input Node Information" textAlignment="CENTER">
                <padding>
@@ -27,90 +27,6 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="160.0">
-                     <children>
-                        <Label prefHeight="34.0" prefWidth="69.0" style="-fx-background-color: white;" text="Floor #:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <ImageView fx:id="floorError" fitWidth="11.0" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../images/Icons/error_dot.png" />
-                           </image>
-                        </ImageView>
-                        <JFXTextField fx:id="floorNumber" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FloorNumber" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#ffffff00">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                        </JFXTextField>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="160.0">
-                     <children>
-                        <Label prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: white;" text="Building Name:">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <ImageView fx:id="buildingError" fitWidth="11.0" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../images/Icons/error_dot.png" />
-                           </image>
-                        </ImageView>
-                        <JFXTextField fx:id="buildingName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="BuildingName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                        </JFXTextField>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="400.0">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="160.0">
@@ -181,7 +97,7 @@
                               <Image url="@../images/Icons/error_dot.png" />
                            </image>
                         </ImageView>
-                        <JFXTextField fx:id="fullNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="fullName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="FullNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -223,7 +139,7 @@
                               <Image url="@../images/Icons/error_dot.png" />
                            </image>
                         </ImageView>
-                        <JFXTextField fx:id="shortNodeName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
+                        <JFXTextField fx:id="shortName" focusColor="WHITE" prefHeight="30.0" prefWidth="219.0" promptText="ShortNodeName" style="-fx-border-color: black; -fx-border-radius: 5;" unFocusColor="#fafafa00">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -254,7 +170,7 @@
                         <Font size="13.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="44.0" prefWidth="104.0" style="-fx-background-color: #0067b1; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="61.0" prefWidth="109.0" style="-fx-background-color: #0067b1; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>
@@ -267,7 +183,6 @@
                   </JFXButton>
                </children>
             </HBox>
-            <HBox prefHeight="0.0" prefWidth="400.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </children>

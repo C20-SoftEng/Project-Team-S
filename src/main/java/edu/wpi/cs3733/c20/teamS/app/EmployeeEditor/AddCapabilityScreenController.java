@@ -58,11 +58,13 @@ public class AddCapabilityScreenController implements Initializable {
         dbController.addCapability(this.employee.getEmployeeID(), selected);
         this.controller.update();
         this.capsToAdd.remove(selected);
+        //this.update();
     }
 
     public void update(){
         String[] capabilities = {"DRUG", "FLOR", "GIFT", "INTR", "JANI", "LSRT", "LNDR", "MTNC", "RIDE",
     "SECU", "TECH"};
+        //this.capsToAdd.removeAll(this.capsToAdd);
         this.capsToAdd = FXCollections.observableArrayList(capabilities);
         DatabaseController dbController = new DatabaseController();
         this.capsToAdd.removeAll(dbController.getEmployeeCapabilities(this.employee.getEmployeeID()));

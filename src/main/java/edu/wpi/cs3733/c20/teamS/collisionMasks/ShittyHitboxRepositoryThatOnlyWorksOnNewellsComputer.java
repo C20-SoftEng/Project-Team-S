@@ -21,19 +21,12 @@ public final class ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer extends 
     @Override
     public void save(Collection<Hitbox> hitboxes) {
         try {
+            HitboxParser parser = new HitboxParser();
             PrintWriter writer = new PrintWriter(new FileWriter(path));
-            for (Hitbox hitbox : hitboxes) {
-                writer.println(hitbox.name());
-                writer.println(hitbox.floor());
-
-                for (Vector2 vertice : hitbox.vertices()) {
-                    writer.print(vertice.x());
-                    writer.print(' ');
-                    writer.print(vertice.y());
-                    writer.print(' ');
-                }
-                writer.println();
+            for (String line : parser.save(hitboxes)) {
+                writer.println(line);
             }
+
             writer.flush();
             writer.close();
         }
@@ -45,36 +38,16 @@ public final class ShittyHitboxRepositoryThatOnlyWorksOnNewellsComputer extends 
     @Override
     public Collection<Hitbox> load() {
         try {
-            List<Hitbox> result = new ArrayList<>();
-
-            for (Scanner scanner = new Scanner(new File(path)); scanner.hasNextLine(); ) {
-                Hitbox hitbox = new Hitbox();
-                hitbox.setName(scanner.nextLine());
-                hitbox.setFloor(Integer.parseInt(scanner.nextLine()));
-                hitbox.vertices().addAll(parseVertices(scanner.nextLine()));
-                result.add(hitbox);
+            HitboxParser parser = new HitboxParser();
+            Scanner scanner = new Scanner(new File(path));
+            List<String> lines = new ArrayList<>();
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
             }
-
-            return result;
+            return parser.parse(lines);
         }
         catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    private List<Vector2> parseVertices(String line) {
-        List<String> words = Arrays.asList(line.split("\\s"));
-        List<Vector2> result = new ArrayList<>(words.size() / 2);
-
-        Iterator<String> iter = words.iterator();
-        while (iter.hasNext()) {
-            Vector2 vertex = new Vector2(
-                    Double.parseDouble(iter.next()),
-                    Double.parseDouble(iter.next())
-            );
-            result.add(vertex);
-        }
-
-        return result;
     }
 }
