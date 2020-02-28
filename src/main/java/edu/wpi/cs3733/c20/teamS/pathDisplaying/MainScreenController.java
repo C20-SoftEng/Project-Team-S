@@ -44,7 +44,7 @@ public class MainScreenController implements Initializable {
     private PathRenderer renderer;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
-    private FloorSelector floorSelector;
+    public static FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
@@ -58,6 +58,7 @@ public class MainScreenController implements Initializable {
 
         this.stage = stage;
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(scrollPane);
@@ -109,10 +110,12 @@ public class MainScreenController implements Initializable {
     private void initHitboxes() {
         rooms.addAll(hitboxRepo.load());
     }
+
     private void initGraph() {
         DatabaseController database = new DatabaseController();
         graph = database.loadGraph();
     }
+
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -360,11 +363,9 @@ public class MainScreenController implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
-
     @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());
@@ -381,7 +382,6 @@ public class MainScreenController implements Initializable {
         zoomOutButton.setDisable(!zoomer.canZoomOut());
         zoomInButton.setDisable(!zoomer.canZoomIn());
     }
-
     @FXML private void onTextClicked(){
         WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
         SendTextDirectionsScreen.showDialog(wr.directions());
