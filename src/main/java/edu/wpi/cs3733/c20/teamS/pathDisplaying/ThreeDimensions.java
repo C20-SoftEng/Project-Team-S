@@ -145,17 +145,15 @@ public class ThreeDimensions extends Application {
 
         SequentialTransition st = new SequentialTransition();
         ArrayList<NodeData> floorPath = new ArrayList<>();
-        NodeData realStart = nodes.get(0);
         for(int i = 0; i < nodes.size() - 1; i++) {
             NodeData n1 = nodes.get(i);
             NodeData n2 = nodes.get(i+1);
             boolean elev = !(n1.getFloor() == n2.getFloor());
 
             if(elev) {
-                st.getChildren().add(getFloorPath(personGroup, realStart, floorPath));
+                st.getChildren().add(getFloorPath(personGroup, floorPath));
                 floorPath.clear();
-                realStart = n2;
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(1), personGroup);
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
                 tt.setFromZ(zplace.get(n1.getFloor()) - 27);
                 tt.setFromX(n1.getxCoordinate() / 5 - 247);
                 tt.setFromY(n1.getyCoordinate() / 5 - 148);
@@ -170,7 +168,7 @@ public class ThreeDimensions extends Application {
             }
 
            if(i == nodes.size() - 2) {
-               st.getChildren().add(getFloorPath(personGroup, realStart, floorPath));
+               st.getChildren().add(getFloorPath(personGroup, floorPath));
            }
         }
         st.setCycleCount(Timeline.INDEFINITE);
@@ -312,17 +310,23 @@ public class ThreeDimensions extends Application {
         });
     }
 
-    private PathTransition getFloorPath(RotateGroup personGroup, NodeData start, ArrayList<NodeData> temp) {
+    private PathTransition getFloorPath(RotateGroup personGroup, ArrayList<NodeData> currentFloorPath) {
         Path personPath = new Path();
-        personPath.getElements().add(new MoveTo(temp.get(0).getxCoordinate() / 5 - 247, temp.get(0).getyCoordinate() / 5 - 148));
+        personPath.getElements().add(new MoveTo(currentFloorPath.get(0).getxCoordinate() / 5 - 247, currentFloorPath.get(0).getyCoordinate() / 5 - 148));
+        double length = 0;
+        double prevX = currentFloorPath.get(0).getxCoordinate();
+        double prevY = currentFloorPath.get(0).getyCoordinate();
 
-        for (NodeData node_itrat : temp) {
-            personPath.getElements().add(new LineTo(node_itrat.getxCoordinate() / 5 - 247, node_itrat.getyCoordinate() / 5 - 148));
+        for (NodeData node : currentFloorPath) {
+            personPath.getElements().add(new LineTo(node.getxCoordinate() / 5 - 247, node.getyCoordinate() / 5 - 148));
+            length += Math.sqrt(Math.pow((Math.abs(prevX - node.getxCoordinate())), 2) + Math.pow((Math.abs(prevY - node.getyCoordinate())),2));
+            prevX = node.getxCoordinate();
+            prevY = node.getyCoordinate();
         }
 
         PathTransition pt = new PathTransition();
         pt.setNode(personGroup);
-        pt.setDuration(Duration.seconds(5));
+        pt.setDuration(Duration.seconds(length/200));
         pt.setPath(personPath);
         pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.setCycleCount(1);
