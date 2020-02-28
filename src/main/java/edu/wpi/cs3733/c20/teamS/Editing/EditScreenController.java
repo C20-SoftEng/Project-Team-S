@@ -406,7 +406,8 @@ public class EditScreenController implements Initializable {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
                             edge.nodeV().getFloor() == floorSelector.current();
                 })
-                .forEach(edge -> drawLine(group, edge.nodeU(), edge.nodeV()));
+                .map(edge -> createEdgeVm(edge.nodeU(), edge.nodeV()))
+                .forEach(vm -> group.getChildren().add(vm));
 
         return group;
     }
@@ -420,19 +421,21 @@ public class EditScreenController implements Initializable {
     }
 
     private NodeVm createNodeVm(NodeData node) {
-
         NodeVm result = new NodeVm(node);
         result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
+        result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
+        result.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
+
         return result;
     }
-    private void drawLine(Group group, NodeData start, NodeData end) {
+    private EdgeVm createEdgeVm(NodeData start, NodeData end) {
         EdgeVm edgeVm = new EdgeVm(start, end);
-        group.getChildren().add(edgeVm);
-
         edgeVm.setOnMouseClicked(e -> {
             EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
             editingTool.onEdgeClicked(edge, e);
         });
+
+        return edgeVm;
     }
     private Polygon drawHitbox(Room room) {
         Polygon result = room.toPolygon();

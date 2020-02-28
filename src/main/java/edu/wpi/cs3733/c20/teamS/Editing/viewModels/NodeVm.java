@@ -17,8 +17,6 @@ public class NodeVm extends Parent {
     public NodeVm(NodeData node) {
         this.node = node;
         visibleMask = new Circle();
-        visibleMask.setCenterX(node.getxCoordinate());
-        visibleMask.setCenterY(node.getyCoordinate());
         visibleMask.setRadius(12);
         visibleMask.setMouseTransparent(true);
         visibleMask.setFill(Settings.get().nodeFillColorNormal());
@@ -26,12 +24,12 @@ public class NodeVm extends Parent {
         getChildren().add(visibleMask);
 
         collisionMask = new Circle();
-        collisionMask.setCenterX(node.getxCoordinate());
-        collisionMask.setCenterY(node.getyCoordinate());
         collisionMask.setRadius(20);
         collisionMask.setFill(Color.TRANSPARENT);
         collisionMask.setStroke(Color.TRANSPARENT);
         getChildren().add(collisionMask);
+
+        updatePosition();
 
         collisionMask.setOnMouseEntered(e -> isMouseOver.setValue(true));
         collisionMask.setOnMouseExited(e -> isMouseOver.setValue(false));
@@ -40,6 +38,7 @@ public class NodeVm extends Parent {
 
         isMouseOver.changed()
                 .subscribe(huh -> visibleMask.setRadius(huh ? 20 : 12));
+        node.positionChanged().subscribe(e -> updatePosition());
     }
 
     public boolean highlightOnMouseOver() {
@@ -66,5 +65,12 @@ public class NodeVm extends Parent {
             visibleMask.setFill(Settings.get().nodeFillColorHighlight());
         else
             visibleMask.setFill(Settings.get().nodeFillColorNormal());
+    }
+
+    private void updatePosition() {
+        visibleMask.setCenterX(node.getxCoordinate());
+        visibleMask.setCenterY(node.getyCoordinate());
+        collisionMask.setCenterX(node.getxCoordinate());
+        collisionMask.setCenterY(node.getyCoordinate());
     }
 }
