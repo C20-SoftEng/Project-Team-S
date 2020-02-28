@@ -213,7 +213,7 @@ class PathRenderer {
     private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode) {
         if((node2 != startNode) && (node2 != endNode)) {
             ImageView elevator_icon_down = new ImageView();
-            elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_down.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
             elevator_icon_down.setX(node2.getxCoordinate() - 25);
             elevator_icon_down.setY(node2.getyCoordinate() - 20);
             elevator_icon_down.setPreserveRatio(true);
@@ -226,7 +226,7 @@ class PathRenderer {
     private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode) {
         if((node2 != startNode) && (node2 != endNode)) {
             ImageView elevator_icon_up = new ImageView();
-            elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_up.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
             elevator_icon_up.setX(node2.getxCoordinate() - 25);
             elevator_icon_up.setY(node2.getyCoordinate() - 20);
             elevator_icon_up.setPreserveRatio(true);
