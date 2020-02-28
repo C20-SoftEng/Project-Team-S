@@ -11,7 +11,6 @@ public class NodeVm extends Parent {
     private final NodeData node;
     private final Circle visibleMask;
     private final Circle collisionMask;
-    private static final Color INVISIBLE = Color.BLACK.deriveColor(0, 0, 0, 0);
     private final ReactiveProperty<Boolean> isMouseOver = new ReactiveProperty<>(false);
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
 
@@ -20,7 +19,7 @@ public class NodeVm extends Parent {
         visibleMask = new Circle();
         visibleMask.setCenterX(node.getxCoordinate());
         visibleMask.setCenterY(node.getyCoordinate());
-        visibleMask.setRadius(20);
+        visibleMask.setRadius(12);
         visibleMask.setMouseTransparent(true);
         visibleMask.setFill(Settings.get().nodeFillColorNormal());
         visibleMask.setStroke(Settings.get().nodeStrokeColorNormal());
@@ -29,9 +28,9 @@ public class NodeVm extends Parent {
         collisionMask = new Circle();
         collisionMask.setCenterX(node.getxCoordinate());
         collisionMask.setCenterY(node.getyCoordinate());
-        collisionMask.setRadius(35);
-        collisionMask.setFill(INVISIBLE);
-        collisionMask.setStroke(INVISIBLE);
+        collisionMask.setRadius(20);
+        collisionMask.setFill(Color.TRANSPARENT);
+        collisionMask.setStroke(Color.TRANSPARENT);
         getChildren().add(collisionMask);
 
         collisionMask.setOnMouseEntered(e -> isMouseOver.setValue(true));
@@ -40,7 +39,7 @@ public class NodeVm extends Parent {
                 .subscribe(e -> updateHighlightState());
 
         isMouseOver.changed()
-                .subscribe(huh -> visibleMask.setRadius(huh ? 30 : 20));
+                .subscribe(huh -> visibleMask.setRadius(huh ? 20 : 12));
     }
 
     public boolean highlightOnMouseOver() {
