@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
-import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

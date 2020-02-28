@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.widgets;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.beans.property.Property;
@@ -28,7 +29,7 @@ public final class AutoComplete {
     }
 
     public static <T> Observable<T> propertyStream(Property<T> property) {
-        return RxUtils.propertyStream(property);
+        return RxAdaptors.propertyStream(property);
     }
 
     /**

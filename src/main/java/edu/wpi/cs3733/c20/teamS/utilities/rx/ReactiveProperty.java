@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.utilities;
+package edu.wpi.cs3733.c20.teamS.utilities.rx;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -12,6 +12,7 @@ import java.util.Objects;
 public final class ReactiveProperty<T> {
     private final PublishSubject<T> changed = PublishSubject.create();
     private T value;
+    private ReadOnlyReactiveProperty<T> readOnlyWrapper;
 
     public ReactiveProperty(T value) {
         this.value = value;
@@ -43,5 +44,11 @@ public final class ReactiveProperty<T> {
      */
     public Observable<T> changed() {
         return changed;
+    }
+
+    public ReadOnlyReactiveProperty<T> asReadOnly() {
+        if (readOnlyWrapper == null)
+            readOnlyWrapper = new ReadOnlyReactiveProperty<>(this);
+        return readOnlyWrapper;
     }
 }

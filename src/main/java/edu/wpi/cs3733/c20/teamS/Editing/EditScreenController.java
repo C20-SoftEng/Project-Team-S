@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
@@ -38,8 +39,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -245,9 +244,7 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(5);
     }
 
-
-    @FXML
-    void onEditButtonPressed(ActionEvent event) {
+    @FXML private void onEditButtonPressed(ActionEvent event) {
         EmployeeEditingScreen.showDialog();
     }
 
@@ -377,7 +374,7 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        group.getChildren().add(drawAllHitboxes());
+        group.getChildren().add(drawAllRooms());
         group.getChildren().add(drawAllEdges());
         group.getChildren().add(drawAllNodes());
 
@@ -411,12 +408,12 @@ public class EditScreenController implements Initializable {
 
         return group;
     }
-    private Group drawAllHitboxes() {
+    private Group drawAllRooms() {
         Group result = new Group();
         rooms.stream()
-                .filter(hitbox -> hitbox.floor() == floorSelector.current())
-                .map(hitbox -> drawHitbox(hitbox))
-                .forEach(polygon -> result.getChildren().add(polygon));
+                .filter(room -> room.floor() == floorSelector.current())
+                .map(this::createRoomVm)
+                .forEach(vm -> result.getChildren().add(vm));
         return result;
     }
 
@@ -437,18 +434,10 @@ public class EditScreenController implements Initializable {
 
         return edgeVm;
     }
-    private Polygon drawHitbox(Room room) {
-        Polygon result = room.toPolygon();
-        result.setFill(Settings.get().editHitboxColor());
-        result.setOnMouseClicked(e -> editingTool.onHitboxClicked(room, e));
+    private RoomVm createRoomVm(Room room) {
+        RoomVm result = new RoomVm(room);
+        result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
-    }
-
-    private void updateLinePosition(Line line, NodeData start, NodeData end) {
-        line.setStartX(start.getxCoordinate());
-        line.setStartY(start.getyCoordinate());
-        line.setEndX(end.getxCoordinate());
-        line.setEndY(end.getyCoordinate());
     }
 
     public void onLogOut() {
