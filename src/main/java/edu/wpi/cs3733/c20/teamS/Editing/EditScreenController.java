@@ -18,6 +18,8 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
@@ -35,7 +37,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -71,57 +72,6 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
-    private static class Floor {
-        public final Image image;
-        public final JFXButton button;
-
-        public Floor(JFXButton button, Image image) {
-            this.image = image;
-            this.button = button;
-        }
-        public Floor(JFXButton button, String imagePath) {
-            this(button, new Image(imagePath));
-        }
-    }
-    private class FloorSelector {
-        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
-        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
-        private final Floor[] floors_;
-        private final JFXButton upButton;
-        private final JFXButton downButton;
-        private int current;
-        private final int lowestFloor;
-        private final int highestFloor;
-
-        public FloorSelector(JFXButton upButton, JFXButton downButton, Floor... floors) {
-            this.upButton = upButton;
-            this.downButton = downButton;
-            this.floors_ = floors;
-            lowestFloor = 1;
-            highestFloor = floors_.length;
-        }
-
-        public int current() {
-            return current;
-        }
-        public void setCurrent(int floorNumber) {
-            for (Floor floor : floors_) {
-                floor.button.setStyle(UNSELECTED_BUTTON_STYLE);
-            }
-            floor(floorNumber).button.setStyle(SELECTED_BUTTON_STYLE);
-            this.upButton.setDisable(floorNumber == this.highestFloor);
-            this.downButton.setDisable(floorNumber == this.lowestFloor);
-
-            mapImage.setImage(floor(floorNumber).image);
-            this.current = floorNumber;
-            redrawMap();
-        }
-
-        private Floor floor(int floorNumber) {
-            return floors_[floorNumber - 1];
-        }
-    }
-
     /**
      *
      * @param stage the stage to take over
@@ -143,6 +93,11 @@ public class EditScreenController implements Initializable {
 
         group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
+        floorSelector.currentChanged()
+                .subscribe(floor -> {
+                    mapImage.setImage(floorSelector.floor(floor).image);
+                    redrawMap();
+                });
 
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
@@ -180,6 +135,7 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
+
         floorSelector.setCurrent(2);
     }
     private void initPathfindingAlgorithmSelector() {
