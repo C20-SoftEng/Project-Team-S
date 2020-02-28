@@ -9,9 +9,11 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -214,10 +216,16 @@ class PathRenderer {
         if((node2 != startNode) && (node2 != endNode) && (node2.getFloor() == floor)) {
             ImageView elevator_icon_down = new ImageView();
             elevator_icon_down.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
-            elevator_icon_down.setX(node2.getxCoordinate() - 25);
-            elevator_icon_down.setY(node2.getyCoordinate() - 20);
+            elevator_icon_down.setX(node2.getxCoordinate() - 50);
+            elevator_icon_down.setY(node2.getyCoordinate() - 40);
             elevator_icon_down.setPreserveRatio(true);
-            elevator_icon_down.setFitWidth(40);
+            elevator_icon_down.setFitWidth(80);
+            elevator_icon_down.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    MainScreenController.floorSelector.setCurrent(endNode.getFloor());
+                }
+            });
             return elevator_icon_down;
         }else
             return new ImageView();
@@ -227,11 +235,17 @@ class PathRenderer {
         if((node2 != startNode) && (node2 != endNode && (node2.getFloor() == floor))) {
             ImageView elevator_icon_up = new ImageView();
             elevator_icon_up.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
-            elevator_icon_up.setX(node2.getxCoordinate() - 25);
-            elevator_icon_up.setY(node2.getyCoordinate() - 20);
+            elevator_icon_up.setX(node2.getxCoordinate() - 50);
+            elevator_icon_up.setY(node2.getyCoordinate() - 40);
             elevator_icon_up.setPreserveRatio(true);
-            elevator_icon_up.setFitWidth(40);
+            elevator_icon_up.setFitWidth(80);
             elevator_icon_up.setRotate(180);
+            elevator_icon_up.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    MainScreenController.floorSelector.setCurrent(endNode.getFloor());
+                }
+            });
             return elevator_icon_up;
         }else
             return new ImageView();
