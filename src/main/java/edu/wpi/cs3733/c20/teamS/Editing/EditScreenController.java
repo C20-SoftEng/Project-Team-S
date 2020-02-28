@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
@@ -44,7 +43,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class EditScreenController implements Initializable {
     //region fields
@@ -88,7 +86,10 @@ public class EditScreenController implements Initializable {
         initGraph();
         initFloorSelector();
         initPathfindingAlgorithmSelector();
-        editor = new MapEditor(createAddRemoveNodeTool());
+        if (hitboxRepo.canLoad())
+            rooms.addAll(hitboxRepo.load());
+
+        editor = new MapEditor(graph, createAddRemoveNodeTool(), floorSelector, rooms);
 
         group.setOnMouseClicked(e -> editor.editingTool().onMapClicked(e));
         group.setOnMouseMoved(e -> editor.editingTool().onMouseMoved(e));
@@ -98,8 +99,7 @@ public class EditScreenController implements Initializable {
                     redrawMap();
                 });
 
-        if (hitboxRepo.canLoad())
-            rooms.addAll(hitboxRepo.load());
+
         exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
 
         redrawMap();
@@ -321,47 +321,14 @@ public class EditScreenController implements Initializable {
         group.getChildren().clear();
         group.getChildren().add(mapImage);
 
-        group.getChildren().add(drawAllRooms());
-        group.getChildren().add(drawAllEdges());
-        group.getChildren().add(drawAllNodes());
+        group.getChildren().add(editor.drawAllRooms());
+        group.getChildren().add(editor.drawAllEdges());
+        group.getChildren().add(editor.drawAllNodes());
 
         scrollPane.setContent(group);
 
         //Keeps the zoom the same throughout each screen/floor change.
         keepCurrentPosition(currentHval, currentVval, zoomer);
-
-    }
-    private Group drawAllNodes() {
-        Group group = new Group();
-        Set<NodeData> nodes = graph.nodes().stream()
-                .filter(node -> node.getFloor() == floorSelector.current())
-                .collect(Collectors.toSet());
-
-        for (NodeData node : nodes) {
-            NodeVm vm = editor.createNodeVm(node);
-            group.getChildren().add(vm);
-        }
-        return group;
-    }
-    private Group drawAllEdges() {
-        Group group = new Group();
-        graph.edges().stream()
-                .filter(edge -> {
-                    return edge.nodeU().getFloor() == floorSelector.current() ||
-                            edge.nodeV().getFloor() == floorSelector.current();
-                })
-                .map(edge -> editor.createEdgeVm(edge.nodeU(), edge.nodeV()))
-                .forEach(vm -> group.getChildren().add(vm));
-
-        return group;
-    }
-    private Group drawAllRooms() {
-        Group result = new Group();
-        rooms.stream()
-                .filter(room -> room.floor() == floorSelector.current())
-                .map(editor::createRoomVm)
-                .forEach(vm -> result.getChildren().add(vm));
-        return result;
     }
 
     public void onLogOut() {
