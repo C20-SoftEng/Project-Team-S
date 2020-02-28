@@ -141,9 +141,10 @@ public class ThreeDimensions extends Application {
         s.setStroke(Color.AQUA);
         s.setFill(Color.LIGHTYELLOW);
         //s.setEffect(new Bloom());
-        s.setTranslateX(nodes.get(nodes.size() - 1).getxCoordinate() / 5 - 247);
-        s.setTranslateZ(zplace1.get(nodes.get(nodes.size() - 1).getFloor()));
-        s.setTranslateY(nodes.get(nodes.size() - 1).getyCoordinate() / 5 - 148);
+
+        s.setTranslateX(nodes.get(nodes.size()-1).getxCoordinate() / 5 - 247);
+        s.setTranslateZ(zplace1.get(nodes.get(nodes.size()-1).getFloor())-3);
+        s.setTranslateY(nodes.get(nodes.size()-1).getyCoordinate() / 5 - 148);
 
         Box wongBox = new Box();
         wongBox.setHeight(40);
