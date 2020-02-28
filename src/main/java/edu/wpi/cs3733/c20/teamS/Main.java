@@ -1,33 +1,34 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
-
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static final boolean START_ON_ADMIN_SCREEN = false;
-    private static final boolean START_ON_SPLASH_SCREEN = true;
+    private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
         dbc.importStartUpData();
 
-
-//        if (START_ON_ADMIN_SCREEN)
-//            new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));
-//        else
-//            new MainToLoginScreen(primaryStage, new AStar());
-
-        if (START_ON_SPLASH_SCREEN)
-            new MainStartScreen(primaryStage);
-        else
-            new MainStartScreen(primaryStage);
+        switch (START_SCREEN) {
+            case MAIN:
+                new MainToLoginScreen(primaryStage);
+                break;
+            case SPLASH:
+                new MainStartScreen(primaryStage);
+                break;
+            case MAP_EDITING:
+                new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value in StartupScreen switch statement.");
+        }
     }
+
     //9003,staff,staff,2,Wilson,Wong
     public static void main(String[] args) {
         App.launch();

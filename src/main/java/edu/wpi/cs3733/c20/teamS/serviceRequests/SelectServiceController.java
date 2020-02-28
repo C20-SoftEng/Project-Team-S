@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.GiftRequest;
+import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import foodRequest.FoodRequest;
 import foodRequest.ServiceException;

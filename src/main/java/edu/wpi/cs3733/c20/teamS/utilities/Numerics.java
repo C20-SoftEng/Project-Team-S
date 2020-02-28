@@ -23,6 +23,17 @@ public final class Numerics {
         return value;
     }
 
+    public static double clamp(double value, double min, double max) {
+        if (min > max)
+            throw new IllegalArgumentException("'min' can't be greater than 'max'.");
+
+        if (value < min)
+            return min;
+        if (value > max)
+            return max;
+        return value;
+    }
+
     public static double distance(double x1, double y1, double x2, double y2) {
         double xOffset = x1 - x2;
         double yOffset = y1 - y2;
