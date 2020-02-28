@@ -60,7 +60,7 @@ class PathRenderer {
         boolean down = start.getFloor() > end.getFloor();
         nodes.stream()
                 .filter(node -> node.getNodeType().equals("ELEV"))
-                .map(node -> down ? drawDownElevator(node, start, end) : drawUpElevator(node, start, end))
+                .map(node -> down ? drawDownElevator(node, start, end, floor) : drawUpElevator(node, start, end, floor))
                 .forEach(image -> group.getChildren().add(image));
 
         boolean runOnce = true;
@@ -210,10 +210,10 @@ class PathRenderer {
         return pinIcon;
     }
 
-    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode) {
-        if((node2 != startNode) && (node2 != endNode)) {
+    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
+        if((node2 != startNode) && (node2 != endNode) && (node2.getFloor() == floor)) {
             ImageView elevator_icon_down = new ImageView();
-            elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_down.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
             elevator_icon_down.setX(node2.getxCoordinate() - 25);
             elevator_icon_down.setY(node2.getyCoordinate() - 20);
             elevator_icon_down.setPreserveRatio(true);
@@ -223,10 +223,10 @@ class PathRenderer {
             return new ImageView();
     }
 
-    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode) {
-        if((node2 != startNode) && (node2 != endNode)) {
+    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
+        if((node2 != startNode) && (node2 != endNode && (node2.getFloor() == floor))) {
             ImageView elevator_icon_up = new ImageView();
-            elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
+            elevator_icon_up.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
             elevator_icon_up.setX(node2.getxCoordinate() - 25);
             elevator_icon_up.setY(node2.getyCoordinate() - 20);
             elevator_icon_up.setPreserveRatio(true);
