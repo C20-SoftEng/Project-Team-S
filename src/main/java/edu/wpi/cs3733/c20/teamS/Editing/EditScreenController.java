@@ -85,8 +85,8 @@ public class EditScreenController implements Initializable {
         }
     }
     private class FloorSelector {
-        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #f6bd38; -fx-font: 32 System;";
-        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System;";
+        private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #0067b1; -fx-font: 32 System; -fx-text-fill: white;";
+        private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System; -fx-text-fill: black;";
         private final Floor[] floors_;
         private final JFXButton upButton;
         private final JFXButton downButton;
@@ -182,6 +182,7 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
         floorSelector.setCurrent(2);
+
     }
     private void initPathfindingAlgorithmSelector() {
         PathfindingAlgorithmSelector pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
