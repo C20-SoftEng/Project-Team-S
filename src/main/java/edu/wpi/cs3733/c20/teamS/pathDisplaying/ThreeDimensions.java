@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -107,33 +109,6 @@ public class ThreeDimensions extends Application {
             person[i].setMaterial(material);
         }
 
-        SequentialTransition st = new SequentialTransition();
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            NodeData startNode = nodes.get(i);
-            NodeData endNode = nodes.get(i + 1);
-            boolean sameFloor = (startNode.getFloor() == endNode.getFloor());
-
-            for (int j = 0; j < person.length; j++) {
-                double length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs((endNode.getyCoordinate() - startNode.getyCoordinate())), 2));
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(length/200), person[j]);
-                tt.setInterpolator(Interpolator.LINEAR);
-                if (!sameFloor) {
-                    length = Math.abs(endNode.getFloor() - startNode.getFloor());
-                    tt.setDuration(Duration.seconds(length));
-                }
-                tt.setFromX(startNode.getxCoordinate() / 5 - 247);
-                tt.setFromY(startNode.getyCoordinate() / 5 - 153);
-                tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
-                tt.setToX(endNode.getxCoordinate() / 5 - 247);
-                tt.setToY(endNode.getyCoordinate() / 5 - 153);
-                tt.setToZ(zplace.get(endNode.getFloor()) - 27);
-                tt.setCycleCount(1);
-                st.getChildren().add(tt);
-            }
-        }
-        st.setCycleCount(Timeline.INDEFINITE);
-        st.play();
-
         for(int i = 1; i <= 5; i++) {
             boolean selected = (begin.getFloor() == i || end.getFloor() == i);
             Image number = new Image("images/ThreeDim/number" + i + ".png");
@@ -157,12 +132,49 @@ public class ThreeDimensions extends Application {
             }
         }
 
-        Group personGroup = new Group(person);
+        RotateGroup personGroup = new RotateGroup();
+        personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
         group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
+
+        personGroup.setTranslateZ(personGroup.getTranslateZ() - 27);
+        personGroup.rotateByZ(-90);
+
+        SequentialTransition st = new SequentialTransition();
+        ArrayList<NodeData> floorPath = new ArrayList<>();
+        NodeData realStart = nodes.get(0);
+        for(int i = 0; i < nodes.size() - 1; i++) {
+            NodeData n1 = nodes.get(i);
+            NodeData n2 = nodes.get(i+1);
+            boolean elev = !(n1.getFloor() == n2.getFloor());
+
+            if(elev) {
+                st.getChildren().add(getFloorPath(personGroup, realStart, floorPath));
+                floorPath.clear();
+                realStart = n2;
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(1), personGroup);
+                tt.setFromZ(zplace.get(n1.getFloor()) - 27);
+                tt.setFromX(n1.getxCoordinate() / 5 - 247);
+                tt.setFromY(n1.getyCoordinate() / 5 - 148);
+                tt.setToZ(zplace.get(n2.getFloor()) - 27);
+                tt.setToX(n1.getxCoordinate() / 5 - 247);
+                tt.setToY(n1.getyCoordinate() / 5 - 148);
+                tt.setCycleCount(1);
+                st.getChildren().addAll(tt);
+            }
+            else {
+                floorPath.add(n1); floorPath.add(n2);
+            }
+
+           if(i == nodes.size() - 2) {
+               st.getChildren().add(getFloorPath(personGroup, realStart, floorPath));
+           }
+        }
+        st.setCycleCount(Timeline.INDEFINITE);
+        st.play();
 
         group.rotateByX(-70);
         group.rotateByZ(-10);
@@ -298,5 +310,22 @@ public class ThreeDimensions extends Application {
             double delta = event.getDeltaY();
             group.translateZProperty().set(group.getTranslateZ() + delta);
         });
+    }
+
+    private PathTransition getFloorPath(RotateGroup personGroup, NodeData start, ArrayList<NodeData> temp) {
+        Path personPath = new Path();
+        personPath.getElements().add(new MoveTo(temp.get(0).getxCoordinate() / 5 - 247, temp.get(0).getyCoordinate() / 5 - 148));
+
+        for (NodeData node_itrat : temp) {
+            personPath.getElements().add(new LineTo(node_itrat.getxCoordinate() / 5 - 247, node_itrat.getyCoordinate() / 5 - 148));
+        }
+
+        PathTransition pt = new PathTransition();
+        pt.setNode(personGroup);
+        pt.setDuration(Duration.seconds(5));
+        pt.setPath(personPath);
+        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt.setCycleCount(1);
+        return pt;
     }
 }
