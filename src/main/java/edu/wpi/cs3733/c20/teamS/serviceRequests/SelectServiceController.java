@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import foodRequest.FoodRequest;
 import foodRequest.ServiceException;
@@ -119,7 +120,7 @@ public class SelectServiceController {
         this.stage.close();
     }
 
-/**    @FXML void onGiftClicked(ActionEvent event){
+    @FXML void onGiftClicked(ActionEvent event){
 //        Stage janitorStage = new Stage();
 //        janitorStage.initModality(Modality.WINDOW_MODAL);
 //        GiftRequestScreen.showDialog(loggedIn).subscribe();
@@ -133,7 +134,7 @@ public class SelectServiceController {
 
         this.stage.close();
     }
-*/
+
 
     @FXML void onFoodClicked(ActionEvent event) throws ServiceException {
         FoodRequest foodRequest = new FoodRequest();

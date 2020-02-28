@@ -4,24 +4,23 @@ import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
+import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
-import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
-
-import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.*;
-
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
-
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,20 +30,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditScreenController implements Initializable {
@@ -392,8 +394,8 @@ public class EditScreenController implements Initializable {
                 .collect(Collectors.toSet());
 
         for (NodeData node : nodes) {
-            Circle circle = drawCircle(node);
-            group.getChildren().add(circle);
+            NodeVm vm = createNodeVm(node);
+            group.getChildren().add(vm);
         }
         return group;
     }
@@ -404,7 +406,8 @@ public class EditScreenController implements Initializable {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
                             edge.nodeV().getFloor() == floorSelector.current();
                 })
-                .forEach(edge -> drawLine(group, edge.nodeU(), edge.nodeV()));
+                .map(edge -> createEdgeVm(edge.nodeU(), edge.nodeV()))
+                .forEach(vm -> group.getChildren().add(vm));
 
         return group;
     }
@@ -417,46 +420,22 @@ public class EditScreenController implements Initializable {
         return result;
     }
 
-    private Circle drawCircle(NodeData node) {
-        Circle circle = new Circle(node.getxCoordinate(), node.getyCoordinate(), 25);
-        circle.setStroke(Settings.get().nodeStrokeColorNormal());
-        final Color normal = getNodeColorNonHighlighted(node);
-        final Color highlighted = Settings.get().nodeFillColorHighlight();
-        circle.setFill(normal);
-        circle.setOnMouseEntered(e -> {
-            circle.setFill(highlighted);
-            circle.setStroke(highlighted);
-            circle.setStrokeWidth(3);
-            circle.setStrokeType(StrokeType.OUTSIDE);
-        });
-        circle.setOnMouseExited(e -> {
-            circle.setFill(normal);
-            circle.setStroke(normal);
-            circle.setStrokeWidth(1);
-            circle.setStrokeType(StrokeType.CENTERED);
-        });
+    private NodeVm createNodeVm(NodeData node) {
+        NodeVm result = new NodeVm(node);
+        result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
+        result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
+        result.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
 
-        node.positionChanged().subscribe(position -> {
-            circle.setCenterX(position.getX());
-            circle.setCenterY(position.getY());
-        });
-        circle.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
-        circle.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
-        circle.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
-        return circle;
+        return result;
     }
-    private void drawLine(Group group, NodeData start, NodeData end) {
-        Line line = createEdgeLine(
-                start.getxCoordinate(), start.getyCoordinate(),
-                end.getxCoordinate(), end.getyCoordinate());
-        group.getChildren().add(line);
-
-        line.setOnMouseClicked(e -> {
+    private EdgeVm createEdgeVm(NodeData start, NodeData end) {
+        EdgeVm edgeVm = new EdgeVm(start, end);
+        edgeVm.setOnMouseClicked(e -> {
             EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
             editingTool.onEdgeClicked(edge, e);
         });
-        start.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
-        end.positionChanged().subscribe(e -> updateLinePosition(line, start, end));
+
+        return edgeVm;
     }
     private Polygon drawHitbox(Room room) {
         Polygon result = room.toPolygon();
@@ -465,25 +444,6 @@ public class EditScreenController implements Initializable {
         return result;
     }
 
-    /**
-     * Creates a line used for rendering edges.
-     */
-    private Line createEdgeLine(double startX, double startY, double endX, double endY) {
-        Line line = new Line();
-        line.setStartX(startX);
-        line.setStartY(startY);
-        line.setEndX(endX);
-        line.setEndY(endY);
-        final Color normal = Settings.get().editEdgeColorNormal();
-        final Color highlight = Settings.get().editEdgeColorHighlight();
-        line.setStroke(normal);
-        line.setFill(normal.deriveColor(1, 1, 1, 0.5));
-        line.setStrokeWidth(Settings.get().editEdgeStrokeWidth());
-        line.setOnMouseEntered(e -> line.setStroke(highlight));
-        line.setOnMouseExited(e -> line.setStroke(normal));
-
-        return line;
-    }
     private void updateLinePosition(Line line, NodeData start, NodeData end) {
         line.setStartX(start.getxCoordinate());
         line.setStartY(start.getyCoordinate());
