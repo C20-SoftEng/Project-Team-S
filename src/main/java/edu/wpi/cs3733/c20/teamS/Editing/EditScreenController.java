@@ -12,7 +12,6 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
@@ -35,7 +34,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -48,7 +46,6 @@ public class EditScreenController implements Initializable {
     //region fields
     private Stage stage;
     private Employee loggedIn;
-    private MoveNodes moveNode = new MoveNodes();
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
@@ -59,13 +56,7 @@ public class EditScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Group group = new Group();
     private final Set<Room> rooms = new HashSet<>();
-    private ExportToDirectoryController exportController;
 
-    private static Color getNodeColorNonHighlighted(NodeData node) {
-        return node.getNodeType().equals("ELEV") ?
-                Settings.get().nodeColorElevator() :
-                Settings.get().nodeFillColorNormal();
-    }
     //endregion
 
     /**
@@ -77,19 +68,21 @@ public class EditScreenController implements Initializable {
         this.stage  = stage;
         this.loggedIn = employee;
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         zoomer = new MapZoomer(scrollPane);
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
-        initGraph();
-        initFloorSelector();
-        initPathfindingAlgorithmSelector();
+        graph = createGraph();
+        floorSelector = createFloorSelector();
+        floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
-
         editor = new MapEditor(graph, createAddRemoveNodeTool(), floorSelector, rooms);
+
+        createPathfindingAlgorithmSelector();
 
         group.setOnMouseClicked(e -> editor.editingTool().onMapClicked(e));
         group.setOnMouseMoved(e -> editor.editingTool().onMouseMoved(e));
@@ -98,15 +91,13 @@ public class EditScreenController implements Initializable {
                     mapImage.setImage(floorSelector.floor(floor).image);
                     redrawMap();
                 });
-
-
-        exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
+        ExportToDirectoryController exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
 
         redrawMap();
     }
 
-    private void initGraph() {
-        this.graph = new ObservableGraph(database.loadGraph());
+    private ObservableGraph createGraph() {
+        ObservableGraph graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
             database.addNode(node);
             redrawMap();
@@ -123,9 +114,11 @@ public class EditScreenController implements Initializable {
             database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
             redrawMap();
         }, e -> System.out.println(e.getMessage()));
+
+        return graph;
     }
-    private void initFloorSelector() {
-        floorSelector = new FloorSelector(
+    private FloorSelector createFloorSelector() {
+        return new FloorSelector(
                 upButton, downButton,
                 new Floor(floorButton1, "images/Floors/HospitalFloor1.png"),
                 new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
@@ -133,11 +126,9 @@ public class EditScreenController implements Initializable {
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
         );
-
-        floorSelector.setCurrent(2);
     }
-    private void initPathfindingAlgorithmSelector() {
-        PathfindingAlgorithmSelector pathfindingAlgorithmSelector = new PathfindingAlgorithmSelector(
+    private PathfindingAlgorithmSelector createPathfindingAlgorithmSelector() {
+        return new PathfindingAlgorithmSelector(
                 astarRadioButton, djikstraRadioButton,
                 depthFirstRadioButton, breadthFirstRadioButton
         );
@@ -315,8 +306,6 @@ public class EditScreenController implements Initializable {
     private void redrawMap() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
-        moveNode.setScale(zoomer.zoomFactor());
-        moveNode.setCurrent_floor(floorSelector.current());
 
         group.getChildren().clear();
         group.getChildren().add(mapImage);
