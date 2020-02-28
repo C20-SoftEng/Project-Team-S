@@ -43,13 +43,29 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="DarkMode" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onDarkModeClicked" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="DarkModeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" onAction="#onDarkModeClicked" prefHeight="54.0" prefWidth="53.0" style="-fx-background-color: black; -fx-background-radius: 100; -fx-border-color: white; -fx-border-radius: 100;" text="DarkMode" textFill="WHITE">
+                     <graphic>
+                        <ImageView fx:id="darkModeImage" fitHeight="44.0" fitWidth="44.0">
+                           <image>
+                              <Image url="@../images/Icons/DarkMode_Moon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="50.0" prefWidth="56.0" style="-fx-background-color: #f6bd38; -fx-border-color: black;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="56.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Icons/DarkMode_Moon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
                   <JFXBadge prefHeight="57.0" prefWidth="183.0" text=" #2BA1DD" HBox.hgrow="ALWAYS">
                      <cursor>

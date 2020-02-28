@@ -25,6 +25,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -50,6 +51,8 @@ public class MainScreenController implements Initializable {
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
 
     private boolean flip = true;
     //endregion
@@ -189,6 +192,7 @@ public class MainScreenController implements Initializable {
 
     //region ui widgets
     @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
@@ -198,6 +202,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -386,6 +391,21 @@ public class MainScreenController implements Initializable {
     @FXML private void onTextClicked(){
         WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
         SendTextDirectionsScreen.showDialog(wr.directions());
+    }
+
+    @FXML private void onDarkModeClicked(){
+        if (DarkModeButton.getScene().getStylesheets().contains ("dark-theme.css")){
+            DarkModeButton.getScene().getStylesheets().remove("dark-theme.css");
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println("returned to light mode");
+        }
+        else {
+            DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println("changed to dark mode");
+        }
     }
     //endregion
 }
