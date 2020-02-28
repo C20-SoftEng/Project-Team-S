@@ -4,14 +4,19 @@ import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
@@ -30,8 +35,9 @@ public class ThreeDimensions extends Application {
         start(primaryStage); }
     }
 
-    public static final float WIDTH = 1400;
-    public static final float HEIGHT = 800;
+    private final float WIDTH = 1400;
+    private final float HEIGHT = 800;
+    private double oldX, oldY, oldX2;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -56,7 +62,7 @@ public class ThreeDimensions extends Application {
         }
 
         Camera camera = new PerspectiveCamera();
-        camera.setFarClip(1000);
+        camera.setFarClip(10000);
         camera.setTranslateY(-50);
 
         Shape destinationCircle = new Circle(10);
@@ -168,10 +174,7 @@ public class ThreeDimensions extends Application {
         scene.setFill(Color.DIMGRAY);
         scene.setCamera(camera);
 
-        primaryStage.addEventHandler(ScrollEvent.SCROLL, event -> {
-            double delta = event.getDeltaY();
-            group.translateZProperty().set(group.getTranslateZ() + delta);
-        });
+        mouseControl(group, scene, primaryStage);
 
         primaryStage.setTitle("3D View");
         primaryStage.setScene(scene);
@@ -261,5 +264,39 @@ public class ThreeDimensions extends Application {
         floorNum.setTranslateY(100);
         floorNum.setMaterial(material);
         return floorNum;
+    }
+
+    private void mouseControl(RotateGroup group, Scene scene, Stage stage) {
+        scene.setOnMouseDragged(event -> {
+            if(event.isPrimaryButtonDown() && !event.isControlDown()) {
+                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2);}
+                else {group.setTranslateY(group.getTranslateY() - 2);}
+                oldY = event.getSceneY();
+            }
+            if(event.isPrimaryButtonDown() && event.isControlDown()) {
+                if(event.getSceneX() > oldX) { group.rotateByZ(-1);}
+                else {group.rotateByZ(1);}
+                oldX = event.getSceneX();
+            }
+        });
+
+        group.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
+            oldX2 = mouseEvent.getSceneX();
+        });
+
+        group.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent mouseEvent) -> {
+            if(mouseEvent.isSecondaryButtonDown()) {
+                double deltaX = mouseEvent.getSceneX() - oldX2;
+                for (Node node : group.getChildren()) {
+                    node.setTranslateX(node.getTranslateX() + deltaX);
+                    oldX2 = mouseEvent.getSceneX();
+                }
+            }
+        });
+
+        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+            double delta = event.getDeltaY();
+            group.translateZProperty().set(group.getTranslateZ() + delta);
+        });
     }
 }
