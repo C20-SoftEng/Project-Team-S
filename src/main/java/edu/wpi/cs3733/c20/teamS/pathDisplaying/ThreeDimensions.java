@@ -281,15 +281,15 @@ public class ThreeDimensions extends Application {
         });
 
         group.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
-            oldX2 = mouseEvent.getSceneX();
+            oldX2 = mouseEvent.getX();
         });
 
         group.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent mouseEvent) -> {
             if(mouseEvent.isSecondaryButtonDown()) {
-                double deltaX = mouseEvent.getSceneX() - oldX2;
+                double deltaX = mouseEvent.getX() - oldX2;
                 for (Node node : group.getChildren()) {
                     node.setTranslateX(node.getTranslateX() + deltaX);
-                    oldX2 = mouseEvent.getSceneX();
+                    oldX2 = mouseEvent.getX();
                 }
             }
         });
