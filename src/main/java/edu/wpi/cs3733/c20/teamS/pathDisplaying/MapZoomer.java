@@ -66,4 +66,9 @@ public class MapZoomer {
         return this.zoomStage;
     }
 
+    public double zoomFit(double x, double y){
+
+        return 0.0;
+    }
+
 }

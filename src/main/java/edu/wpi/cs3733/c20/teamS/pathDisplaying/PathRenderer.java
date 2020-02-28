@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -24,7 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class PathRenderer {
-
+    double y = 0;
+    double x = 0;
     /**
      * Draws the portion of the specified path that is on the specified floor, then
      * returns a new Group containing all the elements that were drawn.
@@ -91,8 +91,22 @@ class PathRenderer {
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
                 imageView.setVisible(true);
+                if(node_itrat.getxCoordinate() > x){
+                    x = node_itrat.getxCoordinate();
+                }
+                if(node_itrat.getyCoordinate() > y){
+                    y = node_itrat.getyCoordinate();
+                }
             }
         }
+
+        MainScreenController.x = x;
+        MainScreenController.y = y;
+        System.out.print(x);
+        System.out.print(" ");
+        System.out.println(x);
+        x = 0;
+        y = 0;
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
@@ -215,7 +229,7 @@ class PathRenderer {
     private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
         if((node2 != startNode) && (node2 != endNode) && (node2.getFloor() == floor)) {
             ImageView elevator_icon_down = new ImageView();
-            elevator_icon_down.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
+            elevator_icon_down.setImage(new Image("images/Balloons/green_arrow_gif.gif"));
             elevator_icon_down.setX(node2.getxCoordinate() - 50);
             elevator_icon_down.setY(node2.getyCoordinate() - 40);
             elevator_icon_down.setPreserveRatio(true);
@@ -234,7 +248,7 @@ class PathRenderer {
     private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
         if((node2 != startNode) && (node2 != endNode && (node2.getFloor() == floor))) {
             ImageView elevator_icon_up = new ImageView();
-            elevator_icon_up.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
+            elevator_icon_up.setImage(new Image("images/Balloons/green_arrow_gif.gif"));
             elevator_icon_up.setX(node2.getxCoordinate() - 50);
             elevator_icon_up.setY(node2.getyCoordinate() - 40);
             elevator_icon_up.setPreserveRatio(true);
@@ -251,5 +265,3 @@ class PathRenderer {
             return new ImageView();
     }
 }
-
-

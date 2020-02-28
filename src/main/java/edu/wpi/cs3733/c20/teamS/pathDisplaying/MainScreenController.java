@@ -43,6 +43,8 @@ public class MainScreenController implements Initializable {
     private Stage stage;
     //private IPathfinder pathfinder;
     private PathRenderer renderer;
+    public static double x;
+    public static double y;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
     public static FloorSelector floorSelector;
