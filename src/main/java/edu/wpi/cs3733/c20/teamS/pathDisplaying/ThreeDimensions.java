@@ -27,7 +27,7 @@ public class ThreeDimensions extends Application {
     public ThreeDimensions(List<NodeData> nodes) throws Exception {
         if(nodes != null) {
         this.nodes = nodes;
-        start(primaryStage);}
+        start(primaryStage); }
     }
 
     public static final float WIDTH = 1400;
@@ -54,8 +54,6 @@ public class ThreeDimensions extends Application {
             int z = zplace.get(i);
             group.getChildren().add(createFloor(floor, transFloor, z, trans));
         }
-
-        group.getChildren().add(new AmbientLight(Color.WHITE));
 
         Camera camera = new PerspectiveCamera();
         camera.setFarClip(1000);
@@ -130,12 +128,6 @@ public class ThreeDimensions extends Application {
         st.setCycleCount(Timeline.INDEFINITE);
         st.play();
 
-        Group personGroup = new Group(person);
-        Group pinGroup = new Group(pin);
-        group.getChildren().add(personGroup);
-        group.getChildren().add(pinGroup);
-        group.getChildren().add(destinationCircle);
-
         for(int i = 1; i <= 5; i++) {
             boolean selected = (begin.getFloor() == i || end.getFloor() == i);
             Image number = new Image("images/ThreeDim/number" + i + ".png");
@@ -159,12 +151,18 @@ public class ThreeDimensions extends Application {
             }
         }
 
+        Group personGroup = new Group(person);
+        Group pinGroup = new Group(pin);
+        group.getChildren().add(personGroup);
+        group.getChildren().add(pinGroup);
+        group.getChildren().add(destinationCircle);
+        group.getChildren().add(new AmbientLight(Color.WHITE));
+
         group.rotateByX(-70);
         group.rotateByZ(-10);
-        group.setTranslateY(group.getTranslateY() + 70);
         group.translateXProperty().set(WIDTH / 2);
         group.translateYProperty().set(HEIGHT / 2);
-        group.translateZProperty().set(zplace.get(nodes.get(0).getFloor()) - 700);
+        group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
 
         Scene scene = new Scene(group, WIDTH, HEIGHT, true);
         scene.setFill(Color.DIMGRAY);
