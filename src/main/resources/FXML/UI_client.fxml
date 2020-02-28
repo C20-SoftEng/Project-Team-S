@@ -43,7 +43,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="DarkMode" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" onAction="#onDarkModeClicked" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
