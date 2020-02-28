@@ -126,6 +126,7 @@ public class MainStartScreenController implements Initializable {
 
 
         Image image = new Image(String.valueOf(getClass().getResource("/images/" + icon)));
+        //Image image = new Image(String.valueOf(getClass().getResource("/images/" + "weatherIcons/ThunderStorm.png")));
 
         imageID.setImage(image);
         imageID.setFitHeight(171);
