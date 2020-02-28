@@ -1,12 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
-import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
@@ -57,7 +54,8 @@ public class EditScreenController implements Initializable {
     private MapZoomer zoomer;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
-    private IEditingTool editingTool;
+
+    private MapEditor editor;
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
@@ -90,9 +88,10 @@ public class EditScreenController implements Initializable {
         initGraph();
         initFloorSelector();
         initPathfindingAlgorithmSelector();
+        editor = new MapEditor(createAddRemoveNodeTool());
 
-        group.setOnMouseClicked(e -> editingTool.onMapClicked(e));
-        group.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
+        group.setOnMouseClicked(e -> editor.editingTool().onMapClicked(e));
+        group.setOnMouseMoved(e -> editor.editingTool().onMouseMoved(e));
         floorSelector.currentChanged()
                 .subscribe(floor -> {
                     mapImage.setImage(floorSelector.floor(floor).image);
@@ -101,7 +100,6 @@ public class EditScreenController implements Initializable {
 
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
-        editingTool = createAddRemoveNodeTool();
         exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
 
         redrawMap();
@@ -260,11 +258,11 @@ public class EditScreenController implements Initializable {
 
     @FXML private void onAddRemoveNodeClicked() {
         IEditingTool tool = createAddRemoveNodeTool();
-        changeEditingTool(tool);
+        editor.setEditingTool(tool);
     }
     @FXML private void onAddRemoveEdgeClicked() {
         IEditingTool tool = new AddRemoveEdgeTool(graph, () -> group);
-        changeEditingTool(tool);
+        editor.setEditingTool(tool);
     }
     @FXML private void onAddRemoveHitboxClicked() {
         AddRemoveHitboxTool tool = new AddRemoveHitboxTool(
@@ -279,13 +277,13 @@ public class EditScreenController implements Initializable {
             rooms.add(hitbox);
             redrawMap();
         });
-        changeEditingTool(tool);
+        editor.setEditingTool(tool);
     }
     @FXML private void onMoveNodeClicked() {
-        changeEditingTool(new MoveNodeTool(scrollPane));
+        editor.setEditingTool(new MoveNodeTool(scrollPane));
     }
     @FXML private void onShowInfoClicked() {
-        changeEditingTool(new ShowNodeInfoTool());
+        editor.setEditingTool(new ShowNodeInfoTool());
     }
     @FXML private void onEditRoomEntrancesClicked() {
         IEditingTool tool = new EditHitboxTool(
@@ -293,7 +291,7 @@ public class EditScreenController implements Initializable {
                 () -> group,
                 editToolFieldsVBox
         );
-        changeEditingTool(tool);
+        editor.setEditingTool(tool);
     }
 
     @FXML private void onConfirmEditClicked() {
@@ -309,13 +307,6 @@ public class EditScreenController implements Initializable {
     }
     //endregion
 
-    private void changeEditingTool(IEditingTool editingTool) {
-        IEditingTool previous = this.editingTool;
-        this.editingTool = editingTool;
-        if (previous == null)
-            return;
-        previous.onClosed();
-    }
     private IEditingTool createAddRemoveNodeTool() {
         return Settings.get().useQuickNodePlacingTool() ?
                 new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current()) :
@@ -347,7 +338,7 @@ public class EditScreenController implements Initializable {
                 .collect(Collectors.toSet());
 
         for (NodeData node : nodes) {
-            NodeVm vm = createNodeVm(node);
+            NodeVm vm = editor.createNodeVm(node);
             group.getChildren().add(vm);
         }
         return group;
@@ -359,7 +350,7 @@ public class EditScreenController implements Initializable {
                     return edge.nodeU().getFloor() == floorSelector.current() ||
                             edge.nodeV().getFloor() == floorSelector.current();
                 })
-                .map(edge -> createEdgeVm(edge.nodeU(), edge.nodeV()))
+                .map(edge -> editor.createEdgeVm(edge.nodeU(), edge.nodeV()))
                 .forEach(vm -> group.getChildren().add(vm));
 
         return group;
@@ -368,31 +359,8 @@ public class EditScreenController implements Initializable {
         Group result = new Group();
         rooms.stream()
                 .filter(room -> room.floor() == floorSelector.current())
-                .map(this::createRoomVm)
+                .map(editor::createRoomVm)
                 .forEach(vm -> result.getChildren().add(vm));
-        return result;
-    }
-
-    private NodeVm createNodeVm(NodeData node) {
-        NodeVm result = new NodeVm(node);
-        result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
-        result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
-        result.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
-
-        return result;
-    }
-    private EdgeVm createEdgeVm(NodeData start, NodeData end) {
-        EdgeVm edgeVm = new EdgeVm(start, end);
-        edgeVm.setOnMouseClicked(e -> {
-            EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
-            editingTool.onEdgeClicked(edge, e);
-        });
-
-        return edgeVm;
-    }
-    private RoomVm createRoomVm(Room room) {
-        RoomVm result = new RoomVm(room);
-        result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
     }
 
