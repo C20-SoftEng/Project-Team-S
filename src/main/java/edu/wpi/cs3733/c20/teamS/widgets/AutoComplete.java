@@ -1,14 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.widgets;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.disposables.DisposableContainer;
-import io.reactivex.rxjava3.subjects.PublishSubject;
-import io.reactivex.rxjava3.subjects.Subject;
-import io.reactivex.rxjava3.subscribers.DisposableSubscriber;
 import javafx.beans.property.Property;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -34,10 +28,7 @@ public final class AutoComplete {
     }
 
     public static <T> Observable<T> propertyStream(Property<T> property) {
-        Subject<T> subject = PublishSubject.create();
-        property.addListener((sender, previous, current) -> subject.onNext(current));
-
-        return subject;
+        return RxUtils.propertyStream(property);
     }
 
     /**
