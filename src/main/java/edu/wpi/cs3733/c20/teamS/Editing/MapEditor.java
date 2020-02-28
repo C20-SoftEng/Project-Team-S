@@ -10,7 +10,10 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,10 +23,15 @@ public class MapEditor {
     private final FloorSelector floorSelector;
     private final Set<Room> rooms;
     private IEditingTool editingTool;
+    private final ScrollPane scrollPane;
+    private final Group group;
+    private final ImageView mapImage;
+    private final MapZoomer zoomer;
 
     public MapEditor(
             ObservableGraph graph, IEditingTool initialEditingTool,
-            FloorSelector floorSelector, Set<Room> rooms
+            FloorSelector floorSelector, Set<Room> rooms,
+            ScrollPane scrollPane, Group group, ImageView mapImage
     ) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
@@ -34,9 +42,13 @@ public class MapEditor {
         this.floorSelector = floorSelector;
         this.rooms = rooms;
         this.editingTool = initialEditingTool;
+        this.scrollPane = scrollPane;
+        this.group = group;
+        this.mapImage = mapImage;
+        zoomer = new MapZoomer(this.scrollPane);
     }
 
-    public Group drawAllNodes() {
+    private Group drawAllNodes() {
         Group group = new Group();
         Set<NodeData> nodes = graph.nodes().stream()
                 .filter(node -> node.getFloor() == floorSelector.current())
@@ -48,7 +60,7 @@ public class MapEditor {
         }
         return group;
     }
-    public Group drawAllEdges() {
+    private Group drawAllEdges() {
         Group group = new Group();
         graph.edges().stream()
                 .filter(edge -> {
@@ -60,7 +72,7 @@ public class MapEditor {
 
         return group;
     }
-    public Group drawAllRooms() {
+    private Group drawAllRooms() {
         Group result = new Group();
         rooms.stream()
                 .filter(room -> room.floor() == floorSelector.current())
@@ -69,7 +81,7 @@ public class MapEditor {
         return result;
     }
 
-    public NodeVm createNodeVm(NodeData node) {
+    private NodeVm createNodeVm(NodeData node) {
         NodeVm result = new NodeVm(node);
         result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
@@ -77,7 +89,7 @@ public class MapEditor {
 
         return result;
     }
-    public EdgeVm createEdgeVm(NodeData start, NodeData end) {
+    private EdgeVm createEdgeVm(NodeData start, NodeData end) {
         EdgeVm edgeVm = new EdgeVm(start, end);
         edgeVm.setOnMouseClicked(e -> {
             EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
@@ -86,7 +98,7 @@ public class MapEditor {
 
         return edgeVm;
     }
-    public RoomVm createRoomVm(Room room) {
+    private RoomVm createRoomVm(Room room) {
         RoomVm result = new RoomVm(room);
         result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
@@ -100,5 +112,36 @@ public class MapEditor {
         if (previous == null)
             return;
         previous.onClosed();
+    }
+
+    public void redrawMap() {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
+
+        group.getChildren().clear();
+        group.getChildren().add(mapImage);
+
+        group.getChildren().add(drawAllRooms());
+        group.getChildren().add(drawAllEdges());
+        group.getChildren().add(drawAllNodes());
+
+        scrollPane.setContent(group);
+
+        //Keeps the zoom the same throughout each screen/floor change.
+        zoomer.zoomSet();
+        scrollPane.setHvalue(currentHval);
+        scrollPane.setVvalue(currentVval);
+    }
+    public boolean canZoomIn() {
+        return zoomer.canZoomIn();
+    }
+    public boolean canZoomOut() {
+        return zoomer.canZoomOut();
+    }
+    public void zoomIn() {
+        zoomer.zoomIn();
+    }
+    public void zoomOut() {
+        zoomer.zoomOut();
     }
 }
