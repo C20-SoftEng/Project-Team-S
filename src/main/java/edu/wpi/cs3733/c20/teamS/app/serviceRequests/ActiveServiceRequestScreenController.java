@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,7 +52,7 @@ public class ActiveServiceRequestScreenController implements Initializable {
     /**
      * show active ServiceRequests in the TableView
      */
-    public void showActiveRequests(){
+    public void showActiveRequests() {
         serviceRequestTable.setItems(this.activeRequests);
         serviceIDCol = new TableColumn<>("Service ID");
         assignedEmployeeCol = new TableColumn<>("Employee Assigned");
@@ -60,7 +62,15 @@ public class ActiveServiceRequestScreenController implements Initializable {
         typeCol = new TableColumn<>("Type");
 
         serviceIDCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getServiceID()));
-        assignedEmployeeCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getAssignedEmployeeID()));
+        //assignedEmployeeCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getAssignedEmployeeID()));
+        assignedEmployeeCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ServiceData, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ServiceData, String> p) {
+               if(p.getValue().getAssignedEmployeeID() == 0){
+                   return null;
+               }
+               return new ReadOnlyObjectWrapper(p.getValue().getAssignedEmployeeID());
+            }
+        });
         statusCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getStatus()));
         messageCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getMessage()));
         locationCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getServiceNode()));

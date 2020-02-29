@@ -769,7 +769,8 @@ public class DatabaseController implements DBRepo{
             addStm.setString(2,sd.getStatus());
             addStm.setString(3,sd.getMessage());
             addStm.setString(4,sd.getData());
-            addStm.setInt(5,sd.getAssignedEmployeeID());
+            //addStm.setInt(5,sd.getAssignedEmployeeID());
+            addStm.setNull(5,Types.VARCHAR);
             addStm.setDate(6,currentDate);
             addStm.setString(7,sd.getServiceNode());
             addStm.execute();

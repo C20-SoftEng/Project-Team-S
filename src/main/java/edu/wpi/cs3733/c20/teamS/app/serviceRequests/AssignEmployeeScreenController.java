@@ -80,9 +80,11 @@ public class AssignEmployeeScreenController implements Initializable{
         }
 
         this.capEmployees.removeAll(currAssignee);
-        this.assigneeID.setText(Integer.toString(currAssignee.getEmployeeID()));
-        this.assigneeFirstName.setText(currAssignee.getFirstName());
-        this.assigneeLastName.setText(currAssignee.getLastName());
+        if(currAssignee != null) {
+            this.assigneeID.setText(Integer.toString(currAssignee.getEmployeeID()));
+            this.assigneeFirstName.setText(currAssignee.getFirstName());
+            this.assigneeLastName.setText(currAssignee.getLastName());
+        }
     }
 
 

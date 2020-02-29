@@ -41,4 +41,6 @@ public interface DBRepo {
     void removeEmployeeCapabilities(int employeeID);
 
     EmployeeData getEmployeeFromID(int id);
+
+    Set<ServiceData> getAllServiceRequestData();
 }
