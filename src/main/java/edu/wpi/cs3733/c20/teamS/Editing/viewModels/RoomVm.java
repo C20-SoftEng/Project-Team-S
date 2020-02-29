@@ -14,6 +14,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 
 public class RoomVm extends Parent {
+    private final Room room;
     private final Polygon mask;
     private final Label nameLabel;
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
@@ -22,6 +23,7 @@ public class RoomVm extends Parent {
     public RoomVm(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");
 
+        this.room = room;
         mask = createPolygon(room);
         nameLabel = createNameLabel(room);
 
@@ -46,6 +48,9 @@ public class RoomVm extends Parent {
         setNameVisible(false);
     }
 
+    public Room room() {
+        return room;
+    }
     public boolean highlightOnMouseOver() {
         return highlightOnMouseOver.value();
     }
@@ -75,7 +80,6 @@ public class RoomVm extends Parent {
         result.setFill(Settings.get().editHitboxColorNormal());
         return result;
     }
-
     private Label createNameLabel(Room room) {
         Label result = new Label();
         result.setText(room.name());
