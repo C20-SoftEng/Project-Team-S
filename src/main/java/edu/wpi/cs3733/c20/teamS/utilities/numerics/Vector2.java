@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.utilities;
+package edu.wpi.cs3733.c20.teamS.utilities.numerics;
 
 import java.util.Objects;
 
@@ -211,4 +211,6 @@ public final class Vector2 {
     public String toString() {
         return "(" + x_ + ", " + y_ + ")";
     }
+
+    public static final Vector2 ZERO = new Vector2(0, 0);
 }

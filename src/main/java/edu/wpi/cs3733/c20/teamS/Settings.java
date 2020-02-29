@@ -27,8 +27,11 @@ public final class Settings {
     public Color nodeFillColorHighlight() {
         return Color.AQUA.deriveColor(1, 1, 1, 0.5);
     }
-    public Color editHitboxColor() {
+    public Color editHitboxColorNormal() {
         return Color.BLUE.deriveColor(1, 1, 1, .45);
+    }
+    public Color editHitboxColorHighlight() {
+        return Color.AQUA.deriveColor(1, 1, 1, 0.5);
     }
     public Color editEdgeColorNormal() {
         return Color.BLUE;

@@ -74,7 +74,7 @@ public class EditHitboxTool implements IEditingTool {
     }
 
     @Override
-    public void onHitboxClicked(Room room, MouseEvent event) {
+    public void onRoomClicked(Room room, MouseEvent event) {
         state.onHitboxClicked(room, event);
     }
 

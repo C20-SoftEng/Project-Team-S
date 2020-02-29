@@ -5,7 +5,7 @@ import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 
 import java.sql.Connection;
 import java.sql.Date;
