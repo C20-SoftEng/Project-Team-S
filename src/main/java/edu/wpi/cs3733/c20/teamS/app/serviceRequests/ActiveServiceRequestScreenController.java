@@ -4,13 +4,19 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-public class ActiveServiceRequestScreenController {
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+public class ActiveServiceRequestScreenController implements Initializable {
     @FXML private TableView<ServiceData> serviceRequestTable;
     @FXML private JFXButton cancelButton;
     @FXML private TableColumn<ServiceData, Integer> serviceIDCol;
@@ -19,17 +25,26 @@ public class ActiveServiceRequestScreenController {
     @FXML private TableColumn<ServiceData, String> messageCol;
     @FXML private TableColumn<ServiceData, String> locationCol;
     @FXML private TableColumn<ServiceData, String> typeCol;
+    @FXML private JFXButton assignButton;
+    @FXML private JFXButton completeButton;
 
     private ObservableList<ServiceData> activeRequests;
 
     @FXML
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+        this.activeRequests = FXCollections.observableArrayList();
+        this.update();
         showActiveRequests();
     }
 
-    public ActiveServiceRequestScreenController(ObservableList<ServiceData> requests){
-        this.serviceRequestTable = new TableView<>();
-        this.activeRequests = requests;
+
+//    public ActiveServiceRequestScreenController(ObservableList<ServiceData> requests){
+//        this.serviceRequestTable = new TableView<>();
+//        this.activeRequests = requests;
+//    }
+
+    public ActiveServiceRequestScreenController(){
+
     }
 
     /**
@@ -51,6 +66,7 @@ public class ActiveServiceRequestScreenController {
         locationCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getServiceNode()));
         typeCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper(p.getValue().getServiceType()));
 
+        this.serviceRequestTable.setItems(this.activeRequests);
         serviceRequestTable.getColumns().setAll(
                 serviceIDCol, assignedEmployeeCol, statusCol,
                 messageCol, locationCol, typeCol);
@@ -60,14 +76,43 @@ public class ActiveServiceRequestScreenController {
      * Remove all selected ServiceRequest upon clicking the Complete button
      */
     @FXML void onCompleteClicked(){
-        ObservableList<ServiceData> selected = this.serviceRequestTable.getSelectionModel().getSelectedItems();
+//        ObservableList<ServiceData> selected = this.serviceRequestTable.getSelectionModel().getSelectedItems();
+//        DatabaseController dbc = new DatabaseController();
+//        for(ServiceData service : selected){
+//            dbc.deleteServiceWithId(service.getServiceID());
+//            dbc.commit();
+//            this.activeRequests.remove(service);
+//        }
+
+        ServiceData selected = this.serviceRequestTable.getSelectionModel().getSelectedItem();
         DatabaseController dbc = new DatabaseController();
-        for(ServiceData service : selected){
-            dbc.deleteServiceWithId(service.getServiceID());
-            dbc.commit();
-            this.activeRequests.remove(service);
-        }
+        dbc.deleteServiceWithId(selected.getServiceID());
+        dbc.commit();
+        this.update();
     }
+
+    /**
+     * Open dialog for AssignEmployeeScreen
+     */
+    @FXML void onAssignClicked(){
+        ServiceData selected = this.serviceRequestTable.getSelectionModel().getSelectedItem();
+        AssignEmployeeScreen.showDialog(selected, this);
+    }
+
+
+    /**
+     * Load existing ServiceData from database and update the screen
+     */
+    public void update(){
+        DatabaseController dbController = new DatabaseController();
+        Set<ServiceData> dbServices = dbController.getAllServiceRequestData();
+        //ObservableList<ServiceData> activeServices = FXCollections.observableArrayList();
+        //activeServices.addAll(dbServices);
+        this.activeRequests.removeAll(this.activeRequests);
+        this.activeRequests.addAll(dbServices);
+        //this.activeRequests = activeServices;
+    }
+
 
     @FXML void onCancelClicked(){
         Stage toClose = (Stage)cancelButton.getScene().getWindow();
