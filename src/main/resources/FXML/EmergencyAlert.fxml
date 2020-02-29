@@ -9,15 +9,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #F24130;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #F24130;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.emergency.EmergencyController">
    <children>
       <BorderPane layoutX="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <ImageView fitHeight="76.0" fitWidth="603.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
-            <JFXButton style="-fx-background-color: white; -fx-border-radius: 15;" text="Back" BorderPane.alignment="CENTER_LEFT">
+            <JFXButton fx:id="exitEmergencyMode" onAction="#onBackClicked" style="-fx-border-radius: 15; -fx-background-color: white;" text="Back" BorderPane.alignment="CENTER_LEFT">
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </BorderPane.margin>
