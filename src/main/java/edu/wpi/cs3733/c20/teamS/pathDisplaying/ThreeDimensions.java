@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -37,7 +38,7 @@ public class ThreeDimensions extends Application {
 
     private final float WIDTH = 1400;
     private final float HEIGHT = 800;
-    private double oldX, oldY, oldX2;
+    private double oldX, oldY;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -100,6 +101,7 @@ public class ThreeDimensions extends Application {
             person[i].setScaleX(MODEL_SCALE_FACTOR);
             person[i].setScaleY(MODEL_SCALE_FACTOR);
             person[i].setScaleZ(MODEL_SCALE_FACTOR);
+            person[i].setTranslateZ(zplace.get(begin.getFloor()) + 10);
 
             PhongMaterial material = new PhongMaterial();
             Image texture = new Image(("images/ThreeDim/yellow.jpg"));
@@ -179,10 +181,10 @@ public class ThreeDimensions extends Application {
                 st.getChildren().add(getFloorPath(personGroup, floorPath));
                 floorPath.clear();
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
-                tt.setFromZ(zplace.get(n1.getFloor()) - 17);
+                tt.setFromZ((zplace.get(n1.getFloor())) - 25);
                 tt.setFromX(n1.getxCoordinate() / 5 - 247);
                 tt.setFromY(n1.getyCoordinate() / 5 - 148);
-                tt.setToZ(zplace.get(n2.getFloor()) - 17);
+                tt.setToZ(zplace.get(n2.getFloor()) - 25);
                 tt.setToX(n1.getxCoordinate() / 5 - 247);
                 tt.setToY(n1.getyCoordinate() / 5 - 148);
                 tt.setCycleCount(1);
@@ -210,15 +212,55 @@ public class ThreeDimensions extends Application {
         st.setCycleCount(Timeline.INDEFINITE);
         st.play();
 
-        group.rotateByX(-70);
-        group.rotateByZ(-10);
-        group.translateXProperty().set(WIDTH / 2);
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case W:
+                    group.translateZProperty().set(group.getTranslateZ() + 100);
+                    break;
+                case S:
+                    group.translateZProperty().set(group.getTranslateZ() - 100);
+                    break;
+                case Q:
+                    group.rotateByX(10);
+                    break;
+                case E:
+                    group.rotateByX(-10);
+                    break;
+                case A:
+                    group.rotateByY(10);
+                    break;
+                case D:
+                    group.rotateByY(-10);
+                    break;
+                case T:
+                    group.rotateByZ(-10);
+                    break;
+                case Y:
+                    group.rotateByZ(10);
+                    break;
+                case G:
+                    group.setTranslateY(group.getTranslateY() - 100);
+                    break;
+                case H:
+                    group.setTranslateY(group.getTranslateY() + 100);
+                    break;
+            }
+        });
+
+        group.rotateByX(-65);
+        group.translateXProperty().set(WIDTH / 2 - 50);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
+        group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * 100);
+        group.rotateByZ(-120);
+        numberGroup.rotateByZ(120);
+        group.translateZProperty().set(group.getTranslateZ() + 30);
+
 
         Scene scene = new Scene(group, WIDTH, HEIGHT, true);
         scene.setFill(Color.DIMGRAY);
         scene.setCamera(camera);
+        camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
 
         mouseControl(group, scene, primaryStage, numberGroup);
 
