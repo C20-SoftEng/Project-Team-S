@@ -70,8 +70,8 @@ public class EditableMap implements IEditableMap {
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
         rooms.forEach(this::onRoomAdded);
 
-        mapClicked = RxAdaptors.eventStream(this.scrollPane::setOnMouseClicked);
-        mouseMoved = RxAdaptors.eventStream(this.scrollPane::setOnMouseMoved);
+        mapClicked = RxAdaptors.eventStream(this.rootGroup::setOnMouseClicked);
+        mouseMoved = RxAdaptors.eventStream(this.rootGroup::setOnMouseMoved);
 
         floorSelector.currentChanged()
                 .subscribe(n -> {
@@ -79,8 +79,10 @@ public class EditableMap implements IEditableMap {
                    nodePartition.setCurrentPartition(n);
                    edgePartition.setCurrentPartition(n);
                    roomPartition.setCurrentPartition(n);
+                   auxiliaryPartition.setCurrentPartition(n);
                    updateZoom();
                 });
+        floorSelector.setCurrent(1);
 
         updateZoom();
     }
@@ -140,7 +142,7 @@ public class EditableMap implements IEditableMap {
         return true;
     }
     public boolean removeRoom(Room room) {
-        if (roomLookup.containsKey(room))
+        if (!roomLookup.containsKey(room))
             return false;
         onRoomRemoved(room);
         return true;
@@ -215,12 +217,17 @@ public class EditableMap implements IEditableMap {
         return result;
     }
     private EdgeVm createEdgeVm(NodeData start, NodeData end) {
+        assert start != null : "'start' can't be null.";
+        assert end != null : "'end' can't be null.";
+
         EdgeVm result = new EdgeVm(start, end);
         result.setOnMouseClicked(e -> edgeClicked.onNext(new EdgeClickedEvent(result, e)));
 
         return result;
     }
     private RoomVm createRoomVm(Room room) {
+        assert room != null : "'room' can't be null.";
+        
         RoomVm result = new RoomVm(room);
         result.setOnMouseClicked(e -> roomClicked.onNext(new RoomClickedEvent(result, e)));
         return result;

@@ -18,11 +18,19 @@ public abstract class EditingTool implements Disposable {
         this.disposables.addAll(subscriptions);
     }
 
-    @Override public void dispose() {
+    @Override public final void dispose() {
+        if (isDisposed())
+            return;
         disposables.dispose();
+        onDispose();
     }
 
-    @Override public boolean isDisposed() {
+    /**
+     * Called when the EditingTool is disposed.
+     */
+    protected void onDispose() {}
+
+    @Override public final boolean isDisposed() {
         return disposables.isDisposed();
     }
 }
