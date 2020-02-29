@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c20.teamR.APILayer;
 import edu.wpi.cs3733.c20.teamR.Appointment;
 import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
@@ -82,7 +83,14 @@ public class SelectServiceController {
 //
 //        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
 //        this.stage.close();
+        APILayer layer = new APILayer();
 
+        try{
+            layer.run();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML void onLaundryClicked(ActionEvent event){
