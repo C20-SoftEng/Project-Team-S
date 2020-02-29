@@ -207,16 +207,17 @@ public class EditScreenController implements Initializable {
         SelectServiceScreen.showDialog(loggedIn);
     }
     @FXML private void onActiveServiceClicked() {
-        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
-        DatabaseController dbc = new DatabaseController();
-        Set<ServiceData> dbData = dbc.getAllServiceRequestData();
-        for(ServiceData sd : dbData){
-            if(!(sd.getStatus().equals("COMPLETE"))){
-                setOfActives.add(sd);
-                System.out.println(sd.toString());
-            }
-        }
-        ActiveServiceRequestScreen.showDialog(setOfActives);
+//        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
+//        DatabaseController dbc = new DatabaseController();
+//        Set<ServiceData> dbData = dbc.getAllServiceRequestData();
+//        for(ServiceData sd : dbData){
+//            if(!(sd.getStatus().equals("COMPLETE"))){
+//                setOfActives.add(sd);
+//                System.out.println(sd.toString());
+//            }
+//        }
+//        ActiveServiceRequestScreen.showDialog(setOfActives);
+        ActiveServiceRequestScreen.showDialog();
     }
 
     @FXML private void onAddRemoveNodeClicked() {
