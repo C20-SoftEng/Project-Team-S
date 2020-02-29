@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainStartScreen extends MainScreen {
+public class MainStartScreen extends BaseScreen {
 
     private  MainStartScreenController ui;
    private  Stage stage;
@@ -42,7 +42,7 @@ public class MainStartScreen extends MainScreen {
     public static void showDialog(Stage mainScreen) {
         MainStartScreen screen = new MainStartScreen(mainScreen);
         puggy.pause();
-        screen.show();
+        //screen.show();
     }
 
 

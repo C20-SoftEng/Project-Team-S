@@ -46,4 +46,7 @@ public class MapEditingScreen {
         //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
+    public static void showDialog(Stage stage, Employee employee){
+        MapEditingScreen mep = new MapEditingScreen(stage, employee);
+    }
 }

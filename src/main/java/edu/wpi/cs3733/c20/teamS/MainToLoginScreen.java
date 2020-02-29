@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Simple screen for main client ui
  */
-public class MainToLoginScreen extends MainScreen {
+public class MainToLoginScreen extends BaseScreen {
     private MainScreenController ui;
     private Scene scene;
     //private Stage stage;
@@ -35,10 +35,17 @@ public class MainToLoginScreen extends MainScreen {
         stage.setFullScreen(true);
         puggy.register(scene, Event.ANY);
     }
-    public void show() {
+    private void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
-        puggy.play();
         stage.show();
     }
+    public static void showDialog(Stage mainScreen) {
+        puggy.play();
+        MainToLoginScreen screen = new MainToLoginScreen(mainScreen);
+        //puggy.pause();
+        //screen.show();
+    }
+
+
 }

@@ -19,7 +19,8 @@ public class Main extends Application {
                 new MainToLoginScreen(primaryStage);
                 break;
             case SPLASH:
-                new MainStartScreen(primaryStage);
+                //new MainStartScreen(primaryStage);
+                MainStartScreen.showDialog(primaryStage);
                 break;
             case MAP_EDITING:
                 new MapEditingScreen(primaryStage, new Employee(17, "Bob", AccessLevel.ADMIN));

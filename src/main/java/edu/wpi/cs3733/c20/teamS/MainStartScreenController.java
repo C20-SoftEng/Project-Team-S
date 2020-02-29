@@ -165,8 +165,8 @@ public class MainStartScreenController implements Initializable {
 
     @FXML
     private void onScreenClicked(ActionEvent event) {
-        MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
-        maintolog.show();
+        //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        MainToLoginScreen.showDialog((Stage) (startScreenTap.getScene().getWindow()));
 
     }
 

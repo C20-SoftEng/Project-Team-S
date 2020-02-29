@@ -50,7 +50,6 @@ public class SendTextDirectionsScreen {
 
     public static void showDialog(List<String> directions) {
         SendTextDirectionsScreen screen = new SendTextDirectionsScreen(directions);
-        screen.show();
     }
 
     public void runEmailThread(List<String> directions, String email){
