@@ -26,7 +26,7 @@
    <children>
       <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" styleClass="titlebox" BorderPane.alignment="CENTER">
                <children>
                   <Label alignment="TOP_RIGHT" prefHeight="44.0" prefWidth="419.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
                      <font>
@@ -294,7 +294,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="153.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="zoomButton" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: white;" text="Zoom In" VBox.vgrow="SOMETIMES">
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </VBox.margin>
@@ -315,7 +315,7 @@
                                                 <DropShadow radius="18.552500000000002" width="55.21" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="zoomButton" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                              <graphic>
                                                 <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
                                                    <image>
