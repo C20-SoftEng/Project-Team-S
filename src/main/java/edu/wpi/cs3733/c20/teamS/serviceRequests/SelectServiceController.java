@@ -2,9 +2,11 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.c20.teamU.FlowerRequest.RunFlowerRequest;
 import edu.wpi.cs3733.c20.teamR.APILayer;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
+import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
 import foodRequest.FoodRequest;
 import foodRequest.ServiceException;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -48,6 +50,13 @@ public class SelectServiceController {
 
         InterpreterRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
+//        InterpreterRequester requester = new InterpreterRequester();
+//        try{
+//            requester.run(0,0,0,0, "", "SLABS00201", "SDEPT00601");
+//        }
+//        catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
     @FXML void onMaintenanceClicked(ActionEvent event){
@@ -74,7 +83,7 @@ public class SelectServiceController {
 
 //        APILayer layer = new APILayer();
 //        try{
-//            layer.run(0,0,0,0);
+//            layer.run(0,0,0,0,getClass().getResource("default.css").toString(),"SLABS00301", "SDEPT00504");
 //        }
 //        catch (Exception e){
 //            System.out.println(e.getMessage());
@@ -99,16 +108,16 @@ public class SelectServiceController {
         this.stage.close();
         //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         //Date date = new Date();
-
-
     }
 
     @FXML void onFloristClicked(ActionEvent event){
-        Stage floristStage = new Stage();
-        floristStage.initModality(Modality.WINDOW_MODAL);
-
-        FloristRequestScreen.showDialog(loggedIn).subscribe();
-        this.stage.close();
+        RunFlowerRequest request = new RunFlowerRequest();
+        try{
+            request.run(0,0,0,0,"", "SHALL00501", "SHALL00402");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML void onRideClicked(ActionEvent event){
