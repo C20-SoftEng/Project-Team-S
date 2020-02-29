@@ -100,7 +100,6 @@ public class ThreeDimensions extends Application {
             person[i].setScaleX(MODEL_SCALE_FACTOR);
             person[i].setScaleY(MODEL_SCALE_FACTOR);
             person[i].setScaleZ(MODEL_SCALE_FACTOR);
-            person[i].setTranslateZ(begin.getFloor());
 
             PhongMaterial material = new PhongMaterial();
             Image texture = new Image(("images/ThreeDim/yellow.jpg"));

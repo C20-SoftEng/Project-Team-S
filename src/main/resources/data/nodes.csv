@@ -46,7 +46,7 @@ SLABS00401,1300.0,937.0,1,Faulkner,LABS,Vasc Lab,vasc_lab
 SHALL02401,1255.0,1080.0,1,Faulkner,HALL,Outside South Stairs, Finanaces
 SSTAI00201,1201.0,1080.0,1,Faulkner,STAI,South Stairs,south_stai
 SHALL02501,1255.0,1160.0,1,Faulkner,HALL,Outside South Escalators,out_south_stai
-SELEV00Y01,1190.0,1160.0,1,Faulkner,ELEV,South Escalators,south_esc
+SELEV00Y01,1203.0,1152.0,1,Faulkner,ELEV,South Escalators,south_esc
 SSERV00201,1280.0,1080.0,1,Faulkner,SERV,Patient Finances,pat_fin
 SINFO00101,1314.0,250.0,1,Faulkner,INFO,Information (not labeled, my b)
 SELEV00Y02,1203.0,1152.0,2,Faulkner,ELEV,2nd Floor Hillside Elevators,2hs_elev
@@ -120,7 +120,7 @@ SHALL01503,1144.0,311.0,3,Faulkner,HALL,West Atrium Hall,west_3atr_hall
 SHALL01603,1144.0,484.0,3,Faulkner,HALL,South West Atrium Hall,south_west_atr_hall
 SINFO00303,1250.0,1300.0,3,Faulkner,INFO,Info,3info
 SELEV00Y03,1203.0,1152.0,3,Faulkner,ELEV,Hillside West Elevators,3hill_west_elev
-SELEV00Z03,1350.0,1170.0,3,Faulkner,ELEV,Hillside East Elevators,3hill_east_elev
+SELEV00Z03,1356.0,1145.0,3,Faulkner,ELEV,Hillside East Elevators,3hill_east_elev
 SHALL00104,1260.0,1223.0,4,Faulkner,HALL,Executive Hallway,ex_hall
 SHALL00204,2137.0,1223.0,4,Faulkner,HALL,Foot & Ankle Hallway,foot_hall
 SDEPT00104,2137.0,1203.0,4,Faulkner,DEPT,Foot & Ankle Room,foot
@@ -143,7 +143,7 @@ SSTAI00204,2335.0,1223.0,4,Faulkner,STAI,East Executive Staircase,ex_stair_east
 SHALL00904,1774.0,1223.0,4,Faulkner,HALL,Brigham Staircase Hallway,bpp_stair_hall
 STAIR00304,1774.0,1250.0,4,Faulkner,STAI,Brigham Staircase,bpp_stair
 SHALL01004,1254.0,1170.0,4,Faulkner,HALL,4th Floor Hillside Hallway,4hs_hall
-SELEV00Z04,1350.0,1170.0,4,Faulkner,ELEV,4th Floor East Hillside Elevator,4hs_elev_east
+SELEV00Z04,1356.0,1145.0,4,Faulkner,ELEV,4th Floor East Hillside Elevator,4hs_elev_east
 SELEV00Y04,1203.0,1152.0,4,Faulkner,ELEV,4th Floor West Hillside Elevator,4hs_elev_west
 SHALL01104,1254.0,1045.0,4,Faulkner,HALL,4th Floor Hillside Stairs Hallway,4hs_stair_hall
 SSTAI00404,1201.0,1080.0,4,Faulkner,STAI,4th Floor Hillside Stairs,4hs_stair
@@ -183,7 +183,7 @@ SHALL00605,1200.0,1161.0,5,Faulkner,HALL,5th Floor Hillside Hallway,5hs_hall
 SREST00105,1253.0,1161.0,5,Faulkner,REST,5th Floor Handicap Bathroom,5hand_bath
 SELEV00Y05,1203.0,1152.0,5,Faulkner,ELEV,5th Floor Hillside Elevator,5hs_elev
 SHALL00705,1293.0,1161.0,5,Faulkner,HALL,5th Floor East Hillside Hallway,5hs_hall_east
-SELEV00Z05,1335.0,1161.0,5,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
+SELEV00Z05,1356.0,1145.0,5,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
 SHALL00805,1293.0,1106.0,5,Faulkner,HALL,5th Floor Northeast Hillside Hallway,5hs_hall_ne
 SHALL00905,1200.0,1106.0,5,Faulkner,HALL,5th Floor Northwest Hillside Hallway,5hs_hall_nw
 SHALL01005,1240.0,1106.0,5,Faulkner,HALL,5th Floor North Hillside Hallway,5hs_hall_north
