@@ -2,6 +2,9 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
@@ -11,15 +14,19 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapEditor {
+public class EditableMap {
     private final ObservableGraph graph;
     private final ScrollPane scrollPane;
     private final ImageView mapImage;
@@ -32,7 +39,12 @@ public class MapEditor {
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
 
-    public MapEditor(
+    private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
+    private final PublishSubject<EdgeClickedEvent> edgeClicked = PublishSubject.create();
+    private final PublishSubject<RoomClickedEvent> roomClicked = PublishSubject.create();
+    private final Observable<MouseEvent> mapClicked;
+
+    public EditableMap(
             MutableGraph<NodeData> graph,
             FloorSelector floorSelector, Collection<Room> rooms,
             ScrollPane scrollPane, ImageView mapImage
@@ -44,8 +56,8 @@ public class MapEditor {
         this.scrollPane = scrollPane;
         zoomer = new MapZoomer(this.scrollPane);
         this.rootGroup = new Group();
+        mapClicked = RxAdaptors.eventStream(rootGroup::setOnMouseClicked);
         this.mapImage = mapImage;
-
         this.graph = createGraph();
         graph.nodes().forEach(this.graph::addNode);
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
@@ -113,6 +125,19 @@ public class MapEditor {
         return true;
     }
 
+    public Observable<NodeClickedEvent> nodeClicked() {
+        return nodeClicked;
+    }
+    public Observable<EdgeClickedEvent> edgeClicked() {
+        return edgeClicked;
+    }
+    public Observable<RoomClickedEvent> roomClicked() {
+        return roomClicked;
+    }
+    public Observable<MouseEvent> mapClicked() {
+        return mapClicked;
+    }
+
     private void updateZoom() {
         double hval = scrollPane.getHvalue();
         double vval = scrollPane.getVvalue();
@@ -143,19 +168,19 @@ public class MapEditor {
         assert node != null : "node can't be null!";
 
         NodeVm result = new NodeVm(node);
+        result.setOnMouseReleased(e -> nodeClicked.onNext(new NodeClickedEvent(result, e)));
 
         return result;
     }
     private EdgeVm createEdgeVm(NodeData start, NodeData end) {
-        EdgeVm edgeVm = new EdgeVm(start, end);
-        edgeVm.setOnMouseClicked(e -> {
-            EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
-        });
+        EdgeVm result = new EdgeVm(start, end);
+        result.setOnMouseClicked(e -> edgeClicked.onNext(new EdgeClickedEvent(result, e)));
 
-        return edgeVm;
+        return result;
     }
     private RoomVm createRoomVm(Room room) {
         RoomVm result = new RoomVm(room);
+        result.setOnMouseClicked(e -> roomClicked.onNext(new RoomClickedEvent(result, e)));
         return result;
     }
     private void onNodeAdded(NodeData node) {

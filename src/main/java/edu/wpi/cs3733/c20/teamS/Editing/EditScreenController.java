@@ -48,11 +48,10 @@ public class EditScreenController implements Initializable {
     private Employee loggedIn;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
-    private MapEditor editor;
+    private EditableMap editor;
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
-    //private final Group group = new Group();
     private final Set<Room> rooms = new HashSet<>();
     //endregion
 
@@ -74,7 +73,7 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
-        editor = new MapEditor(
+        editor = new EditableMap(
                 database.loadGraph(),
                 floorSelector, rooms,
                 scrollPane, mapImage);
