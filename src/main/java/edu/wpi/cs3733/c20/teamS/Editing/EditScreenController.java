@@ -3,11 +3,9 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveNodeTool;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.QuickAddRemoveNodeTool;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.EditableMap;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.ToolSelector;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
-import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
@@ -48,7 +46,8 @@ public class EditScreenController implements Initializable {
     private Employee loggedIn;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
-    private EditableMap editor;
+    private EditableMap editableMap;
+    private ToolSelector toolSelector;
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
@@ -73,12 +72,13 @@ public class EditScreenController implements Initializable {
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
-        editor = new EditableMap(
+        editableMap = new EditableMap(
                 database.loadGraph(),
                 floorSelector, rooms,
                 scrollPane, mapImage);
-        graph = editor.graph();
-
+        graph = editableMap.graph();
+        toolSelector = new ToolSelector();
+        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
@@ -105,11 +105,6 @@ public class EditScreenController implements Initializable {
                 astarRadioButton, djikstraRadioButton,
                 depthFirstRadioButton, breadthFirstRadioButton
         );
-    }
-    private IEditingTool createAddRemoveNodeTool() {
-        return Settings.get().useQuickNodePlacingTool() ?
-                new QuickAddRemoveNodeTool(graph, editToolFieldsVBox, () -> floorSelector.current()) :
-                new AddRemoveNodeTool(graph, () -> floorSelector.current());
     }
 
     //region gui components
@@ -197,14 +192,14 @@ public class EditScreenController implements Initializable {
         }
     }
     @FXML private void onZoomInClicked() {
-        editor.zoomIn();
-        zoomInButton.setDisable(!editor.canZoomIn());
-        zoomOutButton.setDisable(!editor.canZoomOut());
+        editableMap.zoomIn();
+        zoomInButton.setDisable(!editableMap.canZoomIn());
+        zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
     @FXML private void onZoomOutClicked() {
-        editor.zoomOut();
-        zoomInButton.setDisable(!editor.canZoomIn());
-        zoomOutButton.setDisable(!editor.canZoomOut());
+        editableMap.zoomOut();
+        zoomInButton.setDisable(!editableMap.canZoomIn());
+        zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
     @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);
@@ -221,7 +216,10 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
-    @FXML private void onAddRemoveNodeClicked() {}
+
+    @FXML private void onAddRemoveNodeClicked() {
+        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
+    }
     @FXML private void onAddRemoveEdgeClicked() {}
     @FXML private void onAddRemoveHitboxClicked() {}
     @FXML private void onMoveNodeClicked() {}
@@ -236,7 +234,6 @@ public class EditScreenController implements Initializable {
         if (hitboxRepo.canLoad()) {
             rooms.clear();
             rooms.addAll(hitboxRepo.load());
-            //editor.redrawMap();
         }
     }
     //endregion

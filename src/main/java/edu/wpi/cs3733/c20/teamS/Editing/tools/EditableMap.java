@@ -1,11 +1,12 @@
-package edu.wpi.cs3733.c20.teamS.Editing;
+package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.PartitionedParent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
@@ -26,11 +27,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditableMap {
+public class EditableMap implements IEditableMap {
     private final ObservableGraph graph;
     private final ScrollPane scrollPane;
     private final ImageView mapImage;
     private final MapZoomer zoomer;
+    private final FloorSelector floorSelector;
     private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
     private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
     private final Map<Room, RoomVm> roomLookup = new HashMap<>();
@@ -53,6 +55,7 @@ public class EditableMap {
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
         if (rooms == null) ThrowHelper.illegalNull("rooms");
 
+        this.floorSelector = floorSelector;
         this.scrollPane = scrollPane;
         zoomer = new MapZoomer(this.scrollPane);
         this.rootGroup = new Group();
@@ -100,14 +103,8 @@ public class EditableMap {
     public boolean removeNode(NodeData node) {
         return graph.removeNode(node);
     }
-    public boolean putEdge(EndpointPair<NodeData> edge) {
-        return graph.putEdge(edge.nodeU(), edge.nodeV());
-    }
     public boolean putEdge(NodeData nodeU, NodeData nodeV) {
         return graph.putEdge(nodeU, nodeV);
-    }
-    public boolean removeEdge(EndpointPair<NodeData> edge) {
-        return graph.removeEdge(edge.nodeU(), edge.nodeV());
     }
     public boolean removeEdge(NodeData nodeU, NodeData nodeV) {
         return graph.removeEdge(nodeU, nodeV);
@@ -123,6 +120,9 @@ public class EditableMap {
             return false;
         onRoomRemoved(room);
         return true;
+    }
+    public int selectedFloor() {
+        return floorSelector.current();
     }
 
     public Observable<NodeClickedEvent> nodeClicked() {
@@ -168,7 +168,7 @@ public class EditableMap {
         assert node != null : "node can't be null!";
 
         NodeVm result = new NodeVm(node);
-        result.setOnMouseReleased(e -> nodeClicked.onNext(new NodeClickedEvent(result, e)));
+        result.setOnMouseClicked(e -> nodeClicked.onNext(new NodeClickedEvent(result, e)));
 
         return result;
     }
