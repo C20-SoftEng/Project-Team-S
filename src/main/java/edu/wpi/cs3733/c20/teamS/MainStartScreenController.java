@@ -115,7 +115,7 @@ public class MainStartScreenController implements Initializable {
         } else if (icon.contains("partly") && icon.contains("day")) {
             icon = "weatherIcons/PartlyCloudy.png";
         } else if (icon.contains("partly") && icon.contains("night")) {
-            icon = "weatherIcons/PartlyCloudyNightImage.png";
+            icon = "weatherIcons/PartlyCloudyNight.png";
         } else if (icon.contains("cloudy")) {
             icon = "weatherIcons/Cloudy.png";
         } else if (icon.contains("fog")) {
