@@ -312,19 +312,32 @@
                                                 <DropShadow radius="18.552500000000002" width="55.21" />
                                              </effect>
                                              <graphic>
-                                                <Text boundsType="VISUAL" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="+" wrappingWidth="25.0">
+                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="+">
                                                    <font>
                                                       <Font size="65.0" />
                                                    </font>
                                                 </Text>
                                              </graphic>
                                           </JFXButton>
-                                          <JFXButton id="zoomIn" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomInClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out">
+                                          <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                             <graphic>
+                                                <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/Icons/Mag_Out_Icon.png" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <effect>
-                                                <DropShadow radius="18.552500000000002" width="55.21" />
+                                                <DropShadow height="64.54" radius="29.4375" width="55.21" />
                                              </effect>
                                              <graphic>
                                                 <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
