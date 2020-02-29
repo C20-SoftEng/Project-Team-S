@@ -7,6 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * The clickable "handle" that is displayed when placing the vertex points of a Room in the
+ * map editor.
+ */
 public class PlaceVertexHandleVm extends Parent {
     public PlaceVertexHandleVm(double x, double y) {
         setTranslateX(x);

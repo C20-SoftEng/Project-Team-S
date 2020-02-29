@@ -4,6 +4,9 @@ import edu.wpi.cs3733.c20.teamS.Settings;
 import javafx.scene.Parent;
 import javafx.scene.shape.Line;
 
+/**
+ * The preview edge that is displayed when placing an edge in the map editor.
+ */
 public class PlaceEdgeVm extends Parent {
     private final Line line;
 

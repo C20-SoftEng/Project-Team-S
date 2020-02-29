@@ -17,6 +17,7 @@ import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,7 +46,7 @@ public class EditScreenController implements Initializable {
     private FloorSelector floorSelector;
     private ObservableGraph graph;
     private EditableMap editableMap;
-    private ToolSelector toolSelector;
+    private DisposableSelector<EditingTool> toolSelector;
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
@@ -75,7 +76,7 @@ public class EditScreenController implements Initializable {
                 floorSelector, rooms,
                 scrollPane, mapImage);
         graph = editableMap.graph();
-        toolSelector = new ToolSelector();
+        toolSelector = new DisposableSelector<>();
         toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
@@ -222,7 +223,7 @@ public class EditScreenController implements Initializable {
         toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
     }
     @FXML private void onAddRemoveHitboxClicked() {
-        toolSelector.setCurrent(new AddRemoveHitboxTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveRoomTool(editableMap));
     }
     @FXML private void onMoveNodeClicked() {
         toolSelector.setCurrent(new MoveNodeTool(editableMap));
