@@ -247,7 +247,7 @@ public class ThreeDimensions extends Application {
             }
         });
 
-        group.rotateByX(-65);
+        group.rotateByX(-67);
         group.translateXProperty().set(WIDTH / 2 - 50);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
@@ -258,7 +258,7 @@ public class ThreeDimensions extends Application {
 
 
         Scene scene = new Scene(group, WIDTH, HEIGHT, true);
-        scene.setFill(Color.DIMGRAY);
+        scene.setFill(Color.web("#8f8f8f"));
         scene.setCamera(camera);
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
 
