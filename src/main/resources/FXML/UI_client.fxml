@@ -22,11 +22,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController">
+<AnchorPane stylesheets="@../default-coloration.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController">
    <children>
       <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" styleClass="titlebox" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-border-color: black;" styleClass="titlebox" BorderPane.alignment="CENTER">
                <children>
                   <Label alignment="TOP_RIGHT" prefHeight="44.0" prefWidth="419.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
                      <font>
@@ -136,7 +136,7 @@
                                     <DropShadow />
                                  </effect>
                               </ComboBox>
-                              <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" text="Select Start Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
+                              <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" styleClass="poslocation" text="Select Start Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
                                  <HBox.margin>
                                     <Insets left="60.0" right="20.0" top="10.0" />
                                  </HBox.margin>
@@ -144,7 +144,7 @@
                                     <DropShadow />
                                  </effect>
                               </Label>
-                              <JFXButton fx:id="swapButton" buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text=" " translateY="13.0">
+                              <JFXButton id="switcheroo" fx:id="swapButton" buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text=" " translateY="13.0">
                                  <graphic>
                                     <ImageView id="swapButton" fx:id="onSwapButton" fitHeight="55.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -294,7 +294,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="153.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton id="zoomButton" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: white;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: white;" styleClass="zoomers" text="Zoom In" VBox.vgrow="SOMETIMES">
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </VBox.margin>
@@ -302,7 +302,7 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <graphic>
-                                                <Label alignment="TOP_CENTER" contentDisplay="CENTER" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="73.0" text="+" textAlignment="CENTER">
+                                                <Label alignment="TOP_CENTER" contentDisplay="CENTER" focusTraversable="false" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="73.0" text="+" textAlignment="CENTER">
                                                    <font>
                                                       <Font size="69.0" />
                                                    </font>
@@ -315,7 +315,7 @@
                                                 <DropShadow radius="18.552500000000002" width="55.21" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="zoomButton" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" styleClass="zoomers" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                              <graphic>
                                                 <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
                                                    <image>
@@ -333,7 +333,7 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <graphic>
-                                                <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="73.0" text="-">
+                                                <Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="73.0" text="-">
                                                    <font>
                                                       <Font size="84.0" />
                                                    </font>

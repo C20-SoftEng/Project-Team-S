@@ -1,0 +1,40 @@
+.titlebox{ /*top header bar*/
+    -fx-background-color: #012d5a;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane { /*gives scroll panes a background color*/
+    -fx-background-color: #ccc;
+}
+
+.hbox{
+    -fx-background-color: #2c2f33;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+
+.text{
+    -fx-text-fill: black;
+}
+
+.text-field{
+    -fx-text-fill: #ffffff;
+}
+
+.zoomers{
+    -fx-background-color: white;
+    -fx-border-color: gray;
+}
+
+#switcheroo{
+    -fx-border-color: gray;
+    -fx-border-color: black;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
