@@ -221,7 +221,9 @@ public class EditScreenController implements Initializable {
     @FXML private void onAddRemoveEdgeClicked() {
         toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
     }
-    @FXML private void onAddRemoveHitboxClicked() {}
+    @FXML private void onAddRemoveHitboxClicked() {
+        toolSelector.setCurrent(new AddRemoveHitboxTool(editableMap));
+    }
     @FXML private void onMoveNodeClicked() {
         toolSelector.setCurrent(new MoveNodeTool(editableMap));
     }

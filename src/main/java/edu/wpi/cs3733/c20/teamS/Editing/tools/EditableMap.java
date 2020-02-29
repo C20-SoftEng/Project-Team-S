@@ -70,8 +70,8 @@ public class EditableMap implements IEditableMap {
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
         rooms.forEach(this::onRoomAdded);
 
-        mapClicked = RxAdaptors.eventStream(rootGroup::setOnMouseClicked);
-        mouseMoved = RxAdaptors.eventStream(rootGroup::setOnMouseMoved);
+        mapClicked = RxAdaptors.eventStream(this.scrollPane::setOnMouseClicked);
+        mouseMoved = RxAdaptors.eventStream(this.scrollPane::setOnMouseMoved);
 
         floorSelector.currentChanged()
                 .subscribe(n -> {
