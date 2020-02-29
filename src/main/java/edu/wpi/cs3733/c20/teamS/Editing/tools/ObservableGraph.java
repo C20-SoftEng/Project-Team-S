@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -11,6 +10,9 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * An observable undirected mutable graph that allows self-loops.
+ */
 public final class ObservableGraph {
     private final MutableGraph<NodeData> graph;
 
@@ -19,11 +21,6 @@ public final class ObservableGraph {
     private final PublishSubject<EndpointPair<NodeData>> edgeAdded = PublishSubject.create();
     private final PublishSubject<EndpointPair<NodeData>> edgeRemoved = PublishSubject.create();
 
-    public ObservableGraph(MutableGraph<NodeData> graph) {
-        if (graph == null) ThrowHelper.illegalNull("graph");
-
-        this.graph = graph;
-    }
     public ObservableGraph() {
         this.graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
     }
@@ -35,10 +32,13 @@ public final class ObservableGraph {
         return true;
     }
     public boolean removeNode(NodeData node) {
-        if (!graph.removeNode(node))
+        if (!graph.nodes().contains(node))
             return false;
-
+        Set<NodeData> friends = graph.adjacentNodes(node);
+        graph.removeNode(node);
         nodeRemoved.onNext(node);
+        for (NodeData friend : friends)
+            edgeRemoved.onNext(EndpointPair.unordered(node, friend));
         return true;
     }
     public boolean putEdge(NodeData start, NodeData end) {

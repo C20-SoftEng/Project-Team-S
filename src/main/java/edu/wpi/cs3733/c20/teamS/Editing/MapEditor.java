@@ -19,7 +19,6 @@ import javafx.scene.image.ImageView;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MapEditor {
     private final ObservableGraph graph;
@@ -69,68 +68,60 @@ public class MapEditor {
         updateZoom();
     }
 
+    public IEditingTool editingTool() {
+        return editingTool;
+    }
+    public void setEditingTool(IEditingTool value) {
+        IEditingTool previous = this.editingTool;
+        this.editingTool = value;
+        if (previous == null)
+            return;
+        previous.onClosed();
+    }
+    public ObservableGraph graph() {
+        return graph;
+    }
+
+    public boolean canZoomIn() {
+        return zoomer.canZoomIn();
+    }
+    public boolean canZoomOut() {
+        return zoomer.canZoomOut();
+    }
+    public void zoomIn() {
+        zoomer.zoomIn();
+        updateZoom();
+    }
+    public void zoomOut() {
+        zoomer.zoomOut();
+        updateZoom();
+    }
+
+    private void updateZoom() {
+        double hval = scrollPane.getHvalue();
+        double vval = scrollPane.getVvalue();
+
+        rootGroup.getChildren().clear();
+        rootGroup.getChildren().add(mapImage);
+        rootGroup.getChildren().add(roomGroup);
+        rootGroup.getChildren().add(edgeGroup);
+        rootGroup.getChildren().add(nodeGroup);
+
+        scrollPane.setContent(rootGroup);
+
+        zoomer.zoomSet();
+        scrollPane.setHvalue(hval);
+        scrollPane.setVvalue(vval);
+    }
     private ObservableGraph createGraph() {
         ObservableGraph graph = new ObservableGraph();
 
-        graph.nodeAdded().subscribe(this::addNode);
-        graph.nodeRemoved().subscribe(this::removeNode);
-        graph.edgeAdded().subscribe(this::addEdge);
-        graph.edgeRemoved().subscribe(this::removeEdge);
+        graph.nodeAdded().subscribe(this::onNodeAdded);
+        graph.nodeRemoved().subscribe(this::onNodeRemoved);
+        graph.edgeAdded().subscribe(this::onEdgeAdded);
+        graph.edgeRemoved().subscribe(this::onEdgeRemoved);
 
         return graph;
-    }
-    private Group drawAllNodes() {
-        Group group = new Group();
-        Set<NodeData> nodes = graph.nodes().stream()
-                .filter(node -> node.getFloor() == floorSelector.current())
-                .collect(Collectors.toSet());
-
-        for (NodeData node : nodes) {
-            NodeVm vm = createNodeVm(node);
-            group.getChildren().add(vm);
-        }
-        return group;
-    }
-    private Group drawAllEdges() {
-        Group group = new Group();
-        graph.edges().stream()
-                .filter(edge -> {
-                    return edge.nodeU().getFloor() == floorSelector.current() ||
-                            edge.nodeV().getFloor() == floorSelector.current();
-                })
-                .map(edge -> createEdgeVm(edge.nodeU(), edge.nodeV()))
-                .forEach(vm -> group.getChildren().add(vm));
-
-        return group;
-    }
-    private Group drawAllRooms() {
-        Group result = new Group();
-        rooms.stream()
-                .filter(room -> room.floor() == floorSelector.current())
-                .map(this::createRoomVm)
-                .forEach(vm -> result.getChildren().add(vm));
-        return result;
-    }
-
-    private void addNode(NodeData node) {
-        NodeVm vm = createNodeVm(node);
-        nodeLookup.put(node, vm);
-        nodeGroup.getChildren().add(vm);
-    }
-    private void removeNode(NodeData node) {
-        NodeVm remove = nodeLookup.get(node);
-        nodeGroup.getChildren().remove(remove);
-        nodeLookup.remove(node);
-    }
-    private void addEdge(EndpointPair<NodeData> edge) {
-        EdgeVm vm = createEdgeVm(edge.nodeU(), edge.nodeV());
-        edgeGroup.getChildren().add(vm);
-        edgeLookup.put(edge, vm);
-    }
-    private void removeEdge(EndpointPair<NodeData> edge) {
-        EdgeVm remove = edgeLookup.get(edge);
-        edgeGroup.getChildren().remove(remove);
-        edgeLookup.remove(edge);
     }
     private NodeVm createNodeVm(NodeData node) {
         assert node != null : "node can't be null!";
@@ -157,67 +148,24 @@ public class MapEditor {
         return result;
     }
 
-    public IEditingTool editingTool() {
-        return editingTool;
+    private void onNodeAdded(NodeData node) {
+        NodeVm vm = createNodeVm(node);
+        nodeLookup.put(node, vm);
+        nodeGroup.getChildren().add(vm);
     }
-    public void setEditingTool(IEditingTool value) {
-        IEditingTool previous = this.editingTool;
-        this.editingTool = value;
-        if (previous == null)
-            return;
-        previous.onClosed();
+    private void onNodeRemoved(NodeData node) {
+        NodeVm remove = nodeLookup.get(node);
+        nodeGroup.getChildren().remove(remove);
+        nodeLookup.remove(node);
     }
-    public ObservableGraph graph() {
-        return graph;
+    private void onEdgeAdded(EndpointPair<NodeData> edge) {
+        EdgeVm vm = createEdgeVm(edge.nodeU(), edge.nodeV());
+        edgeGroup.getChildren().add(vm);
+        edgeLookup.put(edge, vm);
     }
-
-    private void updateZoom() {
-        double hval = scrollPane.getHvalue();
-        double vval = scrollPane.getVvalue();
-
-        rootGroup.getChildren().clear();
-        rootGroup.getChildren().add(mapImage);
-        rootGroup.getChildren().add(roomGroup);
-        rootGroup.getChildren().add(edgeGroup);
-        rootGroup.getChildren().add(nodeGroup);
-
-        scrollPane.setContent(rootGroup);
-
-        zoomer.zoomSet();
-        scrollPane.setHvalue(hval);
-        scrollPane.setVvalue(vval);
-    }
-
-    private void redrawMap() {
-        double currentHval = scrollPane.getHvalue();
-        double currentVval = scrollPane.getVvalue();
-
-        rootGroup.getChildren().clear();
-        rootGroup.getChildren().add(mapImage);
-
-        rootGroup.getChildren().add(drawAllRooms());
-        rootGroup.getChildren().add(drawAllEdges());
-        rootGroup.getChildren().add(drawAllNodes());
-
-        scrollPane.setContent(rootGroup);
-
-        //Keeps the zoom the same throughout each screen/floor change.
-        zoomer.zoomSet();
-        scrollPane.setHvalue(currentHval);
-        scrollPane.setVvalue(currentVval);
-    }
-    public boolean canZoomIn() {
-        return zoomer.canZoomIn();
-    }
-    public boolean canZoomOut() {
-        return zoomer.canZoomOut();
-    }
-    public void zoomIn() {
-        zoomer.zoomIn();
-        updateZoom();
-    }
-    public void zoomOut() {
-        zoomer.zoomOut();
-        updateZoom();
+    private void onEdgeRemoved(EndpointPair<NodeData> edge) {
+        EdgeVm remove = edgeLookup.get(edge);
+        edgeGroup.getChildren().remove(remove);
+        edgeLookup.remove(edge);
     }
 }
