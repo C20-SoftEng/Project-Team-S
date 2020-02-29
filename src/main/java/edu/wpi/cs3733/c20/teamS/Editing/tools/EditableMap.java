@@ -27,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class EditableMap implements IEditableMap {
     private final ObservableGraph graph;
@@ -155,6 +156,9 @@ public class EditableMap implements IEditableMap {
     }
     public void setPannable(boolean value) {
         scrollPane.setPannable(value);
+    }
+    public Set<Room> rooms() {
+        return roomLookup.keySet();
     }
 
     public Observable<NodeClickedEvent> nodeClicked() {

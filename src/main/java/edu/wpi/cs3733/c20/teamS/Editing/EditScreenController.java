@@ -80,7 +80,10 @@ public class EditScreenController implements Initializable {
         toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
-        ExportToDirectoryController exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
+        ExportToDirectoryController exportController = new ExportToDirectoryController(
+                directoryPathTextField, exportButton,
+                () -> editableMap.rooms()
+        );
     }
 
     private void initEventHandlers() {
