@@ -2,7 +2,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveNodeTool;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.QuickAddRemoveNodeTool;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
@@ -23,7 +26,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -77,7 +79,6 @@ public class EditScreenController implements Initializable {
                 floorSelector, rooms,
                 scrollPane, mapImage);
         graph = editor.graph();
-        editor.setEditingTool(createAddRemoveNodeTool());
 
         createPathfindingAlgorithmSelector();
         initEventHandlers();
@@ -221,43 +222,12 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
-    @FXML private void onAddRemoveNodeClicked() {
-        IEditingTool tool = createAddRemoveNodeTool();
-        editor.setEditingTool(tool);
-    }
-    @FXML private void onAddRemoveEdgeClicked() {
-        IEditingTool tool = new AddRemoveEdgeTool(graph, () -> new Group());
-        editor.setEditingTool(tool);
-    }
-    @FXML private void onAddRemoveHitboxClicked() {
-        AddRemoveHitboxTool tool = new AddRemoveHitboxTool(
-                hitbox -> {
-                    rooms.remove(hitbox);
-                    //editor.redrawMap();
-                },
-                Group::new,
-                () -> floorSelector.current()
-        );
-        tool.hitboxAdded().subscribe(hitbox -> {
-            rooms.add(hitbox);
-            //editor.redrawMap();
-        });
-        editor.setEditingTool(tool);
-    }
-    @FXML private void onMoveNodeClicked() {
-        editor.setEditingTool(new MoveNodeTool(scrollPane));
-    }
-    @FXML private void onShowInfoClicked() {
-        editor.setEditingTool(new ShowNodeInfoTool());
-    }
-    @FXML private void onEditRoomEntrancesClicked() {
-        IEditingTool tool = new EditHitboxTool(
-                graph.nodes(),
-                () -> new Group(),
-                editToolFieldsVBox
-        );
-        editor.setEditingTool(tool);
-    }
+    @FXML private void onAddRemoveNodeClicked() {}
+    @FXML private void onAddRemoveEdgeClicked() {}
+    @FXML private void onAddRemoveHitboxClicked() {}
+    @FXML private void onMoveNodeClicked() {}
+    @FXML private void onShowInfoClicked() {}
+    @FXML private void onEditRoomEntrancesClicked() {}
 
     @FXML private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())

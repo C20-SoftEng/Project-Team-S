@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
@@ -22,7 +21,6 @@ import java.util.Map;
 
 public class MapEditor {
     private final ObservableGraph graph;
-    private IEditingTool editingTool;
     private final ScrollPane scrollPane;
     private final ImageView mapImage;
     private final MapZoomer zoomer;
@@ -43,7 +41,6 @@ public class MapEditor {
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
         if (rooms == null) ThrowHelper.illegalNull("rooms");
 
-        this.editingTool = new IEditingTool() {};
         this.scrollPane = scrollPane;
         zoomer = new MapZoomer(this.scrollPane);
         this.rootGroup = new Group();
@@ -54,8 +51,6 @@ public class MapEditor {
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
         rooms.forEach(this::onRoomAdded);
 
-        rootGroup.setOnMouseClicked(e -> editingTool.onMapClicked(e));
-        rootGroup.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
         floorSelector.currentChanged()
                 .subscribe(n -> {
                    mapImage.setImage(floorSelector.floor(n).image);
@@ -68,16 +63,6 @@ public class MapEditor {
         updateZoom();
     }
 
-    public IEditingTool editingTool() {
-        return editingTool;
-    }
-    public void setEditingTool(IEditingTool value) {
-        IEditingTool previous = this.editingTool;
-        this.editingTool = value;
-        if (previous == null)
-            return;
-        previous.onClosed();
-    }
     public ObservableGraph graph() {
         return graph;
     }
@@ -122,7 +107,7 @@ public class MapEditor {
         return true;
     }
     public boolean removeRoom(Room room) {
-        if (!roomLookup.containsKey(room))
+        if (roomLookup.containsKey(room))
             return false;
         onRoomRemoved(room);
         return true;
@@ -158,9 +143,6 @@ public class MapEditor {
         assert node != null : "node can't be null!";
 
         NodeVm result = new NodeVm(node);
-        result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
-        result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
-        result.setOnMouseReleased(e -> editingTool.onNodeReleased(node, e));
 
         return result;
     }
@@ -168,14 +150,12 @@ public class MapEditor {
         EdgeVm edgeVm = new EdgeVm(start, end);
         edgeVm.setOnMouseClicked(e -> {
             EndpointPair<NodeData> edge = EndpointPair.unordered(start, end);
-            editingTool.onEdgeClicked(edge, e);
         });
 
         return edgeVm;
     }
     private RoomVm createRoomVm(Room room) {
         RoomVm result = new RoomVm(room);
-        result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
     }
     private void onNodeAdded(NodeData node) {
