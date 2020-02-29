@@ -4,6 +4,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.c20.teamU.FlowerRequest.RunFlowerRequest;
 import edu.wpi.cs3733.c20.teamR.APILayer;
+import edu.wpi.cs3733.c20.teamR.APIMain;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
@@ -75,15 +76,21 @@ public class SelectServiceController {
         this.stage.close();
     }
     @FXML void onServiceTechClicked(ActionEvent event){
-        Stage serviceTechStage = new Stage();
-        serviceTechStage.initModality(Modality.WINDOW_MODAL);
-
-        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
-        this.stage.close();
+//        Stage serviceTechStage = new Stage();
+//        serviceTechStage.initModality(Modality.WINDOW_MODAL);
+//
+//        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
+//        this.stage.close();
 
 //        APILayer layer = new APILayer();
 //        try{
-//            layer.run(0,0,0,0,getClass().getResource("default.css").toString(),"SLABS00301", "SDEPT00504");
+//            layer.start(new Stage());
+//        }
+//        catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//        try{
+//            layer.run(0,0,0,0, "","SLABS00301", "SDEPT00504");
 //        }
 //        catch (Exception e){
 //            System.out.println(e.getMessage());
