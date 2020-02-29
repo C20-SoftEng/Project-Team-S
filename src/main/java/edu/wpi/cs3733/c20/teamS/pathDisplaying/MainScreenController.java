@@ -158,6 +158,7 @@ public class MainScreenController implements Initializable {
 
         mapImage.setImage(floorSelector.floor(floorSelector.current()).image);
         zoomer.zoomSet();
+        zoomer.zoomFit(x,y);
 
         group.getChildren().clear();
         group.getChildren().add(mapImage);

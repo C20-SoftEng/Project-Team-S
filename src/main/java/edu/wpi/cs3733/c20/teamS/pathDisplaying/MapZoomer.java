@@ -67,6 +67,7 @@ public class MapZoomer {
     }
 
     public double zoomFit(double x, double y){
+        zoomStage = Numerics.clamp(-2,(int) x,(int) y);
 
         return 0.0;
     }
