@@ -187,7 +187,7 @@ class PathRenderer {
                     image.setPreserveRatio(false);
                     System.out.println("in floor images");
                 }
-                if(word.contains("Floor3")){
+                if(word.contains("Floor 3")){
                     Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor3.png")));
                     image.setImage(newImage);
                     image.setFitHeight(45);
