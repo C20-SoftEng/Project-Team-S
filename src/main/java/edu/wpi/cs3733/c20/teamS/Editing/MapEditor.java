@@ -46,6 +46,8 @@ public class MapEditor {
         this.group = group;
         this.mapImage = mapImage;
         zoomer = new MapZoomer(this.scrollPane);
+
+
     }
 
     private Group drawAllNodes() {
