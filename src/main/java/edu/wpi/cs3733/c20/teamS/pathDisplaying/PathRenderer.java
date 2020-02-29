@@ -26,8 +26,11 @@ import java.util.stream.Collectors;
 class PathRenderer {
     double startX = 0;
     double startY = 0;
-    double xLen = 0;
-    double yLen = 0;
+    double xSmall = 1000000;
+    double ySmall = 1000000;
+    double xBig = 0;
+    double yBig = 0;
+
     /**
      * Draws the portion of the specified path that is on the specified floor, then
      * returns a new Group containing all the elements that were drawn.
@@ -94,23 +97,27 @@ class PathRenderer {
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
                 imageView.setVisible(true);
-                if(X > xLen){
-                    xLen = X;
+                if(X > xBig){
+                    xBig = X;
+                }else if (X < xSmall){
+                    xSmall = X;
                 }
-                if(Y > yLen){
-                    yLen = Y;
+                if(Y > yBig){
+                    yBig = Y;
+                }
+                else if (Y < ySmall){
+                    ySmall = Y;
                 }
             }
         }
         startX = start.getxCoordinate();
         startY = start.getyCoordinate();
-        MainScreenController.x = xLen - startX;
-        MainScreenController.y = yLen - startY;
-        System.out.print(xLen - startX);
-        System.out.print(" ");
-        System.out.println(yLen - startY);
-        xLen = 0;
-        yLen = 0;
+
+        MainScreenController.x = xBig - xSmall - startX;
+        MainScreenController.y = yBig - ySmall - startY;
+
+        MainScreenController.xCent = startX + ((xBig - xSmall)/2);
+        MainScreenController.yCent = startY + ((yBig - ySmall)/2);
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
@@ -118,7 +125,6 @@ class PathRenderer {
         pathTransition.setNode(imageView);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
-        //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
         return group;

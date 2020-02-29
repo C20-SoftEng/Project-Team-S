@@ -44,6 +44,8 @@ public class MainScreenController implements Initializable {
     private PathRenderer renderer;
     public static double x;
     public static double y;
+    public static double xCent;
+    public static double yCent;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
     public static FloorSelector floorSelector;
