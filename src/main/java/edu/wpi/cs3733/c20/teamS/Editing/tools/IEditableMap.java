@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
 public interface IEditableMap {
@@ -14,6 +15,7 @@ public interface IEditableMap {
     Observable<EdgeClickedEvent> edgeClicked();
     Observable<RoomClickedEvent> roomClicked();
     Observable<MouseEvent> mapClicked();
+    Observable<MouseEvent> mouseMoved();
     boolean addNode(NodeData node);
     boolean removeNode(NodeData node);
     boolean putEdge(NodeData nodeU, NodeData nodeV);
@@ -27,4 +29,6 @@ public interface IEditableMap {
     boolean addRoom(Room room);
     boolean removeRoom(Room room);
     int selectedFloor();
+    void addWidget(Node node);
+    void removeWidget(Node node);
 }

@@ -2,11 +2,11 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.PartitionedParent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
-import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
@@ -19,6 +19,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -40,11 +41,13 @@ public class EditableMap implements IEditableMap {
     private final PartitionedParent<Integer, NodeVm> nodePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
+    private final PartitionedParent<Integer, Node> auxiliaryPartition = new PartitionedParent<>();
 
     private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
     private final PublishSubject<EdgeClickedEvent> edgeClicked = PublishSubject.create();
     private final PublishSubject<RoomClickedEvent> roomClicked = PublishSubject.create();
     private final Observable<MouseEvent> mapClicked;
+    private final Observable<MouseEvent> mouseMoved;
 
     public EditableMap(
             MutableGraph<NodeData> graph,
@@ -59,12 +62,14 @@ public class EditableMap implements IEditableMap {
         this.scrollPane = scrollPane;
         zoomer = new MapZoomer(this.scrollPane);
         this.rootGroup = new Group();
-        mapClicked = RxAdaptors.eventStream(rootGroup::setOnMouseClicked);
         this.mapImage = mapImage;
         this.graph = createGraph();
         graph.nodes().forEach(this.graph::addNode);
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
         rooms.forEach(this::onRoomAdded);
+
+        mapClicked = RxAdaptors.eventStream(rootGroup::setOnMouseClicked);
+        mouseMoved = RxAdaptors.eventStream(rootGroup::setOnMouseMoved);
 
         floorSelector.currentChanged()
                 .subscribe(n -> {
@@ -95,6 +100,23 @@ public class EditableMap implements IEditableMap {
     public void zoomOut() {
         zoomer.zoomOut();
         updateZoom();
+    }
+
+    /**
+     * Adds the specified UI widget to the root Parent object of the EditableMap. The added node will
+     * be automatically hidden when the selected floor changes.
+     * @param node The ui node to add.
+     */
+    public void addWidget(Node node) {
+        auxiliaryPartition.putChild(selectedFloor(), node);
+    }
+
+    /**
+     * Removes the specified UI widget from the root parent object of the EditableMap.
+     * @param node The ui node to remove.
+     */
+    public void removeWidget(Node node) {
+        auxiliaryPartition.removeChild(node);
     }
 
     public boolean addNode(NodeData node) {
@@ -137,6 +159,9 @@ public class EditableMap implements IEditableMap {
     public Observable<MouseEvent> mapClicked() {
         return mapClicked;
     }
+    public Observable<MouseEvent> mouseMoved() {
+        return mouseMoved;
+    }
 
     private void updateZoom() {
         double hval = scrollPane.getHvalue();
@@ -147,6 +172,7 @@ public class EditableMap implements IEditableMap {
         rootGroup.getChildren().add(roomPartition);
         rootGroup.getChildren().add(edgePartition);
         rootGroup.getChildren().add(nodePartition);
+        rootGroup.getChildren().add(auxiliaryPartition);
 
         scrollPane.setContent(rootGroup);
 

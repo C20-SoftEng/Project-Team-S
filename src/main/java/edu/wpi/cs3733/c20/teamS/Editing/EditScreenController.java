@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveEdgeTool;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveNodeTool;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.EditableMap;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.ToolSelector;
@@ -220,7 +221,9 @@ public class EditScreenController implements Initializable {
     @FXML private void onAddRemoveNodeClicked() {
         toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
     }
-    @FXML private void onAddRemoveEdgeClicked() {}
+    @FXML private void onAddRemoveEdgeClicked() {
+        toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
+    }
     @FXML private void onAddRemoveHitboxClicked() {}
     @FXML private void onMoveNodeClicked() {}
     @FXML private void onShowInfoClicked() {}
