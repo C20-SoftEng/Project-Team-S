@@ -21,6 +21,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController">
    <children>
@@ -307,16 +308,16 @@
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
-                                             <graphic>
-                                                <Label alignment="TOP_CENTER" contentDisplay="CENTER" lineSpacing="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="74.0" prefWidth="61.0" text="+" textAlignment="CENTER" translateY="-10.0">
-                                                   <font>
-                                                      <Font size="60.0" />
-                                                   </font>
-                                                </Label>
-                                             </graphic>
                                              <effect>
                                                 <DropShadow radius="18.552500000000002" width="55.21" />
                                              </effect>
+                                             <graphic>
+                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="+">
+                                                   <font>
+                                                      <Font size="65.0" />
+                                                   </font>
+                                                </Text>
+                                             </graphic>
                                           </JFXButton>
                                           <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                              <graphic>
@@ -335,19 +336,16 @@
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
-                                             <graphic>
-                                                <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="73.0" text="-">
-                                                   <font>
-                                                      <Font size="69.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets bottom="10.0" />
-                                                   </padding>
-                                                </Label>
-                                             </graphic>
                                              <effect>
                                                 <DropShadow height="64.54" radius="29.4375" width="55.21" />
                                              </effect>
+                                             <graphic>
+                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                                                   <font>
+                                                      <Font size="65.0" />
+                                                   </font>
+                                                </Text>
+                                             </graphic>
                                           </JFXButton>
                                        </children>
                                        <opaqueInsets>
