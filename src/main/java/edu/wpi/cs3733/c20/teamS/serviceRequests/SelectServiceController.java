@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.c20.teamU.FlowerRequest.RunFlowerRequest;
 import edu.wpi.cs3733.c20.teamR.APILayer;
 import edu.wpi.cs3733.c20.teamR.APIMain;
+import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
@@ -82,19 +83,13 @@ public class SelectServiceController {
 //        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
 //        this.stage.close();
 
-//        APILayer layer = new APILayer();
-//        try{
-//            layer.start(new Stage());
-//        }
-//        catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//        try{
-//            layer.run(0,0,0,0, "","SLABS00301", "SDEPT00504");
-//        }
-//        catch (Exception e){
-//            System.out.println(e.getMessage());
-//        }
+        AppointmentRequest request = new AppointmentRequest();
+        try{
+            request.run((int)this.stage.getX()-5,(int)this.stage.getY()-5,800,800,"","SHALL00201", null);
+        }
+        catch (Exception e){
+            System.out.println("Error running appointment request\n" + e.getMessage());
+        }
     }
 
     @FXML void onLaundryClicked(ActionEvent event){
