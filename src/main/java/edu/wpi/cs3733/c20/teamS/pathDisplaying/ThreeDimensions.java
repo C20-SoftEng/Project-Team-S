@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import com.interactivemesh.jfx.importer.ModelImporter;
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
@@ -18,6 +20,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +96,8 @@ public class ThreeDimensions extends Application {
         String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
         MeshView[] person = loadMeshViews(personPath);
         for (int i = 0; i < person.length; i++) {
-            double MODEL_SCALE_FACTOR = 4.3;
+            //double MODEL_SCALE_FACTOR = 4.3;
+            double MODEL_SCALE_FACTOR = 3;
             person[i].setScaleX(MODEL_SCALE_FACTOR);
             person[i].setScaleY(MODEL_SCALE_FACTOR);
             person[i].setScaleZ(MODEL_SCALE_FACTOR);
@@ -113,6 +117,9 @@ public class ThreeDimensions extends Application {
             numberGroup.getChildren().add(floorNumbers(number, brightNumber, z, selected));
         }
 
+        RotateGroup elevatorGroup = new RotateGroup();
+        List<NodeData> invalidELEV = new ArrayList<>();
+
         for(int i = 0; i < nodes.size() - 1; i++) {
             NodeData startNode = nodes.get(i);
             NodeData endNode = nodes.get(i + 1);
@@ -120,10 +127,31 @@ public class ThreeDimensions extends Application {
             for(int j = 1; j <= 5; j++) {
                 if(startNode.getFloor() == j) {
                     int radius = 2;
-                    if(startNode.getNodeType().equals("ELEV")) {radius = 5;}
-                    Point3D startPoint = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(startNode.getFloor()));
-                    Point3D endPoint = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(endNode.getFloor()));
-                    group.getChildren().add(drawCylinder(startPoint, endPoint, radius));
+                    if(startNode.getNodeType().equals("ELEV")) {
+                        URL elevPath = getClass().getResource("/images/ThreeDim/cryo.obj").toURI().toURL();
+                        MeshView[] elevator = loadModel(elevPath);
+                        for (int k = 0; k < elevator.length; k++) {
+                            double MODEL_SCALE_FACTOR = 30;
+                            elevator[k].setScaleX(MODEL_SCALE_FACTOR);
+                            elevator[k].setScaleY(MODEL_SCALE_FACTOR);
+                            elevator[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 247);
+                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 188);
+                            elevator[k].setTranslateZ(zplace.get(startNode.getFloor()));
+
+                            elevator[k].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+                            invalidELEV.add(endNode);
+                        }
+                        if(!invalidELEV.contains(startNode)) {
+                            elevatorGroup.getChildren().addAll(elevator);
+                        }
+                    }
+                    else {
+                        Point3D startPoint = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(startNode.getFloor()));
+                        Point3D endPoint = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(endNode.getFloor()));
+                        group.getChildren().addAll(drawCylinder(startPoint, endPoint, radius));
+                    }
                 }
             }
         }
@@ -134,6 +162,7 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(numberGroup);
         group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
+        group.getChildren().add(elevatorGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
@@ -158,7 +187,18 @@ public class ThreeDimensions extends Application {
                 tt.setToX(n1.getxCoordinate() / 5 - 247);
                 tt.setToY(n1.getyCoordinate() / 5 - 148);
                 tt.setCycleCount(1);
-                st.getChildren().addAll(tt);
+
+                TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup);
+                ttELEV.setFromZ(zplace.get(n1.getFloor()));
+                ttELEV.setFromX(n1.getxCoordinate() / 5 - 247);
+                ttELEV.setFromY(n1.getyCoordinate() / 5 - 230);
+                ttELEV.setToZ(zplace.get(n2.getFloor()));
+                ttELEV.setToX(n1.getxCoordinate() / 5 - 247);
+                ttELEV.setToY(n1.getyCoordinate() / 5 - 230);
+                ttELEV.setCycleCount(1);
+
+                ParallelTransition pllt = new ParallelTransition(tt, ttELEV);
+                st.getChildren().addAll(pllt);
             }
             else {
                 floorPath.add(n1); floorPath.add(n2);
@@ -188,6 +228,15 @@ public class ThreeDimensions extends Application {
         primaryStage.show();
     }
 
+    private MeshView[] loadModel(URL url) {
+        Group modelRoot = new Group();
+
+        ObjModelImporter importer = new ObjModelImporter();
+        importer.read(url);
+
+        return importer.getImport();
+    }
+
     static MeshView[] loadMeshViews(String filename) {
         File file = new File(filename);
         StlMeshImporter importer = new StlMeshImporter();
@@ -210,7 +259,7 @@ public class ThreeDimensions extends Application {
         Cylinder cylinder = new Cylinder(radius, height);
 
         Image texture = new Image(("images/ThreeDim/edgeTexture.jpg"));
-        if(radius >= 5) {texture = new Image(("images/ThreeDim/elevatorTexture.png"));}
+        if(radius >= 5) { texture = new Image(("images/ThreeDim/elevatorTexture.png")); }
 
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseMap(texture);
