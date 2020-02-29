@@ -8,13 +8,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.util.function.Consumer;
+
 public final class AddRemoveNodeTool extends EditingTool {
     private final IEditableMap map;
     private String previousNodeType = "HALL";
     private String previousShortName = "NA";
     private String previousLongName = "Unnamed";
 
-    public AddRemoveNodeTool(IEditableMap map) {
+    public AddRemoveNodeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;

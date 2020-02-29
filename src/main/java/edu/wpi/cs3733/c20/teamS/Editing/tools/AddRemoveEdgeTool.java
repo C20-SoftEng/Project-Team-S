@@ -8,11 +8,15 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import java.util.function.Consumer;
+
 public final class AddRemoveEdgeTool extends EditingTool {
     private final IEditableMap map;
     private State state;
 
-    public AddRemoveEdgeTool(IEditableMap map) {
+    public AddRemoveEdgeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;

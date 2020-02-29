@@ -11,15 +11,12 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,6 +44,7 @@ public class EditScreenController implements Initializable {
     private ObservableGraph graph;
     private EditableMap editableMap;
     private DisposableSelector<EditingTool> toolSelector;
+    private final UndoBuffer undoBuffer = new UndoBuffer();
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
@@ -77,7 +75,7 @@ public class EditScreenController implements Initializable {
                 scrollPane, mapImage);
         graph = editableMap.graph();
         toolSelector = new DisposableSelector<>();
-        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(
@@ -221,16 +219,16 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onAddRemoveEdgeClicked() {
-        toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveEdgeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onAddRemoveHitboxClicked() {
-        toolSelector.setCurrent(new AddRemoveRoomTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveRoomTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onMoveNodeClicked() {
-        toolSelector.setCurrent(new MoveNodeTool(editableMap));
+        toolSelector.setCurrent(new MoveNodeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onShowInfoClicked() {}
     @FXML private void onEditRoomEntrancesClicked() {}

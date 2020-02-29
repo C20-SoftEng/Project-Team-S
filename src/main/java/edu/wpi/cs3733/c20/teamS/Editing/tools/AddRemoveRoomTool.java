@@ -14,17 +14,19 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Stack;
+import java.util.function.Consumer;
 
 public final class AddRemoveRoomTool extends EditingTool {
     private final IEditableMap map;
     private final DisposableSelector<State> state = new DisposableSelector<>();
 
-    public AddRemoveRoomTool(IEditableMap map) {
+    public AddRemoveRoomTool(Consumer<Memento> mementoRunner,  IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;
         state.setCurrent(new StandbyState());
-
         addAllSubs(
                 map.mapClicked().subscribe(e -> state.current().onMapClicked(e)),
                 map.mouseMoved().subscribe(e -> state.current().onMouseMoved(e)),
