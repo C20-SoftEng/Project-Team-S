@@ -1,18 +1,25 @@
-.titlebox{ /*top header bar*/
+.topbar{
+    /*top header bar*/
     -fx-background-color: #012d5a;
+}
+
+#title{
+    -fx-text-fill: #ffffff;
 }
 
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
 
-.scroll-pane { /*gives scroll panes a background color*/
+.scroll-pane {
+    /*gives scroll panes a background color*/
     -fx-background-color: #ccc;
 }
 
 .hbox{
     -fx-background-color: #2c2f33;
 }
+
 
 .label {
     -fx-text-fill: black;
@@ -32,9 +39,83 @@
     -fx-border-color: gray;
 }
 
-#switcheroo{
+.login{
+    -fx-background-color: beige;
     -fx-border-color: gray;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.searchbar{
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+
+.startend {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+
+#switcheroo{ /*Switch box*/
+    -fx-background-color: gray;
     -fx-border-color: black;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
+}
+
+.nightbutton{
+    -fx-background-color: #23272a;
+    -fx-border-color: gray;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+.sidebar{
+    -fx-background-color: #cccccc;
+    -fx-border-color: black;
+}
+
+.transparentBar{
+}
+
+.floors{
+    -fx-background-color: #ffffff;
+}
+
+#currentFloor{
+    -fx-background-color: gray;
+}
+
+
+.zoomers{
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+.zoomerSigns{
+    -fx-text-fill: black;
+    -fx-font-size: 65;
+}
+
+.header{
+    -fx-border-color: black;
+}
+
+.buttons{
+    -fx-background-color: #0067b1;
+    -fx-background-radius: 5;
+    -fx-border-color: gray;
+    -fx-border-radius: 5;
+}
+
+.TitledPane{
+    -fx-background-color: red;
 }
