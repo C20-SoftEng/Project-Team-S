@@ -48,6 +48,7 @@ public class PartitionedParent<TKey, TChild extends Node> extends Parent {
             return result;
         });
         group.getChildren().add(child);
+        childPartitionMap.put(child, partition);
     }
     public boolean removeChild(TChild child) {
         if (!childPartitionMap.containsKey(child))
@@ -56,6 +57,7 @@ public class PartitionedParent<TKey, TChild extends Node> extends Parent {
         TKey partition = childPartitionMap.get(child);
         boolean wasRemoved = groupMap.get(partition).getChildren().remove(child);
         assert wasRemoved : "groupMap and childPartitionMap out of sync!";
+        childPartitionMap.remove(child);
 
         return true;
     }

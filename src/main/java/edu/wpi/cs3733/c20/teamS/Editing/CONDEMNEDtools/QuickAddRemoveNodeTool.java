@@ -1,9 +1,9 @@
-package edu.wpi.cs3733.c20.teamS.Editing.tools;
+package edu.wpi.cs3733.c20.teamS.Editing.CONDEMNEDtools;
 
 import com.google.common.graph.EndpointPair;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

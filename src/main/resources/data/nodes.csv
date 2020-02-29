@@ -219,6 +219,7 @@ SHALL00102,1200.9999999999998,1226.7999999999997,2,Faulkner,HALL,2nd Floor Hills
 SHALL00202,1258.8,1226.0,2,Faulkner,HALL,2nd Floor Hillside Hallway East,2hs_hall_east
 SHALL01903,1253.8,864.0,3,Faulkner,HALL,Hallway,Hallway
 SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
+test,1151,490,6,Faulkner,HALL,Corner,Corner
 725-342-300-5-75-84-6030068-75-27-5-9-934,1533.0,1233.0,5,Faulkner,HALL,Oncology Clinic,OncClinic
 -1-82-3-8-7-20-8-3-29658-610-1-1-6-20-6-1923-74,1752.0,1234.0,5,Faulkner,HALL,Oncology Clinic,OncClinic
 -5-7-8-9-180709-13-6868-2-703-30107-410-53,2013.0,1231.0,5,Faulkner,HALL,Oncology Clinic,OncClinic

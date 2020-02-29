@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,10 +11,10 @@ import java.io.IOException;
 /**
  * Simple screen for main client ui
  */
-public class MainToLoginScreen {
+public class MainToLoginScreen extends MainScreen {
     private MainScreenController ui;
     private Scene scene;
-    private Stage stage;
+    //private Stage stage;
 
     public MainToLoginScreen(Stage stage) {
         this.stage = stage;
@@ -33,10 +33,12 @@ public class MainToLoginScreen {
         //ui.updateFloorDisplay();
         this.show();
         stage.setFullScreen(true);
+        puggy.register(scene, Event.ANY);
     }
     public void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
+        puggy.play();
         stage.show();
     }
 }

@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.Editing.tools;
+package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;

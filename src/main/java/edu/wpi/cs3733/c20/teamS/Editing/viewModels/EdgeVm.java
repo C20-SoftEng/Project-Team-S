@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing.viewModels;
 
+import com.google.common.graph.EndpointPair;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -63,6 +64,15 @@ public final class EdgeVm extends Parent {
                 });
     }
 
+    public NodeData start() {
+        return start;
+    }
+    public NodeData end() {
+        return end;
+    }
+    public EndpointPair<NodeData> edge() {
+        return EndpointPair.unordered(start, end);
+    }
     public boolean highlightOnMouseOver() {
         return highlightOnMouseOver.value();
     }
