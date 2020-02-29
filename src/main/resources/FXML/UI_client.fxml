@@ -175,14 +175,6 @@
                               <VBox maxHeight="1.7976931348623157E308" prefHeight="102.0" prefWidth="142.0" VBox.vgrow="ALWAYS" />
                               <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.7" prefHeight="40.0" prefWidth="105.0" text="FLOOR">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="25.0" />
-                                       </VBox.margin>
-                                    </Label>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <JFXButton id="upButton" fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">

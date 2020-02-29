@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import edu.wpi.cs3733.c20.teamS.MainScreen;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class MapEditingScreen {
+public class MapEditingScreen extends MainScreen {
     private EditScreenController ui;
     private Scene scene;
     private Stage stage;
@@ -43,6 +44,7 @@ public class MapEditingScreen {
     public void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
+        puggy.pause();
         //stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
