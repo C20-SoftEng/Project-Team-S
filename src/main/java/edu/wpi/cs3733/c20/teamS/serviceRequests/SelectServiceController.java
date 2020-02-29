@@ -3,29 +3,17 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamR.APILayer;
-import edu.wpi.cs3733.c20.teamR.Appointment;
-import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import foodRequest.FoodRequest;
 import foodRequest.ServiceException;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.*;
-import items.ReligiousService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.xml.ws.Service;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SelectServiceController {
     private Stage stage;
@@ -78,19 +66,19 @@ public class SelectServiceController {
         this.stage.close();
     }
     @FXML void onServiceTechClicked(ActionEvent event){
-//        Stage serviceTechStage = new Stage();
-//        serviceTechStage.initModality(Modality.WINDOW_MODAL);
-//
-//        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
-//        this.stage.close();
-        APILayer layer = new APILayer();
+        Stage serviceTechStage = new Stage();
+        serviceTechStage.initModality(Modality.WINDOW_MODAL);
 
-        try{
-            layer.run();
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
+        this.stage.close();
+
+//        APILayer layer = new APILayer();
+//        try{
+//            layer.run(0,0,0,0);
+//        }
+//        catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
     @FXML void onLaundryClicked(ActionEvent event){
