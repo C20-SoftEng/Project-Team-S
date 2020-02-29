@@ -143,7 +143,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="serviceTechService" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefWidth="152.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Service Tech" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                              <JFXButton fx:id="serviceTechService" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onServiceTechClicked" prefWidth="152.0" style="-fx-border-color: gray; -fx-border-radius: 5;" text="Appointment" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -153,7 +153,7 @@
                                  <graphic>
                                     <ImageView fitHeight="54.0" fitWidth="54.0">
                                        <image>
-                                          <Image url="@../images/Icons/serviceRequests/Service_Tech.png" />
+                                          <Image url="@../images/Icons/serviceRequests/appointment.png"/>
                                        </image>
                                     </ImageView>
                                  </graphic>
