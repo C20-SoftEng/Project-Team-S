@@ -21,7 +21,7 @@ public class SendTextDirectionsThread extends Thread {
     public void run() {
         String allDirections = "";
         for(String d : directions){
-            allDirections = allDirections + d +" - ";
+            allDirections = allDirections + d +" - \n";
         }
         Mailer.sendTextToCarrier(allDirections,"Directions from Faulkner Hospital",number,carrier);
 
