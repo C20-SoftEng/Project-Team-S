@@ -27,6 +27,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -82,6 +85,14 @@ public class EditScreenController implements Initializable {
                 directoryPathTextField, exportButton,
                 () -> editableMap.rooms()
         );
+
+        KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        Scene scene = stage.getScene();
+        Runnable undo = () -> {
+            if (undoBuffer.canUndo())
+                undoBuffer.undo();
+        };
+        scene.getAccelerators().put(keyCombo, undo);
     }
 
     private void initEventHandlers() {

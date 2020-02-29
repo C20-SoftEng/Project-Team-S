@@ -58,7 +58,12 @@ public final class AddRemoveEdgeTool extends EditingTool {
 
         @Override public void onNodeClicked(NodeClickedEvent data) {
             if (!data.node().node().equals(start)) {
-                map.putEdge(start, data.node().node());
+                NodeData end = data.node().node();
+                Memento action = Memento.create(
+                        () -> map.putEdge(start, end),
+                        () -> map.removeEdge(start, end)
+                );
+                execute(action);
             }
             map.removeWidget(vm);
             state = new StandbyState();
