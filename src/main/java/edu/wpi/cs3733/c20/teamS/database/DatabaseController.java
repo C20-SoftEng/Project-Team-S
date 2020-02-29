@@ -5,7 +5,7 @@ import com.google.common.graph.EndpointPair;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -769,7 +769,8 @@ public class DatabaseController implements DBRepo{
             addStm.setString(2,sd.getStatus());
             addStm.setString(3,sd.getMessage());
             addStm.setString(4,sd.getData());
-            addStm.setInt(5,sd.getAssignedEmployeeID());
+            //addStm.setInt(5,sd.getAssignedEmployeeID());
+            addStm.setNull(5,Types.VARCHAR);
             addStm.setDate(6,currentDate);
             addStm.setString(7,sd.getServiceNode());
             addStm.execute();

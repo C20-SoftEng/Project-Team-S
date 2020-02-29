@@ -18,7 +18,6 @@ import javafx.fxml.FXML;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 public class SelectServiceController {
     private Stage stage;
     private Employee loggedIn;

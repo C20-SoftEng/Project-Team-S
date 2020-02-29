@@ -1,116 +1,67 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import com.google.common.graph.EndpointPair;
-import com.sun.scenario.effect.impl.state.MotionBlurState;
+import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PlaceEdgeVm;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
-import java.util.function.Supplier;
-
-public final class AddRemoveEdgeTool implements IEditingTool {
-    private final ObservableGraph graph;
-    public final Supplier<Group> groupSupplier;
+public final class AddRemoveEdgeTool extends EditingTool {
+    private final IEditableMap map;
     private State state;
 
-    public AddRemoveEdgeTool(ObservableGraph graph, Supplier<Group> groupSupplier) {
-        this.graph = graph;
-        this.groupSupplier = groupSupplier;
+    public AddRemoveEdgeTool(IEditableMap map) {
+        if (map == null) ThrowHelper.illegalNull("map");
+
+        this.map = map;
         this.state = new StandbyState();
+
+        addAllSubs(
+                map.nodeClicked().subscribe(e -> state.onNodeClicked(e)),
+                map.edgeClicked().subscribe(e -> state.onEdgeClicked(e)),
+                map.mouseMoved().subscribe(e -> state.onMouseMoved(e))
+        );
     }
 
-    @Override
-    public void onNodeClicked(NodeData node, MouseEvent event) {
-        state.onNodeClicked(node, event);
-    }
-    @Override
-    public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-        state.onEdgeClicked(edge, event);
-    }
-
-    @Override
-    public void onMouseMoved(MouseEvent event) {
-        state.onMouseMoved(event);
-    }
-
-    private abstract class State {
-        public void onNodeClicked(NodeData node, MouseEvent event) {}
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
+    private static abstract class State {
+        public abstract void onNodeClicked(NodeClickedEvent data);
+        public abstract void onEdgeClicked(EdgeClickedEvent data);
         public void onMouseMoved(MouseEvent event) {}
     }
 
     private final class StandbyState extends State {
-        @Override
-        public void onNodeClicked(NodeData node, MouseEvent event) {
-            if (event.getButton() != MouseButton.PRIMARY)
-                return;
-
-            state = new StartNodeSelectedState(node);
+        @Override public void onNodeClicked(NodeClickedEvent data) {
+            state = new StartPlacedState(data.node().node());
         }
-
-        @Override
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-            if (event.getButton() != MouseButton.SECONDARY)
+        @Override public void onEdgeClicked(EdgeClickedEvent data) {
+            if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
 
-            assert edge.nodeU() != null : "nodeU is null";
-            assert edge.nodeV() != null : "nodeV is null";
-
-            graph.removeEdge(edge.nodeU(), edge.nodeV());
+            map.removeEdge(data.edge().start(), data.edge().end());
         }
     }
-
-    private final class StartNodeSelectedState extends State {
+    private final class StartPlacedState extends State {
         private final NodeData start;
-        private final Line edgeDisplay;
-        private static final double LINE_WIDTH = 5.0;
+        private final PlaceEdgeVm vm;
 
-        public StartNodeSelectedState(NodeData start) {
-            assert start != null : "start was null.";
+        public StartPlacedState(NodeData start) {
             this.start = start;
-            edgeDisplay = new Line();
-            edgeDisplay.setStartX(start.getxCoordinate());
-            edgeDisplay.setStartY(start.getyCoordinate());
-            edgeDisplay.setEndX(start.getxCoordinate());
-            edgeDisplay.setEndY(start.getyCoordinate());
-            edgeDisplay.setStrokeWidth(LINE_WIDTH);
-            edgeDisplay.setFill(Color.BLUE);
-            edgeDisplay.setMouseTransparent(true);
-            groupSupplier.get().getChildren().add(edgeDisplay);
+            vm = new PlaceEdgeVm(start.getxCoordinate(), start.getyCoordinate());
+            map.addWidget(vm);
         }
 
-        @Override
-        public void onNodeClicked(NodeData node, MouseEvent event) {
-            if (event.getButton() != MouseButton.PRIMARY)
-                return;
-            if (graph.inner().adjacentNodes(node).contains(start))
-                return;
-
-            graph.putEdge(start, node);
-            switchToStandbyState();
-        }
-
-        @Override
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-            if (event.getButton() != MouseButton.SECONDARY)
-                return;
-
-            switchToStandbyState();
-        }
-
-        @Override
-        public void onMouseMoved(MouseEvent event) {
-            edgeDisplay.setEndX(event.getX());
-            edgeDisplay.setEndY(event.getY());
-        }
-
-        private void switchToStandbyState() {
-            groupSupplier.get().getChildren().remove(edgeDisplay);
+        @Override public void onNodeClicked(NodeClickedEvent data) {
+            if (!data.node().node().equals(start)) {
+                map.putEdge(start, data.node().node());
+            }
+            map.removeWidget(vm);
             state = new StandbyState();
+        }
+        @Override public void onEdgeClicked(EdgeClickedEvent data) { }
+        @Override public void onMouseMoved(MouseEvent event) {
+            vm.setEnd(event.getX(), event.getY());
         }
     }
 }
