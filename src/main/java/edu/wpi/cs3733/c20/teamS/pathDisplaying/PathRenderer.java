@@ -126,13 +126,15 @@ class PathRenderer {
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
+        displayBox.setStyle("-fx-text-fill: black");
         displayBox.getChildren().clear();
+
 
 
         //JFXTextField directionLabel = new JFXTextField();
         //directionLabel.setText("Directions");
         //JFXTextField space = new JFXTextField();
-        directoryBox.setVisible(true);
+        //directoryBox.setVisible(false);
         for (int i = 0; i < instructions.size(); i++) {
             HBox imageHolder = new HBox();
             JFXTextArea text = new JFXTextArea();
@@ -230,6 +232,7 @@ class PathRenderer {
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);
+
             directoryBox.setVisible(false);
         }
     }
