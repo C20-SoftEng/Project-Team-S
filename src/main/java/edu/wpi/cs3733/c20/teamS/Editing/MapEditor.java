@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.google.common.graph.EndpointPair;
+import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.IEditingTool;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
@@ -12,9 +13,13 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,29 +32,50 @@ public class MapEditor {
     private final Group group;
     private final ImageView mapImage;
     private final MapZoomer zoomer;
+    private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
 
     public MapEditor(
-            ObservableGraph graph, IEditingTool initialEditingTool,
+            MutableGraph<NodeData> graph,
             FloorSelector floorSelector, Set<Room> rooms,
             ScrollPane scrollPane, Group group, ImageView mapImage
     ) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
         if (rooms == null) ThrowHelper.illegalNull("rooms");
-        if (initialEditingTool == null) ThrowHelper.illegalNull("initialEditingTool");
 
-        this.graph = graph;
         this.floorSelector = floorSelector;
         this.rooms = rooms;
-        this.editingTool = initialEditingTool;
+        this.editingTool = new IEditingTool() {};
         this.scrollPane = scrollPane;
         this.group = group;
         this.mapImage = mapImage;
         zoomer = new MapZoomer(this.scrollPane);
 
-
+        this.graph = createGraph();
+        graph.nodes().forEach(this.graph::addNode);
+        graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
     }
 
+    private ObservableGraph createGraph() {
+        ObservableGraph graph = new ObservableGraph();
+
+        graph.nodeAdded()
+                .subscribe(node -> {
+                    NodeVm vm = createNodeVm(node);
+                    nodeLookup.put(node, vm);
+                    group.getChildren().add(vm);
+                });
+        graph.nodeRemoved()
+                .subscribe(node -> {
+                    assert nodeLookup.containsKey(node) : "Node " + node.getNodeID() + " was not in node lookup!";
+                    NodeVm remove = nodeLookup.get(node);
+                    List<Node> kids = group.getChildren();
+                    group.getChildren().remove(remove);
+                    nodeLookup.remove(node);
+                });
+
+        return graph;
+    }
     private Group drawAllNodes() {
         Group group = new Group();
         Set<NodeData> nodes = graph.nodes().stream()
@@ -84,6 +110,8 @@ public class MapEditor {
     }
 
     private NodeVm createNodeVm(NodeData node) {
+        assert node != null : "node can't be null!";
+
         NodeVm result = new NodeVm(node);
         result.setOnMouseClicked(e -> editingTool.onNodeClicked(node, e));
         result.setOnMouseDragged(e -> editingTool.onNodeDragged(node, e));
@@ -115,8 +143,11 @@ public class MapEditor {
             return;
         previous.onClosed();
     }
+    public ObservableGraph graph() {
+        return graph;
+    }
 
-    public void redrawMap() {
+    private void redrawMap() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 

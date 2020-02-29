@@ -71,22 +71,23 @@ public class EditScreenController implements Initializable {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
-        graph = createGraph();
+        //graph = createGraph();
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
             rooms.addAll(hitboxRepo.load());
         editor = new MapEditor(
-                graph, createAddRemoveNodeTool(),
+                database.loadGraph(),
                 floorSelector, rooms,
                 scrollPane, group, mapImage);
+        graph = editor.graph();
+        editor.setEditingTool(createAddRemoveNodeTool());
 
         createPathfindingAlgorithmSelector();
-
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
 
-        editor.redrawMap();
+        //editor.redrawMap();
     }
 
     private void initEventHandlers() {
@@ -95,29 +96,33 @@ public class EditScreenController implements Initializable {
         floorSelector.currentChanged()
                 .subscribe(floor -> {
                     mapImage.setImage(floorSelector.floor(floor).image);
-                    editor.redrawMap();
+                    //editor.redrawMap();
                 });
+        graph.nodeAdded().subscribe(database::addNode);
+        graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
+        graph.edgeAdded().subscribe(edge -> database.addEdge(edge.nodeU(), edge.nodeV()));
+        graph.edgeRemoved().subscribe(edge -> database.removeEdge(new EdgeData(edge.nodeU(), edge.nodeV()).getEdgeID()));
     }
     private ObservableGraph createGraph() {
-        ObservableGraph graph = new ObservableGraph(database.loadGraph());
-        graph.nodeAdded().subscribe(node -> {
-            database.addNode(node);
-            editor.redrawMap();
-        }, e -> System.out.println(e.getMessage()));
-        graph.nodeRemoved().subscribe(e -> {
-            database.removeNode(e.getNodeID());
-            editor.redrawMap();
-        }, e -> System.out.println(e.getMessage()));
-        graph.edgeAdded().subscribe(e -> {
-            database.addEdge(e.nodeU(), e.nodeV());
-            editor.redrawMap();
-        }, e -> System.out.println(e.getMessage()));
-        graph.edgeRemoved().subscribe(e -> {
-            database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
-            editor.redrawMap();
-        }, e -> System.out.println(e.getMessage()));
-
-        return graph;
+//        ObservableGraph graph = new ObservableGraph(database.loadGraph());
+//        graph.nodeAdded().subscribe(node -> {
+//            database.addNode(node);
+//            editor.redrawMap();
+//        }, e -> System.out.println(e.getMessage()));
+//        graph.nodeRemoved().subscribe(e -> {
+//            database.removeNode(e.getNodeID());
+//            editor.redrawMap();
+//        }, e -> System.out.println(e.getMessage()));
+//        graph.edgeAdded().subscribe(e -> {
+//            database.addEdge(e.nodeU(), e.nodeV());
+//            editor.redrawMap();
+//        }, e -> System.out.println(e.getMessage()));
+//        graph.edgeRemoved().subscribe(e -> {
+//            database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
+//            editor.redrawMap();
+//        }, e -> System.out.println(e.getMessage()));
+//
+//        return graph;
     }
     private FloorSelector createFloorSelector() {
         return new FloorSelector(
@@ -266,14 +271,14 @@ public class EditScreenController implements Initializable {
         AddRemoveHitboxTool tool = new AddRemoveHitboxTool(
                 hitbox -> {
                     rooms.remove(hitbox);
-                    editor.redrawMap();
+                    //editor.redrawMap();
                 },
                 () -> group,
                 () -> floorSelector.current()
         );
         tool.hitboxAdded().subscribe(hitbox -> {
             rooms.add(hitbox);
-            editor.redrawMap();
+            //editor.redrawMap();
         });
         editor.setEditingTool(tool);
     }
@@ -300,7 +305,7 @@ public class EditScreenController implements Initializable {
         if (hitboxRepo.canLoad()) {
             rooms.clear();
             rooms.addAll(hitboxRepo.load());
-            editor.redrawMap();
+            //editor.redrawMap();
         }
     }
     //endregion

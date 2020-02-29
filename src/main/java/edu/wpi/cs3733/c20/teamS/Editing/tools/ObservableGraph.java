@@ -1,10 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
+import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -24,6 +23,9 @@ public final class ObservableGraph {
         if (graph == null) ThrowHelper.illegalNull("graph");
 
         this.graph = graph;
+    }
+    public ObservableGraph() {
+        this.graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
     }
 
     public boolean addNode(NodeData node) {
