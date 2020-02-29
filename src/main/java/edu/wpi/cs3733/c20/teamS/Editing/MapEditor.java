@@ -32,9 +32,9 @@ public class MapEditor {
     private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
 
     private final Group rootGroup;
-    private final Group nodeGroup = new Group();
-    private final Group edgeGroup = new Group();
-    private final Group roomGroup = new Group();
+    private final PartitionedParent<Integer, NodeVm> nodePartition = new PartitionedParent<>();
+    private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
+    private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
 
     public MapEditor(
             MutableGraph<NodeData> graph,
@@ -62,6 +62,9 @@ public class MapEditor {
         floorSelector.currentChanged()
                 .subscribe(n -> {
                    mapImage.setImage(floorSelector.floor(n).image);
+                   nodePartition.setCurrentPartition(n);
+                   edgePartition.setCurrentPartition(n);
+                   roomPartition.setCurrentPartition(n);
                    updateZoom();
                 });
 
@@ -103,9 +106,9 @@ public class MapEditor {
 
         rootGroup.getChildren().clear();
         rootGroup.getChildren().add(mapImage);
-        rootGroup.getChildren().add(roomGroup);
-        rootGroup.getChildren().add(edgeGroup);
-        rootGroup.getChildren().add(nodeGroup);
+        rootGroup.getChildren().add(roomPartition);
+        rootGroup.getChildren().add(edgePartition);
+        rootGroup.getChildren().add(nodePartition);
 
         scrollPane.setContent(rootGroup);
 
@@ -151,21 +154,21 @@ public class MapEditor {
     private void onNodeAdded(NodeData node) {
         NodeVm vm = createNodeVm(node);
         nodeLookup.put(node, vm);
-        nodeGroup.getChildren().add(vm);
+        nodePartition.putChild(node.getFloor(), vm);
     }
     private void onNodeRemoved(NodeData node) {
         NodeVm remove = nodeLookup.get(node);
-        nodeGroup.getChildren().remove(remove);
+        nodePartition.removeChild(remove);
         nodeLookup.remove(node);
     }
     private void onEdgeAdded(EndpointPair<NodeData> edge) {
         EdgeVm vm = createEdgeVm(edge.nodeU(), edge.nodeV());
-        edgeGroup.getChildren().add(vm);
+        edgePartition.putChild(edge.nodeU().getFloor(), vm);
         edgeLookup.put(edge, vm);
     }
     private void onEdgeRemoved(EndpointPair<NodeData> edge) {
         EdgeVm remove = edgeLookup.get(edge);
-        edgeGroup.getChildren().remove(remove);
+        edgePartition.removeChild(remove);
         edgeLookup.remove(edge);
     }
 }
