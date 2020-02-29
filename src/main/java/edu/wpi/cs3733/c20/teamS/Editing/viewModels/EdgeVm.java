@@ -3,12 +3,12 @@ package edu.wpi.cs3733.c20.teamS.Editing.viewModels;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class EdgeVm extends Parent {
+public final class EdgeVm extends Parent {
     private final NodeData start;
     private final NodeData end;
 
