@@ -8,7 +8,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-public class AddRemoveEdgeTool extends EditingTool {
+public final class AddRemoveEdgeTool extends EditingTool {
     private final IEditableMap map;
     private State state;
 

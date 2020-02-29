@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 
 public interface IEditableMap {
     Observable<NodeClickedEvent> nodeClicked();
+    Observable<NodeClickedEvent> nodeDragged();
+    Observable<NodeClickedEvent> nodeReleased();
     Observable<EdgeClickedEvent> edgeClicked();
     Observable<RoomClickedEvent> roomClicked();
     Observable<MouseEvent> mapClicked();
@@ -31,4 +33,6 @@ public interface IEditableMap {
     int selectedFloor();
     void addWidget(Node node);
     void removeWidget(Node node);
+    boolean isPannable();
+    void setPannable(boolean value);
 }

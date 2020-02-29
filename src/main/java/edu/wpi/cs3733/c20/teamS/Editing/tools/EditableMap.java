@@ -44,6 +44,8 @@ public class EditableMap implements IEditableMap {
     private final PartitionedParent<Integer, Node> auxiliaryPartition = new PartitionedParent<>();
 
     private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
+    private final PublishSubject<NodeClickedEvent> nodeDragged = PublishSubject.create();
+    private final PublishSubject<NodeClickedEvent> nodeReleased = PublishSubject.create();
     private final PublishSubject<EdgeClickedEvent> edgeClicked = PublishSubject.create();
     private final PublishSubject<RoomClickedEvent> roomClicked = PublishSubject.create();
     private final Observable<MouseEvent> mapClicked;
@@ -146,9 +148,21 @@ public class EditableMap implements IEditableMap {
     public int selectedFloor() {
         return floorSelector.current();
     }
+    public boolean isPannable() {
+        return scrollPane.isPannable();
+    }
+    public void setPannable(boolean value) {
+        scrollPane.setPannable(value);
+    }
 
     public Observable<NodeClickedEvent> nodeClicked() {
         return nodeClicked;
+    }
+    public Observable<NodeClickedEvent> nodeDragged() {
+        return nodeDragged;
+    }
+    public Observable<NodeClickedEvent> nodeReleased() {
+        return nodeReleased;
     }
     public Observable<EdgeClickedEvent> edgeClicked() {
         return edgeClicked;
@@ -195,6 +209,8 @@ public class EditableMap implements IEditableMap {
 
         NodeVm result = new NodeVm(node);
         result.setOnMouseClicked(e -> nodeClicked.onNext(new NodeClickedEvent(result, e)));
+        result.setOnMouseDragged(e -> nodeDragged.onNext(new NodeClickedEvent(result, e)));
+        result.setOnMouseReleased(e -> nodeReleased.onNext(new NodeClickedEvent(result, e)));
 
         return result;
     }

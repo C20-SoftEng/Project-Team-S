@@ -2,10 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveEdgeTool;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.AddRemoveNodeTool;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.EditableMap;
-import edu.wpi.cs3733.c20.teamS.Editing.tools.ToolSelector;
+import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
@@ -225,7 +222,9 @@ public class EditScreenController implements Initializable {
         toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
     }
     @FXML private void onAddRemoveHitboxClicked() {}
-    @FXML private void onMoveNodeClicked() {}
+    @FXML private void onMoveNodeClicked() {
+        toolSelector.setCurrent(new MoveNodeTool(editableMap));
+    }
     @FXML private void onShowInfoClicked() {}
     @FXML private void onEditRoomEntrancesClicked() {}
 
