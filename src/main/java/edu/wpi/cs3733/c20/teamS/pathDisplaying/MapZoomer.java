@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import edu.wpi.cs3733.c20.teamS.utilities.Numerics;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import javafx.scene.control.ScrollPane;
 

@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c20.teamS.utilities;
+package edu.wpi.cs3733.c20.teamS.utilities.numerics;
 
 public final class Numerics {
     private Numerics() {}

@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.image.Image;
 
-class Floor {
+public class Floor {
     public final Image image;
     public final JFXButton button;
 

@@ -10,7 +10,7 @@ public interface IEditingTool {
     default void onMouseMoved(MouseEvent event) {}
     default void onNodeClicked(NodeData node, MouseEvent event) {}
     default void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
-    default void onHitboxClicked(Room room, MouseEvent event) {}
+    default void onRoomClicked(Room room, MouseEvent event) {}
 
     default void onNodeDragged(NodeData node, MouseEvent e) {}
     default void onNodeReleased(NodeData node, MouseEvent e) {}
