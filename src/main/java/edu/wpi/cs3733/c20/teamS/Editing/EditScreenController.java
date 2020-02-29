@@ -46,14 +46,12 @@ public class EditScreenController implements Initializable {
     private Employee loggedIn;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
-
     private MapEditor editor;
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
-    private final Group group = new Group();
+    //private final Group group = new Group();
     private final Set<Room> rooms = new HashSet<>();
-
     //endregion
 
     /**
@@ -65,13 +63,11 @@ public class EditScreenController implements Initializable {
         this.stage  = stage;
         this.loggedIn = employee;
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
-        //graph = createGraph();
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
@@ -79,50 +75,20 @@ public class EditScreenController implements Initializable {
         editor = new MapEditor(
                 database.loadGraph(),
                 floorSelector, rooms,
-                scrollPane, group, mapImage);
+                scrollPane, mapImage);
         graph = editor.graph();
         editor.setEditingTool(createAddRemoveNodeTool());
 
         createPathfindingAlgorithmSelector();
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(directoryPathTextField, exportButton, () -> rooms);
-
-        //editor.redrawMap();
     }
 
     private void initEventHandlers() {
-        group.setOnMouseClicked(e -> editor.editingTool().onMapClicked(e));
-        group.setOnMouseMoved(e -> editor.editingTool().onMouseMoved(e));
-        floorSelector.currentChanged()
-                .subscribe(floor -> {
-                    mapImage.setImage(floorSelector.floor(floor).image);
-                    //editor.redrawMap();
-                });
         graph.nodeAdded().subscribe(database::addNode);
         graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
         graph.edgeAdded().subscribe(edge -> database.addEdge(edge.nodeU(), edge.nodeV()));
         graph.edgeRemoved().subscribe(edge -> database.removeEdge(new EdgeData(edge.nodeU(), edge.nodeV()).getEdgeID()));
-    }
-    private ObservableGraph createGraph() {
-//        ObservableGraph graph = new ObservableGraph(database.loadGraph());
-//        graph.nodeAdded().subscribe(node -> {
-//            database.addNode(node);
-//            editor.redrawMap();
-//        }, e -> System.out.println(e.getMessage()));
-//        graph.nodeRemoved().subscribe(e -> {
-//            database.removeNode(e.getNodeID());
-//            editor.redrawMap();
-//        }, e -> System.out.println(e.getMessage()));
-//        graph.edgeAdded().subscribe(e -> {
-//            database.addEdge(e.nodeU(), e.nodeV());
-//            editor.redrawMap();
-//        }, e -> System.out.println(e.getMessage()));
-//        graph.edgeRemoved().subscribe(e -> {
-//            database.removeEdge(new EdgeData(e.nodeU(), e.nodeV()).getEdgeID());
-//            editor.redrawMap();
-//        }, e -> System.out.println(e.getMessage()));
-//
-//        return graph;
     }
     private FloorSelector createFloorSelector() {
         return new FloorSelector(
@@ -164,7 +130,6 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
 
     @FXML private VBox editToolFieldsVBox;
-
     @FXML private JFXButton editEmpButton;
 
     @FXML private RadioButton astarRadioButton;
@@ -200,11 +165,9 @@ public class EditScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-
     @FXML private void onEditButtonPressed() {
         EmployeeEditingScreen.showDialog();
     }
-
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
@@ -258,13 +221,12 @@ public class EditScreenController implements Initializable {
         }
         ActiveServiceRequestScreen.showDialog(setOfActives);
     }
-
     @FXML private void onAddRemoveNodeClicked() {
         IEditingTool tool = createAddRemoveNodeTool();
         editor.setEditingTool(tool);
     }
     @FXML private void onAddRemoveEdgeClicked() {
-        IEditingTool tool = new AddRemoveEdgeTool(graph, () -> group);
+        IEditingTool tool = new AddRemoveEdgeTool(graph, () -> new Group());
         editor.setEditingTool(tool);
     }
     @FXML private void onAddRemoveHitboxClicked() {
@@ -273,7 +235,7 @@ public class EditScreenController implements Initializable {
                     rooms.remove(hitbox);
                     //editor.redrawMap();
                 },
-                () -> group,
+                Group::new,
                 () -> floorSelector.current()
         );
         tool.hitboxAdded().subscribe(hitbox -> {
@@ -291,7 +253,7 @@ public class EditScreenController implements Initializable {
     @FXML private void onEditRoomEntrancesClicked() {
         IEditingTool tool = new EditHitboxTool(
                 graph.nodes(),
-                () -> group,
+                () -> new Group(),
                 editToolFieldsVBox
         );
         editor.setEditingTool(tool);

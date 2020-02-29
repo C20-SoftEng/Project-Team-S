@@ -13,12 +13,10 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,15 +27,20 @@ public class MapEditor {
     private final Set<Room> rooms;
     private IEditingTool editingTool;
     private final ScrollPane scrollPane;
-    private final Group group;
     private final ImageView mapImage;
     private final MapZoomer zoomer;
     private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
+    private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
+
+    private final Group rootGroup;
+    private final Group nodeGroup = new Group();
+    private final Group edgeGroup = new Group();
+    private final Group roomGroup = new Group();
 
     public MapEditor(
             MutableGraph<NodeData> graph,
             FloorSelector floorSelector, Set<Room> rooms,
-            ScrollPane scrollPane, Group group, ImageView mapImage
+            ScrollPane scrollPane, ImageView mapImage
     ) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
@@ -47,32 +50,32 @@ public class MapEditor {
         this.rooms = rooms;
         this.editingTool = new IEditingTool() {};
         this.scrollPane = scrollPane;
-        this.group = group;
-        this.mapImage = mapImage;
         zoomer = new MapZoomer(this.scrollPane);
+        this.rootGroup = new Group();
+        this.mapImage = mapImage;
 
         this.graph = createGraph();
         graph.nodes().forEach(this.graph::addNode);
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
+
+        rootGroup.setOnMouseClicked(e -> editingTool.onMapClicked(e));
+        rootGroup.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
+        floorSelector.currentChanged()
+                .subscribe(n -> {
+                   mapImage.setImage(floorSelector.floor(n).image);
+                   updateZoom();
+                });
+
+        updateZoom();
     }
 
     private ObservableGraph createGraph() {
         ObservableGraph graph = new ObservableGraph();
 
-        graph.nodeAdded()
-                .subscribe(node -> {
-                    NodeVm vm = createNodeVm(node);
-                    nodeLookup.put(node, vm);
-                    group.getChildren().add(vm);
-                });
-        graph.nodeRemoved()
-                .subscribe(node -> {
-                    assert nodeLookup.containsKey(node) : "Node " + node.getNodeID() + " was not in node lookup!";
-                    NodeVm remove = nodeLookup.get(node);
-                    List<Node> kids = group.getChildren();
-                    group.getChildren().remove(remove);
-                    nodeLookup.remove(node);
-                });
+        graph.nodeAdded().subscribe(this::addNode);
+        graph.nodeRemoved().subscribe(this::removeNode);
+        graph.edgeAdded().subscribe(this::addEdge);
+        graph.edgeRemoved().subscribe(this::removeEdge);
 
         return graph;
     }
@@ -109,6 +112,26 @@ public class MapEditor {
         return result;
     }
 
+    private void addNode(NodeData node) {
+        NodeVm vm = createNodeVm(node);
+        nodeLookup.put(node, vm);
+        nodeGroup.getChildren().add(vm);
+    }
+    private void removeNode(NodeData node) {
+        NodeVm remove = nodeLookup.get(node);
+        nodeGroup.getChildren().remove(remove);
+        nodeLookup.remove(node);
+    }
+    private void addEdge(EndpointPair<NodeData> edge) {
+        EdgeVm vm = createEdgeVm(edge.nodeU(), edge.nodeV());
+        edgeGroup.getChildren().add(vm);
+        edgeLookup.put(edge, vm);
+    }
+    private void removeEdge(EndpointPair<NodeData> edge) {
+        EdgeVm remove = edgeLookup.get(edge);
+        edgeGroup.getChildren().remove(remove);
+        edgeLookup.remove(edge);
+    }
     private NodeVm createNodeVm(NodeData node) {
         assert node != null : "node can't be null!";
 
@@ -133,6 +156,7 @@ public class MapEditor {
         result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
     }
+
     public IEditingTool editingTool() {
         return editingTool;
     }
@@ -147,18 +171,35 @@ public class MapEditor {
         return graph;
     }
 
+    private void updateZoom() {
+        double hval = scrollPane.getHvalue();
+        double vval = scrollPane.getVvalue();
+
+        rootGroup.getChildren().clear();
+        rootGroup.getChildren().add(mapImage);
+        rootGroup.getChildren().add(roomGroup);
+        rootGroup.getChildren().add(edgeGroup);
+        rootGroup.getChildren().add(nodeGroup);
+
+        scrollPane.setContent(rootGroup);
+
+        zoomer.zoomSet();
+        scrollPane.setHvalue(hval);
+        scrollPane.setVvalue(vval);
+    }
+
     private void redrawMap() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
-        group.getChildren().clear();
-        group.getChildren().add(mapImage);
+        rootGroup.getChildren().clear();
+        rootGroup.getChildren().add(mapImage);
 
-        group.getChildren().add(drawAllRooms());
-        group.getChildren().add(drawAllEdges());
-        group.getChildren().add(drawAllNodes());
+        rootGroup.getChildren().add(drawAllRooms());
+        rootGroup.getChildren().add(drawAllEdges());
+        rootGroup.getChildren().add(drawAllNodes());
 
-        scrollPane.setContent(group);
+        scrollPane.setContent(rootGroup);
 
         //Keeps the zoom the same throughout each screen/floor change.
         zoomer.zoomSet();
@@ -173,8 +214,10 @@ public class MapEditor {
     }
     public void zoomIn() {
         zoomer.zoomIn();
+        updateZoom();
     }
     public void zoomOut() {
         zoomer.zoomOut();
+        updateZoom();
     }
 }
