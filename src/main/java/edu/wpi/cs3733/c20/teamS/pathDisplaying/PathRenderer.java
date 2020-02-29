@@ -24,8 +24,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class PathRenderer {
-    double y = 0;
-    double x = 0;
+    double startX = 0;
+    double startY = 0;
+    double xLen = 0;
+    double yLen = 0;
     /**
      * Draws the portion of the specified path that is on the specified floor, then
      * returns a new Group containing all the elements that were drawn.
@@ -92,22 +94,23 @@ class PathRenderer {
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
                 imageView.setVisible(true);
-                if(node_itrat.getxCoordinate() > x){
-                    x = node_itrat.getxCoordinate();
+                if(X > xLen){
+                    xLen = X;
                 }
-                if(node_itrat.getyCoordinate() > y){
-                    y = node_itrat.getyCoordinate();
+                if(Y > yLen){
+                    yLen = Y;
                 }
             }
         }
-
-        MainScreenController.x = x;
-        MainScreenController.y = y;
-        System.out.print(x);
+        startX = start.getxCoordinate();
+        startY = start.getyCoordinate();
+        MainScreenController.x = xLen - startX;
+        MainScreenController.y = yLen - startY;
+        System.out.print(xLen - startX);
         System.out.print(" ");
-        System.out.println(x);
-        x = 0;
-        y = 0;
+        System.out.println(yLen - startY);
+        xLen = 0;
+        yLen = 0;
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));

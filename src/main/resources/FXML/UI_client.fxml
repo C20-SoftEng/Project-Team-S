@@ -444,33 +444,21 @@
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
-                                             <content>
-                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                                                         <children>
-                                                            <ListView fx:id="labList" prefHeight="200.0" prefWidth="200.0" />
-                                                         </children>
-                                                      </AnchorPane>
-                                                  </content>
-                                                </ScrollPane>
-                                             </content>
+                                             <graphic>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <ListView fx:id="labList" prefHeight="200.0" prefWidth="200.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
                                           </TitledPane>
                                           <TitledPane fx:id="AccINFO" text="Information">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
-                                             <content>
-                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                                                         <children>
-                                                            <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" />
-                                                         </children>
-                                                      </AnchorPane>
-                                                  </content>
-                                                </ScrollPane>
-                                             </content>
+                                             <graphic>
+                                                <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" />
+                                             </graphic>
                                           </TitledPane>
                                           <TitledPane fx:id="AccRETL" text="Shops">
                                              <font>
