@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 
 import java.util.*;
 import java.util.stream.Collectors;

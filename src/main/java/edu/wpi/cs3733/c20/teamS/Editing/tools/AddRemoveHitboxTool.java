@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.scene.Group;
@@ -48,7 +48,7 @@ public class AddRemoveHitboxTool implements IEditingTool {
     @Override public void onMouseMoved(MouseEvent event) {
         state.onMouseMoved(event.getX(), event.getY());
     }
-    @Override public void onHitboxClicked(Room room, MouseEvent event) {
+    @Override public void onRoomClicked(Room room, MouseEvent event) {
         state.onHitboxClicked(room, event);
     }
 

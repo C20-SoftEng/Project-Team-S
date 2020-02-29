@@ -2,6 +2,9 @@ package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -15,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +31,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 import java.awt.event.ActionListener;
@@ -59,7 +64,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     JFXTextField weatherField;
     @FXML
-    JFXTextArea weatherSummary;
+    Label weatherSummary;
     @FXML
     JFXTextArea firstTweet;
     @FXML
@@ -84,18 +89,17 @@ public class MainStartScreenController implements Initializable {
 
         timeBox.setStyle("-fx-background-color: rgba(255, 255, 255, 255);");
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(" HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
-
-        timeField.setText("    " + dtf.format(now));
-        timeField.setStyle("-fx-font-size: 40px");
+        //timeField.setText("    " + dtf.format(now));
+        timeField.setStyle("-fx-font-size: 30px");
+        initClock();
 
         WeatherBox weatherBox1 = new WeatherBox();
 
-        weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " Degrees");
+        weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " " +
+                "Degrees F");
         weatherField.setStyle("-fx-font-size: 16px");
-        weatherSummary.setText("         " + weatherBox1.summary());
+        weatherSummary.setText(weatherBox1.summary());
+        //weatherSummary
         weatherSummary.setStyle("-fx-font-size: 25px");
         //weatherSummary.setStyle("-fx-padding: 0 10 0 10");
 
@@ -103,15 +107,15 @@ public class MainStartScreenController implements Initializable {
         String icon = weatherBox1.icon();
 
         if (icon.contains("clear") && icon.contains("day")) {
-            icon = "weatherIcons/SunImage.jpeg";
+            icon = "weatherIcons/SunImage.png";
         } else if (icon.contains("clear") && icon.contains("night")) {
-            icon = "weatherIcons/MoonImage.jpeg";
+            icon = "weatherIcons/MoonImage.png";
         } else if (icon.contains("rain") || icon.contains("sleet")) {
             icon = "weatherIcons/rain.png";
         } else if (icon.contains("partly") && icon.contains("day")) {
             icon = "weatherIcons/PartlyCloudy.png";
         } else if (icon.contains("partly") && icon.contains("night")) {
-            icon = "weatherIcons/PartlyCloudyNightImage.png";
+            icon = "weatherIcons/PartlyCloudyNight.png";
         } else if (icon.contains("cloudy")) {
             icon = "weatherIcons/Cloudy.png";
         } else if (icon.contains("fog")) {
@@ -126,10 +130,11 @@ public class MainStartScreenController implements Initializable {
 
 
         Image image = new Image(String.valueOf(getClass().getResource("/images/" + icon)));
+        //Image image = new Image(String.valueOf(getClass().getResource("/images/" + "weatherIcons/ThunderStorm.png")));
 
         imageID.setImage(image);
         imageID.setFitHeight(171);
-        imageID.setFitWidth(289);
+        imageID.setFitWidth(171);
         imageID.setPreserveRatio(false);
         Tweetbox tweetbox = new Tweetbox();
 
@@ -164,4 +169,17 @@ public class MainStartScreenController implements Initializable {
         maintolog.show();
 
     }
+
+
+    private void initClock() {
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            timeField.setText(LocalDateTime.now().format(formatter));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+    }
+
 }
+

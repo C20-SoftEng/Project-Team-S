@@ -17,9 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.xml.ws.Service;
-
 public class SelectServiceController {
     private Stage stage;
     private Employee loggedIn;

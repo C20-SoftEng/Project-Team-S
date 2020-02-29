@@ -2,12 +2,12 @@ package edu.wpi.cs3733.c20.teamS.Editing.viewModels;
 
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class NodeVm extends Parent {
+public final class NodeVm extends Parent {
     private final NodeData node;
     private final Circle visibleMask;
     private final Circle collisionMask;

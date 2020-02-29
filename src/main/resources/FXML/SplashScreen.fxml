@@ -26,7 +26,7 @@
                      <children>
                         <VBox alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="183.0" prefWidth="101.0" style="-fx-border-color: white;" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox fx:id="weatherBox" prefHeight="145.0" prefWidth="277.0" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                              <VBox fx:id="weatherBox" alignment="CENTER" prefHeight="145.0" prefWidth="277.0" style="-fx-background-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
                                     <Label contentDisplay="CENTER" focusTraversable="false" prefHeight="31.0" prefWidth="288.0" style="-fx-background-color: white;" text="            Weather" textFill="#070707">
                                        <font>
@@ -37,18 +37,24 @@
                                        </VBox.margin>
                                     </Label>
                                     <JFXTextField fx:id="weatherField" editable="false" focusTraversable="false" style="-fx-background-color: white;" />
-                                    <ImageView fx:id="imageID" fitHeight="171.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
-                                    <JFXTextArea fx:id="weatherSummary" focusTraversable="false" prefHeight="77.0" prefWidth="95.0" style="-fx-background-color: white;" />
+                                    <ImageView fx:id="imageID" fitHeight="171.0" fitWidth="171.0" pickOnBounds="true" preserveRatio="true">
+                                       <VBox.margin>
+                                          <Insets top="8.0" />
+                                       </VBox.margin></ImageView>
+                                    <Label fx:id="weatherSummary" alignment="CENTER" prefHeight="37.0" prefWidth="288.0" text="Label" />
                                  </children>
                               </VBox>
-                              <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: white;" VBox.vgrow="SOMETIMES">
+                              <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: white; -fx-background-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <JFXTextArea fx:id="timeField" focusTraversable="false" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff" />
+                                    <JFXTextArea fx:id="timeField" focusTraversable="false" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff">
+                                       <VBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </VBox.margin></JFXTextArea>
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="277.0" style="-fx-border-color: black; -fx-border-width: 2;" VBox.vgrow="ALWAYS">
+                        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="277.0" style="-fx-border-color: black; -fx-border-width: 1;" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox alignment="CENTER" style="-fx-background-color: #1DA1F2;" VBox.vgrow="SOMETIMES">
                                  <children>

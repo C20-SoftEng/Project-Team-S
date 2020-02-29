@@ -1,10 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceController;
-import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreen;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginScreen {
+public class LoginScreen{
     private final Stage stage;
     private final Stage toPass;
     private final Scene scene;
