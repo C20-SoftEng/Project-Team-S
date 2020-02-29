@@ -96,11 +96,11 @@ public class ThreeDimensions extends Application {
         String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
         MeshView[] person = loadMeshViews(personPath);
         for (int i = 0; i < person.length; i++) {
-            //double MODEL_SCALE_FACTOR = 4.3;
             double MODEL_SCALE_FACTOR = 3;
             person[i].setScaleX(MODEL_SCALE_FACTOR);
             person[i].setScaleY(MODEL_SCALE_FACTOR);
             person[i].setScaleZ(MODEL_SCALE_FACTOR);
+            person[i].setTranslateZ(begin.getFloor());
 
             PhongMaterial material = new PhongMaterial();
             Image texture = new Image(("images/ThreeDim/yellow.jpg"));
@@ -128,7 +128,7 @@ public class ThreeDimensions extends Application {
                 if(startNode.getFloor() == j) {
                     int radius = 2;
                     if(startNode.getNodeType().equals("ELEV")) {
-                        URL elevPath = getClass().getResource("/images/ThreeDim/cryo.obj").toURI().toURL();
+                        URL elevPath = getClass().getResource("/images/ThreeDim/boneless.obj").toURI().toURL();
                         MeshView[] elevator = loadModel(elevPath);
                         for (int k = 0; k < elevator.length; k++) {
                             double MODEL_SCALE_FACTOR = 30;
@@ -136,9 +136,9 @@ public class ThreeDimensions extends Application {
                             elevator[k].setScaleY(MODEL_SCALE_FACTOR);
                             elevator[k].setScaleZ(MODEL_SCALE_FACTOR);
 
-                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 247);
-                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 188);
-                            elevator[k].setTranslateZ(zplace.get(startNode.getFloor()));
+                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 244);
+                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 148);
+                            elevator[k].setTranslateZ(zplace.get(startNode.getFloor()) - 60);
 
                             elevator[k].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
                             invalidELEV.add(endNode);
@@ -180,20 +180,20 @@ public class ThreeDimensions extends Application {
                 st.getChildren().add(getFloorPath(personGroup, floorPath));
                 floorPath.clear();
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
-                tt.setFromZ(zplace.get(n1.getFloor()) - 27);
+                tt.setFromZ(zplace.get(n1.getFloor()) - 17);
                 tt.setFromX(n1.getxCoordinate() / 5 - 247);
                 tt.setFromY(n1.getyCoordinate() / 5 - 148);
-                tt.setToZ(zplace.get(n2.getFloor()) - 27);
+                tt.setToZ(zplace.get(n2.getFloor()) - 17);
                 tt.setToX(n1.getxCoordinate() / 5 - 247);
                 tt.setToY(n1.getyCoordinate() / 5 - 148);
                 tt.setCycleCount(1);
 
                 TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup);
                 ttELEV.setFromZ(zplace.get(n1.getFloor()));
-                ttELEV.setFromX(n1.getxCoordinate() / 5 - 247);
+                ttELEV.setFromX(n1.getxCoordinate() / 5 - 244);
                 ttELEV.setFromY(n1.getyCoordinate() / 5 - 230);
                 ttELEV.setToZ(zplace.get(n2.getFloor()));
-                ttELEV.setToX(n1.getxCoordinate() / 5 - 247);
+                ttELEV.setToX(n1.getxCoordinate() / 5 - 244);
                 ttELEV.setToY(n1.getyCoordinate() / 5 - 230);
                 ttELEV.setCycleCount(1);
 
