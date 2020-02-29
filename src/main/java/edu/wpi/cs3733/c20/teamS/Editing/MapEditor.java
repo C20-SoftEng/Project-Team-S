@@ -16,21 +16,19 @@ import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class MapEditor {
     private final ObservableGraph graph;
-    private final FloorSelector floorSelector;
-    private final Set<Room> rooms;
     private IEditingTool editingTool;
     private final ScrollPane scrollPane;
     private final ImageView mapImage;
     private final MapZoomer zoomer;
     private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
     private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
-
+    private final Map<Room, RoomVm> roomLookup = new HashMap<>();
     private final Group rootGroup;
     private final PartitionedParent<Integer, NodeVm> nodePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
@@ -38,15 +36,13 @@ public class MapEditor {
 
     public MapEditor(
             MutableGraph<NodeData> graph,
-            FloorSelector floorSelector, Set<Room> rooms,
+            FloorSelector floorSelector, Collection<Room> rooms,
             ScrollPane scrollPane, ImageView mapImage
     ) {
         if (graph == null) ThrowHelper.illegalNull("graph");
         if (floorSelector == null) ThrowHelper.illegalNull("floorSelector");
         if (rooms == null) ThrowHelper.illegalNull("rooms");
 
-        this.floorSelector = floorSelector;
-        this.rooms = rooms;
         this.editingTool = new IEditingTool() {};
         this.scrollPane = scrollPane;
         zoomer = new MapZoomer(this.scrollPane);
@@ -56,6 +52,7 @@ public class MapEditor {
         this.graph = createGraph();
         graph.nodes().forEach(this.graph::addNode);
         graph.edges().forEach(edge -> this.graph.putEdge(edge.nodeU(), edge.nodeV()));
+        rooms.forEach(this::onRoomAdded);
 
         rootGroup.setOnMouseClicked(e -> editingTool.onMapClicked(e));
         rootGroup.setOnMouseMoved(e -> editingTool.onMouseMoved(e));
@@ -98,6 +95,37 @@ public class MapEditor {
     public void zoomOut() {
         zoomer.zoomOut();
         updateZoom();
+    }
+
+    public boolean addNode(NodeData node) {
+        return graph.addNode(node);
+    }
+    public boolean removeNode(NodeData node) {
+        return graph.removeNode(node);
+    }
+    public boolean putEdge(EndpointPair<NodeData> edge) {
+        return graph.putEdge(edge.nodeU(), edge.nodeV());
+    }
+    public boolean putEdge(NodeData nodeU, NodeData nodeV) {
+        return graph.putEdge(nodeU, nodeV);
+    }
+    public boolean removeEdge(EndpointPair<NodeData> edge) {
+        return graph.removeEdge(edge.nodeU(), edge.nodeV());
+    }
+    public boolean removeEdge(NodeData nodeU, NodeData nodeV) {
+        return graph.removeEdge(nodeU, nodeV);
+    }
+    public boolean addRoom(Room room) {
+        if (roomLookup.containsKey(room))
+            return false;
+        onRoomAdded(room);
+        return true;
+    }
+    public boolean removeRoom(Room room) {
+        if (!roomLookup.containsKey(room))
+            return false;
+        onRoomRemoved(room);
+        return true;
     }
 
     private void updateZoom() {
@@ -150,7 +178,6 @@ public class MapEditor {
         result.setOnMouseClicked(e -> editingTool.onRoomClicked(room, e));
         return result;
     }
-
     private void onNodeAdded(NodeData node) {
         NodeVm vm = createNodeVm(node);
         nodeLookup.put(node, vm);
@@ -170,5 +197,15 @@ public class MapEditor {
         EdgeVm remove = edgeLookup.get(edge);
         edgePartition.removeChild(remove);
         edgeLookup.remove(edge);
+    }
+    private void onRoomAdded(Room room) {
+        RoomVm vm = createRoomVm(room);
+        roomPartition.putChild(room.floor(), vm);
+        roomLookup.put(room, vm);
+    }
+    private void onRoomRemoved(Room room) {
+        RoomVm remove = roomLookup.get(room);
+        roomPartition.removeChild(remove);
+        roomLookup.remove(room);
     }
 }
