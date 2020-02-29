@@ -4,20 +4,15 @@ import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
@@ -109,12 +104,13 @@ public class ThreeDimensions extends Application {
             person[i].setMaterial(material);
         }
 
+        RotateGroup numberGroup = new RotateGroup();
         for(int i = 1; i <= 5; i++) {
             boolean selected = (begin.getFloor() == i || end.getFloor() == i);
             Image number = new Image("images/ThreeDim/number" + i + ".png");
             Image brightNumber = new Image("images/ThreeDim/bright" + i + ".png");
             int z = zplace.get(i);
-            group.getChildren().add(floorNumbers(number, brightNumber, z, selected));
+            numberGroup.getChildren().add(floorNumbers(number, brightNumber, z, selected));
         }
 
         for(int i = 0; i < nodes.size() - 1; i++) {
@@ -135,6 +131,7 @@ public class ThreeDimensions extends Application {
         RotateGroup personGroup = new RotateGroup();
         personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
+        group.getChildren().add(numberGroup);
         group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
         group.getChildren().add(destinationCircle);
@@ -184,7 +181,7 @@ public class ThreeDimensions extends Application {
         scene.setFill(Color.DIMGRAY);
         scene.setCamera(camera);
 
-        mouseControl(group, scene, primaryStage);
+        mouseControl(group, scene, primaryStage, numberGroup);
 
         primaryStage.setTitle("3D View");
         primaryStage.setScene(scene);
@@ -273,10 +270,16 @@ public class ThreeDimensions extends Application {
         floorNum.setTranslateX(250);
         floorNum.setTranslateY(100);
         floorNum.setMaterial(material);
+
         return floorNum;
     }
 
-    private void mouseControl(RotateGroup group, Scene scene, Stage stage) {
+    private void mouseControl(RotateGroup group, Scene scene, Stage stage, RotateGroup numberGroup) {
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
+            oldX = mouseEvent.getX();
+            oldY = mouseEvent.getY();
+        });
+
         scene.setOnMouseDragged(event -> {
             if(event.isPrimaryButtonDown() && !event.isControlDown()) {
                 if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2);}
@@ -284,23 +287,13 @@ public class ThreeDimensions extends Application {
                 oldY = event.getSceneY();
             }
             if(event.isPrimaryButtonDown() && event.isControlDown()) {
-                if(event.getSceneX() > oldX) { group.rotateByZ(-1);}
-                else {group.rotateByZ(1);}
+                if(event.getSceneX() > oldX) { group.rotateByZ(-1);  numberGroup.rotateByZ(1);}
+                else {group.rotateByZ(1); numberGroup.rotateByZ(-1);}
                 oldX = event.getSceneX();
             }
-        });
-
-        group.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
-            oldX2 = mouseEvent.getX();
-        });
-
-        group.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent mouseEvent) -> {
-            if(mouseEvent.isSecondaryButtonDown()) {
-                double deltaX = mouseEvent.getX() - oldX2;
-                for (Node node : group.getChildren()) {
-                    node.setTranslateX(node.getTranslateX() + deltaX);
-                    oldX2 = mouseEvent.getX();
-                }
+            if(event.isSecondaryButtonDown()) {
+                group.setTranslateX(group.getTranslateX() + (event.getX() - oldX));
+                oldX = event.getX();
             }
         });
 
