@@ -6,13 +6,19 @@ import javafx.util.Duration;
 
 public abstract class BaseScreen {
     public static final UIWatchPug puggy;
-    public static Stage stage;
+    private static Stage superStage;
 
     static {
         //Stage stage = new Stage();
-        puggy = new UIWatchPug(new Duration(100000),() -> {
-            MainStartScreen.showDialog(stage);
+        puggy = new UIWatchPug(new Duration(5000),() -> {
+            MainStartScreen.showDialog(superStage);
         });
     }
+
+    static void setSuperStage(Stage stage){
+        superStage = stage;
+    }
+
+    public void close(){}
 }
 

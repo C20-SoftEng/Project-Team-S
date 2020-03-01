@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class LoginScreen{
     private final Stage stage;
@@ -50,6 +51,7 @@ public class LoginScreen{
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
         stage.show();
     }
 

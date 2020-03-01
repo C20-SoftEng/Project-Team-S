@@ -4,6 +4,10 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Settings {
     private final PathfindingContext pathfinder = new PathfindingContext(new AStar());
@@ -69,5 +73,6 @@ public final class Settings {
         return SingletonHelper.settings;
     }
 
+    public static Set<Stage> openWindows = new HashSet<>();
 }
 

@@ -368,6 +368,7 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+            Settings.openWindows.add(this.stage);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");

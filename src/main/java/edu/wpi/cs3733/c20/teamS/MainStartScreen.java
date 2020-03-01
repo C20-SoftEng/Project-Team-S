@@ -33,7 +33,7 @@ public class MainStartScreen extends BaseScreen {
         this.show();
         stage.setFullScreen(true);
     }
-    public void show() {
+    private void show() {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
@@ -41,6 +41,10 @@ public class MainStartScreen extends BaseScreen {
 
     public static void showDialog(Stage mainScreen) {
         MainStartScreen screen = new MainStartScreen(mainScreen);
+        for(Stage s : Settings.openWindows){
+            s.close();
+            Settings.openWindows.remove(s);
+        }
         puggy.pause();
         //screen.show();
     }

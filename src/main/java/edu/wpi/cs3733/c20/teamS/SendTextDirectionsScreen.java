@@ -43,6 +43,7 @@ public class SendTextDirectionsScreen {
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
         stage.show();
     }
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MainToLoginScreen extends BaseScreen {
     private MainScreenController ui;
     private Scene scene;
-    //private Stage stage;
+    private Stage stage;
 
     public MainToLoginScreen(Stage stage) {
         this.stage = stage;
@@ -34,6 +34,7 @@ public class MainToLoginScreen extends BaseScreen {
         this.show();
         stage.setFullScreen(true);
         puggy.register(scene, Event.ANY);
+        setSuperStage(stage);
     }
     private void show() {
         stage.setScene(scene);
