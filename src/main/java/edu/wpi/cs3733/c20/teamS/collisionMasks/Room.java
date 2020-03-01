@@ -60,4 +60,8 @@ public final class Room {
     public void setLastVertex(double x, double y) {
         setLastVertex(new Vector2(x, y));
     }
+
+    @Override public String toString() {
+        return name();
+    }
 }

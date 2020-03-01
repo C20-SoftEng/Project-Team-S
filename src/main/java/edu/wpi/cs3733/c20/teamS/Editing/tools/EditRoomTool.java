@@ -59,11 +59,11 @@ public class EditRoomTool extends EditingTool {
         private final Room room;
         private final List<EditRoomVertexVm> handles = new ArrayList<>();
         private final Set<NodeVm> touchingNodeVms = new HashSet<>();
-        private HandleState handleState;
+        private HandleState dragState;
 
         public RoomSelectedState(Room room) {
             this.room = room;
-            handleState = new NotDraggingState();
+            dragState = new NotDraggingState();
 
             initRoomVertexHandles(room);
             initTouchingNodes(room);
@@ -83,8 +83,8 @@ public class EditRoomTool extends EditingTool {
         private void initRoomVertexHandles(Room room) {
             for (int index = 0; index < room.vertices().size(); index++) {
                 EditRoomVertexVm handle = new EditRoomVertexVm(room, index);
-                handle.dragged().subscribe(v -> handleState.onDrag(handle, v));
-                handle.released().subscribe(v -> handleState.onRelease(handle, v));
+                handle.dragged().subscribe(v -> dragState.onDrag(handle, v));
+                handle.released().subscribe(v -> dragState.onRelease(handle, v));
                 handles.add(handle);
                 map.addWidget(handle);
             }
@@ -98,8 +98,8 @@ public class EditRoomTool extends EditingTool {
         @Override public void onRoomClicked(RoomClickedEvent data) {
             switch (data.event().getButton()) {
                 case PRIMARY:
-                    state.setCurrent(new StandbyState());
-                    state.setCurrent(new RoomSelectedState(room));
+                    this.dispose();
+                    state.setCurrent(() -> new RoomSelectedState(data.room().room()));
                     break;
                 case SECONDARY:
                     state.setCurrent(new StandbyState());
@@ -137,7 +137,7 @@ public class EditRoomTool extends EditingTool {
 
         private final class NotDraggingState extends HandleState {
             @Override public void onDrag(EditRoomVertexVm handle, Vector2 mouse) {
-                handleState = new DraggingState(handle, mouse);
+                dragState = new DraggingState(handle, mouse);
             }
         }
 
@@ -165,7 +165,7 @@ public class EditRoomTool extends EditingTool {
                         () -> room.vertices().set(index, start)
                 );
 
-                handleState = new NotDraggingState();
+                dragState = new NotDraggingState();
             }
         }
     }
