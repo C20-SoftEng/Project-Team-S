@@ -131,8 +131,8 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
-                new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
-                new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
+               new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+              new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
