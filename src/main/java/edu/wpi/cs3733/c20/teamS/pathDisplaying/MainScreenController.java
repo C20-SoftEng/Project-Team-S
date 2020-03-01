@@ -394,17 +394,21 @@ public class MainScreenController implements Initializable {
     @FXML private void onDarkModeClicked(){
         if (DarkModeButton.getScene().getStylesheets().contains("dark-theme.css")){
             DarkModeButton.getScene().getStylesheets().remove("dark-theme.css");
-            DarkModeButton.getScene().getStylesheets().add("default-coloration");
+            DarkModeButton.getScene().getStylesheets().add("default.css");
             //set image to dark mode button
             darkModeImage.setImage(Khons);
             System.out.println("returned to light mode");
+            System.out.println(DarkModeButton.getScene().getStylesheets());
+
         }
         else {
-            DarkModeButton.getScene().getStylesheets().remove("default-coloration");
             DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
+            DarkModeButton.getScene().getStylesheets().remove("default");
             //set image to light mode button
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");
+            System.out.println(DarkModeButton.getScene().getStylesheets());
+
         }
     }
     //endregion
