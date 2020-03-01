@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -36,10 +39,12 @@ import java.util.Set;
 public class ThreeDimensions extends Application {
     private List<NodeData> nodes;
     private Stage primaryStage = new Stage();
+    private String goal = "";
 
-    public ThreeDimensions(List<NodeData> nodes) throws Exception {
+    public ThreeDimensions(List<NodeData> nodes, String goal) throws Exception {
         if(nodes != null) {
             this.nodes = nodes;
+            this.goal = goal;
             start(primaryStage); }
     }
 
@@ -276,36 +281,49 @@ public class ThreeDimensions extends Application {
         ImageView imageView = getOverlay();
         root.getChildren().add(imageView);
 
+        Label dest = new Label();
+        dest.setText(goal);
+        dest.setScaleX(3);
+        dest.setScaleY(3);
+        dest.setScaleZ(3);
+        dest.setTranslateX(568);
+        dest.setTranslateY(-34);
+        dest.setTextFill(Color.web("#ffffff"));
+
+        root.getChildren().add(dest);
+
         Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
         scene.setCamera(camera);
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
+        imageView.setTranslateZ(imageView.getTranslateZ() + zplace.get(begin.getFloor()));
+        dest.setTranslateZ(dest.getTranslateZ() + zplace.get(begin.getFloor()));
 
         mouseControl(group, scene, primaryStage, numberGroup);
 
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
                 case Z:
-                    imageView.setScaleX(imageView.getScaleX() - 0.005);
-                    imageView.setScaleY(imageView.getScaleY() - 0.005);
-                    imageView.setScaleZ(imageView.getScaleZ() - 0.005);
+                    dest.setScaleX(dest.getScaleX() - 0.005);
+                    dest.setScaleY(dest.getScaleY() - 0.005);
+                    dest.setScaleZ(dest.getScaleZ() - 0.005);
                     break;
                 case X:
-                    imageView.setScaleX(imageView.getScaleX() + 0.005);
-                    imageView.setScaleY(imageView.getScaleY() + 0.005);
-                    imageView.setScaleZ(imageView.getScaleZ() + 0.005);
+                    dest.setScaleX(dest.getScaleX() + 0.005);
+                    dest.setScaleY(dest.getScaleY() + 0.005);
+                    dest.setScaleZ(dest.getScaleZ() + 0.005);
                     break;
                 case J:
-                    imageView.setTranslateX(imageView.getTranslateX() - 2);
+                    dest.setTranslateX(dest.getTranslateX() - 2);
                     break;
                 case K:
-                    imageView.setTranslateX(imageView.getTranslateX() + 2);
+                    dest.setTranslateX(dest.getTranslateX() + 2);
                     break;
                 case Y:
-                    imageView.setTranslateY(imageView.getTranslateY() - 2);
+                    dest.setTranslateY(dest.getTranslateY() - 2);
                     break;
                 case U:
-                    imageView.setTranslateY(imageView.getTranslateY() + 2);
+                    dest.setTranslateY(dest.getTranslateY() + 2);
                     break;
             }
         });
