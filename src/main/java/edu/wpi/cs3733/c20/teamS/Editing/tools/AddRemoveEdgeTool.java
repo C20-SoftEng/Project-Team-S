@@ -8,11 +8,15 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import java.util.function.Consumer;
+
 public final class AddRemoveEdgeTool extends EditingTool {
     private final IEditableMap map;
     private State state;
 
-    public AddRemoveEdgeTool(IEditableMap map) {
+    public AddRemoveEdgeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;
@@ -39,7 +43,11 @@ public final class AddRemoveEdgeTool extends EditingTool {
             if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
 
-            map.removeEdge(data.edge().start(), data.edge().end());
+            Memento action = Memento.create(
+                    () -> map.removeEdge(data.edge().start(), data.edge().end()),
+                    () -> map.putEdge(data.edge().start(), data.edge().end())
+            );
+            execute(action);
         }
     }
     private final class StartPlacedState extends State {
@@ -54,7 +62,12 @@ public final class AddRemoveEdgeTool extends EditingTool {
 
         @Override public void onNodeClicked(NodeClickedEvent data) {
             if (!data.node().node().equals(start)) {
-                map.putEdge(start, data.node().node());
+                NodeData end = data.node().node();
+                Memento action = Memento.create(
+                        () -> map.putEdge(start, end),
+                        () -> map.removeEdge(start, end)
+                );
+                execute(action);
             }
             map.removeWidget(vm);
             state = new StandbyState();

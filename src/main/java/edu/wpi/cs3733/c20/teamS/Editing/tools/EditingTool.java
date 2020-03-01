@@ -4,17 +4,29 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
+import java.util.function.Consumer;
+
 public abstract class EditingTool implements Disposable {
     private final CompositeDisposable disposables = new CompositeDisposable();
+    private final Consumer<Memento> mementoRunner;
 
-    protected EditingTool() {}
+    protected EditingTool(Consumer<Memento> mementoRunner) {
+        if (mementoRunner == null) ThrowHelper.illegalNull("mementoExecutor");
 
-    protected void addSub(Disposable subscription) {
+        this.mementoRunner = mementoRunner;
+    }
+    protected final void execute(Memento memento) {
+        mementoRunner.accept(memento);
+    }
+    protected final void execute(Runnable execute, Runnable undo) {
+        mementoRunner.accept(Memento.create(execute, undo));
+    }
+    protected final void addSub(Disposable subscription) {
         if (subscription == null) ThrowHelper.illegalNull("subscription");
 
         disposables.add(subscription);
     }
-    protected void addAllSubs(Disposable... subscriptions) {
+    protected final void addAllSubs(Disposable... subscriptions) {
         this.disposables.addAll(subscriptions);
     }
 
@@ -24,7 +36,6 @@ public abstract class EditingTool implements Disposable {
         disposables.dispose();
         onDispose();
     }
-
     /**
      * Called when the EditingTool is disposed.
      */
