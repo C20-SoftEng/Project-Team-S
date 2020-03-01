@@ -194,22 +194,32 @@ public class ThreeDimensions extends Application {
             if(elev) {
                 st.getChildren().add(getFloorPath(personGroup, floorPath));
                 floorPath.clear();
+                double offsetX = 0;
+                double offsetY = 0;
+                if(n1.getNodeID().substring(7,8).equals("X")) {
+                    offsetX = 0;
+                    offsetY = 150;
+                }
+                else if(n1.getNodeID().substring(7,8).equals("Z")) {
+                    offsetX = -24;
+                    offsetY = 10;
+                }
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
-                tt.setFromZ((zplace.get(n1.getFloor())) - 25);
+                tt.setFromZ((zplace.get(n1.getFloor())) - 25 - ((2-begin.getFloor()) * 100));
                 tt.setFromX(n1.getxCoordinate() / 5 - 247);
                 tt.setFromY(n1.getyCoordinate() / 5 - 148);
-                tt.setToZ(zplace.get(n2.getFloor()) - 25);
+                tt.setToZ(zplace.get(n2.getFloor()) - 25 - ((2-begin.getFloor()) * 100));
                 tt.setToX(n1.getxCoordinate() / 5 - 247);
                 tt.setToY(n1.getyCoordinate() / 5 - 148);
                 tt.setCycleCount(1);
 
                 TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup);
-                ttELEV.setFromZ(zplace.get(n1.getFloor()));
-                ttELEV.setFromX(n1.getxCoordinate() / 5 - 244);
-                ttELEV.setFromY(n1.getyCoordinate() / 5 - 240);
-                ttELEV.setToZ(zplace.get(n2.getFloor()));
-                ttELEV.setToX(n1.getxCoordinate() / 5 - 244);
-                ttELEV.setToY(n1.getyCoordinate() / 5 - 240);
+                ttELEV.setFromZ(zplace.get(n1.getFloor()) - ((2-begin.getFloor()) * 100));
+                ttELEV.setFromX(n1.getxCoordinate() / 5 - 244 + offsetX);
+                ttELEV.setFromY(n1.getyCoordinate() / 5 - 240 + offsetY);
+                ttELEV.setToZ(zplace.get(n2.getFloor()) - ((2-begin.getFloor()) * 100));
+                ttELEV.setToX(n1.getxCoordinate() / 5 - 244 + offsetX);
+                ttELEV.setToY(n1.getyCoordinate() / 5 - 240 + offsetY);
                 ttELEV.setCycleCount(1);
 
                 ParallelTransition pllt = new ParallelTransition(tt, ttELEV);
