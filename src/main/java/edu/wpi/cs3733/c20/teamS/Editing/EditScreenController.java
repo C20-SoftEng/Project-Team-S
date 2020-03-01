@@ -17,6 +17,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,7 +42,7 @@ import java.util.Set;
 
 public class EditScreenController implements Initializable {
     //region fields
-    private Stage stage;
+    private Stage mainScreenStage;
     private Employee loggedIn;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
@@ -56,11 +57,11 @@ public class EditScreenController implements Initializable {
 
     /**
      *
-     * @param stage the stage to take over
+     * @param mainScreenStage the stage to take over
      * @param employee the employee that logged in
      */
-    public EditScreenController(Stage stage, Employee employee) {
-        this.stage  = stage;
+    public EditScreenController(Stage mainScreenStage, Employee employee) {
+        this.mainScreenStage = mainScreenStage;
         this.loggedIn = employee;
     }
     @Override
@@ -86,15 +87,22 @@ public class EditScreenController implements Initializable {
                 () -> editableMap.rooms()
         );
 
+        initUndoDebugHelper();
+    }
+
+    private void initUndoDebugHelper() {
         KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
-        Scene scene = stage.getScene();
         Runnable undo = () -> {
             if (undoBuffer.canUndo())
                 undoBuffer.undo();
+            System.out.println("Undo hit");
         };
-        scene.getAccelerators().put(keyCombo, undo);
+        RxAdaptors.propertyStream(floorButton2.sceneProperty())
+                .subscribe(scene -> {
+                   System.out.println("Scene changed");
+                   scene.getAccelerators().put(keyCombo, undo);
+                });
     }
-
     private void initEventHandlers() {
         graph.nodeAdded().subscribe(database::addNode);
         graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
@@ -257,6 +265,6 @@ public class EditScreenController implements Initializable {
     //endregion
 
     public void onLogOut() {
-        MainToLoginScreen back = new MainToLoginScreen(stage);
+        MainToLoginScreen back = new MainToLoginScreen(mainScreenStage);
     }
 }

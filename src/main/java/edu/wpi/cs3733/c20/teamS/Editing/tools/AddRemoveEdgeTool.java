@@ -43,7 +43,11 @@ public final class AddRemoveEdgeTool extends EditingTool {
             if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
 
-            map.removeEdge(data.edge().start(), data.edge().end());
+            Memento action = Memento.create(
+                    () -> map.removeEdge(data.edge().start(), data.edge().end()),
+                    () -> map.putEdge(data.edge().start(), data.edge().end())
+            );
+            execute(action);
         }
     }
     private final class StartPlacedState extends State {
