@@ -151,11 +151,11 @@ public class ThreeDimensions extends Application {
                             elevator[k].setScaleY(MODEL_SCALE_FACTOR);
                             elevator[k].setScaleZ(MODEL_SCALE_FACTOR);
 
-                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 244);
-                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 148);
+                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 244 - 45);
+                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 148 - 9);
                             elevator[k].setTranslateZ(zplace.get(startNode.getFloor()) - 60);
 
-                            elevator[k].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+                            elevator[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
                             invalidELEV.add(endNode);
                         }
                         if(!invalidELEV.contains(startNode)) {
