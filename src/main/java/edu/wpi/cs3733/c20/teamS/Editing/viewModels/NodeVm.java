@@ -41,6 +41,9 @@ public final class NodeVm extends Parent {
         node.positionChanged().subscribe(e -> updatePosition());
     }
 
+    public NodeData node() {
+        return node;
+    }
     public boolean highlightOnMouseOver() {
         return highlightOnMouseOver.value();
     }

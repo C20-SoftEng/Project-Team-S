@@ -127,7 +127,9 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
-                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
+                new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+                new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
@@ -205,6 +207,8 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton3;
     @FXML private JFXButton floorButton4;
     @FXML private JFXButton floorButton5;
+    @FXML private JFXButton floorButton6;
+    @FXML private JFXButton floorButton7;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
@@ -354,6 +358,12 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
+    }
+    @FXML private void onFloorClicked6() {
+        floorSelector.setCurrent(6);
+    }
+    @FXML private void onFloorClicked7() {
+        floorSelector.setCurrent(7);
     }
     @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
     @FXML private void onAboutClicked() {
