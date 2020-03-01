@@ -21,18 +21,18 @@ public class MainToLoginScreen extends BaseScreen {
     public MainToLoginScreen(Stage stage) {
         this.stage = stage;
         this.scene = stage.getScene();
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        Settings single = Settings.get();
-        FXMLLoader loader = single.singleLoader;
-//        loader.setControllerFactory(c -> {
-//            this.ui = new MainScreenController(stage);
-//            return this.ui;
-//        });
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
+
+        loader.setControllerFactory(c -> {
+            this.ui = new MainScreenController(stage);
+            return this.ui;
+        });
         try {
 
-            Parent root = single.root;
-            //Parent root = loader.load();
-            //this.scene = new Scene(root);
+
+            Parent root = loader.load();
+
 
             if(this.scene == null){
                 this.scene = new Scene(root);

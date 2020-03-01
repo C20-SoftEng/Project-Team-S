@@ -2,16 +2,13 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
@@ -386,6 +383,7 @@ public class MainScreenController implements Initializable {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        //BaseScreen.puggy.changeTimeout(15000);
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();

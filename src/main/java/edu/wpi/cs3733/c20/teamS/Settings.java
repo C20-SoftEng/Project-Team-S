@@ -77,7 +77,5 @@ public final class Settings {
 
     public static Set<Stage> openWindows = new HashSet<>();
 
-    static FXMLLoader singleLoader;
-    static Parent root;
 }
 

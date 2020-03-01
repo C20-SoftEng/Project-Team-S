@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.utilities.SendEmailDirectionsThread;
 import edu.wpi.cs3733.c20.teamS.utilities.SendTextDirectionsThread;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -44,6 +45,7 @@ public class SendTextDirectionsScreen {
     private void show() {
         stage.setScene(scene);
         Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 
