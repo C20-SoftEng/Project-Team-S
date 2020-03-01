@@ -76,7 +76,7 @@ public class ThreeDimensions extends Application {
 
         Camera camera = new PerspectiveCamera();
         camera.setFarClip(10000);
-        camera.setNearClip(0);
+        //camera.setNearClip(0); //cant see guy in elevator
         camera.setTranslateY(-50);
 
         Shape destinationCircle = new Circle(10);
@@ -205,10 +205,10 @@ public class ThreeDimensions extends Application {
                 TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup);
                 ttELEV.setFromZ(zplace.get(n1.getFloor()));
                 ttELEV.setFromX(n1.getxCoordinate() / 5 - 244);
-                ttELEV.setFromY(n1.getyCoordinate() / 5 - 230);
+                ttELEV.setFromY(n1.getyCoordinate() / 5 - 240);
                 ttELEV.setToZ(zplace.get(n2.getFloor()));
                 ttELEV.setToX(n1.getxCoordinate() / 5 - 244);
-                ttELEV.setToY(n1.getyCoordinate() / 5 - 230);
+                ttELEV.setToY(n1.getyCoordinate() / 5 - 240);
                 ttELEV.setCycleCount(1);
 
                 ParallelTransition pllt = new ParallelTransition(tt, ttELEV);
