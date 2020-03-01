@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
+import javafx.scene.input.MouseButton;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -48,28 +49,37 @@ public class EditRoomTool extends EditingTool {
 
     private final class StandbyState extends State {
         @Override public void onRoomClicked(RoomClickedEvent data) {
+            if (data.event().getButton() != MouseButton.PRIMARY)
+                return;
             state.setCurrent(new RoomSelectedState(data.room().room()));
         }
     }
 
     private final class RoomSelectedState extends State {
+        private final Room room;
         private final List<EditRoomVertexVm> handles = new ArrayList<>();
         private final Set<NodeVm> touchingNodeVms = new HashSet<>();
         private HandleState handleState;
 
         public RoomSelectedState(Room room) {
+            this.room = room;
             handleState = new NotDraggingState();
 
             initRoomVertexHandles(room);
-
-            room.touchingNodes().stream()
-                    .map(nodeLookup::get)
-                    .map(map::getNodeViewModel)
-                    .forEach(vm -> {
-
-                    });
+            initTouchingNodes(room);
         }
 
+        private void initTouchingNodes(Room room) {
+            room.touchingNodes().removeIf(id -> {
+                boolean remove = !nodeLookup.containsKey(id);
+                if (remove) {
+                    System.err.println("Missing touching node '" + id + "' on room '" + room.name() + "'.");
+                }
+                else
+                    addTouchingNode(nodeLookup.get(id));
+                return remove;
+            });
+        }
         private void initRoomVertexHandles(Room room) {
             for (int index = 0; index < room.vertices().size(); index++) {
                 EditRoomVertexVm handle = new EditRoomVertexVm(room, index);
@@ -82,10 +92,42 @@ public class EditRoomTool extends EditingTool {
 
         @Override protected void onDispose() {
             handles.forEach(map::removeWidget);
+            touchingNodeVms.forEach(vm -> vm.setSelected(false));
         }
 
         @Override public void onRoomClicked(RoomClickedEvent data) {
-            state.setCurrent(new RoomSelectedState(data.room().room()));
+            switch (data.event().getButton()) {
+                case PRIMARY:
+                    state.setCurrent(new StandbyState());
+                    state.setCurrent(new RoomSelectedState(room));
+                    break;
+                case SECONDARY:
+                    state.setCurrent(new StandbyState());
+                    break;
+            }
+        }
+        @Override public void onNodeClicked(NodeClickedEvent data) {
+            switch (data.event().getButton()) {
+                case PRIMARY:
+                    addTouchingNode(data.node().node());
+                    break;
+                case SECONDARY:
+                    removeTouchingNode(data.node().node());
+                    break;
+            }
+        }
+
+        private void addTouchingNode(NodeData node) {
+            NodeVm vm = map.getNodeViewModel(node);
+            vm.setSelected(true);
+            touchingNodeVms.add(vm);
+            room.touchingNodes().add(node.getNodeID());
+        }
+        private void removeTouchingNode(NodeData node) {
+            NodeVm vm = map.getNodeViewModel(node);
+            vm.setSelected(false);
+            touchingNodeVms.remove(vm);
+            room.touchingNodes().remove(node.getNodeID());
         }
 
         private abstract class HandleState {

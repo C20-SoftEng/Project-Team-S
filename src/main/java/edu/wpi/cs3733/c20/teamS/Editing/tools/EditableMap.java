@@ -165,6 +165,8 @@ public class EditableMap implements IEditableMap {
      */
     @Override
     public NodeVm getNodeViewModel(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
         return nodeLookup.get(node);
     }
 
@@ -175,6 +177,8 @@ public class EditableMap implements IEditableMap {
      */
     @Override
     public EdgeVm getEdgeViewModel(EndpointPair<NodeData> edge) {
+        if (edge == null) ThrowHelper.illegalNull("edge");
+
         return edgeLookup.get(edge);
     }
     /**
@@ -184,6 +188,8 @@ public class EditableMap implements IEditableMap {
      */
     @Override
     public RoomVm getRoomViewModel(Room room) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
         return roomLookup.get(room);
     }
 
