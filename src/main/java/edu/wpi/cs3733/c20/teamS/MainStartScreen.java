@@ -14,34 +14,27 @@ public class MainStartScreen extends BaseScreen {
    private Scene scene;
 
 
-    public MainStartScreen(Stage stage) {
+    public MainStartScreen() {
+        this.stage = Settings.primaryStage;
+        this.scene = this.stage.getScene();
 
-        this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
+        if(this.scene == null){
+            this.scene = new Scene(Settings.splashRoot);
+        }
+        else {
+            this.scene.setRoot(Settings.splashRoot);
+        }
 
-        loader.setControllerFactory(c-> {
-            this.ui = new MainStartScreenController();
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
-            this.scene = new Scene(root);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        //ui.updateFloorDisplay();
         this.show();
-        stage.setFullScreen(true);
     }
+
     private void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
         stage.show();
     }
 
-    public static void showDialog(Stage mainScreen) {
-        MainStartScreen screen = new MainStartScreen(mainScreen);
+    public static void showDialog() {
+        MainStartScreen screen = new MainStartScreen();
         for(Stage s : Settings.openWindows){
             s.close();
             Settings.openWindows.remove(s);
@@ -49,9 +42,6 @@ public class MainStartScreen extends BaseScreen {
         puggy.pause();
         //screen.show();
     }
-
-
-
 
     }
 

@@ -65,7 +65,8 @@ public class TwoFactorScreen {
 
     public void passedTFA(){
 
-        MapEditingScreen mes = new MapEditingScreen(toPass, loggedIn);
+        MapEditingScreen mes = new MapEditingScreen();
+        Settings.loggedIn = loggedIn;
         this.stage.close();
     }
 

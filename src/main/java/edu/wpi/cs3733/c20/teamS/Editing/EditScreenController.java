@@ -58,12 +58,10 @@ public class EditScreenController implements Initializable {
 
     /**
      *
-     * @param stage the stage to take over
-     * @param employee the employee that logged in
      */
-    public EditScreenController(Stage stage, Employee employee) {
-        this.stage  = stage;
-        this.loggedIn = employee;
+    public EditScreenController() {
+        this.stage  = Settings.primaryStage;
+        this.loggedIn = Settings.loggedIn;
     }
 
     @Override
@@ -98,6 +96,7 @@ public class EditScreenController implements Initializable {
                     editor.redrawMap();
                 });
     }
+
     private ObservableGraph createGraph() {
         ObservableGraph graph = new ObservableGraph(database.loadGraph());
         graph.nodeAdded().subscribe(node -> {
@@ -306,6 +305,7 @@ public class EditScreenController implements Initializable {
     //endregion
 
     public void onLogOut() {
-        MainToLoginScreen back = new MainToLoginScreen(stage);
+        Settings.loggedIn = null;
+        new MainToLoginScreen();
     }
 }

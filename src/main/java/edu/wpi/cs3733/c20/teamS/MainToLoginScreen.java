@@ -18,47 +18,29 @@ public class MainToLoginScreen extends BaseScreen {
     private Scene scene;
     private Stage stage;
 
-    public MainToLoginScreen(Stage stage) {
-        this.stage = stage;
+    public MainToLoginScreen() {
+        this.stage = Settings.primaryStage;
         this.scene = stage.getScene();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
+        Settings set = Settings.get();
 
-        loader.setControllerFactory(c -> {
-            this.ui = new MainScreenController(stage);
-            return this.ui;
-        });
-        try {
-
-
-            Parent root = loader.load();
-
-
-            if(this.scene == null){
-                this.scene = new Scene(root);
-                throw new IOException();
-            }
-            else {
-                this.scene.setRoot(root);
-            }
+        if(this.scene == null){
+            this.scene = new Scene(set.mainScreenRoot);
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(set.mainScreenRoot);
         }
-        //ui.updateFloorDisplay();
+
         this.show();
-        stage.setFullScreen(true);
         puggy.register(scene, Event.ANY);
-        setSuperStage(stage);
     }
     private void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
         stage.show();
     }
     public static void showDialog(Stage mainScreen) {
         puggy.play();
-        MainToLoginScreen screen = new MainToLoginScreen(mainScreen);
+        MainToLoginScreen screen = new MainToLoginScreen();
         //puggy.pause();
         //screen.show();
     }

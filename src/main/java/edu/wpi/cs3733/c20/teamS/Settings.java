@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
-
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -77,5 +76,11 @@ public final class Settings {
 
     public static Set<Stage> openWindows = new HashSet<>();
 
+    static FXMLLoader singleLoader;
+    public static Stage primaryStage;
+    public static Parent mainScreenRoot;
+    public static Parent splashRoot;
+    public static Parent employeeRoot;
+    public static edu.wpi.cs3733.c20.teamS.serviceRequests.Employee loggedIn = null;
 }
 
