@@ -18,6 +18,9 @@ public abstract class EditingTool implements Disposable {
     protected final void execute(Memento memento) {
         mementoRunner.accept(memento);
     }
+    protected final void execute(Runnable execute, Runnable undo) {
+        mementoRunner.accept(Memento.create(execute, undo));
+    }
     protected final void addSub(Disposable subscription) {
         if (subscription == null) ThrowHelper.illegalNull("subscription");
 

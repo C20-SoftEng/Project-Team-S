@@ -4,10 +4,12 @@ import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 public final class AddRemoveNodeTool extends EditingTool {
@@ -32,7 +34,20 @@ public final class AddRemoveNodeTool extends EditingTool {
         if (event.event().getButton() != MouseButton.SECONDARY)
             return;
 
-        map.removeNode(event.node().node());
+        Memento action = new Memento() {
+            private final NodeData node = event.node().node();
+            private final Set<NodeData> friends = map.graph().inner().adjacentNodes(node);
+
+            @Override public void execute() {
+                map.removeNode(node);
+            }
+            @Override public void undo() {
+                map.addNode(node);
+                for (NodeData friend : friends)
+                    map.putEdge(node, friend);
+            }
+        };
+        execute(action);
     }
 
     private void onMapClicked(MouseEvent event) {
@@ -51,7 +66,11 @@ public final class AddRemoveNodeTool extends EditingTool {
                         e.value().setxCoordinate(event.getX());
                         e.value().setyCoordinate(event.getY());
                         e.value().setFloor(map.selectedFloor());
-                        map.addNode(e.value());
+
+                        execute(
+                                () -> map.addNode(e.value()),
+                                () -> map.removeNode(e.value())
+                        );
 
                         previousNodeType = e.value().getNodeType();
                         previousShortName = e.value().getShortName();
