@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -13,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
@@ -66,6 +69,7 @@ public class ThreeDimensions extends Application {
 
         Camera camera = new PerspectiveCamera();
         camera.setFarClip(10000);
+        camera.setNearClip(0);
         camera.setTranslateY(-50);
 
         Shape destinationCircle = new Circle(10);
