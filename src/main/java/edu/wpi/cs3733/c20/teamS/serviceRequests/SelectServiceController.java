@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
+//import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
 import foodRequest.FoodRequest;
@@ -123,6 +123,7 @@ public class SelectServiceController {
         JanitorRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
     }
+
 
     @FXML void onGiftClicked(ActionEvent event){
         GiftRequest request = new GiftRequest();
