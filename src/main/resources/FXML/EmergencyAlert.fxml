@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #F24130;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.emergency.EmergencyController">
    <children>
@@ -16,19 +15,6 @@
          <top>
             <ImageView fx:id="alertScrolling" fitHeight="111.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </top>
-         <bottom>
-            <JFXButton fx:id="exitEmergencyMode" onAction="#onBackClicked" style="-fx-border-radius: 15; -fx-background-color: white;" text="Back" BorderPane.alignment="CENTER_LEFT">
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </BorderPane.margin>
-               <font>
-                  <Font size="45.0" />
-               </font>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" height="25.0" offsetY="5.0" radius="12.0" width="25.0" />
-               </effect>
-            </JFXButton>
-         </bottom>
          <center>
             <BorderPane style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <center>
@@ -40,6 +26,16 @@
                </center>
             </BorderPane>
          </center>
+         <bottom>
+            <Button fx:id="exitEmergencyMode" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#onBackClicked" style="-fx-background-color: white; -fx-background-radius: 7;" text="Button" BorderPane.alignment="BOTTOM_LEFT">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
       </BorderPane>
       <ImageView fitHeight="346.0" fitWidth="396.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="11.0">
          <image>
