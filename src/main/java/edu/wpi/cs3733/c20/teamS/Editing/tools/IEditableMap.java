@@ -5,6 +5,9 @@ import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
@@ -37,4 +40,10 @@ public interface IEditableMap {
     boolean isPannable();
     void setPannable(boolean value);
     ObservableGraph graph();
+    NodeVm getNodeViewModel(NodeData node);
+    EdgeVm getEdgeViewModel(EndpointPair<NodeData> edge);
+    default EdgeVm getEdgeViewModel(NodeData nodeU, NodeData nodeV) {
+        return getEdgeViewModel(EndpointPair.unordered(nodeU, nodeV));
+    }
+    RoomVm getRoomViewModel(Room room);
 }

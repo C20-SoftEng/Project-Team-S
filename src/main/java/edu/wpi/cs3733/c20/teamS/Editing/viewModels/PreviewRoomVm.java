@@ -6,15 +6,15 @@ import javafx.scene.shape.Polygon;
 
 import java.util.List;
 
-public class PreviewHitboxVm extends Parent {
+public class PreviewRoomVm extends Parent {
     private final Polygon previewPolygon;
 
-    public PreviewHitboxVm(double startX, double startY) {
+    public PreviewRoomVm(double startX, double startY) {
         setTranslateX(startX);
         setTranslateY(startY);
         previewPolygon = new Polygon();
         previewPolygon.getPoints().addAll(0.0, 0.0, 0.0, 0.0);
-        previewPolygon.setFill(Settings.get().editHitboxColorNormal());
+        previewPolygon.setFill(Settings.get().editRoomColorNormal());
         getChildren().add(previewPolygon);
     }
 

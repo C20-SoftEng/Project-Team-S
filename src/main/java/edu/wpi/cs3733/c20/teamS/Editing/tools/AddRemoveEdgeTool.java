@@ -37,6 +37,9 @@ public final class AddRemoveEdgeTool extends EditingTool {
 
     private final class StandbyState extends State {
         @Override public void onNodeClicked(NodeClickedEvent data) {
+            if (data.event().getButton() != MouseButton.PRIMARY)
+                return;
+
             state = new StartPlacedState(data.node().node());
         }
         @Override public void onEdgeClicked(EdgeClickedEvent data) {
@@ -61,16 +64,23 @@ public final class AddRemoveEdgeTool extends EditingTool {
         }
 
         @Override public void onNodeClicked(NodeClickedEvent data) {
-            if (!data.node().node().equals(start)) {
-                NodeData end = data.node().node();
-                Memento action = Memento.create(
-                        () -> map.putEdge(start, end),
-                        () -> map.removeEdge(start, end)
-                );
-                execute(action);
+            switch (data.event().getButton()) {
+                case SECONDARY:
+                    state = new StandbyState();
+                    return;
+                case PRIMARY:
+                    if (!data.node().node().equals(start)) {
+                        NodeData end = data.node().node();
+                        execute(
+                                () -> map.putEdge(start, end),
+                                () -> map.removeEdge(start, end)
+                        );
+                    }
+                    map.removeWidget(vm);
+                    state = new StandbyState();
+                    return;
+                default:
             }
-            map.removeWidget(vm);
-            state = new StandbyState();
         }
         @Override public void onEdgeClicked(EdgeClickedEvent data) { }
         @Override public void onMouseMoved(MouseEvent event) {

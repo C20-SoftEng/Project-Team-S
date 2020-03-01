@@ -158,6 +158,41 @@ public class EditableMap implements IEditableMap {
         return roomLookup.keySet();
     }
 
+    /**
+     * Gets the view model used to render the specified node.
+     * @param node The node to get the view-model for.
+     * @return The view model that is rendering the specified node.
+     */
+    @Override
+    public NodeVm getNodeViewModel(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        return nodeLookup.get(node);
+    }
+
+    /**
+     * Gets the view model for the specified edge.
+     * @param edge The edge to get the view model for.
+     * @return The view model that is used to render the edge.
+     */
+    @Override
+    public EdgeVm getEdgeViewModel(EndpointPair<NodeData> edge) {
+        if (edge == null) ThrowHelper.illegalNull("edge");
+
+        return edgeLookup.get(edge);
+    }
+    /**
+     * Gets the view model for the specified room.
+     * @param room The room to get the view model for.
+     * @return The view model that is used to render the specified room.
+     */
+    @Override
+    public RoomVm getRoomViewModel(Room room) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
+        return roomLookup.get(room);
+    }
+
     public Observable<NodeClickedEvent> nodeClicked() {
         return nodeClicked;
     }

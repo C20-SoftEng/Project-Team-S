@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReadOnlyReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -18,7 +19,7 @@ public class RoomVm extends Parent {
     private final Polygon mask;
     private final Label nameLabel;
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
-    private final ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createIsMouseOverStream(this);
+    private final ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createMouseOverStream(this);
 
     public RoomVm(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");
@@ -39,10 +40,11 @@ public class RoomVm extends Parent {
                 .map(e -> highlightOnMouseOver.value() && isMouseOver.value())
                 .subscribe(huh -> {
                     Color fill = huh ?
-                            Settings.get().editHitboxColorHighlight() :
-                            Settings.get().editHitboxColorNormal();
+                            Settings.get().editRoomColorHighlight() :
+                            Settings.get().editRoomColorNormal();
                     mask.setFill(fill);
                 });
+        room.vertices().addListener((ListChangeListener<? super Vector2>) change -> updatePolygon());
 
         setNameFontSize(24);
         setNameVisible(false);
@@ -77,8 +79,14 @@ public class RoomVm extends Parent {
         room.vertices().stream()
                 .map(vertex -> vertex.subtract(centroid))
                 .forEach(local -> result.getPoints().addAll(local.x(), local.y()));
-        result.setFill(Settings.get().editHitboxColorNormal());
+        result.setFill(Settings.get().editRoomColorNormal());
         return result;
+    }
+    private void updatePolygon() {
+        mask.getPoints().clear();
+        room.vertices().stream()
+                .map(vertex -> vertex.subtract(new Vector2(getTranslateX(), getTranslateY())))
+                .forEach(local -> mask.getPoints().addAll(local.x(), local.y()));
     }
     private Label createNameLabel(Room room) {
         Label result = new Label();
