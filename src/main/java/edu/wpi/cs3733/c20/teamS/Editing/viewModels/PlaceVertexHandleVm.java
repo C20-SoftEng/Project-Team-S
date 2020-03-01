@@ -15,20 +15,5 @@ public class PlaceVertexHandleVm extends Parent {
         mask.setNormalFillColor(Settings.get().editRoomColorNormal());
         mask.setHighlightFillColor(Settings.get().editRoomColorHighlight());
         getChildren().add(mask);
-//        Circle circle = new Circle();
-//        circle.setCenterX(0);
-//        circle.setCenterY(0);
-//        circle.setRadius(Settings.get().editRoomVertexRadius());
-//        circle.setFill(Settings.get().editRoomColorNormal());
-//        getChildren().add(circle);
-//
-//        ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createIsMouseOverStream(this);
-//        isMouseOver.changed()
-//                .subscribe(huh -> {
-//                    Color fill = huh ?
-//                            Settings.get().editRoomColorHighlight() :
-//                            Settings.get().editRoomColorNormal();
-//                    circle.setFill(fill);
-//                });
     }
 }

@@ -56,11 +56,11 @@ public final class MoveNodeTool extends EditingTool {
         }
 
         @Override public void onNodeDragged(NodeClickedEvent data) {
-            nodeVm.node().setPosition(data.event().getX(), data.event().getY());
+            nodeVm.node().setPosition(data.parentPosition().x(), data.parentPosition().y());
         }
         @Override public void onNodeReleased(NodeClickedEvent data) {
-            double x = data.event().getX();
-            double y = data.event().getY();
+            double x = data.parentPosition().x();
+            double y = data.parentPosition().y();
             execute(
                     () -> data.node().node().setPosition(x, y),
                     () -> data.node().node().setPosition(startX, startY)

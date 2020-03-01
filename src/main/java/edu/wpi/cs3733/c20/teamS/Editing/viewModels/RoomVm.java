@@ -19,7 +19,7 @@ public class RoomVm extends Parent {
     private final Polygon mask;
     private final Label nameLabel;
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
-    private final ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createIsMouseOverStream(this);
+    private final ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createMouseOverStream(this);
 
     public RoomVm(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");

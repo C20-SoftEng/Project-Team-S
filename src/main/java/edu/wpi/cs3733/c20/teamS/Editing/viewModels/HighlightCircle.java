@@ -25,7 +25,7 @@ public class HighlightCircle extends Parent {
     private final ReactiveProperty<Double> highlightRadius = new ReactiveProperty<>(20.0);
     private final ReactiveProperty<Double> collisionRadius = new ReactiveProperty<>(20.0);
 
-    
+
     public HighlightCircle(double normalRadius, double highlightRadius) {
         this();
 
