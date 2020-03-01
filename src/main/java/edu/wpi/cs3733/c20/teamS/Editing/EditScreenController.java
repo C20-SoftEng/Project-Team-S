@@ -87,10 +87,10 @@ public class EditScreenController implements Initializable {
                 () -> editableMap.rooms()
         );
 
-        initUndoDebugHelper();
+        initUndoHotkeys();
     }
 
-    private void initUndoDebugHelper() {
+    private void initUndoHotkeys() {
         KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         Runnable undo = () -> {
             if (undoBuffer.canUndo())

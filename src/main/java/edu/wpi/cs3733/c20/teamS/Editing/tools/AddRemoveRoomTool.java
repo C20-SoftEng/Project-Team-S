@@ -34,8 +34,7 @@ public final class AddRemoveRoomTool extends EditingTool {
         );
     }
 
-    @Override
-    protected final void onDispose() {
+    @Override protected final void onDispose() {
         state.current().dispose();
     }
 
@@ -56,7 +55,11 @@ public final class AddRemoveRoomTool extends EditingTool {
         @Override public void onRoomClicked(RoomClickedEvent data) {
             if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
-            map.removeRoom(data.room().room());
+
+            execute(
+                    () -> map.removeRoom(data.room().room()),
+                    () -> map.addRoom(data.room().room())
+            );
         }
     }
 
@@ -120,7 +123,11 @@ public final class AddRemoveRoomTool extends EditingTool {
                 return;
 
             event.consume();
-            map.addRoom(room);
+
+            execute(
+                    () -> map.addRoom(room),
+                    () -> map.removeRoom(room)
+            );
 
             state.setCurrent(new StandbyState());
         }
