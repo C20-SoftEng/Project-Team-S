@@ -3,14 +3,17 @@ package edu.wpi.cs3733.c20.teamS.collisionMasks;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.shape.Polygon;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Room {
     private int floor;
     private final ReactiveProperty<String> name = new ReactiveProperty<>("");
-    private final ArrayList<Vector2> vertices = new ArrayList<>();
+    private final ObservableList<Vector2> vertices = FXCollections.observableArrayList();
     private final HashSet<String> touchingNodes = new HashSet<>();
 
     public Room() {}
@@ -44,7 +47,7 @@ public final class Room {
     public Observable<String> nameChanged() {
         return name.changed();
     }
-    public List<Vector2> vertices() {
+    public ObservableList<Vector2> vertices() {
         return vertices;
     }
     public Set<String> touchingNodes() {
@@ -56,5 +59,9 @@ public final class Room {
     }
     public void setLastVertex(double x, double y) {
         setLastVertex(new Vector2(x, y));
+    }
+
+    @Override public String toString() {
+        return name();
     }
 }

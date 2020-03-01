@@ -138,15 +138,15 @@ public class MainStartScreenController implements Initializable {
         imageID.setPreserveRatio(false);
         Tweetbox tweetbox = new Tweetbox();
 
-        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
+        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(0));
         firstTweet.setStyle("-fx-text-fill: white");
-        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
+        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
         secondTweet.setStyle("-fx-text-fill: white");
-        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
+        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
         ThirdTweet.setStyle("-fx-text-fill: white");
-        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
+        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
         fourthTweet.setStyle("-fx-text-fill: white");
-        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(5));
+        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
         fifthTweet.setStyle("-fx-text-fill: white");
 
         ImageView tutorialView = new ImageView();
