@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
@@ -9,6 +10,7 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -227,10 +229,10 @@ public class ThreeDimensions extends Application {
                     group.translateZProperty().set(group.getTranslateZ() - 100);
                     break;
                 case Q:
-                    group.rotateByX(10);
+                    numberGroup.rotateByX(1);
                     break;
                 case E:
-                    group.rotateByX(-10);
+                    numberGroup.rotateByX(-1);
                     break;
                 case A:
                     group.rotateByY(10);
@@ -253,7 +255,8 @@ public class ThreeDimensions extends Application {
             }
         });
 
-        //group.getChildren().add(getElevIcons());
+        Group elevIcons = getElevIcons();
+        group.getChildren().add(elevIcons);
         //group.getChildren().add(getFoodIcons());
         //group.getChildren().add(getRETLIcons());
         //group.getChildren().add(getSTAIcons());
