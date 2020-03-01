@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainStartScreen {
+public class MainStartScreen extends MainScreen {
 
     private  MainStartScreenController ui;
    private  Stage stage;
@@ -45,6 +43,12 @@ public class MainStartScreen {
         stage.setScene(scene);
         //stage.setMaximized(true);
         stage.show();
+    }
+
+    public static void showDialog(Stage mainScreen) {
+        MainStartScreen screen = new MainStartScreen(mainScreen);
+        puggy.pause();
+        screen.show();
     }
 
 

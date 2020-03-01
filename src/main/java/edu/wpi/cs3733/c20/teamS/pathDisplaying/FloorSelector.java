@@ -5,7 +5,7 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-class FloorSelector {
+public class FloorSelector {
     private final JFXButton upButton;
     private final JFXButton downButton;
     private final Floor[] floors;

@@ -13,9 +13,14 @@
             <Image url="@../images/AboutMe/AboutUs.PNG" />
          </image>
       </ImageView>
-      <JFXButton fx:id="goBack" alignment="CENTER" layoutX="816.0" layoutY="20.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="145.0" style="-fx-border-color: Black; -fx-border-radius: 5; -fx-background-color: #eee; -fx-background-radius: 5;" text="Go Back" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+      <JFXButton fx:id="goBack" alignment="CENTER" layoutX="802.0" layoutY="34.0" onAction="#BackClicked" prefHeight="37.0" prefWidth="144.0" style="-fx-border-color: Black; -fx-border-radius: 5; -fx-background-color: #eee; -fx-background-radius: 5;" text="Go Back" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="34.0">
          <font>
-            <Font size="28.0" />
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="goCredits" layoutX="69.0" layoutY="34.0" onAction="#goToCredits" prefHeight="0.0" prefWidth="139.0" style="-fx-border-color: black; -fx-border-radius: 5; -fx-background-color: #eee;" text="Credits Page">
+         <font>
+            <Font size="18.0" />
          </font>
       </JFXButton>
    </children>

@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
-import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -43,9 +43,15 @@ final class NodeSelector {
     }
 
     public void onHitboxClicked(Room room, double x, double y) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
         state.onRoomClicked(room, x, y);
     }
+    public void onNodeClicked(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
 
+        state.onNodeClicked(node);
+    }
     private NodeData createFakeNode(double x, double y) {
         return new NodeData("FAKE", x, y,
                     floorSupplier.getAsInt(), "NONE",
@@ -75,6 +81,7 @@ final class NodeSelector {
     private abstract class State {
 
         public void onRoomClicked(Room room, double x, double y) {}
+        public void onNodeClicked(NodeData node) {}
         public final NodeSelector outer() {
             return NodeSelector.this;
         }
@@ -83,7 +90,16 @@ final class NodeSelector {
         @Override
         public void onRoomClicked(Room room, double x, double y) {
             NodeData fakeStart = createFakeNode(x, y);
-            outer().start.setValue(Optional.of(new PinDrop(room, fakeStart)));
+            onEndpointClicked(fakeStart, room);
+        }
+        @Override public void onNodeClicked(NodeData node) {
+            Room room = new Room();
+            room.touchingNodes().add(node.getNodeID());
+            onEndpointClicked(node, room);
+        }
+
+        private void onEndpointClicked(NodeData node, Room room) {
+            outer().start.setValue(Optional.of(new PinDrop(room, node)));
             outer().goal.setValue(Optional.empty());
             outer().path.setValue(Path.empty());
             outer().state = new StartSelectedState(start.value().get());
@@ -96,8 +112,9 @@ final class NodeSelector {
             this.start = start;
         }
 
-        @Override
-        public void onRoomClicked(Room room, double x, double y) {
+        @Override public void onRoomClicked(Room room, double x, double y) {
+            if (room == null) ThrowHelper.illegalNull("room");
+
             PinDrop goal = new PinDrop(room, createFakeNode(x, y));
 
             Set<NodeData> realStartNodes = realNodesInHitbox(start.room());
@@ -116,6 +133,13 @@ final class NodeSelector {
             outer().path.setValue(bestPath);
 
             outer().state = new NoSelectionState();
+        }
+        @Override public void onNodeClicked(NodeData node) {
+            if (node == null) ThrowHelper.illegalNull("node");
+
+            Room room = new Room();
+            room.touchingNodes().add(node.getNodeID());
+            onRoomClicked(room, node.getxCoordinate(), node.getyCoordinate());
         }
 
         private Collection<Path> findAllPossiblePaths(

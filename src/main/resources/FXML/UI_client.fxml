@@ -21,6 +21,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController">
    <children>
@@ -200,6 +202,28 @@
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>
+                                          </JFXButton>
+                                          <JFXButton id="floorButton5" fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="7" VBox.vgrow="SOMETIMES">
+                                             <font>
+                                                <Font name="Bookshelf Symbol 7" size="22.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <VBox.margin>
+                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="6" VBox.vgrow="SOMETIMES">
+                                             <font>
+                                                <Font name="Bookshelf Symbol 7" size="22.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <VBox.margin>
+                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                             </VBox.margin>
                                           </JFXButton>
                                           <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
                                              <font>
@@ -414,13 +438,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="deptList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -430,13 +454,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="servList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -446,13 +470,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="labList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -462,13 +486,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -478,13 +502,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="shopList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -494,13 +518,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="restRoomList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -510,13 +534,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="confList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -526,13 +550,13 @@
                                              </font>
                                              <content>
                                                 <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <ListView fx:id="exitList" prefHeight="200.0" prefWidth="200.0" />
                                                          </children>
                                                       </AnchorPane>
-                                                  </content>
+                                                   </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
@@ -550,3 +574,4 @@
       </BorderPane>
    </children>
 </AnchorPane>
+

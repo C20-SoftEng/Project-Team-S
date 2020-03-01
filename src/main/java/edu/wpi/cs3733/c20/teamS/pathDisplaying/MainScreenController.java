@@ -4,16 +4,17 @@ import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
@@ -26,17 +27,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class MainScreenController implements Initializable {
     //region fields
@@ -77,6 +82,7 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void initDirectorySidebar() {
@@ -124,7 +130,9 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
-                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
+               new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+              new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
@@ -169,7 +177,32 @@ public class MainScreenController implements Initializable {
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
 
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+        maintainScrollPosition(currentHval, currentVval);
+    }
+
+    private void maintainScrollPosition(double currentHval, double currentVval) {
+        int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .count();
+
+        if (nodesOnFloor == 0)
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+        else {
+            Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
+            double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
+            double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
+            keepCurrentPosition(hval, vval, zoomer);
+        }
+    }
+
+    private Vector2 findPathCentroid(Path path, int floor) {
+        List<Vector2> vertices = path.startToFinish().stream()
+                .filter(node -> node.getFloor() == floor)
+                .map(node -> new Vector2(node.getxCoordinate(), node.getyCoordinate()))
+                .collect(Collectors.toList());
+        return vertices.stream()
+                .reduce(Vector2.ZERO, Vector2::add)
+                .divide(vertices.size());
     }
 
     private Polygon createHitboxRenderingMask(Room room) {
@@ -198,6 +231,8 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton floorButton3;
     @FXML private JFXButton floorButton4;
     @FXML private JFXButton floorButton5;
+    @FXML private JFXButton floorButton6;
+    @FXML private JFXButton floorButton7;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
@@ -347,6 +382,12 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
+    }
+    @FXML private void onFloorClicked6() {
+        floorSelector.setCurrent(6);
+    }
+    @FXML private void onFloorClicked7() {
+        floorSelector.setCurrent(7);
     }
     @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
     @FXML private void onAboutClicked() {

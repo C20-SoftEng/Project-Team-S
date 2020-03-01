@@ -8,7 +8,7 @@ according
 account
 across
 act
-action
+memento
 activity
 actually
 add
@@ -586,7 +586,7 @@ one
 only
 onto
 open
-operation
+memento
 opportunity
 option
 or

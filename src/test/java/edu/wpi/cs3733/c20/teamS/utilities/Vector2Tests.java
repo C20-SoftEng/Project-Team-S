@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.utilities;
 
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

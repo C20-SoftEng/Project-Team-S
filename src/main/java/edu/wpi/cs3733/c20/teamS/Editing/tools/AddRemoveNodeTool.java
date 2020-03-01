@@ -1,38 +1,56 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
+import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.Set;
+import java.util.function.Consumer;
 
-public final class AddRemoveNodeTool implements IEditingTool {
-    private final ObservableGraph graph;
-    private final Supplier<Integer> currentFloorSupplier;
+public final class AddRemoveNodeTool extends EditingTool {
+    private final IEditableMap map;
     private String previousNodeType = "HALL";
     private String previousShortName = "NA";
     private String previousLongName = "Unnamed";
 
-    public AddRemoveNodeTool(ObservableGraph graph, Supplier<Integer> currentfloorSupplier) {
-        this.graph = graph;
-        this.currentFloorSupplier = currentfloorSupplier;
+    public AddRemoveNodeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
+        if (map == null) ThrowHelper.illegalNull("map");
+
+        this.map = map;
+        addAllSubs(
+                map.mapClicked().subscribe(this::onMapClicked),
+                map.nodeClicked().subscribe(this::onNodeClicked)
+        );
     }
 
-    @Override
-    public void onNodeClicked(NodeData node, MouseEvent event) {
-        if (event.getButton() != MouseButton.SECONDARY)
+    private void onNodeClicked(NodeClickedEvent event) {
+        if (event.event().getButton() != MouseButton.SECONDARY)
             return;
 
-        graph.removeNode(node);
+        Memento action = new Memento() {
+            private final NodeData node = event.node().node();
+            private final Set<NodeData> friends = map.graph().inner().adjacentNodes(node);
+
+            @Override public void execute() {
+                map.removeNode(node);
+            }
+            @Override public void undo() {
+                map.addNode(node);
+                for (NodeData friend : friends)
+                    map.putEdge(node, friend);
+            }
+        };
+        execute(action);
     }
 
-    @Override
-    public void onMapClicked(MouseEvent event) {
+    private void onMapClicked(MouseEvent event) {
         if (event.getButton() != MouseButton.PRIMARY)
             return;
 
@@ -47,8 +65,12 @@ public final class AddRemoveNodeTool implements IEditingTool {
                         e.value().setBuilding("Faulkner");
                         e.value().setxCoordinate(event.getX());
                         e.value().setyCoordinate(event.getY());
-                        e.value().setFloor(currentFloorSupplier.get());
-                        graph.addNode(e.value());
+                        e.value().setFloor(map.selectedFloor());
+
+                        execute(
+                                () -> map.addNode(e.value()),
+                                () -> map.removeNode(e.value())
+                        );
 
                         previousNodeType = e.value().getNodeType();
                         previousShortName = e.value().getShortName();
