@@ -15,6 +15,8 @@ public class EmergencyScreen {
 
     public EmergencyScreen(Stage stage){
         this.stage = stage;
+        this.scene = stage.getScene();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/EmergencyAlert.fxml"));
         loader.setControllerFactory(c -> {
             EmergencyController controller = new EmergencyController(stage);
@@ -22,7 +24,13 @@ public class EmergencyScreen {
         });
         try {
             Parent root = loader.load();
-            this.scene = new Scene(root);
+            if(this.scene == null){
+                this.scene = new Scene(root);
+            }
+            else{
+                this.scene.setRoot(root);
+            }
+
         }
         catch (
                 IOException ex) {

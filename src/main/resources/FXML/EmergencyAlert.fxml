@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,7 +14,7 @@
    <children>
       <BorderPane layoutX="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <ImageView fitHeight="76.0" fitWidth="603.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+            <ImageView fx:id="alertScrolling" fitHeight="111.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
             <JFXButton fx:id="exitEmergencyMode" onAction="#onBackClicked" style="-fx-border-radius: 15; -fx-background-color: white;" text="Back" BorderPane.alignment="CENTER_LEFT">
@@ -30,9 +31,13 @@
          </bottom>
          <center>
             <BorderPane style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-               <left>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-               </left>
+               <center>
+                  <ScrollPane fx:id="mapScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                     <content>
+                        <ImageView fx:id="mapDisplay" fitHeight="820.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" />
+                     </content>
+                  </ScrollPane>
+               </center>
             </BorderPane>
          </center>
       </BorderPane>

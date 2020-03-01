@@ -19,6 +19,7 @@ public class MainStartScreen {
     public MainStartScreen(Stage stage) {
 
         this.stage = stage;
+        this.scene = this.stage.getScene();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
         loader.setControllerFactory(c-> {
             this.ui = new MainStartScreenController();
@@ -26,7 +27,12 @@ public class MainStartScreen {
         });
         try {
             Parent root = loader.load();
-            this.scene = new Scene(root);
+            if(this.scene == null){
+                this.scene = new Scene(root);
+            }
+            else{
+                this.scene.setRoot(root);
+            }
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -37,7 +43,7 @@ public class MainStartScreen {
     }
     public void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         stage.show();
     }
 

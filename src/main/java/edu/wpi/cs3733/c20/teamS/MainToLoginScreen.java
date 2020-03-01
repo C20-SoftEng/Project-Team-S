@@ -18,6 +18,7 @@ public class MainToLoginScreen {
 
     public MainToLoginScreen(Stage stage) {
         this.stage = stage;
+        this.scene = stage.getScene();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
             this.ui = new MainScreenController(stage);
@@ -25,7 +26,12 @@ public class MainToLoginScreen {
         });
         try {
             Parent root = loader.load();
-            this.scene = new Scene(root);
+            if(this.scene == null){
+                this.scene = new Scene(root);
+            }
+            else{
+                this.scene.setRoot(root);
+            }
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -36,8 +42,8 @@ public class MainToLoginScreen {
     }
     public void show() {
         stage.setScene(scene);
-        stage.setMaximized(false);
-        stage.setMaximized(true);
+        //stage.setMaximized(false);
+        //stage.setMaximized(true);
         stage.show();
     }
 }
