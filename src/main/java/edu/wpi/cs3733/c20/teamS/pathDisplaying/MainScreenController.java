@@ -4,14 +4,14 @@ import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
@@ -27,17 +27,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class MainScreenController implements Initializable {
     //region fields
@@ -78,6 +82,7 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void initDirectorySidebar() {
@@ -172,7 +177,15 @@ public class MainScreenController implements Initializable {
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
 
-        if (nodeSelector.path().isEmpty())
+        maintainScrollPosition(currentHval, currentVval);
+    }
+
+    private void maintainScrollPosition(double currentHval, double currentVval) {
+        int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .count();
+
+        if (nodesOnFloor == 0)
             keepCurrentPosition(currentHval, currentVval, zoomer);
         else {
             Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());

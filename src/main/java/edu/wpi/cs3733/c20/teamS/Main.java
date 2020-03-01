@@ -8,7 +8,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
+    private static final StartupScreen START_SCREEN = StartupScreen.MAIN;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
