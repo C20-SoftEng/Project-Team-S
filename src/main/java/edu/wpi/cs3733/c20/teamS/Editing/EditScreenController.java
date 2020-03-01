@@ -250,7 +250,9 @@ public class EditScreenController implements Initializable {
         toolSelector.setCurrent(new MoveNodeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onShowInfoClicked() {}
-    @FXML private void onEditRoomEntrancesClicked() {}
+    @FXML private void onEditRoomEntrancesClicked() {
+        toolSelector.setCurrent(new EditRoomTool(undoBuffer::execute, editableMap));
+    }
 
     @FXML private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())
