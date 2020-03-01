@@ -108,6 +108,15 @@ class PathRenderer {
                 else if (Y < ySmall){
                     ySmall = Y;
                 }
+                System.out.print("small (x,y): ");
+                System.out.print(xSmall);
+                System.out.print(" ");
+                System.out.println(ySmall);
+                System.out.print("big (x,y): ");
+                System.out.print(xBig);
+                System.out.print(" ");
+                System.out.println(yBig);
+
             }
         }
         startX = start.getxCoordinate();

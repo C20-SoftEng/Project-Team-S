@@ -174,6 +174,9 @@ public class MainScreenController implements Initializable {
                 .forEach(polygon -> group.getChildren().add(polygon));
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
+//        scrollPane.setHvalue(xCent);
+//        scrollPane.setVvalue(yCent);
+//        zoomer.zoomSet();
     }
 
     private Polygon createHitboxRenderingMask(Room room) {
