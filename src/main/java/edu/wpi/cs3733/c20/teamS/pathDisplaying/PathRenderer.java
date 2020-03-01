@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 //import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -97,36 +98,36 @@ class PathRenderer {
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
                 imageView.setVisible(true);
-                if(X > xBig){
-                    xBig = X;
-                }else if (X < xSmall){
-                    xSmall = X;
-                }
-                if(Y > yBig){
-                    yBig = Y;
-                }
-                else if (Y < ySmall){
-                    ySmall = Y;
-                }
-                System.out.print("small (x,y): ");
-                System.out.print(xSmall);
-                System.out.print(" ");
-                System.out.println(ySmall);
-                System.out.print("big (x,y): ");
-                System.out.print(xBig);
-                System.out.print(" ");
-                System.out.println(yBig);
+//                if(X > xBig){
+//                    xBig = X;
+//                }else if (X < xSmall){
+//                    xSmall = X;
+//                }
+//                if(Y > yBig){
+//                    yBig = Y;
+//                }
+//                else if (Y < ySmall){
+//                    ySmall = Y;
+//                }
+//                System.out.print("small (x,y): ");
+//                System.out.print(xSmall);
+//                System.out.print(" ");
+//                System.out.println(ySmall);
+//                System.out.print("big (x,y): ");
+//                System.out.print(xBig);
+//                System.out.print(" ");
+//                System.out.println(yBig);
 
             }
         }
-        startX = start.getxCoordinate();
-        startY = start.getyCoordinate();
-
-        MainScreenController.x = xBig - xSmall - startX;
-        MainScreenController.y = yBig - ySmall - startY;
-
-        MainScreenController.xCent = startX + ((xBig - xSmall)/2);
-        MainScreenController.yCent = startY + ((yBig - ySmall)/2);
+//        startX = start.getxCoordinate();
+//        startY = start.getyCoordinate();
+//
+//        MainScreenController.x = xBig - xSmall - startX;
+//        MainScreenController.y = yBig - ySmall - startY;
+//
+//        MainScreenController.xCent = startX + ((xBig - xSmall)/2);
+//        MainScreenController.yCent = startY + ((yBig - ySmall)/2);
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
@@ -137,6 +138,14 @@ class PathRenderer {
         pathTransition.play();
         group.getChildren().add(imageView);
         return group;
+    }
+
+    public Vector2 findPathCenteriod(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floorNum){
+        List<NodeData> nodes = path.startToFinish();
+        return nodes.stream()
+                .filter(nodeData -> nodeData.getFloor()==floorNum)
+                .map(nodeData -> new Vector2(nodeData.getxCoordinate(), nodeData.getyCoordinate()))
+                .reduce(Vector2.ZERO, Vector2::add);
     }
 
     public List<NodeData> getTDnodes() {return TDnodes;}
