@@ -1,20 +1,24 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
+import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EditRoomVertexVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class EditRoomTool extends EditingTool {
     private final IEditableMap map;
     private final DisposableSelector<State> state = new DisposableSelector<>();
+    private final Map<String, NodeData> nodeLookup;
 
     public EditRoomTool(Consumer<Memento> mementoRunner, IEditableMap map) {
         super(mementoRunner);
@@ -22,9 +26,12 @@ public class EditRoomTool extends EditingTool {
 
         this.map = map;
         state.setCurrent(new StandbyState());
+        nodeLookup = map.graph().nodes().stream()
+                .collect(Collectors.toMap(NodeData::getNodeID, node -> node));
 
         addAllSubs(
-                map.roomClicked().subscribe(e -> state.current().onRoomClicked(e))
+                map.roomClicked().subscribe(e -> state.current().onRoomClicked(e)),
+                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e))
         );
     }
 
@@ -35,6 +42,7 @@ public class EditRoomTool extends EditingTool {
 
     private static abstract class State extends DisposableBase {
         public void onRoomClicked(RoomClickedEvent data) {}
+        public void onNodeClicked(NodeClickedEvent data) {}
         @Override protected void onDispose() {}
     }
 
@@ -45,12 +53,24 @@ public class EditRoomTool extends EditingTool {
     }
 
     private final class RoomSelectedState extends State {
-        private List<EditRoomVertexVm> handles = new ArrayList<>();
+        private final List<EditRoomVertexVm> handles = new ArrayList<>();
+        private final Set<NodeVm> touchingNodeVms = new HashSet<>();
         private HandleState handleState;
 
         public RoomSelectedState(Room room) {
             handleState = new NotDraggingState();
 
+            initRoomVertexHandles(room);
+
+            room.touchingNodes().stream()
+                    .map(nodeLookup::get)
+                    .map(map::getNodeViewModel)
+                    .forEach(vm -> {
+
+                    });
+        }
+
+        private void initRoomVertexHandles(Room room) {
             for (int index = 0; index < room.vertices().size(); index++) {
                 EditRoomVertexVm handle = new EditRoomVertexVm(room, index);
                 handle.dragged().subscribe(v -> handleState.onDrag(handle, v));

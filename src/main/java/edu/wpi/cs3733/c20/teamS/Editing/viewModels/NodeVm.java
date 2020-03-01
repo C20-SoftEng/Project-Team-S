@@ -18,6 +18,7 @@ public final class NodeVm extends Parent {
         mask.setHighlightFillColor(Settings.get().nodeFillColorHighlight());
         mask.setNormalStrokeColor(Settings.get().nodeStrokeColorNormal());
         mask.setHighlightStrokeColor(Settings.get().nodeFillColorHighlight());
+
         getChildren().add(mask);
 
         node.positionChanged().subscribe(n -> updatePosition());
@@ -25,6 +26,12 @@ public final class NodeVm extends Parent {
 
     public NodeData node() {
         return node;
+    }
+    public boolean isSelected() {
+        return mask.isSelected();
+    }
+    public void setSelected(boolean value) {
+        mask.setSelected(value);
     }
 
     private void updatePosition() {

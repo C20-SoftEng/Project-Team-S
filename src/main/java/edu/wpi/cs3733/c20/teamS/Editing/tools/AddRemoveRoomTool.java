@@ -108,12 +108,14 @@ public final class AddRemoveRoomTool extends EditingTool {
 
             if (!handles.isEmpty()) {
                 handles.peek().setMouseTransparent(false);
+                handles.peek().setVisible(true);
                 handles.peek().setTranslateX(x);
                 handles.peek().setTranslateY(y);
             }
 
             PlaceVertexHandleVm handle = new PlaceVertexHandleVm(x, y);
             handle.setMouseTransparent(true);
+            handle.setVisible(false);
             RxAdaptors.eventStream(handle::setOnMouseClicked).subscribe(e -> onVertexHandleClicked(handle, e));
             handles.push(handle);
             map.addWidget(handle);

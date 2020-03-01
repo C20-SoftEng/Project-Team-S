@@ -12,6 +12,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
@@ -36,6 +37,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainScreenController implements Initializable {
     //region fields
@@ -170,7 +172,24 @@ public class MainScreenController implements Initializable {
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
 
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+        if (nodeSelector.path().isEmpty())
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+        else {
+            Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
+            double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
+            double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
+            keepCurrentPosition(hval, vval, zoomer);
+        }
+    }
+
+    private Vector2 findPathCentroid(Path path, int floor) {
+        List<Vector2> vertices = path.startToFinish().stream()
+                .filter(node -> node.getFloor() == floor)
+                .map(node -> new Vector2(node.getxCoordinate(), node.getyCoordinate()))
+                .collect(Collectors.toList());
+        return vertices.stream()
+                .reduce(Vector2.ZERO, Vector2::add)
+                .divide(vertices.size());
     }
 
     private Polygon createHitboxRenderingMask(Room room) {

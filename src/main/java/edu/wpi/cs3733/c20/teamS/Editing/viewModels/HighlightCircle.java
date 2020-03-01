@@ -20,6 +20,10 @@ public class HighlightCircle extends Parent {
     private final ReactiveProperty<Color> highlightStrokeColor = new ReactiveProperty<>(Color.AQUA);
     private final ReactiveProperty<Color> normalStrokeColor = new ReactiveProperty<>(Color.BLUE);
 
+    private final ReactiveProperty<Boolean> isSelected = new ReactiveProperty<>(false);
+    private final ReactiveProperty<Color> selectedFillColor = new ReactiveProperty<>(Color.LIME);
+    private final ReactiveProperty<Color> selectedStrokeColor = new ReactiveProperty<>(Color.LIME);
+
     private final ReactiveProperty<Boolean> enlargeOnMouseOver = new ReactiveProperty<>(true);
     private final ReactiveProperty<Double> normalRadius = new ReactiveProperty<>(12.0);
     private final ReactiveProperty<Double> highlightRadius = new ReactiveProperty<>(20.0);
@@ -52,7 +56,10 @@ public class HighlightCircle extends Parent {
                 .mergeWith(normalFillColor.changed())
                 .mergeWith(highlightStrokeColor.changed())
                 .mergeWith(normalStrokeColor.changed())
-                .subscribe(u -> updateHighlightState());
+                .mergeWith(isSelected.changed())
+                .mergeWith(selectedFillColor.changed())
+                .mergeWith(selectedStrokeColor.changed())
+                .subscribe(u -> updateDisplayColor());
 
         isMouseOver.changed().map(huh -> UNIT)
                 .mergeWith(enlargeOnMouseOver.changed())
@@ -62,7 +69,7 @@ public class HighlightCircle extends Parent {
                 .subscribe(u -> updateVisibleRadius());
 
         updateVisibleRadius();
-        updateHighlightState();
+        updateDisplayColor();
     }
 
     public boolean highlightOnMouseOver() {
@@ -122,7 +129,32 @@ public class HighlightCircle extends Parent {
         collisionRadius.setValue(value);
     }
 
-    private void updateHighlightState() {
+    public boolean isSelected() {
+        return isSelected.value();
+    }
+    public void setSelected(boolean value) {
+        isSelected.setValue(value);
+    }
+    public Color selectedFillColor() {
+        return selectedFillColor.value();
+    }
+    public void setSelectedFillColor(Color value) {
+        selectedFillColor.setValue(value);
+    }
+    public Color selectedStrokeColor() {
+        return selectedStrokeColor.value();
+    }
+    public void setSelectedStrokeColor(Color color) {
+        selectedStrokeColor.setValue(color);
+    }
+
+    private void updateDisplayColor() {
+        if (isSelected.value()) {
+            visibleMask.setFill(selectedFillColor.value());
+            visibleMask.setStroke(selectedStrokeColor.value());
+            return;
+        }
+
         if (highlightOnMouseOver.value() && isMouseOver.value()) {
             visibleMask.setFill(highlightFillColor.value());
             visibleMask.setStroke(highlightStrokeColor.value());
