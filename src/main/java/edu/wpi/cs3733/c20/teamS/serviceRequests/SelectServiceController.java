@@ -2,10 +2,6 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.c20.teamU.FlowerRequest.RunFlowerRequest;
-import edu.wpi.cs3733.c20.teamR.APILayer;
-import edu.wpi.cs3733.c20.teamR.APIMain;
-import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
@@ -51,13 +47,6 @@ public class SelectServiceController {
 
         InterpreterRequestScreen.showDialog(loggedIn).subscribe();
         this.stage.close();
-//        InterpreterRequester requester = new InterpreterRequester();
-//        try{
-//            requester.run(0,0,0,0, "", "SLABS00201", "SDEPT00601");
-//        }
-//        catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
     }
 
     @FXML void onMaintenanceClicked(ActionEvent event){
@@ -107,8 +96,6 @@ public class SelectServiceController {
         LastRitesRequestScreen.showDialog(loggedIn).subscribe();
 
         this.stage.close();
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        //Date date = new Date();
     }
 
     @FXML void onFloristClicked(ActionEvent event){
