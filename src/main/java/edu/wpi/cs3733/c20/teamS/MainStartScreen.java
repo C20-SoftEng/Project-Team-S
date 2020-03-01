@@ -18,6 +18,17 @@ public class MainStartScreen extends BaseScreen {
 
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
+
+
+        Settings set = Settings.get();
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
+        try{
+            mainLoader.setController(new MainToLoginScreen(new Stage()));
+            set.root = mainLoader.load();
+        }catch(IOException e){
+
+        }
+
         loader.setControllerFactory(c-> {
             this.ui = new MainStartScreenController();
             return this.ui;

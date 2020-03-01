@@ -3,6 +3,8 @@ package edu.wpi.cs3733.c20.teamS;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -74,5 +76,8 @@ public final class Settings {
     }
 
     public static Set<Stage> openWindows = new HashSet<>();
+
+    static FXMLLoader singleLoader;
+    static Parent root;
 }
 

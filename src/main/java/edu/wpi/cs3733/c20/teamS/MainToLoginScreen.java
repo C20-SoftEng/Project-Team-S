@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
+
 /**
  * Simple screen for main client ui
  */
@@ -18,14 +20,27 @@ public class MainToLoginScreen extends BaseScreen {
 
     public MainToLoginScreen(Stage stage) {
         this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        loader.setControllerFactory(c -> {
-            this.ui = new MainScreenController(stage);
-            return this.ui;
-        });
+        this.scene = stage.getScene();
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
+        Settings single = Settings.get();
+        FXMLLoader loader = single.singleLoader;
+//        loader.setControllerFactory(c -> {
+//            this.ui = new MainScreenController(stage);
+//            return this.ui;
+//        });
         try {
-            Parent root = loader.load();
-            this.scene = new Scene(root);
+
+            Parent root = single.root;
+            //Parent root = loader.load();
+            //this.scene = new Scene(root);
+
+            if(this.scene == null){
+                this.scene = new Scene(root);
+                throw new IOException();
+            }
+            else {
+                this.scene.setRoot(root);
+            }
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
