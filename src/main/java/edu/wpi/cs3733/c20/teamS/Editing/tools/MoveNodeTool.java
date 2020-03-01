@@ -3,11 +3,15 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 
+import java.util.function.Consumer;
+
 public final class MoveNodeTool extends EditingTool {
     private final IEditableMap map;
     private final boolean wasInitiallyPannable;
 
-    public MoveNodeTool(IEditableMap map) {
+    public MoveNodeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;

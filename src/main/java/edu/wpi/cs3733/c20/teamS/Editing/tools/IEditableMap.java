@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import com.google.common.graph.EndpointPair;
+import edu.wpi.cs3733.c20.teamS.Editing.ObservableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
@@ -35,4 +36,5 @@ public interface IEditableMap {
     void removeWidget(Node node);
     boolean isPannable();
     void setPannable(boolean value);
+    ObservableGraph graph();
 }
