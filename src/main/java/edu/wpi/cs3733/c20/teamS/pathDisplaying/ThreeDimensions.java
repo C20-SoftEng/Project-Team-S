@@ -1,14 +1,15 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import com.interactivemesh.jfx.importer.ModelImporter;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ThreeDimensions extends Application {
     private List<NodeData> nodes;
@@ -32,11 +34,11 @@ public class ThreeDimensions extends Application {
 
     public ThreeDimensions(List<NodeData> nodes) throws Exception {
         if(nodes != null) {
-        this.nodes = nodes;
-        start(primaryStage); }
+            this.nodes = nodes;
+            start(primaryStage); }
     }
 
-    private final float WIDTH = 1400;
+    private final float WIDTH = 1422;
     private final float HEIGHT = 800;
     private double oldX, oldY;
 
@@ -112,8 +114,8 @@ public class ThreeDimensions extends Application {
         RotateGroup numberGroup = new RotateGroup();
         for(int i = 1; i <= 5; i++) {
             boolean selected = (begin.getFloor() == i || end.getFloor() == i);
-            Image number = new Image("images/ThreeDim/number" + i + ".png");
-            Image brightNumber = new Image("images/ThreeDim/bright" + i + ".png");
+            Image number = new Image("images/ThreeDim/" + i + ".png");
+            Image brightNumber = new Image("images/ThreeDim/" + i + "H.png");
             int z = zplace.get(i);
             numberGroup.getChildren().add(floorNumbers(number, brightNumber, z, selected));
         }
@@ -205,9 +207,9 @@ public class ThreeDimensions extends Application {
                 floorPath.add(n1); floorPath.add(n2);
             }
 
-           if(i == nodes.size() - 2) {
-               st.getChildren().add(getFloorPath(personGroup, floorPath));
-           }
+            if(i == nodes.size() - 2) {
+                st.getChildren().add(getFloorPath(personGroup, floorPath));
+            }
         }
         st.setCycleCount(Timeline.INDEFINITE);
         st.play();
@@ -247,6 +249,12 @@ public class ThreeDimensions extends Application {
             }
         });
 
+        //group.getChildren().add(getElevIcons());
+        //group.getChildren().add(getFoodIcons());
+        //group.getChildren().add(getRETLIcons());
+        //group.getChildren().add(getSTAIcons());
+        //group.getChildren().add(getRESTIcons());
+
         group.rotateByX(-67);
         group.translateXProperty().set(WIDTH / 2 - 50);
         group.translateYProperty().set(HEIGHT / 2);
@@ -256,16 +264,49 @@ public class ThreeDimensions extends Application {
         numberGroup.rotateByZ(120);
         group.translateZProperty().set(group.getTranslateZ() + 30);
 
+        Group root = new Group();
+        root.getChildren().add(group);
+        ImageView imageView = getOverlay();
+        root.getChildren().add(imageView);
 
-        Scene scene = new Scene(group, WIDTH, HEIGHT, true);
+        Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
         scene.setCamera(camera);
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
 
         mouseControl(group, scene, primaryStage, numberGroup);
 
-        primaryStage.setTitle("3D View");
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case Z:
+                    imageView.setScaleX(imageView.getScaleX() - 0.005);
+                    imageView.setScaleY(imageView.getScaleY() - 0.005);
+                    imageView.setScaleZ(imageView.getScaleZ() - 0.005);
+                    break;
+                case X:
+                    imageView.setScaleX(imageView.getScaleX() + 0.005);
+                    imageView.setScaleY(imageView.getScaleY() + 0.005);
+                    imageView.setScaleZ(imageView.getScaleZ() + 0.005);
+                    break;
+                case J:
+                    imageView.setTranslateX(imageView.getTranslateX() - 2);
+                    break;
+                case K:
+                    imageView.setTranslateX(imageView.getTranslateX() + 2);
+                    break;
+                case Y:
+                    imageView.setTranslateY(imageView.getTranslateY() - 2);
+                    break;
+                case U:
+                    imageView.setTranslateY(imageView.getTranslateY() + 2);
+                    break;
+            }
+        });
+
+        primaryStage.setTitle("MAP");
         primaryStage.setScene(scene);
+        primaryStage.resizableProperty().set(false);
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 
@@ -414,5 +455,184 @@ public class ThreeDimensions extends Application {
         pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.setCycleCount(1);
         return pt;
+    }
+
+    private RotateGroup getElevIcons() {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+
+        RotateGroup elevICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("ELEV");
+        for(NodeData data : nd) {
+            if(!nodes.contains(data)) {
+                Image image = new Image("/images/ThreeDim/elevICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                double scale = 0.04;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                elevICON.getChildren().add(imageView);
+            }
+        }
+        return elevICON;
+    }
+
+    private RotateGroup getFoodIcons() {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+
+        ArrayList<String> validFood = new ArrayList<>();
+        validFood.add("Atrium Cafe");
+        validFood.add("Starbucks");
+        validFood.add("Food Services");
+        RotateGroup foodICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
+        for(NodeData data : nd) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID()) {
+                if (validFood.contains(data.getLongName())) {
+                    Image image = new Image("/images/ThreeDim/foodICON.png");
+                    ImageView imageView = new ImageView(image);
+                    imageView.setPreserveRatio(true);
+                    imageView.setTranslateX(data.getxCoordinate() / 5 - 1070);
+                    imageView.setTranslateY(data.getyCoordinate() / 5 - 910);
+                    imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                    double scale = 0.01;
+                    imageView.setScaleX(scale);
+                    imageView.setScaleY(scale);
+                    imageView.setScaleZ(scale);
+                    imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                    foodICON.getChildren().add(imageView);
+                }
+            }
+        }
+        return foodICON;
+    }
+
+    private RotateGroup getRETLIcons() {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+
+        ArrayList<String> validFood = new ArrayList<>();
+        validFood.add("Atrium Cafe");
+        validFood.add("Starbucks");
+        validFood.add("Food Services");
+
+        RotateGroup retailICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
+        for(NodeData data : nd) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID()) {
+                if (!validFood.contains(data.getLongName())) {
+                    Image image = new Image("/images/ThreeDim/retailICON.png");
+                    ImageView imageView = new ImageView(image);
+                    imageView.setPreserveRatio(true);
+                    imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
+                    imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
+                    imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                    double scale = 0.04;
+                    imageView.setScaleX(scale);
+                    imageView.setScaleY(scale);
+                    imageView.setScaleZ(scale);
+                    imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                    retailICON.getChildren().add(imageView);
+                }
+            }
+        }
+        return retailICON;
+    }
+
+    private RotateGroup getSTAIcons() {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+
+        RotateGroup staiICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("STAI");
+        for(NodeData data : nd) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID()) {
+                Image image = new Image("/images/ThreeDim/stairsICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 1000);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 930);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
+                double scale = 0.01;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                staiICON.getChildren().add(imageView);
+            }
+        }
+        return staiICON;
+    }
+
+    private RotateGroup getRESTIcons() {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+
+        RotateGroup restICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("REST");
+        for(NodeData data : nd) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID()) {
+                Image image = new Image("/images/ThreeDim/restICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 900);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 650);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
+                double scale = 0.02;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                restICON.getChildren().add(imageView);
+            }
+        }
+        return restICON;
+    }
+
+    private ImageView getOverlay() {
+        Image image = new Image("/images/ThreeDim/overlay1.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setTranslateX(-442);
+        imageView.setTranslateY(-542);
+        imageView.setTranslateZ(0);
+        double scale = 0.67;
+        imageView.setScaleX(scale);
+        imageView.setScaleY(scale);
+        imageView.setScaleZ(scale);
+
+
+        return imageView;
     }
 }
