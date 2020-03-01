@@ -144,90 +144,131 @@ class PathRenderer {
             String word = instructions.get(i).trim();
 
             if(word.contains("Left")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn.png")));
+                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(45);
-                image.setFitWidth(45);
-                image.setPreserveRatio(false);
+
+                image.setFitHeight(30);
+                image.setFitWidth(30);
+//                image.setX(50);
+//                image.setY(-20);
+                image.setTranslateX(1);
+                image.setTranslateY(4);
+
+
+                image.setPreserveRatio(true);
             }
             else if(word.contains("Right")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn.png")));
+                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(45);
-                image.setFitWidth(45);
-                image.setPreserveRatio(false);
+                image.setFitHeight(30);
+                image.setFitWidth(30);
+                image.setTranslateX(1);
+                image.setTranslateY(4);
+
+                image.setPreserveRatio(true);
             }
-            else if(word.contains("Straight")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Straight.png")));
+            else if(word.contains("straight")){
+                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
                 image.setImage(newImage);
+                image.setFitHeight(30);
+                image.setFitWidth(30);
+                image.setTranslateX(1);
+                image.setTranslateY(4);
+
+                image.setPreserveRatio(true);
+
             }
             else if(word.contains("Elevator")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Elevator.png")));
+                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(45);
-                image.setFitWidth(45);
+                image.setFitHeight(28);
+                image.setFitWidth(28);
+                image.setTranslateX(1);
+                image.setTranslateY(5);
                 image.setPreserveRatio(false);
             }
             else {
                 System.out.println("in else statement");
                 if(word.contains("Floor 1")){
-                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor1.png")));
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/one.png")));
                     image.setImage(newImage);
-                    image.setFitHeight(45);
-                    image.setFitWidth(45);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
                     image.setPreserveRatio(false);
-
-                    System.out.println("in floor images");
                 }
                 if(word.contains("Floor 2")){
-                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor2.png")));
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/two.png")));
                     image.setImage(newImage);
-                    image.setFitHeight(45);
-                    image.setFitWidth(45);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
                     image.setPreserveRatio(false);
-                    System.out.println("in floor images");
                 }
                 if(word.contains("Floor 3")){
-                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor3.png")));
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/three.png")));
                     image.setImage(newImage);
-                    image.setFitHeight(45);
-                    image.setFitWidth(45);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
                     image.setPreserveRatio(false);
-                    System.out.println("in floor images");
                 }
                 if(word.contains("Floor 4")){
-                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor4.png")));
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/four.png")));
                     image.setImage(newImage);
-                    image.setFitHeight(45);
-                    image.setFitWidth(45);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
                     image.setPreserveRatio(false);
-                    System.out.println("in floor images");
                 }
                 if(word.contains("Floor 5")){
-                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/Floor5.png")));
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/five.png")));
                     image.setImage(newImage);
-                    image.setFitHeight(45);
-                    image.setFitWidth(45);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
                     image.setPreserveRatio(false);
-                    System.out.println("in floor images");
+                }
+                if(word.contains("Floor 6")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/six.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 7")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/seven.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
                 }
 
             }
             text.setEditable(false);
             if (text.getLength() > 27){
                 text.setFont(Font.font ("System", 12));
-                text.setMinHeight(50);
-                text.setPrefHeight(50);
-                text.setMaxHeight(200);
+                text.setPrefHeight(30);
 
             }
             else if (text.getLength() >= 22){
                 text.setFont(Font.font ("System", 12));
                 text.setPrefHeight(30);
+
             }
             else {
-                text.setFont(Font.font ("System", 18));
-                text.setPrefHeight(10);
+                text.setFont(Font.font ("System", 12));
+                text.setPrefHeight(30);
+
             }
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
