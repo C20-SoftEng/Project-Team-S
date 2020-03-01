@@ -4,6 +4,8 @@ import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
@@ -29,12 +31,11 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.derby.iapi.db.Database;
+
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ThreeDimensions extends Application {
     private List<NodeData> nodes;
@@ -490,8 +491,8 @@ public class ThreeDimensions extends Application {
         zplace.put(4, -200);
         zplace.put(5, -300);
 
-        RotateGroup elevICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
+        RotateGroup elevICON = new RotateGroup();
         Set<NodeData> nd = dbc.getAllNodesOfType("ELEV");
         for(NodeData data : nd) {
             if(!nodes.contains(data)) {
