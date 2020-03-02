@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +30,8 @@ public class CreditsPageController {
             window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+
+
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");

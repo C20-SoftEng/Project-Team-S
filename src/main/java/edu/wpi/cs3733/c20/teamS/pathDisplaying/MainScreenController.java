@@ -2,10 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.Settings;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -19,6 +16,7 @@ import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -404,7 +402,9 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
-            Settings.openWindows.add(this.stage);
+            Settings.openWindows.add(window);
+            //Settings.openWindows.add(this.stage);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");
