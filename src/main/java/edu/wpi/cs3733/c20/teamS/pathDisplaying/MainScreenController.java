@@ -2,10 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.Settings;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -19,6 +16,7 @@ import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -387,13 +385,18 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+    @FXML private void onViewThreeD() throws Exception {
+        if(nodeSelector.goal().isPresent()) {
+        ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText(), nodeSelector.goal());}
+    }
+
     @FXML private void onFloorClicked6() {
         floorSelector.setCurrent(6);
     }
     @FXML private void onFloorClicked7() {
         floorSelector.setCurrent(7);
     }
-    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
@@ -404,7 +407,9 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
-            Settings.openWindows.add(this.stage);
+            Settings.openWindows.add(window);
+            //Settings.openWindows.add(this.stage);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");

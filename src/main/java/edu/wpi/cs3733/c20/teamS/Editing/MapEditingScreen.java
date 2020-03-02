@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+
 import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -19,6 +20,7 @@ public class MapEditingScreen extends BaseScreen{
     public MapEditingScreen() {
         DatabaseController dbc = new DatabaseController();
         dbc.autoCommit(false);
+        this.stage = stage;
 
         this.stage = Settings.primaryStage;
         this.scene = this.stage.getScene();
