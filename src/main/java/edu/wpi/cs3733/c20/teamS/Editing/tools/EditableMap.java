@@ -74,10 +74,10 @@ public class EditableMap implements IEditableMap {
         floorSelector.currentChanged()
                 .subscribe(n -> {
                    mapImage.setImage(floorSelector.floor(n).image);
-                   nodePartition.setCurrentPartition(n);
-                   edgePartition.setCurrentPartition(n);
-                   roomPartition.setCurrentPartition(n);
-                   auxiliaryPartition.setCurrentPartition(n);
+                   nodePartition.showOnly(n);
+                   edgePartition.showOnly(n);
+                   roomPartition.showOnly(n);
+                   auxiliaryPartition.showOnly(n);
                    updateZoom();
                 });
         floorSelector.setCurrent(1);
