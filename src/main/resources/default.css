@@ -6,6 +6,17 @@
 #title{
     -fx-text-fill: #ffffff;
 }
+
+#brigham {
+    -fx-image: url("images/Icons/Brigham_and_Womens_Hospital_logo.png");
+}
+
+
+
+#helpButton{
+    -fx-image: url("images/Icons/About_Us.png");
+}
+
 /*
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
@@ -58,17 +69,19 @@
 }
 
 
-#switcheroo{ /*Switch box*/
-    -fx-background-image: url("images/Icons/swap_arrows.png") !important;
-    -fx-background-repeat: stretch;
-    -fx-background-position: center center;
+.switcheroo{ /*Switch box*/
     -fx-background-color: #fff;
     -fx-border-color: black;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
-
-
 }
+
+.switcheroo > #arrows{
+    -fx-image: url("images/Icons/swap_arrows.png");
+}
+
+
+
 
 .nightbutton{
     -fx-background-color: #23272a;

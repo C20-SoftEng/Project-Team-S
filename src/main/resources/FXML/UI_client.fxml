@@ -36,7 +36,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
+                        <ImageView id="brigham" fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Brigham_and_Womens_Hospital_logo.png" />
                            </image>
@@ -90,7 +90,7 @@
                      <children>
                         <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onAboutClicked" prefHeight="50.0" prefWidth="51.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+                              <ImageView id="helpButton" fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Icons/About_Us.png" />
                                  </image>
@@ -334,7 +334,7 @@
                                     <DropShadow />
                                  </effect>
                               </Label>
-                              <JFXButton id="switcheroo" fx:id="swapButton" buttonType="RAISED" contentDisplay="TOP" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" style="-fx-background-image: url(&quot;../resources/images/Icons/swap_arrows.png&quot;);" text=" " translateY="13.0">
+                              <JFXButton fx:id="swapButton" buttonType="RAISED" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" styleClass="switcheroo" text=" " translateY="13.0">
                                  <font>
                                     <Font size="1.0" />
                                  </font>
@@ -347,6 +347,12 @@
                                  <effect>
                                     <DropShadow />
                                  </effect>
+                                 <graphic>
+                                    <ImageView id="arrows" fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/swap_arrows.png" />
+                                       </image></ImageView>
+                                 </graphic>
                               </JFXButton>
                               <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" styleClass="startend" text="Select End Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
                                  <HBox.margin>
