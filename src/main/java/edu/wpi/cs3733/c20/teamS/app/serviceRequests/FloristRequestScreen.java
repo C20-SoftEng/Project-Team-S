@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
@@ -9,6 +11,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.FloristServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -71,6 +74,8 @@ public final class FloristRequestScreen {
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 }

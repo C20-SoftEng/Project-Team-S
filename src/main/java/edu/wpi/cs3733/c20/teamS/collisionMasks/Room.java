@@ -5,16 +5,16 @@ import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.scene.shape.Polygon;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public final class Room {
     private int floor;
     private final ReactiveProperty<String> name = new ReactiveProperty<>("");
     private final ObservableList<Vector2> vertices = FXCollections.observableArrayList();
-    private final HashSet<String> touchingNodes = new HashSet<>();
+    private final ObservableSet<String> touchingNodes = FXCollections.observableSet(new HashSet<>());
 
     public Room() {}
     public Room(int floor) {
@@ -50,7 +50,7 @@ public final class Room {
     public ObservableList<Vector2> vertices() {
         return vertices;
     }
-    public Set<String> touchingNodes() {
+    public ObservableSet<String> touchingNodes() {
         return touchingNodes;
     }
 

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreen;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class LoginScreen{
     private final Stage stage;
@@ -21,6 +23,8 @@ public class LoginScreen{
 
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
+
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
         loader.setControllerFactory(e -> {
@@ -46,10 +50,13 @@ public class LoginScreen{
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+
     }
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 

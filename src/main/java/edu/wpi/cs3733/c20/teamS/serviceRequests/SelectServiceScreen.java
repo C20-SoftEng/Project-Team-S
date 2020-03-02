@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,6 +43,8 @@ public class SelectServiceScreen {
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 
