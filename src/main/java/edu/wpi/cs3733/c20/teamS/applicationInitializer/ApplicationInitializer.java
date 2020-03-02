@@ -5,16 +5,13 @@ package edu.wpi.cs3733.c20.teamS.applicationInitializer;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
-import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
-import edu.wpi.cs3733.c20.teamS.MainStartScreen;
 import edu.wpi.cs3733.c20.teamS.MainStartScreenController;
 import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Set;
@@ -54,43 +51,6 @@ public class ApplicationInitializer {
     public void setDatabaseController(DatabaseController controller){
         this.controller = controller;
     }
-
-    /**
-     * Helper Method
-     * Convert NodeData to GraphNode
-     * @param nodeData The NodeData to be converted
-     * @return A GraphNode after conversion
-     */
-    /*
-    public static GraphNode toGraphNode(NodeData nodeData){
-        if(nodeData == null){
-            illegalNull("NodeData");
-        }
-        GraphNode graphNode = new GraphNode(nodeData.getNodeID(), nodeData.getxCoordinate(),
-                nodeData.getyCoordinate(), nodeData.getFloor(), nodeData.getBuilding(),
-                nodeData.getNodeType(), nodeData.getLongName(), nodeData.getShortName());
-        return graphNode;
-    }
-    */
-
-    /**
-     * Convert a set of NodeData to a set of GraphNode
-     * @param nodes A set of NodeData to be converted
-     * @return A set of GraphNodes after conversion
-     */
-    /*
-    public Set<GraphNode> toSetGraphNode(Set<NodeData> nodes){
-        if (nodes == null){
-            illegalNull("Set of NodeData");
-        }
-        Set<GraphNode> graphNodes = new HashSet<>();
-        for(NodeData node : nodes){
-            GraphNode graphNode = this.toGraphNode(node);
-            graphNodes.add(graphNode);
-        }
-        return graphNodes;
-    }
-    */
 
     /**
      * Add Nodes to graph
@@ -171,8 +131,7 @@ public class ApplicationInitializer {
     private void initMainScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
         loader.setControllerFactory(c -> {
-            MainScreenController cont = new MainScreenController(Settings.primaryStage);
-            return cont;
+            return Settings.mainScreenController = new MainScreenController(Settings.primaryStage);
         });
 
         try{
