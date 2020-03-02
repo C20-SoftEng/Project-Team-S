@@ -269,11 +269,9 @@ public class EditScreenController extends BaseScreen implements Initializable {
     @FXML private void onMoveNodeClicked() {
         toolSelector.setCurrent(new MoveNodeTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onShowInfoClicked() {}
     @FXML private void onEditRoomEntrancesClicked() {
         toolSelector.setCurrent(new EditRoomTool(undoBuffer::execute, editableMap));
     }
-
     @FXML private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())
             hitboxRepo.save(rooms);

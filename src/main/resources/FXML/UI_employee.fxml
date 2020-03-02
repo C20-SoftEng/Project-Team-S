@@ -105,7 +105,7 @@
                               <Font name="Bookshelf Symbol 7" size="16.0" />
                            </font>
                         </Label>
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -152,18 +152,6 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-
-                        <JFXRadioButton onAction="#onShowInfoClicked" text="Edit/Info Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" top="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXRadioButton>
                         <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomEntrancesClicked" text="Edit Room Entrances" toggleGroup="$editGroup">
                            <padding>
                               <Insets left="5.0" top="5.0" />
@@ -172,7 +160,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <VBox.margin>
-                              <Insets left="5.0" top="5.0" />
+                              <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
