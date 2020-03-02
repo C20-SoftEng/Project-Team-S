@@ -152,8 +152,11 @@ public class EditableMap implements IEditableMap {
         onRoomRemoved(room);
         return true;
     }
-    public int selectedFloor() {
+    @Override public int selectedFloor() {
         return floorSelector.current();
+    }
+    @Override public void setSelectedFloor(int value) {
+        floorSelector.setCurrent(value);
     }
     public boolean isPannable() {
         return scrollPane.isPannable();

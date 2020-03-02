@@ -49,6 +49,9 @@ public interface IEditableMap {
     int selectedFloor();
     void addWidget(Node node);
     void removeWidget(Node node);
+
+    void setSelectedFloor(int value);
+
     boolean isPannable();
     void setPannable(boolean value);
     ObservableGraph graph();

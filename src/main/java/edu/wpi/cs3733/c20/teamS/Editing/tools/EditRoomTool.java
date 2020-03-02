@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class EditRoomTool extends EditingTool {
+public final class EditRoomTool extends EditingTool {
     private final IEditableMap map;
     private final DisposableSelector<State> state = new DisposableSelector<>();
     private final Map<String, NodeData> nodeLookup;

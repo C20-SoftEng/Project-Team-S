@@ -289,14 +289,11 @@ public class EditScreenController extends BaseScreen implements Initializable {
         new MainToLoginScreen();
     }
 
-    @FXML
-    private JFXTextField timeOut;
+    @FXML private JFXTextField timeOut;
 
-    @FXML
-    private JFXButton saveTimeOut;
+    @FXML private JFXButton saveTimeOut;
 
-    @FXML
-    void onConfirmSaveTimeOut(ActionEvent event) {
+    @FXML void onConfirmSaveTimeOut(ActionEvent event) {
         BaseScreen.puggy.changeTimeout(Integer.parseInt(timeOut.getText()) * 1000);
         System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
     }
