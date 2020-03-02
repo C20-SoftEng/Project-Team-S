@@ -59,6 +59,7 @@ public class ThreeDimensions extends Application {
     private final float HEIGHT = 800;
     private double oldX, oldY;
     private ArrayList<String> floorAddress = new ArrayList<>();
+    private boolean elevToggle = true;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -287,7 +288,7 @@ public class ThreeDimensions extends Application {
         });
 
         Group elevIcons = getElevIcons();
-        group.getChildren().add(elevIcons);
+        //group.getChildren().add(elevIcons);
         //group.getChildren().add(getFoodIcons());
         //group.getChildren().add(getRETLIcons());
         //group.getChildren().add(getSTAIcons());
@@ -317,6 +318,40 @@ public class ThreeDimensions extends Application {
         dest.setTextFill(Color.web("#ffffff"));
 
         root.getChildren().add(dest);
+
+        Button elevatorButton = new Button();
+        elevatorButton.relocate(65,0);
+        elevatorButton.setPrefSize(180,60);
+        //elevatorButton.setStyle("-fx-background-color: #a1f20f");
+        elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
+        elevatorButton.setOnAction(e -> onElevClicked(elevIcons));
+
+        root.getChildren().add(elevatorButton);
+        Button foodButton = new Button();
+        foodButton.relocate(340,0);
+        //foodButton.setStyle("-fx-background-color: #a2b4ff");
+        foodButton.setPrefSize(140,60);
+        foodButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(foodButton);
+        Button bathroomButton = new Button();
+        bathroomButton.relocate(550,0);
+        //bathroomButton.setStyle("-fx-background-color: #00ff00");
+        bathroomButton.setPrefSize(200,60);
+        //bathroomButton.setRipplerFill(Color.TRANSPARENT);
+        bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(bathroomButton);
+        Button retailButton = new Button();
+        retailButton.relocate(790,0);
+        //retailButton.setStyle("-fx-background-color: #1203ff");
+        retailButton.setPrefSize(150,60);
+        retailButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(retailButton);
+        Button stairsButton = new Button();
+        stairsButton.relocate(990,0);
+        stairsButton.setPrefSize(160,60);
+        stairsButton.setStyle("-fx-background-color: TRANSPARENT");
+        //stairsButton.setStyle("-fx-background-color: #bfbfbf");
+        root.getChildren().add(stairsButton);
 
         Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
@@ -688,5 +723,18 @@ public class ThreeDimensions extends Application {
 
 
         return imageView;
+    }
+
+    private void onElevClicked(Group elevIcons) {
+        if(elevToggle) {
+            System.out.println("hello");
+            elevIcons.getChildren().clear();
+            elevToggle = false;
+        }
+        else {
+            System.out.println("Goodbye");
+            elevIcons = getElevIcons();
+            elevToggle = true;
+        }
     }
 }
