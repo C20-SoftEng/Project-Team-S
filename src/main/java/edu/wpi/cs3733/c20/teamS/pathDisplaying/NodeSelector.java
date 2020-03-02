@@ -42,15 +42,32 @@ final class NodeSelector {
         state = new NoSelectionState();
     }
 
+    /**
+     * Call this whenever the user clicks on, or otherwise selects, a room. The value of start, goal,
+     * and path will be updated appropriately depending on which nodes have been selected so far.
+     * @param room The room they selected.
+     * @param x The x-coordinate of the point in the room that was clicked.
+     * @param y The y-coordinate of the point in the room that was clicked.
+     */
     public void onHitboxClicked(Room room, double x, double y) {
         if (room == null) ThrowHelper.illegalNull("room");
 
         state.onRoomClicked(room, x, y);
     }
+
+    /**
+     * Call this whenever the user clicks on, or otherwise selects, a node.
+     * @param node The node that the user selected.
+     */
     public void onNodeClicked(NodeData node) {
         if (node == null) ThrowHelper.illegalNull("node");
 
         state.onNodeClicked(node);
+    }
+    public void reset() {
+        start.setValue(Optional.empty());
+        goal.setValue(Optional.empty());
+        path.setValue(Path.empty());
     }
     private NodeData createFakeNode(double x, double y) {
         return new NodeData("FAKE", x, y,
