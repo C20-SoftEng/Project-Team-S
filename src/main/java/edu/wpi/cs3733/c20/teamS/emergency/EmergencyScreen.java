@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c20.teamS.emergency;
 
-import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
