@@ -100,7 +100,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("EDGES WAS NOT DROPPED");
         }
 
-        System.out.println("Dropped Table Edges");
+        //System.out.println("Dropped Table Edges");
 
 
         try{
@@ -110,7 +110,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("SERVICES WAS NOT DROPPED");
         }
 
-        System.out.println("Dropped Table SERVICES");
+        //System.out.println("Dropped Table SERVICES");
 
         try{
             Statement stm = connection.createStatement();
@@ -119,7 +119,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("NODES WAS NOT DROPPED");
         }
 
-        System.out.println("Dropped Table Nodes");
+        //System.out.println("Dropped Table Nodes");
 
 
         try{
@@ -129,7 +129,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("SERVICEABLE WAS NOT DROPPED");
         }
 
-        System.out.println("Dropped Table SERVICEABLE");
+        //System.out.println("Dropped Table SERVICEABLE");
 
         try{
             Statement stm = connection.createStatement();
@@ -138,7 +138,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("EMPLOYEES WAS NOT DROPPED");
         }
 
-        System.out.println("Dropped Table EMPLOYEES");
+        //System.out.println("Dropped Table EMPLOYEES");
     }
     private static void createServicesTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE SERVICES(" +
@@ -150,14 +150,14 @@ public class DatabaseController implements DBRepo{
                          "assignedEmployee INTEGER CONSTRAINT fKey_empAssigned references EMPLOYEES (employeeID)," +
                          "timeCreated DATE," +
                          "location varchar(1024))");
-        System.out.println("Created Table SERVICES");
+        //System.out.println("Created Table SERVICES");
     }
     private static void createServiceableTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE SERVICEABLE(" +
                          "employeeID INTEGER CONSTRAINT fKey_service references EMPLOYEES(employeeID)," +
                          "serviceType varchar(4)," +
                          "constraint pKey_canDO primary key (employeeID, serviceType))");
-        System.out.println("Created Table SERVICEABLE");
+        //System.out.println("Created Table SERVICEABLE");
     }
     private static void createEmployeeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EMPLOYEES(" +
@@ -168,14 +168,14 @@ public class DatabaseController implements DBRepo{
                         "firstName varchar(30)," +
                         "lastName varchar(30)," +
                         "phoneNumber varchar(11))");
-        System.out.println("Created Table Employees");
+        //System.out.println("Created Table Employees");
     }
     private static void createEdgeTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE EDGES(" +
                         "edgeID varchar(1024) constraint pKey_edgeID PRIMARY KEY," +
                         "startNode varchar(1024) constraint fKey_startNodeID references NODES (nodeID) ON DELETE CASCADE," +
                         "endNode varchar(1024) constraint fkey_endNodeID references NODES (nodeID) ON DELETE CASCADE)");
-        System.out.println("Created Table Edges");
+        //System.out.println("Created Table Edges");
     }
     private static void createNodesTable(Statement stm) throws SQLException {
         stm.execute("CREATE TABLE NODES(" +
@@ -188,7 +188,7 @@ public class DatabaseController implements DBRepo{
                         "longName varchar(1024)," +
                         "shortName varchar(50)," +
                         "constraint pkey_nodeID Primary Key (nodeID))");
-        System.out.println("Created Table Nodes");
+        //System.out.println("Created Table Nodes");
     }
 
     /**
@@ -324,7 +324,7 @@ public class DatabaseController implements DBRepo{
     public Set<NodeData> getAllNodesOfType(String type){
         PreparedStatement stm = null;
         String allNodeString = "SELECT * FROM Nodes WHERE NODETYPE = ?";
-        System.out.println("Getting nodes of type: " + type);
+        //System.out.println("Getting nodes of type: " + type);
         try{
             stm = connection.prepareStatement(allNodeString);
             stm.setString(1,type);
@@ -1004,7 +1004,7 @@ public class DatabaseController implements DBRepo{
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     NodeData node = new NodeData(lineArray[0],Double.parseDouble(lineArray[1]),Double.parseDouble(lineArray[2]),Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6],lineArray[7]);
-                    System.out.println(node.toString());
+                    //System.out.println(node.toString());
                     addNode(node);
                     line = br.readLine();
                 }
@@ -1030,7 +1030,7 @@ public class DatabaseController implements DBRepo{
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     EdgeData edge = new EdgeData(lineArray[0],lineArray[1],lineArray[2]);
-                    System.out.println(edge.toString());
+                    //System.out.println(edge.toString());
                     addEdge(edge);
                     line = br.readLine();
                 }
@@ -1055,7 +1055,7 @@ public class DatabaseController implements DBRepo{
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
                     EmployeeData emp = new EmployeeData(lineArray[1],lineArray[2],Integer.parseInt(lineArray[3]),lineArray[4],lineArray[5],lineArray[6]);
-                    System.out.println(emp.toString());
+                    //System.out.println(emp.toString());
                     addEmployee(emp);
                     line = br.readLine();
                 }
@@ -1080,7 +1080,7 @@ public class DatabaseController implements DBRepo{
                 line = br.readLine();
                 while(line != null){
                     String[] lineArray = line.split(",",-1);
-                    System.out.println("Adding Capability: " + lineArray[1] + " " + "To Employee: " + lineArray[0]);
+                    //System.out.println("Adding Capability: " + lineArray[1] + " " + "To Employee: " + lineArray[0]);
                     addCapability(Integer.parseInt(lineArray[0]), lineArray[1]);
                     line = br.readLine();
                 }
@@ -1122,7 +1122,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("Failed to remove Capabilities of Employee " + Integer.toString(employeeID));
             throw new RuntimeException();
         }
-        System.out.println("Successfully removed Capabilities of Employee " + Integer.toString(employeeID));
+        //System.out.println("Successfully removed Capabilities of Employee " + Integer.toString(employeeID));
     }
 
     public Set<Integer> getCapableEmployees(String serviceType){
@@ -1169,7 +1169,7 @@ public class DatabaseController implements DBRepo{
             System.out.println("Failed to remove " + serviceType + "Capability of Employee " + Integer.toString(ID));
             throw new RuntimeException();
         }
-        System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
+        //System.out.println("Successfully removed " + serviceType + "Capability of Employee" + Integer.toString(ID));
     }
 
     public boolean checkCapable(int ID, String serviceType){

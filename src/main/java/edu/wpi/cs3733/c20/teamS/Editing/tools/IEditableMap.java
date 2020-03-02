@@ -14,7 +14,19 @@ import io.reactivex.rxjava3.core.Observable;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
+import java.util.stream.Stream;
+
 public interface IEditableMap {
+    Stream<NodeVm> nodeViewModels();
+    Stream<EdgeVm> edgeViewModels();
+    Stream<RoomVm> roomViewModels();
+    void setNodesVisible(boolean value);
+    void setNodesVisible(boolean value, int floor);
+    void setEdgesVisible(boolean value);
+    void setEdgesVisible(boolean value, int floor);
+    void setRoomsVisible(boolean value);
+    void setRoomsVisible(boolean value, int floor);
+
     Observable<NodeClickedEvent> nodeClicked();
     Observable<NodeClickedEvent> nodeDragged();
     Observable<NodeClickedEvent> nodeReleased();
@@ -37,6 +49,9 @@ public interface IEditableMap {
     int selectedFloor();
     void addWidget(Node node);
     void removeWidget(Node node);
+
+    void setSelectedFloor(int value);
+
     boolean isPannable();
     void setPannable(boolean value);
     ObservableGraph graph();

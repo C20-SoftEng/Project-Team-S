@@ -2,49 +2,43 @@ package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 /**
  * Simple screen for main client ui
  */
-public class MainToLoginScreen extends MainScreen {
+public class MainToLoginScreen extends BaseScreen {
     private MainScreenController ui;
     private Scene scene;
     private Stage stage;
 
-    public MainToLoginScreen(Stage stage) {
-        this.stage = stage;
+    public MainToLoginScreen() {
+        this.stage = Settings.primaryStage;
         this.scene = stage.getScene();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        loader.setControllerFactory(c -> {
-            this.ui = new MainScreenController(stage);
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
-            if(this.scene == null){
-                this.scene = new Scene(root);
-            }
-            else{
-                this.scene.setRoot(root);
-            }
+
+        Settings set = Settings.get();
+
+        if (this.scene == null){
+            this.scene = new Scene(Settings.mainScreenRoot);
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(Settings.mainScreenRoot);
         }
-        //ui.updateFloorDisplay();
+
         this.show();
-        stage.setFullScreen(true);
-        puggy.register(scene, Event.ANY);
+
     }
-    public void show() {
+    private void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
-        puggy.play();
+        puggy.register(scene, Event.ANY);
         stage.show();
+        Settings.mainScreenController.clearPathDisplay();
     }
+    public static void showDialog() {
+        puggy.play();
+        MainToLoginScreen screen = new MainToLoginScreen();
+    }
+
+
 }

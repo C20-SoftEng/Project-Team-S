@@ -7,52 +7,42 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainStartScreen extends MainScreen {
+public class MainStartScreen extends BaseScreen {
 
     private  MainStartScreenController ui;
    private  Stage stage;
    private Scene scene;
 
 
-    public MainStartScreen(Stage stage) {
-
-        this.stage = stage;
+    public MainStartScreen() {
+        this.stage = Settings.primaryStage;
         this.scene = this.stage.getScene();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
-        loader.setControllerFactory(c-> {
-            this.ui = new MainStartScreenController();
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
-            if(this.scene == null){
-                this.scene = new Scene(root);
-            }
-            else{
-                this.scene.setRoot(root);
-            }
+
+        if(this.scene == null){
+            this.scene = new Scene(Settings.splashRoot);
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(Settings.splashRoot);
         }
-        //ui.updateFloorDisplay();
+
         this.show();
-        stage.setFullScreen(true);
     }
-    public void show() {
+
+    private void show() {
         stage.setScene(scene);
-        //stage.setMaximized(true);
         stage.show();
     }
 
-    public static void showDialog(Stage mainScreen) {
-        MainStartScreen screen = new MainStartScreen(mainScreen);
+    public static void showDialog() {
+        MainStartScreen screen = new MainStartScreen();
+        for(Stage s : Settings.openWindows){
+            s.close();
+            //Settings.openWindows.remove(s);
+        }
+        Settings.openWindows.clear();
         puggy.pause();
-        screen.show();
+        //screen.show();
     }
-
-
-
 
     }
 

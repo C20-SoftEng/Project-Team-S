@@ -62,7 +62,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     JFXButton screenButton;
     @FXML
-    JFXTextField weatherField;
+    Label weatherField;
     @FXML
     Label weatherSummary;
     @FXML
@@ -96,7 +96,7 @@ public class MainStartScreenController implements Initializable {
         WeatherBox weatherBox1 = new WeatherBox();
 
         weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " " +
-                "Degrees F");
+                "° F");
         weatherField.setStyle("-fx-font-size: 16px");
         weatherSummary.setText(weatherBox1.summary());
         //weatherSummary
@@ -128,9 +128,7 @@ public class MainStartScreenController implements Initializable {
             icon = "weatherIcons/ThunderStorm.png";
         }
 
-
         Image image = new Image(String.valueOf(getClass().getResource("/images/" + icon)));
-        //Image image = new Image(String.valueOf(getClass().getResource("/images/" + "weatherIcons/ThunderStorm.png")));
 
         imageID.setImage(image);
         imageID.setFitHeight(171);
@@ -159,14 +157,14 @@ public class MainStartScreenController implements Initializable {
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
     }
 
-    MainStartScreenController() {
+    public MainStartScreenController() {
 
     }
 
     @FXML
     private void onScreenClicked(ActionEvent event) {
-        MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
-        maintolog.show();
+        //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        MainToLoginScreen.showDialog();
 
     }
 

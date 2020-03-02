@@ -1,7 +1,11 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,41 +13,39 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class MapEditingScreen {
-    private EditScreenController ui;
+public class MapEditingScreen extends BaseScreen{
     private Scene scene;
     private Stage stage;
-    private Employee loggedIn;
 
-    public MapEditingScreen(Stage stage, Employee employee) {
-        this.loggedIn = employee;
-
+    public MapEditingScreen() {
         DatabaseController dbc = new DatabaseController();
         dbc.autoCommit(false);
         this.stage = stage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
-        loader.setControllerFactory(c -> {
-            this.ui = new EditScreenController(stage, loggedIn);
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
+        this.stage = Settings.primaryStage;
+        this.scene = this.stage.getScene();
 
-            this.scene = new Scene(root);
+        if(this.scene == null){
+            this.scene = new Scene(Settings.employeeRoot);
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(Settings.employeeRoot);
         }
 
         this.show();
-        stage.setFullScreen(true);
     }
 
     public void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         //stage.initStyle(StageStyle.UNDECORATED);
+        //Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
+        Settings.editScreenController.fakeInitialize();
         stage.show();
+    }
+
+    public static void showDialog(){
+        new MapEditingScreen();
     }
 }

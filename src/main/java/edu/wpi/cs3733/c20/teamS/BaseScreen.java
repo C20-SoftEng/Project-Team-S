@@ -4,13 +4,16 @@ import edu.wpi.cs3733.c20.teamS.utilities.UIWatchPug;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public abstract class MainScreen {
+public abstract class BaseScreen {
     public static final UIWatchPug puggy;
-    public static Stage stage;
 
     static {
         //Stage stage = new Stage();
-        puggy = new UIWatchPug(new Duration(100000),() -> MainStartScreen.showDialog(stage));
+        puggy = new UIWatchPug(new Duration(5000000),() -> {
+            MainStartScreen.showDialog();
+        });
     }
+
+    public void close(){}
 }
 

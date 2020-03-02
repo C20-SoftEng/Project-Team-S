@@ -1,9 +1,16 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
-
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Settings {
     private final PathfindingContext pathfinder = new PathfindingContext(new AStar());
@@ -46,6 +53,10 @@ public final class Settings {
         return 5;
     }
 
+    public int floors() {
+        return 7;
+    }
+
     /**
      * Whether to should use the node-placing tool that doesn't require a dialog interaction.
      */
@@ -72,5 +83,15 @@ public final class Settings {
         return SingletonHelper.settings;
     }
 
+    public static Set<Stage> openWindows = new HashSet<>();
+
+    static FXMLLoader singleLoader;
+    public static Stage primaryStage;
+    public static Parent mainScreenRoot;
+    public static Parent splashRoot;
+    public static Parent employeeRoot;
+    public static edu.wpi.cs3733.c20.teamS.serviceRequests.Employee loggedIn = null;
+    public static MainScreenController mainScreenController;
+    public static EditScreenController editScreenController;
 }
 

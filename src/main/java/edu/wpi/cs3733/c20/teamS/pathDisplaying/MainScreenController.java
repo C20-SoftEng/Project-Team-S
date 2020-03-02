@@ -2,10 +2,7 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.Settings;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -19,6 +16,7 @@ import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -82,7 +80,10 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public void clearPathDisplay() {
+        nodeSelector.reset();
     }
 
     private void initDirectorySidebar() {
@@ -131,8 +132,8 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
-               new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
-              new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
+                new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+                new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
@@ -278,7 +279,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
             deptLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to depLocs");
+            //System.out.println("Added " + node + " to depLocs");
         }
         deptList.setItems(deptLocs);
     }
@@ -289,7 +290,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
         for(NodeData node : servNodes){
             servLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to servLocs");
+            //System.out.println("Added " + node + " to servLocs");
         }
         servList.setItems(servLocs);
     }
@@ -300,7 +301,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
         for(NodeData node : labNodes){
             labLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to labLocs");
+            //System.out.println("Added " + node + " to labLocs");
         }
         labList.setItems(labLocs);
     }
@@ -311,7 +312,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
         for(NodeData node : infoNodes){
             infoLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to infoLocs");
+            //System.out.println("Added " + node + " to infoLocs");
         }
         infoList.setItems(infoLocs);
     }
@@ -322,7 +323,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
         for(NodeData node : shopNodes){
             shopLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to shopLocs");
+            //System.out.println("Added " + node + " to shopLocs");
         }
         shopList.setItems(shopLocs);
     }
@@ -333,7 +334,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
         for(NodeData node : restRoomNodes){
             restRoomLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to restRoomLocs");
+            //System.out.println("Added " + node + " to restRoomLocs");
         }
         restRoomList.setItems(restRoomLocs);
     }
@@ -344,7 +345,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
         for(NodeData node : confNodes){
             confLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to confLocs");
+            //System.out.println("Added " + node + " to confLocs");
         }
         confList.setItems(confLocs);
     }
@@ -355,7 +356,7 @@ public class MainScreenController implements Initializable {
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
         for(NodeData node : exitNodes){
             exitLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to exitLocs");
+            //System.out.println("Added " + node + " to exitLocs");
         }
         exitList.setItems(exitLocs);
     }
@@ -383,13 +384,18 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+    @FXML private void onViewThreeD() throws Exception {
+        if(nodeSelector.goal().isPresent()) {
+        ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText(), nodeSelector.goal());}
+    }
+
     @FXML private void onFloorClicked6() {
         floorSelector.setCurrent(6);
     }
     @FXML private void onFloorClicked7() {
         floorSelector.setCurrent(7);
     }
-    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
@@ -400,6 +406,9 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+            Settings.openWindows.add(window);
+            //Settings.openWindows.add(this.stage);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");
@@ -417,6 +426,7 @@ public class MainScreenController implements Initializable {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        //BaseScreen.puggy.changeTimeout(15000);
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();

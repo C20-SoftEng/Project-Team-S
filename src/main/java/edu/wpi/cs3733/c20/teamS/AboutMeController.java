@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.InterpreterServiceRequest;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,6 +57,9 @@ public class AboutMeController {
             window.show();
 
             Stage stage = (Stage) goBack.getScene().getWindow();
+            Settings.openWindows.add(window);
+            BaseScreen.puggy.register(stage.getScene(), Event.ANY);
+
             // do what you have to do
             stage.close();
 
