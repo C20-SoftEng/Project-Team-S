@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
 import javafx.fxml.FXMLLoader;
@@ -85,5 +86,6 @@ public final class Settings {
     public static Parent splashRoot;
     public static Parent employeeRoot;
     public static edu.wpi.cs3733.c20.teamS.serviceRequests.Employee loggedIn = null;
+    public static MainScreenController mainScreenController;
 }
 

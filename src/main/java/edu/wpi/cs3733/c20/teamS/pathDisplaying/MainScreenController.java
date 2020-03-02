@@ -6,8 +6,6 @@ import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.*;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -87,6 +85,10 @@ public class MainScreenController implements Initializable {
 
     }
 
+    public void clearPathDisplay() {
+        nodeSelector.reset();
+    }
+
     private void initDirectorySidebar() {
         popDeptList();
         popLabList();
@@ -133,8 +135,8 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
                 new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
-               new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
-              new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
+                new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+                new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
