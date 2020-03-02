@@ -181,5 +181,9 @@ public class MainStartScreenController implements Initializable {
         clock.play();
     }
 
+    private void fireAlarm(){
+
+    }
+
 }
 
