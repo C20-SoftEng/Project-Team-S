@@ -8,37 +8,43 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
+
 /**
  * Simple screen for main client ui
  */
-public class MainToLoginScreen extends MainScreen {
+public class MainToLoginScreen extends BaseScreen {
     private MainScreenController ui;
     private Scene scene;
-    //private Stage stage;
+    private Stage stage;
 
-    public MainToLoginScreen(Stage stage) {
-        this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        loader.setControllerFactory(c -> {
-            this.ui = new MainScreenController(stage);
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
-            this.scene = new Scene(root);
+    public MainToLoginScreen() {
+        this.stage = Settings.primaryStage;
+        this.scene = stage.getScene();
+
+        Settings set = Settings.get();
+
+        if(this.scene == null){
+            this.scene = new Scene(set.mainScreenRoot);
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(set.mainScreenRoot);
         }
-        //ui.updateFloorDisplay();
+
         this.show();
-        stage.setFullScreen(true);
-        puggy.register(scene, Event.ANY);
+
     }
-    public void show() {
+    private void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
-        puggy.play();
+        puggy.register(scene, Event.ANY);
         stage.show();
     }
+    public static void showDialog() {
+        puggy.play();
+        MainToLoginScreen screen = new MainToLoginScreen();
+        //puggy.pause();
+        //screen.show();
+    }
+
+
 }

@@ -6,6 +6,8 @@ import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -400,6 +402,7 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+            Settings.openWindows.add(this.stage);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");
@@ -417,6 +420,7 @@ public class MainScreenController implements Initializable {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        //BaseScreen.puggy.changeTimeout(15000);
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();

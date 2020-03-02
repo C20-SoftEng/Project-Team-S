@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -34,6 +37,7 @@ public class ThreeDimensions extends Application {
     public ThreeDimensions(List<NodeData> nodes) throws Exception {
         if(nodes != null) {
         this.nodes = nodes;
+
         start(primaryStage); }
     }
 
@@ -185,6 +189,9 @@ public class ThreeDimensions extends Application {
         scene.setCamera(camera);
 
         mouseControl(group, scene, primaryStage);
+
+        Settings.openWindows.add(this.primaryStage);
+        BaseScreen.puggy.register(scene, Event.ANY);
 
         primaryStage.setTitle("3D View");
         primaryStage.setScene(scene);

@@ -14,16 +14,22 @@ import java.util.Observable;
 public class UIWatchPug{
     private final Timeline idleTimeline;
     private final EventHandler userEventHandler;
+    private final Runnable notifier;
 
     public UIWatchPug(Duration timeout, Runnable notifier){
+        this.notifier = notifier;
         idleTimeline = new Timeline(new KeyFrame(timeout,e->notifier.run()));
         idleTimeline.setCycleCount(Animation.INDEFINITE);
-
+        //idleTimeline.getKeyFrames().
         userEventHandler = e->notIdle();
         idleTimeline.playFromStart();
 
     }
 
+    public void changeTimeout(int duration){
+        this.idleTimeline.getKeyFrames().clear();
+        this.idleTimeline.getKeyFrames().add(new KeyFrame(new Duration(duration),e->notifier.run()));
+    }
 
     public void notIdle() {
         if (idleTimeline.getStatus() == Animation.Status.RUNNING) {

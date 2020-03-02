@@ -2,8 +2,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
@@ -11,6 +13,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
+import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
@@ -18,9 +21,13 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -34,15 +41,16 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class EditScreenController implements Initializable {
+public class EditScreenController extends BaseScreen implements Initializable {
     //region fields
-    private Stage mainScreenStage;
+    private Stage stage;
     private Employee loggedIn;
     private FloorSelector floorSelector;
     private ObservableGraph graph;
@@ -53,6 +61,7 @@ public class EditScreenController implements Initializable {
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+
     //endregion
 
     /**
@@ -60,15 +69,18 @@ public class EditScreenController implements Initializable {
      * @param mainScreenStage the stage to take over
      * @param employee the employee that logged in
      */
-    public EditScreenController(Stage mainScreenStage, Employee employee) {
-        this.mainScreenStage = mainScreenStage;
-        this.loggedIn = employee;
+
+    public EditScreenController() {
+        this.stage  = Settings.primaryStage;
+        this.loggedIn = Settings.loggedIn;
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
+        graph = createGraph();
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
@@ -144,6 +156,7 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
 
     @FXML private VBox editToolFieldsVBox;
+
     @FXML private JFXButton editEmpButton;
 
     @FXML private RadioButton astarRadioButton;
@@ -179,9 +192,11 @@ public class EditScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+
     @FXML private void onEditButtonPressed() {
         EmployeeEditingScreen.showDialog();
     }
+
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
@@ -267,6 +282,20 @@ public class EditScreenController implements Initializable {
     //endregion
 
     public void onLogOut() {
-        MainToLoginScreen back = new MainToLoginScreen(mainScreenStage);
+        Settings.loggedIn = null;
+        new MainToLoginScreen();
     }
+
+    @FXML
+    private JFXTextField timeOut;
+
+    @FXML
+    private JFXButton saveTimeOut;
+
+    @FXML
+    void onConfirmSaveTimeOut(ActionEvent event) {
+        BaseScreen.puggy.changeTimeout(Integer.parseInt(timeOut.getText()) * 1000);
+        System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
+    }
+
 }

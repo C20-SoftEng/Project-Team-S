@@ -159,14 +159,14 @@ public class MainStartScreenController implements Initializable {
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
     }
 
-    MainStartScreenController() {
+    public MainStartScreenController() {
 
     }
 
     @FXML
     private void onScreenClicked(ActionEvent event) {
-        MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
-        maintolog.show();
+        //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        MainToLoginScreen.showDialog();
 
     }
 
