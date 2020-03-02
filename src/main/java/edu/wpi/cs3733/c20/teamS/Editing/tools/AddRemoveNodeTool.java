@@ -5,6 +5,9 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
+import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -14,6 +17,7 @@ import java.util.function.Consumer;
 
 public final class AddRemoveNodeTool extends EditingTool {
     private final IEditableMap map;
+    private final DisposableSelector<State> state = new DisposableSelector<>();
     private String previousNodeType = "HALL";
     private String previousShortName = "NA";
     private String previousLongName = "Unnamed";
@@ -24,59 +28,91 @@ public final class AddRemoveNodeTool extends EditingTool {
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;
+        state.setCurrent(new StandbyState());
+
         addAllSubs(
-                map.mapClicked().subscribe(this::onMapClicked),
-                map.nodeClicked().subscribe(this::onNodeClicked)
+                map.mapClicked().subscribe(e -> state.current().onMapClicked(e)),
+                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e))
         );
     }
 
-    private void onNodeClicked(NodeClickedEvent event) {
-        if (event.event().getButton() != MouseButton.SECONDARY)
-            return;
-
-        Memento action = new Memento() {
-            private final NodeData node = event.node().node();
-            private final Set<NodeData> friends = map.graph().inner().adjacentNodes(node);
-
-            @Override public void execute() {
-                map.removeNode(node);
-            }
-            @Override public void undo() {
-                map.addNode(node);
-                for (NodeData friend : friends)
-                    map.putEdge(node, friend);
-            }
-        };
-        execute(action);
+    private static abstract class State extends DisposableBase {
+        public void onNodeClicked(NodeClickedEvent data) {}
+        public void onMapClicked(MouseEvent event) {}
+        @Override protected void onDispose() { }
     }
 
-    private void onMapClicked(MouseEvent event) {
-        if (event.getButton() != MouseButton.PRIMARY)
-            return;
+    private final class StandbyState extends State {
+        @Override public void onNodeClicked(NodeClickedEvent event) {
+            if (event.event().getButton() != MouseButton.SECONDARY)
+                return;
 
-        Stage stage = new Stage();
-        NodeEditScreen.showDialog(
-                stage, previousNodeType,
-                previousShortName,
-                previousLongName
-        )
-                .subscribe(e -> {
-                    if (e.result() == DialogResult.OK) {
-                        e.value().setBuilding("Faulkner");
-                        e.value().setxCoordinate(event.getX());
-                        e.value().setyCoordinate(event.getY());
-                        e.value().setFloor(map.selectedFloor());
+            Memento action = createRemoveNodeMemento(event);
+            execute(action);
+        }
 
-                        execute(
-                                () -> map.addNode(e.value()),
-                                () -> map.removeNode(e.value())
-                        );
+        @Override public void onMapClicked(MouseEvent event) {
+            if (event.getButton() != MouseButton.PRIMARY)
+                return;
 
-                        previousNodeType = e.value().getNodeType();
-                        previousShortName = e.value().getShortName();
-                        previousLongName = e.value().getLongName();
-                    }
-                    stage.close();
-                });
+            state.setCurrent(new ShowDialogState(event.getX(), event.getY()));
+        }
+
+        private Memento createRemoveNodeMemento(NodeClickedEvent event) {
+            return new Memento() {
+                private final NodeData node = event.node().node();
+                private final Set<NodeData> friends = map.graph().inner().adjacentNodes(node);
+
+                @Override public void execute() {
+                    map.removeNode(node);
+                }
+                @Override public void undo() {
+                    map.addNode(node);
+                    for (NodeData friend : friends)
+                        map.putEdge(node, friend);
+                }
+            };
+        }
+    }
+
+    private final class ShowDialogState extends State {
+        private final Stage stage;
+        private final Disposable dialogSubscription;
+
+        public ShowDialogState(double x, double y) {
+            stage = new Stage();
+            dialogSubscription = showDialog(x, y);
+        }
+
+        @Override protected void onDispose() {
+            dialogSubscription.dispose();
+            stage.close();
+        }
+
+        private Disposable showDialog(double x, double y) {
+            return NodeEditScreen.showDialog(
+                    stage, previousNodeType,
+                    previousShortName,
+                    previousLongName
+            ).subscribe(e -> {
+                if (e.result() == DialogResult.OK) {
+                    e.value().setBuilding("Faulkner");
+                    e.value().setxCoordinate(x);
+                    e.value().setyCoordinate(y);
+                    e.value().setFloor(map.selectedFloor());
+
+                    execute(
+                            () -> map.addNode(e.value()),
+                            () -> map.removeNode(e.value())
+                    );
+
+                    previousNodeType = e.value().getNodeType();
+                    previousShortName = e.value().getShortName();
+                    previousLongName = e.value().getLongName();
+                }
+
+                state.setCurrent(new StandbyState());
+            });
+        }
     }
 }
