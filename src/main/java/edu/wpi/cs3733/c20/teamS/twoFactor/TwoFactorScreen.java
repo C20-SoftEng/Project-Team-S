@@ -1,14 +1,18 @@
 package edu.wpi.cs3733.c20.teamS.twoFactor;
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EmployeeData;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.utilities.TFAThread;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Map;
 
 public class TwoFactorScreen {
     private TwoFactorScreenController tfa;
@@ -54,13 +58,16 @@ public class TwoFactorScreen {
         stage.setScene(scene);
         //stage.setMaximized(f);
         //stage.initStyle(StageStyle.UNDECORATED);
+        BaseScreen.puggy.register(scene, Event.ANY);
+        Settings.openWindows.add(stage);
         stage.show();
     }
 
 
     public void passedTFA(){
 
-        MapEditingScreen mes = new MapEditingScreen(toPass, loggedIn);
+        MapEditingScreen mes = new MapEditingScreen();
+        Settings.loggedIn = loggedIn;
         this.stage.close();
     }
 

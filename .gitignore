@@ -160,5 +160,7 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 hospitalDB
-
+giftServiceDB
 /gargoyle_food_request_db/
+/flowerAPI_DB/
+/myDB/
