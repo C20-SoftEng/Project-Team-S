@@ -10,7 +10,7 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -397,7 +397,6 @@ public class ThreeDimensions extends Application {
         });
 
         primaryStage.setTitle("MAP");
-        mouseControl(group, scene, primaryStage);
 
         Settings.openWindows.add(this.primaryStage);
         BaseScreen.puggy.register(scene, Event.ANY);
