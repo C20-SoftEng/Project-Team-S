@@ -14,7 +14,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -39,6 +38,7 @@ public class ThreeDimensions extends Application {
     private String goal = "";
     private List<Vector2> goalLine;
 
+
     public ThreeDimensions(List<NodeData> nodes, String goal, Optional<PinDrop> goalRoom) throws Exception {
         if(goalRoom.isPresent()) {
         if(nodes != null) {
@@ -53,6 +53,10 @@ public class ThreeDimensions extends Application {
     private double oldX, oldY;
     private ArrayList<String> floorAddress = new ArrayList<>();
     private boolean elevToggle = true;
+    private boolean foodToggle = true;
+    private boolean restToggle = true;
+    private boolean retlToggle = true;
+    private boolean staiToggle = true;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -280,21 +284,29 @@ public class ThreeDimensions extends Application {
             }
         });
 
-        Polygon destPoly = new Polygon();
-        for(int i = 0; i < goalLine.size(); i++) {
-            destPoly.getPoints().addAll(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148);
-        }
-        destPoly.setFill(Color.GHOSTWHITE);
-        destPoly.setEffect(new Bloom());
-        group.getChildren().add(destPoly);
+//        Polygon destPoly = new Polygon();
+//        for(int i = 0; i < goalLine.size(); i++) {
+//            destPoly.getPoints().addAll(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148);
+//        }
+//        destPoly.setFill(Color.GHOSTWHITE);
+//        destPoly.setEffect(new Bloom());
+//        group.getChildren().add(destPoly);
 
 
         Group elevIcons = getElevIcons();
-        //group.getChildren().add(elevIcons);
-        //group.getChildren().add(getFoodIcons());
-        //group.getChildren().add(getRETLIcons());
-        //group.getChildren().add(getSTAIcons());
-        //group.getChildren().add(getRESTIcons());
+        group.getChildren().add(elevIcons);
+
+        Group foodIcons = getFoodIcons();
+        group.getChildren().add(foodIcons);
+
+        Group retlIcons = getRETLIcons();
+        group.getChildren().add(retlIcons);
+
+        Group stairIcons = getSTAIcons();
+        group.getChildren().add(stairIcons);
+
+        Group restIcons = getRESTIcons();
+        group.getChildren().add(restIcons);
 
         group.rotateByX(-67);
         group.translateXProperty().set(WIDTH / 2 - 50);
@@ -328,6 +340,7 @@ public class ThreeDimensions extends Application {
         elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
         elevatorButton.setOnAction(e -> onElevClicked(elevIcons));
 
+
         root.getChildren().add(elevatorButton);
         Button foodButton = new Button();
         foodButton.relocate(340,0);
@@ -335,6 +348,8 @@ public class ThreeDimensions extends Application {
         foodButton.setPrefSize(140,60);
         foodButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(foodButton);
+        foodButton.setOnAction(e -> onFoodClicked(foodIcons));
+
         Button bathroomButton = new Button();
         bathroomButton.relocate(550,0);
         //bathroomButton.setStyle("-fx-background-color: #00ff00");
@@ -342,18 +357,26 @@ public class ThreeDimensions extends Application {
         //bathroomButton.setRipplerFill(Color.TRANSPARENT);
         bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(bathroomButton);
+        bathroomButton.setOnAction(e -> onRestClicked(restIcons));
+
+
         Button retailButton = new Button();
         retailButton.relocate(790,0);
         //retailButton.setStyle("-fx-background-color: #1203ff");
         retailButton.setPrefSize(150,60);
         retailButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(retailButton);
+        retailButton.setOnAction(e -> onRetailClicked(retlIcons));
+
+
         Button stairsButton = new Button();
         stairsButton.relocate(990,0);
         stairsButton.setPrefSize(160,60);
         stairsButton.setStyle("-fx-background-color: TRANSPARENT");
         //stairsButton.setStyle("-fx-background-color: #bfbfbf");
         root.getChildren().add(stairsButton);
+        stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
+
 
         Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
@@ -403,6 +426,7 @@ public class ThreeDimensions extends Application {
         primaryStage.sizeToScene();
         primaryStage.show();
 
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -410,6 +434,13 @@ public class ThreeDimensions extends Application {
             }
         };
         timer.start();
+
+//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+//            onFloorMove(personGroup, numberGroup, begin);
+//        }));
+//        timeline.setCycleCount(Animation.INDEFINITE);
+//        timeline.play();
+//        timeline.setRate(2);
     }
 
     private MeshView[] loadModel(URL url) {
@@ -573,14 +604,14 @@ public class ThreeDimensions extends Application {
         RotateGroup elevICON = new RotateGroup();
         Set<NodeData> nd = dbc.getAllNodesOfType("ELEV");
         for(NodeData data : nd) {
-            if(!nodes.contains(data)) {
+            if(!nodes.contains(data) && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
                 Image image = new Image("/images/ThreeDim/elevICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
                 imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
                 imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
-                double scale = 0.04;
+                double scale = 0.02;
                 imageView.setScaleX(scale);
                 imageView.setScaleY(scale);
                 imageView.setScaleZ(scale);
@@ -607,7 +638,7 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
-            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID()) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
                 if (validFood.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/foodICON.png");
                     ImageView imageView = new ImageView(image);
@@ -644,7 +675,7 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
-            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID()) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
                 if (!validFood.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/retailICON.png");
                     ImageView imageView = new ImageView(image);
@@ -676,7 +707,7 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("STAI");
         for(NodeData data : nd) {
-            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID()) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
                 Image image = new Image("/images/ThreeDim/stairsICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
@@ -706,14 +737,14 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("REST");
         for(NodeData data : nd) {
-            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID()) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
                 Image image = new Image("/images/ThreeDim/restICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
                 imageView.setTranslateX(data.getxCoordinate() / 5 - 900);
                 imageView.setTranslateY(data.getyCoordinate() / 5 - 650);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
-                double scale = 0.02;
+                double scale = 0.015;
                 imageView.setScaleX(scale);
                 imageView.setScaleY(scale);
                 imageView.setScaleZ(scale);
@@ -742,14 +773,56 @@ public class ThreeDimensions extends Application {
 
     private void onElevClicked(Group elevIcons) {
         if(elevToggle) {
-            System.out.println("hello");
             elevIcons.getChildren().forEach(node -> {node.setVisible(false);});
             elevToggle = false;
         }
         else {
-            System.out.println("Goodbye");
             elevIcons.getChildren().forEach(node -> {node.setVisible(true);});
             elevToggle = true;
+        }
+    }
+
+    private void onFoodClicked(Group foodIcons) {
+        if(foodToggle) { ;
+            foodIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            foodToggle = false;
+        }
+        else {
+            foodIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            foodToggle = true;
+        }
+    }
+
+    private void onRestClicked(Group restIcons) {
+        if(restToggle) {
+            restIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            restToggle = false;
+        }
+        else {
+            restIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            restToggle = true;
+        }
+    }
+
+    private void onRetailClicked(Group retlIcons) {
+        if(retlToggle) {
+            retlIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            retlToggle = false;
+        }
+        else {
+            retlIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            retlToggle = true;
+        }
+    }
+
+    private void onStairsClicked(Group stairIcons) {
+        if(staiToggle) {
+            stairIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            staiToggle = false;
+        }
+        else {
+            stairIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            staiToggle = true;
         }
     }
 
@@ -761,7 +834,6 @@ public class ThreeDimensions extends Application {
         zplace.put(4, -200);
         zplace.put(5, -300);
         for(int i = 1; i <= 5; i++) {
-            System.out.println(personGroup.getTranslateZ() + 100 * (2-begin.getFloor()));
             if(Math.abs((personGroup.getTranslateZ() + 100 * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
                 int finalI = i;
                 numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
