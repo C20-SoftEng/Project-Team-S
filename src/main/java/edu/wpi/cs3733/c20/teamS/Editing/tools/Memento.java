@@ -9,6 +9,7 @@ public abstract class Memento {
         execute();
     }
 
+
     public static Memento create(Runnable execute, Runnable undo, Runnable redo) {
         if (execute == null) ThrowHelper.illegalNull("execute");
         if (undo == null) ThrowHelper.illegalNull("undo");

@@ -53,6 +53,10 @@ public final class Settings {
         return 5;
     }
 
+    public int floors() {
+        return 7;
+    }
+
     /**
      * Whether to should use the node-placing tool that doesn't require a dialog interaction.
      */
