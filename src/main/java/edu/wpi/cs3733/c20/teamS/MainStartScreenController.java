@@ -62,7 +62,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     JFXButton screenButton;
     @FXML
-    JFXTextField weatherField;
+    Label weatherField;
     @FXML
     Label weatherSummary;
     @FXML
@@ -96,7 +96,7 @@ public class MainStartScreenController implements Initializable {
         WeatherBox weatherBox1 = new WeatherBox();
 
         weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " " +
-                "Degrees F");
+                "° F");
         weatherField.setStyle("-fx-font-size: 16px");
         weatherSummary.setText(weatherBox1.summary());
         //weatherSummary

@@ -130,9 +130,7 @@ public class ApplicationInitializer {
 
     private void initMainScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        loader.setControllerFactory(c -> {
-            return Settings.mainScreenController = new MainScreenController(Settings.primaryStage);
-        });
+        loader.setControllerFactory(c -> Settings.mainScreenController = new MainScreenController(Settings.primaryStage));
 
         try{
             Settings.mainScreenRoot = loader.load();
@@ -158,10 +156,7 @@ public class ApplicationInitializer {
     private void initEmployeeScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
 
-        loader.setControllerFactory(c -> {
-            EditScreenController cont = new EditScreenController();
-            return cont;
-        });
+        loader.setControllerFactory(c -> Settings.editScreenController = new EditScreenController());
 
         try{
             Settings.employeeRoot = loader.load();
