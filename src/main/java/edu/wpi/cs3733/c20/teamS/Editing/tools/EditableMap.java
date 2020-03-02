@@ -9,7 +9,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EditRoomVm;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -34,11 +34,11 @@ public class EditableMap implements IEditableMap {
     private final FloorSelector floorSelector;
     private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
     private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
-    private final Map<Room, RoomVm> roomLookup = new HashMap<>();
+    private final Map<Room, EditRoomVm> roomLookup = new HashMap<>();
     private final Group rootGroup;
     private final PartitionedParent<Integer, NodeVm> nodePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
-    private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
+    private final PartitionedParent<Integer, EditRoomVm> roomPartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, Node> auxiliaryPartition = new PartitionedParent<>();
 
     private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
@@ -187,7 +187,7 @@ public class EditableMap implements IEditableMap {
      * @return The view model that is used to render the specified room.
      */
     @Override
-    public RoomVm getRoomViewModel(Room room) {
+    public EditRoomVm getRoomViewModel(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");
 
         return roomLookup.get(room);
@@ -261,10 +261,10 @@ public class EditableMap implements IEditableMap {
 
         return result;
     }
-    private RoomVm createRoomVm(Room room) {
+    private EditRoomVm createRoomVm(Room room) {
         assert room != null : "'room' can't be null.";
         
-        RoomVm result = new RoomVm(room);
+        EditRoomVm result = new EditRoomVm(room);
         result.setOnMouseClicked(e -> roomClicked.onNext(new RoomClickedEvent(result, e)));
         return result;
     }
@@ -289,12 +289,12 @@ public class EditableMap implements IEditableMap {
         edgeLookup.remove(edge);
     }
     private void onRoomAdded(Room room) {
-        RoomVm vm = createRoomVm(room);
+        EditRoomVm vm = createRoomVm(room);
         roomPartition.putChild(room.floor(), vm);
         roomLookup.put(room, vm);
     }
     private void onRoomRemoved(Room room) {
-        RoomVm remove = roomLookup.get(room);
+        EditRoomVm remove = roomLookup.get(room);
         roomPartition.removeChild(remove);
         roomLookup.remove(room);
     }
