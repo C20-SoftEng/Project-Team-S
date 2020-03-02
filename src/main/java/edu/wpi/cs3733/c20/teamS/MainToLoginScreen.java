@@ -32,13 +32,14 @@ public class MainToLoginScreen extends BaseScreen {
         }
 
         this.show();
-        puggy.register(scene, Event.ANY);
+
     }
     private void show() {
         stage.setScene(scene);
+        puggy.register(scene, Event.ANY);
         stage.show();
     }
-    public static void showDialog(Stage mainScreen) {
+    public static void showDialog() {
         puggy.play();
         MainToLoginScreen screen = new MainToLoginScreen();
         //puggy.pause();

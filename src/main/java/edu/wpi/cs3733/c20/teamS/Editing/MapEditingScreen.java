@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class MapEditingScreen {
+public class MapEditingScreen extends BaseScreen{
     private Scene scene;
     private Stage stage;
     private Employee loggedIn;

@@ -37,8 +37,9 @@ public class MainStartScreen extends BaseScreen {
         MainStartScreen screen = new MainStartScreen();
         for(Stage s : Settings.openWindows){
             s.close();
-            Settings.openWindows.remove(s);
+            //Settings.openWindows.remove(s);
         }
+        Settings.openWindows.clear();
         puggy.pause();
         //screen.show();
     }

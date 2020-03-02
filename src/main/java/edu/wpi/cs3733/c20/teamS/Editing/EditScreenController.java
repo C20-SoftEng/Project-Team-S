@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
@@ -20,6 +21,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.HashSet;
@@ -308,4 +311,17 @@ public class EditScreenController implements Initializable {
         Settings.loggedIn = null;
         new MainToLoginScreen();
     }
+
+    @FXML
+    private JFXTextField timeOut;
+
+    @FXML
+    private JFXButton saveTimeOut;
+
+    @FXML
+    void onConfirmSaveTimeOut(ActionEvent event) {
+        BaseScreen.puggy.changeTimeout(Integer.parseInt(timeOut.getText()) * 1000);
+        System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
+    }
+
 }
