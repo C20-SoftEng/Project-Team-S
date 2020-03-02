@@ -7,7 +7,6 @@ import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.core.Observable;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Parent;
-import javafx.scene.shape.Circle;
 
 public class EditRoomVertexVm extends Parent {
     private final Room room;
@@ -22,12 +21,12 @@ public class EditRoomVertexVm extends Parent {
         setTranslateX(position.x());
         setTranslateY(position.y());
 
-        Circle circle = new Circle();
-        circle.setCenterX(0);
-        circle.setCenterY(0);
-        circle.setRadius(Settings.get().editRoomVertexRadius());
-        circle.setFill(Settings.get().editRoomColorNormal());
-        getChildren().add(circle);
+        HighlightCircle mask = new HighlightCircle(5, 9);
+        mask.setTranslateX(0);
+        mask.setTranslateY(0);
+        mask.setNormalFillColor(Settings.get().editRoomColorNormal());
+        mask.setHighlightFillColor(Settings.get().editRoomColorHighlight());
+        getChildren().add(mask);
 
         dragged = RxAdaptors.eventStream(this::setOnMouseDragged)
                 .map(e -> localToParent(e.getX(), e.getY()))
