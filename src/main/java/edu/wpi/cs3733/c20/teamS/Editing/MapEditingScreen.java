@@ -39,6 +39,7 @@ public class MapEditingScreen extends BaseScreen{
         //stage.initStyle(StageStyle.UNDECORATED);
         //Settings.openWindows.add(this.stage);
         BaseScreen.puggy.register(scene, Event.ANY);
+        Settings.editScreenController.fakeInitialize();
         stage.show();
     }
 

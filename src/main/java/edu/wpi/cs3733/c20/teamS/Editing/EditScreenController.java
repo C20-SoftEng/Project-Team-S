@@ -13,7 +13,6 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
@@ -21,13 +20,10 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -41,8 +37,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -64,16 +58,18 @@ public class EditScreenController extends BaseScreen implements Initializable {
 
     //endregion
 
-
     public EditScreenController() {
         this.stage  = Settings.primaryStage;
-        this.loggedIn = Settings.loggedIn;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
-        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
+        fakeInitialize();
+    }
+
+    public void fakeInitialize(){
+        loggedInUserLabel.setText("Welcome " + Settings.loggedIn.name() + "!");
+        editPrivilegeBox.setVisible(Settings.loggedIn.accessLevel() == AccessLevel.ADMIN);
 
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
@@ -94,7 +90,6 @@ public class EditScreenController extends BaseScreen implements Initializable {
         );
         initUndoHotkeys();
     }
-
     private void initUndoHotkeys() {
         KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         Runnable undo = () -> {
@@ -230,7 +225,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
     }
 
     @FXML private void onNewServiceClicked() {
-        SelectServiceScreen.showDialog(loggedIn);
+        SelectServiceScreen.showDialog(Settings.loggedIn);
     }
     @FXML private void onActiveServiceClicked() {
 //        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
