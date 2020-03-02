@@ -6,11 +6,11 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 
 import java.util.function.Consumer;
 
-public final class ElevatorEditor extends EditingTool {
+public final class AddElevatorTool extends EditingTool {
     private final IEditableMap map;
     private final int topFloor;
 
-    public ElevatorEditor(Consumer<Memento> mementoRunner, IEditableMap map, int topFloor) {
+    public AddElevatorTool(Consumer<Memento> mementoRunner, IEditableMap map, int topFloor) {
         super(mementoRunner);
         if (map == null) ThrowHelper.illegalNull("map");
 
@@ -23,11 +23,22 @@ public final class ElevatorEditor extends EditingTool {
     }
 
     private void onNodeClicked(NodeClickedEvent data) {
-        if (map.selectedFloor() >= topFloor)
+        NodeData base = data.node().node();
+        int newFloor = 0;
+        switch (data.event().getButton()) {
+            case PRIMARY:
+                newFloor = base.getFloor() + 1;
+                break;
+            case SECONDARY:
+                newFloor = base.getFloor() - 1;
+                break;
+            default:
+                return;
+        }
+        if (!isFloorInRange(newFloor))
             return;
 
-        NodeData base = data.node().node();
-        NodeData top = createElevatorNode(base);
+        NodeData top = createElevatorNode(base, newFloor);
 
         execute(
                 () -> {
@@ -39,13 +50,16 @@ public final class ElevatorEditor extends EditingTool {
                     map.removeNode(top);
                 }
         );
-        map.setSelectedFloor(top.getFloor());
+        map.setSelectedFloor(newFloor);
     }
 
-    private NodeData createElevatorNode(NodeData base) {
+    private boolean isFloorInRange(int floor) {
+        return floor >= 1 && floor <= topFloor;
+    }
+    private NodeData createElevatorNode(NodeData base, int newFloor) {
         assert base != null : "'base' is null.";
         NodeData result = new NodeData();
-        result.setFloor(base.getFloor() + 1);
+        result.setFloor(newFloor);
         result.setNodeType("ELEV");
 
         result.setPosition(base.getxCoordinate(), base.getyCoordinate());
