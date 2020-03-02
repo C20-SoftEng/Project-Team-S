@@ -318,38 +318,6 @@ public class ThreeDimensions extends Application {
 
         root.getChildren().add(dest);
 
-        Button elevatorButton = new Button();
-        elevatorButton.relocate(65,0);
-        elevatorButton.setPrefSize(180,60);
-//elevatorButton.setStyle("-fx-background-color: #a1f20f");
-        elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
-        root.getChildren().add(elevatorButton);
-        Button foodButton = new Button();
-        foodButton.relocate(340,0);
-//foodButton.setStyle("-fx-background-color: #a2b4ff");
-        foodButton.setPrefSize(140,60);
-        foodButton.setStyle("-fx-background-color: TRANSPARENT");
-        root.getChildren().add(foodButton);
-        Button bathroomButton = new Button();
-        bathroomButton.relocate(550,0);
-//athroomButton.setStyle("-fx-background-color: #00ff00");
-        bathroomButton.setPrefSize(200,60);
-//bathroomButton.setRipplerFill(Color.TRANSPARENT);
-        bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
-        root.getChildren().add(bathroomButton);
-        Button retailButton = new Button();
-        retailButton.relocate(790,0);
-//retailButton.setStyle("-fx-background-color: #1203ff");
-        retailButton.setPrefSize(150,60);
-        retailButton.setStyle("-fx-background-color: TRANSPARENT");
-        root.getChildren().add(retailButton);
-        Button stairsButton = new Button();
-        stairsButton.relocate(990,0);
-        stairsButton.setPrefSize(160,60);
-        stairsButton.setStyle("-fx-background-color: TRANSPARENT");
-//stairsButton.setStyle("-fx-background-color: #bfbfbf");
-        root.getChildren().add(stairsButton);
-
         Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
         scene.setCamera(camera);
