@@ -81,7 +81,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
                 scrollPane, mapImage);
         graph = editableMap.graph();
         toolSelector = new DisposableSelector<>();
-        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
+        toolSelector.setCurrent(new AddEditRemoveNodeTool(undoBuffer::execute, editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(
@@ -91,16 +91,21 @@ public class EditScreenController extends BaseScreen implements Initializable {
         initUndoHotkeys();
     }
     private void initUndoHotkeys() {
-        KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        KeyCombination undoCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        KeyCombination redoCombo = new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN);
         Runnable undo = () -> {
             if (undoBuffer.canUndo())
                 undoBuffer.undo();
-            System.out.println("Undo hit");
+        };
+        Runnable redo = () -> {
+            if (undoBuffer.canRedo())
+                undoBuffer.redo();
         };
         RxAdaptors.propertyStream(floorButton2.sceneProperty())
                 .subscribe(scene -> {
                    System.out.println("Scene changed");
-                   scene.getAccelerators().put(keyCombo, undo);
+                   scene.getAccelerators().put(undoCombo, undo);
+                   scene.getAccelerators().put(redoCombo, redo);
                 });
     }
     private void initEventHandlers() {
@@ -253,7 +258,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
+        toolSelector.setCurrent(new AddEditRemoveNodeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onAddRemoveEdgeClicked() {
         toolSelector.setCurrent(new AddRemoveEdgeTool(undoBuffer::execute, editableMap));
