@@ -1,0 +1,44 @@
+# Alias Wavefront MTL File Exported from SketchUp
+# with OBJexporter (c) 2010/2011 TIG
+# Made for 'cryo.obj'
+
+newmtl Default_Material
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+d 1.000000
+
+newmtl Blinds_Roman_Hobbled_Blue
+Ka 0.000000 0.000000 0.000000
+Kd 0.317647 0.321569 0.341176
+Ks 0.000000 0.000000 0.000000
+d 1.000000
+map_Kd cryo_Textures/Blinds_Roman_Hobbled_Blue.jpg
+
+newmtl Metal_Aluminum_Anodized
+Ka 0.000000 0.000000 0.000000
+Kd 0.792157 0.819608 0.858824
+Ks 0.000000 0.000000 0.000000
+d 1.000000
+map_Kd cryo_Textures/Metal_Aluminum_Anodized.jpg
+
+newmtl Metal_Corrogated_Shiny
+Ka 0.000000 0.000000 0.000000
+Kd 0.756863 0.756863 0.756863
+Ks 0.000000 0.000000 0.000000
+d 1.000000
+map_Kd cryo_Textures/Metal_Corrogated_Shiny.jpg
+
+newmtl Color_008
+Ka 0.000000 0.000000 0.000000
+Kd 0.117647 0.117647 0.117647
+Ks 0.000000 0.000000 0.000000
+d 1.000000
+
+newmtl Translucent_Glass_Blue
+Ka 0.000000 0.000000 0.000000
+Kd 0.392157 0.584314 0.929412
+Ks 0.000000 0.000000 0.000000
+d 0.500000
+
+#EOF
