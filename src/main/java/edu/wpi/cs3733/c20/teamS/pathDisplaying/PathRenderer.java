@@ -26,6 +26,26 @@ import java.util.stream.Collectors;
 
 class PathRenderer {
 
+
+    public Group drawIndicator(double x, double y) throws Exception{
+
+        if(x == 0 && y == 0){
+            throw new IllegalArgumentException("coordinates");
+        }
+        Group group = new Group();
+
+        ImageView pinIcon = new ImageView();
+        pinIcon.setImage(new Image("images/instructions/YAH.png"));
+        pinIcon.setX(x-80);
+        pinIcon.setY(y + 5);
+        pinIcon.setPreserveRatio(true);
+        pinIcon.setFitWidth(75);
+
+        group.getChildren().add(pinIcon);
+
+        return group;
+    }
+
     /**
      * Draws the portion of the specified path that is on the specified floor, then
      * returns a new Group containing all the elements that were drawn.

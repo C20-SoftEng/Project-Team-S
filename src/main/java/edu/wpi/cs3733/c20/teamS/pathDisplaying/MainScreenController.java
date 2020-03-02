@@ -25,8 +25,10 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -50,6 +52,8 @@ public class MainScreenController implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
 
+    int floor;
+
     private boolean flip = true;
     //endregion
 
@@ -70,13 +74,32 @@ public class MainScreenController implements Initializable {
         initDirectorySidebar();
         initSearchComboBox();
 
+
+
         scrollPane.setContent(group);
+
+
+
         try {
             redraw();
+            drawIndicator2();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+//    private Circle placeIndicator(double x, double y){
+//        Circle circle = new Circle();
+//        circle.setRadius(100);
+//        circle.setTranslateX(x);
+//        circle.setTranslateY(y);
+//        circle.setStyle("-fx-background-color: LIGHTBLUE");
+//
+//        return circle;
+//    }
 
     private void initDirectorySidebar() {
         popDeptList();
@@ -165,6 +188,12 @@ public class MainScreenController implements Initializable {
         Group pathGroup = renderer.draw(nodeSelector.path(), floorSelector.current());
         group.getChildren().add(pathGroup);
 
+
+
+//        Group yah = renderer.drawIndicator(1480.0,1145.0);
+//        group.getChildren().add(yah);
+
+
         rooms.stream()
                 .filter(hitbox -> hitbox.floor() == floorSelector.current())
                 .map(this::createHitboxRenderingMask)
@@ -172,6 +201,42 @@ public class MainScreenController implements Initializable {
 
         keepCurrentPosition(currentHval, currentVval, zoomer);
     }
+
+    private void drawIndicator2() throws Exception  {
+        double currentHval = scrollPane.getHvalue();
+        double currentVval = scrollPane.getVvalue();
+
+        mapImage.setImage(floorSelector.floor(2).image);
+        zoomer.zoomSet();
+
+        group.getChildren().clear();
+        group.getChildren().add(mapImage);
+        double x = 0;
+        double y = 0 ;
+
+//        if(floor == 2){
+//             x = 1480.0;
+//             y = 1145.0;
+//        }
+//        else if(!(floor == 2)){
+//           x = 0;
+//           y = 0 ;
+//            System.out.println("not in floor 2");
+//        }
+//        System.out.println("in draw function");
+//        System.out.println(floorSelector.current());
+
+        Group pathGroup = renderer.drawIndicator(1480.0, 1145.0);
+        group.getChildren().add(pathGroup);
+
+        rooms.stream()
+                .filter(hitbox -> hitbox.floor() == floorSelector.current())
+                .map(this::createHitboxRenderingMask)
+                .forEach(polygon -> group.getChildren().add(polygon));
+
+        keepCurrentPosition(currentHval, currentVval, zoomer);
+    }
+
 
     private Polygon createHitboxRenderingMask(Room room) {
         Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
@@ -338,24 +403,43 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onFloorClicked1() {
         floorSelector.setCurrent(1);
+        floor = 1;
     }
     @FXML private void onFloorClicked2() {
+
         floorSelector.setCurrent(2);
+        try {
+            //redraw();
+            drawIndicator2();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
     @FXML private void onFloorClicked3() {
         floorSelector.setCurrent(3);
+        floor = 3;
     }
     @FXML private void onFloorClicked4() {
         floorSelector.setCurrent(4);
+        floor = 4;
     }
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
+        floor = 5;
     }
     @FXML private void onFloorClicked6() {
         floorSelector.setCurrent(6);
+        floor = 6;
+
     }
     @FXML private void onFloorClicked7() {
         floorSelector.setCurrent(7);
+        floor = 7;
     }
     @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
     @FXML private void onAboutClicked() {
