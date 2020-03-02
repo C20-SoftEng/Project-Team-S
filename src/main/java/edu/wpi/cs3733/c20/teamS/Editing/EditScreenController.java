@@ -73,8 +73,12 @@ public class EditScreenController extends BaseScreen implements Initializable {
 
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
-        if (hitboxRepo.canLoad())
+
+        if (hitboxRepo.canLoad()) {
+            rooms.clear();
             rooms.addAll(hitboxRepo.load());
+        }
+
         editableMap = new EditableMap(
                 database.loadGraph(),
                 floorSelector, rooms,
