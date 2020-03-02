@@ -9,12 +9,13 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EditRoomVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -25,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class EditableMap implements IEditableMap {
     private final ObservableGraph graph;
@@ -34,12 +36,17 @@ public class EditableMap implements IEditableMap {
     private final FloorSelector floorSelector;
     private final Map<NodeData, NodeVm> nodeLookup = new HashMap<>();
     private final Map<EndpointPair<NodeData>, EdgeVm> edgeLookup = new HashMap<>();
-    private final Map<Room, EditRoomVm> roomLookup = new HashMap<>();
+    private final Map<Room, RoomVm> roomLookup = new HashMap<>();
     private final Group rootGroup;
     private final PartitionedParent<Integer, NodeVm> nodePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
-    private final PartitionedParent<Integer, EditRoomVm> roomPartition = new PartitionedParent<>();
+    private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, Node> auxiliaryPartition = new PartitionedParent<>();
+
+    private final ReactiveProperty<Boolean> showNodes = new ReactiveProperty<>(true);
+    private final ReactiveProperty<Boolean> showEdges = new ReactiveProperty<>(true);
+    private final ReactiveProperty<Boolean> showRooms = new ReactiveProperty<>(true);
+
 
     private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
     private final PublishSubject<NodeClickedEvent> nodeDragged = PublishSubject.create();
@@ -187,10 +194,68 @@ public class EditableMap implements IEditableMap {
      * @return The view model that is used to render the specified room.
      */
     @Override
-    public EditRoomVm getRoomViewModel(Room room) {
+    public RoomVm getRoomViewModel(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");
 
         return roomLookup.get(room);
+    }
+
+    public Set<NodeVm> getNodesOnFloor(int floor) {
+        if (!nodePartition.containsKey(floor))
+            return Collections.emptySet();
+        return nodePartition.get(floor).children();
+    }
+    public Set<EdgeVm> getEdgesOnFloor(int floor) {
+        if (!edgePartition.containsKey(floor))
+            return Collections.emptySet();
+        return edgePartition.get(floor).children();
+    }
+    public Set<RoomVm> getRoomsOnFloor(int floor) {
+        if (!roomPartition.containsKey(floor))
+            return Collections.emptySet();
+        return roomPartition.get(floor).children();
+    }
+    @Override public Stream<NodeVm> nodeViewModels() {
+        return nodePartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public Stream<EdgeVm> edgeViewModels() {
+        return edgePartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public Stream<RoomVm> roomViewModels() {
+        return roomPartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public void setNodesVisible(boolean value) {
+        nodePartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setNodesVisible(boolean value, int floor) {
+        if (!nodePartition.containsKey(floor))
+            return;
+        nodePartition.get(floor).group().setVisible(value);
+    }
+    @Override public void setEdgesVisible(boolean value) {
+        edgePartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setEdgesVisible(boolean value, int floor) {
+        if (!edgePartition.containsKey(floor))
+            return;
+        edgePartition.get(floor).group().setVisible(value);
+    }
+    @Override public void setRoomsVisible(boolean value) {
+        roomPartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setRoomsVisible(boolean value, int floor) {
+        if (!roomPartition.containsKey(floor))
+            return;
+        roomPartition.get(floor).group().setVisible(value);
     }
 
     public Observable<NodeClickedEvent> nodeClicked() {
@@ -261,10 +326,10 @@ public class EditableMap implements IEditableMap {
 
         return result;
     }
-    private EditRoomVm createRoomVm(Room room) {
+    private RoomVm createRoomVm(Room room) {
         assert room != null : "'room' can't be null.";
         
-        EditRoomVm result = new EditRoomVm(room);
+        RoomVm result = new RoomVm(room);
         result.setOnMouseClicked(e -> roomClicked.onNext(new RoomClickedEvent(result, e)));
         return result;
     }
@@ -289,12 +354,12 @@ public class EditableMap implements IEditableMap {
         edgeLookup.remove(edge);
     }
     private void onRoomAdded(Room room) {
-        EditRoomVm vm = createRoomVm(room);
+        RoomVm vm = createRoomVm(room);
         roomPartition.putChild(room.floor(), vm);
         roomLookup.put(room, vm);
     }
     private void onRoomRemoved(Room room) {
-        EditRoomVm remove = roomLookup.get(room);
+        RoomVm remove = roomLookup.get(room);
         roomPartition.removeChild(remove);
         roomLookup.remove(room);
     }

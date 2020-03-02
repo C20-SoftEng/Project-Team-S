@@ -52,6 +52,15 @@ public class PartitionedParent<TKey, TChild extends Node> extends Parent {
     public void showOnly(TKey key) {
         partitions().forEach(partition -> partition.group.setVisible(Objects.equals(partition.key(), key)));
     }
+    public boolean containsKey(TKey key) {
+        return partitions.containsKey(key);
+    }
+    public Partition<TKey, TChild> get(TKey key) {
+        return partitions.get(key);
+    }
+    public Set<TKey> keys() {
+        return partitions.keySet();
+    }
 
     public static final class Partition<TKey, TChild> {
         private final TKey key;

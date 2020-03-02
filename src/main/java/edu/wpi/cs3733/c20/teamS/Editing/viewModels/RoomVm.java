@@ -13,14 +13,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 
-public class EditRoomVm extends Parent {
+public class RoomVm extends Parent {
     private final Room room;
     private final Polygon mask;
     private final Label nameLabel;
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
     private final ReadOnlyReactiveProperty<Boolean> isMouseOver = RxAdaptors.createMouseOverStream(this);
 
-    public EditRoomVm(Room room) {
+    public RoomVm(Room room) {
         if (room == null) ThrowHelper.illegalNull("room");
 
         this.room = room;
