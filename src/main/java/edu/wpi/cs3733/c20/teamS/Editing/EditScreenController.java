@@ -64,11 +64,6 @@ public class EditScreenController extends BaseScreen implements Initializable {
 
     //endregion
 
-    /**
-     *
-     * @param mainScreenStage the stage to take over
-     * @param employee the employee that logged in
-     */
 
     public EditScreenController() {
         this.stage  = Settings.primaryStage;
@@ -80,7 +75,6 @@ public class EditScreenController extends BaseScreen implements Initializable {
         loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
         editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
 
-        graph = createGraph();
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
         if (hitboxRepo.canLoad())
@@ -235,6 +229,8 @@ public class EditScreenController extends BaseScreen implements Initializable {
         zoomInButton.setDisable(!editableMap.canZoomIn());
         zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
+
+
     @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);
     }

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-    private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
+    private static final StartupScreen START_SCREEN = StartupScreen.SPLASH;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
