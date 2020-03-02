@@ -17,9 +17,9 @@ public class Tweetbox {
             String handle = usernameWithAt;
             List<Status> statuses = twitter.getUserTimeline(handle);
 
-            System.out.println("Showing @" + handle+ "'s home timeline.");
+            //System.out.println("Showing @" + handle+ "'s home timeline.");
             for (Status status : statuses) {
-                System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+                //System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
                 stringStatus.add("@" + status.getUser().getScreenName() + " - " + status.getText());
             }
 

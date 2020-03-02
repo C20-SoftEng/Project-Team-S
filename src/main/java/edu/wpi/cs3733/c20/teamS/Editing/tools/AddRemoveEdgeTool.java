@@ -1,116 +1,100 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
-import com.google.common.graph.EndpointPair;
-import com.sun.scenario.effect.impl.state.MotionBlurState;
+import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PlaceEdgeVm;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import javafx.scene.Group;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import org.checkerframework.framework.qual.NoDefaultQualifierForUse;
 
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
-public final class AddRemoveEdgeTool implements IEditingTool {
-    private final ObservableGraph graph;
-    public final Supplier<Group> groupSupplier;
-    private State state;
+public final class AddRemoveEdgeTool extends EditingTool {
+    private final IEditableMap map;
+    private final DisposableSelector<State> state = new DisposableSelector<>();
 
-    public AddRemoveEdgeTool(ObservableGraph graph, Supplier<Group> groupSupplier) {
-        this.graph = graph;
-        this.groupSupplier = groupSupplier;
-        this.state = new StandbyState();
+    public AddRemoveEdgeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
+        if (map == null) ThrowHelper.illegalNull("map");
+
+        this.map = map;
+        state.setCurrent(new StandbyState());
+
+        addAllSubs(
+                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e)),
+                map.edgeClicked().subscribe(e -> state.current().onEdgeClicked(e)),
+                map.mouseMoved().subscribe(e -> state.current().onMouseMoved(e))
+        );
     }
 
-    @Override
-    public void onNodeClicked(NodeData node, MouseEvent event) {
-        state.onNodeClicked(node, event);
-    }
-    @Override
-    public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-        state.onEdgeClicked(edge, event);
+    @Override protected void onDispose() {
+        state.current().dispose();
     }
 
-    @Override
-    public void onMouseMoved(MouseEvent event) {
-        state.onMouseMoved(event);
-    }
-
-    private abstract class State {
-        public void onNodeClicked(NodeData node, MouseEvent event) {}
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {}
+    private static abstract class State extends DisposableBase {
+        public abstract void onNodeClicked(NodeClickedEvent data);
+        public abstract void onEdgeClicked(EdgeClickedEvent data);
         public void onMouseMoved(MouseEvent event) {}
+        @Override protected void onDispose() {}
     }
 
     private final class StandbyState extends State {
-        @Override
-        public void onNodeClicked(NodeData node, MouseEvent event) {
-            if (event.getButton() != MouseButton.PRIMARY)
+        @Override public void onNodeClicked(NodeClickedEvent data) {
+            if (data.event().getButton() != MouseButton.PRIMARY)
                 return;
 
-            state = new StartNodeSelectedState(node);
+            state.setCurrent(new StartPlacedState(data.node().node()));
         }
-
-        @Override
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-            if (event.getButton() != MouseButton.SECONDARY)
+        @Override public void onEdgeClicked(EdgeClickedEvent data) {
+            if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
 
-            assert edge.nodeU() != null : "nodeU is null";
-            assert edge.nodeV() != null : "nodeV is null";
-
-            graph.removeEdge(edge.nodeU(), edge.nodeV());
+            Memento action = Memento.create(
+                    () -> map.removeEdge(data.edge().start(), data.edge().end()),
+                    () -> map.putEdge(data.edge().start(), data.edge().end())
+            );
+            execute(action);
         }
     }
-
-    private final class StartNodeSelectedState extends State {
+    private final class StartPlacedState extends State {
         private final NodeData start;
-        private final Line edgeDisplay;
-        private static final double LINE_WIDTH = 5.0;
+        private final PlaceEdgeVm vm;
 
-        public StartNodeSelectedState(NodeData start) {
-            assert start != null : "start was null.";
+        public StartPlacedState(NodeData start) {
             this.start = start;
-            edgeDisplay = new Line();
-            edgeDisplay.setStartX(start.getxCoordinate());
-            edgeDisplay.setStartY(start.getyCoordinate());
-            edgeDisplay.setEndX(start.getxCoordinate());
-            edgeDisplay.setEndY(start.getyCoordinate());
-            edgeDisplay.setStrokeWidth(LINE_WIDTH);
-            edgeDisplay.setFill(Color.BLUE);
-            edgeDisplay.setMouseTransparent(true);
-            groupSupplier.get().getChildren().add(edgeDisplay);
+            vm = new PlaceEdgeVm(start.getxCoordinate(), start.getyCoordinate());
+            map.addWidget(vm);
         }
 
-        @Override
-        public void onNodeClicked(NodeData node, MouseEvent event) {
-            if (event.getButton() != MouseButton.PRIMARY)
-                return;
-            if (graph.inner().adjacentNodes(node).contains(start))
-                return;
-
-            graph.putEdge(start, node);
-            switchToStandbyState();
+        @Override public void onNodeClicked(NodeClickedEvent data) {
+            switch (data.event().getButton()) {
+                case SECONDARY:
+                    state.setCurrent(new StandbyState());
+                    return;
+                case PRIMARY:
+                    if (!data.node().node().equals(start)) {
+                        NodeData end = data.node().node();
+                        execute(
+                                () -> map.putEdge(start, end),
+                                () -> map.removeEdge(start, end)
+                        );
+                    }
+                    map.removeWidget(vm);
+                    state.setCurrent(new StandbyState());
+                    return;
+                default:
+            }
         }
-
-        @Override
-        public void onEdgeClicked(EndpointPair<NodeData> edge, MouseEvent event) {
-            if (event.getButton() != MouseButton.SECONDARY)
-                return;
-
-            switchToStandbyState();
+        @Override protected void onDispose() {
+            map.removeWidget(vm);
         }
-
-        @Override
-        public void onMouseMoved(MouseEvent event) {
-            edgeDisplay.setEndX(event.getX());
-            edgeDisplay.setEndY(event.getY());
-        }
-
-        private void switchToStandbyState() {
-            groupSupplier.get().getChildren().remove(edgeDisplay);
-            state = new StandbyState();
+        @Override public void onEdgeClicked(EdgeClickedEvent data) { }
+        @Override public void onMouseMoved(MouseEvent event) {
+            vm.setEnd(event.getX(), event.getY());
         }
     }
 }
