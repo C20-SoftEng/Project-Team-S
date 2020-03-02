@@ -4,10 +4,19 @@ package edu.wpi.cs3733.c20.teamS.applicationInitializer;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
+import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
+import edu.wpi.cs3733.c20.teamS.MainStartScreen;
+import edu.wpi.cs3733.c20.teamS.MainStartScreenController;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Set;
 
 import static edu.wpi.cs3733.c20.teamS.ThrowHelper.illegalNull;
@@ -149,5 +158,57 @@ public class ApplicationInitializer {
         Set<EdgeData> allEdgeData = this.controller.getAllEdges();
         this.addNodesToGraph(allNodeData, this.graph);
         this.addEdgesToGraph(allEdgeData, this.graph);
+    }
+
+    public void initBigFXMLs(){
+        Settings.primaryStage.setFullScreen(true);
+
+        initSplashScreen();
+        initMainScreen();
+        initEmployeeScreen();
+    }
+
+    private void initMainScreen(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
+        loader.setControllerFactory(c -> {
+            MainScreenController cont = new MainScreenController(Settings.primaryStage);
+            return cont;
+        });
+
+        try{
+            Settings.mainScreenRoot = loader.load();
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void initSplashScreen(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
+        loader.setControllerFactory(c -> {
+            MainStartScreenController cont = new MainStartScreenController();
+            return cont;
+        });
+
+        try{
+            Settings.splashRoot = loader.load();
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void initEmployeeScreen(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
+
+        loader.setControllerFactory(c -> {
+            EditScreenController cont = new EditScreenController();
+            return cont;
+        });
+
+        try{
+            Settings.employeeRoot = loader.load();
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

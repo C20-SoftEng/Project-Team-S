@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.app.serviceRequests;
 
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
@@ -11,6 +13,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.LaundryServiceRequest;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -74,6 +77,8 @@ public final class JanitorRequestScreen {
     private void show() {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 }
