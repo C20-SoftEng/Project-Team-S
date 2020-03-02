@@ -7,7 +7,6 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReadOnlyReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
-import javafx.collections.ListChangeListener;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -44,7 +43,8 @@ public class RoomVm extends Parent {
                             Settings.get().editRoomColorNormal();
                     mask.setFill(fill);
                 });
-        room.vertices().addListener((ListChangeListener<? super Vector2>) change -> updatePolygon());
+        RxAdaptors.fromObservableList(room.vertices())
+                .subscribe(change -> updatePolygon());
 
         setNameFontSize(24);
         setNameVisible(false);
