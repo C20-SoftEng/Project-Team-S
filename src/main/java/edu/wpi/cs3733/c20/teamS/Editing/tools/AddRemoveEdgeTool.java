@@ -5,6 +5,8 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PlaceEdgeVm;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
@@ -12,7 +14,7 @@ import java.util.function.Consumer;
 
 public final class AddRemoveEdgeTool extends EditingTool {
     private final IEditableMap map;
-    private State state;
+    private final DisposableSelector<State> state = new DisposableSelector<>();
 
     public AddRemoveEdgeTool(Consumer<Memento> mementoRunner, IEditableMap map) {
         super(mementoRunner);
@@ -20,19 +22,24 @@ public final class AddRemoveEdgeTool extends EditingTool {
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;
-        this.state = new StandbyState();
+        state.setCurrent(new StandbyState());
 
         addAllSubs(
-                map.nodeClicked().subscribe(e -> state.onNodeClicked(e)),
-                map.edgeClicked().subscribe(e -> state.onEdgeClicked(e)),
-                map.mouseMoved().subscribe(e -> state.onMouseMoved(e))
+                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e)),
+                map.edgeClicked().subscribe(e -> state.current().onEdgeClicked(e)),
+                map.mouseMoved().subscribe(e -> state.current().onMouseMoved(e))
         );
     }
 
-    private static abstract class State {
+    @Override protected void onDispose() {
+        state.current().dispose();
+    }
+
+    private static abstract class State extends DisposableBase {
         public abstract void onNodeClicked(NodeClickedEvent data);
         public abstract void onEdgeClicked(EdgeClickedEvent data);
         public void onMouseMoved(MouseEvent event) {}
+        @Override protected void onDispose() {}
     }
 
     private final class StandbyState extends State {
@@ -40,7 +47,7 @@ public final class AddRemoveEdgeTool extends EditingTool {
             if (data.event().getButton() != MouseButton.PRIMARY)
                 return;
 
-            state = new StartPlacedState(data.node().node());
+            state.setCurrent(new StartPlacedState(data.node().node()));
         }
         @Override public void onEdgeClicked(EdgeClickedEvent data) {
             if (data.event().getButton() != MouseButton.SECONDARY)
@@ -66,7 +73,7 @@ public final class AddRemoveEdgeTool extends EditingTool {
         @Override public void onNodeClicked(NodeClickedEvent data) {
             switch (data.event().getButton()) {
                 case SECONDARY:
-                    state = new StandbyState();
+                    state.setCurrent(new StandbyState());
                     return;
                 case PRIMARY:
                     if (!data.node().node().equals(start)) {
@@ -77,10 +84,13 @@ public final class AddRemoveEdgeTool extends EditingTool {
                         );
                     }
                     map.removeWidget(vm);
-                    state = new StandbyState();
+                    state.setCurrent(new StandbyState());
                     return;
                 default:
             }
+        }
+        @Override protected void onDispose() {
+            map.removeWidget(vm);
         }
         @Override public void onEdgeClicked(EdgeClickedEvent data) { }
         @Override public void onMouseMoved(MouseEvent event) {
