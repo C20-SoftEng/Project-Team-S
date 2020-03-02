@@ -6,14 +6,14 @@
 #title{
     -fx-text-fill: #ffffff;
 }
-
+/*
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
-
+*/
 .scroll-pane {
     /*gives scroll panes a background color*/
-    -fx-background-color: #ccc;
+    -fx-background-color: #ddd;
 }
 
 .hbox{
@@ -34,10 +34,6 @@
     -fx-text-fill: #ffffff;
 }
 
-.zoomers{
-    -fx-background-color: white;
-    -fx-border-color: gray;
-}
 
 .login{
     -fx-background-color: beige;
@@ -63,10 +59,15 @@
 
 
 #switcheroo{ /*Switch box*/
-    -fx-background-color: gray;
+    -fx-background-image: url("images/Icons/swap_arrows.png") !important;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-color: #fff;
     -fx-border-color: black;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
+
+
 }
 
 .nightbutton{
@@ -86,10 +87,16 @@
 
 .floors{
     -fx-background-color: #ffffff;
+    -fx-border-color: #292929;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 #currentFloor{
     -fx-background-color: gray;
+    -fx-border-color: #292929;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 
@@ -101,9 +108,9 @@
 }
 
 .zoomerSigns{
-    -fx-text-fill: black;
-    -fx-font-size: 65;
-}
+     -fx-text-fill: black;
+     -fx-font-size: 65;
+ }
 
 .header{
     -fx-border-color: black;
@@ -117,5 +124,8 @@
 }
 
 .TitledPane{
-    -fx-background-color: red;
+}
+
+.combo-box-base > .text-field{
+    -fx-text-fill: #000;
 }
