@@ -2,10 +2,6 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
@@ -13,33 +9,25 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
-import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.apache.derby.iapi.db.Database;
 
 import java.io.File;
 import java.net.URL;
@@ -184,12 +172,12 @@ public class ThreeDimensions extends Application {
             }
         }
 
-        RotateGroup outlineGroup = new RotateGroup();
-        for(int i = 0; i < goalLine.size() - 1; i++) {
-            Point3D point1 = new Point3D(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148, zplace.get(end.getFloor()));
-            Point3D point2 = new Point3D(goalLine.get(i + 1).x() / 5 - 247,goalLine.get(i + 1).y() / 5 - 148, zplace.get(end.getFloor()));
-            outlineGroup.getChildren().add(drawCylinder(point1, point2, 2));
-        }
+//        RotateGroup outlineGroup = new RotateGroup();
+//        for(int i = 0; i < goalLine.size() - 1; i++) {
+//            Point3D point1 = new Point3D(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148, zplace.get(end.getFloor()));
+//            Point3D point2 = new Point3D(goalLine.get(i + 1).x() / 5 - 247,goalLine.get(i + 1).y() / 5 - 148, zplace.get(end.getFloor()));
+//            outlineGroup.getChildren().add(drawCylinder(point1, point2, 2));
+//        }
 
         RotateGroup personGroup = new RotateGroup();
         personGroup.getChildren().addAll(person);
@@ -199,7 +187,7 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(pinGroup);
         group.getChildren().add(elevatorGroup);
         group.getChildren().add(destinationCircle);
-        group.getChildren().add(outlineGroup);
+        //group.getChildren().add(outlineGroup);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
         personGroup.setTranslateZ(personGroup.getTranslateZ() - 27);
@@ -292,6 +280,15 @@ public class ThreeDimensions extends Application {
             }
         });
 
+        Polygon destPoly = new Polygon();
+        for(int i = 0; i < goalLine.size(); i++) {
+            destPoly.getPoints().addAll(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148);
+        }
+        destPoly.setFill(Color.GHOSTWHITE);
+        destPoly.setEffect(new Bloom());
+        group.getChildren().add(destPoly);
+
+
         Group elevIcons = getElevIcons();
         //group.getChildren().add(elevIcons);
         //group.getChildren().add(getFoodIcons());
@@ -369,32 +366,32 @@ public class ThreeDimensions extends Application {
 
         int translater = 10;
         int sclaer = 1;
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case Z:
-                    outlineGroup.setScaleX(outlineGroup.getScaleX() - sclaer);
-                    outlineGroup.setScaleY(outlineGroup.getScaleY() - sclaer);
-                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() - sclaer);
-                    break;
-                case X:
-                    outlineGroup.setScaleX(outlineGroup.getScaleX() + sclaer);
-                    outlineGroup.setScaleY(outlineGroup.getScaleY() + sclaer);
-                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() + sclaer);
-                    break;
-                case J:
-                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() - translater);
-                    break;
-                case K:
-                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() + translater);
-                    break;
-                case Y:
-                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() - translater);
-                    break;
-                case U:
-                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() + translater);
-                    break;
-            }
-        });
+//        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+//            switch (event.getCode()) {
+//                case Z:
+//                    outlineGroup.setScaleX(outlineGroup.getScaleX() - sclaer);
+//                    outlineGroup.setScaleY(outlineGroup.getScaleY() - sclaer);
+//                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() - sclaer);
+//                    break;
+//                case X:
+//                    outlineGroup.setScaleX(outlineGroup.getScaleX() + sclaer);
+//                    outlineGroup.setScaleY(outlineGroup.getScaleY() + sclaer);
+//                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() + sclaer);
+//                    break;
+//                case J:
+//                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() - translater);
+//                    break;
+//                case K:
+//                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() + translater);
+//                    break;
+//                case Y:
+//                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() - translater);
+//                    break;
+//                case U:
+//                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() + translater);
+//                    break;
+//            }
+//        });
 
         primaryStage.setTitle("MAP");
 
@@ -405,6 +402,14 @@ public class ThreeDimensions extends Application {
         primaryStage.resizableProperty().set(false);
         primaryStage.sizeToScene();
         primaryStage.show();
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                onFloorMove(personGroup, numberGroup, begin);
+            }
+        };
+        timer.start();
     }
 
     private MeshView[] loadModel(URL url) {
@@ -490,8 +495,9 @@ public class ThreeDimensions extends Application {
 
     private Box floorNumbers(Image number, Image brightNumber, int z, boolean selected) {
         PhongMaterial material = new PhongMaterial();
-        if(selected) {material.setDiffuseMap(brightNumber);}
-        else {material.setDiffuseMap(number);}
+        //if(selected) {material.setDiffuseMap(brightNumber);}
+       // else {material.setDiffuseMap(number);}
+        material.setDiffuseMap(number);
         floorAddress.add(material.getDiffuseMap().toString());
 
         Box floorNum = new Box(40, 0, 70);
@@ -737,13 +743,52 @@ public class ThreeDimensions extends Application {
     private void onElevClicked(Group elevIcons) {
         if(elevToggle) {
             System.out.println("hello");
-            elevIcons.getChildren().clear();
+            elevIcons.getChildren().forEach(node -> {node.setVisible(false);});
             elevToggle = false;
         }
         else {
             System.out.println("Goodbye");
-            elevIcons = getElevIcons();
+            elevIcons.getChildren().forEach(node -> {node.setVisible(true);});
             elevToggle = true;
+        }
+    }
+
+    private void onFloorMove(RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
+        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+        for(int i = 1; i <= 5; i++) {
+            System.out.println(personGroup.getTranslateZ() + 100 * (2-begin.getFloor()));
+            if(Math.abs((personGroup.getTranslateZ() + 100 * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
+                int finalI = i;
+                numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
+                        .forEach(
+                                node -> {
+                                    if(floorAddress.get(finalI - 1).equals(((PhongMaterial)(((Box) node).getMaterial())).getDiffuseMap().toString())) {
+                                        PhongMaterial material = new PhongMaterial();
+                                        material.setDiffuseMap(new Image("images/ThreeDim/" + finalI + "H.png"));
+                                        floorAddress.set(finalI - 1,material.getDiffuseMap().toString());
+                                        ((Box) node).setMaterial(material);
+                                    }
+                                });
+            }
+
+            if(Math.abs((personGroup.getTranslateZ() + 100 * (2-begin.getFloor())) - (zplace.get(i))) > 49) {
+                int finalI1 = i;
+                numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
+                        .forEach(
+                                node -> {
+                                    if(floorAddress.get(finalI1 -1).equals(((PhongMaterial)(((Box) node).getMaterial())).getDiffuseMap().toString())) {
+                                        PhongMaterial material = new PhongMaterial();
+                                        material.setDiffuseMap(new Image("images/ThreeDim/" + finalI1 + ".png"));
+                                        floorAddress.set(finalI1 -1,material.getDiffuseMap().toString());
+                                        ((Box) node).setMaterial(material);
+                                    }
+                                });
+            }
         }
     }
 }
