@@ -95,30 +95,6 @@ public class EditScreenController extends BaseScreen implements Initializable {
         initUndoHotkeys();
     }
 
-    public void fakeInitialize(){
-        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
-        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
-
-        floorSelector = createFloorSelector();
-        floorSelector.setCurrent(2);
-        if (hitboxRepo.canLoad())
-            rooms.addAll(hitboxRepo.load());
-        editableMap = new EditableMap(
-                database.loadGraph(),
-                floorSelector, rooms,
-                scrollPane, mapImage);
-        graph = editableMap.graph();
-        toolSelector = new DisposableSelector<>();
-        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
-        createPathfindingAlgorithmSelector();
-        initEventHandlers();
-        ExportToDirectoryController exportController = new ExportToDirectoryController(
-                directoryPathTextField, exportButton,
-                () -> editableMap.rooms()
-        );
-        initUndoHotkeys();
-    }
-
     private void initUndoHotkeys() {
         KeyCombination keyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         Runnable undo = () -> {
