@@ -85,14 +85,22 @@ public class ThreeDimensions extends Application {
         //camera.setNearClip(0); //cant see guy in elevator
         camera.setTranslateY(-50);
 
-        Shape destinationCircle = new Circle(10);
-        destinationCircle.setStrokeWidth(3);
-        destinationCircle.setStrokeLineCap(StrokeLineCap.ROUND);
-        destinationCircle.setStroke(Color.AQUA);
-        destinationCircle.setFill(Color.LIGHTYELLOW);
-        destinationCircle.setTranslateX(end.getxCoordinate() / 5 - 247);
+//        Shape destinationCircle = new Circle(10);
+//        destinationCircle.setStrokeWidth(3);
+//        destinationCircle.setStrokeLineCap(StrokeLineCap.ROUND);
+//        destinationCircle.setStroke(Color.AQUA);
+//        destinationCircle.setFill(Color.LIGHTYELLOW);
+//        destinationCircle.setTranslateX(end.getxCoordinate() / 5 - 247);
+//        destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
+//        destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148);
+        ImageView destinationCircle = new ImageView(new Image("/images/ThreeDim/pulse.gif"));
+        double destScale = 0.1;
+        destinationCircle.setScaleX(destScale);
+        destinationCircle.setScaleY(destScale);
+        destinationCircle.setScaleZ(destScale);
+        destinationCircle.setTranslateX(end.getxCoordinate() / 5 - 247 - 250);
         destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
-        destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148);
+        destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
         String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().getPath();
         MeshView[] pin = loadMeshViews(pinPath);
@@ -176,13 +184,6 @@ public class ThreeDimensions extends Application {
             }
         }
 
-//        RotateGroup outlineGroup = new RotateGroup();
-//        for(int i = 0; i < goalLine.size() - 1; i++) {
-//            Point3D point1 = new Point3D(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148, zplace.get(end.getFloor()));
-//            Point3D point2 = new Point3D(goalLine.get(i + 1).x() / 5 - 247,goalLine.get(i + 1).y() / 5 - 148, zplace.get(end.getFloor()));
-//            outlineGroup.getChildren().add(drawCylinder(point1, point2, 2));
-//        }
-
         RotateGroup personGroup = new RotateGroup();
         personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
@@ -191,7 +192,6 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(pinGroup);
         group.getChildren().add(elevatorGroup);
         group.getChildren().add(destinationCircle);
-        //group.getChildren().add(outlineGroup);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
         personGroup.setTranslateZ(personGroup.getTranslateZ() - 27);
@@ -258,22 +258,22 @@ public class ThreeDimensions extends Application {
                     group.translateZProperty().set(group.getTranslateZ() - 100);
                     break;
                 case Q:
-                    numberGroup.rotateByX(1);
+                    group.rotateByX(1);
                     break;
                 case E:
-                    numberGroup.rotateByX(-1);
+                    group.rotateByX(-1);
                     break;
                 case A:
-                    group.rotateByY(10);
+                    group.rotateByY(1);
                     break;
                 case D:
-                    group.rotateByY(-10);
+                    group.rotateByY(-1);
                     break;
                 case T:
-                    group.rotateByZ(-10);
+                    group.rotateByZ(-1);
                     break;
                 case Y:
-                    group.rotateByZ(10);
+                    group.rotateByZ(1);
                     break;
                 case G:
                     group.setTranslateY(group.getTranslateY() - 100);
@@ -284,14 +284,21 @@ public class ThreeDimensions extends Application {
             }
         });
 
+//        RotateGroup whiteRoom = new RotateGroup();
 //        Polygon destPoly = new Polygon();
 //        for(int i = 0; i < goalLine.size(); i++) {
 //            destPoly.getPoints().addAll(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148);
 //        }
-//        destPoly.setFill(Color.GHOSTWHITE);
-//        destPoly.setEffect(new Bloom());
-//        group.getChildren().add(destPoly);
-
+//        destPoly.setFill(Color.WHITE);
+//        destPoly.setOpacity(1);
+//        //destPoly.setBlendMode(BlendMode.SRC_OVER);
+//        whiteRoom.getChildren().add(destPoly);
+//        whiteRoom.setCache(true);
+//        Bloom bloom = new Bloom();
+//        bloom.setThreshold(0.3);
+//        whiteRoom.setEffect(bloom);
+//
+//        group.getChildren().add(whiteRoom);
 
         Group elevIcons = getElevIcons();
         group.getChildren().add(elevIcons);
@@ -387,34 +394,34 @@ public class ThreeDimensions extends Application {
 
         mouseControl(group, scene, primaryStage, numberGroup);
 
-        int translater = 10;
-        int sclaer = 1;
-//        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-//            switch (event.getCode()) {
-//                case Z:
-//                    outlineGroup.setScaleX(outlineGroup.getScaleX() - sclaer);
-//                    outlineGroup.setScaleY(outlineGroup.getScaleY() - sclaer);
-//                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() - sclaer);
-//                    break;
-//                case X:
-//                    outlineGroup.setScaleX(outlineGroup.getScaleX() + sclaer);
-//                    outlineGroup.setScaleY(outlineGroup.getScaleY() + sclaer);
-//                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() + sclaer);
-//                    break;
-//                case J:
-//                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() - translater);
-//                    break;
-//                case K:
-//                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() + translater);
-//                    break;
-//                case Y:
-//                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() - translater);
-//                    break;
-//                case U:
-//                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() + translater);
-//                    break;
-//            }
-//        });
+        int translater = 1;
+        double sclaer = 0.1;
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case Z:
+                    destinationCircle.setScaleX(destinationCircle.getScaleX() - sclaer);
+                    destinationCircle.setScaleY(destinationCircle.getScaleY() - sclaer);
+                    destinationCircle.setScaleZ(destinationCircle.getScaleZ() - sclaer);
+                    break;
+                case X:
+                    destinationCircle.setScaleX(destinationCircle.getScaleX() + sclaer);
+                    destinationCircle.setScaleY(destinationCircle.getScaleY() + sclaer);
+                    destinationCircle.setScaleZ(destinationCircle.getScaleZ() + sclaer);
+                    break;
+                case J:
+                    destinationCircle.setTranslateX(destinationCircle.getTranslateX() - translater);
+                    break;
+                case K:
+                    destinationCircle.setTranslateX(destinationCircle.getTranslateX() + translater);
+                    break;
+                case Y:
+                    destinationCircle.setTranslateY(destinationCircle.getTranslateY() - translater);
+                    break;
+                case U:
+                    destinationCircle.setTranslateY(destinationCircle.getTranslateY() + translater);
+                    break;
+            }
+        });
 
         primaryStage.setTitle("MAP");
 
