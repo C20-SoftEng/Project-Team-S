@@ -8,9 +8,12 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -41,17 +44,21 @@ public class ThreeDimensions extends Application {
     private List<NodeData> nodes;
     private Stage primaryStage = new Stage();
     private String goal = "";
+    private List<Vector2> goalLine;
 
-    public ThreeDimensions(List<NodeData> nodes, String goal) throws Exception {
+    public ThreeDimensions(List<NodeData> nodes, String goal, Optional<PinDrop> goalRoom) throws Exception {
+        if(goalRoom.isPresent()) {
         if(nodes != null) {
+            goalLine = goalRoom.get().room().vertices();
             this.nodes = nodes;
             this.goal = goal;
-            start(primaryStage); }
+            start(primaryStage); }}
     }
 
     private final float WIDTH = 1422;
     private final float HEIGHT = 800;
     private double oldX, oldY;
+    private ArrayList<String> floorAddress = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -171,6 +178,13 @@ public class ThreeDimensions extends Application {
             }
         }
 
+        RotateGroup outlineGroup = new RotateGroup();
+        for(int i = 0; i < goalLine.size() - 1; i++) {
+            Point3D point1 = new Point3D(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148, zplace.get(end.getFloor()));
+            Point3D point2 = new Point3D(goalLine.get(i + 1).x() / 5 - 247,goalLine.get(i + 1).y() / 5 - 148, zplace.get(end.getFloor()));
+            outlineGroup.getChildren().add(drawCylinder(point1, point2, 2));
+        }
+
         RotateGroup personGroup = new RotateGroup();
         personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
@@ -179,6 +193,7 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(pinGroup);
         group.getChildren().add(elevatorGroup);
         group.getChildren().add(destinationCircle);
+        group.getChildren().add(outlineGroup);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
         personGroup.setTranslateZ(personGroup.getTranslateZ() - 27);
@@ -303,6 +318,38 @@ public class ThreeDimensions extends Application {
 
         root.getChildren().add(dest);
 
+        Button elevatorButton = new Button();
+        elevatorButton.relocate(65,0);
+        elevatorButton.setPrefSize(180,60);
+//elevatorButton.setStyle("-fx-background-color: #a1f20f");
+        elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(elevatorButton);
+        Button foodButton = new Button();
+        foodButton.relocate(340,0);
+//foodButton.setStyle("-fx-background-color: #a2b4ff");
+        foodButton.setPrefSize(140,60);
+        foodButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(foodButton);
+        Button bathroomButton = new Button();
+        bathroomButton.relocate(550,0);
+//athroomButton.setStyle("-fx-background-color: #00ff00");
+        bathroomButton.setPrefSize(200,60);
+//bathroomButton.setRipplerFill(Color.TRANSPARENT);
+        bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(bathroomButton);
+        Button retailButton = new Button();
+        retailButton.relocate(790,0);
+//retailButton.setStyle("-fx-background-color: #1203ff");
+        retailButton.setPrefSize(150,60);
+        retailButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(retailButton);
+        Button stairsButton = new Button();
+        stairsButton.relocate(990,0);
+        stairsButton.setPrefSize(160,60);
+        stairsButton.setStyle("-fx-background-color: TRANSPARENT");
+//stairsButton.setStyle("-fx-background-color: #bfbfbf");
+        root.getChildren().add(stairsButton);
+
         Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
         scene.setFill(Color.web("#8f8f8f"));
         scene.setCamera(camera);
@@ -312,29 +359,31 @@ public class ThreeDimensions extends Application {
 
         mouseControl(group, scene, primaryStage, numberGroup);
 
+        int translater = 10;
+        int sclaer = 1;
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
                 case Z:
-                    dest.setScaleX(dest.getScaleX() - 0.005);
-                    dest.setScaleY(dest.getScaleY() - 0.005);
-                    dest.setScaleZ(dest.getScaleZ() - 0.005);
+                    outlineGroup.setScaleX(outlineGroup.getScaleX() - sclaer);
+                    outlineGroup.setScaleY(outlineGroup.getScaleY() - sclaer);
+                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() - sclaer);
                     break;
                 case X:
-                    dest.setScaleX(dest.getScaleX() + 0.005);
-                    dest.setScaleY(dest.getScaleY() + 0.005);
-                    dest.setScaleZ(dest.getScaleZ() + 0.005);
+                    outlineGroup.setScaleX(outlineGroup.getScaleX() + sclaer);
+                    outlineGroup.setScaleY(outlineGroup.getScaleY() + sclaer);
+                    outlineGroup.setScaleZ(outlineGroup.getScaleZ() + sclaer);
                     break;
                 case J:
-                    dest.setTranslateX(dest.getTranslateX() - 2);
+                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() - translater);
                     break;
                 case K:
-                    dest.setTranslateX(dest.getTranslateX() + 2);
+                    outlineGroup.setTranslateX(outlineGroup.getTranslateX() + translater);
                     break;
                 case Y:
-                    dest.setTranslateY(dest.getTranslateY() - 2);
+                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() - translater);
                     break;
                 case U:
-                    dest.setTranslateY(dest.getTranslateY() + 2);
+                    outlineGroup.setTranslateY(outlineGroup.getTranslateY() + translater);
                     break;
             }
         });
@@ -431,6 +480,7 @@ public class ThreeDimensions extends Application {
         PhongMaterial material = new PhongMaterial();
         if(selected) {material.setDiffuseMap(brightNumber);}
         else {material.setDiffuseMap(number);}
+        floorAddress.add(material.getDiffuseMap().toString());
 
         Box floorNum = new Box(40, 0, 70);
         floorNum.setTranslateZ(z);

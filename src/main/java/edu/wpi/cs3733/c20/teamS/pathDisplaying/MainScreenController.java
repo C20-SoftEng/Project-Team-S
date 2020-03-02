@@ -345,7 +345,10 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText());}
+    @FXML private void onViewThreeD() throws Exception {
+        if(nodeSelector.goal().isPresent()) {
+        ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText(), nodeSelector.goal());}
+    }
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
