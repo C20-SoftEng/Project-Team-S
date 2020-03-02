@@ -45,6 +45,7 @@ public class SerialTest extends Application {
             System.out.println("IT'S BRIGHT MY FRIEND");
 
 
+
         }
         else{
             System.out.println("IT'S DARK MY FRIEND");
