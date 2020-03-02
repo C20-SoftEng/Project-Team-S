@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.function.IntSupplier;
 
+@Deprecated
 public class QuickAddRemoveNodeTool implements IEditingTool {
     private final UI ui;
     private final ObservableGraph graph;
