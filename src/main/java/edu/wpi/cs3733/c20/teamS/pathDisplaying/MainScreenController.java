@@ -73,6 +73,7 @@ public class MainScreenController implements Initializable {
         initHitboxes();
         initDirectorySidebar();
         initSearchComboBox();
+        initDirectoryPathfinding();
 
         scrollPane.setContent(group);
         try {
@@ -253,33 +254,75 @@ public class MainScreenController implements Initializable {
     @FXML private TitledPane AccCONF;
     @FXML private TitledPane AccEXIT;
 
-    @FXML private ListView<String> deptList;
-    @FXML private ListView<String> servList;
-    @FXML private ListView<String> labList;
-    @FXML private ListView infoList;
-    @FXML private ListView shopList;
-    @FXML private ListView restRoomList;
-    @FXML private ListView confList;
-    @FXML private ListView exitList;
+    @FXML private ListView<LookupResult<NodeData>> deptList;
+    @FXML private ListView<LookupResult<NodeData>> servList;
+    @FXML private ListView<LookupResult<NodeData>> labList;
+    @FXML private ListView<LookupResult<NodeData>> infoList;
+    @FXML private ListView<LookupResult<NodeData>> shopList;
+    @FXML private ListView<LookupResult<NodeData>> restRoomList;
+    @FXML private ListView<LookupResult<NodeData>> confList;
+    @FXML private ListView<LookupResult<NodeData>> exitList;
 
 
-    //Lists of longNames
-    private ObservableList<String> deptLocs;
-    private ObservableList<String> servLocs;
-    private ObservableList<String> labLocs;
-    private ObservableList<String> infoLocs;
-    private ObservableList<String> shopLocs;
-    private ObservableList<String> restRoomLocs;
-    private ObservableList<String> confLocs;
-    private ObservableList<String> exitLocs;
+    //Lists of LookupResult of NodeData
+    private ObservableList<LookupResult<NodeData>> deptLocs;
+    private ObservableList<LookupResult<NodeData>> servLocs;
+    private ObservableList<LookupResult<NodeData>> labLocs;
+    private ObservableList<LookupResult<NodeData>> infoLocs;
+    private ObservableList<LookupResult<NodeData>> shopLocs;
+    private ObservableList<LookupResult<NodeData>> restRoomLocs;
+    private ObservableList<LookupResult<NodeData>> confLocs;
+    private ObservableList<LookupResult<NodeData>> exitLocs;
+
+    private void initDirectoryPathfinding(){
+        deptList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                }
+        );
+
+        servList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        labList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                   nodeSelector.onNodeClicked(current.value());
+                });
+
+        infoList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        shopList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        restRoomList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        confList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        exitList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+    }
 
     private void popDeptList(){
         deptLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
-            deptLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to depLocs");
+            deptLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         deptList.setItems(deptLocs);
     }
@@ -288,9 +331,8 @@ public class MainScreenController implements Initializable {
         servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
-        for(NodeData node : servNodes){
-            servLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to servLocs");
+        for (NodeData node : servNodes){
+            servLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         servList.setItems(servLocs);
     }
@@ -299,9 +341,8 @@ public class MainScreenController implements Initializable {
         labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
-        for(NodeData node : labNodes){
-            labLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to labLocs");
+        for (NodeData node : labNodes){
+            labLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         labList.setItems(labLocs);
     }
@@ -310,9 +351,8 @@ public class MainScreenController implements Initializable {
         infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
-        for(NodeData node : infoNodes){
-            infoLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to infoLocs");
+        for (NodeData node : infoNodes){
+            infoLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         infoList.setItems(infoLocs);
     }
@@ -321,9 +361,8 @@ public class MainScreenController implements Initializable {
         shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
-        for(NodeData node : shopNodes){
-            shopLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to shopLocs");
+        for (NodeData node : shopNodes){
+            shopLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         shopList.setItems(shopLocs);
     }
@@ -332,9 +371,8 @@ public class MainScreenController implements Initializable {
         restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
-        for(NodeData node : restRoomNodes){
-            restRoomLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to restRoomLocs");
+        for (NodeData node : restRoomNodes){
+            restRoomLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         restRoomList.setItems(restRoomLocs);
     }
@@ -343,9 +381,8 @@ public class MainScreenController implements Initializable {
         confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
-        for(NodeData node : confNodes){
-            confLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to confLocs");
+        for (NodeData node : confNodes){
+            confLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         confList.setItems(confLocs);
     }
@@ -354,9 +391,8 @@ public class MainScreenController implements Initializable {
         exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
-        for(NodeData node : exitNodes){
-            exitLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            //System.out.println("Added " + node + " to exitLocs");
+        for (NodeData node : exitNodes){
+            exitLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         exitList.setItems(exitLocs);
     }
@@ -438,5 +474,7 @@ public class MainScreenController implements Initializable {
         WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
         SendTextDirectionsScreen.showDialog(wr.directions());
     }
+
+
     //endregion
 }

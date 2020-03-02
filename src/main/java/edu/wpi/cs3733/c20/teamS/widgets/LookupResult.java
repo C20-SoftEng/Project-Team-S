@@ -4,7 +4,7 @@ public final class LookupResult<T> {
     private final T value;
     private final String text;
 
-    LookupResult(String text, T value) {
+    public LookupResult(String text, T value) {
         this.text = text;
         this.value = value;
     }
