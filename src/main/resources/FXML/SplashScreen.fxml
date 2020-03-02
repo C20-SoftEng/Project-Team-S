@@ -41,12 +41,12 @@
                                        <VBox.margin>
                                           <Insets top="8.0" />
                                        </VBox.margin></ImageView>
-                                    <Label fx:id="weatherSummary" alignment="CENTER" prefHeight="37.0" prefWidth="288.0" text="Label" />
+                                    <Label fx:id="weatherSummary" alignment="CENTER" focusTraversable="false" prefHeight="37.0" prefWidth="288.0" text="Label" />
                                  </children>
                               </VBox>
                               <VBox fx:id="timeBox" prefHeight="84.0" prefWidth="277.0" style="-fx-border-color: white; -fx-background-color: white;" VBox.vgrow="SOMETIMES">
                                  <children>
-                                    <JFXTextArea fx:id="timeField" focusTraversable="false" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff">
+                                    <JFXTextArea fx:id="timeField" editable="false" focusTraversable="false" prefHeight="86.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: white;" unFocusColor="#ffffff" wrapText="true">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin></JFXTextArea>
@@ -88,7 +88,7 @@
                <top>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="65.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="CENTER">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="56.0" prefWidth="254.0" text="BRIGHAM HEALTH" textFill="WHITE" HBox.hgrow="SOMETIMES">
+                        <Label focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="56.0" prefWidth="254.0" text="BRIGHAM HEALTH" textFill="WHITE" HBox.hgrow="SOMETIMES">
                            <font>
                               <Font name="Arial Bold" size="20.0" />
                            </font>
@@ -103,7 +103,7 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="478.0" text="BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE" HBox.hgrow="SOMETIMES">
+                        <Label focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="478.0" text="BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE" HBox.hgrow="SOMETIMES">
                            <font>
                               <Font name="Arial Bold" size="20.0" />
                            </font>
@@ -123,11 +123,11 @@
             </BorderPane>
          </children>
       </StackPane>
-      <Label alignment="CENTER" text="&lt;Tap to Start&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" focusTraversable="false" text="&lt;Tap to Start&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font size="96.0" />
          </font>
       </Label>
-      <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#onScreenClicked" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXButton contentDisplay="GRAPHIC_ONLY" focusTraversable="false" onAction="#onScreenClicked" prefHeight="808.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

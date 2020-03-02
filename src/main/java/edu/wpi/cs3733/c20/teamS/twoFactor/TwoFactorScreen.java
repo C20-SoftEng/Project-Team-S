@@ -27,8 +27,8 @@ public class TwoFactorScreen {
 
     public TwoFactorScreen(Stage passedStage, Employee employee) {
         this.loggedIn = employee;
+        Settings.loggedIn = this.loggedIn;
         toPass = passedStage;
-        DatabaseController dbc = new DatabaseController();
         this.stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
         loader.setControllerFactory(c -> {
@@ -46,18 +46,14 @@ public class TwoFactorScreen {
         }
 
         this.show();
-        //stage.setFullScreen(false);
+
         stage.setResizable(false);
         stage.setTitle("Two Factor Authentication");
-
-        //stage.initModality(Modality.APPLICATION_MODAL);
         stage.centerOnScreen();
     }
 
     public void show() {
         stage.setScene(scene);
-        //stage.setMaximized(f);
-        //stage.initStyle(StageStyle.UNDECORATED);
         BaseScreen.puggy.register(scene, Event.ANY);
         Settings.openWindows.add(stage);
         stage.show();
@@ -65,7 +61,6 @@ public class TwoFactorScreen {
 
 
     public void passedTFA(){
-
         MapEditingScreen mes = new MapEditingScreen();
         Settings.loggedIn = loggedIn;
         this.stage.close();

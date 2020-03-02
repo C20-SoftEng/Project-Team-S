@@ -15,11 +15,8 @@ import java.io.IOException;
 public class MapEditingScreen extends BaseScreen{
     private Scene scene;
     private Stage stage;
-    private Employee loggedIn;
 
     public MapEditingScreen() {
-        this.loggedIn = Settings.loggedIn;
-
         DatabaseController dbc = new DatabaseController();
         dbc.autoCommit(false);
 
@@ -38,7 +35,7 @@ public class MapEditingScreen extends BaseScreen{
 
     public void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         //stage.initStyle(StageStyle.UNDECORATED);
         //Settings.openWindows.add(this.stage);
         BaseScreen.puggy.register(scene, Event.ANY);

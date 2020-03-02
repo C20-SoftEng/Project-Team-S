@@ -32,6 +32,7 @@ public class Main extends Application {
                 MainStartScreen.showDialog();
                 break;
             case MAP_EDITING:
+                Settings.loggedIn = new Employee(0, "Bob", AccessLevel.ADMIN);
                 new MapEditingScreen();
                 break;
             default:

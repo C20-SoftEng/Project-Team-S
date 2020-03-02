@@ -92,7 +92,30 @@ public class EditScreenController extends BaseScreen implements Initializable {
                 directoryPathTextField, exportButton,
                 () -> editableMap.rooms()
         );
+        initUndoHotkeys();
+    }
 
+    public void fakeInitialize(){
+        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
+        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
+
+        floorSelector = createFloorSelector();
+        floorSelector.setCurrent(2);
+        if (hitboxRepo.canLoad())
+            rooms.addAll(hitboxRepo.load());
+        editableMap = new EditableMap(
+                database.loadGraph(),
+                floorSelector, rooms,
+                scrollPane, mapImage);
+        graph = editableMap.graph();
+        toolSelector = new DisposableSelector<>();
+        toolSelector.setCurrent(new AddRemoveNodeTool(undoBuffer::execute, editableMap));
+        createPathfindingAlgorithmSelector();
+        initEventHandlers();
+        ExportToDirectoryController exportController = new ExportToDirectoryController(
+                directoryPathTextField, exportButton,
+                () -> editableMap.rooms()
+        );
         initUndoHotkeys();
     }
 
@@ -229,7 +252,6 @@ public class EditScreenController extends BaseScreen implements Initializable {
         zoomInButton.setDisable(!editableMap.canZoomIn());
         zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
-
 
     @FXML private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(loggedIn);

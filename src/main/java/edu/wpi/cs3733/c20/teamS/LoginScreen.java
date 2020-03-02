@@ -24,19 +24,14 @@ public class LoginScreen{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
         loader.setControllerFactory(e -> {
             loginScreenController cont = new loginScreenController();
             cont.dialogCompleted().subscribe(
                     next -> {
                         if(next.result()== DialogResult.OK){
-                            //Intercepthere
-                            //Scene twoFactorScene = new Scene();
-                            //stage.show
+                            //Intercept here
                             TwoFactorScreen mes = new TwoFactorScreen(toPass, next.value());
-
                         }
                         this.stage.close();
             });
