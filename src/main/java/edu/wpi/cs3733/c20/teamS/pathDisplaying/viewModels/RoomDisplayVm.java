@@ -35,7 +35,7 @@ public class RoomDisplayVm extends Parent {
                 .forEach(vertex -> mask.getPoints().addAll(vertex.x(), vertex.y()));
         getChildren().add(mask);
 
-        popup = new RoomPopupUI();
+        popup = new RoomPopupUI(room);
         popup.setVisible(false);
         popup.setMouseTransparent(true);
         getChildren().add(popup);
