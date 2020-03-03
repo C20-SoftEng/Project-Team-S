@@ -24,9 +24,9 @@
    <children>
       <BorderPane layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="1280.0" style="-fx-background-color: #b6b4b2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #012d5a; -fx-border-color: black;" BorderPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" styleClass="topbar" BorderPane.alignment="BOTTOM_CENTER">
                <children>
-                  <Label prefHeight="44.0" prefWidth="419.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
+                  <Label id="title" prefHeight="44.0" prefWidth="419.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="17.0" />
                      </font>
@@ -34,7 +34,7 @@
                         <Insets bottom="5.0" left="13.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
+                        <ImageView id="brigham" fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Brigham_and_Womens_Hospital_logo.png" />
                            </image>
@@ -46,7 +46,7 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </JFXBadge>
-                  <Label fx:id="loggedInUserLabel" text="Welcome" textFill="WHITE">
+                  <Label id="title" fx:id="loggedInUserLabel" text="Welcome" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -62,7 +62,7 @@
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" ripplerFill="BLACK" style="-fx-background-color: #0067B1;" text="Logout" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="SOMETIMES">
+                  <JFXButton fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLogOut" prefHeight="50.0" prefWidth="183.0" ripplerFill="BLACK" styleClass="login" text="Logout" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -80,11 +80,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../Reloaded/src/main/resources/images/Icons/Help_Icon.png" />
-                                 </image>
-                              </ImageView>
+                              <ImageView id="aboutus" fitHeight="50.0" fitWidth="50.0" preserveRatio="true" />
                            </graphic>
                         </JFXButton>
                      </children>
@@ -96,9 +92,9 @@
             </HBox>
          </top>
          <right>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" styleClass="sidenodebar" BorderPane.alignment="CENTER">
                <children>
-                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
+                  <VBox fx:id="editPrivilegeBox" prefWidth="100.0" styleClass="sidenodes">
                      <children>
                         <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" text="Edit Nodes" VBox.vgrow="ALWAYS">
                            <font>
@@ -176,7 +172,7 @@
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="33.0" prefWidth="69.0" style="-fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="33.0" prefWidth="69.0" styleClass="buttons" text="Cancel" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -187,7 +183,7 @@
                                     <Insets bottom="5.0" right="20.0" />
                                  </HBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" styleClass="buttons" text="Save" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -205,7 +201,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox prefWidth="100.0" style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
+                  <VBox prefWidth="100.0" styleClass="sidenodes">
                      <children>
                         <JFXTextField fx:id="directoryPathTextField" promptText="Enter Export Path:">
                            <VBox.margin>
@@ -220,7 +216,7 @@
                         </JFXTextField>
                         <HBox alignment="TOP_RIGHT" prefWidth="200.0">
                            <children>
-                              <JFXButton fx:id="exportButton" prefHeight="39.0" prefWidth="236.0" style="-fx-background-color: #0067B1;" text="Export" textFill="WHITE">
+                              <JFXButton fx:id="exportButton" prefHeight="39.0" prefWidth="236.0" styleClass="buttons" text="Export" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -235,9 +231,9 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
+                  <VBox styleClass="sidenodes">
                      <children>
-                        <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" prefHeight="51.0" prefWidth="239.0" style="-fx-background-color: #0067B1;" text="New Service" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <JFXButton fx:id="serviceRequestOptionsButton" onAction="#onNewServiceClicked" prefHeight="51.0" prefWidth="239.0" styleClass="buttons" text="New Service" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -248,7 +244,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" prefHeight="51.0" prefWidth="262.0" style="-fx-background-color: #0067B1;" text="Active Services" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <JFXButton fx:id="activeServiceRequestButtons" onAction="#onActiveServiceClicked" prefHeight="51.0" prefWidth="262.0" styleClass="buttons" text="Active Services" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -264,7 +260,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" VBox.vgrow="SOMETIMES">
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sidenodes" VBox.vgrow="SOMETIMES">
                      <children>
                         <HBox>
                            <children>
@@ -333,7 +329,7 @@
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
                                     </JFXTextField>
-                                    <JFXButton fx:id="saveTimeOut" onAction="#onConfirmSaveTimeOut" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE">
+                                    <JFXButton fx:id="saveTimeOut" onAction="#onConfirmSaveTimeOut" styleClass="buttons" text="Save" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -352,9 +348,9 @@
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin></VBox>
-                  <VBox fx:id="editToolFieldsVBox" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" VBox.vgrow="SOMETIMES">
+                  <VBox fx:id="editToolFieldsVBox" styleClass="sidenodes" VBox.vgrow="SOMETIMES">
                      <children>
-                        <JFXButton fx:id="editEmpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onEditButtonPressed" prefHeight="42.0" prefWidth="230.0" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" text="Edit Employees" textAlignment="CENTER" textFill="WHITE" wrapText="true" VBox.vgrow="SOMETIMES">
+                        <JFXButton fx:id="editEmpButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onEditButtonPressed" prefHeight="42.0" prefWidth="230.0" styleClass="buttons" text="Edit Employees" textAlignment="CENTER" textFill="WHITE" wrapText="true" VBox.vgrow="SOMETIMES">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -401,7 +397,7 @@
                                  <children>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton id="upButton" fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
+                                          <JFXButton fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
                                              <graphic>
                                                 <ImageView fitHeight="70.0" fitWidth="70.0" preserveRatio="true">
                                                    <image>
@@ -419,7 +415,7 @@
                                                 <Insets />
                                              </opaqueInsets>
                                           </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="7" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton5" fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" styleClass="floors" text="7" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -430,7 +426,7 @@
                                                 <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="6" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -441,21 +437,7 @@
                                                 <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="5" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <effect>
-                                                <DropShadow spread="0.76" />
-                                             </effect>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="4" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" styleClass="floors" text="5" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -469,7 +451,7 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="3" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" styleClass="floors" text="4" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -483,7 +465,7 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#ffffffcc" style="-fx-background-color: white;" text="2" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" styleClass="floors" text="3" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -497,7 +479,7 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="1" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#ffffffcc" styleClass="floors" text="2" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -511,7 +493,21 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton id="downButton" fx:id="downButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" VBox.vgrow="ALWAYS">
+                                          <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" styleClass="floors" text="1" VBox.vgrow="SOMETIMES">
+                                             <font>
+                                                <Font name="Bookshelf Symbol 7" size="22.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                             </VBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <effect>
+                                                <DropShadow spread="0.76" />
+                                             </effect>
+                                          </JFXButton>
+                                          <JFXButton fx:id="downButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" VBox.vgrow="ALWAYS">
                                              <graphic>
                                                 <ImageView fitHeight="70.0" fitWidth="70.0" preserveRatio="true">
                                                    <image>
@@ -533,7 +529,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="121.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="zoomIn" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="60.0" prefWidth="60.0" styleClass="zoomers" text="Zoom In" VBox.vgrow="SOMETIMES">
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </VBox.margin>
@@ -544,20 +540,38 @@
                                                 <DropShadow radius="18.552500000000002" width="55.21" />
                                              </effect>
                                              <graphic>
-                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="+">
-                                                   <font>
-                                                      <Font size="65.0" />
-                                                   </font>
-                                                </Text>
+                                                <StackPane>
+                                                   <children>
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="+">
+                                                         <font>
+                                                            <Font size="65.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="+">
+                                                         <font>
+                                                            <Font size="65.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </StackPane>
                                              </graphic>
                                           </JFXButton>
-                                          <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: White; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="zoomOut" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="60.0" prefWidth="60.0" styleClass="zoomers" text="Zoom Out" VBox.vgrow="SOMETIMES">
                                              <graphic>
-                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
-                                                   <font>
-                                                      <Font size="65.0" />
-                                                   </font>
-                                                </Text>
+                                                <StackPane>
+                                                   <children>
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="-">
+                                                         <font>
+                                                            <Font size="65.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-">
+                                                         <font>
+                                                            <Font size="65.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </StackPane>
                                              </graphic>
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

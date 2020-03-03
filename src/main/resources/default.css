@@ -100,6 +100,15 @@
     -fx-border-color: black;
 }
 
+.sidenodebar{
+    -fx-background-color: gray;
+}
+
+.sidenodes{
+    -fx-background-color:  gainsboro;
+    -fx-background-radius: 5;
+}
+
 .transparentBar{
 }
 
@@ -144,14 +153,29 @@
 .buttons{
     -fx-background-color: #0067b1;
     -fx-background-radius: 5;
-    -fx-border-color: #CCCCCC;
+    -fx-border-color:  #125CA6;
     -fx-border-radius: 5;
     -fx-text-fill: white;
 }
+
+.secondaryButtons{
+    -fx-background-color: #ddd;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: gray;
+    -fx-text-fill: black;
+}
+
 
 .TitledPane{
 }
 
 .combo-box-base > .text-field{
     -fx-text-fill: #000;
+}
+
+.modalback{
+    -fx-background-color: #eee;
+    -fx-border-color: gray;
+    -fx-border-width: 2;
 }

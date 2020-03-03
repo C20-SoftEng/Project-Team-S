@@ -33,7 +33,7 @@
             <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
          </items>
       </MenuButton>
-      <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="80.0" onAction="#onSendEmailClicked" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" style="-fx-background-color: #0153A6; -fx-border-color: #125CA6; -fx-background-radius: 5; -fx-border-radius: 5;" text="Send Email" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="80.0" onAction="#onSendEmailClicked" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" style="-fx-background-color: #0153A6; -fx-border-color: #125CA6; -fx-background-radius: 5; -fx-border-radius: 5;" styleClass="buttons" text="Send Email" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font>
