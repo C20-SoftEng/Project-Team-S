@@ -679,6 +679,7 @@ public class ThreeDimensions extends Application {
 
     private RotateGroup getRETLIcons() {
 
+
         ArrayList<String> validFood = new ArrayList<>();
         validFood.add("Atrium Cafe");
         validFood.add("Starbucks");
