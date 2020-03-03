@@ -13,8 +13,6 @@ import java.util.*;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
-//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * This class handles the logic of finding a path when the user has clicked on a start node and
  * an end node. Simply call onNodeClicked() from your UI.
