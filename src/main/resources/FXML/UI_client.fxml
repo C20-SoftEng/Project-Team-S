@@ -44,7 +44,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <JFXButton fx:id="DarkModeButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDarkModeClicked" styleClass="nightbutton" text="Dark Mode">
+                  <JFXButton id="nightbutton" fx:id="DarkModeButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDarkModeClicked" text="Dark Mode">
                      <graphic>
                         <ImageView fx:id="darkModeImage" fitHeight="131.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -66,7 +66,7 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </JFXBadge>
-                  <JFXButton fx:id="staffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="41.0" prefWidth="132.0" styleClass="login" text="Staff Login" HBox.hgrow="SOMETIMES">
+                  <JFXButton id="login" fx:id="staffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="41.0" prefWidth="132.0" text="Staff Login" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
@@ -567,7 +567,7 @@
                                     </TitledPane>
                                  </panes>
                               </Accordion>
-                              <JFXButton fx:id="toTextDirectionButton" alignment="CENTER" onAction="#onToTextClicked" prefHeight="41.0" prefWidth="200.0" styleClass="buttons" text="Go to Text Directions">
+                              <JFXButton id="buttons" fx:id="toTextDirectionButton" alignment="CENTER" onAction="#onToTextClicked" prefHeight="41.0" prefWidth="200.0" text="Go to Text Directions">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin></JFXButton>

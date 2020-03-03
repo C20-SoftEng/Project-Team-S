@@ -28,7 +28,7 @@
             <Font size="13.0" />
          </font>
       </JFXPasswordField>
-      <JFXButton fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="85.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" styleClass="secondaryButtons" text="Cancel" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="85.0">
+      <JFXButton id="secondaryButtons" fx:id="cancel" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="85.0" layoutY="165.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" text="Cancel" textAlignment="CENTER" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="85.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -36,7 +36,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="281.0" layoutY="165.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" styleClass="buttons" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="85.0">
+      <JFXButton id="buttons" fx:id="enter" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="281.0" layoutY="165.0" onAction="#onEnterClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" text="Login" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="85.0">
          <font>
             <Font size="13.0" />
          </font>

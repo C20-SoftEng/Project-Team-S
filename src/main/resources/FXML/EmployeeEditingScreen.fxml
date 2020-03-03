@@ -28,10 +28,10 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <JFXButton buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onDeleteClicked" style="-fx-border-color: gainsboro;" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        <JFXButton id="tablebuttons" buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onDeleteClicked" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
         <Label layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="           Employees" textAlignment="CENTER" />
-        <JFXButton fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" styleClass="tablebuttons" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
-      <JFXButton fx:id="addEmployeeButton" layoutX="457.0" layoutY="362.0" onAction="#onAddClicked" prefHeight="25.0" prefWidth="57.0" styleClass="tablebuttons" text="Add " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="86.0" />
-      <JFXButton fx:id="showCapabilitiesButton" layoutX="187.0" layoutY="379.0" onAction="#onShowCapabilitiesClicked" prefHeight="25.0" prefWidth="186.0" styleClass="tablebuttons" text="Show Capabilities" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="187.0" />
+        <JFXButton id="tablebuttons" fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+      <JFXButton id="tablebuttons" fx:id="addEmployeeButton" layoutX="457.0" layoutY="362.0" onAction="#onAddClicked" prefHeight="25.0" prefWidth="57.0" text="Add " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="86.0" />
+      <JFXButton id="tablebuttons" fx:id="showCapabilitiesButton" layoutX="187.0" layoutY="379.0" onAction="#onShowCapabilitiesClicked" prefHeight="25.0" prefWidth="186.0" text="Show Capabilities" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="187.0" />
     </children>
 </AnchorPane>

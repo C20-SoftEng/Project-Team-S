@@ -44,7 +44,7 @@
 }
 
 
-.login{
+#login{
     -fx-background-color: #B0B0B0;
     -fx-border-color: #CCCCCC;
     -fx-background-radius: 5;
@@ -81,7 +81,7 @@
 }
 
 
-.nightbutton{
+#nightbutton{
     -fx-background-color: #ffff;
     -fx-border-color: #292929;
     -fx-border-radius: 50;
@@ -133,7 +133,7 @@
     -fx-border-color: #cccccc;
 }
 
-.buttons{
+#buttons{
     -fx-background-color: #B0B0B0;
     -fx-background-radius: 5;
     -fx-border-color: #CCCCCC;
@@ -141,7 +141,7 @@
     -fx-text-fill: white;
 }
 
-.secondaryButtons{
+#secondaryButtons{
     -fx-background-color: #cbcbcb;
     -fx-background-radius: 5;
     -fx-border-color: #CCCCCC;
@@ -297,8 +297,9 @@
 
 }
 
-.tablebuttons{
+#tablebuttons{
     -fx-border-color:  #eee;
+    -fx-border-radius: 3;
 }
 
 #error{
