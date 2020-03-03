@@ -653,6 +653,7 @@ public class ThreeDimensions extends Application {
         validFood.add("Atrium Cafe");
         validFood.add("Starbucks");
         validFood.add("Food Services");
+        validFood.add("Outdoor Dining Terrace");
         RotateGroup foodICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
@@ -680,17 +681,16 @@ public class ThreeDimensions extends Application {
     private RotateGroup getRETLIcons() {
 
 
-        ArrayList<String> validFood = new ArrayList<>();
-        validFood.add("Atrium Cafe");
-        validFood.add("Starbucks");
-        validFood.add("Food Services");
+        ArrayList<String> validRetail = new ArrayList<>();
+        validRetail.add("Phatmacy");
+        validRetail.add("Giftshop Hall");
 
         RotateGroup retailICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
             if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
-                if (!validFood.contains(data.getLongName())) {
+                if (!validRetail.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/retailICON.png");
                     ImageView imageView = new ImageView(image);
                     imageView.setPreserveRatio(true);
@@ -719,8 +719,8 @@ public class ThreeDimensions extends Application {
                 Image image = new Image("/images/ThreeDim/stairsICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
-                imageView.setTranslateX(data.getxCoordinate() / 5 - 1000);
-                imageView.setTranslateY(data.getyCoordinate() / 5 - 930);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 1190);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 985);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
                 double scale = 0.01;
                 imageView.setScaleX(scale);
