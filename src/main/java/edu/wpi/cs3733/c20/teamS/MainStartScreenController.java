@@ -150,6 +150,7 @@ public class MainStartScreenController implements Initializable {
 
 //        tutorialView.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
         tutorialView.setPreserveRatio(true);
+        //tutorialView.s
 
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
         //tutorialView.applyCss("-fx-bordercolor");

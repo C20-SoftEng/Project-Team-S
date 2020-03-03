@@ -200,7 +200,8 @@ public class MainScreenController implements Initializable {
             Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
             double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
             double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
-            keepCurrentPosition(hval, vval, zoomer);
+            //0.5 is hardcoded offset to fix centering
+            keepCurrentPosition(hval+0.5, vval, zoomer);
         }
     }
 
