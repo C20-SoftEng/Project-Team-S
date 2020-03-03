@@ -13,7 +13,7 @@
       -fx-image: url("images/Icons/Brigham.png");
   }
 
-  #helpButton{
+  #aboutus{
       -fx-image: url("images/Icons/About_Us_DARK.png");
   }
 
@@ -27,6 +27,10 @@
 
 .hbox{
     -fx-background-color: #6D7275;
+}
+
+.rightBar{
+    -fx-background-color: #4A4A4A;
 }
 
 
@@ -119,8 +123,12 @@
     -fx-background-radius: 50;
     -fx-border-radius: 50;
 }
+.zoomerblack{
+      visibility: false;
+  }
 
-  .zoomerSigns{
+.zoomerwhite{
+      visibility: true;
       -fx-text-fill: white;
       -fx-font-size: 65;
   }
