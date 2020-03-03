@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import animatefx.animation.Pulse;
+import animatefx.animation.*;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.sun.javafx.application.PlatformImpl;
@@ -526,6 +528,12 @@ public class MainScreenController implements Initializable {
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");
         }
+    }
+
+
+    @FXML
+    void animate() {
+        new Pulse(zoomInButton).play();
     }
     //endregion
 }

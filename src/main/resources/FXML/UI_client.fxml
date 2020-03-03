@@ -252,7 +252,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="153.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" ripplerFill="#ffffff81" styleClass="zoomers" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" onMouseEntered="#animate" prefHeight="69.0" prefWidth="69.0" ripplerFill="#ffffff81" styleClass="zoomers" text="Zoom In" VBox.vgrow="SOMETIMES">
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </VBox.margin>
