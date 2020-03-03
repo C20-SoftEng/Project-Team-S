@@ -122,7 +122,7 @@ public class ThreeDimensions extends Application {
 
             pin[i].setTranslateX(end.getxCoordinate() / 5 - 307);
             pin[i].setTranslateY(end.getyCoordinate() / 5 - 70);
-            pin[i].setTranslateZ(zplace.get(end.getFloor()) + 45);
+            pin[i].setTranslateZ(zplace.get(end.getFloor()) + 35);
 
             PhongMaterial material = new PhongMaterial();
             Image texture = new Image(("images/ThreeDim/pinColor.jpg"));
@@ -145,6 +145,22 @@ public class ThreeDimensions extends Application {
             material.setDiffuseMap(texture);
             person[i].setMaterial(material);
         }
+
+        URL docPath = getClass().getResource("/images/ThreeDim/Mii.obj").toURI().toURL(); //jar will brake
+        MeshView[] doctor = loadModel(docPath);
+        for (int k = 0; k < doctor.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.15;
+            doctor[k].setScaleX(MODEL_SCALE_FACTOR);
+            doctor[k].setScaleY(MODEL_SCALE_FACTOR);
+            doctor[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            doctor[k].setTranslateZ(zplace.get(begin.getFloor()));
+
+            doctor[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup docGroup = new RotateGroup();
+        docGroup.getChildren().addAll(doctor);
+        group.getChildren().addAll(docGroup);
 
         RotateGroup numberGroup = new RotateGroup();
         for(int i = 1; i <= 5; i++) {
@@ -199,14 +215,14 @@ public class ThreeDimensions extends Application {
         personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
         group.getChildren().add(numberGroup);
-        group.getChildren().add(personGroup);
+        //group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
         group.getChildren().addAll(elevatorGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
-        personGroup.setTranslateZ(personGroup.getTranslateZ() - 27);
-        personGroup.rotateByZ(-90);
+        //docGroup.setTranslateZ(docGroup.getTranslateZ() - 27);
+        //docGroup.rotateByZ(-90);
 
         SequentialTransition st = new SequentialTransition();
         ArrayList<NodeData> floorPath = new ArrayList<>();
@@ -216,7 +232,7 @@ public class ThreeDimensions extends Application {
             boolean elev = !(n1.getFloor() == n2.getFloor());
 
             if(elev) {
-                st.getChildren().add(getFloorPath(personGroup, floorPath));
+                st.getChildren().add(getFloorPath(docGroup, floorPath));
                 floorPath.clear();
                 double offsetX = 0;
                 double offsetY = 0;
@@ -228,13 +244,13 @@ public class ThreeDimensions extends Application {
                     offsetX = -24;
                     offsetY = 10;
                 }
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
-                tt.setFromZ((zplace.get(n1.getFloor())) - 25 - ((2-begin.getFloor()) * floorDist));
-                tt.setFromX(n1.getxCoordinate() / 5 - 247);
-                tt.setFromY(n1.getyCoordinate() / 5 - 148);
-                tt.setToZ(zplace.get(n2.getFloor()) - 25 - ((2-begin.getFloor()) * floorDist));
-                tt.setToX(n1.getxCoordinate() / 5 - 247);
-                tt.setToY(n1.getyCoordinate() / 5 - 148);
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), docGroup);
+                tt.setFromZ((zplace.get(n1.getFloor())) - ((2-begin.getFloor()) * floorDist));
+                tt.setFromX(n1.getxCoordinate() / 5 - 247 - 20);
+                tt.setFromY(n1.getyCoordinate() / 5 - 24);
+                tt.setToZ(zplace.get(n2.getFloor()) - ((2-begin.getFloor()) * floorDist));
+                tt.setToX(n1.getxCoordinate() / 5 - 247 - 20);
+                tt.setToY(n1.getyCoordinate() / 5 - 24);
                 tt.setCycleCount(1);
 
                 TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup.get(elevCount));
@@ -255,7 +271,7 @@ public class ThreeDimensions extends Application {
             }
 
             if(i == nodes.size() - 2) {
-                st.getChildren().add(getFloorPath(personGroup, floorPath));
+                st.getChildren().add(getFloorPath(docGroup, floorPath));
             }
         }
         st.setCycleCount(Timeline.INDEFINITE);
@@ -460,7 +476,7 @@ public class ThreeDimensions extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                onFloorMove(personGroup, numberGroup, begin);
+                onFloorMove(docGroup, numberGroup, begin);
             }
         };
         timer.start();
@@ -575,11 +591,9 @@ public class ThreeDimensions extends Application {
         stage.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
             oldX = mouseEvent.getX();
             oldY = mouseEvent.getY();
-            System.out.println("mouse pressed");
         });
 
         stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
-            System.out.println("mouse dragged");
             if(event.isPrimaryButtonDown() && !event.isControlDown()) {
                 if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2);}
                 else {group.setTranslateY(group.getTranslateY() - 2);}
