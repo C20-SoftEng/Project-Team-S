@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 
@@ -44,9 +45,10 @@ public final class Settings {
         return 5;
     }
 
-
-    public NodeData currentLocation = new NodeData("currentLocation",1480.0,1145.0,2, "Hospital", "Marker", "currentLocation", "CL1");
-
+    DatabaseController getter = new DatabaseController();
+    public NodeData currentLocation = getter.getNode("SHALL02002");
+    //SHALL02002,1480.0,1145.0,2,Faulkner,HALL,2nd Floor Elevator Hallway,2main_elev_hall
+   // public NodeData testingLocation = NodeData();
 
     /**
      * Whether to should use the node-placing tool that doesn't require a dialog interaction.
