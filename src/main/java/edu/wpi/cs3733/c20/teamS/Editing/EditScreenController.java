@@ -117,6 +117,12 @@ public class EditScreenController extends BaseScreen implements Initializable {
         graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
         graph.edgeAdded().subscribe(edge -> database.addEdge(edge.nodeU(), edge.nodeV()));
         graph.edgeRemoved().subscribe(edge -> database.removeEdge(new EdgeData(edge.nodeU(), edge.nodeV()).getEdgeID()));
+
+        undoButton.setDisable(!undoBuffer.canUndo());
+        undoBuffer.canUndoChanged().subscribe(huh -> undoButton.setDisable(!huh));
+
+        redoButton.setDisable(!undoBuffer.canRedo());
+        undoBuffer.canRedoChanged().subscribe(huh -> redoButton.setDisable(!huh));
     }
     private FloorSelector createFloorSelector() {
         return new FloorSelector(
@@ -169,6 +175,9 @@ public class EditScreenController extends BaseScreen implements Initializable {
     @FXML private JFXButton confirmEditButton;
     @FXML private JFXTextField directoryPathTextField;
     @FXML private JFXButton exportButton;
+
+    @FXML private JFXButton undoButton;
+    @FXML private JFXButton redoButton;
     //endregion
 
     //region event handlers
@@ -289,6 +298,13 @@ public class EditScreenController extends BaseScreen implements Initializable {
             rooms.addAll(hitboxRepo.load());
         }
     }
+
+    @FXML void onUndoClicked(ActionEvent event) {
+        undoBuffer.undo();
+    }
+    @FXML void onRedoClicked(ActionEvent event) {
+        undoBuffer.redo();
+    }
     //endregion
 
     public void onLogOut() {
@@ -307,9 +323,5 @@ public class EditScreenController extends BaseScreen implements Initializable {
         }
     }
 
-    @FXML void onUndoClicked(ActionEvent event) {
-    }
 
-    @FXML void onRedoClicked(ActionEvent event) {
-    }
 }
