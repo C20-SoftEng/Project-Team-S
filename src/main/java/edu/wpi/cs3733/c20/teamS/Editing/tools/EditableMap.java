@@ -135,15 +135,9 @@ public class EditableMap implements IEditableMap {
         return graph.removeNode(node);
     }
     public boolean putEdge(NodeData nodeU, NodeData nodeV) {
-        if (!graph.nodes().contains(nodeU) || !graph.nodes().contains(nodeV)) {
-            System.out.println("putEdge: nodes not in graph.");
-        }
         return graph.putEdge(nodeU, nodeV);
     }
     public boolean removeEdge(NodeData nodeU, NodeData nodeV) {
-        if (!graph.nodes().contains(nodeU) || !graph.nodes().contains(nodeV)) {
-            System.out.println("removeEdge: nodes not in graph.");
-        }
         return graph.removeEdge(nodeU, nodeV);
     }
     public boolean addRoom(Room room) {
@@ -353,10 +347,6 @@ public class EditableMap implements IEditableMap {
     private void onNodeRemoved(NodeData node) {
         if (node == null) ThrowHelper.illegalNull("node");
 
-        if (!nodeLookup.containsKey(node)) {
-            System.err.println("Removed node doesn't exist in EditableMap. id: " + node.getNodeID());
-            return;
-        }
         NodeVm remove = nodeLookup.get(node);
         nodePartition.removeChild(remove);
         nodeLookup.remove(node);
@@ -374,11 +364,6 @@ public class EditableMap implements IEditableMap {
     private void onEdgeRemoved(EndpointPair<NodeData> edge) {
         if (edge == null) ThrowHelper.illegalNull("edge");
 
-        if (!edgeLookup.containsKey(edge)) {
-            System.err.println("Removed edge not in EditableMap. " +
-                    edge.nodeU().getNodeID() + ", " + edge.nodeV().getNodeID());
-            return;
-        }
         EdgeVm remove = edgeLookup.get(edge);
         edgePartition.removeChild(remove);
         edgeLookup.remove(edge);
