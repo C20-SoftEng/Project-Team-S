@@ -1,17 +1,13 @@
 package edu.wpi.cs3733.c20.teamS.pathfinding;
 
-import com.google.common.graph.MutableGraph;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import javafx.scene.Node;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class WrittenInstructions {
     double realLifeMeasurementFt = 594.51;
@@ -47,10 +43,10 @@ public class WrittenInstructions {
                 }
 
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == 1) {
-
+//&& !path.get(i+1).getNodeType().equals("ELEV") && i != 0
                     if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
-                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor() );
-                        instructions.add("On Floor " + path.get(i+1).getFloor());
+                        instructions.add("Take The Elevator To Floor " + path.get(i).getFloor()  );
+                        instructions.add("On Floor " + path.get(i).getFloor());
 
                     }
                     if(distance(path.get(i), path.get(i+1)) < 5){
@@ -68,10 +64,10 @@ public class WrittenInstructions {
 
                 }
                 if (directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2)) == -1) {
-
+//&& !path.get(i+1).getNodeType().equals("ELEV") && i != 0
                     if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
-                        instructions.add("Take The Elevator To Floor " + path.get(i+1).getFloor());
-                        instructions.add("On Floor " + path.get(i+1).getFloor());
+                        instructions.add("Take The Elevator To Floor " + path.get(i).getFloor());
+                        instructions.add("On Floor " + path.get(i).getFloor());
 
                     }
                     if(distance(path.get(i), path.get(i+1)) < 5){
@@ -89,6 +85,11 @@ public class WrittenInstructions {
 
                 } else if ((directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2))) == 0) {
 
+                    if(path.get(i).getNodeType().equals("ELEV") && !path.get(i+1).getNodeType().equals("ELEV") && i != 0){
+                        instructions.add("Take The Elevator To Floor " + path.get(i).getFloor());
+                        instructions.add("On Floor " + path.get(i).getFloor());
+
+                    }
                     savingDistance += Math.round(distance(path.get(i), path.get(i + 1)));
                 }
 
