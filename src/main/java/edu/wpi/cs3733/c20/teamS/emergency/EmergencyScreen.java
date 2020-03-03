@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.emergency;
 
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,11 +33,14 @@ public class EmergencyScreen {
                 IOException ex) {
             throw new RuntimeException(ex);
         }
+
         this.show();
     }
 
     public void show() {
         Settings.primaryStage.setScene(scene);
         Settings.primaryStage.show();
+        //BaseScreen.fireWatch.pause();
+        Settings.primaryStage.setFullScreen(true);
     }
 }
