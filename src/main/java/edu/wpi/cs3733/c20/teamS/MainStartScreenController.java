@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c20.teamS;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +34,8 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import animatefx.animation.*;
+
 
 
 import java.awt.event.ActionListener;
@@ -41,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -80,6 +85,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     StackPane startScreenTap;
 
+    ImageView tutorialView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -138,14 +144,17 @@ public class MainStartScreenController implements Initializable {
         fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
         fifthTweet.setStyle("-fx-text-fill: white");
 
-        ImageView tutorialView = new ImageView();
+        tutorialView = new ImageView();
         startScreenTap.getChildren().add(tutorialView);
 
 
-        tutorialView.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
+//        tutorialView.setImage(new Image(this.getClass().getResource("/images/PugLickingScreen.gif").toExternalForm()));
         tutorialView.setPreserveRatio(true);
 
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
+        //tutorialView.applyCss("-fx-bordercolor");
+        ImageSelector is = new ImageSelector();
+        imageChangeTimer(is);
     }
 
     public MainStartScreenController() {
@@ -168,6 +177,48 @@ public class MainStartScreenController implements Initializable {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }
+
+    private void imageChangeTimer(ImageSelector is){
+        Timeline imageTimer = new Timeline(new KeyFrame(Duration.seconds(4),e->{
+            setTutorial(is.getImage());
+        }));
+        imageTimer.setCycleCount(Animation.INDEFINITE);
+        imageTimer.play();
+    }
+
+    void setTutorial(int image){
+        Image tutImage = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image" + image + ".png")));
+        //new FadeIn(tutorialView).setResetOnFinished(true).play();
+        new FadeOut(tutorialView).play();
+        tutorialView.setOpacity(0);
+        tutorialView.setImage(tutImage);
+        tutorialView.setOpacity(0);
+        new FadeIn(tutorialView).play();
+        //tutorialView.setOpacity(1);
+
+    }
+
+    static class ImageSelector{
+        private static int image;
+        ImageSelector(){
+            image = 1;
+        }
+        private static void nextImage(){
+            if(image == 3){
+                image = 1;
+            }else{
+                image++;
+            }
+        }
+
+        static int getImage(){
+            int val = image;
+            nextImage();
+            System.out.println("Image is "+ val);
+            return val;
+        }
+    }
+
 
     private void fireAlarm(){
 
