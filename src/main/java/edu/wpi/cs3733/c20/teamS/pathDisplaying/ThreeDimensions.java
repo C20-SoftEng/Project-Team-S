@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -351,26 +352,25 @@ public class ThreeDimensions extends Application {
         root.getChildren().add(dest);
 
         Button elevatorButton = new Button();
-        elevatorButton.relocate(65,0);
-        elevatorButton.setPrefSize(180,60);
+        elevatorButton.relocate(97,57);
+        elevatorButton.setPrefSize(180,50);
         //elevatorButton.setStyle("-fx-background-color: #a1f20f");
         elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
         elevatorButton.setOnAction(e -> onElevClicked(elevIcons));
-
-
         root.getChildren().add(elevatorButton);
+
         Button foodButton = new Button();
-        foodButton.relocate(340,0);
+        foodButton.relocate(340,56);
         //foodButton.setStyle("-fx-background-color: #a2b4ff");
-        foodButton.setPrefSize(140,60);
+        foodButton.setPrefSize(140,50);
         foodButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(foodButton);
         foodButton.setOnAction(e -> onFoodClicked(foodIcons));
 
         Button bathroomButton = new Button();
-        bathroomButton.relocate(550,0);
+        bathroomButton.relocate(538,56);
         //bathroomButton.setStyle("-fx-background-color: #00ff00");
-        bathroomButton.setPrefSize(200,60);
+        bathroomButton.setPrefSize(206,50);
         //bathroomButton.setRipplerFill(Color.TRANSPARENT);
         bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(bathroomButton);
@@ -378,19 +378,19 @@ public class ThreeDimensions extends Application {
 
 
         Button retailButton = new Button();
-        retailButton.relocate(790,0);
+        retailButton.relocate(770,56);
         //retailButton.setStyle("-fx-background-color: #1203ff");
-        retailButton.setPrefSize(150,60);
+        retailButton.setPrefSize(150,50);
         retailButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(retailButton);
         retailButton.setOnAction(e -> onRetailClicked(retlIcons));
 
 
         Button stairsButton = new Button();
-        stairsButton.relocate(990,0);
-        stairsButton.setPrefSize(160,60);
+        stairsButton.relocate(982,56);
+        stairsButton.setPrefSize(160,50);
         stairsButton.setStyle("-fx-background-color: TRANSPARENT");
-        //stairsButton.setStyle("-fx-background-color: #bfbfbf");
+       // stairsButton.setStyle("-fx-background-color: #bfbfbf");
         root.getChildren().add(stairsButton);
         stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
 
@@ -437,19 +437,20 @@ public class ThreeDimensions extends Application {
                     imageView.setScaleZ(imageView.getScaleZ() + sclaer);
                     break;
                 case J:
-                    sub.setTranslateX(sub.getTranslateX() - translater);
+                    stairsButton.setTranslateX(stairsButton.getTranslateX() - translater);
                     break;
                 case K:
-                    sub.setTranslateX(sub.getTranslateX() + translater);
+                    stairsButton.setTranslateX(stairsButton.getTranslateX() + translater);
                     break;
                 case Y:
-                    sub.setTranslateY(sub.getTranslateY() - translater);
+                    stairsButton.setTranslateY(stairsButton.getTranslateY() - translater);
                     break;
                 case U:
-                    sub.setTranslateY(sub.getTranslateY() + translater);
+                    stairsButton.setTranslateY(stairsButton.getTranslateY() + translater);
                     break;
             }
         });
+        root.getChildren().get(0).toBack();
 
         primaryStage.setScene(scene);
         primaryStage.resizableProperty().set(false);
