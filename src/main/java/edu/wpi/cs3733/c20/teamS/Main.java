@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -22,8 +23,9 @@ public class Main extends Application {
         Settings.loggedIn = new Employee(0, "Default", AccessLevel.USER);
         Settings.primaryStage = primaryStage;
         new ApplicationInitializer(dbc).initBigFXMLs();
-
-
+        Settings.primaryStage.setFullScreen(false);
+        Settings.primaryStage.setMaximized(true);
+        Settings.primaryStage.initStyle(StageStyle.UNDECORATED);
 
         switch (START_SCREEN) {
             case MAIN:

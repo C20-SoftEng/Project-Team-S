@@ -14,7 +14,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -100,11 +103,6 @@
                <children>
                   <VBox fx:id="editPrivilegeBox" prefWidth="100.0" style="-fx-background-color: gainsboro; -fx-background-radius: 5;">
                      <children>
-                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="250.0" text="Edit Nodes" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font name="Bookshelf Symbol 7" size="16.0" />
-                           </font>
-                        </Label>
                         <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
@@ -174,32 +172,65 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                        <GridPane alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <JFXButton fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="33.0" prefWidth="69.0" style="-fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                              <JFXButton fx:id="cancelEditsButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onCancelEditClicked" prefHeight="37.0" prefWidth="101.0" style="-fx-background-color: #0067B1;" text="Cancel" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" right="20.0" />
-                                 </HBox.margin>
+                                 <GridPane.margin>
+                                    <Insets top="30.0" />
+                                 </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE">
+                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" prefHeight="37.0" prefWidth="98.0" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <GridPane.margin>
+                                    <Insets top="30.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="undoButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onUndoClicked" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0067B1;" text="Undo" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="redoButton" onAction="#onRedoClicked" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0067B1;" text="Redo" textFill="WHITE" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </GridPane.margin>
                               </JFXButton>
                            </children>
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="30.0" left="10.0" right="10.0" top="30.0" />
                            </VBox.margin>
-                        </HBox>
+                        </GridPane>
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />

@@ -307,4 +307,9 @@ public class EditScreenController extends BaseScreen implements Initializable {
         }
     }
 
+    @FXML void onUndoClicked(ActionEvent event) {
+    }
+
+    @FXML void onRedoClicked(ActionEvent event) {
+    }
 }
