@@ -408,7 +408,7 @@ public class ThreeDimensions extends Application {
         globalRoot.setStyle("-fx-background-color: #8f8f8f");
 
         SubScene sub = new SubScene
-                (group, WIDTH - 192 - 49, 632, false, SceneAntialiasing.BALANCED);
+                (group, WIDTH - 192 - 49, 632, true, SceneAntialiasing.BALANCED);
         sub.setCamera(camera);
         sub.setFill(Color.web("#8f8f8f"));
         mouseControl(group, sub, primaryStage, numberGroup);
@@ -634,7 +634,7 @@ public class ThreeDimensions extends Application {
                 imageView.setPreserveRatio(true);
                 imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
                 imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
-                imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 15);
                 double scale = 0.02;
                 imageView.setScaleX(scale);
                 imageView.setScaleY(scale);
@@ -652,6 +652,7 @@ public class ThreeDimensions extends Application {
         validFood.add("Atrium Cafe");
         validFood.add("Starbucks");
         validFood.add("Food Services");
+        validFood.add("Outdoor Dining Terrace");
         RotateGroup foodICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
@@ -678,17 +679,17 @@ public class ThreeDimensions extends Application {
 
     private RotateGroup getRETLIcons() {
 
-        ArrayList<String> validFood = new ArrayList<>();
-        validFood.add("Atrium Cafe");
-        validFood.add("Starbucks");
-        validFood.add("Food Services");
+
+        ArrayList<String> validRetail = new ArrayList<>();
+        validRetail.add("Phatmacy");
+        validRetail.add("Giftshop Hall");
 
         RotateGroup retailICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
             if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
-                if (!validFood.contains(data.getLongName())) {
+                if (!validRetail.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/retailICON.png");
                     ImageView imageView = new ImageView(image);
                     imageView.setPreserveRatio(true);
@@ -717,8 +718,8 @@ public class ThreeDimensions extends Application {
                 Image image = new Image("/images/ThreeDim/stairsICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
-                imageView.setTranslateX(data.getxCoordinate() / 5 - 1000);
-                imageView.setTranslateY(data.getyCoordinate() / 5 - 930);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 1190);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 985);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
                 double scale = 0.01;
                 imageView.setScaleX(scale);
@@ -741,8 +742,8 @@ public class ThreeDimensions extends Application {
                 Image image = new Image("/images/ThreeDim/restICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
-                imageView.setTranslateX(data.getxCoordinate() / 5 - 900);
-                imageView.setTranslateY(data.getyCoordinate() / 5 - 650);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 905);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 645);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
                 double scale = 0.015;
                 imageView.setScaleX(scale);
