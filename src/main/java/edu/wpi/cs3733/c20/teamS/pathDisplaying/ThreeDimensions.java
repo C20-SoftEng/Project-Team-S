@@ -57,10 +57,18 @@ public class ThreeDimensions extends Application {
     private boolean restToggle = true;
     private boolean retlToggle = true;
     private boolean staiToggle = true;
+    private HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+    private final double floorDist = 100;
+    private ArrayList<Integer> allFloorsInvolved = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+        for(int i = 0; i < nodes.size(); i++) {
+            if(allFloorsInvolved.contains(nodes.get(i).getFloor()) == false) {
+                allFloorsInvolved.add(nodes.get(i).getFloor());
+            }
+        }
+
         zplace.put(1, 100);
         zplace.put(2, 0);
         zplace.put(3, -100);
@@ -131,7 +139,7 @@ public class ThreeDimensions extends Application {
             person[i].setTranslateZ(zplace.get(begin.getFloor()) + 10);
 
             PhongMaterial material = new PhongMaterial();
-            Image texture = new Image(("images/ThreeDim/yellow.jpg"));
+            Image texture = new Image(("images/ThreeDim/lavender.png"));
             material.setDiffuseMap(texture);
             person[i].setMaterial(material);
         }
@@ -145,8 +153,9 @@ public class ThreeDimensions extends Application {
             numberGroup.getChildren().add(floorNumbers(number, brightNumber, z, selected));
         }
 
-        RotateGroup elevatorGroup = new RotateGroup();
-        List<NodeData> invalidELEV = new ArrayList<>();
+        List<Group> elevatorGroup = new ArrayList<>();
+        List<Integer> invalidELEV = new ArrayList<>();
+        int elevCount = 0;
 
         for(int i = 0; i < nodes.size() - 1; i++) {
             NodeData startNode = nodes.get(i);
@@ -169,10 +178,10 @@ public class ThreeDimensions extends Application {
                             elevator[k].setTranslateZ(zplace.get(startNode.getFloor()) - 60);
 
                             elevator[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
-                            invalidELEV.add(endNode);
+                            invalidELEV.add(i+1);
                         }
-                        if(!invalidELEV.contains(startNode)) {
-                            elevatorGroup.getChildren().addAll(elevator);
+                        if(!invalidELEV.contains(i)) {
+                            elevatorGroup.add(new Group(elevator));
                         }
                     }
                     else {
@@ -190,7 +199,7 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(numberGroup);
         group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
-        group.getChildren().add(elevatorGroup);
+        group.getChildren().addAll(elevatorGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
 
@@ -218,25 +227,26 @@ public class ThreeDimensions extends Application {
                     offsetY = 10;
                 }
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), personGroup);
-                tt.setFromZ((zplace.get(n1.getFloor())) - 25 - ((2-begin.getFloor()) * 100));
+                tt.setFromZ((zplace.get(n1.getFloor())) - 25 - ((2-begin.getFloor()) * floorDist));
                 tt.setFromX(n1.getxCoordinate() / 5 - 247);
                 tt.setFromY(n1.getyCoordinate() / 5 - 148);
-                tt.setToZ(zplace.get(n2.getFloor()) - 25 - ((2-begin.getFloor()) * 100));
+                tt.setToZ(zplace.get(n2.getFloor()) - 25 - ((2-begin.getFloor()) * floorDist));
                 tt.setToX(n1.getxCoordinate() / 5 - 247);
                 tt.setToY(n1.getyCoordinate() / 5 - 148);
                 tt.setCycleCount(1);
 
-                TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup);
-                ttELEV.setFromZ(zplace.get(n1.getFloor()) - ((2-begin.getFloor()) * 100));
+                TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup.get(elevCount));
+                ttELEV.setFromZ(zplace.get(n1.getFloor()) - ((2-n1.getFloor()) * floorDist));
                 ttELEV.setFromX(n1.getxCoordinate() / 5 - 244 + offsetX);
                 ttELEV.setFromY(n1.getyCoordinate() / 5 - 240 + offsetY);
-                ttELEV.setToZ(zplace.get(n2.getFloor()) - ((2-begin.getFloor()) * 100));
+                ttELEV.setToZ(zplace.get(n2.getFloor()) - ((2-n1.getFloor()) * floorDist));
                 ttELEV.setToX(n1.getxCoordinate() / 5 - 244 + offsetX);
                 ttELEV.setToY(n1.getyCoordinate() / 5 - 240 + offsetY);
                 ttELEV.setCycleCount(1);
 
                 ParallelTransition pllt = new ParallelTransition(tt, ttELEV);
                 st.getChildren().addAll(pllt);
+                elevCount++;
             }
             else {
                 floorPath.add(n1); floorPath.add(n2);
@@ -319,7 +329,7 @@ public class ThreeDimensions extends Application {
         group.translateXProperty().set(WIDTH / 2 - 50);
         group.translateYProperty().set(HEIGHT / 2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
-        group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * 100);
+        group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * floorDist);
         group.rotateByZ(-120);
         numberGroup.rotateByZ(120);
         group.translateZProperty().set(group.getTranslateZ() + 30);
@@ -600,18 +610,12 @@ public class ThreeDimensions extends Application {
     }
 
     private RotateGroup getElevIcons() {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
 
         DatabaseController dbc = new DatabaseController();
         RotateGroup elevICON = new RotateGroup();
         Set<NodeData> nd = dbc.getAllNodesOfType("ELEV");
         for(NodeData data : nd) {
-            if(!nodes.contains(data) && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
+            if(!nodes.contains(data) && allFloorsInvolved.contains(data.getFloor())) {
                 Image image = new Image("/images/ThreeDim/elevICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
@@ -630,12 +634,6 @@ public class ThreeDimensions extends Application {
     }
 
     private RotateGroup getFoodIcons() {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
 
         ArrayList<String> validFood = new ArrayList<>();
         validFood.add("Atrium Cafe");
@@ -645,7 +643,7 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
-            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
                 if (validFood.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/foodICON.png");
                     ImageView imageView = new ImageView(image);
@@ -666,12 +664,6 @@ public class ThreeDimensions extends Application {
     }
 
     private RotateGroup getRETLIcons() {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
 
         ArrayList<String> validFood = new ArrayList<>();
         validFood.add("Atrium Cafe");
@@ -682,7 +674,7 @@ public class ThreeDimensions extends Application {
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
         for(NodeData data : nd) {
-            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
                 if (!validFood.contains(data.getLongName())) {
                     Image image = new Image("/images/ThreeDim/retailICON.png");
                     ImageView imageView = new ImageView(image);
@@ -703,18 +695,12 @@ public class ThreeDimensions extends Application {
     }
 
     private RotateGroup getSTAIcons() {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
 
         RotateGroup staiICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("STAI");
         for(NodeData data : nd) {
-            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
                 Image image = new Image("/images/ThreeDim/stairsICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
@@ -733,18 +719,12 @@ public class ThreeDimensions extends Application {
     }
 
     private RotateGroup getRESTIcons() {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
 
         RotateGroup restICON = new RotateGroup();
         DatabaseController dbc = new DatabaseController();
         Set<NodeData> nd = dbc.getAllNodesOfType("REST");
         for(NodeData data : nd) {
-            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && (data.getFloor() == nodes.get(0).getFloor() || data.getFloor() == nodes.get(nodes.size()-1).getFloor())) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
                 Image image = new Image("/images/ThreeDim/restICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
@@ -834,14 +814,8 @@ public class ThreeDimensions extends Application {
     }
 
     private void onFloorMove(RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
         for(int i = 1; i <= 5; i++) {
-            if(Math.abs((personGroup.getTranslateZ() + 100 * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
+            if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
                 int finalI = i;
                 numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
                         .forEach(
@@ -855,7 +829,7 @@ public class ThreeDimensions extends Application {
                                 });
             }
 
-            if(Math.abs((personGroup.getTranslateZ() + 100 * (2-begin.getFloor())) - (zplace.get(i))) > 49) {
+            if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) > 49) {
                 int finalI1 = i;
                 numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
                         .forEach(
