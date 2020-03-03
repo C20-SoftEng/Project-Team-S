@@ -337,31 +337,47 @@ public class EditableMap implements IEditableMap {
         return result;
     }
     private void onNodeAdded(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        assert graph.nodes().contains(node) : "graph doesn't contain added node " + node.getNodeID();
         NodeVm vm = createNodeVm(node);
         nodeLookup.put(node, vm);
         nodePartition.putChild(node.getFloor(), vm);
     }
     private void onNodeRemoved(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
         NodeVm remove = nodeLookup.get(node);
         nodePartition.removeChild(remove);
         nodeLookup.remove(node);
     }
     private void onEdgeAdded(EndpointPair<NodeData> edge) {
+        if (edge == null) ThrowHelper.illegalNull("edge");
+
+        assert graph.nodes().contains(edge.nodeU()) : "node not in graph: " + edge.nodeU().getNodeID();
+        assert graph.nodes().contains(edge.nodeV()) : "node not in graph: " + edge.nodeV().getNodeID();
+
         EdgeVm vm = createEdgeVm(edge.nodeU(), edge.nodeV());
         edgePartition.putChild(edge.nodeU().getFloor(), vm);
         edgeLookup.put(edge, vm);
     }
     private void onEdgeRemoved(EndpointPair<NodeData> edge) {
+        if (edge == null) ThrowHelper.illegalNull("edge");
+
         EdgeVm remove = edgeLookup.get(edge);
         edgePartition.removeChild(remove);
         edgeLookup.remove(edge);
     }
     private void onRoomAdded(Room room) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
         RoomVm vm = createRoomVm(room);
         roomPartition.putChild(room.floor(), vm);
         roomLookup.put(room, vm);
     }
     private void onRoomRemoved(Room room) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
         RoomVm remove = roomLookup.get(room);
         roomPartition.removeChild(remove);
         roomLookup.remove(room);

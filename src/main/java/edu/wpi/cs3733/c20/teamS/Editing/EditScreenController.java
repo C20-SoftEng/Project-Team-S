@@ -301,8 +301,15 @@ public class EditScreenController extends BaseScreen implements Initializable {
     @FXML private JFXButton saveTimeOut;
 
     @FXML void onConfirmSaveTimeOut(ActionEvent event) {
-        BaseScreen.puggy.changeTimeout(Integer.parseInt(timeOut.getText()) * 1000);
+        if(timeOut.getText() != null){
+        BaseScreen.puggy.changeTimeout(Integer.parseInt((timeOut.getText())) * 1000);
         System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
+        }
     }
 
+    @FXML void onUndoClicked(ActionEvent event) {
+    }
+
+    @FXML void onRedoClicked(ActionEvent event) {
+    }
 }

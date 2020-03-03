@@ -1,17 +1,23 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import animatefx.animation.Pulse;
+import animatefx.animation.*;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import com.sun.javafx.application.PlatformImpl;
+import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.viewModels.RoomDisplayVm;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
@@ -24,10 +30,9 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +49,6 @@ import java.util.stream.StreamSupport;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    //private IPathfinder pathfinder;
     private PathRenderer renderer;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
@@ -53,13 +57,15 @@ public class MainScreenController implements Initializable {
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
 
     private boolean flip = true;
+    private boolean darkmode = false;
     //endregion
 
     public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-
         this.stage = stage;
     }
 
@@ -76,11 +82,7 @@ public class MainScreenController implements Initializable {
         initDirectoryPathfinding();
 
         scrollPane.setContent(group);
-        try {
-            redraw();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        redraw();
     }
 
     public void clearPathDisplay() {
@@ -97,7 +99,6 @@ public class MainScreenController implements Initializable {
         popConfList();
         popExitList();
     }
-
     private void initNodeSelector() {
         nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
         nodeSelector.pathChanged().subscribe(path -> {
@@ -115,16 +116,13 @@ public class MainScreenController implements Initializable {
                     location2.setText(text);
                 });
     }
-
     private void initHitboxes() {
         rooms.addAll(hitboxRepo.load());
     }
-
     private void initGraph() {
         DatabaseController database = new DatabaseController();
         graph = database.loadGraph();
     }
-
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -152,16 +150,14 @@ public class MainScreenController implements Initializable {
                             .reduce(new Vector2(0, 0), Vector2::add)
                             .divide(Math.max(1, room.vertices().size()));
                     floorSelector.setCurrent(room.floor());
-                    nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
-
+                    nodeSelector.onRoomClicked(room, centroid.x(), centroid.y());
                 });
     }
-
     private IPathfinder pathfinder() {
         return Settings.get().pathfinder();
     }
 
-    private void redraw() throws Exception {
+    private void redraw() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
@@ -181,7 +177,6 @@ public class MainScreenController implements Initializable {
 
         maintainScrollPosition(currentHval, currentVval);
     }
-
     private void maintainScrollPosition(double currentHval, double currentVval) {
         int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
                 .filter(node -> node.getFloor() == floorSelector.current())
@@ -193,10 +188,10 @@ public class MainScreenController implements Initializable {
             Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
             double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
             double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
-            keepCurrentPosition(hval, vval, zoomer);
+            //0.5 is hardcoded offset to fix centering
+            keepCurrentPosition(hval+0.5, vval, zoomer);
         }
     }
-
     private Vector2 findPathCentroid(Path path, int floor) {
         List<Vector2> vertices = path.startToFinish().stream()
                 .filter(node -> node.getFloor() == floor)
@@ -206,19 +201,14 @@ public class MainScreenController implements Initializable {
                 .reduce(Vector2.ZERO, Vector2::add)
                 .divide(vertices.size());
     }
-
-    private Polygon createHitboxRenderingMask(Room room) {
-        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        Polygon polygon = room.toPolygon();
-        polygon.setTranslateY(-10);
-        polygon.setFill(invisible);
-        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
-        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
-        return polygon;
+    private RoomDisplayVm createHitboxRenderingMask(Room room) {
+        RoomDisplayVm result = new RoomDisplayVm(room);
+        result.setTranslateY(result.getTranslateY() - 10);
+        RxAdaptors.eventStream(result::setOnMouseClicked)
+                .map(e -> result.localToParent(e.getX(), e.getY()))
+                .subscribe(point -> nodeSelector.onRoomClicked(room, point.getX(), point.getY()));
+        return result;
     }
-
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);
@@ -227,6 +217,7 @@ public class MainScreenController implements Initializable {
 
     //region ui widgets
     @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
@@ -238,6 +229,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -262,24 +254,14 @@ public class MainScreenController implements Initializable {
     @FXML private ListView<LookupResult<NodeData>> restRoomList;
     @FXML private ListView<LookupResult<NodeData>> confList;
     @FXML private ListView<LookupResult<NodeData>> exitList;
-
-
-    //Lists of LookupResult of NodeData
-    private ObservableList<LookupResult<NodeData>> deptLocs;
-    private ObservableList<LookupResult<NodeData>> servLocs;
-    private ObservableList<LookupResult<NodeData>> labLocs;
-    private ObservableList<LookupResult<NodeData>> infoLocs;
-    private ObservableList<LookupResult<NodeData>> shopLocs;
-    private ObservableList<LookupResult<NodeData>> restRoomLocs;
-    private ObservableList<LookupResult<NodeData>> confLocs;
-    private ObservableList<LookupResult<NodeData>> exitLocs;
+    //endregion
 
     private void initDirectoryPathfinding(){
         deptList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
-                    nodeSelector.onNodeClicked(current.value());
-                }
-        );
+                            nodeSelector.onNodeClicked(current.value());
+                        }
+                );
 
         servList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
@@ -288,7 +270,7 @@ public class MainScreenController implements Initializable {
 
         labList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
-                   nodeSelector.onNodeClicked(current.value());
+                    nodeSelector.onNodeClicked(current.value());
                 });
 
         infoList.getSelectionModel().selectedItemProperty()
@@ -318,7 +300,8 @@ public class MainScreenController implements Initializable {
     }
 
     private void popDeptList(){
-        deptLocs = FXCollections.observableArrayList();
+        //region sidebar directory
+        ObservableList<LookupResult<NodeData>> deptLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
@@ -326,9 +309,8 @@ public class MainScreenController implements Initializable {
         }
         deptList.setItems(deptLocs);
     }
-
     private void popServList(){
-        servLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
         for (NodeData node : servNodes){
@@ -336,9 +318,8 @@ public class MainScreenController implements Initializable {
         }
         servList.setItems(servLocs);
     }
-
     private void popLabList(){
-        labLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
         for (NodeData node : labNodes){
@@ -346,9 +327,8 @@ public class MainScreenController implements Initializable {
         }
         labList.setItems(labLocs);
     }
-
     private void popInfoList(){
-        infoLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
         for (NodeData node : infoNodes){
@@ -356,9 +336,8 @@ public class MainScreenController implements Initializable {
         }
         infoList.setItems(infoLocs);
     }
-
     private void popShopList(){
-        shopLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
         for (NodeData node : shopNodes){
@@ -366,9 +345,8 @@ public class MainScreenController implements Initializable {
         }
         shopList.setItems(shopLocs);
     }
-
     private void popRestRoomList(){
-        restRoomLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
         for (NodeData node : restRoomNodes){
@@ -376,9 +354,8 @@ public class MainScreenController implements Initializable {
         }
         restRoomList.setItems(restRoomLocs);
     }
-
     private void popConfList(){
-        confLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
         for (NodeData node : confNodes){
@@ -386,9 +363,8 @@ public class MainScreenController implements Initializable {
         }
         confList.setItems(confLocs);
     }
-
     private void popExitList(){
-        exitLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
         for (NodeData node : exitNodes){
@@ -476,5 +452,105 @@ public class MainScreenController implements Initializable {
     }
 
 
+    @FXML private void onToTextClicked(){
+        this.directoryVBox.setVisible(false);
+        this.instructionVBox.setVisible(true);
+    }
+
+    @FXML private void onToDirectoryClicked(){
+        this.instructionVBox.setVisible(false);
+        this.directoryVBox.setVisible(true);
+    }
+
+    @FXML private void onDarkModeClicked(){
+        if (darkmode){
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            //stage.getScene().getStylesheets().add("default.css");
+            //stage.getScene().getStylesheets().remove("darkmode.css");
+            darkmode = false;
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println("returned to light mode");
+        }
+        else {
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            //stage.getScene().getStylesheets().add("darkmode.css");
+            //stage.getScene().getStylesheets().remove("default.css");
+            darkmode = true;
+            //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
+            //DarkModeButton.getScene().getStylesheets().remove("default.css");
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println("changed to dark mode");
+        }
+    }
+
+
+//    @FXML
+//    void animate() {
+//        new Pulse(zoomInButton).play();
+//    }
+
+    @FXML
+    void animate3D() {
+        new Pulse(viewThreeD).play();
+    }
+
+    @FXML
+    void animateFloor1() {
+        new Pulse(floorButton1).play();
+    }
+
+    @FXML
+    void animateFloor2() {
+        new Pulse(floorButton2).play();
+    }
+
+    @FXML
+    void animateFloor3() {
+        new Pulse(floorButton3).play();
+    }
+
+    @FXML
+    void animateFloor4() {
+        new Pulse(floorButton4).play();
+    }
+
+    @FXML
+    void animateFloor5() {
+        new Pulse(floorButton5).play();
+    }
+
+    @FXML
+    void animateFloor6() {
+        new Pulse(floorButton6).play();
+    }
+
+    @FXML
+    void animateFloor7() {
+        new Pulse(floorButton6).play();
+    }
+
+    @FXML
+    void animateFloorDown() {
+        new Pulse(downButton).play();
+    }
+
+    @FXML
+    void animateFloorUp() {
+        new Pulse(upButton).play();
+    }
+
+    @FXML
+    void animateZoomIn() {
+        new Pulse(zoomInButton).play();
+    }
+
+    @FXML
+    void animateZoomOut() {
+        new Pulse(zoomOutButton).play();
+    }
     //endregion
 }
