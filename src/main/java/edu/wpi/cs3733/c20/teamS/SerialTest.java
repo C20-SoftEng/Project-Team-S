@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.nio.ByteBuffer;
 
 import static java.lang.Thread.sleep;
 
@@ -31,12 +32,23 @@ public class SerialTest extends Application {
         //Thread.sleep(800);
 //        DataOutputStream outs = new DataOutputStream(serial.getOutputStream());
         Thread.sleep(800);
-//        while(ins.available() !=0){
-//            Thread.sleep (10);
-//        }
-        int b = ins.read();
+        short b = 0;
+        char c = 'o';
+        //byte[] buffer = new byte[2];
+        byte[] fireBall = new byte[2];
+        //System.out.println("Bytes avalible: " + ins.available());
+        int i = 0;
+        //ByteBuffer bb = ByteBuffer
+        //byte[] biteArray = new byte[2];
+        while(i<100){
+            //System.out.println(ins.available());
+            Thread.sleep (200);
+            ins.read(fireBall);
+            //System.out.println(ByteBuffer.wrap(fireBall).getChar());
+            System.out.println((char) fireBall[1]);
 
-
+            i++;
+        }
        //outs.write(b);
         String print = "Value = "+b;
         System.out.println(print);
