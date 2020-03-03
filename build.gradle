@@ -37,7 +37,8 @@ dependencies {
             [group: 'edu.wpi.cs3733.c20.teamR', name: 'AppointmentRequest', version:'1.6.9'],
             [group: 'edu.wpi.cs3733.c20.teamU', name: 'FlowerRequestS', version:'1.0.1'],
             [group: 'edu.wpi.cs3733.c20.teamV', name: 'TeamVInterpreterRequest', version:'1.1.0'],
-            [group: 'edu.wpi.cs3733.c20.teamT', name: 'ReligiousServiceAPI', version:'1.0.1']
+            [group: 'edu.wpi.cs3733.c20.teamT', name: 'ReligiousServiceAPI', version:'1.0.1'],
+            [group: 'io.github.typhon0', name: 'AnimateFX', version: '1.2.0']
     )
 
     compileOnly(
