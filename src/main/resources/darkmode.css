@@ -162,25 +162,25 @@
 }
 
 .scroll-bar .thumb{
-    -fx-background-color: #B0B0B0;
+    -fx-background-color: #B0B0B0; !important;
 }
 
 
 
-.titled-pane > *.content{
+.titled-pane > *.content { !important;
     -fx-background-color: transparent;
 }
 
-.titled-pane > .title {
-    -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f);
+.titled-pane > .title { !important;
+    -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f); !important;
 }
 
-.titled-pane > .title > .arrow-button > .arrow {
-    -fx-background-color: #fff;
+.titled-pane > .title > .arrow-button > .arrow { !important;
+    -fx-background-color: #fff; !important;
 }
 
 .list-cell:odd{
-    -fx-background-color: #4c4c4c;
+    -fx-background-color: #4c4c4c; !important;
 }
 
 .list-cell:even{
