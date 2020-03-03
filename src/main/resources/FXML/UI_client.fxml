@@ -111,27 +111,23 @@
                               </ImageView>
                            </content>
                         </ScrollPane>
-                        <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="1030.0" StackPane.alignment="TOP_LEFT">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="1020.0" StackPane.alignment="TOP_CENTER">
                            <children>
-                              <ComboBox fx:id="searchComboBox" editable="true" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="600.0" promptText="Search Location" style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="15.0" top="10.0" />
-                                 </HBox.margin>
+                              <Label fx:id="location1" alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="62.0" prefWidth="501.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" textAlignment="CENTER" textFill="#000000bf" wrapText="true">
                                  <effect>
                                     <DropShadow />
                                  </effect>
-                              </ComboBox>
-                              <Label fx:id="location1" alignment="CENTER" contentDisplay="TEXT_ONLY" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" text="Select Start Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="60.0" right="20.0" top="10.0" />
-                                 </HBox.margin>
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                              </Label>
-                              <JFXButton fx:id="swapButton" buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text=" " translateY="13.0">
                                  <graphic>
-                                    <ImageView id="swapButton" fx:id="onSwapButton" fitHeight="55.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                    <ComboBox fx:id="searchComboBox" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="450.0" promptText="Select Start Location" style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </ComboBox>
+                                 </graphic>
+                              </Label>
+                              <JFXButton fx:id="swapButton" alignment="CENTER" buttonType="RAISED" layoutX="490.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 10; -fx-border-radius: 10;" text=" ">
+                                 <graphic>
+                                    <ImageView id="swapButton" fx:id="onSwapButton1" fitHeight="55.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/Icons/swap_arrows.png" />
                                        </image>
@@ -146,24 +142,39 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
                                  <effect>
                                     <DropShadow />
                                  </effect>
+                                 <HBox.margin>
+                                    <Insets left="50.0" right="50.0" />
+                                 </HBox.margin>
                               </JFXButton>
-                              <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" text="Select End Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
+                              <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="62.0" prefWidth="500.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" textAlignment="CENTER" textFill="#000000bf" wrapText="true" HBox.hgrow="SOMETIMES">
                                  <HBox.margin>
-                                    <Insets left="20.0" right="20.0" top="10.0" />
+                                    <Insets top="1.0" />
                                  </HBox.margin>
                                  <effect>
                                     <DropShadow />
                                  </effect>
+                                 <graphic>
+                                    <ComboBox fx:id="searchComboBox2" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="450.0" promptText="Select Destination" style="-fx-border-radius: 50; -fx-background-radius: 50;">
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </ComboBox>
+                                 </graphic>
                               </Label>
+                              <JFXButton fx:id="clearPath" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="69.0" style="-fx-background-color: black; -fx-border-radius: 10; -fx-border-color: grey; -fx-background-radius: 10;" text="Clear Path" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </JFXButton>
                            </children>
                            <StackPane.margin>
-                              <Insets left="30.0" right="20.0" top="15.0" />
+                              <Insets left="30.0" right="20.0" top="30.0" />
                            </StackPane.margin>
                         </HBox>
                         <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" StackPane.alignment="BOTTOM_LEFT">
@@ -410,7 +421,7 @@
          <right>
             <StackPane BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #ccc; -fx-border-color: black;" visible="false">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="752.0" prefWidth="323.0" style="-fx-background-color: #ccc; -fx-border-color: black;" visible="false">
                      <children>
                         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-border-color: gray; -fx-background-color: white;" text="DIRECTIONS" underline="true" VBox.vgrow="SOMETIMES">
                            <font>
@@ -450,7 +461,7 @@
                                                   <content>
                                                     <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="deptList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="deptList" prefHeight="200.0" prefWidth="322.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -466,7 +477,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="servList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="servList" prefHeight="200.0" prefWidth="321.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -482,7 +493,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="labList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="labList" prefHeight="200.0" prefWidth="286.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -498,7 +509,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="infoList" prefHeight="200.0" prefWidth="285.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -514,7 +525,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="shopList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="shopList" prefHeight="200.0" prefWidth="286.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -530,7 +541,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="restRoomList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="restRoomList" prefHeight="200.0" prefWidth="285.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -546,7 +557,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="confList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="confList" prefHeight="200.0" prefWidth="284.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>
@@ -562,7 +573,7 @@
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <ListView fx:id="exitList" prefHeight="200.0" prefWidth="200.0" />
+                                                            <ListView fx:id="exitList" prefHeight="200.0" prefWidth="285.0" />
                                                          </children>
                                                       </AnchorPane>
                                                   </content>

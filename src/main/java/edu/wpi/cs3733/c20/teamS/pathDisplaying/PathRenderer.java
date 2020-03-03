@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 class PathRenderer {

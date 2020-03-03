@@ -95,16 +95,16 @@ public class MainScreenController implements Initializable {
             redraw();
             renderer.printInstructions(path, instructionVBox, directoryVBox);
         });
-        nodeSelector.startChanged()
-                .subscribe(pin -> {
-                    String text = pin.isPresent() ? pin.get().room().name() : "";
-                    location1.setText(text);
-                });
-        nodeSelector.goalChanged()
-                .subscribe(pin -> {
-                    String text = pin.isPresent() ? pin.get().room().name() : "";
-                    location2.setText(text);
-                });
+//        nodeSelector.startChanged()
+//                .subscribe(pin -> {
+//                    String text = pin.isPresent() ? pin.get().room().name() : "";
+//                    location1.setText(text);
+//                });
+//        nodeSelector.goalChanged()
+//                .subscribe(pin -> {
+//                    String text = pin.isPresent() ? pin.get().room().name() : "";
+//                    location2.setText(text);
+//                });
     }
 
     private void initHitboxes() {
@@ -132,11 +132,25 @@ public class MainScreenController implements Initializable {
     }
     private void initSearchComboBox() {
         String fontFamily = searchComboBox.getEditor().getFont().getFamily();
-        Font font = new Font(fontFamily, 18);
+
+        Font font = new Font(fontFamily, 25);
         searchComboBox.getEditor().setFont(font);
+        searchComboBox2.getEditor().setFont(font);
+
 
         AutoComplete.start(rooms, searchComboBox, Room::name);
+        AutoComplete.start(rooms, searchComboBox2, Room::name);
         AutoComplete.propertyStream(searchComboBox.valueProperty())
+                .subscribe(result -> {
+                    Room room = result.value();
+                    Vector2 centroid = room.vertices().stream()
+                            .reduce(new Vector2(0, 0), Vector2::add)
+                            .divide(Math.max(1, room.vertices().size()));
+                    floorSelector.setCurrent(room.floor());
+                    nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
+
+                });
+        AutoComplete.propertyStream(searchComboBox2.valueProperty())
                 .subscribe(result -> {
                     Room room = result.value();
                     Vector2 centroid = room.vertices().stream()
@@ -204,13 +218,16 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton clearPath;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
     @FXML private JFXButton zoomInButton;
     @FXML private JFXButton zoomOutButton;
     @FXML private Label location2;
+
     @FXML private ComboBox<LookupResult<Room>> searchComboBox;
+    @FXML private ComboBox<LookupResult<Room>> searchComboBox2;
     @FXML private TitledPane AccDEPT;
     @FXML private TitledPane AccSERV;
     @FXML private TitledPane AccLABS;
