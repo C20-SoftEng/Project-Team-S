@@ -345,8 +345,7 @@ public class ThreeDimensions extends Application {
         dest.setScaleX(3);
         dest.setScaleY(3);
         dest.setScaleZ(3);
-        dest.setTranslateX(568);
-        dest.setTranslateY(-34);
+        dest.relocate(568, 18);
         dest.setTextFill(Color.web("#ffffff"));
 
         root.getChildren().add(dest);
@@ -437,16 +436,16 @@ public class ThreeDimensions extends Application {
                     imageView.setScaleZ(imageView.getScaleZ() + sclaer);
                     break;
                 case J:
-                    stairsButton.setTranslateX(stairsButton.getTranslateX() - translater);
+                    dest.setTranslateX(dest.getTranslateX() - translater);
                     break;
                 case K:
-                    stairsButton.setTranslateX(stairsButton.getTranslateX() + translater);
+                    dest.setTranslateX(dest.getTranslateX() + translater);
                     break;
                 case Y:
-                    stairsButton.setTranslateY(stairsButton.getTranslateY() - translater);
+                    dest.setTranslateY(dest.getTranslateY() - translater);
                     break;
                 case U:
-                    stairsButton.setTranslateY(stairsButton.getTranslateY() + translater);
+                    dest.setTranslateY(dest.getTranslateY() + translater);
                     break;
             }
         });
