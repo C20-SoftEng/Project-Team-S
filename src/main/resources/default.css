@@ -179,3 +179,12 @@
     -fx-border-color: gray;
     -fx-border-width: 2;
 }
+
+
+.tablebuttons{
+    -fx-border-color: gainsboro;
+}
+
+#error{
+    -fx-text-fill: red;
+}

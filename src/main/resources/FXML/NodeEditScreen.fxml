@@ -22,7 +22,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Label fx:id="errored" alignment="CENTER" text="Error! Some Fields are Missing" textAlignment="CENTER" textFill="RED" underline="true" visible="false">
+            <Label id="error" fx:id="errored" alignment="CENTER" text="Error! Some Fields are Missing" textAlignment="CENTER" textFill="RED" underline="true" visible="false">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -159,7 +159,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" cancelButton="true" onAction="#onCancelClicked" prefHeight="45.0" prefWidth="94.0" style="-fx-background-color: #bfbdbb; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Cancel">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" cancelButton="true" onAction="#onCancelClicked" prefHeight="45.0" prefWidth="94.0" styleClass="secondaryButtons" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>
@@ -170,7 +170,7 @@
                         <Font size="13.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="61.0" prefWidth="109.0" style="-fx-background-color: #0067b1; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Add Node" textFill="WHITE">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" defaultButton="true" onAction="#onOKClicked" prefHeight="61.0" prefWidth="109.0" styleClass="buttons" text="Add Node" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                      </HBox.margin>

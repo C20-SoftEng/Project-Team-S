@@ -262,3 +262,11 @@
     -fx-text-fill: white;
 
 }
+
+.tablebuttons{
+    -fx-border-color:  #eee;
+}
+
+#error{
+    -fx-text-fill: maroon;
+}
