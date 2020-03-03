@@ -148,7 +148,7 @@ public class MainScreenController implements Initializable {
                             .reduce(new Vector2(0, 0), Vector2::add)
                             .divide(Math.max(1, room.vertices().size()));
                     floorSelector.setCurrent(room.floor());
-                    nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
+                    nodeSelector.onRoomClicked(room, centroid.x(), centroid.y());
                 });
     }
     private IPathfinder pathfinder() {
@@ -203,7 +203,7 @@ public class MainScreenController implements Initializable {
         result.setTranslateY(result.getTranslateY() - 10);
         RxAdaptors.eventStream(result::setOnMouseClicked)
                 .map(e -> result.localToParent(e.getX(), e.getY()))
-                .subscribe(point -> nodeSelector.onHitboxClicked(room, point.getX(), point.getY()));
+                .subscribe(point -> nodeSelector.onRoomClicked(room, point.getX(), point.getY()));
         return result;
     }
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
@@ -253,17 +253,6 @@ public class MainScreenController implements Initializable {
     @FXML private ListView<LookupResult<NodeData>> exitList;
     //endregion
 
-
-    //region sidebar directory
-    private ObservableList<LookupResult<NodeData>> deptLocs;
-    private ObservableList<LookupResult<NodeData>> servLocs;
-    private ObservableList<LookupResult<NodeData>> labLocs;
-    private ObservableList<LookupResult<NodeData>> infoLocs;
-    private ObservableList<LookupResult<NodeData>> shopLocs;
-    private ObservableList<LookupResult<NodeData>> restRoomLocs;
-    private ObservableList<LookupResult<NodeData>> confLocs;
-    private ObservableList<LookupResult<NodeData>> exitLocs;
-
     private void initDirectoryPathfinding(){
         deptList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
@@ -308,7 +297,8 @@ public class MainScreenController implements Initializable {
     }
 
     private void popDeptList(){
-        deptLocs = FXCollections.observableArrayList();
+        //region sidebar directory
+        ObservableList<LookupResult<NodeData>> deptLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
@@ -317,7 +307,7 @@ public class MainScreenController implements Initializable {
         deptList.setItems(deptLocs);
     }
     private void popServList(){
-        servLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
         for (NodeData node : servNodes){
@@ -326,7 +316,7 @@ public class MainScreenController implements Initializable {
         servList.setItems(servLocs);
     }
     private void popLabList(){
-        labLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
         for (NodeData node : labNodes){
@@ -335,7 +325,7 @@ public class MainScreenController implements Initializable {
         labList.setItems(labLocs);
     }
     private void popInfoList(){
-        infoLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
         for (NodeData node : infoNodes){
@@ -344,7 +334,7 @@ public class MainScreenController implements Initializable {
         infoList.setItems(infoLocs);
     }
     private void popShopList(){
-        shopLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
         for (NodeData node : shopNodes){
@@ -353,7 +343,7 @@ public class MainScreenController implements Initializable {
         shopList.setItems(shopLocs);
     }
     private void popRestRoomList(){
-        restRoomLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
         for (NodeData node : restRoomNodes){
@@ -362,7 +352,7 @@ public class MainScreenController implements Initializable {
         restRoomList.setItems(restRoomLocs);
     }
     private void popConfList(){
-        confLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
         for (NodeData node : confNodes){
@@ -371,7 +361,7 @@ public class MainScreenController implements Initializable {
         confList.setItems(confLocs);
     }
     private void popExitList(){
-        exitLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
         for (NodeData node : exitNodes){
