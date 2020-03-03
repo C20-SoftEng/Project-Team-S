@@ -617,7 +617,7 @@ public class ThreeDimensions extends Application {
                 imageView.setPreserveRatio(true);
                 imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
                 imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
-                imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 15);
                 double scale = 0.02;
                 imageView.setScaleX(scale);
                 imageView.setScaleY(scale);
@@ -748,8 +748,8 @@ public class ThreeDimensions extends Application {
                 Image image = new Image("/images/ThreeDim/restICON.png");
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
-                imageView.setTranslateX(data.getxCoordinate() / 5 - 900);
-                imageView.setTranslateY(data.getyCoordinate() / 5 - 650);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 905);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 645);
                 imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
                 double scale = 0.015;
                 imageView.setScaleX(scale);
