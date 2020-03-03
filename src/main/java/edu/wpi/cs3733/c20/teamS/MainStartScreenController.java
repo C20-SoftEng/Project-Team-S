@@ -47,11 +47,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-import java.util.Timer;
 
 public class MainStartScreenController implements Initializable {
     private MainStartScreen splash;
@@ -87,6 +85,8 @@ public class MainStartScreenController implements Initializable {
 
     ImageView tutorialView;
 
+    LinkedList<Image> imageList = new LinkedList<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -98,6 +98,16 @@ public class MainStartScreenController implements Initializable {
 
         weatherField.setText((String.valueOf(weatherBox1.getTemp())) + "\u00B0");
         weatherField.setStyle("-fx-font-size: 55px");
+
+        //HashSet<Image> imageList = new HashSet<>();
+        Image image0 = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image1.png")));
+        imageList.add(image0);
+        Image image1 = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image1.png")));
+        imageList.add(image1);
+        Image image2 = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image2.png")));
+        imageList.add(image2);
+        Image image3 = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image3.png")));
+        imageList.add(image3);
 
 
 
@@ -188,11 +198,11 @@ public class MainStartScreenController implements Initializable {
     }
 
     void setTutorial(int image){
-        Image tutImage = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image" + image + ".png")));
+        ///Image tutImage = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image" + image + ".png")));
         //new FadeIn(tutorialView).setResetOnFinished(true).play();
         new FadeOut(tutorialView).play();
         tutorialView.setOpacity(0);
-        tutorialView.setImage(tutImage);
+        tutorialView.setImage(imageList.get(image));
         tutorialView.setOpacity(0);
         new FadeIn(tutorialView).play();
         //tutorialView.setOpacity(1);
@@ -215,7 +225,7 @@ public class MainStartScreenController implements Initializable {
         static int getImage(){
             int val = image;
             nextImage();
-            System.out.println("Image is "+ val);
+            //System.out.println("Image is "+ val);
             return val;
         }
     }
