@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
@@ -110,7 +111,7 @@ public class ThreeDimensions extends Application {
         destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
         destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
-        String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().toString().substring(5);
+        String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().getPath();
         MeshView[] pin = loadMeshViews(pinPath);
         for (int i = 0; i < pin.length; i++) {
             double MODEL_SCALE_FACTOR22 = 0.15;
@@ -129,7 +130,7 @@ public class ThreeDimensions extends Application {
             pin[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS), new Rotate(90, Rotate.X_AXIS));
         }
 
-        String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().toString().substring(5);
+        String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
         MeshView[] person = loadMeshViews(personPath);
         for (int i = 0; i < person.length; i++) {
             double MODEL_SCALE_FACTOR = 3;
@@ -335,7 +336,6 @@ public class ThreeDimensions extends Application {
         group.translateZProperty().set(group.getTranslateZ() + 30);
 
         Group root = new Group();
-        root.getChildren().add(group);
         ImageView imageView = getOverlay();
         root.getChildren().add(imageView);
 
@@ -394,49 +394,62 @@ public class ThreeDimensions extends Application {
         root.getChildren().add(stairsButton);
         stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
 
-
-        Scene scene = new Scene(root, WIDTH - 192, HEIGHT, true);
-        scene.setFill(Color.web("#8f8f8f"));
-        scene.setCamera(camera);
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
         imageView.setTranslateZ(imageView.getTranslateZ() + zplace.get(begin.getFloor()));
         dest.setTranslateZ(dest.getTranslateZ() + zplace.get(begin.getFloor()));
 
-        mouseControl(group, scene, primaryStage, numberGroup);
+        AnchorPane globalRoot = new AnchorPane();
+        imageView.setScaleX(imageView.getScaleX() - 0.01);
+        imageView.setScaleY(imageView.getScaleY() - 0.01);
+        imageView.setScaleZ(imageView.getScaleZ() - 0.01);
+        imageView.setTranslateX(imageView.getTranslateX() + 1);
+        imageView.setTranslateY(imageView.getTranslateY() + 48);
+        globalRoot.getChildren().add(root);
+        Scene scene = new Scene(globalRoot, WIDTH - 192, HEIGHT, true);
+        globalRoot.setStyle("-fx-background-color: #8f8f8f");
 
-        int translater = 1;
-        double sclaer = 0.1;
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case Z:
-                    destinationCircle.setScaleX(destinationCircle.getScaleX() - sclaer);
-                    destinationCircle.setScaleY(destinationCircle.getScaleY() - sclaer);
-                    destinationCircle.setScaleZ(destinationCircle.getScaleZ() - sclaer);
-                    break;
-                case X:
-                    destinationCircle.setScaleX(destinationCircle.getScaleX() + sclaer);
-                    destinationCircle.setScaleY(destinationCircle.getScaleY() + sclaer);
-                    destinationCircle.setScaleZ(destinationCircle.getScaleZ() + sclaer);
-                    break;
-                case J:
-                    destinationCircle.setTranslateX(destinationCircle.getTranslateX() - translater);
-                    break;
-                case K:
-                    destinationCircle.setTranslateX(destinationCircle.getTranslateX() + translater);
-                    break;
-                case Y:
-                    destinationCircle.setTranslateY(destinationCircle.getTranslateY() - translater);
-                    break;
-                case U:
-                    destinationCircle.setTranslateY(destinationCircle.getTranslateY() + translater);
-                    break;
-            }
-        });
+        SubScene sub = new SubScene
+                (group, WIDTH - 192 - 49, 632, false, SceneAntialiasing.BALANCED);
+        sub.setCamera(camera);
+        sub.setFill(Color.web("#8f8f8f"));
+        mouseControl(group, sub, primaryStage, numberGroup);
+        globalRoot.getChildren().add(sub);
+        sub.setTranslateX(sub.getTranslateX() + 25);
+        sub.setTranslateY(sub.getTranslateY() + 106);
 
         primaryStage.setTitle("MAP");
 
         Settings.openWindows.add(this.primaryStage);
         BaseScreen.puggy.register(scene, Event.ANY);
+
+        int translater = 1;
+        double sclaer = 0.01;
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case Z:
+                    imageView.setScaleX(imageView.getScaleX() - sclaer);
+                    imageView.setScaleY(imageView.getScaleY() - sclaer);
+                    imageView.setScaleZ(imageView.getScaleZ() - sclaer);
+                    break;
+                case X:
+                    imageView.setScaleX(imageView.getScaleX() + sclaer);
+                    imageView.setScaleY(imageView.getScaleY() + sclaer);
+                    imageView.setScaleZ(imageView.getScaleZ() + sclaer);
+                    break;
+                case J:
+                    sub.setTranslateX(sub.getTranslateX() - translater);
+                    break;
+                case K:
+                    sub.setTranslateX(sub.getTranslateX() + translater);
+                    break;
+                case Y:
+                    sub.setTranslateY(sub.getTranslateY() - translater);
+                    break;
+                case U:
+                    sub.setTranslateY(sub.getTranslateY() + translater);
+                    break;
+            }
+        });
 
         primaryStage.setScene(scene);
         primaryStage.resizableProperty().set(false);
@@ -470,14 +483,7 @@ public class ThreeDimensions extends Application {
     }
 
     static MeshView[] loadMeshViews(String filename) {
-        String steeel = filename.substring(filename.lastIndexOf("/"));
-        filename = filename.substring(0,filename.indexOf("/libs"));
-        filename += "/resources/main/images/ThreeDim" + steeel;
-        filename = filename.replace("!","");
-        filename = filename.substring(5);
         File file = new File(filename);
-        System.out.println(filename);
-        System.out.println(file.toString());
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);
         Mesh mesh = importer.getImport();
@@ -564,7 +570,7 @@ public class ThreeDimensions extends Application {
         return floorNum;
     }
 
-    private void mouseControl(RotateGroup group, Scene scene, Stage stage, RotateGroup numberGroup) {
+    private void mouseControl(RotateGroup group, SubScene scene, Stage stage, RotateGroup numberGroup) {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
             oldX = mouseEvent.getX();
             oldY = mouseEvent.getY();
