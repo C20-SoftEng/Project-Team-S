@@ -488,9 +488,69 @@ public class MainScreenController implements Initializable {
     }
 
 
+//    @FXML
+//    void animate() {
+//        new Pulse(zoomInButton).play();
+//    }
+
     @FXML
-    void animate() {
+    void animate3D() {
+        new Pulse(viewThreeD).play();
+    }
+
+    @FXML
+    void animateFloor1() {
+        new Pulse(floorButton1).play();
+    }
+
+    @FXML
+    void animateFloor2() {
+        new Pulse(floorButton2).play();
+    }
+
+    @FXML
+    void animateFloor3() {
+        new Pulse(floorButton3).play();
+    }
+
+    @FXML
+    void animateFloor4() {
+        new Pulse(floorButton4).play();
+    }
+
+    @FXML
+    void animateFloor5() {
+        new Pulse(floorButton5).play();
+    }
+
+    @FXML
+    void animateFloor6() {
+        new Pulse(floorButton6).play();
+    }
+
+    @FXML
+    void animateFloor7() {
+        new Pulse(floorButton6).play();
+    }
+
+    @FXML
+    void animateFloorDown() {
+        new Pulse(downButton).play();
+    }
+
+    @FXML
+    void animateFloorUp() {
+        new Pulse(upButton).play();
+    }
+
+    @FXML
+    void animateZoomIn() {
         new Pulse(zoomInButton).play();
+    }
+
+    @FXML
+    void animateZoomOut() {
+        new Pulse(zoomOutButton).play();
     }
     //endregion
 }
