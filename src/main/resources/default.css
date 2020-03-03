@@ -113,17 +113,23 @@
 }
 
 
-.zoomers{
+.zoomers {
     -fx-background-color: white;
     -fx-border-color: gray;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
 }
 
-.zoomerSigns{
-     -fx-text-fill: black;
-     -fx-font-size: 65;
- }
+.zoomerBlack{
+    visibility: true;
+    -fx-font-size: 65;
+}
+
+.zoomerWhite{
+    visibility: false;
+    -fx-font-size: 65;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.5), 10, 0, 5, 5);
+}
 
 .header{
     -fx-border-color: black;

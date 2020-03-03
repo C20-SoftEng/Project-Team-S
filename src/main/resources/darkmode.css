@@ -62,7 +62,7 @@
 
 .startend {
     -fx-background-color: #B0B0B0;
-    -fx-border-color: #5C5C5C;
+    -fx-border-color: #CCCCCC;
     -fx-border-radius: 50;
     -fx-background-radius: 50;
 }
@@ -118,10 +118,15 @@
     -fx-border-color: #CCCCCC;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
-}
+  }
 
-  .zoomerSigns{
-      -fx-text-fill: white;
+  .zoomerBlack{
+         visibility: false;
+         -fx-font-size: 65;
+     }
+
+  .zoomerWhite{
+      visibility: true;
       -fx-font-size: 65;
   }
 

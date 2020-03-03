@@ -36,7 +36,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView id="brigham" fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
+                        <ImageView id="brigham" fitHeight="46.0" fitWidth="60.0" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Brigham_and_Womens_Hospital_logo.png" />
                            </image>
@@ -116,12 +116,12 @@
                         <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" hmax="2.0" hvalue="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" prefHeight="200.0" prefWidth="1072.0" vbarPolicy="NEVER" vvalue="0.5" StackPane.alignment="TOP_LEFT">
                            <content>
                               <ImageView fx:id="mapImage" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Floors/HospitalFloor2.png" />
-                                 </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <image>
+                                    <Image url="@../images/Floors/HospitalFloor2.png" />
+                                 </image>
                               </ImageView>
                            </content>
                         </ScrollPane>
@@ -246,10 +246,19 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <effect>
-                                                <DropShadow radius="18.552500000000002" width="55.21" />
+                                                <DropShadow />
                                              </effect>
                                              <graphic>
-                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerSigns" text="+" />
+                                                <StackPane>
+                                                   <children>
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="+">
+                                                         <effect>
+                                                            <InnerShadow blurType="GAUSSIAN" color="RED" height="0.0" radius="0.0" width="0.0" />
+                                                         </effect>
+                                                      </Text>
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="+" />
+                                                   </children>
+                                                </StackPane>
                                              </graphic>
                                           </JFXButton>
                                           <JFXButton fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" styleClass="zoomers" text="Zoom Out" VBox.vgrow="SOMETIMES">
@@ -270,10 +279,15 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <effect>
-                                                <DropShadow height="64.54" radius="29.4375" width="55.21" />
+                                                <DropShadow />
                                              </effect>
                                              <graphic>
-                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerSigns" text="-" />
+                                                <StackPane>
+                                                   <children>
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="-" />
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-" />
+                                                   </children>
+                                                </StackPane>
                                              </graphic>
                                           </JFXButton>
                                        </children>
