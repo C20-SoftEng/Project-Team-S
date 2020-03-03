@@ -2,22 +2,21 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,16 +25,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class MainScreenController implements Initializable {
     //region fields
@@ -69,6 +73,7 @@ public class MainScreenController implements Initializable {
         initHitboxes();
         initDirectorySidebar();
         initSearchComboBox();
+        initDirectoryPathfinding();
 
         scrollPane.setContent(group);
         try {
@@ -76,6 +81,10 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void clearPathDisplay() {
+        nodeSelector.reset();
     }
 
     private void initDirectorySidebar() {
@@ -170,7 +179,32 @@ public class MainScreenController implements Initializable {
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
 
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+        maintainScrollPosition(currentHval, currentVval);
+    }
+
+    private void maintainScrollPosition(double currentHval, double currentVval) {
+        int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .count();
+
+        if (nodesOnFloor == 0)
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+        else {
+            Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
+            double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
+            double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
+            keepCurrentPosition(hval, vval, zoomer);
+        }
+    }
+
+    private Vector2 findPathCentroid(Path path, int floor) {
+        List<Vector2> vertices = path.startToFinish().stream()
+                .filter(node -> node.getFloor() == floor)
+                .map(node -> new Vector2(node.getxCoordinate(), node.getyCoordinate()))
+                .collect(Collectors.toList());
+        return vertices.stream()
+                .reduce(Vector2.ZERO, Vector2::add)
+                .divide(vertices.size());
     }
 
     private Polygon createHitboxRenderingMask(Room room) {
@@ -220,33 +254,75 @@ public class MainScreenController implements Initializable {
     @FXML private TitledPane AccCONF;
     @FXML private TitledPane AccEXIT;
 
-    @FXML private ListView<String> deptList;
-    @FXML private ListView<String> servList;
-    @FXML private ListView<String> labList;
-    @FXML private ListView infoList;
-    @FXML private ListView shopList;
-    @FXML private ListView restRoomList;
-    @FXML private ListView confList;
-    @FXML private ListView exitList;
+    @FXML private ListView<LookupResult<NodeData>> deptList;
+    @FXML private ListView<LookupResult<NodeData>> servList;
+    @FXML private ListView<LookupResult<NodeData>> labList;
+    @FXML private ListView<LookupResult<NodeData>> infoList;
+    @FXML private ListView<LookupResult<NodeData>> shopList;
+    @FXML private ListView<LookupResult<NodeData>> restRoomList;
+    @FXML private ListView<LookupResult<NodeData>> confList;
+    @FXML private ListView<LookupResult<NodeData>> exitList;
 
 
-    //Lists of longNames
-    private ObservableList<String> deptLocs;
-    private ObservableList<String> servLocs;
-    private ObservableList<String> labLocs;
-    private ObservableList<String> infoLocs;
-    private ObservableList<String> shopLocs;
-    private ObservableList<String> restRoomLocs;
-    private ObservableList<String> confLocs;
-    private ObservableList<String> exitLocs;
+    //Lists of LookupResult of NodeData
+    private ObservableList<LookupResult<NodeData>> deptLocs;
+    private ObservableList<LookupResult<NodeData>> servLocs;
+    private ObservableList<LookupResult<NodeData>> labLocs;
+    private ObservableList<LookupResult<NodeData>> infoLocs;
+    private ObservableList<LookupResult<NodeData>> shopLocs;
+    private ObservableList<LookupResult<NodeData>> restRoomLocs;
+    private ObservableList<LookupResult<NodeData>> confLocs;
+    private ObservableList<LookupResult<NodeData>> exitLocs;
+
+    private void initDirectoryPathfinding(){
+        deptList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                }
+        );
+
+        servList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        labList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                   nodeSelector.onNodeClicked(current.value());
+                });
+
+        infoList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        shopList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        restRoomList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        confList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        exitList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+    }
 
     private void popDeptList(){
         deptLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
-            deptLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to depLocs");
+            deptLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         deptList.setItems(deptLocs);
     }
@@ -255,9 +331,8 @@ public class MainScreenController implements Initializable {
         servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
-        for(NodeData node : servNodes){
-            servLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to servLocs");
+        for (NodeData node : servNodes){
+            servLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         servList.setItems(servLocs);
     }
@@ -266,9 +341,8 @@ public class MainScreenController implements Initializable {
         labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
-        for(NodeData node : labNodes){
-            labLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to labLocs");
+        for (NodeData node : labNodes){
+            labLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         labList.setItems(labLocs);
     }
@@ -277,9 +351,8 @@ public class MainScreenController implements Initializable {
         infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
-        for(NodeData node : infoNodes){
-            infoLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to infoLocs");
+        for (NodeData node : infoNodes){
+            infoLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         infoList.setItems(infoLocs);
     }
@@ -288,9 +361,8 @@ public class MainScreenController implements Initializable {
         shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
-        for(NodeData node : shopNodes){
-            shopLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to shopLocs");
+        for (NodeData node : shopNodes){
+            shopLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         shopList.setItems(shopLocs);
     }
@@ -299,9 +371,8 @@ public class MainScreenController implements Initializable {
         restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
-        for(NodeData node : restRoomNodes){
-            restRoomLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to restRoomLocs");
+        for (NodeData node : restRoomNodes){
+            restRoomLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         restRoomList.setItems(restRoomLocs);
     }
@@ -310,9 +381,8 @@ public class MainScreenController implements Initializable {
         confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
-        for(NodeData node : confNodes){
-            confLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to confLocs");
+        for (NodeData node : confNodes){
+            confLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         confList.setItems(confLocs);
     }
@@ -321,9 +391,8 @@ public class MainScreenController implements Initializable {
         exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
-        for(NodeData node : exitNodes){
-            exitLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to exitLocs");
+        for (NodeData node : exitNodes){
+            exitLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         exitList.setItems(exitLocs);
     }
@@ -351,13 +420,18 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+    @FXML private void onViewThreeD() throws Exception {
+        if(nodeSelector.goal().isPresent()) {
+        ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText(), nodeSelector.goal());}
+    }
+
     @FXML private void onFloorClicked6() {
         floorSelector.setCurrent(6);
     }
     @FXML private void onFloorClicked7() {
         floorSelector.setCurrent(7);
     }
-    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
@@ -368,6 +442,9 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+            Settings.openWindows.add(window);
+            //Settings.openWindows.add(this.stage);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");
@@ -385,6 +462,7 @@ public class MainScreenController implements Initializable {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        //BaseScreen.puggy.changeTimeout(15000);
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
@@ -396,5 +474,7 @@ public class MainScreenController implements Initializable {
         WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
         SendTextDirectionsScreen.showDialog(wr.directions());
     }
+
+
     //endregion
 }

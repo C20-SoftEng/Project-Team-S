@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class EditHitboxTool implements IEditingTool {
     private static class UI {
         private final JFXTextField nameField;

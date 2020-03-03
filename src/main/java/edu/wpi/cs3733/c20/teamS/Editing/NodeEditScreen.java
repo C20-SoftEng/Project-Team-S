@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.c20.teamS.Editing;
 
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,6 +35,8 @@ public class NodeEditScreen {
     }
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 

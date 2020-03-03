@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PlaceVertexHandleVm;
-import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PreviewHitboxVm;
+import edu.wpi.cs3733.c20.teamS.Editing.viewModels.PreviewRoomVm;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
@@ -14,17 +14,19 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Stack;
+import java.util.function.Consumer;
 
 public final class AddRemoveRoomTool extends EditingTool {
     private final IEditableMap map;
     private final DisposableSelector<State> state = new DisposableSelector<>();
 
-    public AddRemoveRoomTool(IEditableMap map) {
+    public AddRemoveRoomTool(Consumer<Memento> mementoRunner, IEditableMap map) {
+        super(mementoRunner);
+
         if (map == null) ThrowHelper.illegalNull("map");
 
         this.map = map;
         state.setCurrent(new StandbyState());
-
         addAllSubs(
                 map.mapClicked().subscribe(e -> state.current().onMapClicked(e)),
                 map.mouseMoved().subscribe(e -> state.current().onMouseMoved(e)),
@@ -32,8 +34,7 @@ public final class AddRemoveRoomTool extends EditingTool {
         );
     }
 
-    @Override
-    protected final void onDispose() {
+    @Override protected final void onDispose() {
         state.current().dispose();
     }
 
@@ -54,17 +55,21 @@ public final class AddRemoveRoomTool extends EditingTool {
         @Override public void onRoomClicked(RoomClickedEvent data) {
             if (data.event().getButton() != MouseButton.SECONDARY)
                 return;
-            map.removeRoom(data.room().room());
+
+            execute(
+                    () -> map.removeRoom(data.room().room()),
+                    () -> map.addRoom(data.room().room())
+            );
         }
     }
 
     private final class PlacingState extends State {
-        private final PreviewHitboxVm preview;
+        private final PreviewRoomVm preview;
         private final Room room = new Room();
         private final Stack<PlaceVertexHandleVm> handles = new Stack<>();
 
         public PlacingState(double x, double y) {
-            preview = new PreviewHitboxVm(x, y);
+            preview = new PreviewRoomVm(x, y);
             pushVertex(x, y);
             pushVertex(x, y);
             map.addWidget(preview);
@@ -103,12 +108,14 @@ public final class AddRemoveRoomTool extends EditingTool {
 
             if (!handles.isEmpty()) {
                 handles.peek().setMouseTransparent(false);
+                handles.peek().setVisible(true);
                 handles.peek().setTranslateX(x);
                 handles.peek().setTranslateY(y);
             }
 
             PlaceVertexHandleVm handle = new PlaceVertexHandleVm(x, y);
             handle.setMouseTransparent(true);
+            handle.setVisible(false);
             RxAdaptors.eventStream(handle::setOnMouseClicked).subscribe(e -> onVertexHandleClicked(handle, e));
             handles.push(handle);
             map.addWidget(handle);
@@ -118,7 +125,11 @@ public final class AddRemoveRoomTool extends EditingTool {
                 return;
 
             event.consume();
-            map.addRoom(room);
+
+            execute(
+                    () -> map.addRoom(room),
+                    () -> map.removeRoom(room)
+            );
 
             state.setCurrent(new StandbyState());
         }

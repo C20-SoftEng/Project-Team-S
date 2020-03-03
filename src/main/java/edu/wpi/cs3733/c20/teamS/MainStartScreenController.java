@@ -62,7 +62,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     JFXButton screenButton;
     @FXML
-    JFXTextField weatherField;
+    Label weatherField;
     @FXML
     Label weatherSummary;
     @FXML
@@ -96,7 +96,7 @@ public class MainStartScreenController implements Initializable {
         WeatherBox weatherBox1 = new WeatherBox();
 
         weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " " +
-                "Degrees F");
+                "° F");
         weatherField.setStyle("-fx-font-size: 16px");
         weatherSummary.setText(weatherBox1.summary());
         //weatherSummary
@@ -128,9 +128,7 @@ public class MainStartScreenController implements Initializable {
             icon = "weatherIcons/ThunderStorm.png";
         }
 
-
         Image image = new Image(String.valueOf(getClass().getResource("/images/" + icon)));
-        //Image image = new Image(String.valueOf(getClass().getResource("/images/" + "weatherIcons/ThunderStorm.png")));
 
         imageID.setImage(image);
         imageID.setFitHeight(171);
@@ -138,15 +136,15 @@ public class MainStartScreenController implements Initializable {
         imageID.setPreserveRatio(false);
         Tweetbox tweetbox = new Tweetbox();
 
-        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
+        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(0));
         firstTweet.setStyle("-fx-text-fill: white");
-        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
+        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
         secondTweet.setStyle("-fx-text-fill: white");
-        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
+        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
         ThirdTweet.setStyle("-fx-text-fill: white");
-        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
+        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
         fourthTweet.setStyle("-fx-text-fill: white");
-        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(5));
+        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
         fifthTweet.setStyle("-fx-text-fill: white");
 
         ImageView tutorialView = new ImageView();
@@ -159,14 +157,14 @@ public class MainStartScreenController implements Initializable {
         tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
     }
 
-    MainStartScreenController() {
+    public MainStartScreenController() {
 
     }
 
     @FXML
     private void onScreenClicked(ActionEvent event) {
-        MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
-        maintolog.show();
+        //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        MainToLoginScreen.showDialog();
 
     }
 

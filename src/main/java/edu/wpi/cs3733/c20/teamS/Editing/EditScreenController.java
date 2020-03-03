@@ -2,8 +2,10 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreen;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.ActiveServiceRequestScreen;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
@@ -11,15 +13,14 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
-import edu.wpi.cs3733.c20.teamS.database.ServiceData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.Floor;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.AccessLevel;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,16 +31,18 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class EditScreenController implements Initializable {
+public class EditScreenController extends BaseScreen implements Initializable {
     //region fields
     private Stage stage;
     private Employee loggedIn;
@@ -47,45 +50,68 @@ public class EditScreenController implements Initializable {
     private ObservableGraph graph;
     private EditableMap editableMap;
     private DisposableSelector<EditingTool> toolSelector;
+    private final UndoBuffer undoBuffer = new UndoBuffer();
 
     private final DatabaseController database = new DatabaseController();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+
     //endregion
 
-    /**
-     *
-     * @param stage the stage to take over
-     * @param employee the employee that logged in
-     */
-    public EditScreenController(Stage stage, Employee employee) {
-        this.stage  = stage;
-        this.loggedIn = employee;
+    public EditScreenController() {
+        this.stage  = Settings.primaryStage;
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loggedInUserLabel.setText("Welcome " + loggedIn.name() + "!");
-        editPrivilegeBox.setVisible(loggedIn.accessLevel() == AccessLevel.ADMIN);
+        fakeInitialize();
+    }
+
+    public void fakeInitialize(){
+        loggedInUserLabel.setText("Welcome " + Settings.loggedIn.name() + "!");
+        editPrivilegeBox.setVisible(Settings.loggedIn.accessLevel() == AccessLevel.ADMIN);
 
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
-        if (hitboxRepo.canLoad())
+
+        if (hitboxRepo.canLoad()) {
+            rooms.clear();
             rooms.addAll(hitboxRepo.load());
+        }
+
         editableMap = new EditableMap(
                 database.loadGraph(),
                 floorSelector, rooms,
                 scrollPane, mapImage);
         graph = editableMap.graph();
         toolSelector = new DisposableSelector<>();
-        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
+        toolSelector.setCurrent(new AddEditRemoveNodeTool(undoBuffer::execute, editableMap));
         createPathfindingAlgorithmSelector();
         initEventHandlers();
         ExportToDirectoryController exportController = new ExportToDirectoryController(
                 directoryPathTextField, exportButton,
                 () -> editableMap.rooms()
         );
+        initUndoHotkeys();
     }
-
+    private void initUndoHotkeys() {
+        KeyCombination undoCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        KeyCombination redoCombo = new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN);
+        Runnable undo = () -> {
+            if (undoBuffer.canUndo())
+                undoBuffer.undo();
+        };
+        Runnable redo = () -> {
+            if (undoBuffer.canRedo())
+                undoBuffer.redo();
+        };
+        RxAdaptors.propertyStream(floorButton2.sceneProperty())
+                .subscribe(scene -> {
+                   System.out.println("Scene changed");
+                   scene.getAccelerators().put(undoCombo, undo);
+                   scene.getAccelerators().put(redoCombo, redo);
+                });
+    }
     private void initEventHandlers() {
         graph.nodeAdded().subscribe(database::addNode);
         graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
@@ -131,6 +157,7 @@ public class EditScreenController implements Initializable {
     @FXML private JFXButton zoomOutButton;
 
     @FXML private VBox editToolFieldsVBox;
+
     @FXML private JFXButton editEmpButton;
 
     @FXML private RadioButton astarRadioButton;
@@ -166,6 +193,7 @@ public class EditScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
+
     @FXML private void onFloorClicked6() {
         floorSelector.setCurrent(6);
     }
@@ -176,6 +204,7 @@ public class EditScreenController implements Initializable {
     @FXML private void onEditButtonPressed() {
         EmployeeEditingScreen.showDialog();
     }
+
     @FXML private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
@@ -214,8 +243,9 @@ public class EditScreenController implements Initializable {
         zoomInButton.setDisable(!editableMap.canZoomIn());
         zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
+
     @FXML private void onNewServiceClicked() {
-        SelectServiceScreen.showDialog(loggedIn);
+        SelectServiceScreen.showDialog(Settings.loggedIn);
     }
     @FXML private void onActiveServiceClicked() {
 //        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
@@ -232,20 +262,23 @@ public class EditScreenController implements Initializable {
     }
 
     @FXML private void onAddRemoveNodeClicked() {
-        toolSelector.setCurrent(new AddRemoveNodeTool(editableMap));
+        toolSelector.setCurrent(new AddEditRemoveNodeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onAddRemoveEdgeClicked() {
-        toolSelector.setCurrent(new AddRemoveEdgeTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveEdgeTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onAddRemoveHitboxClicked() {
-        toolSelector.setCurrent(new AddRemoveRoomTool(editableMap));
+        toolSelector.setCurrent(new AddRemoveRoomTool(undoBuffer::execute, editableMap));
     }
     @FXML private void onMoveNodeClicked() {
-        toolSelector.setCurrent(new MoveNodeTool(editableMap));
+        toolSelector.setCurrent(new MoveNodeTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onShowInfoClicked() {}
-    @FXML private void onEditRoomEntrancesClicked() {}
-
+    @FXML private void onEditRoomsClicked() {
+        toolSelector.setCurrent(new EditRoomTool(undoBuffer::execute, editableMap));
+    }
+    @FXML private void onAddElevatorsClicked() {
+        toolSelector.setCurrent(new AddElevatorTool(undoBuffer::execute, editableMap, Settings.get().floors()));
+    }
     @FXML private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())
             hitboxRepo.save(rooms);
@@ -259,6 +292,17 @@ public class EditScreenController implements Initializable {
     //endregion
 
     public void onLogOut() {
-        MainToLoginScreen back = new MainToLoginScreen(stage);
+        Settings.loggedIn = null;
+        new MainToLoginScreen();
     }
+
+    @FXML private JFXTextField timeOut;
+
+    @FXML private JFXButton saveTimeOut;
+
+    @FXML void onConfirmSaveTimeOut(ActionEvent event) {
+        BaseScreen.puggy.changeTimeout(Integer.parseInt(timeOut.getText()) * 1000);
+        System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
+    }
+
 }

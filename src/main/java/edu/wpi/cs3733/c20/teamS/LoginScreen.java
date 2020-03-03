@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS;
 
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
 import edu.wpi.cs3733.c20.teamS.twoFactor.TwoFactorScreen;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class LoginScreen{
     private final Stage stage;
@@ -28,11 +30,8 @@ public class LoginScreen{
             cont.dialogCompleted().subscribe(
                     next -> {
                         if(next.result()== DialogResult.OK){
-                            //Intercepthere
-                            //Scene twoFactorScene = new Scene();
-                            //stage.show
+                            //Intercept here
                             TwoFactorScreen mes = new TwoFactorScreen(toPass, next.value());
-
                         }
                         this.stage.close();
             });
@@ -46,10 +45,13 @@ public class LoginScreen{
         catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+
     }
 
     private void show() {
         stage.setScene(scene);
+        Settings.openWindows.add(this.stage);
+        BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }
 

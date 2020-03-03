@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.c20.teamS.utilities.rx;
 
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -54,7 +59,7 @@ public final class RxAdaptors {
      * @return An observable stream that pushes an event whenever the mouse enters or exits the ui element.
      * True is pushed whenever the mouse is over, false whenever it is not.
      */
-    public static ReadOnlyReactiveProperty<Boolean> createIsMouseOverStream(Node uiElement) {
+    public static ReadOnlyReactiveProperty<Boolean> createMouseOverStream(Node uiElement) {
         if (uiElement == null) ThrowHelper.illegalNull("uiElement");
 
         ReactiveProperty<Boolean> result = new ReactiveProperty<>(false);
@@ -62,5 +67,34 @@ public final class RxAdaptors {
         uiElement.setOnMouseExited(e -> result.setValue(false));
 
         return result.asReadOnly();
+    }
+
+    /**
+     * Creates an observable mouse-dragged event stream that reports the position in parent-coordinates.
+     * @param uiElement The ui element to create the mouse-dragged stream for.
+     * @return An observable stream that reports the mouse position in parent-coordinates.
+     */
+    public static Observable<Vector2> createMouseDraggedStream(Node uiElement) {
+        return eventStream(uiElement::setOnMouseDragged)
+                .map(e -> uiElement.localToParent(e.getX(), e.getY()))
+                .map(point -> new Vector2(point.getX(), point.getY()));
+    }
+
+    public static <T> Observable<SetChangeListener.Change<? extends T>> fromObservableSet(ObservableSet<T> set) {
+        if (set == null) ThrowHelper.illegalNull("set");
+
+        PublishSubject<SetChangeListener.Change<? extends T>> subject = PublishSubject.create();
+        set.addListener(subject::onNext);
+
+        return subject;
+    }
+
+    public static <T> Observable<ListChangeListener.Change<? extends T>> fromObservableList(ObservableList<T> list) {
+        if (list == null) ThrowHelper.illegalNull("list");
+
+        PublishSubject<ListChangeListener.Change<? extends T>> subject = PublishSubject.create();
+        list.addListener(subject::onNext);
+
+        return subject;
     }
 }

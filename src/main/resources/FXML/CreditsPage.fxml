@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="AboutMePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.CreditsPageController">
+   <children>
+      <ImageView fitHeight="799.0" fitWidth="762.0" layoutX="38.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../images/CreditsPage/CreditsPage4.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="goBackButton" alignment="CENTER" layoutX="556.0" layoutY="739.0" onAction="#GoBack" prefHeight="56.0" prefWidth="153.0" style="-fx-border-color: Black; -fx-border-radius: 5; -fx-background-color: #142492; -fx-background-radius: 5;" text="Go Back" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="739.0">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -103,7 +103,7 @@ public class WrittenInstructions {
                 instructions.add("Take The Elevator To Floor " + path.get(path.size()-1).getFloor() + ", Then Go Straight");
                 instructions.add("Floor" + path.get(path.size()-1).getFloor());
             }
-            if(instructions.isEmpty()){
+            if(instructions.size() == 1){
                 int pathSize = path.size();
                 int sub = pathSize-1;
 

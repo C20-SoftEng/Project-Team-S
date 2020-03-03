@@ -15,6 +15,7 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.FloorSelector;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MapZoomer;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -24,10 +25,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class EditableMap implements IEditableMap {
     private final ObservableGraph graph;
@@ -43,6 +42,11 @@ public class EditableMap implements IEditableMap {
     private final PartitionedParent<Integer, EdgeVm> edgePartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, RoomVm> roomPartition = new PartitionedParent<>();
     private final PartitionedParent<Integer, Node> auxiliaryPartition = new PartitionedParent<>();
+
+    private final ReactiveProperty<Boolean> showNodes = new ReactiveProperty<>(true);
+    private final ReactiveProperty<Boolean> showEdges = new ReactiveProperty<>(true);
+    private final ReactiveProperty<Boolean> showRooms = new ReactiveProperty<>(true);
+
 
     private final PublishSubject<NodeClickedEvent> nodeClicked = PublishSubject.create();
     private final PublishSubject<NodeClickedEvent> nodeDragged = PublishSubject.create();
@@ -77,10 +81,10 @@ public class EditableMap implements IEditableMap {
         floorSelector.currentChanged()
                 .subscribe(n -> {
                    mapImage.setImage(floorSelector.floor(n).image);
-                   nodePartition.setCurrentPartition(n);
-                   edgePartition.setCurrentPartition(n);
-                   roomPartition.setCurrentPartition(n);
-                   auxiliaryPartition.setCurrentPartition(n);
+                   nodePartition.showOnly(n);
+                   edgePartition.showOnly(n);
+                   roomPartition.showOnly(n);
+                   auxiliaryPartition.showOnly(n);
                    updateZoom();
                 });
         floorSelector.setCurrent(1);
@@ -148,8 +152,11 @@ public class EditableMap implements IEditableMap {
         onRoomRemoved(room);
         return true;
     }
-    public int selectedFloor() {
+    @Override public int selectedFloor() {
         return floorSelector.current();
+    }
+    @Override public void setSelectedFloor(int value) {
+        floorSelector.setCurrent(value);
     }
     public boolean isPannable() {
         return scrollPane.isPannable();
@@ -159,6 +166,99 @@ public class EditableMap implements IEditableMap {
     }
     public Set<Room> rooms() {
         return roomLookup.keySet();
+    }
+
+    /**
+     * Gets the view model used to render the specified node.
+     * @param node The node to get the view-model for.
+     * @return The view model that is rendering the specified node.
+     */
+    @Override
+    public NodeVm getNodeViewModel(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        return nodeLookup.get(node);
+    }
+
+    /**
+     * Gets the view model for the specified edge.
+     * @param edge The edge to get the view model for.
+     * @return The view model that is used to render the edge.
+     */
+    @Override
+    public EdgeVm getEdgeViewModel(EndpointPair<NodeData> edge) {
+        if (edge == null) ThrowHelper.illegalNull("edge");
+
+        return edgeLookup.get(edge);
+    }
+    /**
+     * Gets the view model for the specified room.
+     * @param room The room to get the view model for.
+     * @return The view model that is used to render the specified room.
+     */
+    @Override
+    public RoomVm getRoomViewModel(Room room) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
+        return roomLookup.get(room);
+    }
+
+    public Set<NodeVm> getNodesOnFloor(int floor) {
+        if (!nodePartition.containsKey(floor))
+            return Collections.emptySet();
+        return nodePartition.get(floor).children();
+    }
+    public Set<EdgeVm> getEdgesOnFloor(int floor) {
+        if (!edgePartition.containsKey(floor))
+            return Collections.emptySet();
+        return edgePartition.get(floor).children();
+    }
+    public Set<RoomVm> getRoomsOnFloor(int floor) {
+        if (!roomPartition.containsKey(floor))
+            return Collections.emptySet();
+        return roomPartition.get(floor).children();
+    }
+    @Override public Stream<NodeVm> nodeViewModels() {
+        return nodePartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public Stream<EdgeVm> edgeViewModels() {
+        return edgePartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public Stream<RoomVm> roomViewModels() {
+        return roomPartition.partitions().stream()
+                .map(partition -> partition.children())
+                .flatMap(Collection::stream);
+    }
+    @Override public void setNodesVisible(boolean value) {
+        nodePartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setNodesVisible(boolean value, int floor) {
+        if (!nodePartition.containsKey(floor))
+            return;
+        nodePartition.get(floor).group().setVisible(value);
+    }
+    @Override public void setEdgesVisible(boolean value) {
+        edgePartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setEdgesVisible(boolean value, int floor) {
+        if (!edgePartition.containsKey(floor))
+            return;
+        edgePartition.get(floor).group().setVisible(value);
+    }
+    @Override public void setRoomsVisible(boolean value) {
+        roomPartition.partitions()
+                .forEach(partition -> partition.group().setVisible(value));
+    }
+    @Override public void setRoomsVisible(boolean value, int floor) {
+        if (!roomPartition.containsKey(floor))
+            return;
+        roomPartition.get(floor).group().setVisible(value);
     }
 
     public Observable<NodeClickedEvent> nodeClicked() {

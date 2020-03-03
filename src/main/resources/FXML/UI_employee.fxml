@@ -105,7 +105,7 @@
                               <Font name="Bookshelf Symbol 7" size="16.0" />
                            </font>
                         </Label>
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -152,27 +152,26 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-
-                        <JFXRadioButton onAction="#onShowInfoClicked" text="Edit/Info Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomsClicked" text="Edit Rooms" toggleGroup="$editGroup">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" top="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomEntrancesClicked" text="Edit Room Entrances" toggleGroup="$editGroup">
+                        <JFXRadioButton layoutX="15.0" layoutY="178.0" onAction="#onAddElevatorsClicked" text="Add Elevators" toggleGroup="$editGroup">
                            <padding>
-                              <Insets left="5.0" top="5.0" />
+                              <Insets left="5.0" />
                            </padding>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <VBox.margin>
-                              <Insets left="5.0" top="5.0" />
+                              <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
                         <HBox alignment="TOP_CENTER" prefWidth="200.0" VBox.vgrow="SOMETIMES">
@@ -267,58 +266,88 @@
                   </VBox>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: gainsboro; -fx-background-radius: 5;" VBox.vgrow="SOMETIMES">
                      <children>
-                        <Label alignment="CENTER" prefHeight="26.0" prefWidth="242.0" text="Pathfinding Algorithms" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Label>
-                        <JFXRadioButton fx:id="astarRadioButton" text="A*">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="pathGroup" />
-                           </toggleGroup>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="djikstraRadioButton" layoutX="15.0" layoutY="46.0" text="Djikstra" toggleGroup="$pathGroup">
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="breadthFirstRadioButton" selected="true" text="Breadth First" toggleGroup="$pathGroup">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="depthFirstRadioButton" text="Depth First" toggleGroup="$pathGroup">
-                           <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXRadioButton>
+                        <HBox>
+                           <children>
+                              <VBox prefHeight="184.0" prefWidth="116.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="242.0" text="Pathfinding" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXRadioButton fx:id="astarRadioButton" text="A*">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="pathGroup" />
+                                       </toggleGroup>
+                                       <padding>
+                                          <Insets left="5.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="djikstraRadioButton" text="Djikstra" toggleGroup="$pathGroup">
+                                       <padding>
+                                          <Insets left="5.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="breadthFirstRadioButton" selected="true" text="Breadth First" toggleGroup="$pathGroup">
+                                       <padding>
+                                          <Insets left="5.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="depthFirstRadioButton" text="Depth First" toggleGroup="$pathGroup">
+                                       <padding>
+                                          <Insets left="5.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXRadioButton>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="176.0" prefWidth="123.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="242.0" text="Time Out" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="timeOut" promptText="Seconds">
+                                       <VBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <JFXButton fx:id="saveTimeOut" onAction="#onConfirmSaveTimeOut" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="5.0" />
@@ -370,14 +399,6 @@
                               <VBox maxHeight="1.7976931348623157E308" prefHeight="74.0" prefWidth="142.0" VBox.vgrow="ALWAYS" />
                               <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="142.0">
                                  <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.7" prefHeight="40.0" prefWidth="126.0" text="FLOOR">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="25.0" />
-                                       </VBox.margin>
-                                    </Label>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <JFXButton id="upButton" fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
