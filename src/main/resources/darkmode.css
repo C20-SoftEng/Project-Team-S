@@ -68,7 +68,7 @@
 }
 
 
-.switcheroo{ /*Switch box*/
+#switch{ /*Switch box*/
     -fx-background-color: #B0B0B0;
     -fx-border-color: #CCCCCC;
     -fx-background-radius: 20;
@@ -76,7 +76,7 @@
 
 }
 
-.switcheroo > #arrows{
+#arrows{
     -fx-image: url("images/Icons/swap_arrowsINV.png");
 }
 
@@ -97,9 +97,8 @@
 }
 
 .floors{
-    -fx-background-color: #CCCCCC;
-    -fx-text-fill: #fff;
-    -fx-border-color: #292929;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #CCC;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
@@ -113,7 +112,7 @@
 }
 
 
-.zoomers{
+#zoomer{
     -fx-background-color: #B0B0B0;
     -fx-border-color: #CCCCCC;
     -fx-background-radius: 50;
@@ -166,18 +165,53 @@
 }
 
 
-
-.titled-pane > *.content{
-    -fx-background-color: transparent;
+/*******************************************************************************
+ *                                                                             *
+ * TitledPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+.titled-pane {
+    -fx-text-fill: white;
 }
-
+.titled-pane:focused {
+    -fx-color: -fx-base;
+}
 .titled-pane > .title {
     -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f);
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 3 3 0 0, 2 2 0 0, 1 1 0 0;
+    -fx-padding: 0.3333em 0.75em 0.3333em 0.75em; /* 4 9 4 9 */
 }
-
+/* focus purely on the arrow */
+.titled-pane:focused > .title > .arrow-button > .arrow {
+    -fx-background-color: -fx-focus-color, -fx-mark-color;
+    -fx-background-insets: -1, 0;
+    -fx-effect: dropshadow(two-pass-box , -fx-focus-color, 5, 0.2 , 0, 0);
+}
+.titled-pane > .title > .arrow-button {
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.583em 0.0em 0.0em; /* 0 7 0 0 */
+}
 .titled-pane > .title > .arrow-button > .arrow {
     -fx-background-color: #fff;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
 }
+.titled-pane > .title:hover {
+    -fx-color: -fx-hover-base;
+}
+.titled-pane > *.content{
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-box-border;
+    -fx-border-insets: -1 0 0 0;
+}
+
+
+
+
 
 .list-cell:odd{
     -fx-background-color: #4c4c4c;
