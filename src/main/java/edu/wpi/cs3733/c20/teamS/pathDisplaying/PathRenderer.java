@@ -135,6 +135,7 @@ class PathRenderer {
         //directionLabel.setText("Directions");
         //JFXTextField space = new JFXTextField();
         //directoryBox.setVisible(false);
+
         for (int i = 0; i < instructions.size(); i++) {
             HBox imageHolder = new HBox();
             JFXTextArea text = new JFXTextArea();
@@ -147,8 +148,8 @@ class PathRenderer {
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
                 image.setImage(newImage);
 
-                image.setFitHeight(30);
-                image.setFitWidth(30);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
 //                image.setX(50);
 //                image.setY(-20);
                 image.setTranslateX(30);
@@ -160,8 +161,8 @@ class PathRenderer {
             else if(word.contains("Right")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(30);
-                image.setFitWidth(30);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
                 image.setTranslateX(30);
                 image.setTranslateY(4);
 
@@ -170,8 +171,8 @@ class PathRenderer {
             else if(word.contains("straight")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
                 image.setImage(newImage);
-                image.setFitHeight(30);
-                image.setFitWidth(30);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
                 image.setTranslateX(30);
                 image.setTranslateY(4);
 
@@ -181,8 +182,8 @@ class PathRenderer {
             else if(word.contains("Elevator")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(28);
-                image.setFitWidth(28);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
                 image.setTranslateX(28);
                 image.setTranslateY(5);
                 image.setPreserveRatio(false);
@@ -265,11 +266,11 @@ class PathRenderer {
             else if (text.getLength() >= 22){
                 text.setFont(Font.font ("System", 11));
                 text.setPrefHeight(30);
-                text.setTranslateX(35);
+                text.setTranslateX(33);
 
             }
             else {
-                text.setFont(Font.font ("System", 11));
+                text.setFont(Font.font ("System", 14));
                 text.setPrefHeight(30);
                 //text.setPref
                 //text.setTranslateX(30);
