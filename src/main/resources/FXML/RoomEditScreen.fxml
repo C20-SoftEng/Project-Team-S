@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.RoomEditController">
    <children>
       <JFXTextArea fx:id="descriptionTextArea" layoutX="233.0" layoutY="55.0" prefHeight="173.0" prefWidth="353.0" />
       <JFXTextField fx:id="nameTextField" layoutX="251.0" layoutY="14.0" prefHeight="25.0" prefWidth="335.0" />
       <JFXTextField fx:id="iconPathTextField" layoutX="233.0" layoutY="243.0" prefHeight="25.0" prefWidth="353.0" />
+      <JFXButton layoutX="534.0" layoutY="361.0" onAction="#onOKClicked" text="OK" />
+      <JFXButton layoutX="482.0" layoutY="361.0" onAction="#onCancelClicked" text="Cancel" />
    </children>
 </AnchorPane>

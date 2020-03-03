@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import com.sun.javafx.application.PlatformImpl;
-import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.applicationInitializer.ApplicationInitializer;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -22,8 +20,6 @@ public class Main extends Application {
         Settings.loggedIn = new Employee(0, "Default", AccessLevel.USER);
         Settings.primaryStage = primaryStage;
         new ApplicationInitializer(dbc).initBigFXMLs();
-
-
 
         switch (START_SCREEN) {
             case MAIN:
