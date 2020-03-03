@@ -73,6 +73,7 @@ public final class AddRemoveRoomTool extends EditingTool {
             pushVertex(x, y);
             pushVertex(x, y);
             map.addWidget(preview);
+            room.setFloor(map.selectedFloor());
         }
 
         @Override public void onMapClicked(MouseEvent event) {

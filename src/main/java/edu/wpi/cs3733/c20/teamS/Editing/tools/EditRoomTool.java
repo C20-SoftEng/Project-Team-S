@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
+import edu.wpi.cs3733.c20.teamS.Editing.RoomEditScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EditRoomVertexVm;
@@ -10,7 +11,9 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
+import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -102,7 +105,7 @@ public final class EditRoomTool extends EditingTool {
                     state.setCurrent(() -> new RoomSelectedState(data.room().room()));
                     break;
                 case SECONDARY:
-                    state.setCurrent(new StandbyState());
+                    state.setCurrent(new ShowDialogState(data.room().room()));
                     break;
             }
         }
@@ -167,6 +170,32 @@ public final class EditRoomTool extends EditingTool {
 
                 dragState = new NotDraggingState();
             }
+        }
+    }
+
+    private final class ShowDialogState extends State {
+        private final Stage stage;
+        private final Room room;
+        private final Disposable subscription;
+
+        public ShowDialogState(Room room) {
+            if (room == null) ThrowHelper.illegalNull("room");
+
+            this.room = room;
+            stage = new Stage();
+            subscription = showDialog();
+        }
+
+        @Override protected void onDispose() {
+            stage.close();
+            subscription.dispose();
+        }
+
+        private Disposable showDialog() {
+            return RoomEditScreen.showDialog(stage, room)
+                    .subscribe(e -> {
+                        state.setCurrent(new RoomSelectedState(room));
+                    });
         }
     }
 }

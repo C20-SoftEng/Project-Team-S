@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import com.sun.javafx.application.PlatformImpl;
-import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.Editing.MapEditingScreen;
 import edu.wpi.cs3733.c20.teamS.applicationInitializer.ApplicationInitializer;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
@@ -14,7 +12,7 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-    private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
+    private static final StartupScreen START_SCREEN = StartupScreen.MAIN;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
