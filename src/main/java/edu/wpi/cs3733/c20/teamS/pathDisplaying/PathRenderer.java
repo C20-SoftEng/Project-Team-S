@@ -274,6 +274,8 @@ class PathRenderer {
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);
 
+            displayBox.setVisible(true);
+
             directoryBox.setVisible(false);
         }
     }
