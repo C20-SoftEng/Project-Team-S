@@ -2,7 +2,12 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.*;
+import com.sun.javafx.application.PlatformImpl;
+import com.sun.javafx.css.StyleManager;
+import edu.wpi.cs3733.c20.teamS.LoginScreen;
+import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
+import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -14,6 +19,7 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -24,6 +30,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -53,13 +60,15 @@ public class MainScreenController implements Initializable {
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
 
     private boolean flip = true;
+    private boolean darkmode = false;
     //endregion
 
     public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-
         this.stage = stage;
     }
 
@@ -227,6 +236,7 @@ public class MainScreenController implements Initializable {
 
     //region ui widgets
     @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
@@ -238,6 +248,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -475,6 +486,31 @@ public class MainScreenController implements Initializable {
         SendTextDirectionsScreen.showDialog(wr.directions());
     }
 
+    @FXML private void onDarkModeClicked(){
+        if (darkmode){
+//            Application.setUserAgentStylesheet(null);
+//            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            stage.getScene().getStylesheets().add("default.css");
+            stage.getScene().getStylesheets().remove("darkmode.css");
+            darkmode = false;
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println("returned to light mode");
+            System.out.println(DarkModeButton.getScene().getStylesheets());
 
+        }
+        else {
+            stage.getScene().getStylesheets().add("darkmode.css");
+            stage.getScene().getStylesheets().remove("default.css");
+            darkmode = true;
+            //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
+            //DarkModeButton.getScene().getStylesheets().remove("default.css");
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println("changed to dark mode");
+            System.out.println(DarkModeButton.getScene().getStylesheets());
+
+        }
+    }
     //endregion
 }

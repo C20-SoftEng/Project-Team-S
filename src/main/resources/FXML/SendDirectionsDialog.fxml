@@ -50,6 +50,6 @@
          </cursor>
       </JFXButton>
       <JFXTextField fx:id="emailField" layoutX="82.0" layoutY="84.0" prefHeight="29.0" prefWidth="183.0" promptText="Enter Email" />
-      <JFXTextField fx:id="phoneNumberField" layoutX="82.0" layoutY="134.0" prefHeight="29.0" prefWidth="183.0" promptText="Enter Email" />
+      <JFXTextField fx:id="phoneNumberField" layoutX="82.0" layoutY="134.0" prefHeight="29.0" prefWidth="183.0" promptText="Enter Phone Number" />
     </children>
 </AnchorPane>
