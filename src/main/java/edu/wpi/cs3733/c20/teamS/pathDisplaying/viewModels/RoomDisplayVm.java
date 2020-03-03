@@ -15,6 +15,7 @@ public class RoomDisplayVm extends Parent {
     private static final Object UNIT = new Object();
     private final Room room;
     private final Polygon mask;
+    private final RoomPopupUI popup;
     private final ReadOnlyReactiveProperty<Boolean> isMouseOver;
     private final ReactiveProperty<Color> normalFillColor = new ReactiveProperty<>(Color.TRANSPARENT);
     private final ReactiveProperty<Color> highlightFillColor = new ReactiveProperty<>(
@@ -34,11 +35,27 @@ public class RoomDisplayVm extends Parent {
                 .forEach(vertex -> mask.getPoints().addAll(vertex.x(), vertex.y()));
         getChildren().add(mask);
 
+        popup = new RoomPopupUI(room);
+        popup.setVisible(false);
+        popup.setMouseTransparent(true);
+        getChildren().add(popup);
+
         isMouseOver = RxAdaptors.createMouseOverStream(this);
+
+        initEventHandlers();
+        updateHighlightState();
+    }
+
+    private void initEventHandlers() {
         isMouseOver.changed().map(huh -> UNIT)
                 .mergeWith(normalFillColor.changed())
                 .mergeWith(highlightFillColor.changed())
                 .subscribe(u -> updateHighlightState());
+
+        isMouseOver.changed()
+                .subscribe(huh -> {
+                    popup.setVisible(huh);
+                });
     }
 
     private void updateHighlightState() {
@@ -47,4 +64,6 @@ public class RoomDisplayVm extends Parent {
                 normalFillColor.value();
         mask.setFill(fill);
     }
+
+
 }

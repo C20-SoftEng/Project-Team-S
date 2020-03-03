@@ -11,10 +11,12 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.viewModels.RoomDisplayVm;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
 import javafx.application.Application;
@@ -31,8 +33,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -214,18 +214,25 @@ public class MainScreenController implements Initializable {
                 .divide(vertices.size());
     }
 
-    private Polygon createHitboxRenderingMask(Room room) {
-        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        Polygon polygon = room.toPolygon();
-        polygon.setTranslateY(-10);
-        polygon.setFill(invisible);
-        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
-        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
-        return polygon;
+//    private Polygon createHitboxRenderingMask(Room room) {
+//        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+//        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+//        Polygon polygon = room.toPolygon();
+//        polygon.setTranslateY(-10);
+//        polygon.setFill(invisible);
+//        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
+//        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
+//        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
+//        return polygon;
+//    }
+    private RoomDisplayVm createHitboxRenderingMask(Room room) {
+        RoomDisplayVm result = new RoomDisplayVm(room);
+        result.setTranslateY(result.getTranslateY() - 10);
+        RxAdaptors.eventStream(result::setOnMouseClicked)
+                .map(e -> result.localToParent(e.getX(), e.getY()))
+                .subscribe(point -> nodeSelector.onHitboxClicked(room, point.getX(), point.getY()));
+        return result;
     }
-
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);

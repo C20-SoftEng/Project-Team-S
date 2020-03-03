@@ -13,6 +13,8 @@ import java.util.HashSet;
 public final class Room {
     private int floor;
     private final ReactiveProperty<String> name = new ReactiveProperty<>("");
+    private final ReactiveProperty<String> description = new ReactiveProperty<>("");
+    private final ReactiveProperty<String> icon = new ReactiveProperty<>("");
     private final ObservableList<Vector2> vertices = FXCollections.observableArrayList();
     private final ObservableSet<String> touchingNodes = FXCollections.observableSet(new HashSet<>());
 
@@ -46,6 +48,24 @@ public final class Room {
     }
     public Observable<String> nameChanged() {
         return name.changed();
+    }
+    public String description() {
+        return description.value();
+    }
+    public void setDescription(String value) {
+        description.setValue(value);
+    }
+    public Observable<String> descriptionChanged() {
+        return description.changed();
+    }
+    public String icon() {
+        return icon.value();
+    }
+    public void setIcon(String value) {
+        icon.setValue(value);
+    }
+    public Observable<String> iconChanged() {
+        return icon.changed();
     }
     public ObservableList<Vector2> vertices() {
         return vertices;

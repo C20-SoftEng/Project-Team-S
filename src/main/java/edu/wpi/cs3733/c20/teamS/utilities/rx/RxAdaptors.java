@@ -21,6 +21,7 @@ import java.util.function.Consumer;
  * Contains adaptor methods for using RX streams with other systems, such as JavaFX events and properties.
  */
 public final class RxAdaptors {
+    public static final Object UNIT = new Object();
     private RxAdaptors() {}
 
     public static <T> Observable<T> propertyStream(ReadOnlyProperty<T> property) {
