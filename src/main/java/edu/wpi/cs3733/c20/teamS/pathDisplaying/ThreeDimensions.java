@@ -394,7 +394,7 @@ public class ThreeDimensions extends Application {
         stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
 
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
-        imageView.setTranslateZ(imageView.getTranslateZ() + zplace.get(begin.getFloor()));
+       // imageView.setTranslateZ(imageView.getTranslateZ() + zplace.get(begin.getFloor()));
         dest.setTranslateZ(dest.getTranslateZ() + zplace.get(begin.getFloor()));
 
         AnchorPane globalRoot = new AnchorPane();
@@ -408,7 +408,7 @@ public class ThreeDimensions extends Application {
         globalRoot.setStyle("-fx-background-color: #8f8f8f");
 
         SubScene sub = new SubScene
-                (group, WIDTH - 192 - 49, 632, false, SceneAntialiasing.BALANCED);
+                (group, WIDTH - 192 - 49, 632, true, SceneAntialiasing.BALANCED);
         sub.setCamera(camera);
         sub.setFill(Color.web("#8f8f8f"));
         mouseControl(group, sub, primaryStage, numberGroup);
@@ -470,7 +470,7 @@ public class ThreeDimensions extends Application {
 //        }));
 //        timeline.setCycleCount(Animation.INDEFINITE);
 //        timeline.play();
-//        timeline.setRate(2);
+//        timeline.setRate(1);
     }
 
     private MeshView[] loadModel(URL url) {
@@ -557,6 +557,7 @@ public class ThreeDimensions extends Application {
     private Box floorNumbers(Image number, Image brightNumber, int z, boolean selected) {
         PhongMaterial material = new PhongMaterial();
         //if(selected) {material.setDiffuseMap(brightNumber);}
+        //if(selected) {material.setDiffuseMap(brightNumber);}
        // else {material.setDiffuseMap(number);}
         material.setDiffuseMap(number);
         floorAddress.add(material.getDiffuseMap().toString());
@@ -571,12 +572,14 @@ public class ThreeDimensions extends Application {
     }
 
     private void mouseControl(RotateGroup group, SubScene scene, Stage stage, RotateGroup numberGroup) {
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
+        stage.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
             oldX = mouseEvent.getX();
             oldY = mouseEvent.getY();
+            System.out.println("mouse pressed");
         });
 
-        scene.setOnMouseDragged(event -> {
+        stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
+            System.out.println("mouse dragged");
             if(event.isPrimaryButtonDown() && !event.isControlDown()) {
                 if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2);}
                 else {group.setTranslateY(group.getTranslateY() - 2);}
