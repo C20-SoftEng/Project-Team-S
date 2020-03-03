@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.emergency;
 
+import edu.wpi.cs3733.c20.teamS.Settings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,16 +10,12 @@ import java.io.IOException;
 
 public class EmergencyScreen {
 
-    private Stage stage;
     private Scene scene;
 
-    public EmergencyScreen(Stage stage){
-        this.stage = stage;
-        this.scene = stage.getScene();
-
+    public EmergencyScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/EmergencyAlert.fxml"));
         loader.setControllerFactory(c -> {
-            EmergencyController controller = new EmergencyController(stage);
+            EmergencyController controller = new EmergencyController(Settings.primaryStage);
             return controller;
         });
         try {
@@ -39,8 +36,7 @@ public class EmergencyScreen {
     }
 
     public void show() {
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
+        Settings.primaryStage.setScene(scene);
+        Settings.primaryStage.show();
     }
 }
