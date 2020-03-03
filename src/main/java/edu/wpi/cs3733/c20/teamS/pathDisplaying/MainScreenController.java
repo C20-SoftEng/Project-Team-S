@@ -512,8 +512,6 @@ public class MainScreenController implements Initializable {
 //            stage.getScene().getStylesheets().add("darkmode.css");
 //            stage.getScene().getStylesheets().remove("default.css");
             darkmode = true;
-            //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
-            //DarkModeButton.getScene().getStylesheets().remove("default.css");
             //set image to light mode button
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");
