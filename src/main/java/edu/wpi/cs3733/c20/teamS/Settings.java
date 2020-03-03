@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
@@ -42,6 +43,10 @@ public final class Settings {
     public int editEdgeStrokeWidth() {
         return 5;
     }
+
+
+    public NodeData currentLocation = new NodeData("currentLocation",1480.0,1145.0,2, "Hospital", "Marker", "currentLocation", "CL1");
+
 
     /**
      * Whether to should use the node-placing tool that doesn't require a dialog interaction.

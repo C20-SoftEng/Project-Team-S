@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.animation.PathTransition;
@@ -16,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -24,20 +22,20 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
+
 class PathRenderer {
 
 
-    public Group drawIndicator(double x, double y) throws Exception{
+    public Group drawIndicator(NodeData node ) throws Exception{
 
-        if(x == 0 && y == 0){
-            throw new IllegalArgumentException("coordinates");
-        }
+        if(node == null)ThrowHelper.illegalNull("path");
         Group group = new Group();
 
         ImageView pinIcon = new ImageView();
         pinIcon.setImage(new Image("images/instructions/YAH.png"));
-        pinIcon.setX(x-80);
-        pinIcon.setY(y + 5);
+        pinIcon.setX(node.getxCoordinate()-80);
+        pinIcon.setY(node.getyCoordinate() + 5);
         pinIcon.setPreserveRatio(true);
         pinIcon.setFitWidth(75);
 

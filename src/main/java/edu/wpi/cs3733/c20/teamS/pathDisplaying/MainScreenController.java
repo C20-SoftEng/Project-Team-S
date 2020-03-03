@@ -4,14 +4,14 @@ import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c20.teamS.LoginScreen;
 import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.*;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
@@ -25,19 +25,19 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 public class MainScreenController implements Initializable {
     //region fields
@@ -226,7 +226,7 @@ public class MainScreenController implements Initializable {
 //        System.out.println("in draw function");
 //        System.out.println(floorSelector.current());
 
-        Group pathGroup = renderer.drawIndicator(1480.0, 1145.0);
+        Group pathGroup = renderer.drawIndicator(Settings.get().currentLocation);
         group.getChildren().add(pathGroup);
 
         rooms.stream()
