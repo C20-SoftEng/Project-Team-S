@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.utilities.SendEmailDirectionsThread;
 import edu.wpi.cs3733.c20.teamS.utilities.SendTextDirectionsThread;
 import javafx.event.Event;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 public class SendTextDirectionsScreen {
 
@@ -53,6 +51,7 @@ public class SendTextDirectionsScreen {
 
     public static void showDialog(List<String> directions) {
         SendTextDirectionsScreen screen = new SendTextDirectionsScreen(directions);
+        screen.show();
     }
 
     public void runEmailThread(List<String> directions, String email){
