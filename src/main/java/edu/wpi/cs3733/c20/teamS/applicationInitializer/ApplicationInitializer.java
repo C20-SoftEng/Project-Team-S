@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
-import edu.wpi.cs3733.c20.teamS.utilities.FireThread;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
