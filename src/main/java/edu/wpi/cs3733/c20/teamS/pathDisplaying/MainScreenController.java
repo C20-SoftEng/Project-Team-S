@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.sun.javafx.application.PlatformImpl;
 import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.*;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
@@ -19,7 +18,6 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -49,7 +47,6 @@ import java.util.stream.StreamSupport;
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    //private IPathfinder pathfinder;
     private PathRenderer renderer;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
@@ -83,11 +80,7 @@ public class MainScreenController implements Initializable {
         initDirectoryPathfinding();
 
         scrollPane.setContent(group);
-        try {
-            redraw();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        redraw();
     }
 
     public void clearPathDisplay() {
@@ -104,7 +97,6 @@ public class MainScreenController implements Initializable {
         popConfList();
         popExitList();
     }
-
     private void initNodeSelector() {
         nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
         nodeSelector.pathChanged().subscribe(path -> {
@@ -122,16 +114,13 @@ public class MainScreenController implements Initializable {
                     location2.setText(text);
                 });
     }
-
     private void initHitboxes() {
         rooms.addAll(hitboxRepo.load());
     }
-
     private void initGraph() {
         DatabaseController database = new DatabaseController();
         graph = database.loadGraph();
     }
-
     private void initFloorSelector() {
         floorSelector = new FloorSelector(
                 upButton, downButton,
@@ -160,15 +149,13 @@ public class MainScreenController implements Initializable {
                             .divide(Math.max(1, room.vertices().size()));
                     floorSelector.setCurrent(room.floor());
                     nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
-
                 });
     }
-
     private IPathfinder pathfinder() {
         return Settings.get().pathfinder();
     }
 
-    private void redraw() throws Exception {
+    private void redraw() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
@@ -188,7 +175,6 @@ public class MainScreenController implements Initializable {
 
         maintainScrollPosition(currentHval, currentVval);
     }
-
     private void maintainScrollPosition(double currentHval, double currentVval) {
         int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
                 .filter(node -> node.getFloor() == floorSelector.current())
@@ -203,7 +189,6 @@ public class MainScreenController implements Initializable {
             keepCurrentPosition(hval, vval, zoomer);
         }
     }
-
     private Vector2 findPathCentroid(Path path, int floor) {
         List<Vector2> vertices = path.startToFinish().stream()
                 .filter(node -> node.getFloor() == floor)
@@ -213,18 +198,6 @@ public class MainScreenController implements Initializable {
                 .reduce(Vector2.ZERO, Vector2::add)
                 .divide(vertices.size());
     }
-
-//    private Polygon createHitboxRenderingMask(Room room) {
-//        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-//        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-//        Polygon polygon = room.toPolygon();
-//        polygon.setTranslateY(-10);
-//        polygon.setFill(invisible);
-//        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
-//        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-//        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
-//        return polygon;
-//    }
     private RoomDisplayVm createHitboxRenderingMask(Room room) {
         RoomDisplayVm result = new RoomDisplayVm(room);
         result.setTranslateY(result.getTranslateY() - 10);
@@ -278,9 +251,10 @@ public class MainScreenController implements Initializable {
     @FXML private ListView<LookupResult<NodeData>> restRoomList;
     @FXML private ListView<LookupResult<NodeData>> confList;
     @FXML private ListView<LookupResult<NodeData>> exitList;
+    //endregion
 
 
-    //Lists of LookupResult of NodeData
+    //region sidebar directory
     private ObservableList<LookupResult<NodeData>> deptLocs;
     private ObservableList<LookupResult<NodeData>> servLocs;
     private ObservableList<LookupResult<NodeData>> labLocs;
@@ -293,9 +267,9 @@ public class MainScreenController implements Initializable {
     private void initDirectoryPathfinding(){
         deptList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
-                    nodeSelector.onNodeClicked(current.value());
-                }
-        );
+                            nodeSelector.onNodeClicked(current.value());
+                        }
+                );
 
         servList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
@@ -304,7 +278,7 @@ public class MainScreenController implements Initializable {
 
         labList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
-                   nodeSelector.onNodeClicked(current.value());
+                    nodeSelector.onNodeClicked(current.value());
                 });
 
         infoList.getSelectionModel().selectedItemProperty()
@@ -342,7 +316,6 @@ public class MainScreenController implements Initializable {
         }
         deptList.setItems(deptLocs);
     }
-
     private void popServList(){
         servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -352,7 +325,6 @@ public class MainScreenController implements Initializable {
         }
         servList.setItems(servLocs);
     }
-
     private void popLabList(){
         labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -362,7 +334,6 @@ public class MainScreenController implements Initializable {
         }
         labList.setItems(labLocs);
     }
-
     private void popInfoList(){
         infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -372,7 +343,6 @@ public class MainScreenController implements Initializable {
         }
         infoList.setItems(infoLocs);
     }
-
     private void popShopList(){
         shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -382,7 +352,6 @@ public class MainScreenController implements Initializable {
         }
         shopList.setItems(shopLocs);
     }
-
     private void popRestRoomList(){
         restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -392,7 +361,6 @@ public class MainScreenController implements Initializable {
         }
         restRoomList.setItems(restRoomLocs);
     }
-
     private void popConfList(){
         confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
@@ -402,7 +370,6 @@ public class MainScreenController implements Initializable {
         }
         confList.setItems(confLocs);
     }
-
     private void popExitList(){
         exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();

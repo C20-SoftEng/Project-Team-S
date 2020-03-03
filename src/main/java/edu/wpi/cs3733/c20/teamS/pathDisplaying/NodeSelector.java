@@ -104,13 +104,13 @@ final class NodeSelector {
         }
     }
     private final class NoSelectionState extends State {
-        @Override
-        public void onRoomClicked(Room room, double x, double y) {
+        @Override public void onRoomClicked(Room room, double x, double y) {
             NodeData fakeStart = createFakeNode(x, y);
             onEndpointClicked(fakeStart, room);
         }
         @Override public void onNodeClicked(NodeData node) {
             Room room = new Room();
+            room.setName(node.getLongName());
             room.touchingNodes().add(node.getNodeID());
             onEndpointClicked(node, room);
         }
@@ -155,6 +155,7 @@ final class NodeSelector {
             if (node == null) ThrowHelper.illegalNull("node");
 
             Room room = new Room();
+            room.setName(node.getLongName());
             room.touchingNodes().add(node.getNodeID());
             onRoomClicked(room, node.getxCoordinate(), node.getyCoordinate());
         }
