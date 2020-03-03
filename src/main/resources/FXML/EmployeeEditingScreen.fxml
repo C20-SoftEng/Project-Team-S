@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.EmployeeEditingScreenController">
     <children>
@@ -15,23 +16,26 @@
                     <children>
                         <TableView fx:id="employeeTable" editable="true" layoutX="14.0" prefHeight="340.0" prefWidth="940.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0">
                             <columns>
-                                <TableColumn fx:id="employeeIDCol" prefWidth="87.33334350585938" text="Employee ID" />
-                                <TableColumn fx:id="usernameCol" minWidth="0.0" prefWidth="69.33331298828125" text="Username" />
-                                <TableColumn fx:id="passwordCol" prefWidth="68.0" text="Password" />
-                                <TableColumn fx:id="accessLevelCol" prefWidth="84.33331298828125" text="AccessLevel" />
-                                <TableColumn fx:id="firstNameCol" prefWidth="79.0" text="Firstname" />
-                        <TableColumn fx:id="lastNameCol" prefWidth="66.66668701171875" text="Lastname" />
-                        <TableColumn fx:id="phoneNumberCol" prefWidth="118.33331298828125" text="Phone Number" />
+                                <TableColumn id="table" fx:id="employeeIDCol" prefWidth="87.33334350585938" text="Employee ID" />
+                                <TableColumn id="table" fx:id="usernameCol" minWidth="0.0" prefWidth="69.33331298828125" text="Username" />
+                                <TableColumn id="table" fx:id="passwordCol" prefWidth="68.0" text="Password" />
+                                <TableColumn id="table" fx:id="accessLevelCol" prefWidth="84.33331298828125" text="AccessLevel" />
+                                <TableColumn id="table" fx:id="firstNameCol" prefWidth="79.0" text="Firstname" />
+                        <TableColumn id="table" fx:id="lastNameCol" prefWidth="66.66668701171875" text="Lastname" />
+                        <TableColumn id="table" fx:id="phoneNumberCol" prefWidth="118.33331298828125" text="Phone Number" />
                             </columns>
                         </TableView>
                     </children>
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <JFXButton id="tablebuttons" buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onDeleteClicked" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-        <Label layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="           Employees" textAlignment="CENTER" />
-        <JFXButton id="tablebuttons" fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
-      <JFXButton id="tablebuttons" fx:id="addEmployeeButton" layoutX="457.0" layoutY="362.0" onAction="#onAddClicked" prefHeight="25.0" prefWidth="57.0" text="Add " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="86.0" />
-      <JFXButton id="tablebuttons" fx:id="showCapabilitiesButton" layoutX="187.0" layoutY="379.0" onAction="#onShowCapabilitiesClicked" prefHeight="25.0" prefWidth="186.0" text="Show Capabilities" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="187.0" />
+        <JFXButton id="secondaryButtons" buttonType="RAISED" layoutX="264.0" layoutY="389.0" onAction="#onDeleteClicked" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+        <Label layoutX="228.0" layoutY="14.0" prefHeight="15.0" prefWidth="147.0" text="           Employees" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+        <JFXButton id="secondaryButtons" fx:id="cancelButton" buttonType="RAISED" cancelButton="true" layoutX="274.0" layoutY="399.0" onAction="#onCancelClicked" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+      <JFXButton id="secondaryButtons" fx:id="addEmployeeButton" layoutX="457.0" layoutY="362.0" onAction="#onAddClicked" prefHeight="25.0" prefWidth="57.0" text="Add " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="86.0" />
+      <JFXButton id="secondaryButtons" fx:id="showCapabilitiesButton" layoutX="187.0" layoutY="379.0" onAction="#onShowCapabilitiesClicked" prefHeight="25.0" prefWidth="186.0" text="Show Capabilities" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="187.0" />
     </children>
 </AnchorPane>

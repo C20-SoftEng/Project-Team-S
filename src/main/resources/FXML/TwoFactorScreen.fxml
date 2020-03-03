@@ -25,7 +25,7 @@
             <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
         </items>
       </MenuButton>
-      <JFXButton fx:id="sendButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="269.0" layoutY="104.0" onAction="#onSendClicked" prefHeight="31.0" prefWidth="106.0" ripplerFill="BLACK" styleClass="secondaryButtons" text="Generate Code" textAlignment="CENTER">
+      <JFXButton id="secondaryButtons" fx:id="sendButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="269.0" layoutY="104.0" onAction="#onSendClicked" prefHeight="31.0" prefWidth="106.0" ripplerFill="BLACK" text="Generate Code" textAlignment="CENTER">
          <font>
             <Font size="13.0" />
          </font>
@@ -38,7 +38,7 @@
                 <Font size="13.0" />
             </font>
         </JFXPasswordField>
-        <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" layoutX="85.0" layoutY="236.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" styleClass="secondaryButtons" text="Cancel" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="80.0">
+        <JFXButton id="secondaryButtons" fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" layoutX="85.0" layoutY="236.0" onAction="#onCancelClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" text="Cancel" textAlignment="CENTER" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="80.0">
             <font>
                 <Font size="13.0" />
             </font>

@@ -116,217 +116,210 @@
                               </ImageView>
                            </content>
                         </ScrollPane>
-                        <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" StackPane.alignment="BOTTOM_LEFT">
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="500.0" prefWidth="142.0" StackPane.alignment="BOTTOM_LEFT">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin>
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="109.0" prefWidth="142.0" VBox.vgrow="ALWAYS" />
-                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
+                              <VBox maxHeight="1.7976931348623157E308" prefHeight="68.0" prefWidth="142.0" VBox.vgrow="ALWAYS" />
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <JFXButton fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
-                                             <graphic>
-                                                <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../images/Icons/uparrow.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" styleClass="floors" text="7" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" styleClass="floors" text="5" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" styleClass="floors" text="4" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" styleClass="floors" text="3" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#ffffffcc" style="-fx-background-color: grey;" styleClass="floors" text="2" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </JFXButton>
-                                          <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" styleClass="floors" text="1" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </JFXButton>
-                                          <JFXButton fx:id="downButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" VBox.vgrow="ALWAYS">
-                                             <graphic>
-                                                <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../images/Icons/downarrow.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </VBox.margin>
-                                          </JFXButton>
-                                       </children>
+                                    <JFXButton fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
+                                       <graphic>
+                                          <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Icons/uparrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                        </VBox.margin>
-                                    </VBox>
-                                    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="153.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <JFXButton id="zoomer" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" text="Zoom In" VBox.vgrow="SOMETIMES">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <effect>
-                                                <DropShadow radius="18.552500000000002" width="55.21" />
-                                             </effect>
-                                             <graphic>
-                                                <StackPane>
-                                                   <children>
-                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="+" />
-                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="+" />
-                                                   </children>
-                                                </StackPane>
-                                             </graphic>
-                                          </JFXButton>
-                                          <JFXButton id="zoomer" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" text="Zoom Out" VBox.vgrow="SOMETIMES">
-                                             <graphic>
-                                                <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../images/Icons/Mag_Out_Icon.png" />
-                                                   </image>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                             </graphic>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <effect>
-                                                <DropShadow height="64.54" radius="29.4375" width="55.21" />
-                                             </effect>
-                                             <graphic>
-                                                <StackPane prefHeight="150.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="-" />
-                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-" />
-                                                   </children>
-                                                </StackPane>
-                                             </graphic>
-                                          </JFXButton>
-                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton5" fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" styleClass="floors" text="7" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                        <VBox.margin>
-                                          <Insets top="40.0" />
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                        </VBox.margin>
-                                    </VBox>
-                                    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="142.0">
-                                       <children>
-                                          <JFXButton fx:id="viewThreeD" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onViewThreeD" style="-fx-background-radius: 100;" text="3DModel">
-                                             <graphic>
-                                                <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../images/Icons/3dglasses.png" />
-                                                   </image>
-                                                   <effect>
-                                                      <DropShadow height="24.11" radius="11.555" width="24.11" />
-                                                   </effect>
-                                                </ImageView>
-                                             </graphic>
-                                             <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
-                                             </cursor>
-                                             <font>
-                                                <Font name="System Bold" size="24.0" />
-                                             </font>
-                                          </JFXButton>
-                                       </children>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                        </VBox.margin>
-                                    </VBox>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton5" fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" styleClass="floors" text="5" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton4" fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" styleClass="floors" text="4" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton3" fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" styleClass="floors" text="3" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton2" fx:id="floorButton2" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onFloorClicked2" ripplerFill="#ffffffcc" style="-fx-background-color: grey;" styleClass="floors" text="2" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton id="floorButton1" fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" styleClass="floors" text="1" VBox.vgrow="SOMETIMES">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="22.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="downButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onDownClicked" VBox.vgrow="ALWAYS">
+                                       <graphic>
+                                          <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Icons/downarrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
                                  <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="98.0" prefHeight="153.0" prefWidth="98.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXButton id="zoomer" fx:id="zoomInButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomInClicked" onMouseClicked="#onZoomInClicked" prefHeight="69.0" prefWidth="69.0" text="Zoom In" VBox.vgrow="SOMETIMES">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow radius="18.552500000000002" width="55.21" />
+                                       </effect>
+                                       <graphic>
+                                          <StackPane>
+                                             <children>
+                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="+" />
+                                                <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="+" />
+                                             </children>
+                                          </StackPane>
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="zoomer" fx:id="zoomOutButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onZoomOutClicked" onMouseClicked="#onZoomOutClicked" prefHeight="69.0" prefWidth="69.0" text="Zoom Out" VBox.vgrow="SOMETIMES">
+                                       <graphic>
+                                          <ImageView fitHeight="68.0" fitWidth="54.0" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Icons/Mag_Out_Icon.png" />
+                                             </image>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow height="64.54" radius="29.4375" width="55.21" />
+                                       </effect>
+                                       <graphic>
+                                          <StackPane prefHeight="150.0" prefWidth="200.0">
+                                             <children>
+                                                <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="-" />
+                                                <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-" />
+                                             </children>
+                                          </StackPane>
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                                 <opaqueInsets>
                                     <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="142.0">
+                                 <children>
+                                    <JFXButton fx:id="viewThreeD" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onViewThreeD" style="-fx-background-radius: 100;" text="3DModel">
+                                       <graphic>
+                                          <ImageView fitHeight="75.0" fitWidth="75.0" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Icons/3dglasses.png" />
+                                             </image>
+                                             <effect>
+                                                <DropShadow height="24.11" radius="11.555" width="24.11" />
+                                             </effect>
+                                          </ImageView>
+                                       </graphic>
+                                       <cursor>
+                                          <Cursor fx:constant="OPEN_HAND" />
+                                       </cursor>
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </VBox>
                            </children>
@@ -403,7 +396,7 @@
                         <VBox fx:id="instructionVBox" maxHeight="1.7976931348623157E308" minHeight="1.0" prefHeight="829.0" prefWidth="253.0" VBox.vgrow="SOMETIMES" />
                         <VBox alignment="TOP_CENTER" prefHeight="355.0" prefWidth="253.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton fx:id="toDirectoryButton" onAction="#onToDirectoryClicked" prefHeight="42.0" prefWidth="161.0" styleClass="buttons" text="Return to Directory" />
+                              <JFXButton id="buttons" fx:id="toDirectoryButton" onAction="#onToDirectoryClicked" prefHeight="42.0" prefWidth="161.0" text="Return to Directory" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -414,7 +407,7 @@
                         </VBox>
                         <VBox alignment="BOTTOM_CENTER" prefHeight="81.0" prefWidth="253.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onTextClicked" styleClass="buttons" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
+                              <JFXButton id="buttons" alignment="CENTER" buttonType="RAISED" onAction="#onTextClicked" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
