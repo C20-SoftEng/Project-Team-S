@@ -49,6 +49,10 @@ public class Main extends Application {
 
     //9003,staff,staff,2,Wilson,Wong
     public static void main(String[] args) {
+
         App.launch();
     }
-}
+
+
+    }
+

@@ -7,6 +7,7 @@ import com.google.common.graph.MutableGraph;
 import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
 import edu.wpi.cs3733.c20.teamS.MainStartScreenController;
+import edu.wpi.cs3733.c20.teamS.SerialPoller;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
@@ -36,6 +37,8 @@ public class ApplicationInitializer {
         }
         this.controller = controller;
         this.graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+        //SerialPoller.initSensor();
+
     }
 
     public MutableGraph<NodeData> graph(){
