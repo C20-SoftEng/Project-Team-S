@@ -7,6 +7,8 @@
     -fx-text-fill: #ffffff;
 }
 
+
+
 #brigham {
     -fx-image: url("images/Icons/Brigham_and_Womens_Hospital_logo.png");
 }
@@ -51,6 +53,7 @@
     -fx-border-color: gray;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
+    -fx-text-fill: black;
 }
 
 .searchbar{
