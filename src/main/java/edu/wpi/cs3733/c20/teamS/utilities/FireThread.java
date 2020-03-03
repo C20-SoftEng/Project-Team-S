@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c20.teamS.utilities;
 
+import edu.wpi.cs3733.c20.teamS.FireWatch;
+import edu.wpi.cs3733.c20.teamS.emergency.EmergencyScreen;
 import gnu.io.NRSerialPort;
+import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -11,8 +14,9 @@ public class FireThread extends Thread{
     int floor;
     public FireThread(int floor){
         this.floor = floor;
+        this.fw = new FireWatch();
     }
-
+    FireWatch fw;
     @Override
     public void run() {
 
@@ -33,7 +37,7 @@ public class FireThread extends Thread{
             byte[] fireBall = new byte[2];
 
             //int b = ins.read();
-            while(ins.available() > 0){
+            while(true){
                 Thread.sleep (200);
                 ins.read(fireBall);
                 //System.out.println(ByteBuffer.wrap(fireBall).getChar());
@@ -43,11 +47,15 @@ public class FireThread extends Thread{
                     break;
                 }
             }
+            //fw.start(new Stage());
+            //
 
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
