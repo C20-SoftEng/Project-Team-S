@@ -126,14 +126,14 @@
 }
 
 
-.zoomerblack{
+.zoomerBlack{
     visibility: true;
-    -fx-text-fill: black;
     -fx-font-size: 65;
 }
 
-.zoomerwhite{
+.zoomerWhite{
     visibility: false;
+    -fx-font-size: 65;
 }
 
 
@@ -144,8 +144,9 @@
 .buttons{
     -fx-background-color: #0067b1;
     -fx-background-radius: 5;
-    -fx-border-color: gray;
+    -fx-border-color: #CCCCCC;
     -fx-border-radius: 5;
+    -fx-text-fill: white;
 }
 
 .TitledPane{

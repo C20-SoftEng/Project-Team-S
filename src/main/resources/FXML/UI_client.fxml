@@ -37,7 +37,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
+                        <ImageView id="brigham" fitHeight="44.0" fitWidth="47.0" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/Brigham_and_Womens_Hospital_logo.png" />
                            </image>
@@ -84,11 +84,7 @@
                      <children>
                         <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onAboutClicked" prefHeight="50.0" prefWidth="51.0" ripplerFill="WHITE" text="Help" HBox.hgrow="SOMETIMES">
                            <graphic>
-                              <ImageView id="aboutus" fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Icons/About_Us.png" />
-                                 </image>
-                              </ImageView>
+                              <ImageView id="aboutus" fitHeight="50.0" fitWidth="50.0" preserveRatio="true" />
                            </graphic>
                            <HBox.margin>
                               <Insets right="5.0" />
@@ -260,8 +256,8 @@
                                              <graphic>
                                                 <StackPane>
                                                    <children>
-                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerblack" text="+" />
-                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerwhite" text="+" />
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="+" />
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="+" />
                                                    </children>
                                                 </StackPane>
                                              </graphic>
@@ -289,8 +285,8 @@
                                              <graphic>
                                                 <StackPane prefHeight="150.0" prefWidth="200.0">
                                                    <children>
-                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerblack" text="-" />
-                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerwhite" text="-" />
+                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerBlack" text="-" />
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-" />
                                                    </children>
                                                 </StackPane>
                                              </graphic>
@@ -448,7 +444,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -464,7 +460,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -480,7 +476,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -496,7 +492,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -512,7 +508,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -528,7 +524,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -544,7 +540,7 @@
                                           <Font size="16.0" />
                                        </font>
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0">
                                                    <children>
@@ -557,7 +553,10 @@
                                     </TitledPane>
                                  </panes>
                               </Accordion>
-                              <JFXButton fx:id="toTextDirectionButton" alignment="CENTER" onAction="#onToTextClicked" prefHeight="41.0" prefWidth="200.0" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5;" text="To Text Directions" />
+                              <JFXButton fx:id="toTextDirectionButton" alignment="CENTER" onAction="#onToTextClicked" prefHeight="41.0" prefWidth="200.0" styleClass="buttons" text="To Text Directions">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></JFXButton>
                            </children>
                         </VBox>
                      </children>

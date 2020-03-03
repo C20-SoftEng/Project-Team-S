@@ -497,20 +497,20 @@ public class MainScreenController implements Initializable {
 
     @FXML private void onDarkModeClicked(){
         if (darkmode){
-            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
-            StyleManager.getInstance().addUserAgentStylesheet("default.css");
-            //stage.getScene().getStylesheets().add("default.css");
-            //stage.getScene().getStylesheets().remove("darkmode.css");
+//            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+//            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            stage.getScene().getStylesheets().add("default.css");
+            stage.getScene().getStylesheets().remove("darkmode.css");
             darkmode = false;
             //set image to dark mode button
             darkModeImage.setImage(Khons);
             System.out.println("returned to light mode");
         }
         else {
-            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
-            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
-            //stage.getScene().getStylesheets().add("darkmode.css");
-            //stage.getScene().getStylesheets().remove("default.css");
+//            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+//            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            stage.getScene().getStylesheets().add("darkmode.css");
+            stage.getScene().getStylesheets().remove("default.css");
             darkmode = true;
             //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
             //DarkModeButton.getScene().getStylesheets().remove("default.css");
