@@ -56,7 +56,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                            <children>
-                              <JFXComboBox fx:id="nodeType" focusColor="#ffffff00" prefHeight="25.0" prefWidth="200.0" promptText="NodeType" unFocusColor="BLACK" visibleRowCount="11">
+                              <JFXComboBox fx:id="nodeType" focusColor="#ffffff00" prefHeight="30.0" prefWidth="188.0" promptText="NodeType" unFocusColor="BLACK" visibleRowCount="11">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" />
                                  </padding>
