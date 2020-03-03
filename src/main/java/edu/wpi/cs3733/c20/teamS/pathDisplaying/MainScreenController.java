@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import animatefx.animation.Pulse;
+import animatefx.animation.*;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.sun.javafx.application.PlatformImpl;
@@ -186,7 +188,8 @@ public class MainScreenController implements Initializable {
             Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
             double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
             double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
-            keepCurrentPosition(hval, vval, zoomer);
+            //0.5 is hardcoded offset to fix centering
+            keepCurrentPosition(hval+0.5, vval, zoomer);
         }
     }
     private Vector2 findPathCentroid(Path path, int floor) {
@@ -482,6 +485,12 @@ public class MainScreenController implements Initializable {
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");
         }
+    }
+
+
+    @FXML
+    void animate() {
+        new Pulse(zoomInButton).play();
     }
     //endregion
 }
