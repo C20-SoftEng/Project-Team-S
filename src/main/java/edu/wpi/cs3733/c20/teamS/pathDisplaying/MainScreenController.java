@@ -2,18 +2,24 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import com.sun.javafx.application.PlatformImpl;
+import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.*;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.viewModels.RoomDisplayVm;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -24,10 +30,9 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -53,13 +58,15 @@ public class MainScreenController implements Initializable {
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
 
     private boolean flip = true;
+    private boolean darkmode = false;
     //endregion
 
     public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-
         this.stage = stage;
     }
 
@@ -207,18 +214,25 @@ public class MainScreenController implements Initializable {
                 .divide(vertices.size());
     }
 
-    private Polygon createHitboxRenderingMask(Room room) {
-        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        Polygon polygon = room.toPolygon();
-        polygon.setTranslateY(-10);
-        polygon.setFill(invisible);
-        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
-        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
-        return polygon;
+//    private Polygon createHitboxRenderingMask(Room room) {
+//        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
+//        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
+//        Polygon polygon = room.toPolygon();
+//        polygon.setTranslateY(-10);
+//        polygon.setFill(invisible);
+//        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
+//        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
+//        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
+//        return polygon;
+//    }
+    private RoomDisplayVm createHitboxRenderingMask(Room room) {
+        RoomDisplayVm result = new RoomDisplayVm(room);
+        result.setTranslateY(result.getTranslateY() - 10);
+        RxAdaptors.eventStream(result::setOnMouseClicked)
+                .map(e -> result.localToParent(e.getX(), e.getY()))
+                .subscribe(point -> nodeSelector.onHitboxClicked(room, point.getX(), point.getY()));
+        return result;
     }
-
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
         zoomer.zoomSet();
         scrollPane.setHvalue(Hval);
@@ -227,6 +241,7 @@ public class MainScreenController implements Initializable {
 
     //region ui widgets
     @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
@@ -238,6 +253,7 @@ public class MainScreenController implements Initializable {
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -476,5 +492,39 @@ public class MainScreenController implements Initializable {
     }
 
 
+    @FXML private void onToTextClicked(){
+        this.directoryVBox.setVisible(false);
+        this.instructionVBox.setVisible(true);
+    }
+
+    @FXML private void onToDirectoryClicked(){
+        this.instructionVBox.setVisible(false);
+        this.directoryVBox.setVisible(true);
+    }
+
+    @FXML private void onDarkModeClicked(){
+        if (darkmode){
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            //stage.getScene().getStylesheets().add("default.css");
+            //stage.getScene().getStylesheets().remove("darkmode.css");
+            darkmode = false;
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println("returned to light mode");
+        }
+        else {
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            //stage.getScene().getStylesheets().add("darkmode.css");
+            //stage.getScene().getStylesheets().remove("default.css");
+            darkmode = true;
+            //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
+            //DarkModeButton.getScene().getStylesheets().remove("default.css");
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println("changed to dark mode");
+        }
+    }
     //endregion
 }

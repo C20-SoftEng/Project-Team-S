@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.animation.PathTransition;
@@ -16,13 +15,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 
 class PathRenderer {
 
@@ -135,6 +135,7 @@ class PathRenderer {
         //directionLabel.setText("Directions");
         //JFXTextField space = new JFXTextField();
         //directoryBox.setVisible(false);
+
         for (int i = 0; i < instructions.size(); i++) {
             HBox imageHolder = new HBox();
             JFXTextArea text = new JFXTextArea();
@@ -147,11 +148,11 @@ class PathRenderer {
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
                 image.setImage(newImage);
 
-                image.setFitHeight(30);
-                image.setFitWidth(30);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
 //                image.setX(50);
 //                image.setY(-20);
-                image.setTranslateX(1);
+                image.setTranslateX(30);
                 image.setTranslateY(4);
 
 
@@ -160,9 +161,9 @@ class PathRenderer {
             else if(word.contains("Right")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(30);
-                image.setFitWidth(30);
-                image.setTranslateX(1);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(30);
                 image.setTranslateY(4);
 
                 image.setPreserveRatio(true);
@@ -170,9 +171,9 @@ class PathRenderer {
             else if(word.contains("straight")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
                 image.setImage(newImage);
-                image.setFitHeight(30);
-                image.setFitWidth(30);
-                image.setTranslateX(1);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(30);
                 image.setTranslateY(4);
 
                 image.setPreserveRatio(true);
@@ -181,9 +182,9 @@ class PathRenderer {
             else if(word.contains("Elevator")){
                 Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
                 image.setImage(newImage);
-                image.setFitHeight(28);
-                image.setFitWidth(28);
-                image.setTranslateX(1);
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(28);
                 image.setTranslateY(5);
                 image.setPreserveRatio(false);
             }
@@ -203,7 +204,7 @@ class PathRenderer {
                     image.setImage(newImage);
                     image.setFitHeight(30);
                     image.setFitWidth(30);
-                    image.setTranslateX(0);
+                    image.setTranslateX(00);
                     image.setTranslateY(5);
                     image.setPreserveRatio(false);
                 }
@@ -256,23 +257,30 @@ class PathRenderer {
             }
             text.setEditable(false);
             if (text.getLength() > 27){
-                text.setFont(Font.font ("System", 12));
+                text.setFont(Font.font ("System", 11));
                 text.setPrefHeight(30);
+                text.setPrefWidth(150);
+               text.setTranslateX(35);
 
             }
             else if (text.getLength() >= 22){
-                text.setFont(Font.font ("System", 12));
+                text.setFont(Font.font ("System", 11));
                 text.setPrefHeight(30);
+                text.setTranslateX(33);
 
             }
             else {
-                text.setFont(Font.font ("System", 12));
+                text.setFont(Font.font ("System", 14));
                 text.setPrefHeight(30);
+                //text.setPref
+                //text.setTranslateX(30);
 
             }
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);
+
+            displayBox.setVisible(true);
 
             directoryBox.setVisible(false);
         }

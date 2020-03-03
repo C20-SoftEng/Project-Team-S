@@ -1,0 +1,213 @@
+  /* -fx-base:  #121212;*/
+
+.topbar{ /*top header bar*/
+    -fx-background-color: #23272a;
+}
+
+#title{
+    -fx-text-fill: #fff;
+}
+
+
+  #brigham {
+      -fx-image: url("images/Icons/Brigham.png");
+  }
+
+  #helpButton{
+      -fx-image: url("images/Icons/About_Us_DARK.png");
+  }
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane { /*gives scroll panes a background color*/
+    -fx-background-color: #858585;
+}
+
+.hbox{
+    -fx-background-color: #6D7275;
+}
+
+
+.label {
+    -fx-text-fill: #fff;
+}
+
+
+.text{
+    -fx-text-fill: #fff;
+}
+
+.text-field{
+    -fx-text-fill: #fff;
+}
+
+
+.login{
+    -fx-background-color: #B0B0B0;
+    -fx-border-color: #858585;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-text-fill: #fff
+}
+
+.searchbar{
+    -fx-background-color: #858585;
+    -fx-border-color: #CCCCCC;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+
+.startend {
+    -fx-background-color: #B0B0B0;
+    -fx-border-color: #5C5C5C;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+
+.switcheroo{ /*Switch box*/
+    -fx-background-color: #B0B0B0;
+    -fx-border-color: #CCCCCC;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+
+}
+
+.switcheroo > #arrows{
+    -fx-image: url("images/Icons/swap_arrowsINV.png");
+}
+
+
+.nightbutton{
+    -fx-background-color: #ffff;
+    -fx-border-color: #292929;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+.sidebar{
+    -fx-background-color: #4A4A4A;
+    -fx-border-color: #292929;
+}
+
+.transparentBar{
+}
+
+.floors{
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #fff;
+    -fx-border-color: #292929;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#currentFloor{
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #292929;
+    -fx-border-color: #292929;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+
+.zoomers{
+    -fx-background-color: #B0B0B0;
+    -fx-border-color: #CCCCCC;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+  .zoomerSigns{
+      -fx-text-fill: white;
+      -fx-font-size: 65;
+  }
+
+.header{
+    -fx-border-color: #cccccc;
+}
+
+.buttons{
+    -fx-background-color: #0067b1;
+    -fx-background-radius: 5;
+    -fx-border-color: gray;
+    -fx-border-radius: 5;
+}
+
+.titled-pane{
+
+    -fx-background-color: #5C5C5C;
+    -fx-text-fill: #fff;
+    /*#272727*/
+}
+
+.scroll-bar{
+    -fx-background-color: #4a4a4a;
+}
+
+.scroll-bar .thumb{
+    -fx-background-color: #B0B0B0;
+}
+
+
+
+  .titled-pane > *.content{
+      -fx-background-color: transparent;
+  }
+
+ .titled-pane > .title {
+     -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f);
+  }
+
+  .titled-pane > .title > .arrow-button > .arrow {
+      -fx-background-color: #fff;
+  }
+
+  .list-cell:odd{
+      -fx-background-color: #4c4c4c;
+  }
+
+  .list-cell:even{
+      -fx-background-color: #4A4A4A;
+  }
+
+  .list-cell:filled:selected{
+      -fx-background-color: #0067b1;
+      -fx-text-fill: white;
+  }
+
+  .list-cell:filled {
+      -fx-text-fill: white;
+  }
+
+  .combo-box-base > .text-field{
+      -fx-background-color: #c2c2c2;
+      -fx-text-fill: #fff;
+      -fx-prompt-text-fill: #fff;
+  }
+
+  .combo-box-base > .arrow-button {
+      -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f);
+  }
+
+  .combo-box-base > .arrow-button > .arrow{
+      -fx-background-color: #fff;
+  }
+
+  .combo-box > .list-cell {
+      -fx-background: transparent;
+      -fx-background-color: transparent;
+      -fx-text-fill: #fff;
+  }
+
+  .combo-box-popup > .list-view {
+      -fx-background-color: #CCCCCC, #4c4c4c;
+      -fx-background-insets: 0, 1;
+      -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+  }
+
+  .hbox > .searchbar {
+      -fx-background-color: transparent;
+  }

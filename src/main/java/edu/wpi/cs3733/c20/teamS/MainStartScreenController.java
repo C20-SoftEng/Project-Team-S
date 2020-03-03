@@ -63,9 +63,7 @@ public class MainStartScreenController implements Initializable {
     JFXButton screenButton;
     @FXML
     Label weatherField;
-    @FXML
-    Label weatherSummary;
-    @FXML
+@FXML
     JFXTextArea firstTweet;
     @FXML
     JFXTextArea secondTweet;
@@ -76,7 +74,7 @@ public class MainStartScreenController implements Initializable {
     @FXML
     JFXTextArea fifthTweet;
     @FXML
-    JFXTextArea timeField;
+    Label timeField;
     @FXML
     ImageView imageID;
     @FXML
@@ -86,22 +84,15 @@ public class MainStartScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-        timeBox.setStyle("-fx-background-color: rgba(255, 255, 255, 255);");
-
         //timeField.setText("    " + dtf.format(now));
-        timeField.setStyle("-fx-font-size: 30px");
+        timeField.setStyle("-fx-font-size: 70px");
         initClock();
 
         WeatherBox weatherBox1 = new WeatherBox();
 
-        weatherField.setText((String.valueOf("                   " + weatherBox1.getTemp())) + " " +
-                "° F");
-        weatherField.setStyle("-fx-font-size: 16px");
-        weatherSummary.setText(weatherBox1.summary());
-        //weatherSummary
-        weatherSummary.setStyle("-fx-font-size: 25px");
-        //weatherSummary.setStyle("-fx-padding: 0 10 0 10");
+        weatherField.setText((String.valueOf(weatherBox1.getTemp())) + "\u00B0");
+        weatherField.setStyle("-fx-font-size: 55px");
+
 
 
         String icon = weatherBox1.icon();
@@ -165,14 +156,13 @@ public class MainStartScreenController implements Initializable {
     private void onScreenClicked(ActionEvent event) {
         //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
         MainToLoginScreen.showDialog();
-
     }
 
 
     private void initClock() {
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
             timeField.setText(LocalDateTime.now().format(formatter));
         }), new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Animation.INDEFINITE);
