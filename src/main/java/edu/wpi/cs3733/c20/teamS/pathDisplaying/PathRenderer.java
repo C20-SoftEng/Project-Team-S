@@ -35,7 +35,7 @@ class PathRenderer {
      * @return A new Group containing all the elements that were drawn.
      */
     private List<NodeData> TDnodes;
-    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) throws Exception {
+    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) {
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
