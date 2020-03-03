@@ -409,7 +409,7 @@ public class ThreeDimensions extends Application {
         globalRoot.setStyle("-fx-background-color: #8f8f8f");
 
         SubScene sub = new SubScene
-                (group, WIDTH - 192 - 49, 632, false, SceneAntialiasing.BALANCED);
+                (group, WIDTH - 192 - 49, 632, true, SceneAntialiasing.BALANCED);
         sub.setCamera(camera);
         sub.setFill(Color.web("#8f8f8f"));
         mouseControl(group, sub, primaryStage, numberGroup);
