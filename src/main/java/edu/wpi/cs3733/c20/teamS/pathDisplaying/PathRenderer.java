@@ -183,7 +183,7 @@ class PathRenderer {
                 image.setImage(newImage);
                 image.setFitHeight(28);
                 image.setFitWidth(28);
-                image.setTranslateX(1);
+                image.setTranslateX(28);
                 image.setTranslateY(5);
                 image.setPreserveRatio(false);
             }
@@ -258,7 +258,8 @@ class PathRenderer {
             if (text.getLength() > 27){
                 text.setFont(Font.font ("System", 11));
                 text.setPrefHeight(30);
-                text.setTranslateX(35);
+                text.setPrefWidth(150);
+               text.setTranslateX(35);
 
             }
             else if (text.getLength() >= 22){
@@ -268,8 +269,9 @@ class PathRenderer {
 
             }
             else {
-                text.setFont(Font.font ("System", 14));
+                text.setFont(Font.font ("System", 11));
                 text.setPrefHeight(30);
+                //text.setPref
                 //text.setTranslateX(30);
 
             }
