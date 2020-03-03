@@ -476,5 +476,14 @@ public class MainScreenController implements Initializable {
     }
 
 
+    @FXML private void onToTextClicked(){
+        this.directoryVBox.setVisible(false);
+        this.instructionVBox.setVisible(true);
+    }
+
+    @FXML private void onToDirectoryClicked(){
+        this.instructionVBox.setVisible(false);
+        this.directoryVBox.setVisible(true);
+    }
     //endregion
 }
