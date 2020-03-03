@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 import static java.lang.Thread.sleep;
 
 
-public class SerialTest extends Application{
+public class SerialPoller extends Application{
 
     public static void sensor() throws Exception{
 //      SerialPort sp = SerialPort.getCommPort("/dev/cu.usbserial-DN03ADR9");
@@ -79,17 +79,30 @@ public class SerialTest extends Application{
         runSensor();
     }
 
+    private static String port;
+    private static int baudRate;
+    public static NRSerialPort serial;
+
+    public static void initSensor(){
+        port = "/dev/tty.usbserial-DN03ADR9";
+        baudRate = 9600;
+        serial = new NRSerialPort(port,baudRate);
+        serial.connect();
+    }
+
     public static boolean runSensor(){
-        String port = "/dev/tty.usbserial-DN03ADR9";
-        int baudRate = 9600;
-        NRSerialPort serial = new NRSerialPort(port, baudRate);
+//        String port = "/dev/tty.usbserial-DN03ADR9";
+//        int baudRate = 9600;
+//        NRSerialPort serial = new NRSerialPort(port, baudRate);
+
         try {
 
 
             //Thread.sleep(800);
-            serial.connect();
+            //serial.connect();
             //Thread.sleep(800);
             DataInputStream ins = new DataInputStream(serial.getInputStream());
+            //serial.getInputStream().
             //Thread.sleep(800);
 //        DataOutputStream outs = new DataOutputStream(serial.getOutputStream());
             //Thread.sleep(800);
@@ -107,23 +120,25 @@ public class SerialTest extends Application{
 //                System.out.println((char) fireBall[1]);
 
 //            }
-            while(true){
+//            while(true){
+//
+//
+//
+//                //System.out.println((char) fireBall[0]);
+//                if (((char) fireBall[0] == 'f') || (char) fireBall[0] == 's') {
+//                    break;
+//                }
+//            }
 
-                ins.read(fireBall);
+            ins.read(fireBall);
 
-                System.out.println((char) fireBall[0]);
-                if (((char) fireBall[0] == 'f') || (char) fireBall[0] == 's') {
-                    break;
-                }
-            }
-
-            //System.out.println((char) fireBall[0]);
+            System.out.println((char) fireBall[0]);
             if ((char) fireBall[0] == 'f') {
-                serial.disconnect();
+                //serial.disconnect();
                 return true;
             }
             else {
-                serial.disconnect();
+                //serial.disconnect();
                 return false;
             }
             //fw.start(new Stage());
@@ -133,7 +148,7 @@ public class SerialTest extends Application{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        serial.disconnect();
+        //serial.disconnect();
         return false;
     }
 
