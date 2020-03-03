@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 import static java.lang.Thread.sleep;
 
 
-public class SerialTest {
+public class SerialTest extends Application{
 
     public static void sensor() throws Exception{
 //      SerialPort sp = SerialPort.getCommPort("/dev/cu.usbserial-DN03ADR9");
@@ -66,7 +66,7 @@ public class SerialTest {
         }
 
 
-        serial.disconnect();
+
 
 
     }
@@ -75,22 +75,24 @@ public class SerialTest {
 
 
     public void start(Stage primaryStage) throws Exception {
-        sensor();
+        //sensor();
+        runSensor();
     }
 
     public static boolean runSensor(){
-
+        String port = "/dev/tty.usbserial-DN03ADR9";
+        int baudRate = 9600;
+        NRSerialPort serial = new NRSerialPort(port, baudRate);
         try {
-            String port = "/dev/tty.usbserial-DN03ADR9";
-            int baudRate = 9600;
-            NRSerialPort serial = new NRSerialPort(port, baudRate);
+
+
             //Thread.sleep(800);
             serial.connect();
-            Thread.sleep(800);
+            //Thread.sleep(800);
             DataInputStream ins = new DataInputStream(serial.getInputStream());
             //Thread.sleep(800);
 //        DataOutputStream outs = new DataOutputStream(serial.getOutputStream());
-            Thread.sleep(800);
+            //Thread.sleep(800);
 //        while(ins.available() !=0){
 //            Thread.sleep (10);
 //        }
@@ -105,24 +107,33 @@ public class SerialTest {
 //                System.out.println((char) fireBall[1]);
 
 //            }
-            ins.read(fireBall);
-            if ((char) fireBall[1] == 'f') {
+            while(true){
+
+                ins.read(fireBall);
+
+                System.out.println((char) fireBall[0]);
+                if (((char) fireBall[0] == 'f') || (char) fireBall[0] == 's') {
+                    break;
+                }
+            }
+
+            //System.out.println((char) fireBall[0]);
+            if ((char) fireBall[0] == 'f') {
+                serial.disconnect();
                 return true;
             }
             else {
+                serial.disconnect();
                 return false;
             }
             //fw.start(new Stage());
             //
 
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        serial.disconnect();
         return false;
     }
 

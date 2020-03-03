@@ -16,9 +16,12 @@ public abstract class BaseScreen {
             MainStartScreen.showDialog();
         });
 
-        fireWatch = new FireWatchDog(new Duration(100),()->{
+        fireWatch = new FireWatchDog(new Duration(10000),()->{
            if(SerialTest.runSensor()){
+               System.out.println("Emergency Detected");
                EmergencyScreen es = new EmergencyScreen();
+           }else{
+               System.out.println("No emergency");
            };
         });
     }
