@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static final StartupScreen START_SCREEN = StartupScreen.EMERGENCY;
+    private static final StartupScreen START_SCREEN = StartupScreen.SPLASH;
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
