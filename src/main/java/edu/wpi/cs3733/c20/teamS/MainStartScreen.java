@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import com.sun.javafx.application.PlatformImpl;
+import com.sun.javafx.css.StyleManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ public class MainStartScreen extends BaseScreen {
     public MainStartScreen() {
         this.stage = Settings.primaryStage;
         this.scene = this.stage.getScene();
+
 
         if(this.scene == null){
             this.scene = new Scene(Settings.splashRoot);

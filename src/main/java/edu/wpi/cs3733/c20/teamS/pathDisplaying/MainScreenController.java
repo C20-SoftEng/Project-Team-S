@@ -4,9 +4,7 @@ import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.sun.javafx.application.PlatformImpl;
 import com.sun.javafx.css.StyleManager;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
@@ -488,28 +486,26 @@ public class MainScreenController implements Initializable {
 
     @FXML private void onDarkModeClicked(){
         if (darkmode){
-//            Application.setUserAgentStylesheet(null);
-//            StyleManager.getInstance().addUserAgentStylesheet("default.css");
-            stage.getScene().getStylesheets().add("default.css");
-            stage.getScene().getStylesheets().remove("darkmode.css");
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            //stage.getScene().getStylesheets().add("default.css");
+            //stage.getScene().getStylesheets().remove("darkmode.css");
             darkmode = false;
             //set image to dark mode button
             darkModeImage.setImage(Khons);
             System.out.println("returned to light mode");
-            System.out.println(DarkModeButton.getScene().getStylesheets());
-
         }
         else {
-            stage.getScene().getStylesheets().add("darkmode.css");
-            stage.getScene().getStylesheets().remove("default.css");
+            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            //stage.getScene().getStylesheets().add("darkmode.css");
+            //stage.getScene().getStylesheets().remove("default.css");
             darkmode = true;
             //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
             //DarkModeButton.getScene().getStylesheets().remove("default.css");
             //set image to light mode button
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");
-            System.out.println(DarkModeButton.getScene().getStylesheets());
-
         }
     }
     //endregion
