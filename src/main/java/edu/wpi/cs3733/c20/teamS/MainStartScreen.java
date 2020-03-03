@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainStartScreen extends BaseScreen {
-
     private  MainStartScreenController ui;
    private  Stage stage;
    private Scene scene;

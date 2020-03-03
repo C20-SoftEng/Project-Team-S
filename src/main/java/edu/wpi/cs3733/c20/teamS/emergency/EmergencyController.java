@@ -28,7 +28,7 @@ public class EmergencyController {
     }
 
     @FXML
-    JFXButton onBackClicked;
+    Button onBackClicked;
 
     @FXML
     public void onBackClicked(ActionEvent event) {

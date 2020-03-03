@@ -11,7 +11,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+<<<<<<< HEAD
     private static final StartupScreen START_SCREEN = StartupScreen.MAIN;
+=======
+    private static final StartupScreen START_SCREEN = StartupScreen.SPLASH;
+>>>>>>> development
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
@@ -34,7 +38,7 @@ public class Main extends Application {
                 new MapEditingScreen();
                 break;
             case EMERGENCY:
-                new EmergencyScreen(primaryStage);
+                new EmergencyScreen();
                 break;
             default:
                 throw new IllegalArgumentException("Unexpected value in StartupScreen switch statement.");
