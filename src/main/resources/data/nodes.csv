@@ -102,7 +102,7 @@ SHALL00503,1095.0,700.0,3,Faulkner,HALL,Outside Fam/Pat resources,out_fam_resc
 SSERV00303,1095.0,630.0,3,Faulkner,SERV,Fam/Pat resources,fam_resc
 SHALL00603,1207.0,700.0,3,Faulkner,HALL,Hallway Split Two,hall_split_two
 SHALL00703,1207.0,484.0,3,Faulkner,HALL,Atrium Square ,atr_sqr
-SRETL00103x,1550.0,790.0,3,Faulkner,RETL,Outdoor Dining Terrace,out_dine_terr
+SRETL00103x,1550.0,790.0,3,Faulkner,RETL,a Dining Terrace,out_dine_terr
 SHALL00803,1250.0,484.0,3,Faulkner,HALL,Near Atrium Elevators,out_atr_elev
 SHALL00903,1250.0,414.0,3,Faulkner,HALL,Outside Atrium Elevators and Stairs,out_atr_stai
 SELEV00X03,1188.0,418.0,3,Faulkner,ELEV,Atrium Elevators,3atr_elev
