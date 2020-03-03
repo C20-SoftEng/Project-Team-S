@@ -33,10 +33,14 @@ class RoomPopupUI extends Parent {
                 .mergeWith(room.descriptionChanged())
                 .mergeWith(room.iconChanged())
                 .subscribe(u -> updateUI());
+        RxAdaptors.propertyStream(nameLabel.widthProperty())
+                .subscribe(width -> {
+                    descriptionTextArea.setPrefWidth(width);
+                });
     }
 
     private void updateUI() {
         nameLabel.setText(room.name());
-        descriptionTextArea.setText("The quick brown fox jumps over the lazy dog.");
+        descriptionTextArea.setText(room.description());
     }
 }
