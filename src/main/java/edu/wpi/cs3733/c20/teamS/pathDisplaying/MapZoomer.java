@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 import javafx.scene.control.ScrollPane;
 
 public class MapZoomer {
@@ -35,8 +35,12 @@ public class MapZoomer {
     }
 
     private void updateImageSize() {
-        scrollPane.getContent().setScaleX(zoomFactor());
-        scrollPane.getContent().setScaleY(zoomFactor());
+//        Node content = scrollPane.getContent();
+////        content.setScaleX(zoomFactor());
+////        content.setScaleY(zoomFactor());
+
+        scrollPane.setScaleX(zoomFactor());
+        scrollPane.setScaleY(zoomFactor());
     }
 
     public boolean canZoomIn() {
