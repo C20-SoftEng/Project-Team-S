@@ -57,6 +57,12 @@ public final class Settings {
     public int editEdgeStrokeWidth() {
         return 5;
     }
+    public double editEdgeEnlargeRatio() {
+        return 2.5;
+    }
+    public double editEdgeCollisionMaskWidth() {
+        return 25;
+    }
 
     public int floors() {
         return 7;

@@ -52,10 +52,10 @@ public class RoomDisplayVm extends Parent {
                 .mergeWith(highlightFillColor.changed())
                 .subscribe(u -> updateHighlightState());
 
-        isMouseOver.changed()
-                .subscribe(huh -> {
-                    popup.setVisible(huh);
-                });
+        isMouseOver.changed().map(huh -> RxAdaptors.UNIT)
+                .mergeWith(room.nameChanged())
+                .map(u -> isMouseOver.value() && room.name() != null && !room.name().isEmpty())
+                .subscribe(popup::setVisible);
     }
 
     private void updateHighlightState() {
