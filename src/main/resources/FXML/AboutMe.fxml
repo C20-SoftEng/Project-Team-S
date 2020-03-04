@@ -13,12 +13,12 @@
             <Image url="@../images/AboutMe/AboutUs.PNG" />
          </image>
       </ImageView>
-      <JFXButton id="buttons" fx:id="goBack" alignment="CENTER" layoutX="802.0" layoutY="34.0" onAction="#BackClicked" prefHeight="37.0" prefWidth="144.0" text="Go Back" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="34.0">
+      <JFXButton id="buttons" fx:id="goBack" alignment="CENTER" buttonType="RAISED" layoutX="802.0" layoutY="34.0" onAction="#BackClicked" prefHeight="37.0" prefWidth="144.0" text="Go Back" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="34.0">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton id="buttons" fx:id="goCredits" layoutX="69.0" layoutY="34.0" onAction="#goToCredits" prefHeight="0.0" prefWidth="139.0" text="Credits Page">
+      <JFXButton id="buttons" fx:id="goCredits" buttonType="RAISED" layoutX="69.0" layoutY="34.0" onAction="#goToCredits" prefHeight="0.0" prefWidth="139.0" text="Credits Page">
          <font>
             <Font size="18.0" />
          </font>
