@@ -70,7 +70,7 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(scrollPane);
+        zoomer = new MapZoomer(scrollPane, -1, 0);
         initGraph();
         renderer = new PathRenderer();
         initFloorSelector();
@@ -213,16 +213,6 @@ public class MainScreenController implements Initializable {
         scrollPane.setHvalue(Hval);
         scrollPane.setVvalue(Vval);
         zoomer.zoomSet();
-        System.out.println("TranslateX: " + scrollPane.getTranslateX());
-        System.out.println("TranslateY: " + scrollPane.getTranslateY());
-        System.out.println("width: " + scrollPane.getWidth());
-        System.out.println("height: " + scrollPane.getHeight());
-
-        System.out.println("ViewportBounds: " + scrollPane.getViewportBounds());
-        System.out.println("LayoutBounds: " + scrollPane.getLayoutBounds());
-        System.out.println("group.LayoutBounds: " + scrollPane.getContent().getLayoutBounds());
-        System.out.println("mapImage.LayoutBounds: " + mapImage.getLayoutBounds());
-        System.out.println("mapImage.Viewport: " + mapImage.getViewport());
     }
 
     //region ui widgets
