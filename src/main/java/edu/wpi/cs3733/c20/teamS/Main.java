@@ -12,7 +12,9 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-    private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
+
+    private static final StartupScreen START_SCREEN = StartupScreen.SPLASH;
+
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
@@ -47,10 +49,7 @@ public class Main extends Application {
 
     //9003,staff,staff,2,Wilson,Wong
     public static void main(String[] args) {
-
         App.launch();
     }
-
-
-    }
+}
 
