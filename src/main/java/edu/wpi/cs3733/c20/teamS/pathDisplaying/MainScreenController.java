@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 import animatefx.animation.Pulse;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import com.sun.javafx.application.PlatformImpl;
 import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;

@@ -3,14 +3,83 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.RoomEditController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.Editing.RoomEditController">
    <children>
-      <JFXTextArea fx:id="descriptionTextArea" layoutX="233.0" layoutY="55.0" prefHeight="173.0" prefWidth="353.0" />
-      <JFXTextField fx:id="nameTextField" layoutX="251.0" layoutY="14.0" prefHeight="25.0" prefWidth="335.0" />
-      <JFXTextField fx:id="iconPathTextField" layoutX="233.0" layoutY="243.0" prefHeight="25.0" prefWidth="353.0" />
-      <JFXButton layoutX="534.0" layoutY="361.0" onAction="#onOKClicked" text="OK" />
-      <JFXButton layoutX="482.0" layoutY="361.0" onAction="#onCancelClicked" text="Cancel" />
+      <JFXTextArea id="serviceBox" fx:id="descriptionTextArea" focusColor="#405aa800" layoutX="237.0" layoutY="200.0" prefHeight="102.0" prefWidth="340.0" promptText="Enter Description" unFocusColor="#4d4d4d00" AnchorPane.rightAnchor="27.0" />
+      <JFXTextField id="serviceBox" fx:id="nameTextField" focusColor="#405aa800" layoutX="244.0" layoutY="86.0" prefHeight="25.0" prefWidth="335.0" promptText="Enter Room Name" unFocusColor="#4d4d4d00" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="25.0">
+         <padding>
+            <Insets left="5.0" />
+         </padding></JFXTextField>
+      <JFXTextField id="serviceBox" fx:id="iconPathTextField" focusColor="#405aa800" layoutX="244.0" layoutY="148.0" prefHeight="25.0" prefWidth="335.0" promptText="Enter Resource Location" unFocusColor="#4d4d4d00" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="25.0">
+         <padding>
+            <Insets left="5.0" />
+         </padding></JFXTextField>
+      <Text id="textblack" layoutX="129.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="439.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text id="textblack" layoutX="119.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Icon Path">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text id="textblack" layoutX="112.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Label id="serviceHeader" fx:id="serviceName" alignment="CENTER" focusTraversable="false" layoutX="9.0" prefHeight="45.0" prefWidth="608.0" text="Room Editing" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </Label>
+      <SplitPane dividerPositions="0.5" layoutX="14.0" layoutY="66.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <JFXButton id="secondaryButtons" cancelButton="true" focusTraversable="false" onAction="#onCancelClicked" prefHeight="39.0" prefWidth="86.0" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <JFXButton id="buttons" defaultButton="true" focusTraversable="false" onAction="#onOKClicked" prefHeight="40.0" prefWidth="66.0" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Text id="textwhite" fill="WHITE" layoutX="129.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text id="textwhite" fill="WHITE" layoutX="119.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Icon Path">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text id="textwhite" fill="WHITE" layoutX="112.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
