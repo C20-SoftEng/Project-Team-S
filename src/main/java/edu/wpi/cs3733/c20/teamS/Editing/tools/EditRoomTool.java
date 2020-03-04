@@ -193,9 +193,7 @@ public final class EditRoomTool extends EditingTool {
 
         private Disposable showDialog() {
             return RoomEditScreen.showDialog(stage, room)
-                    .subscribe(e -> {
-                        state.setCurrent(new RoomSelectedState(room));
-                    });
+                    .subscribe(e -> state.setCurrent(new RoomSelectedState(room)));
         }
     }
 }

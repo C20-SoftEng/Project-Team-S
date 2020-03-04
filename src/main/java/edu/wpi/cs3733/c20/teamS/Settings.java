@@ -61,7 +61,13 @@ public final class Settings {
         return 2.5;
     }
     public double editEdgeCollisionMaskWidth() {
-        return 25;
+        return 15;
+    }
+    public int minZoomStage() {
+        return -2;
+    }
+    public int maxZoomStage() {
+        return 0;
     }
 
     public int floors() {
@@ -85,14 +91,7 @@ public final class Settings {
 
     private Settings(){}
 
-//    private static class SingletonHelper {
-//
-//        private static final Settings settings = new Settings();
-//    }
-
     private static Settings set;
-
-    //private SingletonHelper sh;
 
     synchronized public static Settings get(){
 
