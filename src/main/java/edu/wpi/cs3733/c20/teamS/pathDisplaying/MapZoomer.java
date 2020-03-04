@@ -33,14 +33,7 @@ public class MapZoomer {
         if (zoomStage < 0) {
             result = 1.0 / result;
         }
-
-        Node content = scrollPane.getContent();
-        double portWidth = scrollPane.getViewportBounds().getWidth();
-        double portHeight = scrollPane.getViewportBounds().getHeight();
-        double contentWidth = content.getBoundsInLocal().getWidth();
-        double contentHeight = content.getBoundsInLocal().getHeight();
-
-        return Math.max(result, Math.max(portWidth / contentWidth, portHeight / contentHeight));
+        return result;
     }
 
     private void updateImageSize() {

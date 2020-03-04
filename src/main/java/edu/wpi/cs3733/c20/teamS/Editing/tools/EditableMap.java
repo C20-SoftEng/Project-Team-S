@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.events.RoomClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.EdgeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.NodeVm;
 import edu.wpi.cs3733.c20.teamS.Editing.viewModels.RoomVm;
+import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
@@ -67,7 +68,7 @@ public class EditableMap implements IEditableMap {
 
         this.floorSelector = floorSelector;
         this.scrollPane = scrollPane;
-        zoomer = new MapZoomer(this.scrollPane);
+        zoomer = new MapZoomer(this.scrollPane, Settings.get().minZoomStage(), Settings.get().maxZoomStage());
         this.rootGroup = new Group();
         this.mapImage = mapImage;
         this.graph = createGraph();
