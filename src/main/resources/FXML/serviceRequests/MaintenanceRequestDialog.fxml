@@ -20,7 +20,7 @@
             <SplitPane dividerPositions="0.5" prefHeight="70.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="cancelButton" cancelButton="true" focusTraversable="false" layoutX="60.0" layoutY="11.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" style="-fx-background-color: #ccc; -fx-border-color: #000; -fx-border-radius: 10; -fx-background-radius: 10;" text="Cancel">
+                  <JFXButton id="secondaryButtons" fx:id="cancelButton" cancelButton="true" focusTraversable="false" layoutX="60.0" layoutY="11.0" onAction="#onCancelClicked" prefHeight="48.0" prefWidth="179.0" text="Cancel">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -31,7 +31,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXButton fx:id="submitButton" defaultButton="true" focusTraversable="false" layoutX="62.0" layoutY="11.0" onAction="#onSubmitClicked" prefHeight="48.0" prefWidth="179.0" style="-fx-background-color: #ccc; -fx-border-color: #000; -fx-background-radius: 10; -fx-border-radius: 10;" text="Submit">
+                  <JFXButton id="secondaryButtons" fx:id="submitButton" defaultButton="true" focusTraversable="false" layoutX="62.0" layoutY="11.0" onAction="#onSubmitClicked" prefHeight="48.0" prefWidth="179.0" text="Submit">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -57,18 +57,34 @@
                 <padding>
                     <Insets bottom="15.0" left="25.0" right="25.0" top="25.0" />
                 </padding>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
-                <TextField fx:id="locationField" prefHeight="92.0" prefWidth="275.0" GridPane.columnIndex="1" />
-                <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Issue" textAlignment="CENTER" wrappingWidth="193.57357788085938" GridPane.rowIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" textAlignment="CENTER" wrappingWidth="194.90692138671875" GridPane.rowIndex="3" />
-            <TextField fx:id="issueField" prefHeight="82.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="equipmentField" prefHeight="79.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
+                <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
+                <TextField id="serviceBox" fx:id="locationField" prefHeight="92.0" prefWidth="275.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></TextField>
+                <TextField id="serviceBox" fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></TextField>
+            <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Issue" textAlignment="CENTER" wrappingWidth="193.57357788085938" GridPane.rowIndex="2" />
+            <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" textAlignment="CENTER" wrappingWidth="194.90692138671875" GridPane.rowIndex="3" />
+            <TextField id="serviceBox" fx:id="issueField" prefHeight="82.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></TextField>
+            <TextField id="serviceBox" fx:id="equipmentField" prefHeight="79.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></TextField>
+            <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
+            <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="1" />
+            <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Issue" textAlignment="CENTER" wrappingWidth="193.57357788085938" GridPane.rowIndex="2" />
+            <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipment" textAlignment="CENTER" wrappingWidth="194.90692138671875" GridPane.rowIndex="3" />
             </GridPane>
         </center>
         <top>
-          <Label fx:id="serviceName" alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Maintenance" BorderPane.alignment="CENTER">
+          <Label id="serviceHeader" fx:id="serviceName" alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" text="Maintenance" BorderPane.alignment="CENTER">
               <font>
                   <Font size="30.0" />
               </font>
