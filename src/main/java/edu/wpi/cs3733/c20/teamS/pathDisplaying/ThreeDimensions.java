@@ -2,14 +2,11 @@ package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import edu.wpi.cs3733.c20.teamS.BaseScreen;
-import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -28,7 +25,6 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -120,7 +116,8 @@ public class ThreeDimensions extends Application {
         destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
         destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
-        String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().getPath();
+        String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().toString().substring(5);
+        System.out.println(pinPath);
         MeshView[] pin = loadMeshViews(pinPath);
         for (int i = 0; i < pin.length; i++) {
             double MODEL_SCALE_FACTOR22 = 0.15;
@@ -139,7 +136,7 @@ public class ThreeDimensions extends Application {
             pin[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS), new Rotate(90, Rotate.X_AXIS));
         }
 
-        String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
+        String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().toString().substring(5);
         MeshView[] person = loadMeshViews(personPath);
         for (int i = 0; i < person.length; i++) {
             double MODEL_SCALE_FACTOR = 3;
@@ -618,11 +615,26 @@ public class ThreeDimensions extends Application {
 
     static MeshView[] loadMeshViews(String filename) {
         File file = new File(filename);
+        System.out.println(file);
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);
         Mesh mesh = importer.getImport();
 
         return new MeshView[]{new MeshView(mesh)};
+
+//        String steeel = filename.substring(filename.lastIndexOf("/"));
+//        filename = filename.substring(0,filename.indexOf("/libs"));
+//        filename += "/resources/main/images/ThreeDim" + steeel;
+//        filename = filename.replace("!","");
+//        filename = filename.substring(5);
+//        File file = new File(filename);
+//        System.out.println(filename);
+//        System.out.println(file.toString());
+//        StlMeshImporter importer = new StlMeshImporter();
+//        importer.read(file);
+//        Mesh mesh = importer.getImport();
+//
+//        return new MeshView[]{new MeshView(mesh)};
     }
 
     public Cylinder drawCylinder(Point3D startPoint, Point3D endPoint, int radius) {
