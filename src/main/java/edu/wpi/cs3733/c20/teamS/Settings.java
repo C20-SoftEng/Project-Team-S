@@ -27,16 +27,19 @@ public final class Settings {
         return Color.GREEN.deriveColor(1, 1, 1, 0.5);
     }
     public Color nodeFillColorNormal() {
-        return Color.ORANGE.deriveColor(1, 1, 1, 0.5);
+        //return Color.RED.deriveColor(1, 1, 1, 0.5);
+        return Color.web("#056F75").deriveColor(1, 1, 1, 0.5);
     }
     public Color nodeStrokeColorNormal() {
-        return Color.ORANGE;
+        //return Color.RED;
+        return Color.web("#2FBAC2");
     }
     public Color nodeFillColorHighlight() {
         return Color.AQUA.deriveColor(1, 1, 1, 0.5);
     }
     public Color editRoomColorNormal() {
-        return Color.BLUE.deriveColor(1, 1, 1, .45);
+        //return Color.BLUE.deriveColor(1, 1, 1, .45);
+        return Color.web("#C2692F", .45);
     }
     public Color editRoomColorHighlight() {
         return Color.AQUA.deriveColor(1, 1, 1, 0.5);
@@ -45,7 +48,8 @@ public final class Settings {
         return 5;
     }
     public Color editEdgeColorNormal() {
-        return Color.BLUE;
+        return Color.web("#2FBAC2");
+        //return Color.BLUE;
     }
     public Color editEdgeColorHighlight() {
         return Color.AQUA;
