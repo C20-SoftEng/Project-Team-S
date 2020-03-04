@@ -35,11 +35,11 @@
                 </padding>
                 <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Language" textAlignment="CENTER" wrappingWidth="192.6982421875" />
             <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Language" textAlignment="CENTER" wrappingWidth="192.6982421875" />
-                <TextField fx:id="locationField" prefHeight="92.0" prefWidth="358.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField id="serviceBox" fx:id="locationField" prefHeight="92.0" prefWidth="358.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField id="serviceBox" fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                     <children>
-                        <RadioButton fx:id="EnglishButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" selected="true" text="English">
+                        <RadioButton id="radio" fx:id="EnglishButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" selected="true" text="English">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
@@ -47,12 +47,12 @@
                                 <ToggleGroup fx:id="One" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="EspanolButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Español" toggleGroup="$One">
+                        <RadioButton id="radio" fx:id="EspanolButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Español" toggleGroup="$One">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="ElbonianButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Elbonian" toggleGroup="$One">
+                        <RadioButton id="radio" fx:id="ElbonianButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Elbonian" toggleGroup="$One">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
