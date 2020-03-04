@@ -66,6 +66,19 @@
     -fx-text-fill: black;
 }
 
+.text-area {
+    -fx-padding: 0;
+    -fx-cursor: default;
+    -fx-background-color: white;
+}
+
+.text-area .content {
+    /*the is 1px less top and bottom than TextInput because of scrollpane border */
+    -fx-padding: 0.25em 0.583em 0.25em 0.583em; /* 3 7 3 7 */
+    -fx-background-color: #fff;
+    -fx-background-radius: 2;
+}
+
 
 .text{
     -fx-text-fill: black;

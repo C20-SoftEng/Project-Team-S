@@ -47,7 +47,14 @@
               </items>
             </SplitPane>
          </bottom>
-         <center>
+         <top>
+            <Label id="serviceHeader" fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" text="Medicine Request" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </top>
+         <left>
             <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="597.0" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="193.0" />
@@ -73,14 +80,7 @@
                   <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-         </center>
-         <top>
-            <Label id="serviceHeader" fx:id="serviceName" alignment="CENTER" prefHeight="45.0" prefWidth="608.0" text="Medicine Request" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-         </top>
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>
