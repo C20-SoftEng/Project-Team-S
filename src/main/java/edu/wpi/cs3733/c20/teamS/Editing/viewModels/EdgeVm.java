@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public final class EdgeVm extends Parent {
@@ -14,6 +15,8 @@ public final class EdgeVm extends Parent {
     private final NodeData end;
 
     private final Line visibleMask;
+    private final Circle startBall;
+    private final Circle endBall;
     private final Line collisionMask;
     private final ReactiveProperty<Boolean> isMouseOver = new ReactiveProperty<>(false);
     private final ReactiveProperty<Boolean> highlightOnMouseOver = new ReactiveProperty<>(true);
@@ -33,6 +36,11 @@ public final class EdgeVm extends Parent {
         visibleMask.setMouseTransparent(true);
         getChildren().add(visibleMask);
 
+        startBall = createEndpointCircle(0, 0);
+        //getChildren().add(startBall);
+
+        endBall = startBall;
+
         collisionMask = new Line();
         updateLinePosition(collisionMask);
         collisionMask.setStroke(Color.TRANSPARENT);
@@ -42,6 +50,15 @@ public final class EdgeVm extends Parent {
         initEventHandlers(start, end);
     }
 
+    private Circle createEndpointCircle(double x, double y) {
+        Circle circle = new Circle();
+        circle.setCenterX(x);
+        circle.setCenterY(y);
+        circle.setStroke(Settings.get().editEdgeColorNormal());
+        circle.setStroke(Settings.get().editEdgeColorNormal());
+        circle.setMouseTransparent(true);
+        return circle;
+    }
     private void initEventHandlers(NodeData start, NodeData end) {
         start.positionChanged()
                 .mergeWith(end.positionChanged())
