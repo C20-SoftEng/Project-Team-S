@@ -157,12 +157,12 @@ public class ApplicationInitializer {
         try{
             Settings.get().setSplashRoot(loader.load());
         }
-        catch(IOException e){
+        catch(IOException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
-    private void initEmployeeScreen(){
+    private void initEmployeeScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
 
         loader.setControllerFactory(c -> { EditScreenController msc = new EditScreenController();
