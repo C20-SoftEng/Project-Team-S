@@ -55,6 +55,7 @@ public class RoomDisplayVm extends Parent {
         isMouseOver.changed().map(huh -> RxAdaptors.UNIT)
                 .mergeWith(room.nameChanged())
                 .map(u -> isMouseOver.value() && room.name() != null && !room.name().isEmpty())
+                .filter(u -> Settings.get().showPopupsOnRoomMouseOver())
                 .subscribe(popup::setVisible);
     }
 

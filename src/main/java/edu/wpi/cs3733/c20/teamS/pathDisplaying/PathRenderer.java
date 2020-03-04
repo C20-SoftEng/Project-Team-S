@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
@@ -114,11 +115,12 @@ class PathRenderer {
     }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
-     *  @param path       The path to display instructions for.
-     * @param directoryBox The VBox to display the directory
+     * @param path       The path to display instructions for.
      * @param displayBox The VBox to display the instructions in.
+     * @param directoryBox The VBox to display the directory
+     * @param darkmode The boolean to show whether darkmode is or not implemented
      */
-    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox,  VBox directoryBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox, VBox directoryBox, boolean darkmode) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
         if (directoryBox == null) ThrowHelper.illegalNull("directoryBox");
@@ -126,15 +128,13 @@ class PathRenderer {
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
-        displayBox.setStyle("-fx-text-fill: black");
+        if (darkmode){
+            displayBox.setStyle("-fx-text-fill: white");
+        }
+        else {
+            displayBox.setStyle("-fx-text-fill: black");
+        }
         displayBox.getChildren().clear();
-
-
-
-        //JFXTextField directionLabel = new JFXTextField();
-        //directionLabel.setText("Directions");
-        //JFXTextField space = new JFXTextField();
-        //directoryBox.setVisible(false);
 
         for (int i = 0; i < instructions.size(); i++) {
             HBox imageHolder = new HBox();
@@ -145,8 +145,14 @@ class PathRenderer {
             String word = instructions.get(i).trim();
 
             if(word.contains("Left")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
-                image.setImage(newImage);
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
+                    image.setImage(newImage);
+                }
 
                 image.setFitHeight(25);
                 image.setFitWidth(25);
@@ -159,8 +165,14 @@ class PathRenderer {
                 image.setPreserveRatio(true);
             }
             else if(word.contains("Right")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
-                image.setImage(newImage);
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
+                    image.setImage(newImage);
+                }
                 image.setFitHeight(25);
                 image.setFitWidth(25);
                 image.setTranslateX(30);
@@ -169,8 +181,14 @@ class PathRenderer {
                 image.setPreserveRatio(true);
             }
             else if(word.contains("straight")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
-                image.setImage(newImage);
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
+                    image.setImage(newImage);
+                }
                 image.setFitHeight(25);
                 image.setFitWidth(25);
                 image.setTranslateX(30);
@@ -180,8 +198,14 @@ class PathRenderer {
 
             }
             else if(word.contains("Elevator")){
-                Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
-                image.setImage(newImage);
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
+                    image.setImage(newImage);
+                }
                 image.setFitHeight(25);
                 image.setFitWidth(25);
                 image.setTranslateX(28);
@@ -276,8 +300,7 @@ class PathRenderer {
                 //text.setTranslateX(30);
 
             }
-            text.setStyle("-fx-background-color: #ccc");
-            text.setStyle("-fx-start-margin: 5");
+            //text.setStyle("-fx-background-color: #ccc");
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);

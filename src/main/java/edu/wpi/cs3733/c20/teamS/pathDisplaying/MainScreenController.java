@@ -79,11 +79,17 @@ public class MainScreenController implements Initializable {
         initDirectoryPathfinding();
 
         scrollPane.setContent(group);
+        while (zoomer.canZoomOut())
+            zoomer.zoomOut();
         redraw();
     }
 
     public void clearPathDisplay() {
         nodeSelector.reset();
+    }
+
+    public void setDirectVisible(){
+        this.directoryVBox.setVisible(true);
     }
 
     private void initDirectorySidebar() {
@@ -100,7 +106,7 @@ public class MainScreenController implements Initializable {
         nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
         nodeSelector.pathChanged().subscribe(path -> {
             redraw();
-            renderer.printInstructions(path, instructionVBox, directoryVBox);
+            renderer.printInstructions(path, instructionVBox, directoryVBox, darkmode);
         });
         nodeSelector.startChanged()
                 .subscribe(pin -> {
@@ -449,11 +455,12 @@ public class MainScreenController implements Initializable {
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
-    @FXML private void onSwapButtonPressed() {
+    //disabled because swap was not needed.
+ /*   @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());
         location1.setText(temp);
-    }
+    } */
     @FXML private void onZoomInClicked() {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
@@ -483,8 +490,6 @@ public class MainScreenController implements Initializable {
         if (darkmode){
             Application.setUserAgentStylesheet("modena.css");
             StyleManager.getInstance().addUserAgentStylesheet("default.css");
-//            stage.getScene().getStylesheets().add("default.css");
-//            stage.getScene().getStylesheets().remove("darkmode.css");
             darkmode = false;
             //set image to dark mode button
             darkModeImage.setImage(Khons);
@@ -493,8 +498,6 @@ public class MainScreenController implements Initializable {
         else {
             Application.setUserAgentStylesheet("modena.css");
             StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
-//            stage.getScene().getStylesheets().add("darkmode.css");
-//            stage.getScene().getStylesheets().remove("default.css");
             darkmode = true;
             //set image to light mode button
             darkModeImage.setImage(Ra);

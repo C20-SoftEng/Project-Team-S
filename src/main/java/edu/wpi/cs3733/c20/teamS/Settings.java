@@ -173,6 +173,10 @@ public final class Settings {
         Settings.editScreenController = editScreenController;
     }
 
+    public boolean showPopupsOnRoomMouseOver() {
+        return false;
+    }
+
     public void setKioskFloor(int floorNumber){
         Settings.floor = floorNumber;
     }

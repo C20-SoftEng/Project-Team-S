@@ -375,13 +375,13 @@ public class EditScreenController extends BaseScreen implements Initializable {
             hitboxRepo.save(rooms);
     }
 
-    @FXML
-    private void onCancelEditClicked() {
-        if (hitboxRepo.canLoad()) {
-            rooms.clear();
-            rooms.addAll(hitboxRepo.load());
-        }
-    }
+//    @FXML
+//    private void onCancelEditClicked() {
+//        if (hitboxRepo.canLoad()) {
+//            rooms.clear();
+//            rooms.addAll(hitboxRepo.load());
+//        }
+//    }
 
     @FXML
     void onUndoClicked(ActionEvent event) {

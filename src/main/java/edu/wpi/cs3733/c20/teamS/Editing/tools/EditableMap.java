@@ -91,6 +91,8 @@ public class EditableMap implements IEditableMap {
         floorSelector.setCurrent(1);
 
         updateZoom();
+        while (zoomer.canZoomOut())
+            zoomer.zoomOut();
     }
 
     public ObservableGraph graph() {
