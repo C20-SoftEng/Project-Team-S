@@ -11,6 +11,7 @@ import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableBase;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -193,9 +194,13 @@ public final class EditRoomTool extends EditingTool {
 
         private Disposable showDialog() {
             return RoomEditScreen.showDialog(stage, room)
-                    .subscribe(e -> {
-                        state.setCurrent(new RoomSelectedState(room));
-                    });
+                    .map(e -> RxAdaptors.UNIT)
+                    .mergeWith(RxAdaptors.eventStream(stage::setOnCloseRequest))
+                    .subscribe(e -> state.setCurrent(new RoomSelectedState(room)));
+//                    .mergeWith(RxAdaptors.eventStream(stage::setOnCloseRequest))
+//                    .subscribe(e -> {
+//                        state.setCurrent(new RoomSelectedState(room));
+//                    });
         }
     }
 }

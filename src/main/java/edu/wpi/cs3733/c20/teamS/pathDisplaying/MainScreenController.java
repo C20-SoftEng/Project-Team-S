@@ -70,7 +70,7 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(scrollPane, -1, 0);
+        zoomer = new MapZoomer(scrollPane, Settings.get().minZoomStage(), Settings.get().maxZoomStage());
         initGraph();
         renderer = new PathRenderer();
         initFloorSelector();

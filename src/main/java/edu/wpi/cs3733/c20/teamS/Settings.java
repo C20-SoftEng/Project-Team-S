@@ -58,6 +58,12 @@ public final class Settings {
     public double editEdgeCollisionMaskWidth() {
         return 25;
     }
+    public int minZoomStage() {
+        return -1;
+    }
+    public int maxZoomStage() {
+        return 0;
+    }
 
     public int floors() {
         return 7;
