@@ -101,7 +101,7 @@ public class MainScreenController implements Initializable {
         nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
         nodeSelector.pathChanged().subscribe(path -> {
             redraw();
-            renderer.printInstructions(path, instructionVBox, directoryVBox);
+            renderer.printInstructions(path, instructionVBox, directoryVBox, darkmode);
         });
         nodeSelector.startChanged()
                 .subscribe(pin -> {
