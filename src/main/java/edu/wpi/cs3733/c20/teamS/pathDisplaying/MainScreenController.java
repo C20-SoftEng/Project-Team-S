@@ -4,6 +4,7 @@ import animatefx.animation.Pulse;
 import animatefx.animation.*;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXScrollPane;
 import com.sun.javafx.application.PlatformImpl;
 import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.*;
@@ -245,6 +246,7 @@ public class MainScreenController implements Initializable {
     @FXML private TitledPane AccREST;
     @FXML private TitledPane AccCONF;
     @FXML private TitledPane AccEXIT;
+    @FXML private JFXScrollPane directionsScrollPane;
 
     @FXML private ListView<LookupResult<NodeData>> deptList;
     @FXML private ListView<LookupResult<NodeData>> servList;

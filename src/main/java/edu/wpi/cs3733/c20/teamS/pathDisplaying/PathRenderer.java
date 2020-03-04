@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
@@ -257,25 +258,29 @@ class PathRenderer {
             }
             text.setEditable(false);
             if (text.getLength() > 27){
-                text.setFont(Font.font ("System", 11));
+                text.setFont(Font.font ("System", 16));
                 text.setPrefHeight(30);
-                text.setPrefWidth(150);
+                text.setPrefWidth(250);
                text.setTranslateX(35);
 
             }
             else if (text.getLength() >= 22){
-                text.setFont(Font.font ("System", 11));
+                text.setFont(Font.font ("System", 16));
                 text.setPrefHeight(30);
+                text.setPrefWidth(250);
+
                 text.setTranslateX(33);
 
             }
             else {
-                text.setFont(Font.font ("System", 14));
+                text.setFont(Font.font ("System", 16));
                 text.setPrefHeight(30);
+                text.setPrefWidth(250);
                 //text.setPref
                 //text.setTranslateX(30);
 
             }
+            text.prefWidth(Region.USE_COMPUTED_SIZE);
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);

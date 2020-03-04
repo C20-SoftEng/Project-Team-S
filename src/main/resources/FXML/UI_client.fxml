@@ -395,16 +395,26 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <VBox fx:id="instructionVBox" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                        <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="450.0" prefWidth="254.0" style="-fx-background-color: gray;" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox fx:id="instructionVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="254.0" />
+                           </content>
+                        </ScrollPane>
                         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onTextClicked" styleClass="buttons" text="Text Me Directions" textFill="WHITE" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
-                              <Insets bottom="10.0" top="20.0" />
+                              <Insets bottom="10.0" top="30.0" />
                            </VBox.margin>
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="toDirectoryButton" onAction="#onToDirectoryClicked" prefHeight="42.0" prefWidth="161.0" style="-fx-background-color: #ddd; -fx-border-color: gray; -fx-border-radius: 5; -fx-background-radius: 5;" text="To Directory" translateY="-200.0" />
+                        <JFXButton fx:id="toDirectoryButton" alignment="CENTER" buttonType="RAISED" onAction="#onToDirectoryClicked" style="-fx-background-color: #ddd; -fx-border-color: gray; -fx-border-radius: 5; -fx-background-radius: 5;" text="To Directory">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font></JFXButton>
                      </children>
                   </VBox>
                   <VBox fx:id="directoryVBox" styleClass="sidebar">
@@ -552,7 +562,7 @@
                                     </Accordion>
                                     <JFXButton fx:id="toTextDirectionButton" onAction="#onToTextClicked" prefHeight="41.0" prefWidth="200.0" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5;" text="To Text Directions">
                                        <VBox.margin>
-                                          <Insets top="30.0" />
+                                          <Insets top="20.0" />
                                        </VBox.margin></JFXButton>
                                  </children>
                                  <VBox.margin>
