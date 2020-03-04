@@ -343,7 +343,7 @@
                                     <DropShadow />
                                  </effect>
                               </Label>
-                              <JFXButton id="switch" fx:id="swapButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" minHeight="-Infinity" minWidth="-Infinity" onAction="#onSwapButtonPressed" prefHeight="51.0" prefWidth="62.0" text=" " translateY="13.0">
+                              <JFXButton id="switch" fx:id="swapButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="62.0" ripplerFill="TRANSPARENT" text=" " translateY="13.0">
                                  <graphic>
                                     <ImageView id="arrows" fx:id="onSwapButton" fitHeight="55.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
