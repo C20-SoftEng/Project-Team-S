@@ -92,13 +92,13 @@ public class MainStartScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //timeField.setText("    " + dtf.format(now));
-        timeField.setStyle("-fx-font-size: 70px");
+        timeField.setStyle("-fx-font-size: 60px");
         initClock();
 
         WeatherBox weatherBox1 = new WeatherBox();
 
         weatherField.setText((String.valueOf(weatherBox1.getTemp())) + "\u00B0");
-        weatherField.setStyle("-fx-font-size: 55px");
+        weatherField.setStyle("-fx-font-size: 50px");
 
         //HashSet<Image> imageList = new HashSet<>();
         Image image0 = new Image(String.valueOf(getClass().getResource("/images/TutorialPhotos/image1.png")));

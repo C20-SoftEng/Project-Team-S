@@ -29,7 +29,7 @@
                                  <children>
                                     <Label fx:id="timeField" alignment="BOTTOM_CENTER" text="Label" textAlignment="CENTER">
                                        <font>
-                                          <Font size="30.0" />
+                                          <Font size="25.0" />
                                        </font>
                                     </Label>
                                  </children>
