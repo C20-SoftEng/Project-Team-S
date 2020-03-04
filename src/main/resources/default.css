@@ -17,11 +17,20 @@
     -fx-image: url("images/Icons/About_Us.png");
 }
 
-/*
+
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
-*/
+
+/* ones with grey -fx-background not lighter -fx-control-inner-background */
+.scroll-pane,
+.split-pane {
+    -fx-background-color: -fx-box-border, -fx-background;
+}
+.scroll-pane:focused,
+.split-pane:focused {
+    -fx-background-color: -fx-faint-focus-color, -fx-focus-color, -fx-background;
+}
 
 #nodetext{
     -fx-border-color: black;
@@ -652,6 +661,9 @@
  * ScrollBar                                                                   *
  *                                                                             *
  ******************************************************************************/
+.scroll-pane > .viewport {
+    -fx-background-color: -fx-background;
+}
 
 .scroll-bar:horizontal {
     -fx-background-color: derive(-fx-box-border,30%), linear-gradient(to bottom, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));

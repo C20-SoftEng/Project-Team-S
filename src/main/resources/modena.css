@@ -634,15 +634,7 @@ is being used to size a border should also be in pixels.
     -fx-background-insets: -1.4, -0.3, 1;
     -fx-background-radius: 2, 0, 0;
 }
-/* ones with grey -fx-background not lighter -fx-control-inner-background */
-.scroll-pane,
-.split-pane {
-    -fx-background-color: -fx-box-border, -fx-background;
-}
-.scroll-pane:focused,
-.split-pane:focused {
-    -fx-background-color: -fx-faint-focus-color, -fx-focus-color, -fx-background;
-}
+
 
 /*******************************************************************************
  *                                                                             *
@@ -1009,9 +1001,7 @@ is being used to size a border should also be in pixels.
  * ScrollPane                                                                  *
  *                                                                             *
  ******************************************************************************/
-.scroll-pane > .viewport {
-    -fx-background-color: -fx-background;
-}
+
 .scroll-pane > .scroll-bar:horizontal {
     -fx-background-insets: 0 1 1 1, 1;
     -fx-padding: 0 1 0 1;

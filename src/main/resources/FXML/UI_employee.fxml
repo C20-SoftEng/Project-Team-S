@@ -66,6 +66,21 @@
                         <Font name="Bookshelf Symbol 7" size="14.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton id="nightbutton" fx:id="DarkModeButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDarkModeClicked" prefHeight="39.0" prefWidth="35.0" text="Dark Mode">
+                     <graphic>
+                        <ImageView fx:id="darkModeImage" fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Icons/DarkMode_Moon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
                   <JFXButton id="login" fx:id="logoutStaffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onLogOut" prefHeight="41.0" prefWidth="132.0" ripplerFill="BLACK" text="Logout" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
