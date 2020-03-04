@@ -64,9 +64,9 @@
                <children>
                   <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
                   <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER" wrappingWidth="192.6982421875" />
-                  <TextField fx:id="locationField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="drugField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField id="serviceBox" fx:id="locationField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" />
+                  <TextField id="serviceBox" fx:id="drugField" prefHeight="52.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField id="serviceBox" fx:id="commentsField" prefHeight="96.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text id="textwhite" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug To Administer" textAlignment="CENTER" wrappingWidth="192.6982421875" GridPane.rowIndex="1" />
                   <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Drug To Administer" textAlignment="CENTER" wrappingWidth="192.6982421875" GridPane.rowIndex="1" />
                   <Text id="textblack" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" textAlignment="CENTER" wrappingWidth="194.14892578125" GridPane.rowIndex="2" />
