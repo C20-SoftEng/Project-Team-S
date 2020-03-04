@@ -50,6 +50,7 @@
 .text-field{
     -fx-text-fill: #fff;
     -fx-background-color: #ccc;
+    -fx-prompt-text-fill: #fff  ;
 }
 
 #radio{
@@ -66,11 +67,11 @@
 
 
 #login{
+    -fx-text-fill: #fff;
     -fx-background-color: #B0B0B0;
     -fx-border-color: #CCCCCC;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
-    -fx-text-fill: #fff
 }
 
 .searchbar{
@@ -316,6 +317,11 @@
 #sidenodes{
     -fx-background-color: #909090;
     -fx-background-radius: 5;
+}
+.menu-button:focused{
+    -fx-background-color: linear-gradient(#848484, #8c8c8c, #909090);
+    -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
+    -fx-background-radius: 3, 2, 1, 4, 1;
 }
 
 .menu-button {
@@ -681,4 +687,53 @@
     -fx-shape: "M7.071,1L8.5,1.002L4.5,4l-4-2.998L1.93,1L4.5,2.976L7.071,1z";
     -fx-effect: dropshadow(two-pass-box , -fx-shadow-highlight-color, 1, 0.0 , 0, 1.4);
     /*-fx-background-insets: 2 0 -2 0, 0;*/
+}
+
+
+/*******************************************************************************
+ *                                                                             *
+ * MenuItem                                                                    *
+ *                                                                             *
+ ******************************************************************************/
+
+.menu-item {
+    -fx-background-color:  #4c4c4c;
+    -fx-padding: 0.333333em 0.41777em 0.333333em 0.41777em;  /* 4 5 4 5 */
+}
+.menu-item > .left-container {
+    -fx-padding: 0.458em 0.791em 0.458em 0.458em;
+}
+.menu-item > .graphic-container {
+    -fx-padding: 0em 0.333em 0em 0em;
+}
+.menu-item >.label {
+    -fx-padding: 0em 0.5em 0em 0em;
+    -fx-text-fill: #fff;
+}
+.menu-item:focused {
+    -fx-background: red;
+    -fx-background-color: #0067b1;
+    -fx-text-fill:  white;
+}
+.menu-item:focused > .label {
+    -fx-text-fill: white;
+}
+.menu-item > .right-container {
+    -fx-padding: 0em 0em 0em 0.5em;
+}
+.radio-menu-item:checked > .left-container > .radio {
+    -fx-background-color: -fx-mark-color;
+    -fx-shape: "M0,5H2L4,8L8,0H10L5,10H3Z";
+    -fx-scale-shape: false;
+}
+.radio-menu-item:focused:checked > .left-container > .radio {
+    -fx-background-color: -fx-focused-mark-color;
+}
+.check-menu-item:checked > .left-container > .check {
+    -fx-background-color: -fx-mark-color;
+    -fx-shape: "M0,5H2L4,8L8,0H10L5,10H3Z";
+    -fx-scale-shape: false;
+}
+.check-menu-item:focused:checked > .left-container > .check {
+    -fx-background-color: -fx-focused-mark-color;
 }

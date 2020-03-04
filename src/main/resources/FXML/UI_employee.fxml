@@ -271,7 +271,7 @@
                                           <Font size="17.0" />
                                        </font>
                                     </Label>
-                                    <JFXRadioButton fx:id="astarRadioButton" text="A*">
+                                    <JFXRadioButton id="radio" fx:id="astarRadioButton" text="A*">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="pathGroup" />
                                        </toggleGroup>
@@ -285,7 +285,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </JFXRadioButton>
-                                    <JFXRadioButton fx:id="djikstraRadioButton" text="Djikstra" toggleGroup="$pathGroup">
+                                    <JFXRadioButton id="radio" fx:id="djikstraRadioButton" text="Djikstra" toggleGroup="$pathGroup">
                                        <padding>
                                           <Insets left="5.0" />
                                        </padding>
@@ -296,7 +296,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </JFXRadioButton>
-                                    <JFXRadioButton fx:id="breadthFirstRadioButton" selected="true" text="Breadth First" toggleGroup="$pathGroup">
+                                    <JFXRadioButton id="radio" fx:id="breadthFirstRadioButton" selected="true" text="Breadth First" toggleGroup="$pathGroup">
                                        <padding>
                                           <Insets left="5.0" />
                                        </padding>
@@ -307,7 +307,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </JFXRadioButton>
-                                    <JFXRadioButton fx:id="depthFirstRadioButton" text="Depth First" toggleGroup="$pathGroup">
+                                    <JFXRadioButton id="radio" fx:id="depthFirstRadioButton" text="Depth First" toggleGroup="$pathGroup">
                                        <padding>
                                           <Insets left="5.0" />
                                        </padding>

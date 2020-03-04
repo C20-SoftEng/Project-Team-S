@@ -71,7 +71,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="19.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />

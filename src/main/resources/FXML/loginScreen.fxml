@@ -10,12 +10,12 @@
 
 <AnchorPane fx:id="anchor" maxHeight="302.0" maxWidth="433.0" minHeight="221.0" minWidth="400.0" prefHeight="260.0" prefWidth="400.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.loginScreenController">
    <children>
-      <Label fx:id="wrongStuff" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textFill="#cd0a0a" visible="false">
+      <Label fx:id="wrongStuff" alignment="CENTER" contentDisplay="TOP" layoutX="125.0" layoutY="10.0" prefHeight="29.0" prefWidth="156.0" text="Invalid Credentials" textAlignment="CENTER" textFill="#cd0a0a" visible="false" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <JFXTextField id="usertext" fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#0ab4b4" labelFloat="true" layoutX="110.0" layoutY="67.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
+      <JFXTextField id="usertext" fx:id="id" accessibleRole="PASSWORD_FIELD" focusColor="#363636" labelFloat="true" layoutX="110.0" layoutY="67.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User ID" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="80.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -23,7 +23,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </JFXTextField>
-      <JFXPasswordField id="pass" fx:id="pw" focusColor="#0ab4b4" labelFloat="true" layoutX="112.0" layoutY="138.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="112.0">
+      <JFXPasswordField id="pass" fx:id="pw" focusColor="#363636" labelFloat="true" layoutX="112.0" layoutY="138.0" opacity="0.6" prefHeight="27.0" prefWidth="183.0" promptText="Enter User Password" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="112.0">
          <font>
             <Font size="13.0" />
          </font>
