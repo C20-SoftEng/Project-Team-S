@@ -276,6 +276,8 @@ class PathRenderer {
                 //text.setTranslateX(30);
 
             }
+            text.setStyle("-fx-background-color: #ccc");
+            text.setStyle("-fx-start-margin: 5");
             imageHolder.getChildren().add(image);
             imageHolder.getChildren().add(text);
             displayBox.getChildren().add(imageHolder);

@@ -1212,12 +1212,7 @@ is being used to size a border should also be in pixels.
  *                                                                             *
  ******************************************************************************/
 
-.text-area {
-    -fx-padding: 0;
-    -fx-cursor: default;
-    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
-    derive(-fx-base,-1%);
-}
+
 .text-area > .scroll-pane {
     -fx-background-color: null;
 }
@@ -1230,14 +1225,7 @@ is being used to size a border should also be in pixels.
 .text-area > .scroll-pane > .corner {
     -fx-background-radius: 0 0 2 0;
 }
-.text-area .content {
-    /*the is 1px less top and bottom than TextInput because of scrollpane border */
-    -fx-padding: 0.25em 0.583em 0.25em 0.583em; /* 3 7 3 7 */
-    -fx-cursor: text;
-    -fx-background-color:
-            linear-gradient(from 0px 0px to 0px 4px, derive(-fx-control-inner-background, -8%), -fx-control-inner-background);
-    -fx-background-radius: 2;
-}
+
 .text-area:focused .content {
     -fx-background-color:
             -fx-control-inner-background,
