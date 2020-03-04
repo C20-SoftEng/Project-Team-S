@@ -82,7 +82,7 @@ public class ThreeDimensions extends Application {
         NodeData begin = nodes.get(0);
         NodeData end = nodes.get(nodes.size() - 1);
 
-        boolean showComfort = false;
+        boolean showComfort = true;
         if(end.getLongName().equals("South Patient Beds")) {
             showComfort = true;
         }
@@ -187,6 +187,29 @@ public class ThreeDimensions extends Application {
         nurseGroup.getChildren().addAll(nurse);
         if(showComfort)
         group.getChildren().addAll(nurseGroup);
+
+        URL pikaPath = getClass().getResource("/images/ThreeDim/fry5poc2kyap.obj").toURI().toURL(); //jar will brake
+        MeshView[] pika = loadModel(pikaPath);
+        for (int k = 0; k < nurse.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            pika[k].setScaleX(MODEL_SCALE_FACTOR);
+            pika[k].setScaleY(MODEL_SCALE_FACTOR);
+            pika[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            //pika[k].setTranslateZ(zplace.get(6));
+            //pika[k].setTranslateX(70);
+            //pika[k].setTranslateY(90);
+
+            //pika[k].getTransforms().setAll(new Rotate(90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup pikaGroup = new RotateGroup();
+        pikaGroup.getChildren().addAll(pika);
+        pikaGroup.setTranslateZ(zplace.get(6));
+        pikaGroup.setTranslateX(180);
+        pikaGroup.setTranslateY(90);
+        pikaGroup.getTransforms().setAll(new Rotate(90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        if(showComfort)
+        group.getChildren().addAll(pikaGroup);
 
         URL dogPath = getClass().getResource("/images/ThreeDim/12228_Dog_v1_L2.obj").toURI().toURL(); //jar will brake
         MeshView[] dog = loadModel(dogPath);
@@ -368,22 +391,22 @@ public class ThreeDimensions extends Application {
                     group.translateZProperty().set(group.getTranslateZ() - 100);
                     break;
                 case Q:
-                    group.rotateByX(1);
+                    numberGroup.rotateByX(1);
                     break;
                 case E:
-                    group.rotateByX(-1);
+                    numberGroup.rotateByX(-1);
                     break;
                 case A:
-                    group.rotateByY(1);
+                    numberGroup.rotateByY(1);
                     break;
                 case D:
-                    group.rotateByY(-1);
+                    numberGroup.rotateByY(-1);
                     break;
                 case T:
-                    group.rotateByZ(-1);
+                    group.translateXProperty().set(group.getTranslateX() - 2);
                     break;
                 case Y:
-                    group.rotateByZ(1);
+                    group.translateXProperty().set(group.getTranslateX() + 2);
                     break;
                 case G:
                     group.setTranslateY(group.getTranslateY() - 100);
@@ -425,14 +448,15 @@ public class ThreeDimensions extends Application {
         Group restIcons = getRESTIcons();
         group.getChildren().add(restIcons);
 
-        group.rotateByX(-67);
-        group.translateXProperty().set(WIDTH / 2 - 50);
-        group.translateYProperty().set(HEIGHT / 2);
+        group.rotateByX(-63);
+        //numberGroup.rotateByX(63);
+        group.translateXProperty().set((WIDTH - 192 - 49)/2 - 24);
+        group.translateYProperty().set(632/2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
         group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * floorDist);
-        group.rotateByZ(-120);
-        numberGroup.rotateByZ(120);
-        group.translateZProperty().set(group.getTranslateZ() + 30);
+        //group.rotateByZ(22);
+        //numberGroup.rotateByZ(-22);
+        group.translateZProperty().set(group.getTranslateZ() + 100);
 
         Group root = new Group();
         ImageView imageView = getOverlay();
@@ -534,16 +558,16 @@ public class ThreeDimensions extends Application {
                     imageView.setScaleZ(imageView.getScaleZ() + sclaer);
                     break;
                 case J:
-                    patientGroup.setTranslateX(patientGroup.getTranslateX() - translater);
+                    pikaGroup.setTranslateX(pikaGroup.getTranslateX() - translater);
                     break;
                 case K:
-                    patientGroup.setTranslateX(patientGroup.getTranslateX() + translater);
+                    pikaGroup.setTranslateX(pikaGroup.getTranslateX() + translater);
                     break;
                 case Y:
-                    patientGroup.setTranslateY(patientGroup.getTranslateY() - translater);
+                    pikaGroup.setTranslateY(pikaGroup.getTranslateY() - translater);
                     break;
                 case U:
-                    patientGroup.setTranslateY(patientGroup.getTranslateY() + translater);
+                    pikaGroup.setTranslateY(pikaGroup.getTranslateY() + translater);
                     break;
             }
         });
@@ -558,17 +582,10 @@ public class ThreeDimensions extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                onFloorMove(docGroup, numberGroup, begin);
+                onFloorMove(group, docGroup, numberGroup, begin);
             }
         };
         timer.start();
-
-//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-//            onFloorMove(personGroup, numberGroup, begin);
-//        }));
-//        timeline.setCycleCount(Animation.INDEFINITE);
-//        timeline.play();
-//        timeline.setRate(1);
     }
 
     private MeshView[] loadModel(URL url) {
@@ -677,7 +694,7 @@ public class ThreeDimensions extends Application {
 
         stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
             if(event.isPrimaryButtonDown() && !event.isControlDown()) {
-                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2);}
+                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2); }
                 else {group.setTranslateY(group.getTranslateY() - 2);}
                 oldY = event.getSceneY();
             }
@@ -694,7 +711,12 @@ public class ThreeDimensions extends Application {
 
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
-            group.translateZProperty().set(group.getTranslateZ() + delta);
+            if(group.getTranslateZ() < 324 && delta > 0) {
+                group.translateZProperty().set(group.getTranslateZ() + delta);
+            }
+            else if (group.getTranslateZ() > -938 && delta < 0) {
+                group.translateZProperty().set(group.getTranslateZ() + delta);
+            }
         });
     }
 
@@ -925,7 +947,7 @@ public class ThreeDimensions extends Application {
         }
     }
 
-    private void onFloorMove(RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
+    private void onFloorMove(RotateGroup group, RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
         for(int i = 1; i <= 5; i++) {
             if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
                 int finalI = i;
