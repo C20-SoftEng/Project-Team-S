@@ -59,12 +59,15 @@
                   </JFXBadge>
                   <JFXButton id="nightbutton" fx:id="DarkModeButton" contentDisplay="GRAPHIC_ONLY" onAction="#onDarkModeClicked" prefHeight="27.0" prefWidth="29.0" scaleX="0.75" scaleY="0.75" text="Dark Mode">
                      <graphic>
-                        <ImageView fx:id="darkModeImage" fitHeight="131.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="darkModeImage" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Icons/DarkMode_Moon.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </JFXButton>
                   <JFXButton id="login" fx:id="staffButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" minHeight="1.0" minWidth="1.0" onAction="#onStaffClicked" prefHeight="41.0" prefWidth="132.0" text="Staff Login" HBox.hgrow="SOMETIMES">
                      <HBox.margin>

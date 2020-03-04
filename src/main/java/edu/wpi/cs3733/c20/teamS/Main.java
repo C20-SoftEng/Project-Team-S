@@ -11,7 +11,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-    private static final StartupScreen START_SCREEN = StartupScreen.MAIN;
+
+    private static final StartupScreen START_SCREEN = StartupScreen.SPLASH;
+
 
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();

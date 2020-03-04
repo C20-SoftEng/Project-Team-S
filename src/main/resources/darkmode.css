@@ -25,6 +25,11 @@
     -fx-background-color: #858585;
 }
 
+.scroll-pane:focused,
+.split-pane:focused {
+    -fx-background-color: #858585;
+}
+
 .hbox{
     -fx-background-color: #6D7275;
 }
@@ -619,16 +624,14 @@
     -fx-background-color:
             -fx-focus-color,
             linear-gradient(to right, #4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f),
-            -fx-faint-focus-color,
-            linear-gradient(to bottom, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));
+            -fx-faint-focus-color;
     -fx-background-insets: -0.2, 1, -1.4, 2.6;
 }
 .scroll-bar:vertical:focused {
     -fx-background-color:
             -fx-focus-color,
-            linear-gradient(to right, #4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f)),
-            -fx-faint-focus-color,
-            linear-gradient(to right, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));
+            linear-gradient(to right, #4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f),
+            -fx-faint-focus-color;
 }
 
 .scroll-bar:vertical > .thumb {
