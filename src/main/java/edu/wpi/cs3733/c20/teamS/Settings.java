@@ -64,7 +64,7 @@ public final class Settings {
         return 15;
     }
     public int minZoomStage() {
-        return -1;
+        return -2;
     }
     public int maxZoomStage() {
         return 0;
@@ -91,14 +91,7 @@ public final class Settings {
 
     private Settings(){}
 
-//    private static class SingletonHelper {
-//
-//        private static final Settings settings = new Settings();
-//    }
-
     private static Settings set;
-
-    //private SingletonHelper sh;
 
     synchronized public static Settings get(){
 
