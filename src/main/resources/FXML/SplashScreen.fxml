@@ -139,7 +139,7 @@
             </BorderPane>
          </children>
       </StackPane>
-      <Label alignment="CENTER" focusTraversable="false" text="&lt;Tap to Start&gt;" textFill="#726a6a" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" focusTraversable="false" layoutX="344.0" opacity="0.29" prefHeight="141.0" prefWidth="683.0" style="-fx-background-color: lightgray; -fx-background-radius: 50;" text="Tap to Start" textFill="#726a6a" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="253.0">
          <font>
             <Font size="96.0" />
          </font>

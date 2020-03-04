@@ -29,7 +29,7 @@
          <top>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" styleClass="topbar" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="title" alignment="TOP_RIGHT" prefHeight="44.0" prefWidth="419.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
+                  <Label id="title" alignment="TOP_LEFT" prefHeight="44.0" prefWidth="603.0" text=" BRIGHAM AND WOMEN'S FAULKNER HOSPITAL" textFill="WHITE">
                      <font>
                         <Font name="Bookshelf Symbol 7" size="17.0" />
                      </font>
@@ -54,6 +54,7 @@
                      </graphic>
                   </JFXButton>
                   <JFXButton fx:id="staffButton1" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="50.0" prefWidth="183.0" style="-fx-background-color: #f6bd38;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" opacity="0.0" prefHeight="50.0" prefWidth="56.0" style="-fx-background-color: #f6bd38; -fx-border-color: black;" text="Placeholder Button" textAlignment="CENTER" HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
@@ -365,6 +366,12 @@
                                  <effect>
                                     <DropShadow />
                                  </effect>
+                                 <graphic>
+                                    <ImageView id="arrows" fitHeight="150.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/swap_arrows.png" />
+                                       </image></ImageView>
+                                 </graphic>
                               </JFXButton>
                               <Label fx:id="location2" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="250.0" styleClass="startend" text="Select End Location" textAlignment="CENTER" wrapText="true" HBox.hgrow="SOMETIMES">
                                  <HBox.margin>

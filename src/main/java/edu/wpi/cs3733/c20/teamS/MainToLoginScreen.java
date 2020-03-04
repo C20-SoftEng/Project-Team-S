@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import animatefx.animation.FadeOut;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import javafx.event.Event;
 import javafx.scene.Scene;

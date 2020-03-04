@@ -8,10 +8,8 @@ import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
-//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
-
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
@@ -49,7 +47,7 @@ final class NodeSelector {
      * @param x The x-coordinate of the point in the room that was clicked.
      * @param y The y-coordinate of the point in the room that was clicked.
      */
-    public void onHitboxClicked(Room room, double x, double y) {
+    public void onRoomClicked(Room room, double x, double y) {
         if (room == null) ThrowHelper.illegalNull("room");
 
         state.onRoomClicked(room, x, y);
@@ -74,6 +72,9 @@ final class NodeSelector {
                     floorSupplier.getAsInt(), "NONE",
                 "FAKE", "FAKE NODE",
                 "FAKE NODE");
+    }
+    private boolean isNodeFake(NodeData node) {
+        return node.getNodeID().equals("FAKE");
     }
 
     public Path path() {
@@ -104,13 +105,12 @@ final class NodeSelector {
         }
     }
     private final class NoSelectionState extends State {
-        @Override
-        public void onRoomClicked(Room room, double x, double y) {
+        @Override public void onRoomClicked(Room room, double x, double y) {
             NodeData fakeStart = createFakeNode(x, y);
             onEndpointClicked(fakeStart, room);
         }
         @Override public void onNodeClicked(NodeData node) {
-            Room room = new Room();
+            Room room = createFakeRoomFromRealNode(node);
             room.touchingNodes().add(node.getNodeID());
             onEndpointClicked(node, room);
         }
@@ -122,6 +122,13 @@ final class NodeSelector {
             outer().state = new StartSelectedState(start.value().get());
         }
     }
+
+    private Room createFakeRoomFromRealNode(NodeData node) {
+        Room room = new Room();
+        room.setName(node.getLongName());
+        return room;
+    }
+
     private final class StartSelectedState extends State {
         private final PinDrop start;
 
@@ -134,6 +141,10 @@ final class NodeSelector {
 
             PinDrop goal = new PinDrop(room, createFakeNode(x, y));
 
+            doMostOfPathfindingShit(goal);
+        }
+
+        private void doMostOfPathfindingShit(PinDrop goal) {
             Set<NodeData> realStartNodes = realNodesInHitbox(start.room());
             Set<NodeData> realEndNodes = realNodesInHitbox(goal.room());
 
@@ -143,7 +154,7 @@ final class NodeSelector {
             );
 
             Path bestPath = results.stream()
-                    .min(Comparator.comparingDouble(p -> p.cost()))
+                    .min(Comparator.comparingDouble(Path::cost))
                     .orElse(Path.empty());
 
             outer().goal.setValue(Optional.of(goal));
@@ -151,12 +162,15 @@ final class NodeSelector {
 
             outer().state = new NoSelectionState();
         }
+
         @Override public void onNodeClicked(NodeData node) {
             if (node == null) ThrowHelper.illegalNull("node");
 
-            Room room = new Room();
+            Room room = createFakeRoomFromRealNode(node);
             room.touchingNodes().add(node.getNodeID());
-            onRoomClicked(room, node.getxCoordinate(), node.getyCoordinate());
+            PinDrop goal = new PinDrop(room, node);
+            doMostOfPathfindingShit(goal);
+            //onRoomClicked(room, node.getxCoordinate(), node.getyCoordinate());
         }
 
         private Collection<Path> findAllPossiblePaths(
@@ -167,7 +181,11 @@ final class NodeSelector {
             graph.addNode(fakeEnd);
             List<Path> results = new ArrayList<>();
             for (NodeData realStart : realStartNodes) {
+                if (realStart == fakeStart)
+                    continue;
                 for (NodeData realEnd : realEndNodes) {
+                    if (realEnd == fakeEnd)
+                        continue;
                     graph.putEdge(fakeStart, realStart);
                     graph.putEdge(fakeEnd, realEnd);
                     Path path = pathfinder.findPath(graph, fakeStart, fakeEnd);

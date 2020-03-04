@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.utilities;
 
 import java.util.List;
-import java.util.Set;
 
 public class SendEmailDirectionsThread extends Thread {
     List<String> directions;
@@ -18,7 +17,7 @@ public class SendEmailDirectionsThread extends Thread {
     public void run() {
         String allDirections = "";
         for(String d : directions){
-            allDirections = allDirections + d +" - ";
+            allDirections = allDirections + d +"  \n";
         }
         Mailer.sendMail(allDirections,"Directions from Faulkner Hospital",email);
 
