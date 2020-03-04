@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import tornadofx.control.DateTimePicker?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.RideRequestUIController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.RideRequestUIController">
    <children>
       <GridPane layoutX="6.0" prefHeight="405.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -37,7 +37,7 @@
             <RowConstraints maxHeight="109.0" minHeight="10.0" percentHeight="15.0" prefHeight="87.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXTextField fx:id="riderNameField" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="1">
+            <JFXTextField id="serviceBox" fx:id="riderNameField" focusColor="#405aa800" unFocusColor="#4d4d4d00" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -74,7 +74,7 @@
                   <DateTimePicker fx:id="pickupTimePicker" layoutX="114.0" layoutY="30.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
-            <JFXTextField fx:id="destinationField" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3">
+            <JFXTextField id="serviceBox" fx:id="destinationField" focusColor="#405aa800" unFocusColor="#4d4d4d00" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </GridPane.margin>
@@ -82,7 +82,7 @@
                   <Font size="24.0" />
                </font>
             </JFXTextField>
-            <Label text="Ride Request" GridPane.columnSpan="8" GridPane.halignment="CENTER">
+            <Label id="serviceHeader" text="Ride Request" GridPane.columnSpan="8" GridPane.halignment="CENTER">
                <font>
                   <Font size="48.0" />
                </font>
@@ -122,7 +122,7 @@
             </JFXButton>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="6">
                <children>
-                  <JFXButton buttonType="RAISED" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;" text="OK" textFill="#00c8a0">
+                  <JFXButton id="secondaryButtons" buttonType="RAISED" onAction="#onOKClicked" prefHeight="77.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #000000;" text="Confirm" textFill="#00c8a0">
                      <HBox.margin>
                         <Insets left="14.0" right="14.0" />
                      </HBox.margin>
@@ -134,7 +134,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <children>
-                  <JFXButton buttonType="RAISED" onAction="#onCancelClicked" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000000;" text="Cancel" textFill="RED">
+                  <JFXButton id="secondaryButtons" buttonType="RAISED" onAction="#onCancelClicked" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #000000;" text="Cancel" textFill="RED">
                      <font>
                         <Font size="24.0" />
                      </font>
