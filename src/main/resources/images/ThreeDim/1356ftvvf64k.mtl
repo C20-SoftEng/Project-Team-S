@@ -1,0 +1,23 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v5.0.639693989)
+
+newmtl tr0072_00_fi_bodyMat
+Kd 1 1 1
+Ka 0 0 0
+Ks 0.5 0.5 0.5
+Ke 0 0 0
+Ni 1
+Ns 1
+illum 2
+map_Kd tr0072_00_fi_body.png
+
+newmtl tr0072_fi_00_headMat
+Kd 1 1 1
+Ka 0 0 0
+Ks 0.5 0.5 0.5
+Ke 0 0 0
+Ni 1
+Ns 1
+illum 2
+map_Kd tr0072_00_fi_head.png
+

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.Set;
@@ -51,6 +52,7 @@ public class LoginScreen{
     private void show() {
         stage.setScene(scene);
         Settings.openWindows.add(this.stage);
+        stage.initStyle(StageStyle.UNDECORATED);
         BaseScreen.puggy.register(scene, Event.ANY);
         stage.show();
     }

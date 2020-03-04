@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -55,6 +57,7 @@ public class TwoFactorScreen {
     public void show() {
         stage.setScene(scene);
         BaseScreen.puggy.register(scene, Event.ANY);
+        stage.initStyle(StageStyle.UNDECORATED);
         Settings.openWindows.add(stage);
         stage.show();
     }

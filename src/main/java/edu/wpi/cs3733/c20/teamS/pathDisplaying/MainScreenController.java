@@ -19,6 +19,7 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -481,23 +482,21 @@ public class MainScreenController implements Initializable {
     }
     @FXML private void onDarkModeClicked(){
         if (darkmode){
-            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            Application.setUserAgentStylesheet("modena.css");
             StyleManager.getInstance().addUserAgentStylesheet("default.css");
-            //stage.getScene().getStylesheets().add("default.css");
-            //stage.getScene().getStylesheets().remove("darkmode.css");
+//            stage.getScene().getStylesheets().add("default.css");
+//            stage.getScene().getStylesheets().remove("darkmode.css");
             darkmode = false;
             //set image to dark mode button
             darkModeImage.setImage(Khons);
             System.out.println("returned to light mode");
         }
         else {
-            PlatformImpl.setDefaultPlatformUserAgentStylesheet();
+            Application.setUserAgentStylesheet("modena.css");
             StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
-            //stage.getScene().getStylesheets().add("darkmode.css");
-            //stage.getScene().getStylesheets().remove("default.css");
+//            stage.getScene().getStylesheets().add("darkmode.css");
+//            stage.getScene().getStylesheets().remove("default.css");
             darkmode = true;
-            //DarkModeButton.getScene().getStylesheets().add("dark-theme.css");
-            //DarkModeButton.getScene().getStylesheets().remove("default.css");
             //set image to light mode button
             darkModeImage.setImage(Ra);
             System.out.println("changed to dark mode");

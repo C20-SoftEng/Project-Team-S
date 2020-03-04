@@ -13,7 +13,7 @@
             <Image url="@../images/CreditsPage/CreditsPage4.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="goBackButton" alignment="CENTER" layoutX="556.0" layoutY="739.0" onAction="#GoBack" prefHeight="56.0" prefWidth="153.0" style="-fx-border-color: Black; -fx-border-radius: 5; -fx-background-color: #142492; -fx-background-radius: 5;" text="Go Back" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="739.0">
+      <JFXButton id="buttons" fx:id="goBackButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="536.0" layoutY="709.0" onAction="#GoBack" prefHeight="42.0" prefWidth="192.0" text="Go Back" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="29.0">
          <font>
             <Font size="28.0" />
          </font>
