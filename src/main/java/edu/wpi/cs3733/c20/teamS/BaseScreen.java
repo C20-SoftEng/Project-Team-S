@@ -11,7 +11,7 @@ public abstract class BaseScreen {
 
     static {
         //Stage stage = new Stage();
-        puggy = new UIWatchPug(new Duration(10000),() -> {
+        puggy = new UIWatchPug(new Duration(1000000),() -> {
             MainStartScreen.showDialog();
         });
 
