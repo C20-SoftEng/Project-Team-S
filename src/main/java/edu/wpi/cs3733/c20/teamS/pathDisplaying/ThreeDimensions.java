@@ -502,21 +502,33 @@ public class ThreeDimensions extends Application {
     }
 
     static MeshView[] loadMeshViews(String filename) {
+//        StlMeshImporter importer = new StlMeshImporter();
+//        importer.read(filename);
+//        Mesh mesh = importer.getImport();
         try {
             String steeel = filename.substring(filename.lastIndexOf("/"));
             filename = filename.substring(0, filename.indexOf("/libs"));
             filename += "/resources/main/images/ThreeDim" + steeel;
             filename = filename.replace("!", "");
             filename = filename.substring(5);
-        }
-        catch(Exception e) {}
             File file = new File(filename);
+
             StlMeshImporter importer = new StlMeshImporter();
             importer.read(file);
             Mesh mesh = importer.getImport();
 
             return new MeshView[]{new MeshView(mesh)};
+        }
+        catch (Exception e) {
+            File file = new File(filename);
 
+            StlMeshImporter importer = new StlMeshImporter();
+            importer.read(file);
+            Mesh mesh = importer.getImport();
+
+            return new MeshView[]{new MeshView(mesh)};
+        }
+        //return new MeshView[]{new MeshView(mesh)};
     }
 
     public Cylinder drawCylinder(Point3D startPoint, Point3D endPoint, int radius) {
@@ -859,7 +871,7 @@ public class ThreeDimensions extends Application {
     }
 
     private void onFloorMove(RotateGroup group, RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
-        for(int i = 1; i <= 5; i++) {
+        for(int i = 1; i <= 7; i++) {
             if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
                 int finalI = i;
                 numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
