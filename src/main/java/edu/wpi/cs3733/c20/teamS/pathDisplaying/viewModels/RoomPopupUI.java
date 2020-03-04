@@ -43,11 +43,6 @@ class RoomPopupUI extends Parent {
                 .mergeWith(room.descriptionChanged())
                 .mergeWith(room.iconChanged())
                 .subscribe(u -> updateUI());
-        room.descriptionChanged()
-                .map(description -> description == null ||
-                        description.trim().isEmpty())
-                .subscribe(huh -> descriptionTextArea.setVisible(!huh));
-        descriptionTextArea.setVisible(room.description() != null && !room.description().trim().isEmpty());
 
         RxAdaptors.propertyStream(nameLabel.widthProperty())
                 .subscribe(descriptionTextArea::setPrefWidth);
@@ -67,7 +62,17 @@ class RoomPopupUI extends Parent {
     }
     private void updateUI() {
         nameLabel.setText(room.name());
-
         descriptionTextArea.setText(room.description());
+        tryInitImage(iconView);
+
+        boolean eitherNullOrEmpty = isNullOrEmptyWhenTrimmed(room.name()) ||
+                isNullOrEmptyWhenTrimmed(room.description());
+        nameLabel.setVisible(!eitherNullOrEmpty);
+        descriptionTextArea.setVisible(!eitherNullOrEmpty);
+        iconView.setVisible(!eitherNullOrEmpty);
+    }
+
+    private static boolean isNullOrEmptyWhenTrimmed(String string) {
+        return string == null || string.trim().isEmpty();
     }
 }
