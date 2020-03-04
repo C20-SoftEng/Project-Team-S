@@ -17,9 +17,9 @@ public class MainToLoginScreen extends BaseScreen {
     public MainToLoginScreen() {
         this.stage = Settings.get().getPrimaryStage();
         this.scene = stage.getScene();
+        Settings.get().getMainScreenController().setDirectVisible();
 
         Settings set = Settings.get();
-
         if (this.scene == null){
             this.scene = new Scene(Settings.get().getMainScreenRoot());
         }

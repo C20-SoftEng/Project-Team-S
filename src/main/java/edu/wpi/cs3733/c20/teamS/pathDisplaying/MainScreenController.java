@@ -87,6 +87,10 @@ public class MainScreenController implements Initializable {
         nodeSelector.reset();
     }
 
+    public void setDirectVisible(){
+        this.directoryVBox.setVisible(true);
+    }
+
     private void initDirectorySidebar() {
         popDeptList();
         popLabList();
@@ -450,6 +454,7 @@ public class MainScreenController implements Initializable {
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
+    //disabled because swap was not needed.
  /*   @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());
