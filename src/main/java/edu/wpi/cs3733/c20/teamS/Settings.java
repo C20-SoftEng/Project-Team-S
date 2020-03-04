@@ -172,6 +172,10 @@ public final class Settings {
         Settings.editScreenController = editScreenController;
     }
 
+    public boolean showPopupsOnRoomMouseOver() {
+        return false;
+    }
+
     private static Stage primaryStage;
     private static Parent mainScreenRoot;
     private static Parent splashRoot;
