@@ -24,7 +24,7 @@ public class SerialPoller extends Application{
 //        for(String s:NRSerialPort.getAvailableSerialPorts()){
 //            System.out.println("Availible port: "+s);
 //        }
-        String port = "/dev/tty.usbserial-DN03ADR9";
+        String port = "COM6";
         int baudRate = 9600;
         NRSerialPort serial = new NRSerialPort(port, baudRate);
         //Thread.sleep(800);
@@ -84,14 +84,14 @@ public class SerialPoller extends Application{
     public static NRSerialPort serial;
 
     public static void initSensor(){
-        port = "/dev/tty.usbserial-DN03ADR9";
+        port = "COM6";
         baudRate = 9600;
         serial = new NRSerialPort(port,baudRate);
         serial.connect();
     }
 
     public static boolean runSensor(){
-//        String port = "/dev/tty.usbserial-DN03ADR9";
+//        String port = "COM6";
 //        int baudRate = 9600;
 //        NRSerialPort serial = new NRSerialPort(port, baudRate);
 

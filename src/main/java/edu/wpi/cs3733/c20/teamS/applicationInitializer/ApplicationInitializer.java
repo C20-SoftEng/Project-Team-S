@@ -37,7 +37,7 @@ public class ApplicationInitializer {
         }
         this.controller = controller;
         this.graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
-        //SerialPoller.initSensor();
+        SerialPoller.initSensor();
 
     }
 

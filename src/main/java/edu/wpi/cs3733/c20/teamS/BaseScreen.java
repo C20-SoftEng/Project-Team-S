@@ -7,7 +7,7 @@ import javafx.util.Duration;
 
 public abstract class BaseScreen {
     public static final UIWatchPug puggy;
-    //public static final FireWatchDog fireWatch;
+    public static final FireWatchDog fireWatch;
 
     static {
         //Stage stage = new Stage();
@@ -15,17 +15,17 @@ public abstract class BaseScreen {
             MainStartScreen.showDialog();
         });
 
-//        fireWatch = new FireWatchDog(new Duration(1000),()->{
-//           if(SerialPoller.runSensor()){
-//               //System.out.println("Emergency Detected");
-//               EmergencyScreen es = new EmergencyScreen();
-//           }else{
-//               //System.out.println("No emergency");
-//           }
-//
-////           SerialPoller.serial.getInputStream().
-//
-//        });
+        fireWatch = new FireWatchDog(new Duration(1000),()->{
+           if(SerialPoller.runSensor()){
+               //System.out.println("Emergency Detected");
+               EmergencyScreen es = new EmergencyScreen();
+           }else{
+               //System.out.println("No emergency");
+           }
+
+//           SerialPoller.serial.getInputStream().
+
+        });
     }
 
     //public void close(){}
