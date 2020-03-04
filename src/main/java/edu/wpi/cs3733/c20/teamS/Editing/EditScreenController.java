@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c20.teamS.Editing;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.BaseScreen;
 import edu.wpi.cs3733.c20.teamS.Editing.tools.*;
 import edu.wpi.cs3733.c20.teamS.MainToLoginScreen;
@@ -20,6 +21,7 @@ import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.DisposableSelector;
 import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -56,10 +59,15 @@ public class EditScreenController extends BaseScreen implements Initializable {
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
 
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
+
+    private boolean darkmode;
+
     //endregion
 
     public EditScreenController() {
-        this.stage  = Settings.get().getPrimaryStage();
+        this.stage = Settings.get().getPrimaryStage();
     }
 
     @Override
@@ -67,7 +75,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
         fakeInitialize();
     }
 
-    public void fakeInitialize(){
+    public void fakeInitialize() {
         loggedInUserLabel.setText("Welcome " + Settings.get().getLoggedIn().name() + "!");
         editPrivilegeBox.setVisible(Settings.get().getLoggedIn().accessLevel() == AccessLevel.ADMIN);
 
@@ -94,6 +102,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
         );
         initUndoHotkeys();
     }
+
     private void initUndoHotkeys() {
         KeyCombination undoCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         KeyCombination redoCombo = new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN);
@@ -107,11 +116,12 @@ public class EditScreenController extends BaseScreen implements Initializable {
         };
         RxAdaptors.propertyStream(floorButton2.sceneProperty())
                 .subscribe(scene -> {
-                   System.out.println("Scene changed");
-                   scene.getAccelerators().put(undoCombo, undo);
-                   scene.getAccelerators().put(redoCombo, redo);
+                    System.out.println("Scene changed");
+                    scene.getAccelerators().put(undoCombo, undo);
+                    scene.getAccelerators().put(redoCombo, redo);
                 });
     }
+
     private void initEventHandlers() {
         graph.nodeAdded().subscribe(database::addNode);
         graph.nodeRemoved().subscribe(node -> database.removeNode(node.getNodeID()));
@@ -124,6 +134,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
         redoButton.setDisable(!undoBuffer.canRedo());
         undoBuffer.canRedoChanged().subscribe(huh -> redoButton.setDisable(!huh));
     }
+
     private FloorSelector createFloorSelector() {
         return new FloorSelector(
                 upButton, downButton,
@@ -136,6 +147,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
                 new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
     }
+
     private PathfindingAlgorithmSelector createPathfindingAlgorithmSelector() {
         return new PathfindingAlgorithmSelector(
                 astarRadioButton, djikstraRadioButton,
@@ -144,77 +156,125 @@ public class EditScreenController extends BaseScreen implements Initializable {
     }
 
     //region gui components
-    @FXML private VBox editPrivilegeBox;
-    @FXML private Label loggedInUserLabel;
-    @FXML private ImageView mapImage;
-    @FXML private ScrollPane scrollPane;
-    @FXML private JFXButton floorButton1;
-    @FXML private JFXButton floorButton2;
-    @FXML private JFXButton floorButton3;
-    @FXML private JFXButton floorButton4;
-    @FXML private JFXButton floorButton5;
-    @FXML private JFXButton floorButton6;
-    @FXML private JFXButton floorButton7;
-    @FXML private JFXButton downButton;
-    @FXML private JFXButton upButton;
+    @FXML
+    private VBox editPrivilegeBox;
+    @FXML
+    private Label loggedInUserLabel;
+    @FXML
+    private ImageView mapImage;
+    @FXML
+    private ImageView darkModeImage;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private JFXButton floorButton1;
+    @FXML
+    private JFXButton floorButton2;
+    @FXML
+    private JFXButton floorButton3;
+    @FXML
+    private JFXButton floorButton4;
+    @FXML
+    private JFXButton floorButton5;
+    @FXML
+    private JFXButton floorButton6;
+    @FXML
+    private JFXButton floorButton7;
+    @FXML
+    private JFXButton downButton;
+    @FXML
+    private JFXButton upButton;
 
-    @FXML private ToggleGroup pathGroup;
-    @FXML private JFXButton zoomInButton;
-    @FXML private JFXButton zoomOutButton;
+    @FXML
+    private ToggleGroup pathGroup;
+    @FXML
+    private JFXButton zoomInButton;
+    @FXML
+    private JFXButton zoomOutButton;
 
-    @FXML private VBox editToolFieldsVBox;
+    @FXML
+    private VBox editToolFieldsVBox;
 
-    @FXML private JFXButton editEmpButton;
+    @FXML
+    private JFXButton editEmpButton;
 
-    @FXML private RadioButton astarRadioButton;
-    @FXML private RadioButton djikstraRadioButton;
-    @FXML private RadioButton depthFirstRadioButton;
-    @FXML private RadioButton breadthFirstRadioButton;
+    @FXML
+    private RadioButton astarRadioButton;
+    @FXML
+    private RadioButton djikstraRadioButton;
+    @FXML
+    private RadioButton depthFirstRadioButton;
+    @FXML
+    private RadioButton breadthFirstRadioButton;
 
-    @FXML private JFXButton cancelEditsButton;
-    @FXML private JFXButton confirmEditButton;
-    @FXML private JFXTextField directoryPathTextField;
-    @FXML private JFXButton exportButton;
+    @FXML
+    private JFXButton cancelEditsButton;
+    @FXML
+    private JFXButton confirmEditButton;
+    @FXML
+    private JFXTextField directoryPathTextField;
+    @FXML
+    private JFXButton exportButton;
 
-    @FXML private JFXButton undoButton;
-    @FXML private JFXButton redoButton;
+    @FXML
+    private JFXButton undoButton;
+    @FXML
+    private JFXButton redoButton;
     //endregion
 
     //region event handlers
-    @FXML private void onUpClicked() {
+    @FXML
+    private void onUpClicked() {
         floorSelector.setCurrent(floorSelector.current() + 1);
     }
-    @FXML private void onDownClicked() {
+
+    @FXML
+    private void onDownClicked() {
         floorSelector.setCurrent(floorSelector.current() - 1);
     }
-    @FXML private void onFloorClicked1() {
+
+    @FXML
+    private void onFloorClicked1() {
         floorSelector.setCurrent(1);
     }
-    @FXML private void onFloorClicked2() {
+
+    @FXML
+    private void onFloorClicked2() {
         floorSelector.setCurrent(2);
     }
-    @FXML private void onFloorClicked3() {
+
+    @FXML
+    private void onFloorClicked3() {
         floorSelector.setCurrent(3);
     }
-    @FXML private void onFloorClicked4() {
+
+    @FXML
+    private void onFloorClicked4() {
         floorSelector.setCurrent(4);
     }
-    @FXML private void onFloorClicked5() {
+
+    @FXML
+    private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
 
-    @FXML private void onFloorClicked6() {
+    @FXML
+    private void onFloorClicked6() {
         floorSelector.setCurrent(6);
     }
-    @FXML private void onFloorClicked7() {
+
+    @FXML
+    private void onFloorClicked7() {
         floorSelector.setCurrent(7);
     }
 
-    @FXML private void onEditButtonPressed() {
+    @FXML
+    private void onEditButtonPressed() {
         EmployeeEditingScreen.showDialog();
     }
 
-    @FXML private void onHelpClicked() {
+    @FXML
+    private void onHelpClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -228,7 +288,9 @@ public class EditScreenController extends BaseScreen implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-    @FXML private void onStaffClicked() {
+
+    @FXML
+    private void onStaffClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/loginScreen.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -242,21 +304,28 @@ public class EditScreenController extends BaseScreen implements Initializable {
             System.out.println("Can't load new window");
         }
     }
-    @FXML private void onZoomInClicked() {
+
+    @FXML
+    private void onZoomInClicked() {
         editableMap.zoomIn();
         zoomInButton.setDisable(!editableMap.canZoomIn());
         zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
-    @FXML private void onZoomOutClicked() {
+
+    @FXML
+    private void onZoomOutClicked() {
         editableMap.zoomOut();
         zoomInButton.setDisable(!editableMap.canZoomIn());
         zoomOutButton.setDisable(!editableMap.canZoomOut());
     }
 
-    @FXML private void onNewServiceClicked() {
+    @FXML
+    private void onNewServiceClicked() {
         SelectServiceScreen.showDialog(Settings.get().getLoggedIn());
     }
-    @FXML private void onActiveServiceClicked() {
+
+    @FXML
+    private void onActiveServiceClicked() {
 //        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
 //        DatabaseController dbc = new DatabaseController();
 //        Set<ServiceData> dbData = dbc.getAllServiceRequestData();
@@ -270,39 +339,57 @@ public class EditScreenController extends BaseScreen implements Initializable {
         ActiveServiceRequestScreen.showDialog();
     }
 
-    @FXML private void onAddRemoveNodeClicked() {
+    @FXML
+    private void onAddRemoveNodeClicked() {
         toolSelector.setCurrent(new AddEditRemoveNodeTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onAddRemoveEdgeClicked() {
+
+    @FXML
+    private void onAddRemoveEdgeClicked() {
         toolSelector.setCurrent(new AddRemoveEdgeTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onAddRemoveHitboxClicked() {
+
+    @FXML
+    private void onAddRemoveHitboxClicked() {
         toolSelector.setCurrent(new AddRemoveRoomTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onMoveNodeClicked() {
+
+    @FXML
+    private void onMoveNodeClicked() {
         toolSelector.setCurrent(new MoveNodeTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onEditRoomsClicked() {
+
+    @FXML
+    private void onEditRoomsClicked() {
         toolSelector.setCurrent(new EditRoomTool(undoBuffer::execute, editableMap));
     }
-    @FXML private void onAddElevatorsClicked() {
+
+    @FXML
+    private void onAddElevatorsClicked() {
         toolSelector.setCurrent(new AddElevatorTool(undoBuffer::execute, editableMap, Settings.get().floors()));
     }
-    @FXML private void onConfirmEditClicked() {
+
+    @FXML
+    private void onConfirmEditClicked() {
         if (hitboxRepo.canSave())
             hitboxRepo.save(rooms);
     }
-    @FXML private void onCancelEditClicked() {
+
+    @FXML
+    private void onCancelEditClicked() {
         if (hitboxRepo.canLoad()) {
             rooms.clear();
             rooms.addAll(hitboxRepo.load());
         }
     }
 
-    @FXML void onUndoClicked(ActionEvent event) {
+    @FXML
+    void onUndoClicked(ActionEvent event) {
         undoBuffer.undo();
     }
-    @FXML void onRedoClicked(ActionEvent event) {
+
+    @FXML
+    void onRedoClicked(ActionEvent event) {
         undoBuffer.redo();
     }
     //endregion
@@ -312,16 +399,39 @@ public class EditScreenController extends BaseScreen implements Initializable {
         MainToLoginScreen.showDialog();
     }
 
-    @FXML private JFXTextField timeOut;
+    @FXML
+    private JFXTextField timeOut;
 
-    @FXML private JFXButton saveTimeOut;
+    @FXML
+    private JFXButton saveTimeOut;
 
-    @FXML void onConfirmSaveTimeOut(ActionEvent event) {
-        if(timeOut.getText() != null){
-        BaseScreen.puggy.changeTimeout(Integer.parseInt((timeOut.getText())) * 1000);
-        System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
+    @FXML
+    void onConfirmSaveTimeOut(ActionEvent event) {
+        if (timeOut.getText() != null) {
+            BaseScreen.puggy.changeTimeout(Integer.parseInt((timeOut.getText())) * 1000);
+            System.out.println("Changed Timeout to: " + Integer.parseInt(timeOut.getText()) * 1000);
         }
     }
 
+    @FXML
+    void onDarkModeClicked() {
+        if (darkmode) {
+            Application.setUserAgentStylesheet("modena.css");
+            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            darkmode = false;
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println(darkModeImage.getScene().getStylesheets());
+            System.out.println("returned to light mode");
+        } else {
+            Application.setUserAgentStylesheet("modena.css");
+            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            darkmode = true;
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println(darkModeImage.getScene().getStylesheets());
+            System.out.println("changed to dark mode");
+        }
+    }
 
 }
