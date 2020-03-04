@@ -147,6 +147,7 @@ public class ApplicationInitializer {
         }
         catch(IOException e){
             System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
     }
     private void initSplashScreen(){
@@ -161,6 +162,7 @@ public class ApplicationInitializer {
         }
         catch(IOException e){
             System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
     }
     private void initEmployeeScreen(){
@@ -177,6 +179,7 @@ public class ApplicationInitializer {
         }
         catch(IOException e){
             System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
     }
 }
