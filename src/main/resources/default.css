@@ -17,11 +17,11 @@
     -fx-image: url("images/Icons/About_Us.png");
 }
 
-/*
+
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
-*/
+
 .scroll-pane {
     /*gives scroll panes a background color*/
     -fx-background-color: #ddd;

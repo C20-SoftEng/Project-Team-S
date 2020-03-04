@@ -139,9 +139,12 @@ class PathRenderer {
 
         for (int i = 0; i < instructions.size(); i++) {
             HBox imageHolder = new HBox();
+            imageHolder.setStyle("-fx-background-color: #CCC");
             JFXTextArea text = new JFXTextArea();
             text.setText(" " + instructions.get(i));
+            text.setStyle(("-fx-background-color: #CCC"));
             ImageView image = new ImageView();
+            image.setStyle("-fx-background-color: #CCC");
 
             String word = instructions.get(i).trim();
 
@@ -153,7 +156,7 @@ class PathRenderer {
                 image.setFitWidth(25);
 //                image.setX(50);
 //                image.setY(-20);
-                image.setTranslateX(30);
+                image.setTranslateX(10);
                 image.setTranslateY(4);
 
 
@@ -164,7 +167,7 @@ class PathRenderer {
                 image.setImage(newImage);
                 image.setFitHeight(25);
                 image.setFitWidth(25);
-                image.setTranslateX(30);
+                image.setTranslateX(15);
                 image.setTranslateY(4);
 
                 image.setPreserveRatio(true);
@@ -174,7 +177,7 @@ class PathRenderer {
                 image.setImage(newImage);
                 image.setFitHeight(25);
                 image.setFitWidth(25);
-                image.setTranslateX(30);
+                image.setTranslateX(15);
                 image.setTranslateY(4);
 
                 image.setPreserveRatio(true);
@@ -185,7 +188,7 @@ class PathRenderer {
                 image.setImage(newImage);
                 image.setFitHeight(25);
                 image.setFitWidth(25);
-                image.setTranslateX(28);
+                image.setTranslateX(23);
                 image.setTranslateY(5);
                 image.setPreserveRatio(false);
             }
@@ -205,7 +208,7 @@ class PathRenderer {
                     image.setImage(newImage);
                     image.setFitHeight(30);
                     image.setFitWidth(30);
-                    image.setTranslateX(00);
+                    image.setTranslateX(0);
                     image.setTranslateY(5);
                     image.setPreserveRatio(false);
                 }
@@ -225,6 +228,7 @@ class PathRenderer {
                     image.setFitWidth(30);
                     image.setTranslateX(0);
                     image.setTranslateY(5);
+                    text.setTranslateX(25);
                     image.setPreserveRatio(false);
                 }
                 if(word.contains("Floor 5")){
@@ -258,26 +262,26 @@ class PathRenderer {
             }
             text.setEditable(false);
             if (text.getLength() > 27){
-                text.setFont(Font.font ("System", 16));
+                text.setFont(Font.font ("System", 15));
                 text.setPrefHeight(30);
                 text.setPrefWidth(250);
-               text.setTranslateX(35);
+               text.setTranslateX(30);
 
             }
             else if (text.getLength() >= 22){
-                text.setFont(Font.font ("System", 16));
+                text.setFont(Font.font ("System", 15));
                 text.setPrefHeight(30);
                 text.setPrefWidth(250);
 
-                text.setTranslateX(33);
+                text.setTranslateX(30);
 
             }
             else {
-                text.setFont(Font.font ("System", 16));
+                text.setFont(Font.font ("System", 15));
                 text.setPrefHeight(30);
                 text.setPrefWidth(250);
                 //text.setPref
-                //text.setTranslateX(30);
+                text.setTranslateX(10);
 
             }
             text.prefWidth(Region.USE_COMPUTED_SIZE);
