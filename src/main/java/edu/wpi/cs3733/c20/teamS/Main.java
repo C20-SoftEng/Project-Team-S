@@ -14,16 +14,17 @@ public class Main extends Application {
 
     private static final StartupScreen START_SCREEN = StartupScreen.MAIN;
 
+
     public void start(Stage primaryStage) {
         DatabaseController dbc = new DatabaseController();
         dbc.importStartUpData();
 
-        Settings.loggedIn = new Employee(0, "Default", AccessLevel.USER);
-        Settings.primaryStage = primaryStage;
+        Settings.get().setLoggedIn(new Employee(0, "Default", AccessLevel.USER));
+        Settings.get().setPrimaryStage(primaryStage);
         new ApplicationInitializer(dbc).initBigFXMLs();
-        Settings.primaryStage.setFullScreen(false);
-        Settings.primaryStage.setMaximized(true);
-        Settings.primaryStage.initStyle(StageStyle.UNDECORATED);
+        Settings.get().getPrimaryStage().setFullScreen(false);
+        Settings.get().getPrimaryStage().setMaximized(true);
+        Settings.get().getPrimaryStage().initStyle(StageStyle.UNDECORATED);
 
         switch (START_SCREEN) {
             case MAIN:
@@ -34,7 +35,7 @@ public class Main extends Application {
                 MainStartScreen.showDialog();
                 break;
             case MAP_EDITING:
-                Settings.loggedIn = new Employee(0, "Bob", AccessLevel.ADMIN);
+                Settings.get().setLoggedIn(new Employee(0, "Bob", AccessLevel.ADMIN));
                 new MapEditingScreen();
                 break;
             case EMERGENCY:

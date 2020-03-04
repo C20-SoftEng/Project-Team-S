@@ -126,7 +126,8 @@ public class ApplicationInitializer {
     }
 
     public void initBigFXMLs(){
-        Settings.primaryStage.setFullScreen(true);
+        Settings set = Settings.get();
+        set.getPrimaryStage().setFullScreen(true);
 
         initSplashScreen();
         initMainScreen();
@@ -135,10 +136,14 @@ public class ApplicationInitializer {
 
     private void initMainScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_client.fxml"));
-        loader.setControllerFactory(c -> Settings.mainScreenController = new MainScreenController(Settings.primaryStage));
+        loader.setControllerFactory(c ->{ MainScreenController msc = new MainScreenController(Settings.get().getPrimaryStage());
+        Settings.get().setMainScreenController(msc);
+        return Settings.get().getMainScreenController();
+
+        });
 
         try{
-            Settings.mainScreenRoot = loader.load();
+            Settings.get().setMainScreenRoot(loader.load());
         }
         catch(IOException e){
             System.out.println(e.getMessage());
@@ -152,7 +157,7 @@ public class ApplicationInitializer {
         });
 
         try{
-            Settings.splashRoot = loader.load();
+            Settings.get().setSplashRoot(loader.load());
         }
         catch(IOException e){
             System.out.println(e.getMessage());
@@ -161,10 +166,14 @@ public class ApplicationInitializer {
     private void initEmployeeScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/UI_employee.fxml"));
 
-        loader.setControllerFactory(c -> Settings.editScreenController = new EditScreenController());
+        loader.setControllerFactory(c -> { EditScreenController msc = new EditScreenController();
+            Settings.get().setEditScreenController(msc);
+            return Settings.get().getEditScreenController();
+
+        });
 
         try{
-            Settings.employeeRoot = loader.load();
+            Settings.get().setEmployeeRoot(loader.load());
         }
         catch(IOException e){
             System.out.println(e.getMessage());
