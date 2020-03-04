@@ -205,7 +205,8 @@ public class MainStartScreenController implements Initializable {
         new FadeOut(tutorialView).play();
         tutorialView.setOpacity(0);
         tutorialView.setImage(imageList.get(image));
-        tutorialView.setPreserveRatio(true);
+        //tutorialView.setPreserveRatio(true);
+        //tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
         tutorialView.setOpacity(0);
         new FadeIn(tutorialView).play();
         //tutorialView.setOpacity(1);
