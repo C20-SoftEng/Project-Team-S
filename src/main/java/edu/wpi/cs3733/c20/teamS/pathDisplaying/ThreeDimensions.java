@@ -10,7 +10,6 @@ import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -62,6 +61,7 @@ public class ThreeDimensions extends Application {
     private HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
     private final double floorDist = 100;
     private ArrayList<Integer> allFloorsInvolved = new ArrayList<>();
+    private final int totalFloors = 5;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -82,7 +82,7 @@ public class ThreeDimensions extends Application {
 
         RotateGroup group = new RotateGroup();
 
-        for(int i = 1; i <= 5; i++) {
+        for(int i = 1; i <= totalFloors; i++) {
             boolean trans = !(begin.getFloor() == i || end.getFloor() == i);
             Image floor = new Image("images/ThreeDim/floor" + i + ".png");
             Image transFloor = new Image("images/ThreeDim/transFloor" + i + ".png");
@@ -146,24 +146,40 @@ public class ThreeDimensions extends Application {
             person[i].setMaterial(material);
         }
 
-        URL docPath = getClass().getResource("/images/ThreeDim/Mii.obj").toURI().toURL(); //jar will brake
+        URL docPath = getClass().getResource("/images/ThreeDim/nurse.obj").toURI().toURL(); //jar will brake
         MeshView[] doctor = loadModel(docPath);
         for (int k = 0; k < doctor.length; k++) {
-            double MODEL_SCALE_FACTOR = 0.15;
+            double MODEL_SCALE_FACTOR = 1;
             doctor[k].setScaleX(MODEL_SCALE_FACTOR);
             doctor[k].setScaleY(MODEL_SCALE_FACTOR);
             doctor[k].setScaleZ(MODEL_SCALE_FACTOR);
 
             doctor[k].setTranslateZ(zplace.get(begin.getFloor()));
 
-            doctor[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+            doctor[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(180, Rotate.X_AXIS));
         }
         RotateGroup docGroup = new RotateGroup();
         docGroup.getChildren().addAll(doctor);
         group.getChildren().addAll(docGroup);
 
+        URL bedPath = getClass().getResource("/images/ThreeDim/hospitalbed.obj").toURI().toURL(); //jar will brake
+        MeshView[] bed = loadModel(bedPath);
+        for (int k = 0; k < bed.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            bed[k].setScaleX(MODEL_SCALE_FACTOR);
+            bed[k].setScaleY(MODEL_SCALE_FACTOR);
+            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            bed[k].setTranslateZ(zplace.get(begin.getFloor()));
+
+            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup bedGroup = new RotateGroup();
+        bedGroup.getChildren().addAll(bed);
+        //group.getChildren().addAll(bedGroup);
+
         RotateGroup numberGroup = new RotateGroup();
-        for(int i = 1; i <= 5; i++) {
+        for(int i = 1; i <= totalFloors; i++) {
             boolean selected = (begin.getFloor() == i || end.getFloor() == i);
             Image number = new Image("images/ThreeDim/" + i + ".png");
             Image brightNumber = new Image("images/ThreeDim/" + i + "H.png");
@@ -179,7 +195,7 @@ public class ThreeDimensions extends Application {
             NodeData startNode = nodes.get(i);
             NodeData endNode = nodes.get(i + 1);
 
-            for(int j = 1; j <= 5; j++) {
+            for(int j = 1; j <= totalFloors; j++) {
                 if(startNode.getFloor() == j) {
                     int radius = 2;
                     if(startNode.getNodeType().equals("ELEV")) {
@@ -246,11 +262,11 @@ public class ThreeDimensions extends Application {
                 }
                 TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), docGroup);
                 tt.setFromZ((zplace.get(n1.getFloor())) - ((2-begin.getFloor()) * floorDist));
-                tt.setFromX(n1.getxCoordinate() / 5 - 247 - 20);
-                tt.setFromY(n1.getyCoordinate() / 5 - 24);
+                tt.setFromX(n1.getxCoordinate() / 5 - 247);
+                tt.setFromY(n1.getyCoordinate() / 5 - 153);
                 tt.setToZ(zplace.get(n2.getFloor()) - ((2-begin.getFloor()) * floorDist));
-                tt.setToX(n1.getxCoordinate() / 5 - 247 - 20);
-                tt.setToY(n1.getyCoordinate() / 5 - 24);
+                tt.setToX(n1.getxCoordinate() / 5 - 247);
+                tt.setToY(n1.getyCoordinate() / 5 - 153);
                 tt.setCycleCount(1);
 
                 TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup.get(elevCount));
