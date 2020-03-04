@@ -88,7 +88,7 @@
 
 
 #login{
-    -fx-text-fill: black;
+    -fx-text-fill: black !important;
     -fx-background-color: beige;
     -fx-border-color: gray;
     -fx-background-radius: 5;
