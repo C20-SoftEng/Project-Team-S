@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -20,10 +21,13 @@ public final class RoomEditScreen {
     private final Scene scene;
     private RoomEditController ui;
 
-    private RoomEditScreen(Stage stage, Room room) {
+    private RoomEditScreen(Stage stage) {
         if (stage == null) ThrowHelper.illegalNull("stage");
 
         this.stage = stage;
+        this.stage.setAlwaysOnTop(true);
+        this.stage.initStyle(StageStyle.UNDECORATED);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/RoomEditScreen.fxml"));
         loader.setControllerFactory(c -> ui = new RoomEditController());
         try {
@@ -46,7 +50,7 @@ public final class RoomEditScreen {
         if (room == null) ThrowHelper.illegalNull("room");
 
         PublishSubject<DialogEvent<Room>> subject = PublishSubject.create();
-        RoomEditScreen screen = new RoomEditScreen(stage, room);
+        RoomEditScreen screen = new RoomEditScreen(stage);
         screen.ui.setName(room.name());
         screen.ui.setDescription(room.description());
         screen.ui.setIconPath(room.icon());
