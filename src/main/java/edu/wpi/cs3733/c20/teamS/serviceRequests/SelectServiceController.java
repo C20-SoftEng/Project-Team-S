@@ -103,7 +103,7 @@ public class SelectServiceController {
     @FXML void onFloristClicked(ActionEvent event){
         RunFlowerRequest request = new RunFlowerRequest();
         try{
-            request.run(0,0,0,0,"", "SHALL00501", "SHALL00402");
+            request.run(0,0,1600,900,"", "SHALL00501", "SHALL00402");
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -142,7 +142,7 @@ public class SelectServiceController {
 
     @FXML void onFoodClicked(ActionEvent event) throws ServiceException {
         FoodRequest foodRequest = new FoodRequest();
-        foodRequest.run(0,0,500,500, null, "f","h");
+        foodRequest.run(0,0,1900,1000, null, "f","h");
     }
 
     /**
