@@ -59,7 +59,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
     //endregion
 
     public EditScreenController() {
-        this.stage  = Settings.primaryStage;
+        this.stage  = Settings.get().getPrimaryStage();
     }
 
     @Override
@@ -68,8 +68,8 @@ public class EditScreenController extends BaseScreen implements Initializable {
     }
 
     public void fakeInitialize(){
-        loggedInUserLabel.setText("Welcome " + Settings.loggedIn.name() + "!");
-        editPrivilegeBox.setVisible(Settings.loggedIn.accessLevel() == AccessLevel.ADMIN);
+        loggedInUserLabel.setText("Welcome " + Settings.get().getLoggedIn().name() + "!");
+        editPrivilegeBox.setVisible(Settings.get().getLoggedIn().accessLevel() == AccessLevel.ADMIN);
 
         floorSelector = createFloorSelector();
         floorSelector.setCurrent(2);
@@ -245,7 +245,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
     }
 
     @FXML private void onNewServiceClicked() {
-        SelectServiceScreen.showDialog(Settings.loggedIn);
+        SelectServiceScreen.showDialog(Settings.get().getLoggedIn());
     }
     @FXML private void onActiveServiceClicked() {
 //        ObservableList<ServiceData> setOfActives = FXCollections.observableArrayList();
@@ -292,8 +292,8 @@ public class EditScreenController extends BaseScreen implements Initializable {
     //endregion
 
     public void onLogOut() {
-        Settings.loggedIn = null;
-        new MainToLoginScreen();
+        Settings.get().setLoggedIn(null);
+        MainToLoginScreen.showDialog();
     }
 
     @FXML private JFXTextField timeOut;

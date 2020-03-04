@@ -28,6 +28,6 @@ public abstract class BaseScreen {
 //        });
     }
 
-    public void close(){}
+    //public void close(){}
 }
 

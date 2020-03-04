@@ -27,7 +27,7 @@ public class TwoFactorScreen {
 
     public TwoFactorScreen(Stage passedStage, Employee employee) {
         this.loggedIn = employee;
-        Settings.loggedIn = this.loggedIn;
+        Settings.get().setLoggedIn(this.loggedIn);
         toPass = passedStage;
         this.stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/TwoFactorScreen.fxml"));
@@ -61,7 +61,7 @@ public class TwoFactorScreen {
 
 
     public void passedTFA(){
-        Settings.loggedIn = loggedIn;
+        Settings.get().setLoggedIn(loggedIn);
         MapEditingScreen mes = new MapEditingScreen();
         this.stage.close();
     }

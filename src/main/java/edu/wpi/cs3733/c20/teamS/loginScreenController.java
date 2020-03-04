@@ -58,7 +58,7 @@ public class loginScreenController {
             AccessLevel[] al = AccessLevel.values();
             AccessLevel accessLevel = al[ed.getAccessLevel()];
             Employee emp = new Employee(ed.getEmployeeID(), ed.getFirstName()+ " " + ed.getLastName(), accessLevel);
-            Settings.loggedIn = emp;
+            Settings.get().setLoggedIn(emp);
             dialogCompleted_.onNext(DialogEvent.ok(emp));
         }
         else {
