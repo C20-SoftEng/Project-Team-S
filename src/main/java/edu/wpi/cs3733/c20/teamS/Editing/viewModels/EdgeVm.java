@@ -37,7 +37,7 @@ public final class EdgeVm extends Parent {
         getChildren().add(visibleMask);
 
         startBall = createEndpointCircle(0, 0);
-        getChildren().add(startBall);
+        //getChildren().add(startBall);
 
         endBall = startBall;
 
