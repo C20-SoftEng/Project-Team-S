@@ -83,9 +83,10 @@ public class ThreeDimensions extends Application {
         NodeData end = nodes.get(nodes.size() - 1);
 
         boolean showComfort = false;
-        if(goal.equals("South Patient Beds")) {
+        if(goal != null) {
+        if(goal.equals("6 South Patient Beds")) {
             showComfort = true;
-        }
+        }}
 
         RotateGroup group = new RotateGroup();
 
@@ -538,9 +539,6 @@ public class ThreeDimensions extends Application {
         sub.setTranslateY(sub.getTranslateY() + 106);
 
         primaryStage.setTitle("MAP");
-
-        Settings.openWindows.add(this.primaryStage);
-        BaseScreen.puggy.register(scene, Event.ANY);
 
         int translater = 10;
         double sclaer = 0.01;
