@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,17 +13,10 @@
 <AnchorPane prefHeight="1000.0" prefWidth="1500.0" style="-fx-background-color: #F24130;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.emergency.EmergencyController">
    <children>
       <BorderPane layoutX="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <ImageView fx:id="alertScrolling" fitHeight="111.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-         </top>
          <center>
             <BorderPane style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <center>
-                  <ScrollPane fx:id="mapScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
-                     <content>
-                        <ImageView fx:id="mapDisplay" fitHeight="820.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" />
-                     </content>
-                  </ScrollPane>
+                  <ImageView fx:id="mapDisplay" fitHeight="820.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </center>
@@ -40,6 +33,13 @@
                </font>
             </Button>
          </bottom>
+         <top>
+            <Label text="Please Make Your Way to the Nearest Exit" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="65.0" />
+               </font>
+            </Label>
+         </top>
       </BorderPane>
       <ImageView fitHeight="346.0" fitWidth="396.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="11.0">
          <image>

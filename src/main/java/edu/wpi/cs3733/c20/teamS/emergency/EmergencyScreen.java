@@ -14,6 +14,7 @@ public class EmergencyScreen {
     private Scene scene;
 
     public EmergencyScreen(){
+        this.scene = Settings.get().getPrimaryStage().getScene();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/EmergencyAlert.fxml"));
         loader.setControllerFactory(c -> {
             EmergencyController controller = new EmergencyController(Settings.get().getPrimaryStage());
@@ -39,8 +40,9 @@ public class EmergencyScreen {
 
     public void show() {
         Settings.get().getPrimaryStage().setScene(scene);
+        Settings.get().getPrimaryStage().setMaximized(true);
         Settings.get().getPrimaryStage().show();
         //BaseScreen.fireWatch.pause();
-        Settings.get().getPrimaryStage().setFullScreen(true);
+        //Settings.get().getPrimaryStage().setFullScreen(true);
     }
 }

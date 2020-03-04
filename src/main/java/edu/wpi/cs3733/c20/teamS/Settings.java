@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class Settings {
+    private static int floor = 5;
     private final PathfindingContext pathfinder = new PathfindingContext(new AStar());
     private boolean useQuickNodePlacingTool = false;
 
@@ -170,6 +171,13 @@ public final class Settings {
 
     public void setEditScreenController(EditScreenController editScreenController) {
         Settings.editScreenController = editScreenController;
+    }
+
+    public void setKioskFloor(int floorNumber){
+        Settings.floor = floorNumber;
+    }
+    public int getKioskFloor(){
+        return Settings.floor;
     }
 
     private static Stage primaryStage;
