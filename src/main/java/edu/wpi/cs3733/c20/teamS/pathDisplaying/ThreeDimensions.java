@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -106,39 +107,18 @@ public class ThreeDimensions extends Application {
         destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
         destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
-        String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().toString().substring(5);
-        MeshView[] pin = loadMeshViews(pinPath);
-        for (int i = 0; i < pin.length; i++) {
-            double MODEL_SCALE_FACTOR22 = 0.15;
-            pin[i].setScaleX(MODEL_SCALE_FACTOR22);
-            pin[i].setScaleY(MODEL_SCALE_FACTOR22);
-            pin[i].setScaleZ(MODEL_SCALE_FACTOR22);
+        ImageView pinny = new ImageView(new Image("images/Icons/end_pin.png"));
+        double MODEL_SCALE_FACTOR22 = 0.05;
+        pinny.setScaleX(MODEL_SCALE_FACTOR22);
+        pinny.setScaleY(MODEL_SCALE_FACTOR22);
+        pinny.setScaleZ(MODEL_SCALE_FACTOR22);
+        RotateGroup pinThing = new RotateGroup();
+        pinThing.getChildren().add(pinny);
+        pinThing.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+        pinThing.setTranslateZ(zplace.get(end.getFloor()) - 200 - 80);
+        pinThing.setTranslateX(end.getxCoordinate() / 5 - 307 - 250 + 150);
+        pinThing.setTranslateY(end.getyCoordinate() / 5 - 150);
 
-            pin[i].setTranslateX(end.getxCoordinate() / 5 - 307);
-            pin[i].setTranslateY(end.getyCoordinate() / 5 - 70);
-            pin[i].setTranslateZ(zplace.get(end.getFloor()) + 35);
-
-            PhongMaterial material = new PhongMaterial();
-            Image texture = new Image(("images/ThreeDim/pinColor.jpg"));
-            material.setDiffuseMap(texture);
-            pin[i].setMaterial(material);
-            pin[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS), new Rotate(90, Rotate.X_AXIS));
-        }
-
-        String personPath = getClass().getResource("/images/ThreeDim/person.stl").toURI().toString().substring(5);
-        MeshView[] person = loadMeshViews(personPath);
-        for (int i = 0; i < person.length; i++) {
-            double MODEL_SCALE_FACTOR = 3;
-            person[i].setScaleX(MODEL_SCALE_FACTOR);
-            person[i].setScaleY(MODEL_SCALE_FACTOR);
-            person[i].setScaleZ(MODEL_SCALE_FACTOR);
-            person[i].setTranslateZ(zplace.get(begin.getFloor()) + 10);
-
-            PhongMaterial material = new PhongMaterial();
-            Image texture = new Image(("images/ThreeDim/lavender.png"));
-            material.setDiffuseMap(texture);
-            person[i].setMaterial(material);
-        }
 
         URL docPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL();
         MeshView[] doctor = loadModel(docPath);
@@ -298,10 +278,7 @@ public class ThreeDimensions extends Application {
         }
 
         RotateGroup personGroup = new RotateGroup();
-        personGroup.getChildren().addAll(person);
-        Group pinGroup = new Group(pin);
         group.getChildren().add(numberGroup);
-        group.getChildren().add(pinGroup);
         group.getChildren().addAll(elevatorGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
@@ -358,6 +335,7 @@ public class ThreeDimensions extends Application {
         st.setCycleCount(Timeline.INDEFINITE);
         st.play();
 
+        group.getChildren().add(pinThing);
         Group elevIcons = getElevIcons();
         group.getChildren().add(elevIcons);
 
@@ -499,36 +477,6 @@ public class ThreeDimensions extends Application {
         importer.read(url);
 
         return importer.getImport();
-    }
-
-    static MeshView[] loadMeshViews(String filename) {
-//        StlMeshImporter importer = new StlMeshImporter();
-//        importer.read(filename);
-//        Mesh mesh = importer.getImport();
-        try {
-            String steeel = filename.substring(filename.lastIndexOf("/"));
-            filename = filename.substring(0, filename.indexOf("/libs"));
-            filename += "/resources/main/images/ThreeDim" + steeel;
-            filename = filename.replace("!", "");
-            filename = filename.substring(5);
-            File file = new File(filename);
-
-            StlMeshImporter importer = new StlMeshImporter();
-            importer.read(file);
-            Mesh mesh = importer.getImport();
-
-            return new MeshView[]{new MeshView(mesh)};
-        }
-        catch (Exception e) {
-            File file = new File(filename);
-
-            StlMeshImporter importer = new StlMeshImporter();
-            importer.read(file);
-            Mesh mesh = importer.getImport();
-
-            return new MeshView[]{new MeshView(mesh)};
-        }
-        //return new MeshView[]{new MeshView(mesh)};
     }
 
     public Cylinder drawCylinder(Point3D startPoint, Point3D endPoint, int radius) {
