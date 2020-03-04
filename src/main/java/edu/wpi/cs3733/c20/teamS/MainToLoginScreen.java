@@ -10,21 +10,21 @@ import javafx.stage.Stage;
  * Simple screen for main client ui
  */
 public class MainToLoginScreen extends BaseScreen {
-    private MainScreenController ui;
+
     private Scene scene;
     private Stage stage;
 
     public MainToLoginScreen() {
-        this.stage = Settings.primaryStage;
+        this.stage = Settings.get().getPrimaryStage();
         this.scene = stage.getScene();
 
         Settings set = Settings.get();
 
         if (this.scene == null){
-            this.scene = new Scene(Settings.mainScreenRoot);
+            this.scene = new Scene(Settings.get().getMainScreenRoot());
         }
         else {
-            this.scene.setRoot(Settings.mainScreenRoot);
+            this.scene.setRoot(Settings.get().getMainScreenRoot());
         }
 
         this.show();
@@ -34,7 +34,7 @@ public class MainToLoginScreen extends BaseScreen {
         stage.setScene(scene);
         puggy.register(scene, Event.ANY);
         stage.show();
-        Settings.mainScreenController.clearPathDisplay();
+        Settings.get().getMainScreenController().clearPathDisplay();
     }
     public static void showDialog() {
         puggy.play();

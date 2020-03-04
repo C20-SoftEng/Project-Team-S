@@ -16,15 +16,15 @@ public class MainStartScreen extends BaseScreen {
 
 
     public MainStartScreen() {
-        this.stage = Settings.primaryStage;
+        this.stage = Settings.get().getPrimaryStage();
         this.scene = this.stage.getScene();
 
 
         if(this.scene == null){
-            this.scene = new Scene(Settings.splashRoot);
+            this.scene = new Scene(Settings.get().getSplashRoot());
         }
         else {
-            this.scene.setRoot(Settings.splashRoot);
+            this.scene.setRoot(Settings.get().getSplashRoot());
         }
 
         this.show();

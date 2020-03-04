@@ -22,14 +22,14 @@ public class MapEditingScreen extends BaseScreen{
         dbc.autoCommit(false);
         this.stage = stage;
 
-        this.stage = Settings.primaryStage;
+        this.stage = Settings.get().getPrimaryStage();
         this.scene = this.stage.getScene();
 
         if(this.scene == null){
-            this.scene = new Scene(Settings.employeeRoot);
+            this.scene = new Scene(Settings.get().getEmployeeRoot());
         }
         else {
-            this.scene.setRoot(Settings.employeeRoot);
+            this.scene.setRoot(Settings.get().getEmployeeRoot());
         }
 
         this.show();
@@ -41,7 +41,7 @@ public class MapEditingScreen extends BaseScreen{
         //stage.initStyle(StageStyle.UNDECORATED);
         //Settings.openWindows.add(this.stage);
         BaseScreen.puggy.register(scene, Event.ANY);
-        Settings.editScreenController.fakeInitialize();
+        Settings.get().getEditScreenController().fakeInitialize();
         stage.show();
     }
 

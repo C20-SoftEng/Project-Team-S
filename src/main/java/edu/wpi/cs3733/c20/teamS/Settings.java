@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import edu.wpi.cs3733.c20.teamS.pathfinding.PathfindingContext;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.Employee;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
@@ -86,24 +87,100 @@ public final class Settings {
 
     private Settings(){}
 
-    private static class SingletonHelper {
+//    private static class SingletonHelper {
+//
+//        private static final Settings settings = new Settings();
+//    }
 
-        private static final Settings settings = new Settings();
+    private static Settings set;
+
+    //private SingletonHelper sh;
+
+    synchronized public static Settings get(){
+
+        if (set == null)
+        {
+            // if instance is null, initialize
+            set = new Settings();
+        }
+        return set;
     }
 
-    public static Settings get(){
-        return SingletonHelper.settings;
-    }
 
     public static Set<Stage> openWindows = new HashSet<>();
 
     static FXMLLoader singleLoader;
-    public static Stage primaryStage;
-    public static Parent mainScreenRoot;
-    public static Parent splashRoot;
-    public static Parent employeeRoot;
-    public static edu.wpi.cs3733.c20.teamS.serviceRequests.Employee loggedIn = null;
-    public static MainScreenController mainScreenController;
-    public static EditScreenController editScreenController;
+
+    public Set<Stage> getOpenWindows() {
+        return openWindows;
+    }
+
+    public void setOpenWindows(Set<Stage> openWindows) {
+        Settings.openWindows = openWindows;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        Settings.primaryStage = primaryStage;
+    }
+
+    public Parent getMainScreenRoot() {
+        return mainScreenRoot;
+    }
+
+    public void setMainScreenRoot(Parent mainScreenRoot) {
+        Settings.mainScreenRoot = mainScreenRoot;
+    }
+
+    public Parent getSplashRoot() {
+        return splashRoot;
+    }
+
+    public void setSplashRoot(Parent splashRoot) {
+        Settings.splashRoot = splashRoot;
+    }
+
+    public Parent getEmployeeRoot() {
+        return employeeRoot;
+    }
+
+    public void setEmployeeRoot(Parent employeeRoot) {
+        Settings.employeeRoot = employeeRoot;
+    }
+
+    public Employee getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(Employee loggedIn) {
+        Settings.loggedIn = loggedIn;
+    }
+
+    public MainScreenController getMainScreenController() {
+        return mainScreenController;
+    }
+
+    public void setMainScreenController(MainScreenController mainScreenController) {
+        Settings.mainScreenController = mainScreenController;
+    }
+
+    public EditScreenController getEditScreenController() {
+        return editScreenController;
+    }
+
+    public void setEditScreenController(EditScreenController editScreenController) {
+        Settings.editScreenController = editScreenController;
+    }
+
+    private static Stage primaryStage;
+    private static Parent mainScreenRoot;
+    private static Parent splashRoot;
+    private static Parent employeeRoot;
+    private static edu.wpi.cs3733.c20.teamS.serviceRequests.Employee loggedIn = null;
+    private static MainScreenController mainScreenController;
+    private static EditScreenController editScreenController;
 }
 
