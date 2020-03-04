@@ -43,10 +43,14 @@ class RoomPopupUI extends Parent {
                 .mergeWith(room.descriptionChanged())
                 .mergeWith(room.iconChanged())
                 .subscribe(u -> updateUI());
+        room.descriptionChanged()
+                .map(description -> description == null ||
+                        description.trim().isEmpty())
+                .subscribe(huh -> descriptionTextArea.setVisible(!huh));
+        descriptionTextArea.setVisible(room.description() != null && !room.description().trim().isEmpty());
+
         RxAdaptors.propertyStream(nameLabel.widthProperty())
-                .subscribe(width -> {
-                    descriptionTextArea.setPrefWidth(width);
-                });
+                .subscribe(descriptionTextArea::setPrefWidth);
     }
 
     private void tryInitImage(ImageView imageView) {
