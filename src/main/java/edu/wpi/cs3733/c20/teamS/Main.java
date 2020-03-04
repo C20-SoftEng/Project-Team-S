@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-
     private static final StartupScreen START_SCREEN = StartupScreen.MAP_EDITING;
 
     public void start(Stage primaryStage) {
