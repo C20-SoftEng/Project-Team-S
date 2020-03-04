@@ -82,7 +82,7 @@ public class ThreeDimensions extends Application {
         NodeData begin = nodes.get(0);
         NodeData end = nodes.get(nodes.size() - 1);
 
-        boolean showComfort = true;
+        boolean showComfort = false;
         if(end.getLongName().equals("South Patient Beds")) {
             showComfort = true;
         }
