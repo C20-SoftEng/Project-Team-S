@@ -4,16 +4,13 @@ package edu.wpi.cs3733.c20.teamS.applicationInitializer;
 
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
-import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.Editing.EditScreenController;
 import edu.wpi.cs3733.c20.teamS.MainStartScreenController;
-import edu.wpi.cs3733.c20.teamS.SerialPoller;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
