@@ -162,21 +162,21 @@ public class ThreeDimensions extends Application {
         docGroup.getChildren().addAll(doctor);
         group.getChildren().addAll(docGroup);
 
-        URL bedPath = getClass().getResource("/images/ThreeDim/hospital_bed.obj").toURI().toURL(); //jar will brake
-        MeshView[] bed = loadModel(bedPath);
-        for (int k = 0; k < bed.length; k++) {
-            double MODEL_SCALE_FACTOR = 0.1;
-            bed[k].setScaleX(MODEL_SCALE_FACTOR);
-            bed[k].setScaleY(MODEL_SCALE_FACTOR);
-            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
-
-            bed[k].setTranslateZ(zplace.get(begin.getFloor()));
-
-            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
-        }
-        RotateGroup bedGroup = new RotateGroup();
-        bedGroup.getChildren().addAll(bed);
-        group.getChildren().addAll(bedGroup);
+//        URL bedPath = getClass().getResource("/images/ThreeDim/hospital_bed_c.obj").toURI().toURL(); //jar will brake
+//        MeshView[] bed = loadModel(bedPath);
+//        for (int k = 0; k < bed.length; k++) {
+//            double MODEL_SCALE_FACTOR = 1;
+//            bed[k].setScaleX(MODEL_SCALE_FACTOR);
+//            bed[k].setScaleY(MODEL_SCALE_FACTOR);
+//            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
+//
+//            bed[k].setTranslateZ(zplace.get(begin.getFloor()));
+//
+//            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+//        }
+//        RotateGroup bedGroup = new RotateGroup();
+//        bedGroup.getChildren().addAll(bed);
+//        group.getChildren().addAll(bedGroup);
 
         RotateGroup numberGroup = new RotateGroup();
         for(int i = 1; i <= totalFloors; i++) {
