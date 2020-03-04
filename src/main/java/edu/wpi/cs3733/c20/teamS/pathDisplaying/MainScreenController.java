@@ -79,6 +79,8 @@ public class MainScreenController implements Initializable {
         initDirectoryPathfinding();
 
         scrollPane.setContent(group);
+        while (zoomer.canZoomOut())
+            zoomer.zoomOut();
         redraw();
     }
 
