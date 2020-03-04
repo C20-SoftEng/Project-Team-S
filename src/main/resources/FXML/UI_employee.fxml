@@ -437,7 +437,7 @@
                                  <children>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="142.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" ripplerFill="#ffffffb2" VBox.vgrow="ALWAYS">
+                                          <JFXButton fx:id="upButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#onUpClicked" VBox.vgrow="ALWAYS">
                                              <graphic>
                                                 <ImageView fitHeight="70.0" fitWidth="70.0" preserveRatio="true">
                                                    <image>
@@ -455,7 +455,7 @@
                                                 <Insets />
                                              </opaqueInsets>
                                           </JFXButton>
-                                          <JFXButton fx:id="floorButton7" alignment="CENTER" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" styleClass="floors" text="7" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="floorButton7" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked7" ripplerFill="#ffffffcc" styleClass="floors" text="7" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -466,7 +466,7 @@
                                                 <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="floorButton6" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -477,21 +477,7 @@
                                                 <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton fx:id="floorButton5" alignment="CENTER" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" styleClass="floors" text="5" VBox.vgrow="SOMETIMES">
-                                             <font>
-                                                <Font name="Bookshelf Symbol 7" size="22.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
-                                             </VBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <effect>
-                                                <DropShadow spread="0.76" />
-                                             </effect>
-                                          </JFXButton>
-                                          <JFXButton fx:id="floorButton4" alignment="CENTER" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" styleClass="floors" text="4" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="floorButton5" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked5" ripplerFill="#ffffffcc" styleClass="floors" text="5" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -505,7 +491,21 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton fx:id="floorButton3" alignment="CENTER" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" styleClass="floors" text="3" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="floorButton4" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked4" ripplerFill="#ffffffcc" styleClass="floors" text="4" VBox.vgrow="SOMETIMES">
+                                             <font>
+                                                <Font name="Bookshelf Symbol 7" size="22.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
+                                             </VBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <effect>
+                                                <DropShadow spread="0.76" />
+                                             </effect>
+                                          </JFXButton>
+                                          <JFXButton fx:id="floorButton3" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked3" ripplerFill="#ffffffcc" styleClass="floors" text="3" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
@@ -533,7 +533,7 @@
                                                 <DropShadow spread="0.76" />
                                              </effect>
                                           </JFXButton>
-                                          <JFXButton fx:id="floorButton1" alignment="CENTER" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" styleClass="floors" text="1" VBox.vgrow="SOMETIMES">
+                                          <JFXButton fx:id="floorButton1" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClicked1" ripplerFill="#ffffffcc" styleClass="floors" text="1" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>

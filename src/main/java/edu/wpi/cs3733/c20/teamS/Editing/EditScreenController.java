@@ -216,7 +216,7 @@ public class EditScreenController extends BaseScreen implements Initializable {
 
     @FXML private void onHelpClicked() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/TutorialScreen.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
