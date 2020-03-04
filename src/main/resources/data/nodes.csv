@@ -5,7 +5,6 @@ SSERV00101,1255.0,48.0,1,Faulkner,SERV,Valet Parking,valt_park
 SHALL00101,1255.0,305.0,1,Faulkner,HALL,Outside Atrium Stairs,atr_stair_out
 SHALL00201,1311.0,305.0,1,Faulkner,HALL,Atrium Lobby Stairs ,atr_loby_stair
 SHALL00301,1255.0,418.0,1,Faulkner,HALL,Between Elevator and Stairs Atrium,btwn_elev
-SELEV00X01,1188.0,418.0,1,Faulkner,ELEV,Atrium Elevators,1atr_elev
 SSTAI00101,1328.0,418.0,1,Faulkner,STAI,Atrium Stairs,1atr_stai
 SHALL00401,1255.0,519.0,1,Faulkner,HALL,Big Intersection Below Atrium,intr_blw_atr
 SHALL00501,1199.0,519.0,1,Faulkner,HALL,Outside Mens Bathroom,out_mens_bath
@@ -46,14 +45,11 @@ SLABS00401,1300.0,937.0,1,Faulkner,LABS,Vasc Lab,vasc_lab
 SHALL02401,1255.0,1080.0,1,Faulkner,HALL,Outside South Stairs, Finanaces
 SSTAI00201,1201.0,1080.0,1,Faulkner,STAI,South Stairs,south_stai
 SHALL02501,1255.0,1160.0,1,Faulkner,HALL,Outside South Escalators,out_south_stai
-SELEV00Y01,1203.0,1152.0,1,Faulkner,ELEV,South Escalators,south_esc
 SSERV00201,1280.0,1080.0,1,Faulkner,SERV,Patient Finances,pat_fin
 SINFO00101,1314.0,250.0,1,Faulkner,INFO,Information (not labeled, my b)
-SELEV00Y02,1203.0,1152.0,2,Faulkner,ELEV,2nd Floor Hillside Elevators,2hs_elev
 SHALL00302,1437.0,1214.0,2,Faulkner,HALL,Physical Therapy Intersection Hallway,pt_int_hall
 SHALL02002,1480.0,1145.0,2,Faulkner,HALL,2nd Floor Elevator Hallway,2main_elev_hall
 SREST00102,1437.0,1145.0,2,Faulkner,REST,2nd Floor Handicap Bathroom,2hand_bath
-SELEV00Z02,1356.0,1145.0,2,Faulkner,ELEV,2nd Floor Staff Elevators,2staff_elev
 SHALL00402,1437.0,880.0,2,Faulkner,HALL,Physical Therapy Hallway,pt_hall
 SDEPT00202,1462.0,880.0,2,Faulkner,DEPT,Physical Therapy,pt_room
 SHALL00502,1437.0,509.0,2,Faulkner,HALL,Physical Therapy Hallway North,pt_hall_north
@@ -64,7 +60,6 @@ SHALL00802,1359.0,293.0,2,Faulkner,HALL,Plastic Surgey Lobby Hallway ,ps_hall_lo
 SHALL00902,1260.0,293.0,2,Faulkner,HALL,2nd Floor Atrium Hallway North,2atr_hall_north
 SDEPT00402,1160.0,293.0,2,Faulkner,DEPT,Otolaryngology,oto_room
 SHALL01002,1260.0,406.0,2,Faulkner,HALL,2nd Floor Atrium Hallway,2atr_hall
-SELEV00X02,1188.0,418.0,2,Faulkner,ELEV,2nd Floor Atrium Elevators ,2atr_elev
 SSTAI00102,1328.0,418.0,2,Faulkner,STAI,2nd Floor Atrium Stairs,2atr_stair
 SHALL01102,1260.0,480.0,2,Faulkner,HALL,2nd Floor Atrium Hallway South,2atr_hall_south
 SHALL01202,1359.0,480.0,2,Faulkner,HALL,Plastic Surgery Intersection Hallway,ps_int_hall
@@ -83,13 +78,13 @@ SDEPT00702,1469.0,1076.0,2,Faulkner,DEPT,Occupational Therapy,occ_ther
 SSERV00103,1093.0,1335.0,3,Faulkner,SERV,Chapel,chpl
 SINFO00103,1250.0,1335.0,3,Faulkner,INFO,Hillside Lobby,hill_loby
 SSERV00203,1250.0,1418.0,3,Faulkner,SERV,Shuttle Pickup,shtl_pick
-SINFO00203,1250.0,1310.0,3,Faulkner,INFO,Upper Hillside Lobby,hill_up_loby
 SSERV00303x,1375.0,1310.0,3,Faulkner,SERV,Volunteer/Community,comm
 SHALL01703,1250.0,1163.0,3,Faulkner,HALL,Hillside Elevators,3hill_elev
 SHALL01803,1250.0,1080.0,3,Faulkner,HALL,Above Hillside Elevators,abv_hill_elev
 SSTAI00103,1201.0,1080.0,3,Faulkner,STAI,Hillside Stairs,3hill_stai
 SHALL00103,1250.0,928.0,3,Faulkner,HALL,Outside Giftshop Hall,out_gift_hall
 SRETL00103,1216.0,928.0,3,Faulkner,RETL,Giftshop Hall,gift
+SHALL00203,1216.0,952.0,3,Faulkner,HALL,Giftshop Hall,gift_hall
 SCONF00103,1216.0,862.0,3,Faulkner,CONF,Huvos Auditorium,hvs_aud
 SHALL00303,1250.0,790.0,3,Faulkner,HALL,Outside South Cafeteria Entrance,out_south_ent
 SEXIT00103,1280.0,790.0,3,Faulkner,EXIT,Cafeteria South Entrance,cafe_south_ent
@@ -102,10 +97,9 @@ SHALL00503,1095.0,700.0,3,Faulkner,HALL,Outside Fam/Pat resources,out_fam_resc
 SSERV00303,1095.0,630.0,3,Faulkner,SERV,Fam/Pat resources,fam_resc
 SHALL00603,1207.0,700.0,3,Faulkner,HALL,Hallway Split Two,hall_split_two
 SHALL00703,1207.0,484.0,3,Faulkner,HALL,Atrium Square ,atr_sqr
-SRETL00103x,1550.0,790.0,3,Faulkner,RETL,a Dining Terrace,out_dine_terr
+SRETL00103x,1550.0,790.0,3,Faulkner,RETL,Outdoor Dining Terrace,out_dine_terr
 SHALL00803,1250.0,484.0,3,Faulkner,HALL,Near Atrium Elevators,out_atr_elev
 SHALL00903,1250.0,414.0,3,Faulkner,HALL,Outside Atrium Elevators and Stairs,out_atr_stai
-SELEV00X03,1188.0,418.0,3,Faulkner,ELEV,Atrium Elevators,3atr_elev
 SSTAI00203,1328.0,418.0,3,Faulkner,STAI,Atrium Stairs,3atr_stai
 SHALL01003,1355.0,484.0,3,Faulkner,HALL,Outside Medical Staff Lounge,out_medi_staff
 SHALL01103,1355.0,310.0,3,Faulkner,HALL,Outside OB/GYN Associates,out_gyn_asso
@@ -118,8 +112,6 @@ SDEPT00303,1160.0,251.0,3,Faulkner,DEPT,Roslindate Pediatric ,rosl_pedi
 SHALL01503,1144.0,311.0,3,Faulkner,HALL,West Atrium Hall,west_3atr_hall
 SHALL01603,1144.0,484.0,3,Faulkner,HALL,South West Atrium Hall,south_west_atr_hall
 SINFO00303,1250.0,1300.0,3,Faulkner,INFO,Info,3info
-SELEV00Y03,1203.0,1152.0,3,Faulkner,ELEV,Hillside West Elevators,3hill_west_elev
-SELEV00Z03,1356.0,1145.0,3,Faulkner,ELEV,Hillside East Elevators,3hill_east_elev
 SHALL00104,1260.0,1223.0,4,Faulkner,HALL,Executive Hallway,ex_hall
 SHALL00204,2137.0,1223.0,4,Faulkner,HALL,Foot & Ankle Hallway,foot_hall
 SDEPT00104,2137.0,1203.0,4,Faulkner,DEPT,Foot & Ankle Room,foot
@@ -142,8 +134,6 @@ SSTAI00204,2335.0,1223.0,4,Faulkner,STAI,East Executive Staircase,ex_stair_east
 SHALL00904,1774.0,1223.0,4,Faulkner,HALL,Brigham Staircase Hallway,bpp_stair_hall
 STAIR00304,1774.0,1250.0,4,Faulkner,STAI,Brigham Staircase,bpp_stair
 SHALL01004,1254.0,1170.0,4,Faulkner,HALL,4th Floor Hillside Hallway,4hs_hall
-SELEV00Z04,1356.0,1145.0,4,Faulkner,ELEV,4th Floor East Hillside Elevator,4hs_elev_east
-SELEV00Y04,1203.0,1152.0,4,Faulkner,ELEV,4th Floor West Hillside Elevator,4hs_elev_west
 SHALL01104,1254.0,1045.0,4,Faulkner,HALL,4th Floor Hillside Stairs Hallway,4hs_stair_hall
 SSTAI00404,1201.0,1080.0,4,Faulkner,STAI,4th Floor Hillside Stairs,4hs_stair
 SHALL01204,1254.0,998.0,4,Faulkner,HALL,MOHS Clinic Hallway,mohs_hall
@@ -168,7 +158,6 @@ SHALL02204,1150.0,293.0,4,Faulkner,HALL,HVMA Internal Medicine Corner,hvma_med_c
 SHALL02304,1254.0,293.0,4,Faulkner,HALL,4th Floor North Atrium Elevator,4atr_hall_north
 SHALL02404,1254.0,434.0,4,Faulkner,HALL,4th Floor Atrium Hallway,4atr_hall
 SSTAI00504,1328.0,418.0,4,Faulkner,STAI,4th Floor Atrium Stairs,4atr_stair
-SELEV00X04,1188.0,418.0,4,Faulkner,ELEV,4th Floor Atrium Elevators,4atr_elev
 SHALL00105,1237.0,1215.0,5,Faulkner,HALL,Vacant Hallway,vcnt_hall
 SHALL00205,1293.0,1215.0,5,Faulkner,HALL,Oncology Clinic Hallway,onco_hall
 SDEPT00105,1345.0,1215.0,5,Faulkner,DEPT,Oncology Clinic,onco
@@ -180,9 +169,7 @@ SSTAI00105,673.0,1245.0,5,Faulkner,STAI,Intensive Care Unit Stairs,int_care_stai
 SHALL00505,1200.0,1215.0,5,Faulkner,HALL,5th Floor South Hillside Hallway,5hs_hall_south
 SHALL00605,1200.0,1161.0,5,Faulkner,HALL,5th Floor Hillside Hallway,5hs_hall
 SREST00105,1253.0,1161.0,5,Faulkner,REST,5th Floor Handicap Bathroom,5hand_bath
-SELEV00Y05,1203.0,1152.0,5,Faulkner,ELEV,5th Floor Hillside Elevator,5hs_elev
 SHALL00705,1293.0,1161.0,5,Faulkner,HALL,5th Floor East Hillside Hallway,5hs_hall_east
-SELEV00Z05,1356.0,1145.0,5,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
 SHALL00805,1293.0,1106.0,5,Faulkner,HALL,5th Floor Northeast Hillside Hallway,5hs_hall_ne
 SHALL00905,1200.0,1106.0,5,Faulkner,HALL,5th Floor Northwest Hillside Hallway,5hs_hall_nw
 SHALL01005,1240.0,1106.0,5,Faulkner,HALL,5th Floor North Hillside Hallway,5hs_hall_north
@@ -202,7 +189,6 @@ SHALL01705,1355.0,481.0,5,Faulkner,HALL,Surgical Specialties Hallway,surg_spec_h
 SHALL01805,1145.0,481.0,5,Faulkner,HALL,ENT Hallway,ent_hall
 SHALL01905,1240.0,416.0,5,Faulkner,HALL,5th Floor Atrium Hallway,5atr_hall
 SSTAI00305,1328.0,418.0,5,Faulkner,STAI,5th Floor Atrium Stairs,5atr_stair
-SELEV00X05,1188.0,418.0,5,Faulkner,ELEV,5th Floor Atrium Elevator,5atr_elev
 SHALL02005,1240.0,292.0,5,Faulkner,HALL,5th Floor North Atrium Hallway,5atr_hall_north
 SDEPT00905,1145.0,292.0,5,Faulkner,DEPT,ENT,ent
 SDEPT01005,1240.0,262.0,5,Faulkner,DEPT,Orthopaedic Association,ortho
@@ -263,6 +249,7 @@ SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
 -6-43-8-50-751-845-33-7-8-32243605-27-6-7-65,1902.0,1266.0,4,Faulkner,HALL,4FHall,4FH
 -81-4-1-39-87298-7661-352200-2-579350-4-5,1900.0,1222.0,4,Faulkner,HALL,4FHall,4FH
 76-4087-236-40-3639-2-8-6-4-7-8-6-68-5-9-2-7-41,2277.0,1174.0,4,Faulkner,HALL,Unnamed,NA
+-9-56-95930-5-4-60-80-70770-5-5-61-2934-792,2350.0,1275.0,4,Faulkner,HALL,Unnamed,NA
 831-3-9-382-4-71-2441836-1-22-497-7-57-861,1559.0,1170.0,4,Faulkner,SERV,Department of Surgery,Dept Surg
 502-4613982-1-985-6-27-4-20-7-1-1-740-83-6-5,1464.0,1167.0,4,Faulkner,DEPT,PATSAFE,PATSAFE
 99-79-5-88-3-615-501033-496737-1-7-8-9353,1191.0,614.0,4,Faulkner,LABS,B-D Cardiology,cardiology
@@ -299,6 +286,7 @@ SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
 -117-10-19253-3383-7-9008-37-16-5510589,333.0,1219.0,3,Faulkner,SERV,Mechanical Space,MECH
 8461-54-4941767-86-4209-75-88-5901005,1285.0,927.0,3,Faulkner,SERV,Cafeteria,CAFE
 59787500875-91-90-2-9-246-665-227-7-617,1292.0,1081.0,3,Faulkner,SERV,Cafeteria,CAFE
+2417-5-4-72214-766-289-80-2353-249046-9,1250.0,603.0,3,Faulkner,SERV,Cafeteria,CAFE
 -1-83-70076019508-4-839-4-5310-913-8-681,1380.0,790.0,3,Faulkner,SERV,Cafeteria,CAFE
 50-586461-620-24-3-298039-6610-9-2502-2,1334.0,861.0,3,Faulkner,SERV,Cafeteria,CAFE
 -83-309-5-2-11-40-8-11-40-8-741-953-13-1-8550,1324.0,714.0,3,Faulkner,SERV,Cafeteria,CAFE
@@ -381,27 +369,12 @@ SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
 -7-8349-88-11211-1-4-1-38-1435-7-4-98-66-363,1153.0,685.5,6,Faulkner,DEPT,Post-Anethstesia Care Unit ,Post-AnethstesiaCareUnit
 6110683-2-1518-9096-5-5-6-1-9-98-8-70-2-90-7,1251.0,675.5,6,Faulkner,HALL,Post-Anethstesia Care Unit Hall,Post-AnethstesiaCareUnit Hall
 -3006-8-9-2746-4-2-1-3-1-60-5-4-881-3-1-306-67-8,1249.0,573.5,6,Faulkner,HALL,Diagnostic & Treatment Operating Rooms,DiagnosticTreatmentOperatingRooms
-9-4-1184-64-7-20-6-3-49-6-5060-3-6849-5316-9,1353.666666666667,1151.5,1,Faulkner,ELEV,First Floor Elevator East,Elev1stFloorEast
-4703-8-8-3-9901-80079-46-4086150623-81,1391.6666666666665,1126.1666666666667,1,Faulkner,HALL,Hall First Floor East,Hall1stFLEast
-136-2-25-9-908-999-52-39-33-63-93-3802-8-76,2281.0,1123.5,1,Faulkner,HALL,Hall First Floor East End,Hall1stFLEastEnd
--47-2-94-3-2-11-8941-69-2-7-57-75-788-94-34-57,2339.666666666667,1259.5,1,Faulkner,STAI,Hall First Floor East End Stair,Hall1stFLEastEndStair
-2-1-8-9-430301-72-80-6-72-2-6-5-2-81-647325-8,1230.3333333333335,1173.6666666666667,2,Faulkner,HALL,Second Floor Elevator Hallway,2ndFLELEVHall
--2408-4-9-17-89-3-38-420-3-897-3416-9-1-92-6-1,703.0,1279.5,2,Faulkner,STAI,Second Floor Stair West,2ndFLStairWest
--5555-6-98-70-70-465-60-7-8864-61949417-3,1443.3333333333335,379.6666666666667,3,Faulkner,DEPT,OBGYN,OBGYN
-19-6336-6-19-66-870-1-705-80-6-90-873-144-9,720.0,1263.6666666666665,4,Faulkner,STAI,Fourth Floor Stair South,4thFLStairSouth
 -2253476-202-99-621-4-30-7-303-74-2-5-6-6-6-4,1202.6666666666665,1087.6666666666667,6,Faulkner,STAI,Sixth Floor Middle Stair,6thFLMiddleStir
 94-650-8-655650-6-801-29-53-57-91-706-98-8,1262.0,1083.6666666666667,6,Faulkner,HALL,Hall,hall
--3-509-79-137-3129-6-1-86-50-7-4-18-55-5-2-7-98,1157.6666666666665,1171.6666666666667,6,Faulkner,ELEV,Sixth Floor Elevator West,6thFLELEVWest
-52-30-2-19-2-4-23765-6947-420-8-52-3-37943,1351.0,1161.6666666666667,6,Faulkner,ELEV,Sixth Floor Elevator East,6thFLELEVEast
 -90-99-89-857-6-8-7-2-512-3691740-20-8430-9,1316.3333333333335,1160.3333333333333,6,Faulkner,HALL,Sixth Floor Elevator Hall,6thFLELEVHall
 3-69-730-701-1-2-6-282-793084-8-32-2-3-8-3-8-4,1182.3333333333335,1157.6666666666667,6,Faulkner,HALL,Sixth Floor Elevator Hall,6thFLELEVHall
 46-6270-5-4362-7-635-3-651-2-6-28975-310-3,724.0,1266.3333333333335,6,Faulkner,STAI,Sixth Floor Stair West,6thFLStairWest
 8-98-623-8-3-5-95-854-3-8-5368-2-9-64958-104,1781.6666666666665,1251.0,6,Faulkner,STAI,Sixth Floor Stair East,6thFLStairEast
-14060-486-6-4-26-31-8-7-411-484-4-8-11-44-5-5,1353.666666666667,1151.5,2,Faulkner,ELEV,First Floor Elevator East,Elev1stFloorEast
--17-174-40-935764-1-33203677191602-60,1356.0,1145.0,6,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
--38-1-50-3-18-48-941-25-7938-76-2-356-30942,1157.3333740234375,1165.0,6,Faulkner,ELEV,5th Floor Hillside Elevator,5hs_elev
--84-89-4-25-110-2-82-94-40-48535-762-5-84-29,1152.3333740234375,1179.6666259765625,7,Faulkner,ELEV,5th Floor Hillside Elevator,5hs_elev
--93390-8-60-2-3-95-63-24-190-4-61-374-34005,1348.6666259765625,1168.6666259765625,7,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
 56-94-9-94-3-825-9-9-95-11-4-6-22-80402-5-459,1159.6666666666665,973.0,7,Faulkner,DEPT,HumanResources,HR
 -80-1-1-1-3-500-8-2381-8-72-5-8-72-7-9-7-37-1-18-1,1316.3333333333335,979.6666666666667,7,Faulkner,DEPT,HouseKeeping,HP
 -923160-685-528-74-9-896-49-788-440-5-27-9,1198.3333333333335,1067.0,7,Faulkner,DEPT,Seventh Floor Stair Top,7thFLStairTop
@@ -432,3 +405,19 @@ SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
 -4-42-4046-8-19-32-3-12-5-24-2-5-5-5-8-6-10-6-2-66,1268.0000000000005,432.24999999999994,6,Faulkner,HALL,Sixth Floor Hallway North Middle,6thFLHwyNthMd
 -9-359-2-7068-4-59141-26-91-6006053-79-11,1315.0,427.2499999999999,6,Faulkner,HALL,Sixth Floor Hallway North Middle Right,6thFLHwyNthMdRt
 0-372-3-40-62-59-7-7-52-46514660-8-5-33995,1320.0000000000002,378.24999999999994,6,Faulkner,STAI,Sixth Floor Stair North,6thFLStirNth
+SELEV00Y01,1160.0,1160.0,1,Faulkner,ELEV,Elevator,elev
+SELEV00X01,1190.0,405.0,1,Faulkner,ELEV,Elevator,elev
+SELEV00Y02,1160.0,1160.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00X02,1190.0,405.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00Z02,1350.0,1170.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00Y03,1160.0,1160.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00X03,1190.0,405.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00Z03,1350.0,1170.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00Y04,1160.0,1160.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00X04,1190.0,405.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00Z04,1350.0,1170.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00Y05,1160.0,1160.0,5,Faulkner,ELEV,Elevator,elev
+SELEV00X05,1190.0,405.0,5,Faulkner,ELEV,Elevator,elev
+SELEV00Y06,1160.0,1160.0,6,Faulkner,ELEV,Elevator,elev
+SELEV00Y07,1160.0,1160.0,7,Faulkner,ELEV,Elevator,elev
+088176-69-20-76-8519-1-1725-56-294484-7,1204.6666666666665,1159.9999999999998,2,Faulkner,HALL,Elevator Hall,elev_hall

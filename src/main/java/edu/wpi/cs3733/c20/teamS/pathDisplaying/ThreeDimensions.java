@@ -604,8 +604,8 @@ public class ThreeDimensions extends Application {
 
         stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
             if(event.isPrimaryButtonDown() && !event.isControlDown()) {
-                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 2); }
-                else {group.setTranslateY(group.getTranslateY() - 2);}
+                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 4); }
+                else {group.setTranslateY(group.getTranslateY() - 4);}
                 oldY = event.getSceneY();
             }
             if(event.isPrimaryButtonDown() && event.isControlDown()) {
