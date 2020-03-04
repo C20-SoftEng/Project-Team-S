@@ -506,7 +506,7 @@ public class MainScreenController implements Initializable {
         new Pulse(floorButton6).play();
     }
     @FXML private void animateFloor7() {
-        new Pulse(floorButton6).play();
+        new Pulse(floorButton7).play();
     }
     @FXML private void animateFloorDown() {
         new Pulse(downButton).play();
