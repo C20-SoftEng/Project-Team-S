@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +45,7 @@ public class SendTextDirectionsScreen {
         stage.setScene(scene);
         Settings.openWindows.add(this.stage);
         BaseScreen.puggy.register(scene, Event.ANY);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 

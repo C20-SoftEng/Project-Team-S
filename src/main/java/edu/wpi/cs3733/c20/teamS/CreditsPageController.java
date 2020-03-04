@@ -16,6 +16,7 @@ public class CreditsPageController {
     @FXML
     JFXButton goBackButton;
 
+
     @FXML
     void GoBack() {
         Stage stage = (Stage) goBackButton.getScene().getWindow();
