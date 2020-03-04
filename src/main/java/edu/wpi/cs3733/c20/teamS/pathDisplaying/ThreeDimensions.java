@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -96,17 +95,8 @@ public class ThreeDimensions extends Application {
 
         Camera camera = new PerspectiveCamera();
         camera.setFarClip(10000);
-        //camera.setNearClip(0); //cant see guy in elevator
         camera.setTranslateY(-50);
 
-//        Shape destinationCircle = new Circle(10);
-//        destinationCircle.setStrokeWidth(3);
-//        destinationCircle.setStrokeLineCap(StrokeLineCap.ROUND);
-//        destinationCircle.setStroke(Color.AQUA);
-//        destinationCircle.setFill(Color.LIGHTYELLOW);
-//        destinationCircle.setTranslateX(end.getxCoordinate() / 5 - 247);
-//        destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
-//        destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148);
         ImageView destinationCircle = new ImageView(new Image("/images/ThreeDim/pulse.gif"));
         double destScale = 0.1;
         destinationCircle.setScaleX(destScale);
@@ -117,7 +107,6 @@ public class ThreeDimensions extends Application {
         destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
         String pinPath = getClass().getResource("/images/ThreeDim/pin.STL").toURI().toString().substring(5);
-        System.out.println(pinPath);
         MeshView[] pin = loadMeshViews(pinPath);
         for (int i = 0; i < pin.length; i++) {
             double MODEL_SCALE_FACTOR22 = 0.15;
@@ -151,7 +140,7 @@ public class ThreeDimensions extends Application {
             person[i].setMaterial(material);
         }
 
-        URL docPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL(); //jar will brake
+        URL docPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL();
         MeshView[] doctor = loadModel(docPath);
         for (int k = 0; k < doctor.length; k++) {
             double MODEL_SCALE_FACTOR = 0.15;
@@ -167,7 +156,7 @@ public class ThreeDimensions extends Application {
         docGroup.getChildren().addAll(doctor);
         group.getChildren().addAll(docGroup);
 
-        URL nursePath = getClass().getResource("/images/ThreeDim/nurse.obj").toURI().toURL(); //jar will brake
+        URL nursePath = getClass().getResource("/images/ThreeDim/nurse.obj").toURI().toURL();
         MeshView[] nurse = loadModel(nursePath);
         for (int k = 0; k < nurse.length; k++) {
             double MODEL_SCALE_FACTOR = 1;
@@ -193,12 +182,6 @@ public class ThreeDimensions extends Application {
             pika[k].setScaleX(MODEL_SCALE_FACTOR);
             pika[k].setScaleY(MODEL_SCALE_FACTOR);
             pika[k].setScaleZ(MODEL_SCALE_FACTOR);
-
-            //pika[k].setTranslateZ(zplace.get(6));
-            //pika[k].setTranslateX(70);
-            //pika[k].setTranslateY(90);
-
-            //pika[k].getTransforms().setAll(new Rotate(90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
         }
         RotateGroup pikaGroup = new RotateGroup();
         pikaGroup.getChildren().addAll(pika);
@@ -209,7 +192,7 @@ public class ThreeDimensions extends Application {
         if(showComfort)
         group.getChildren().addAll(pikaGroup);
 
-        URL dogPath = getClass().getResource("/images/ThreeDim/12228_Dog_v1_L2.obj").toURI().toURL(); //jar will brake
+        URL dogPath = getClass().getResource("/images/ThreeDim/12228_Dog_v1_L2.obj").toURI().toURL();
         MeshView[] dog = loadModel(dogPath);
         for (int k = 0; k < dog.length; k++) {
             double MODEL_SCALE_FACTOR = 0.5;
@@ -228,7 +211,7 @@ public class ThreeDimensions extends Application {
         if(showComfort)
         group.getChildren().addAll(dogGroup);
 
-        URL patientPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL(); //jar will brake
+        URL patientPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL();
         MeshView[] patient = loadModel(patientPath);
         for (int k = 0; k < dog.length; k++) {
             double MODEL_SCALE_FACTOR = 0.1;
@@ -318,14 +301,10 @@ public class ThreeDimensions extends Application {
         personGroup.getChildren().addAll(person);
         Group pinGroup = new Group(pin);
         group.getChildren().add(numberGroup);
-        //group.getChildren().add(personGroup);
         group.getChildren().add(pinGroup);
         group.getChildren().addAll(elevatorGroup);
         group.getChildren().add(destinationCircle);
         group.getChildren().add(new AmbientLight(Color.WHITE));
-
-        //docGroup.setTranslateZ(docGroup.getTranslateZ() - 27);
-        //docGroup.rotateByZ(-90);
 
         SequentialTransition st = new SequentialTransition();
         ArrayList<NodeData> floorPath = new ArrayList<>();
@@ -379,57 +358,6 @@ public class ThreeDimensions extends Application {
         st.setCycleCount(Timeline.INDEFINITE);
         st.play();
 
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case W:
-                    group.translateZProperty().set(group.getTranslateZ() + 100);
-                    break;
-                case S:
-                    group.translateZProperty().set(group.getTranslateZ() - 100);
-                    break;
-                case Q:
-                    numberGroup.rotateByX(1);
-                    break;
-                case E:
-                    numberGroup.rotateByX(-1);
-                    break;
-                case A:
-                    numberGroup.rotateByY(1);
-                    break;
-                case D:
-                    numberGroup.rotateByY(-1);
-                    break;
-                case T:
-                    group.translateXProperty().set(group.getTranslateX() - 2);
-                    break;
-                case Y:
-                    group.translateXProperty().set(group.getTranslateX() + 2);
-                    break;
-                case G:
-                    group.setTranslateY(group.getTranslateY() - 100);
-                    break;
-                case H:
-                    group.setTranslateY(group.getTranslateY() + 100);
-                    break;
-            }
-        });
-
-//        RotateGroup whiteRoom = new RotateGroup();
-//        Polygon destPoly = new Polygon();
-//        for(int i = 0; i < goalLine.size(); i++) {
-//            destPoly.getPoints().addAll(goalLine.get(i).x() / 5 - 247, goalLine.get(i).y() / 5 - 148);
-//        }
-//        destPoly.setFill(Color.WHITE);
-//        destPoly.setOpacity(1);
-//        //destPoly.setBlendMode(BlendMode.SRC_OVER);
-//        whiteRoom.getChildren().add(destPoly);
-//        whiteRoom.setCache(true);
-//        Bloom bloom = new Bloom();
-//        bloom.setThreshold(0.3);
-//        whiteRoom.setEffect(bloom);
-//
-//        group.getChildren().add(whiteRoom);
-
         Group elevIcons = getElevIcons();
         group.getChildren().add(elevIcons);
 
@@ -446,12 +374,9 @@ public class ThreeDimensions extends Application {
         group.getChildren().add(restIcons);
 
         group.rotateByX(-63);
-        //numberGroup.rotateByX(63);
         group.translateXProperty().set((WIDTH - 192 - 49)/2 - 24);
         group.translateYProperty().set(632/2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
-        //group.rotateByZ(22);
-        //numberGroup.rotateByZ(-22);
         group.translateZProperty().set(group.getTranslateZ() + 100);
 
         Group root = new Group();
@@ -472,14 +397,12 @@ public class ThreeDimensions extends Application {
         Button elevatorButton = new Button();
         elevatorButton.relocate(97,57);
         elevatorButton.setPrefSize(180,50);
-        //elevatorButton.setStyle("-fx-background-color: #a1f20f");
         elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
         elevatorButton.setOnAction(e -> onElevClicked(elevIcons));
         root.getChildren().add(elevatorButton);
 
         Button foodButton = new Button();
         foodButton.relocate(340,56);
-        //foodButton.setStyle("-fx-background-color: #a2b4ff");
         foodButton.setPrefSize(140,50);
         foodButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(foodButton);
@@ -487,9 +410,7 @@ public class ThreeDimensions extends Application {
 
         Button bathroomButton = new Button();
         bathroomButton.relocate(538,56);
-        //bathroomButton.setStyle("-fx-background-color: #00ff00");
         bathroomButton.setPrefSize(206,50);
-        //bathroomButton.setRipplerFill(Color.TRANSPARENT);
         bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(bathroomButton);
         bathroomButton.setOnAction(e -> onRestClicked(restIcons));
@@ -497,7 +418,6 @@ public class ThreeDimensions extends Application {
 
         Button retailButton = new Button();
         retailButton.relocate(770,56);
-        //retailButton.setStyle("-fx-background-color: #1203ff");
         retailButton.setPrefSize(150,50);
         retailButton.setStyle("-fx-background-color: TRANSPARENT");
         root.getChildren().add(retailButton);
@@ -508,12 +428,10 @@ public class ThreeDimensions extends Application {
         stairsButton.relocate(982,56);
         stairsButton.setPrefSize(160,50);
         stairsButton.setStyle("-fx-background-color: TRANSPARENT");
-       // stairsButton.setStyle("-fx-background-color: #bfbfbf");
         root.getChildren().add(stairsButton);
         stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
 
         camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
-       // imageView.setTranslateZ(imageView.getTranslateZ() + zplace.get(begin.getFloor()));
         dest.setTranslateZ(dest.getTranslateZ() + zplace.get(begin.getFloor()));
 
         AnchorPane globalRoot = new AnchorPane();
@@ -537,34 +455,6 @@ public class ThreeDimensions extends Application {
 
         primaryStage.setTitle("MAP");
 
-        int translater = 10;
-        double sclaer = 0.01;
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case Z:
-                    imageView.setScaleX(imageView.getScaleX() - sclaer);
-                    imageView.setScaleY(imageView.getScaleY() - sclaer);
-                    imageView.setScaleZ(imageView.getScaleZ() - sclaer);
-                    break;
-                case X:
-                    imageView.setScaleX(imageView.getScaleX() + sclaer);
-                    imageView.setScaleY(imageView.getScaleY() + sclaer);
-                    imageView.setScaleZ(imageView.getScaleZ() + sclaer);
-                    break;
-                case J:
-                    pikaGroup.setTranslateX(pikaGroup.getTranslateX() - translater);
-                    break;
-                case K:
-                    pikaGroup.setTranslateX(pikaGroup.getTranslateX() + translater);
-                    break;
-                case Y:
-                    pikaGroup.setTranslateY(pikaGroup.getTranslateY() - translater);
-                    break;
-                case U:
-                    pikaGroup.setTranslateY(pikaGroup.getTranslateY() + translater);
-                    break;
-            }
-        });
         root.getChildren().get(0).toBack();
 
         group.setTranslateZ(group.getTranslateZ() + 0.5*(-zplace.get(begin.getFloor())));
@@ -605,8 +495,6 @@ public class ThreeDimensions extends Application {
     }
 
     private MeshView[] loadModel(URL url) {
-        Group modelRoot = new Group();
-
         ObjModelImporter importer = new ObjModelImporter();
         importer.read(url);
 
@@ -614,27 +502,21 @@ public class ThreeDimensions extends Application {
     }
 
     static MeshView[] loadMeshViews(String filename) {
-        File file = new File(filename);
-        System.out.println(file);
-        StlMeshImporter importer = new StlMeshImporter();
-        importer.read(file);
-        Mesh mesh = importer.getImport();
+        try {
+            String steeel = filename.substring(filename.lastIndexOf("/"));
+            filename = filename.substring(0, filename.indexOf("/libs"));
+            filename += "/resources/main/images/ThreeDim" + steeel;
+            filename = filename.replace("!", "");
+            filename = filename.substring(5);
+        }
+        catch(Exception e) {}
+            File file = new File(filename);
+            StlMeshImporter importer = new StlMeshImporter();
+            importer.read(file);
+            Mesh mesh = importer.getImport();
 
-        return new MeshView[]{new MeshView(mesh)};
+            return new MeshView[]{new MeshView(mesh)};
 
-//        String steeel = filename.substring(filename.lastIndexOf("/"));
-//        filename = filename.substring(0,filename.indexOf("/libs"));
-//        filename += "/resources/main/images/ThreeDim" + steeel;
-//        filename = filename.replace("!","");
-//        filename = filename.substring(5);
-//        File file = new File(filename);
-//        System.out.println(filename);
-//        System.out.println(file.toString());
-//        StlMeshImporter importer = new StlMeshImporter();
-//        importer.read(file);
-//        Mesh mesh = importer.getImport();
-//
-//        return new MeshView[]{new MeshView(mesh)};
     }
 
     public Cylinder drawCylinder(Point3D startPoint, Point3D endPoint, int radius) {
@@ -702,9 +584,6 @@ public class ThreeDimensions extends Application {
 
     private Box floorNumbers(Image number, Image brightNumber, int z, boolean selected) {
         PhongMaterial material = new PhongMaterial();
-        //if(selected) {material.setDiffuseMap(brightNumber);}
-        //if(selected) {material.setDiffuseMap(brightNumber);}
-       // else {material.setDiffuseMap(number);}
         material.setDiffuseMap(number);
         floorAddress.add(material.getDiffuseMap().toString());
 
