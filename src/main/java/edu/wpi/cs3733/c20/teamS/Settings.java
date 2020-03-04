@@ -56,7 +56,7 @@ public final class Settings {
         return 2.5;
     }
     public double editEdgeCollisionMaskWidth() {
-        return 25;
+        return 20;
     }
     public int minZoomStage() {
         return -1;
