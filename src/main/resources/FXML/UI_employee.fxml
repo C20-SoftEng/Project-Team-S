@@ -183,7 +183,29 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton id="buttons" fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="39.0" prefWidth="71.0" text="Cancel" textFill="WHITE" GridPane.rowIndex="1">
+                              <JFXButton id="buttons" fx:id="undoButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onUndoClicked" prefHeight="37.0" prefWidth="100.0" text="Undo" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <JFXButton id="buttons" fx:id="redoButton" onAction="#onRedoClicked" prefHeight="37.0" prefWidth="100.0" text="Redo" textFill="WHITE" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <JFXButton id="buttons" fx:id="confirmEditButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onConfirmEditClicked" prefHeight="37.0" prefWidth="100.0" text="Save" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -194,7 +216,7 @@
                                     <Insets top="30.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton fx:id="undoButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onUndoClicked" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0067B1;" text="Undo" textAlignment="CENTER" textFill="WHITE">
+                              <JFXButton id="buttons" fx:id="cancelEditButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onCancelEditClicked" prefHeight="37.0" prefWidth="100.0" text="Cancel" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -202,20 +224,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <GridPane.margin>
-                                    <Insets bottom="20.0" />
-                                 </GridPane.margin>
-                              </JFXButton>
-                              <JFXButton id="buttons" fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="Save" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                              </JFXButton>
-                              <JFXButton fx:id="redoButton" onAction="#onRedoClicked" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0067B1;" text="Redo" textFill="WHITE" GridPane.columnIndex="1">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <GridPane.margin>
-                                    <Insets bottom="20.0" />
+                                    <Insets top="30.0" />
                                  </GridPane.margin>
                               </JFXButton>
                            </children>
@@ -453,7 +462,7 @@
                                                 <Insets bottom="4.0" left="5.0" right="5.0" top="4.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" style="-fx-background-color: #fff;" text="6" VBox.vgrow="SOMETIMES">
+                                          <JFXButton id="floorButton5" fx:id="floorButton6" alignment="CENTER" onAction="#onFloorClicked6" ripplerFill="#ffffffcc" styleClass="floors" text="6" VBox.vgrow="SOMETIMES">
                                              <font>
                                                 <Font name="Bookshelf Symbol 7" size="22.0" />
                                              </font>
