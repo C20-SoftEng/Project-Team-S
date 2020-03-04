@@ -142,18 +142,18 @@ public class MainStartScreenController implements Initializable {
         imageID.setFitHeight(171);
         imageID.setFitWidth(171);
         imageID.setPreserveRatio(false);
-        Tweetbox tweetbox = new Tweetbox();
-
-        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(0));
-        firstTweet.setStyle("-fx-text-fill: white");
-        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
-        secondTweet.setStyle("-fx-text-fill: white");
-        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
-        ThirdTweet.setStyle("-fx-text-fill: white");
-        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
-        fourthTweet.setStyle("-fx-text-fill: white");
-        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
-        fifthTweet.setStyle("-fx-text-fill: white");
+//        Tweetbox tweetbox = new Tweetbox();
+//
+//        firstTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(0));
+//        firstTweet.setStyle("-fx-text-fill: white");
+//        secondTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(1));
+//        secondTweet.setStyle("-fx-text-fill: white");
+//        ThirdTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(2));
+//        ThirdTweet.setStyle("-fx-text-fill: white");
+//        fourthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(3));
+//        fourthTweet.setStyle("-fx-text-fill: white");
+//        fifthTweet.setText(tweetbox.getTweets("@FaulknerHosp").get(4));
+//        fifthTweet.setStyle("-fx-text-fill: white");
 
         tutorialView = new ImageView();
         startScreenTap.getChildren().add(tutorialView);
