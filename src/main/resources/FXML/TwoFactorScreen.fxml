@@ -16,7 +16,10 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="58.0" text="Select the carrier for your account's phone number then tap &quot;Generate Code&quot;" textAlignment="CENTER" />
+      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-40.0" layoutY="58.0" prefHeight="17.0" prefWidth="513.0" text="Select the carrier for your account's phone number then tap &quot;Generate Code&quot;" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
       <MenuButton fx:id="carrierSelector" layoutX="87.0" layoutY="107.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" text="Carrier">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#onVerizonClicked" text="Verizon" />
@@ -25,7 +28,7 @@
             <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
         </items>
       </MenuButton>
-      <JFXButton fx:id="sendButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="269.0" layoutY="104.0" onAction="#onSendClicked" prefHeight="31.0" prefWidth="106.0" ripplerFill="BLACK" style="-fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: gray;" text="Generate Code" textAlignment="CENTER">
+      <JFXButton fx:id="sendButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" layoutX="269.0" layoutY="104.0" onAction="#onSendClicked" prefHeight="31.0" prefWidth="119.0" ripplerFill="BLACK" style="-fx-background-color: #ddd; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: gray;" text="Generate Code" textAlignment="CENTER">
          <font>
             <Font size="13.0" />
          </font>
