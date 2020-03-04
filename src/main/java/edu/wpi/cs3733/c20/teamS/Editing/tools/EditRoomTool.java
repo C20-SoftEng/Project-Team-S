@@ -197,10 +197,6 @@ public final class EditRoomTool extends EditingTool {
                     .map(e -> RxAdaptors.UNIT)
                     .mergeWith(RxAdaptors.eventStream(stage::setOnCloseRequest))
                     .subscribe(e -> state.setCurrent(new RoomSelectedState(room)));
-//                    .mergeWith(RxAdaptors.eventStream(stage::setOnCloseRequest))
-//                    .subscribe(e -> {
-//                        state.setCurrent(new RoomSelectedState(room));
-//                    });
         }
     }
 }
