@@ -426,7 +426,7 @@ public class ThreeDimensions extends Application {
                 (group, WIDTH - 192 - 49, 632, true, SceneAntialiasing.BALANCED);
         sub.setCamera(camera);
         sub.setFill(Color.web("#8f8f8f"));
-        mouseControl(group, sub, primaryStage, numberGroup);
+        mouseControl(group, sub, primaryStage, numberGroup, elevatorButton, foodButton, bathroomButton, retailButton, stairsButton);
         globalRoot.getChildren().add(sub);
         sub.setTranslateX(sub.getTranslateX() + 25);
         sub.setTranslateY(sub.getTranslateY() + 106);
@@ -556,10 +556,18 @@ public class ThreeDimensions extends Application {
         return floorNum;
     }
 
-    private void mouseControl(RotateGroup group, SubScene scene, Stage stage, RotateGroup numberGroup) {
+    private void mouseControl(RotateGroup group, SubScene scene, Stage stage, RotateGroup numberGroup, Button b1, Button b2, Button b3, Button b4, Button b5) {
         stage.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
             oldX = mouseEvent.getX();
             oldY = mouseEvent.getY();
+            if(oldY > 80 && oldY < 100) {
+                if(oldX > 97 && oldX < 275) b1.fire();
+                if(oldX > 3441 && oldX < 475) b2.fire();
+                if(oldX > 540 && oldX < 740) b3.fire();
+                if(oldX > 770 && oldX < 916) b4.fire();
+                if(oldX > 984 && oldX < 1140) b5.fire();
+
+            }
         });
 
         stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
