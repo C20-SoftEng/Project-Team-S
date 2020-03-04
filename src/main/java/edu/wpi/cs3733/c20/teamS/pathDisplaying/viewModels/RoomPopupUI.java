@@ -28,8 +28,7 @@ class RoomPopupUI extends Parent {
         if (room == null) ThrowHelper.illegalNull("room");
 
         this.room = room;
-        Image image = new Image(room.icon());
-        iconView.setImage(image);
+        tryInitImage(iconView);
         iconView.setFitWidth(75);
         iconView.setFitHeight(75);
         nameLabel.setFont(new Font(nameLabel.getFont().getFamily(), 22));
@@ -50,6 +49,18 @@ class RoomPopupUI extends Parent {
                 });
     }
 
+    private void tryInitImage(ImageView imageView) {
+        if (room.icon() == null || room.icon().isEmpty())
+            return;
+
+        try {
+            Image image = new Image(room.icon());
+            imageView.setImage(image);
+        }
+        catch (Exception ex) {
+            System.err.println("Failed to load icon " + room.icon() + " for room " + room.name());
+        }
+    }
     private void updateUI() {
         nameLabel.setText(room.name());
 
