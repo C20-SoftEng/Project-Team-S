@@ -52,6 +52,9 @@
     -fx-background-color: #ccc;
 }
 
+#radio{
+    -fx-text-fill: #fff;
+}
 
 #serviceBox{
     -fx-text-fill: #fff;
@@ -311,7 +314,7 @@
 }
 
 #sidenodes{
-    -fx-background-color:  gainsboro;
+    -fx-background-color: #909090;
     -fx-background-radius: 5;
 }
 
@@ -599,11 +602,11 @@
  ******************************************************************************/
 
 .scroll-bar:horizontal {
-    -fx-background-color: derive(-fx-box-border,30%), linear-gradient(to bottom, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));
+    -fx-background-color: derive(-fx-box-border,30%), #4a4a4a;
     -fx-background-insets: 0, 1 0 1 0;
 }
 .scroll-bar:vertical {
-    -fx-background-color: derive(-fx-box-border,30%), linear-gradient(to right, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));
+    -fx-background-color: derive(-fx-box-border,30%), #4a4a4a;
     -fx-background-insets: 0, 0 1 0 1;
 }
 .scroll-bar:focused {
@@ -623,7 +626,11 @@
 }
 
 .scroll-bar:vertical > .thumb {
-    -fx-background-color: linear-gradient(#4a4a4a, #535353, #5c5c5c, #666666, #6f6f6f);
+    -fx-background-color:  #B0B0B0;
+}
+
+.scroll-bar:horizontal > .thumb {
+    -fx-background-color:  #B0B0B0;
 }
 .scroll-bar > .increment-button,
 .scroll-bar > .decrement-button {

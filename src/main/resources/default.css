@@ -74,6 +74,10 @@
     -fx-text-fill: #000;
 }
 
+#radio{
+    -fx-text-fill: #000;
+}
+
 #serviceBox{
     -fx-text-fill: #000;
     -fx-background-color: #fff;
@@ -722,3 +726,4 @@
     -fx-effect: dropshadow(two-pass-box , -fx-shadow-highlight-color, 1, 0.0 , 0, 1.4);
     /*-fx-background-insets: 2 0 -2 0, 0;*/
 }
+

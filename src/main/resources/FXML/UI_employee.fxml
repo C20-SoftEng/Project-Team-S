@@ -101,7 +101,7 @@
                               <Font name="Bookshelf Symbol 7" size="16.0" />
                            </font>
                         </Label>
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton id="radio" fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -115,7 +115,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="addEdgeRadio" onAction="#onAddRemoveEdgeClicked" text="Add/Remove Edges" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
+                        <JFXRadioButton id="radio" fx:id="addEdgeRadio" onAction="#onAddRemoveEdgeClicked" text="Add/Remove Edges" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -126,7 +126,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton onAction="#onAddRemoveHitboxClicked" text="Add/Remove Hitboxes" toggleGroup="$editGroup">
+                        <JFXRadioButton id="radio" onAction="#onAddRemoveHitboxClicked" text="Add/Remove Hitboxes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -137,7 +137,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton fx:id="moveNodeRadio" onAction="#onMoveNodeClicked" text="Move Nodes" toggleGroup="$editGroup">
+                        <JFXRadioButton id="radio" fx:id="moveNodeRadio" onAction="#onMoveNodeClicked" text="Move Nodes" toggleGroup="$editGroup">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -148,7 +148,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXRadioButton>
-                        <JFXRadioButton layoutX="15.0" layoutY="128.0" onAction="#onEditRoomsClicked" text="Edit Rooms" toggleGroup="$editGroup">
+                        <JFXRadioButton id="radio" layoutX="15.0" layoutY="128.0" onAction="#onEditRoomsClicked" text="Edit Rooms" toggleGroup="$editGroup">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
@@ -159,7 +159,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </JFXRadioButton>
-                        <JFXRadioButton layoutX="15.0" layoutY="178.0" onAction="#onAddElevatorsClicked" text="Add Elevators" toggleGroup="$editGroup">
+                        <JFXRadioButton id="radio" layoutX="15.0" layoutY="178.0" onAction="#onAddElevatorsClicked" text="Add Elevators" toggleGroup="$editGroup">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
@@ -565,7 +565,7 @@
                                                             <Font size="65.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text boundsType="VISUAL" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-">
+                                                      <Text boundsType="VISUAL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="zoomerWhite" text="-">
                                                          <font>
                                                             <Font size="65.0" />
                                                          </font>
