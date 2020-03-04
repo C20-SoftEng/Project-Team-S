@@ -83,7 +83,7 @@ public class ThreeDimensions extends Application {
         NodeData end = nodes.get(nodes.size() - 1);
 
         boolean showComfort = false;
-        if(end.getLongName().equals("South Patient Beds")) {
+        if(goal.equals("South Patient Beds")) {
             showComfort = true;
         }
 
@@ -335,7 +335,6 @@ public class ThreeDimensions extends Application {
             NodeData n1 = nodes.get(i);
             NodeData n2 = nodes.get(i+1);
             boolean elev = !(n1.getFloor() == n2.getFloor());
-
             if(elev) {
                 st.getChildren().add(getFloorPath(docGroup, floorPath));
                 floorPath.clear();
@@ -453,7 +452,6 @@ public class ThreeDimensions extends Application {
         group.translateXProperty().set((WIDTH - 192 - 49)/2 - 24);
         group.translateYProperty().set(632/2);
         group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
-        group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * floorDist);
         //group.rotateByZ(22);
         //numberGroup.rotateByZ(-22);
         group.translateZProperty().set(group.getTranslateZ() + 100);
@@ -463,7 +461,8 @@ public class ThreeDimensions extends Application {
         root.getChildren().add(imageView);
 
         Label dest = new Label();
-        dest.setText(goal);
+        if(goal != null) {
+        dest.setText(goal);}
         dest.setScaleX(3);
         dest.setScaleY(3);
         dest.setScaleZ(3);
@@ -573,6 +572,24 @@ public class ThreeDimensions extends Application {
         });
         root.getChildren().get(0).toBack();
 
+        group.setTranslateZ(group.getTranslateZ() + 0.5*(-zplace.get(begin.getFloor())));
+
+        if(allFloorsInvolved.size() > 1) {
+            int max = Collections.max(allFloorsInvolved);
+            int min = Collections.min(allFloorsInvolved);
+            group.setTranslateY((group.getTranslateY() - (3-max) * floorDist) - (group.getTranslateY() - (3-min) * floorDist));
+            group.setTranslateZ(group.getTranslateZ() + 125*(max-min));
+        }
+        else {
+            group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * floorDist);
+        }
+
+        elevatorButton.fire();
+        foodButton.fire();
+        retailButton.fire();
+        bathroomButton.fire();
+        stairsButton.fire();
+
         primaryStage.setScene(scene);
         primaryStage.resizableProperty().set(false);
         primaryStage.sizeToScene();
@@ -580,9 +597,13 @@ public class ThreeDimensions extends Application {
 
 
         AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0 ;
             @Override
             public void handle(long now) {
-                onFloorMove(group, docGroup, numberGroup, begin);
+                if (now - lastUpdate >= 300_000_000) {
+                    onFloorMove(group, docGroup, numberGroup, begin);
+                    lastUpdate = now ;
+                }
             }
         };
         timer.start();
