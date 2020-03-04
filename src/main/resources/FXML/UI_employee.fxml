@@ -105,7 +105,6 @@
                            </font>
                         </Label>
                         <JFXRadioButton id="radio" fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
-                        <JFXRadioButton fx:id="addNodeRadio" onAction="#onAddRemoveNodeClicked" selected="true" text="Add/Edit/Remove Nodes" toggleGroup="$editGroup" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
@@ -184,19 +183,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton id="buttons" fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="39.0" prefWidth="71.0" text="Cancel" textFill="WHITE">
-                              <JFXButton fx:id="cancelEditsButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onCancelEditClicked" prefHeight="37.0" prefWidth="101.0" style="-fx-background-color: #0067B1;" text="Cancel" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <GridPane.margin>
-                                    <Insets top="30.0" />
-                                 </GridPane.margin>
-                              </JFXButton>
-                              <JFXButton fx:id="confirmEditButton" onAction="#onConfirmEditClicked" prefHeight="37.0" prefWidth="98.0" style="-fx-background-color: #0067B1;" text="Save" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXButton id="buttons" fx:id="cancelEditsButton" onAction="#onCancelEditClicked" prefHeight="39.0" prefWidth="71.0" text="Cancel" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -218,7 +205,8 @@
                                     <Insets bottom="20.0" />
                                  </GridPane.margin>
                               </JFXButton>
-                              <JFXButton id="buttons" fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="Save" textFill="WHITE">
+                              <JFXButton id="buttons" fx:id="confirmEditButton" onAction="#onConfirmEditClicked" text="Save" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              </JFXButton>
                               <JFXButton fx:id="redoButton" onAction="#onRedoClicked" prefHeight="37.0" prefWidth="100.0" style="-fx-background-color: #0067B1;" text="Redo" textFill="WHITE" GridPane.columnIndex="1">
                                  <font>
                                     <Font size="16.0" />
