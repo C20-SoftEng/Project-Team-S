@@ -16,7 +16,10 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="58.0" styleClass="caption" text="Select the carrier for your account's phone number then tap &quot;Generate Code&quot;" textAlignment="CENTER" />
+      <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="58.0" prefHeight="21.0" prefWidth="410.0" styleClass="caption" text="Select the carrier for your account's phone number then tap &quot;Generate Code&quot;" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
       <MenuButton fx:id="carrierSelector" layoutX="87.0" layoutY="107.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" text="Carrier">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#onVerizonClicked" text="Verizon" />
