@@ -36,7 +36,7 @@ public final class EdgeVm extends Parent {
         collisionMask = new Line();
         updateLinePosition(collisionMask);
         collisionMask.setStroke(Color.TRANSPARENT);
-        collisionMask.setStrokeWidth(30);
+        collisionMask.setStrokeWidth(Settings.get().editEdgeCollisionMaskWidth());
         getChildren().add(collisionMask);
 
         initEventHandlers(start, end);
@@ -58,7 +58,8 @@ public final class EdgeVm extends Parent {
                 .mergeWith(enlargeOnMouseOver.changed())
                 .subscribe(e -> {
                     double width = isMouseOver.value() && enlargeOnMouseOver.value() ?
-                            2.5 * Settings.get().editEdgeStrokeWidth() :
+                            Settings.get().editEdgeEnlargeRatio() *
+                                    Settings.get().editEdgeStrokeWidth() :
                             1.0 * Settings.get().editEdgeStrokeWidth();
                     visibleMask.setStrokeWidth(width);
                 });

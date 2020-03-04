@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
 import animatefx.animation.Pulse;
-import animatefx.animation.*;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
 import com.sun.javafx.application.PlatformImpl;
@@ -71,7 +70,7 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(scrollPane);
+        zoomer = new MapZoomer(scrollPane, -1, 0);
         initGraph();
         renderer = new PathRenderer();
         initFloorSelector();
@@ -210,9 +209,10 @@ public class MainScreenController implements Initializable {
         return result;
     }
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
-        zoomer.zoomSet();
+
         scrollPane.setHvalue(Hval);
         scrollPane.setVvalue(Vval);
+        zoomer.zoomSet();
     }
 
     //region ui widgets
@@ -451,17 +451,14 @@ public class MainScreenController implements Initializable {
         SendTextDirectionsScreen.showDialog(wr.directions());
     }
 
-
     @FXML private void onToTextClicked(){
         this.directoryVBox.setVisible(false);
         this.instructionVBox.setVisible(true);
     }
-
     @FXML private void onToDirectoryClicked(){
         this.instructionVBox.setVisible(false);
         this.directoryVBox.setVisible(true);
     }
-
     @FXML private void onDarkModeClicked(){
         if (darkmode){
             PlatformImpl.setDefaultPlatformUserAgentStylesheet();
@@ -487,69 +484,40 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
-//    @FXML
-//    void animate() {
-//        new Pulse(zoomInButton).play();
-//    }
-
-    @FXML
-    void animate3D() {
+    @FXML private void animate3D() {
         new Pulse(viewThreeD).play();
     }
-
-    @FXML
-    void animateFloor1() {
+    @FXML private void animateFloor1() {
         new Pulse(floorButton1).play();
     }
-
-    @FXML
-    void animateFloor2() {
+    @FXML private void animateFloor2() {
         new Pulse(floorButton2).play();
     }
-
-    @FXML
-    void animateFloor3() {
+    @FXML private void animateFloor3() {
         new Pulse(floorButton3).play();
     }
-
-    @FXML
-    void animateFloor4() {
+    @FXML private void animateFloor4() {
         new Pulse(floorButton4).play();
     }
-
-    @FXML
-    void animateFloor5() {
+    @FXML private void animateFloor5() {
         new Pulse(floorButton5).play();
     }
-
-    @FXML
-    void animateFloor6() {
+    @FXML private void animateFloor6() {
         new Pulse(floorButton6).play();
     }
-
-    @FXML
-    void animateFloor7() {
+    @FXML private void animateFloor7() {
         new Pulse(floorButton6).play();
     }
-
-    @FXML
-    void animateFloorDown() {
+    @FXML private void animateFloorDown() {
         new Pulse(downButton).play();
     }
-
-    @FXML
-    void animateFloorUp() {
+    @FXML private void animateFloorUp() {
         new Pulse(upButton).play();
     }
-
-    @FXML
-    void animateZoomIn() {
+    @FXML private void animateZoomIn() {
         new Pulse(zoomInButton).play();
     }
-
-    @FXML
-    void animateZoomOut() {
+    @FXML private void animateZoomOut() {
         new Pulse(zoomOutButton).play();
     }
     //endregion

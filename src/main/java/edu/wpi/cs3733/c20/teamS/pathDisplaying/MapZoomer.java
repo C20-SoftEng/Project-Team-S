@@ -1,7 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
-import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Numerics;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 
 public class MapZoomer {
@@ -21,22 +22,31 @@ public class MapZoomer {
         this.scrollPane = scrollPane;
         this.minZoomStage = minZoomStage;
         this.maxZoomStage = maxZoomStage;
-        zoomStage = Numerics.clamp(-2, minZoomStage, maxZoomStage);
+        zoomStage = Numerics.clamp(0, minZoomStage, maxZoomStage);
     }
 
     public double zoomFactor() {
         //  Zoom factor is incremented in stages, just like stat-changes in Pokemon.
-        double result = 1.0 + 0.5 * Math.abs(zoomStage);
+        //  Currently, the stages for Accuracy and Evasion are used, which are equal to 1/3 per stage, as opposed
+        //  to the stages that are used for the other stats, which are equal to 1/2 per stage.
+        double result = 1.0 + Math.abs(zoomStage) / 3.0;
         if (zoomStage < 0) {
-            return 1.0 / result;
+            result = 1.0 / result;
         }
 
-        return result;
+        Node content = scrollPane.getContent();
+        double portWidth = scrollPane.getViewportBounds().getWidth();
+        double portHeight = scrollPane.getViewportBounds().getHeight();
+        double contentWidth = content.getBoundsInLocal().getWidth();
+        double contentHeight = content.getBoundsInLocal().getHeight();
+
+        return Math.max(result, Math.max(portWidth / contentWidth, portHeight / contentHeight));
     }
 
     private void updateImageSize() {
-        scrollPane.getContent().setScaleX(zoomFactor());
-        scrollPane.getContent().setScaleY(zoomFactor());
+        Node content = scrollPane.getContent();
+        content.setScaleX(zoomFactor());
+        content.setScaleY(zoomFactor());
     }
 
     public boolean canZoomIn() {
