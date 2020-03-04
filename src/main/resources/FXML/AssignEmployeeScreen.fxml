@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.AssignEmployeeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="355.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.AssignEmployeeScreenController">
    <children>
       <GridPane layoutX="14.0" layoutY="14.0" prefHeight="71.0" prefWidth="297.0">
         <columnConstraints>
@@ -51,6 +50,6 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <JFXButton fx:id="assignButton" layoutX="150.0" layoutY="338.0" onAction="#onAssignClicked" style="-fx-border-color: gray; -fx-background-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;" text="Assign" AnchorPane.bottomAnchor="30.0" />
+      <JFXButton fx:id="assignButton" layoutX="150.0" layoutY="338.0" onAction="#onAssignClicked" styleClass="secondaryButtons" text="Assign" AnchorPane.bottomAnchor="30.0" />
    </children>
 </AnchorPane>

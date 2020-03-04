@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,6 +18,9 @@
          <font>
             <Font size="28.0" />
          </font>
+         <padding>
+            <Insets bottom="1.0" />
+         </padding>
       </JFXButton>
    </children>
 </AnchorPane>

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.AddEmployeeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="316.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.AddEmployeeScreenController">
    <children>
       <GridPane layoutX="55.0" layoutY="42.0" prefHeight="180.0" prefWidth="211.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="40.0">
         <columnConstraints>
@@ -39,7 +39,7 @@
             <TextField fx:id="phoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <JFXButton fx:id="addEmployeeButton" layoutX="164.0" layoutY="273.0" onAction="#onAddEmployeeClicked" style="-fx-border-color: gainsboro;" text="Add Employee" textAlignment="CENTER" AnchorPane.bottomAnchor="40.0" />
-      <JFXButton fx:id="cancelButton" layoutX="69.0" layoutY="275.0" onAction="#onCancelClicked" style="-fx-border-color: gainsboro;" text="Cancel" AnchorPane.bottomAnchor="40.0" />
+      <JFXButton fx:id="addEmployeeButton" layoutX="164.0" layoutY="273.0" onAction="#onAddEmployeeClicked" styleClass="tablebuttons" text="Add Employee" textAlignment="CENTER" AnchorPane.bottomAnchor="40.0" />
+      <JFXButton fx:id="cancelButton" layoutX="69.0" layoutY="275.0" onAction="#onCancelClicked" styleClass="tablebuttons" text="Cancel" AnchorPane.bottomAnchor="40.0" />
    </children>
 </AnchorPane>

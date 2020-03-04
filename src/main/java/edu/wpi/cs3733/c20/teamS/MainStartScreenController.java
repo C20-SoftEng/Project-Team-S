@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c20.teamS;
 
+import com.sun.javafx.css.StyleManager;
 import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
 import edu.wpi.cs3733.c20.teamS.pathfinding.AStar;
 import javafx.animation.Animation;
@@ -89,7 +90,8 @@ public class MainStartScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Application.setUserAgentStylesheet("modena.css");
+        StyleManager.getInstance().addUserAgentStylesheet("default.css");
         //timeField.setText("    " + dtf.format(now));
         timeField.setStyle("-fx-font-size: 70px");
         initClock();

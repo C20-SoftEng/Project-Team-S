@@ -25,7 +25,7 @@ public class FloristRequestController {
     private JFXTextField locationField;
 
     @FXML
-    private JFXTextArea commentsField;
+    private JFXTextField commentsField;
 
 
 

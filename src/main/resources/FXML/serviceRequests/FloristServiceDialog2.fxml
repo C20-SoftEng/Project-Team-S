@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -11,15 +10,14 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.serviceRequests.FloristRequestController">
-    <BorderPane layoutX="-6.0" layoutY="14.0" prefHeight="401.0" prefWidth="600.0" style="-fx-background-color: #eee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <BorderPane layoutX="-6.0" layoutY="14.0" prefHeight="401.0" prefWidth="600.0" styleClass="modalback" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <center>
             <GridPane alignment="CENTER" prefHeight="127.0" prefWidth="597.0" BorderPane.alignment="CENTER">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="193.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="193.0" />
                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
                 </columnConstraints>
                 <rowConstraints>
@@ -30,44 +28,31 @@
                 <padding>
                     <Insets bottom="15.0" left="25.0" right="25.0" top="25.0" />
                 </padding>
-            <JFXTextField fx:id="flowerRequested" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1">
+            <JFXTextField id="serviceBox" fx:id="flowerRequested" focusColor="#ffffff00" prefHeight="46.0" prefWidth="345.0" unFocusColor="#ffffff00" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXTextField fx:id="locationField" focusColor="#ffffff00" prefHeight="97.0" prefWidth="357.0" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <JFXTextField id="serviceBox" fx:id="locationField" focusColor="#ffffff00" prefHeight="97.0" prefWidth="357.0" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </JFXTextField>
-            <JFXTextArea fx:id="commentsField" focusColor="#ffffff00" style="-fx-background-color: white; -fx-background-radius: 5;" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXTextField id="serviceBox" fx:id="commentsField" focusColor="#ffffff00" prefHeight="97.0" prefWidth="232.0" unFocusColor="#ffffff00" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
-            </JFXTextArea>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="57.0" prefWidth="190.0">
-                     <children>
-                        <Label alignment="CENTER" focusTraversable="false" text="Flower Requested" textAlignment="CENTER" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <children>
-                  <Label focusTraversable="false" text="Location" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
-               <children>
-                  <Label focusTraversable="false" text="Comments" />
-               </children>
-            </HBox>
+            </JFXTextField>
+            <Label id="textblack" alignment="CENTER" focusTraversable="false" text="Flower Requested" textAlignment="CENTER" />
+            <Label id="textwhite" alignment="CENTER" focusTraversable="false" text="Flower Requested" textAlignment="CENTER" />
+            <Label id="textblack" focusTraversable="false" text="Location" GridPane.rowIndex="1" />
+            <Label id="textblack" focusTraversable="false" text="Comments" GridPane.rowIndex="2" />
+            <Label id="textwhite" focusTraversable="false" text="Location" GridPane.rowIndex="1" />
+            <Label id="textwhite" focusTraversable="false" text="Comments" GridPane.rowIndex="2" />
             </GridPane>
         </center>
         <top>
-          <Label alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" style="-fx-background-color: gainsboro;" text="Florist Request" BorderPane.alignment="CENTER">
+          <Label id="serviceHeader" alignment="CENTER" focusTraversable="false" prefHeight="45.0" prefWidth="608.0" text="Florist Request" BorderPane.alignment="CENTER">
               <font>
                   <Font size="30.0" />
               </font>
@@ -78,7 +63,7 @@
             <children>
                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="306.0" HBox.hgrow="ALWAYS">
                   <children>
-                     <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" focusTraversable="false" onAction="#onCancelClicked" prefHeight="60.0" prefWidth="170.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-background-radius: 10; -fx-border-radius: 10;" text="Cancel" HBox.hgrow="SOMETIMES">
+                     <JFXButton id="secondaryButtons" fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" focusTraversable="false" onAction="#onCancelClicked" prefHeight="60.0" prefWidth="170.0" ripplerFill="BLACK" text="Cancel" HBox.hgrow="SOMETIMES">
                         <font>
                            <Font name="System Bold" size="18.0" />
                         </font>
@@ -87,7 +72,7 @@
                </HBox>
                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="305.0" HBox.hgrow="ALWAYS">
                   <children>
-                     <JFXButton fx:id="submitButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" focusTraversable="false" onAction="#onSubmitClicked" prefHeight="60.0" prefWidth="170.0" ripplerFill="BLACK" style="-fx-background-color: #ccc; -fx-border-color: black; -fx-background-radius: 10; -fx-border-radius: 10;" text="Submit">
+                     <JFXButton id="secondaryButtons" fx:id="submitButton" alignment="CENTER" buttonType="RAISED" defaultButton="true" focusTraversable="false" onAction="#onSubmitClicked" prefHeight="60.0" prefWidth="170.0" ripplerFill="BLACK" text="Submit">
                         <font>
                            <Font name="System Bold" size="18.0" />
                         </font>
