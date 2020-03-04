@@ -61,7 +61,7 @@ public class ThreeDimensions extends Application {
     private HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
     private final double floorDist = 100;
     private ArrayList<Integer> allFloorsInvolved = new ArrayList<>();
-    private final int totalFloors = 5;
+    private final int totalFloors = 7;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -76,9 +76,16 @@ public class ThreeDimensions extends Application {
         zplace.put(3, -100);
         zplace.put(4, -200);
         zplace.put(5, -300);
+        zplace.put(6, -400);
+        zplace.put(7, -500);
 
         NodeData begin = nodes.get(0);
         NodeData end = nodes.get(nodes.size() - 1);
+
+        boolean showComfort = false;
+        if(end.getLongName().equals("South Patient Beds")) {
+            showComfort = true;
+        }
 
         RotateGroup group = new RotateGroup();
 
@@ -162,21 +169,80 @@ public class ThreeDimensions extends Application {
         docGroup.getChildren().addAll(doctor);
         group.getChildren().addAll(docGroup);
 
-//        URL bedPath = getClass().getResource("/images/ThreeDim/hospital_bed_c.obj").toURI().toURL(); //jar will brake
-//        MeshView[] bed = loadModel(bedPath);
-//        for (int k = 0; k < bed.length; k++) {
-//            double MODEL_SCALE_FACTOR = 1;
-//            bed[k].setScaleX(MODEL_SCALE_FACTOR);
-//            bed[k].setScaleY(MODEL_SCALE_FACTOR);
-//            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
-//
-//            bed[k].setTranslateZ(zplace.get(begin.getFloor()));
-//
-//            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
-//        }
-//        RotateGroup bedGroup = new RotateGroup();
-//        bedGroup.getChildren().addAll(bed);
-//        group.getChildren().addAll(bedGroup);
+        URL nursePath = getClass().getResource("/images/ThreeDim/nurse.obj").toURI().toURL(); //jar will brake
+        MeshView[] nurse = loadModel(nursePath);
+        for (int k = 0; k < nurse.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            nurse[k].setScaleX(MODEL_SCALE_FACTOR);
+            nurse[k].setScaleY(MODEL_SCALE_FACTOR);
+            nurse[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            nurse[k].setTranslateZ(zplace.get(6));
+            nurse[k].setTranslateX(140);
+            nurse[k].setTranslateY(80);
+
+            nurse[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(180, Rotate.X_AXIS));
+        }
+        RotateGroup nurseGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(nurse);
+        if(showComfort)
+        group.getChildren().addAll(nurseGroup);
+
+        URL dogPath = getClass().getResource("/images/ThreeDim/12228_Dog_v1_L2.obj").toURI().toURL(); //jar will brake
+        MeshView[] dog = loadModel(dogPath);
+        for (int k = 0; k < dog.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.5;
+            dog[k].setScaleX(MODEL_SCALE_FACTOR);
+            dog[k].setScaleY(MODEL_SCALE_FACTOR);
+            dog[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            dog[k].setTranslateZ(zplace.get(6));
+            dog[k].setTranslateX(140);
+            dog[k].setTranslateY(110);
+
+            dog[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(0, Rotate.X_AXIS));
+        }
+        RotateGroup dogGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(dog);
+        if(showComfort)
+        group.getChildren().addAll(dogGroup);
+
+        URL patientPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL(); //jar will brake
+        MeshView[] patient = loadModel(patientPath);
+        for (int k = 0; k < dog.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.1;
+            patient[k].setScaleX(MODEL_SCALE_FACTOR);
+            patient[k].setScaleY(MODEL_SCALE_FACTOR);
+            patient[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            patient[k].setTranslateZ(zplace.get(6) - 20);
+            patient[k].setTranslateX(150);
+            patient[k].setTranslateY(242);
+        }
+        RotateGroup patientGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(patient);
+        if(showComfort)
+        group.getChildren().addAll(patientGroup);
+
+
+        URL bedPath = getClass().getResource("/images/ThreeDim/hospital_bed.obj").toURI().toURL(); //jar will brake
+        MeshView[] bed = loadModel(bedPath);
+        for (int k = 0; k < bed.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            bed[k].setScaleX(MODEL_SCALE_FACTOR);
+            bed[k].setScaleY(MODEL_SCALE_FACTOR);
+            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            bed[k].setTranslateX(160);
+            bed[k].setTranslateY(90);
+            bed[k].setTranslateZ(zplace.get(6));
+
+            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup bedGroup = new RotateGroup();
+        bedGroup.getChildren().addAll(bed);
+        if(showComfort)
+        group.getChildren().addAll(bedGroup);
 
         RotateGroup numberGroup = new RotateGroup();
         for(int i = 1; i <= totalFloors; i++) {
@@ -453,7 +519,7 @@ public class ThreeDimensions extends Application {
         Settings.openWindows.add(this.primaryStage);
         BaseScreen.puggy.register(scene, Event.ANY);
 
-        int translater = 1;
+        int translater = 10;
         double sclaer = 0.01;
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
@@ -468,16 +534,16 @@ public class ThreeDimensions extends Application {
                     imageView.setScaleZ(imageView.getScaleZ() + sclaer);
                     break;
                 case J:
-                    dest.setTranslateX(dest.getTranslateX() - translater);
+                    patientGroup.setTranslateX(patientGroup.getTranslateX() - translater);
                     break;
                 case K:
-                    dest.setTranslateX(dest.getTranslateX() + translater);
+                    patientGroup.setTranslateX(patientGroup.getTranslateX() + translater);
                     break;
                 case Y:
-                    dest.setTranslateY(dest.getTranslateY() - translater);
+                    patientGroup.setTranslateY(patientGroup.getTranslateY() - translater);
                     break;
                 case U:
-                    dest.setTranslateY(dest.getTranslateY() + translater);
+                    patientGroup.setTranslateY(patientGroup.getTranslateY() + translater);
                     break;
             }
         });
