@@ -17,7 +17,7 @@
             </font>
         </Label>
       <Label fx:id="descLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="43.0" text="Enter your email or phone number to recieve directions." textAlignment="CENTER" />
-        <JFXButton fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" layoutX="177.0" layoutY="234.0" onAction="#onDoneClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" styleClass="secondaryButtons" text="Done" textAlignment="CENTER" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="177.0">
+        <JFXButton id="secondaryButtons" fx:id="cancelButton" alignment="CENTER" buttonType="RAISED" cancelButton="true" layoutX="177.0" layoutY="234.0" onAction="#onDoneClicked" prefHeight="36.0" prefWidth="80.0" ripplerFill="BLACK" styleClass="secondaryButtons" text="Done" textAlignment="CENTER" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="177.0">
             <font>
                 <Font size="13.0" />
             </font>
@@ -33,7 +33,7 @@
             <MenuItem mnemonicParsing="false" onAction="#OnSprintClicked" text="Sprint" />
          </items>
       </MenuButton>
-      <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="80.0" onAction="#onSendEmailClicked" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" styleClass="buttons" text="Send Email" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton id="buttons" fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="80.0" onAction="#onSendEmailClicked" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" text="Send Email" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font>
@@ -41,7 +41,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="sendTextButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="134.0" onAction="#onSendTextClicked" pickOnBounds="false" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" styleClass="buttons" text="Send Text" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton id="buttons" fx:id="sendTextButton" alignment="CENTER" buttonType="RAISED" layoutX="283.0" layoutY="134.0" onAction="#onSendTextClicked" pickOnBounds="false" prefHeight="36.0" prefWidth="110.0" ripplerFill="BLACK" text="Send Text" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font>
