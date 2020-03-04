@@ -1,0 +1,47 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v5.0.639693989)
+
+newmtl Material__160
+Kd 1 1 1
+Ka 0.588 0.588 0.588
+Ks 0.89999998 0.89999998 0.89999998
+Ke 0 0 0
+d 1
+Ni 1
+Ns 0.415939
+illum 2
+map_Kd ./images/pm0025_00_BodyA1.png
+
+newmtl Material__161
+Kd 1 1 1
+Ka 0.588 0.588 0.588
+Ks 0.89999998 0.89999998 0.89999998
+Ke 0 0 0
+d 1
+Ni 1
+Ns 0.415939
+illum 2
+map_Kd ./images/pm0025_00_BodyB1.png
+
+newmtl Material__162
+Kd 1 1 1
+Ka 0.588 0.588 0.588
+Ks 0.89999998 0.89999998 0.89999998
+Ke 0 0 0
+d 1
+Ni 1
+Ns 0.415939
+illum 2
+map_Kd ./images/pm0025_00_Mouth1.png
+
+newmtl Material__163
+Kd 1 1 1
+Ka 0.588 0.588 0.588
+Ks 0.89999998 0.89999998 0.89999998
+Ke 0 0 0
+d 1
+Ni 1
+Ns 0.415939
+illum 2
+map_Kd ./images/pm0025_00_Eye1.png
+

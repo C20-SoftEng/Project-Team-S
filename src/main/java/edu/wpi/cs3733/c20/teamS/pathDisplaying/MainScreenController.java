@@ -36,13 +36,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -142,8 +140,11 @@ public class MainScreenController implements Initializable {
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
 
+
         AutoComplete.start(rooms, searchComboBox, Room::name);
+
         AutoComplete.propertyStream(searchComboBox.valueProperty())
+                .filter(result -> result.value() != null)
                 .subscribe(result -> {
                     Room room = result.value();
                     Vector2 centroid = room.vertices().stream()
@@ -152,6 +153,25 @@ public class MainScreenController implements Initializable {
                     floorSelector.setCurrent(room.floor());
                     nodeSelector.onRoomClicked(room, centroid.x(), centroid.y());
                 });
+
+        searchComboBox.setConverter(
+                new StringConverter<LookupResult<Room>>() {
+                    @Override
+                    public String toString(LookupResult<Room> object) {
+                        if (object == null)
+                            return "";
+                        return object.text();
+                    }
+
+                    @Override
+                    public LookupResult<Room> fromString(String string) {
+                        Optional<LookupResult<Room>> result = searchComboBox.getItems().stream()
+                                .filter(item -> item.text().equals(string))
+                                .findFirst();
+                        return result.orElseGet(() -> new LookupResult<>(string, null));
+                    }
+                });
+
     }
     private IPathfinder pathfinder() {
         return Settings.get().pathfinder();
@@ -215,48 +235,6 @@ public class MainScreenController implements Initializable {
         scrollPane.setVvalue(Vval);
         zoomer.zoomSet();
     }
-
-    //region ui widgets
-    @FXML private ImageView mapImage;
-    @FXML private ImageView darkModeImage;
-    @FXML private ScrollPane scrollPane;
-    @FXML private JFXButton floorButton1;
-    @FXML private JFXButton floorButton2;
-    @FXML private JFXButton floorButton3;
-    @FXML private JFXButton floorButton4;
-    @FXML private JFXButton floorButton5;
-    @FXML private JFXButton floorButton6;
-    @FXML private JFXButton floorButton7;
-    @FXML private JFXButton downButton;
-    @FXML private JFXButton upButton;
-    @FXML private JFXButton viewThreeD;
-    @FXML private JFXButton DarkModeButton;
-    @FXML private Label location1;
-    @FXML private VBox instructionVBox;
-    @FXML private VBox directoryVBox;
-    @FXML private JFXButton zoomInButton;
-    @FXML private JFXButton zoomOutButton;
-    @FXML private Label location2;
-    @FXML private ComboBox<LookupResult<Room>> searchComboBox;
-    @FXML private TitledPane AccDEPT;
-    @FXML private TitledPane AccSERV;
-    @FXML private TitledPane AccLABS;
-    @FXML private TitledPane AccINFO;
-    @FXML private TitledPane AccRETL;
-    @FXML private TitledPane AccREST;
-    @FXML private TitledPane AccCONF;
-    @FXML private TitledPane AccEXIT;
-
-    @FXML private ListView<LookupResult<NodeData>> deptList;
-    @FXML private ListView<LookupResult<NodeData>> servList;
-    @FXML private ListView<LookupResult<NodeData>> labList;
-    @FXML private ListView<LookupResult<NodeData>> infoList;
-    @FXML private ListView<LookupResult<NodeData>> shopList;
-    @FXML private ListView<LookupResult<NodeData>> restRoomList;
-    @FXML private ListView<LookupResult<NodeData>> confList;
-    @FXML private ListView<LookupResult<NodeData>> exitList;
-    //endregion
-
     private void initDirectoryPathfinding(){
         deptList.getSelectionModel().selectedItemProperty()
                 .addListener((a, b, current) -> {
@@ -300,6 +278,48 @@ public class MainScreenController implements Initializable {
                 });
     }
 
+    //region ui widgets
+    @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
+    @FXML private ScrollPane scrollPane;
+    @FXML private JFXButton floorButton1;
+    @FXML private JFXButton floorButton2;
+    @FXML private JFXButton floorButton3;
+    @FXML private JFXButton floorButton4;
+    @FXML private JFXButton floorButton5;
+    @FXML private JFXButton floorButton6;
+    @FXML private JFXButton floorButton7;
+    @FXML private JFXButton downButton;
+    @FXML private JFXButton upButton;
+    @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
+    @FXML private Label location1;
+    @FXML private VBox instructionVBox;
+    @FXML private VBox directoryVBox;
+    @FXML private JFXButton zoomInButton;
+    @FXML private JFXButton zoomOutButton;
+    @FXML private Label location2;
+    @FXML private ComboBox<LookupResult<Room>> searchComboBox;
+    @FXML private TitledPane AccDEPT;
+    @FXML private TitledPane AccSERV;
+    @FXML private TitledPane AccLABS;
+    @FXML private TitledPane AccINFO;
+    @FXML private TitledPane AccRETL;
+    @FXML private TitledPane AccREST;
+    @FXML private TitledPane AccCONF;
+    @FXML private TitledPane AccEXIT;
+
+    @FXML private ListView<LookupResult<NodeData>> deptList;
+    @FXML private ListView<LookupResult<NodeData>> servList;
+    @FXML private ListView<LookupResult<NodeData>> labList;
+    @FXML private ListView<LookupResult<NodeData>> infoList;
+    @FXML private ListView<LookupResult<NodeData>> shopList;
+    @FXML private ListView<LookupResult<NodeData>> restRoomList;
+    @FXML private ListView<LookupResult<NodeData>> confList;
+    @FXML private ListView<LookupResult<NodeData>> exitList;
+    //endregion
+
+    //region Directory Lists
     private void popDeptList(){
         //region sidebar directory
         ObservableList<LookupResult<NodeData>> deptLocs = FXCollections.observableArrayList();
