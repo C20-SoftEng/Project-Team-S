@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="799.0" fitWidth="762.0" layoutX="38.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../images/CreditsPage/CreditsPage4.png" />
+            <Image url="@../images/CreditsPage/CreditsPage5.png" />
          </image>
       </ImageView>
       <JFXButton id="buttons" fx:id="goBackButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="536.0" layoutY="709.0" onAction="#GoBack" prefHeight="42.0" prefWidth="192.0" text="Go Back" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="29.0">
