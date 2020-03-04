@@ -90,8 +90,7 @@ public class MainStartScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Application.setUserAgentStylesheet("modena.css");
-        StyleManager.getInstance().addUserAgentStylesheet("default.css");
+
         //timeField.setText("    " + dtf.format(now));
         timeField.setStyle("-fx-font-size: 70px");
         initClock();
@@ -177,6 +176,8 @@ public class MainStartScreenController implements Initializable {
     @FXML
     private void onScreenClicked(ActionEvent event) {
         //MainToLoginScreen maintolog = new MainToLoginScreen((Stage) (startScreenTap.getScene().getWindow()));
+        Application.setUserAgentStylesheet("modena.css");
+        StyleManager.getInstance().addUserAgentStylesheet("default.css");
         MainToLoginScreen.showDialog();
     }
 
@@ -205,7 +206,8 @@ public class MainStartScreenController implements Initializable {
         new FadeOut(tutorialView).play();
         tutorialView.setOpacity(0);
         tutorialView.setImage(imageList.get(image));
-        tutorialView.setPreserveRatio(true);
+        //tutorialView.setPreserveRatio(true);
+        //tutorialView.fitWidthProperty().bind(startScreenTap.widthProperty());
         tutorialView.setOpacity(0);
         new FadeIn(tutorialView).play();
         //tutorialView.setOpacity(1);

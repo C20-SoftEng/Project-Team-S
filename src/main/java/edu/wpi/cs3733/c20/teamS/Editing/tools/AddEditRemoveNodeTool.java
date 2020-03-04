@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c20.teamS.Editing.tools;
 
+import com.google.common.graph.EndpointPair;
 import edu.wpi.cs3733.c20.teamS.Editing.NodeEditScreen;
+import edu.wpi.cs3733.c20.teamS.Editing.events.EdgeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.Editing.events.NodeClickedEvent;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.app.DialogResult;
@@ -35,13 +37,15 @@ public final class AddEditRemoveNodeTool extends EditingTool {
 
         addAllSubs(
                 map.mapClicked().subscribe(e -> state.current().onMapClicked(e)),
-                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e))
+                map.nodeClicked().subscribe(e -> state.current().onNodeClicked(e)),
+                map.edgeClicked().subscribe(e -> state.current().onEdgeClicked(e))
         );
     }
 
     private static abstract class State extends DisposableBase {
         public void onNodeClicked(NodeClickedEvent data) {}
         public void onMapClicked(MouseEvent event) {}
+        public void onEdgeClicked(EdgeClickedEvent data) {}
         @Override protected void onDispose() { }
     }
 
@@ -57,12 +61,20 @@ public final class AddEditRemoveNodeTool extends EditingTool {
                     break;
             }
         }
-
         @Override public void onMapClicked(MouseEvent event) {
             if (event.getButton() != MouseButton.PRIMARY)
                 return;
 
             state.setCurrent(new ShowNewNodeDialogState(event.getX(), event.getY()));
+        }
+        @Override public void onEdgeClicked(EdgeClickedEvent data) {
+            if (data.event().getButton() != MouseButton.PRIMARY)
+                return;
+
+            double x = data.event().getX();
+            double y = data.event().getY();
+
+            state.setCurrent(new ShowNewNodeSplitEdgeDialogState(x, y, data.edge().edge()));
         }
 
         private Memento createRemoveNodeMemento(NodeClickedEvent event) {
@@ -116,6 +128,54 @@ public final class AddEditRemoveNodeTool extends EditingTool {
                     previousNodeType = e.value().getNodeType();
                     previousShortName = e.value().getShortName();
                     previousLongName = e.value().getLongName();
+                }
+
+                state.setCurrent(new StandbyState());
+            });
+        }
+    }
+
+    private final class ShowNewNodeSplitEdgeDialogState extends State {
+        private final Stage stage;
+        private final Disposable dialogSubscription;
+
+        public ShowNewNodeSplitEdgeDialogState(double x, double y, EndpointPair<NodeData> edge) {
+            stage = new Stage();
+            dialogSubscription = showDialog(x, y, edge);
+        }
+
+        @Override protected void onDispose() {
+            dialogSubscription.dispose();
+            stage.close();
+        }
+
+        private Disposable showDialog(double x, double y, EndpointPair<NodeData> edge) {
+            return NodeEditScreen.showDialog(
+                    stage, previousNodeType,
+                    previousShortName,
+                    previousLongName
+            ).subscribe(e -> {
+                if (e.result() == DialogResult.OK) {
+                    NodeData node = e.value();
+                    node.setBuilding("Faulkner");
+                    node.setxCoordinate(x);
+                    node.setyCoordinate(y);
+                    node.setFloor(map.selectedFloor());
+
+                    execute(
+                           () -> {
+                               map.addNode(node);
+                               map.putEdge(edge.nodeU(), node);
+                               map.putEdge(node, edge.nodeV());
+                               map.removeEdge(edge);
+                           },
+                           () -> {
+                               map.removeEdge(edge.nodeU(), node);
+                               map.removeEdge(node, edge.nodeV());
+                               map.putEdge(edge);
+                               map.removeNode(node);
+                           }
+                    );
                 }
 
                 state.setCurrent(new StandbyState());
