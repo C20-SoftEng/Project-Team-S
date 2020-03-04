@@ -507,11 +507,11 @@
 .tree-table-view > .column-header-background > .show-hide-columns-button,
 .table-view:constrained-resize .filler,
 .tree-table-view:constrained-resize .filler {
-    -fx-background-color: -fx-box-border, -fx-inner-border, -fx-body-color;
+    -fx-background-color: derive(-fx-box-border,30%), gray;
     -fx-background-insets: 0, 0 1 1 0, 1 2 2 1;
     -fx-font-weight: bold;
     -fx-size: 2em;
-    -fx-text-fill: -fx-selection-bar-text;
+    -fx-text-fill: black;
     -fx-padding: 0.166667em;
 }
 .table-view .column-header .context-menu,
@@ -683,7 +683,7 @@
     -fx-background-insets: 0, 1 0 1 0;
 }
 .scroll-bar:vertical {
-    -fx-background-color: derive(-fx-box-border,30%), linear-gradient(to right, derive(-fx-base,-3%), derive(-fx-base,5%) 50%, derive(-fx-base,-3%));
+    -fx-background-color: derive(-fx-box-border,30%), #gray;
     -fx-background-insets: 0, 0 1 0 1;
 }
 .scroll-bar:focused {
@@ -703,7 +703,7 @@
 }
 
 .scroll-bar:vertical > .thumb {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color-to-right;
+    -fx-background-color: derive(-fx-box-border,30%), #ccc;
 }
 .scroll-bar > .increment-button,
 .scroll-bar > .decrement-button {
