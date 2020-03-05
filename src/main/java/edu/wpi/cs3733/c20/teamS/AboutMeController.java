@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class AboutMeController {
 
@@ -30,6 +32,10 @@ public class AboutMeController {
 
     @FXML
     private JFXButton goCredits;
+
+    @FXML
+    private ImageView imageV;
+
 
 
 
@@ -46,8 +52,8 @@ public class AboutMeController {
     @FXML
     void goToCredits(){
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/CreditsPage.FXML"));
-            Parent root = (Parent) fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/CreditsPage.fxml"));
+            Parent root = fxmlLoader.load();
             //Parent  root1 = fxmlLoader.getRoot();
             Stage window = new Stage();
             window.initModality(Modality.WINDOW_MODAL);
@@ -58,7 +64,7 @@ public class AboutMeController {
 
             Stage stage = (Stage) goBack.getScene().getWindow();
             Settings.openWindows.add(window);
-            BaseScreen.puggy.register(stage.getScene(), Event.ANY);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
 
             // do what you have to do
             stage.close();
