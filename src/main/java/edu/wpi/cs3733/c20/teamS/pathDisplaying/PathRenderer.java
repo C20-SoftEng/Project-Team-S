@@ -4,22 +4,26 @@ import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.Settings;
 import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
+import edu.wpi.cs3733.c20.teamS.serviceRequests.SelectServiceScreen;
 import edu.wpi.cs3733.c20.teamS.utilities.Board;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+//import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 
 class PathRenderer {
 
@@ -32,7 +36,7 @@ class PathRenderer {
      * @return A new Group containing all the elements that were drawn.
      */
     private List<NodeData> TDnodes;
-    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) throws Exception {
+    public Group draw(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, int floor) {
         if (path == null) ThrowHelper.illegalNull("path");
 
         Group group = new Group();
@@ -60,7 +64,7 @@ class PathRenderer {
         boolean down = start.getFloor() > end.getFloor();
         nodes.stream()
                 .filter(node -> node.getNodeType().equals("ELEV"))
-                .map(node -> down ? drawDownElevator(node, start, end) : drawUpElevator(node, start, end))
+                .map(node -> down ? drawDownElevator(node, start, end, floor) : drawUpElevator(node, start, end, floor))
                 .forEach(image -> group.getChildren().add(image));
 
         boolean runOnce = true;
@@ -68,6 +72,13 @@ class PathRenderer {
         Path animated_path = new Path();
         double X = start.getxCoordinate();
         double Y = start.getyCoordinate();
+
+        Image i = new Image("images/Icons/outlined_arrow.png");
+        ImageView imageView = new ImageView();
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(50);
+        imageView.setImage(i);
+        imageView.setVisible(false);
 
         for (NodeData node_itrat : nodes) {
             if((node_itrat.getFloor() == floor) && runOnce){
@@ -81,14 +92,9 @@ class PathRenderer {
                 length += Math.sqrt(Math.pow((Math.abs(X - node_itrat.getxCoordinate())), 2) + Math.pow((Math.abs(Y - node_itrat.getyCoordinate())),2));
                 X = node_itrat.getxCoordinate();
                 Y = node_itrat.getyCoordinate();
+                imageView.setVisible(true);
             }
         }
-
-        Image i = new Image("images/Icons/outlined_arrow.png");
-        ImageView imageView = new ImageView();
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(50);
-        imageView.setImage(i);
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(getPathTime(length)));
@@ -99,7 +105,6 @@ class PathRenderer {
         //pathTransition.setAutoReverse(true); //enable this if you want for reverse for some reason
         pathTransition.play();
         group.getChildren().add(imageView);
-        //directoryVbox.setVisible(false);
         return group;
     }
 
@@ -110,11 +115,12 @@ class PathRenderer {
     }
     /**
      * Displays the instructions for the specified Path in the specified VBox.
-     *  @param path       The path to display instructions for.
-     * @param directoryBox The VBox to display the directory
+     * @param path       The path to display instructions for.
      * @param displayBox The VBox to display the instructions in.
+     * @param directoryBox The VBox to display the directory
+     * @param darkmode The boolean to show whether darkmode is or not implemented
      */
-    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox,  VBox directoryBox) {
+    public void printInstructions(edu.wpi.cs3733.c20.teamS.pathfinding.Path path, VBox displayBox, VBox directoryBox, boolean darkmode) {
         if (path == null) ThrowHelper.illegalNull("path");
         if (displayBox == null) ThrowHelper.illegalNull("displayBox");
         if (directoryBox == null) ThrowHelper.illegalNull("directoryBox");
@@ -122,31 +128,185 @@ class PathRenderer {
         List<NodeData> nodes = path.startToFinish();
         WrittenInstructions instructionWriter = new WrittenInstructions(nodes);
         List<String> instructions = instructionWriter.directions();
+        if (darkmode){
+            displayBox.setStyle("-fx-text-fill: white");
+        }
+        else {
+            displayBox.setStyle("-fx-text-fill: black");
+        }
         displayBox.getChildren().clear();
-        //JFXTextField directionLabel = new JFXTextField();
-        //directionLabel.setText("Directions");
-        //JFXTextField space = new JFXTextField();
-        directoryBox.setVisible(true);
-        for (String direct : instructions) {
+
+        for (int i = 0; i < instructions.size(); i++) {
+            HBox imageHolder = new HBox();
             JFXTextArea text = new JFXTextArea();
-            text.setText(direct);
-            text.setEditable(false);
-            if (text.getLength() > 27){
-                text.setFont(Font.font ("System", 15));
-                text.setMinHeight(50);
-                text.setPrefHeight(50);
-                text.setMaxHeight(200);
+            text.setText(" " + instructions.get(i));
+            ImageView image = new ImageView();
+
+            String word = instructions.get(i).trim();
+
+            if(word.contains("Left")){
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/leftTurn2.png")));
+                    image.setImage(newImage);
+                }
+
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+//                image.setX(50);
+//                image.setY(-20);
+                image.setTranslateX(30);
+                image.setTranslateY(4);
+
+
+                image.setPreserveRatio(true);
+            }
+            else if(word.contains("Right")){
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/rightTurn2.png")));
+                    image.setImage(newImage);
+                }
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(30);
+                image.setTranslateY(4);
+
+                image.setPreserveRatio(true);
+            }
+            else if(word.contains("straight")){
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/up-straight-arrow.png")));
+                    image.setImage(newImage);
+                }
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(30);
+                image.setTranslateY(4);
+
+                image.setPreserveRatio(true);
 
             }
-            else if (text.getLength() > 24){
-                text.setFont(Font.font ("System", 16));
-                text.setPrefHeight(30);
+            else if(word.contains("Elevator")){
+                if (darkmode) {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2-w.png")));
+                    image.setImage(newImage);
+                }
+                else {
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/elevator-2.png")));
+                    image.setImage(newImage);
+                }
+                image.setFitHeight(25);
+                image.setFitWidth(25);
+                image.setTranslateX(28);
+                image.setTranslateY(5);
+                image.setPreserveRatio(false);
             }
             else {
-                text.setFont(Font.font ("System", 18));
-                text.setPrefHeight(10);
+                System.out.println("in else statement");
+                if(word.contains("Floor 1")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/one.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 2")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/two.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(00);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 3")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/three.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 4")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/four.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 5")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/five.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 6")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/six.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+                if(word.contains("Floor 7")){
+                    Image newImage = new Image(String.valueOf(getClass().getResource("/images/Instructions/seven.png")));
+                    image.setImage(newImage);
+                    image.setFitHeight(30);
+                    image.setFitWidth(30);
+                    image.setTranslateX(0);
+                    image.setTranslateY(5);
+                    image.setPreserveRatio(false);
+                }
+
             }
-            displayBox.getChildren().add(text);
+            text.setEditable(false);
+            if (text.getLength() > 27){
+                text.setFont(Font.font ("System", 11));
+                text.setPrefHeight(30);
+                text.setPrefWidth(150);
+               text.setTranslateX(35);
+
+            }
+            else if (text.getLength() >= 22){
+                text.setFont(Font.font ("System", 11));
+                text.setPrefHeight(30);
+                text.setTranslateX(33);
+
+            }
+            else {
+                text.setFont(Font.font ("System", 14));
+                text.setPrefHeight(30);
+                //text.setPref
+                //text.setTranslateX(30);
+
+            }
+            //text.setStyle("-fx-background-color: #ccc");
+            imageHolder.getChildren().add(image);
+            imageHolder.getChildren().add(text);
+            displayBox.getChildren().add(imageHolder);
+
+            displayBox.setVisible(true);
+
             directoryBox.setVisible(false);
         }
     }
@@ -209,28 +369,40 @@ class PathRenderer {
         return pinIcon;
     }
 
-    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode) {
-        if((node2 != startNode) && (node2 != endNode)) {
+    private ImageView drawDownElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
+        if((node2 != startNode) && (node2 != endNode) && (node2.getFloor() == floor)) {
             ImageView elevator_icon_down = new ImageView();
-            elevator_icon_down.setImage(new Image("images/Balloons/down_arrow.gif"));
-            elevator_icon_down.setX(node2.getxCoordinate() - 25);
-            elevator_icon_down.setY(node2.getyCoordinate() - 20);
+            elevator_icon_down.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
+            elevator_icon_down.setX(node2.getxCoordinate() - 50);
+            elevator_icon_down.setY(node2.getyCoordinate() - 40);
             elevator_icon_down.setPreserveRatio(true);
-            elevator_icon_down.setFitWidth(40);
+            elevator_icon_down.setFitWidth(80);
+            elevator_icon_down.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    MainScreenController.floorSelector.setCurrent(endNode.getFloor());
+                }
+            });
             return elevator_icon_down;
         }else
             return new ImageView();
     }
 
-    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode) {
-        if((node2 != startNode) && (node2 != endNode)) {
+    private ImageView drawUpElevator(NodeData node2, NodeData startNode, NodeData endNode, int floor) {
+        if((node2 != startNode) && (node2 != endNode && (node2.getFloor() == floor))) {
             ImageView elevator_icon_up = new ImageView();
-            elevator_icon_up.setImage(new Image("images/Balloons/down_arrow.gif"));
-            elevator_icon_up.setX(node2.getxCoordinate() - 25);
-            elevator_icon_up.setY(node2.getyCoordinate() - 20);
+            elevator_icon_up.setImage(new Image("images/Balloons/greeeeeeeeen.gif"));
+            elevator_icon_up.setX(node2.getxCoordinate() - 50);
+            elevator_icon_up.setY(node2.getyCoordinate() - 40);
             elevator_icon_up.setPreserveRatio(true);
-            elevator_icon_up.setFitWidth(40);
+            elevator_icon_up.setFitWidth(80);
             elevator_icon_up.setRotate(180);
+            elevator_icon_up.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    MainScreenController.floorSelector.setCurrent(endNode.getFloor());
+                }
+            });
             return elevator_icon_up;
         }else
             return new ImageView();

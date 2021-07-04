@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.AddCapabilityScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="313.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.AddCapabilityScreenController">
    <children>
       <GridPane layoutX="47.0" layoutY="28.0">
         <columnConstraints>
@@ -43,7 +42,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <JFXButton fx:id="cancelButton" layoutX="26.0" layoutY="321.0" onAction="#onCancelClicked" style="-fx-border-color: gainsboro;" text="Cancel" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="25.0" />
-      <JFXButton fx:id="addButton" layoutX="237.0" layoutY="321.0" onAction="#onAddClicked" style="-fx-border-color: gainsboro;" text="Add" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="25.0" />
+      <JFXButton fx:id="cancelButton" layoutX="26.0" layoutY="321.0" onAction="#onCancelClicked" styleClass="tablebuttons" text="Cancel" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="25.0" />
+      <JFXButton fx:id="addButton" layoutX="237.0" layoutY="321.0" onAction="#onAddClicked" styleClass="tablebuttons" text="Add" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="25.0" />
    </children>
 </AnchorPane>

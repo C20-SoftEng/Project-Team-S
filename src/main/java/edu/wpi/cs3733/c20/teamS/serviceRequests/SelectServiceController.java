@@ -2,23 +2,19 @@ package edu.wpi.cs3733.c20.teamS.serviceRequests;
 
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.GiftRequest;
+import edu.wpi.c20.teamU.FlowerRequest.RunFlowerRequest;
+import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
+import edu.wpi.cs3733.c20.teamS.GiftRequest.GiftRequest;
 import edu.wpi.cs3733.c20.teamS.app.DialogEvent;
+import edu.wpi.cs3733.c20.teamV.vVolesAPI.InterpreterRequester;
 import foodRequest.FoodRequest;
 import foodRequest.ServiceException;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import edu.wpi.cs3733.c20.teamS.app.serviceRequests.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.swing.*;
-import javax.xml.ws.Service;
 
 public class SelectServiceController {
     private Stage stage;
@@ -71,11 +67,19 @@ public class SelectServiceController {
         this.stage.close();
     }
     @FXML void onServiceTechClicked(ActionEvent event){
-        Stage serviceTechStage = new Stage();
-        serviceTechStage.initModality(Modality.WINDOW_MODAL);
+//        Stage serviceTechStage = new Stage();
+//        serviceTechStage.initModality(Modality.WINDOW_MODAL);
+//
+//        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
+//        this.stage.close();
 
-        ServiceTechRequestScreen.showDialog(loggedIn).subscribe();
-        this.stage.close();
+        AppointmentRequest request = new AppointmentRequest();
+        try{
+            request.run((int)this.stage.getX()-5,(int)this.stage.getY()-5,800,800,"","SHALL00201", null);
+        }
+        catch (Exception e){
+            System.out.println("Error running appointment request\n" + e.getMessage());
+        }
     }
 
     @FXML void onLaundryClicked(ActionEvent event){
@@ -97,11 +101,13 @@ public class SelectServiceController {
     }
 
     @FXML void onFloristClicked(ActionEvent event){
-        Stage floristStage = new Stage();
-        floristStage.initModality(Modality.WINDOW_MODAL);
-
-        FloristRequestScreen.showDialog(loggedIn).subscribe();
-        this.stage.close();
+        RunFlowerRequest request = new RunFlowerRequest();
+        try{
+            request.run(0,0,1600,900,"", "SHALL00501", "SHALL00402");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML void onRideClicked(ActionEvent event){
@@ -120,10 +126,8 @@ public class SelectServiceController {
         this.stage.close();
     }
 
+
     @FXML void onGiftClicked(ActionEvent event){
-//        Stage janitorStage = new Stage();
-//        janitorStage.initModality(Modality.WINDOW_MODAL);
-//        GiftRequestScreen.showDialog(loggedIn).subscribe();
         GiftRequest request = new GiftRequest();
         try{
             request.run(0,0,"","Room250");
@@ -138,7 +142,7 @@ public class SelectServiceController {
 
     @FXML void onFoodClicked(ActionEvent event) throws ServiceException {
         FoodRequest foodRequest = new FoodRequest();
-        foodRequest.run(0,0,500,500, null, "f","h");
+        foodRequest.run(0,0,1900,1000, null, "f","h");
     }
 
     /**

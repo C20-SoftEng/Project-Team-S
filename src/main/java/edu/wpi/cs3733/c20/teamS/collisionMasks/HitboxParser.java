@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c20.teamS.collisionMasks;
 
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +24,9 @@ public final class HitboxParser {
                 case 4:
                     result.add(parseFourLineFormat(iter));
                     break;
+                case 7:
+                    result.add(parseSevenLineFormat(iter));
+                    break;
                 default:
                     throw new RuntimeException("Unexpected number of lines per hitbox file format.");
             }
@@ -32,7 +35,35 @@ public final class HitboxParser {
         return result;
     }
 
-    public List<String> save(Iterable<Room> hitboxes) {
+    public List<String> save(Iterable<Room> rooms) {
+        Stream<String> lines = StreamSupport.stream(rooms.spliterator(), false)
+                .map(this::saveSingleRoom)
+                .flatMap(Collection::stream);
+        return Stream.concat(Stream.of("7"), lines)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> saveSingleRoom(Room room) {
+        List<String> result = new ArrayList<>();
+        result.add(room.name());
+        result.add(Integer.toString(room.floor()));
+        result.add(saveVertices(room.vertices()));
+        result.add(saveTouchingNodes(room.touchingNodes()));
+        result.add(room.icon());
+        result.addAll(saveDescription(room.description()));
+
+        return result;
+    }
+    private List<String> saveDescription(String description) {
+        String[] lines = description.split("[\\r\\n]+");
+        List<String> result = new ArrayList<>();
+        result.add(Integer.toString(lines.length));
+        Collections.addAll(result, lines);
+
+        return result;
+    }
+
+    public List<String> saveFourLineFormat(Iterable<Room> hitboxes) {
         Stream<String> hitboxLines = StreamSupport.stream(hitboxes.spliterator(), false)
                 .map(hitbox -> Arrays.asList(
                         hitbox.name(),
@@ -40,7 +71,7 @@ public final class HitboxParser {
                         saveVertices(hitbox.vertices()),
                         saveTouchingNodes(hitbox.touchingNodes())
                 ))
-                .flatMap(lines -> lines.stream());
+                .flatMap(Collection::stream);
 
         return Stream.concat(Stream.of("4"), hitboxLines)
                 .collect(Collectors.toList());
@@ -59,6 +90,20 @@ public final class HitboxParser {
         Room room = parseThreeLineFormat(iter);
         for (String nodeID : iter.next().split("\\s"))
             room.touchingNodes().add(nodeID);
+
+        return room;
+    }
+
+    private Room parseSevenLineFormat(Iterator<String> iter) {
+        Room room = parseFourLineFormat(iter);
+        room.setIcon(iter.next());
+        int descriptionLineCount = Integer.parseInt(iter.next());
+        StringBuilder description = new StringBuilder();
+        for (int count = 0; count < descriptionLineCount; count++) {
+            description.append(iter.next());
+            description.append("\n");
+        }
+        room.setDescription(description.toString());
 
         return room;
     }

@@ -1,48 +1,44 @@
 package edu.wpi.cs3733.c20.teamS;
 
-import edu.wpi.cs3733.c20.teamS.pathDisplaying.MainScreenController;
-import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class MainStartScreen {
-
+public class MainStartScreen extends BaseScreen {
     private  MainStartScreenController ui;
    private  Stage stage;
    private Scene scene;
 
 
-    public MainStartScreen(Stage stage) {
+    public MainStartScreen() {
+        this.stage = Settings.get().getPrimaryStage();
+        this.scene = this.stage.getScene();
 
-        this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SplashScreen.fxml"));
-        loader.setControllerFactory(c-> {
-            this.ui = new MainStartScreenController();
-            return this.ui;
-        });
-        try {
-            Parent root = loader.load();
-            this.scene = new Scene(root);
+
+        if (this.scene == null){
+            this.scene = new Scene(Settings.get().getSplashRoot());
         }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
+        else {
+            this.scene.setRoot(Settings.get().getSplashRoot());
         }
-        //ui.updateFloorDisplay();
+
         this.show();
-        stage.setFullScreen(true);
     }
-    public void show() {
+
+    private void show() {
         stage.setScene(scene);
-        stage.setMaximized(true);
         stage.show();
     }
 
-
-
+    public static void showDialog() {
+        MainStartScreen screen = new MainStartScreen();
+        for(Stage s : Settings.openWindows){
+            s.close();
+            //Settings.openWindows.remove(s);
+        }
+        Settings.openWindows.clear();
+        puggy.pause();
+        //screen.show();
+    }
 
     }
 

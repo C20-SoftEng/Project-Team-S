@@ -77,23 +77,16 @@ public class TwoFactorScreenController {
 
     @FXML
     void onEnterClicked(ActionEvent event) {
-
-
         if(Integer.parseInt(tfaCodeField.getText()) == tfaScreen.tfaCode){
             tfaScreen.passedTFA();
         }else{
             descLabel.setText("Incorrect code");
             tfaCodeField.setStyle("-fx-background-color:RED");
         }
-
-
-
     }
 
     @FXML
     void onSendClicked(ActionEvent event) {
-
-
         System.out.println("Carrier selected is: " + carrierSelector.getText());
         if(carrierSelector.getText().equals("Carrier")){
             System.out.println("No carrier selected");
@@ -110,16 +103,11 @@ public class TwoFactorScreenController {
         carrierSelector.setDisable(true);
         descLabel.setText("Text sent to number on file");
 
-
-
-
     }
 
     public PublishSubject<DialogEvent<Employee>> dialogCompleted_;
     public Observable<DialogEvent<Employee>> dialogCompleted() {
         return dialogCompleted_;
     }
-    //private final PublishSubject<DialogEvent<Employee>> dialogCompleted_ = PublishSubject.create();
-
 }
 

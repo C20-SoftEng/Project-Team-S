@@ -5,7 +5,6 @@ SSERV00101,1255.0,48.0,1,Faulkner,SERV,Valet Parking,valt_park
 SHALL00101,1255.0,305.0,1,Faulkner,HALL,Outside Atrium Stairs,atr_stair_out
 SHALL00201,1311.0,305.0,1,Faulkner,HALL,Atrium Lobby Stairs ,atr_loby_stair
 SHALL00301,1255.0,418.0,1,Faulkner,HALL,Between Elevator and Stairs Atrium,btwn_elev
-SELEV00X01,1188.0,418.0,1,Faulkner,ELEV,Atrium Elevators,1atr_elev
 SSTAI00101,1328.0,418.0,1,Faulkner,STAI,Atrium Stairs,1atr_stai
 SHALL00401,1255.0,519.0,1,Faulkner,HALL,Big Intersection Below Atrium,intr_blw_atr
 SHALL00501,1199.0,519.0,1,Faulkner,HALL,Outside Mens Bathroom,out_mens_bath
@@ -46,14 +45,11 @@ SLABS00401,1300.0,937.0,1,Faulkner,LABS,Vasc Lab,vasc_lab
 SHALL02401,1255.0,1080.0,1,Faulkner,HALL,Outside South Stairs, Finanaces
 SSTAI00201,1201.0,1080.0,1,Faulkner,STAI,South Stairs,south_stai
 SHALL02501,1255.0,1160.0,1,Faulkner,HALL,Outside South Escalators,out_south_stai
-SELEV00Y01,1190.0,1160.0,1,Faulkner,ELEV,South Escalators,south_esc
 SSERV00201,1280.0,1080.0,1,Faulkner,SERV,Patient Finances,pat_fin
 SINFO00101,1314.0,250.0,1,Faulkner,INFO,Information (not labeled, my b)
-SELEV00Y02,1203.0,1152.0,2,Faulkner,ELEV,2nd Floor Hillside Elevators,2hs_elev
 SHALL00302,1437.0,1214.0,2,Faulkner,HALL,Physical Therapy Intersection Hallway,pt_int_hall
 SHALL02002,1480.0,1145.0,2,Faulkner,HALL,2nd Floor Elevator Hallway,2main_elev_hall
 SREST00102,1437.0,1145.0,2,Faulkner,REST,2nd Floor Handicap Bathroom,2hand_bath
-SELEV00Z02,1356.0,1145.0,2,Faulkner,ELEV,2nd Floor Staff Elevators,2staff_elev
 SHALL00402,1437.0,880.0,2,Faulkner,HALL,Physical Therapy Hallway,pt_hall
 SDEPT00202,1462.0,880.0,2,Faulkner,DEPT,Physical Therapy,pt_room
 SHALL00502,1437.0,509.0,2,Faulkner,HALL,Physical Therapy Hallway North,pt_hall_north
@@ -64,7 +60,6 @@ SHALL00802,1359.0,293.0,2,Faulkner,HALL,Plastic Surgey Lobby Hallway ,ps_hall_lo
 SHALL00902,1260.0,293.0,2,Faulkner,HALL,2nd Floor Atrium Hallway North,2atr_hall_north
 SDEPT00402,1160.0,293.0,2,Faulkner,DEPT,Otolaryngology,oto_room
 SHALL01002,1260.0,406.0,2,Faulkner,HALL,2nd Floor Atrium Hallway,2atr_hall
-SELEV00X02,1188.0,418.0,2,Faulkner,ELEV,2nd Floor Atrium Elevators ,2atr_elev
 SSTAI00102,1328.0,418.0,2,Faulkner,STAI,2nd Floor Atrium Stairs,2atr_stair
 SHALL01102,1260.0,480.0,2,Faulkner,HALL,2nd Floor Atrium Hallway South,2atr_hall_south
 SHALL01202,1359.0,480.0,2,Faulkner,HALL,Plastic Surgery Intersection Hallway,ps_int_hall
@@ -83,7 +78,6 @@ SDEPT00702,1469.0,1076.0,2,Faulkner,DEPT,Occupational Therapy,occ_ther
 SSERV00103,1093.0,1335.0,3,Faulkner,SERV,Chapel,chpl
 SINFO00103,1250.0,1335.0,3,Faulkner,INFO,Hillside Lobby,hill_loby
 SSERV00203,1250.0,1418.0,3,Faulkner,SERV,Shuttle Pickup,shtl_pick
-SINFO00203,1250.0,1310.0,3,Faulkner,INFO,Upper Hillside Lobby,hill_up_loby
 SSERV00303x,1375.0,1310.0,3,Faulkner,SERV,Volunteer/Community,comm
 SHALL01703,1250.0,1163.0,3,Faulkner,HALL,Hillside Elevators,3hill_elev
 SHALL01803,1250.0,1080.0,3,Faulkner,HALL,Above Hillside Elevators,abv_hill_elev
@@ -106,7 +100,6 @@ SHALL00703,1207.0,484.0,3,Faulkner,HALL,Atrium Square ,atr_sqr
 SRETL00103x,1550.0,790.0,3,Faulkner,RETL,Outdoor Dining Terrace,out_dine_terr
 SHALL00803,1250.0,484.0,3,Faulkner,HALL,Near Atrium Elevators,out_atr_elev
 SHALL00903,1250.0,414.0,3,Faulkner,HALL,Outside Atrium Elevators and Stairs,out_atr_stai
-SELEV00X03,1188.0,418.0,3,Faulkner,ELEV,Atrium Elevators,3atr_elev
 SSTAI00203,1328.0,418.0,3,Faulkner,STAI,Atrium Stairs,3atr_stai
 SHALL01003,1355.0,484.0,3,Faulkner,HALL,Outside Medical Staff Lounge,out_medi_staff
 SHALL01103,1355.0,310.0,3,Faulkner,HALL,Outside OB/GYN Associates,out_gyn_asso
@@ -119,8 +112,6 @@ SDEPT00303,1160.0,251.0,3,Faulkner,DEPT,Roslindate Pediatric ,rosl_pedi
 SHALL01503,1144.0,311.0,3,Faulkner,HALL,West Atrium Hall,west_3atr_hall
 SHALL01603,1144.0,484.0,3,Faulkner,HALL,South West Atrium Hall,south_west_atr_hall
 SINFO00303,1250.0,1300.0,3,Faulkner,INFO,Info,3info
-SELEV00Y03,1203.0,1152.0,3,Faulkner,ELEV,Hillside West Elevators,3hill_west_elev
-SELEV00Z03,1350.0,1170.0,3,Faulkner,ELEV,Hillside East Elevators,3hill_east_elev
 SHALL00104,1260.0,1223.0,4,Faulkner,HALL,Executive Hallway,ex_hall
 SHALL00204,2137.0,1223.0,4,Faulkner,HALL,Foot & Ankle Hallway,foot_hall
 SDEPT00104,2137.0,1203.0,4,Faulkner,DEPT,Foot & Ankle Room,foot
@@ -143,8 +134,6 @@ SSTAI00204,2335.0,1223.0,4,Faulkner,STAI,East Executive Staircase,ex_stair_east
 SHALL00904,1774.0,1223.0,4,Faulkner,HALL,Brigham Staircase Hallway,bpp_stair_hall
 STAIR00304,1774.0,1250.0,4,Faulkner,STAI,Brigham Staircase,bpp_stair
 SHALL01004,1254.0,1170.0,4,Faulkner,HALL,4th Floor Hillside Hallway,4hs_hall
-SELEV00Z04,1350.0,1170.0,4,Faulkner,ELEV,4th Floor East Hillside Elevator,4hs_elev_east
-SELEV00Y04,1203.0,1152.0,4,Faulkner,ELEV,4th Floor West Hillside Elevator,4hs_elev_west
 SHALL01104,1254.0,1045.0,4,Faulkner,HALL,4th Floor Hillside Stairs Hallway,4hs_stair_hall
 SSTAI00404,1201.0,1080.0,4,Faulkner,STAI,4th Floor Hillside Stairs,4hs_stair
 SHALL01204,1254.0,998.0,4,Faulkner,HALL,MOHS Clinic Hallway,mohs_hall
@@ -169,7 +158,6 @@ SHALL02204,1150.0,293.0,4,Faulkner,HALL,HVMA Internal Medicine Corner,hvma_med_c
 SHALL02304,1254.0,293.0,4,Faulkner,HALL,4th Floor North Atrium Elevator,4atr_hall_north
 SHALL02404,1254.0,434.0,4,Faulkner,HALL,4th Floor Atrium Hallway,4atr_hall
 SSTAI00504,1328.0,418.0,4,Faulkner,STAI,4th Floor Atrium Stairs,4atr_stair
-SELEV00X04,1188.0,418.0,4,Faulkner,ELEV,4th Floor Atrium Elevators,4atr_elev
 SHALL00105,1237.0,1215.0,5,Faulkner,HALL,Vacant Hallway,vcnt_hall
 SHALL00205,1293.0,1215.0,5,Faulkner,HALL,Oncology Clinic Hallway,onco_hall
 SDEPT00105,1345.0,1215.0,5,Faulkner,DEPT,Oncology Clinic,onco
@@ -181,9 +169,7 @@ SSTAI00105,673.0,1245.0,5,Faulkner,STAI,Intensive Care Unit Stairs,int_care_stai
 SHALL00505,1200.0,1215.0,5,Faulkner,HALL,5th Floor South Hillside Hallway,5hs_hall_south
 SHALL00605,1200.0,1161.0,5,Faulkner,HALL,5th Floor Hillside Hallway,5hs_hall
 SREST00105,1253.0,1161.0,5,Faulkner,REST,5th Floor Handicap Bathroom,5hand_bath
-SELEV00Y05,1203.0,1152.0,5,Faulkner,ELEV,5th Floor Hillside Elevator,5hs_elev
 SHALL00705,1293.0,1161.0,5,Faulkner,HALL,5th Floor East Hillside Hallway,5hs_hall_east
-SELEV00Z05,1335.0,1161.0,5,Faulkner,ELEV,5th Floor East Hillside Elevator,5hs_elev_east
 SHALL00805,1293.0,1106.0,5,Faulkner,HALL,5th Floor Northeast Hillside Hallway,5hs_hall_ne
 SHALL00905,1200.0,1106.0,5,Faulkner,HALL,5th Floor Northwest Hillside Hallway,5hs_hall_nw
 SHALL01005,1240.0,1106.0,5,Faulkner,HALL,5th Floor North Hillside Hallway,5hs_hall_north
@@ -203,7 +189,6 @@ SHALL01705,1355.0,481.0,5,Faulkner,HALL,Surgical Specialties Hallway,surg_spec_h
 SHALL01805,1145.0,481.0,5,Faulkner,HALL,ENT Hallway,ent_hall
 SHALL01905,1240.0,416.0,5,Faulkner,HALL,5th Floor Atrium Hallway,5atr_hall
 SSTAI00305,1328.0,418.0,5,Faulkner,STAI,5th Floor Atrium Stairs,5atr_stair
-SELEV00X05,1188.0,418.0,5,Faulkner,ELEV,5th Floor Atrium Elevator,5atr_elev
 SHALL02005,1240.0,292.0,5,Faulkner,HALL,5th Floor North Atrium Hallway,5atr_hall_north
 SDEPT00905,1145.0,292.0,5,Faulkner,DEPT,ENT,ent
 SDEPT01005,1240.0,262.0,5,Faulkner,DEPT,Orthopaedic Association,ortho
@@ -363,3 +348,76 @@ SHALL02504,1151.8,490.79999999999995,4,Faulkner,HALL,Corner,Corner
 1-8-8-619-13-1611-467-1-40572-9-76-5-7-3-7-1-6,812.0,1175.0,5,Faulkner,INFO,Hemo Dialysis,HEMO
 560-9-9-108018-8-97-62-8-9-8-3931-3-1-1-94-6-5,1146.0,394.0,5,Faulkner,HALL,HALL,NA
 1-9-74270-1-60-38656-450-609-55-8130-3-6-7,1150.0,371.0,4,Faulkner,HALL,Unnamed,NA
+-5-421-2-19-8-166-4-805-148-6-69-8-4-8-183-37-3,825.0,1205.5,6,Faulkner,DEPT,North Patient Beds 6,NorthPatientBeds6
+276-2-2-7-478-74630-4722633-9-50-36-4-36-6,1153.0,1217.5,6,Faulkner,HALL,North Patient Beds Hall,NorthPatientBedsHall
+-8-60-515-41-8-63-7-97-102-18-73-4-87-81-2-429,1201.0,1279.5,6,Faulkner,DEPT,Case Management,CaseManagement
+-30-30-6-8-7-30214424-300-6-2-346-69114-21,1201.0,1221.5,6,Faulkner,HALL,Case Management Hall,CaseManagement Hall
+-6180-4-2090-91-29881-488-189-5005-66-5-4,1293.0,1215.5,6,Faulkner,HALL,Case Management South Bed Intersection,caseSouthInter
+97-53-17059-8-54-74-1-5-6969-6-3-780-3-10-84,1451.0,1219.5,6,Faulkner,DEPT, South Bed 6,SouthBed6
+-37003-4-21-656-412651053-7-685-820-5-6-7,1197.0,1119.5,6,Faulkner,HALL,West Atrium,westAtrium
+4-85220-7-320-85-8-56-5-2-65-189-24-4-7341-4,1297.0,1125.5,6,Faulkner,HALL,East Atrium,eastAtrium
+7-34-8-88-1-7-124-89-15-615-1-2060-79-2-8153,1245.0,1115.5,6,Faulkner,HALL,North Atrium,northAtrium
+857156-880-5-1393-5-2508-89-73390-6-548,1251.0,979.5,6,Faulkner,HALL,housekeepingPariser Hall,housekeepingPariserHall
+-31-58-24-6-5-9-3-908-7-50-9-1-80-4-1-7-4-339-68-3,1317.0,987.5,6,Faulkner,DEPT,Housekeeping,housekeeping
+-2-72-395-4-1-40-4-17-636-6-6-9-9-4028-714-3-43,1199.0,961.5,6,Faulkner,CONF,Pariser Conference Room,pariserConferenceRoom
+100238240-6-3-61-5-77674-6249-45-5700-7,1147.0,1035.5,6,Faulkner,DEPT,Family/Patient Resources,FamilyPatientResources
+-8-4-8-8-5-46-9-71-8-5-8-79-44-17-3-74-402-485-4-3,1419.0,877.5,6,Faulkner,DEPT,Lounge,lounge
+-7-20944-6-198-1-4-3-70-864-5-2473-2842610,1243.0,887.5,6,Faulkner,HALL,Lounge,loungeHall
+9-6-5-5060-7-713-1-2-8-2-5-7-38-50836-5-296-10,1249.0,845.5,6,Faulkner,HALL,Pre-Operation Hall,Pre-OperationHall
+02-4611-8-7-220-4-2-523-2-14-1-50-3-2-121-86-4,1157.0,839.5,6,Faulkner,DEPT,Pre-Operation Hall,Pre-OperationHall
+-5-27-7-243-5-9-60-8-49-5-3-1-123-4-6-10051-23-3,1337.0,835.5,6,Faulkner,DEPT,Lockers,lockers
+-7-8349-88-11211-1-4-1-38-1435-7-4-98-66-363,1153.0,685.5,6,Faulkner,DEPT,Post-Anethstesia Care Unit ,Post-AnethstesiaCareUnit
+6110683-2-1518-9096-5-5-6-1-9-98-8-70-2-90-7,1251.0,675.5,6,Faulkner,HALL,Post-Anethstesia Care Unit Hall,Post-AnethstesiaCareUnit Hall
+-3006-8-9-2746-4-2-1-3-1-60-5-4-881-3-1-306-67-8,1249.0,573.5,6,Faulkner,HALL,Diagnostic & Treatment Operating Rooms,DiagnosticTreatmentOperatingRooms
+-2253476-202-99-621-4-30-7-303-74-2-5-6-6-6-4,1202.6666666666665,1087.6666666666667,6,Faulkner,STAI,Sixth Floor Middle Stair,6thFLMiddleStir
+94-650-8-655650-6-801-29-53-57-91-706-98-8,1262.0,1083.6666666666667,6,Faulkner,HALL,Hall,hall
+-90-99-89-857-6-8-7-2-512-3691740-20-8430-9,1316.3333333333335,1160.3333333333333,6,Faulkner,HALL,Sixth Floor Elevator Hall,6thFLELEVHall
+3-69-730-701-1-2-6-282-793084-8-32-2-3-8-3-8-4,1182.3333333333335,1157.6666666666667,6,Faulkner,HALL,Sixth Floor Elevator Hall,6thFLELEVHall
+46-6270-5-4362-7-635-3-651-2-6-28975-310-3,724.0,1266.3333333333335,6,Faulkner,STAI,Sixth Floor Stair West,6thFLStairWest
+8-98-623-8-3-5-95-854-3-8-5368-2-9-64958-104,1781.6666666666665,1251.0,6,Faulkner,STAI,Sixth Floor Stair East,6thFLStairEast
+56-94-9-94-3-825-9-9-95-11-4-6-22-80402-5-459,1159.6666666666665,973.0,7,Faulkner,DEPT,HumanResources,HR
+-80-1-1-1-3-500-8-2381-8-72-5-8-72-7-9-7-37-1-18-1,1316.3333333333335,979.6666666666667,7,Faulkner,DEPT,HouseKeeping,HP
+-923160-685-528-74-9-896-49-788-440-5-27-9,1198.3333333333335,1067.0,7,Faulkner,DEPT,Seventh Floor Stair Top,7thFLStairTop
+-7-5514-6-6863-1410-2523-773-1-43-78-5-942,1206.3333333333335,1163.6666666666667,7,Faulkner,HALL,Elevator Hallway,ELEVHallway
+-984-4-54-9-7-17-8540-9-9906-826-86627-3-3-6,1304.0,1165.0,7,Faulkner,HALL,Elevator Hallway,ELEVHallway
+9-8130-5-8-64-7-4-25212768-4-3-2410-9908-9,1255.0,1308.3333333333335,7,Faulkner,DEPT,Pain Management,PainMngmnt
+39-87-344-5-45-564-520-3-500-46925-13-496,936.3333333333333,1234.3333333333335,7,Faulkner,DEPT,North Central Patients Bed,NorthCtrlPtintsBed
+-2334-1701-30-121-996-5-21-45-52340-9869,1307.0,1221.0,7,Faulkner,HALL,Joint Center Hall,JointCtrHall
+-2-6-70-678-5-1-4-7-304-5-4-3-90010-283-16603,1348.3333333333333,1224.3333333333335,7,Faulkner,HALL,Joint Center Door,JointCtrDoor
+3-935-95000-174-10-83497-1-554-87-6-660-6,1206.3333333333333,1221.6666666666665,7,Faulkner,HALL,North Central Patients Bed Hall,North Central Patients Bed Door
+0-2-40-1-5-4-3-378255-20-8-7-749-3-5-70-7-4002,1143.3333333333333,1222.3333333333335,7,Faulkner,HALL,North Central Patients Bed Door,NorthCntrlPtintsBedDoor
+-526-1-8-9-70-3-6394-1-2-511-50-92739095-83,1200.6666666666665,1121.6666666666667,7,Faulkner,HALL,Hallway NorthWest,HallwayNW
+90-8776-742536-1-1-70-6-3-75-985-47-74204,1302.6666666666665,1117.0,7,Faulkner,HALL,Hallway NorthEast,HallwayNE
+5-2-6-2-2-21-67-1-1-2-22444-4-6-87-3-2376-14-65,1254.6666666666665,1112.3333333333333,7,Faulkner,HALL,Hallway Middle,HallwayMd
+2-952793-64-51-87-644-14-4-4-302-823-896-5,1254.6666666666665,982.3333333333333,7,Faulkner,HALL,Hallway Top,HallwayTp
+-3-20130-9-670-5-6-11-4830599-84-3434-74-2,1857.6666666666665,1215.0,7,Faulkner,DEPT,Joint Center,JointCtr
+-3303-4353-5-2092-275-1831-86-4-78-213-51,1250.0,1222.3333333333335,7,Faulkner,HALL,Pain Management Door,PainMngmntDoor
+262-293491-4820-999-623-53-662-4658-70,450.6666666666667,1219.6666666666665,7,Faulkner,DEPT,North Patient Beds,NorthPtintBeds
+-4013252-72051-3-3-1-69-69-80-2-5-6-137818,689.3333333333334,1219.6666666666665,7,Faulkner,DEPT,North Patient Beds Door,NorthPtintBedsDoor
+4-958-3-6-451-303-32-743-5-35-17704172-32,686.6666666666666,1273.6666666666665,7,Faulkner,STAI,Seventh Floor Stair West,7thFLStairWest
+-9-2-1-3-74-6297-7-33-128-8-929-6-790-20-77-3-6,155.33333333333334,1221.3333333333335,7,Faulkner,HALL,North Patient Beds Door West,NorthPtintBedsDoorWest
+-83670-75-7-83370-2005-26472-78-301-3-5-8,154.66666666666666,1273.6666666666665,7,Faulkner,STAI,Seventh Floor Stair West End,7thFLStairWestEnd
+6-4932-9-19-3-78-9602-7-484-55-264270240,2348.6666666666665,1227.3333333333335,7,Faulkner,HALL,Joint Center Door East,JointCtrDoorEast
+-396-3-1-4-2-6-26-224507-260-4-2-1-2-417-7-586,2344.6666666666665,1278.6666666666665,7,Faulkner,STAI,Seventh Floor Stair East End,7thFLStairEastEnd
+-2-4-7-18-2-3-3-1-89-419-5-7297-224-7-75-8-47-9-1,1881.0,1217.2500000000002,6,Faulkner,DEPT,South Patient Beds,SthPtintBeds
+8855-3-217-61-2-7-3-16-4-53-1-8-552-73-7-9-878,2346.0,1250.2500000000002,6,Faulkner,STAI,Sixth Floor Stair East End,6thFLStirEstEnd
+95-94-552-112-3-419-1-50-9-638-84171-70-1-4,1285.0,487.25000000000006,6,Faulkner,HALL,Sixth Floor Hallway North Bottom,6thFLHwyNthBtm
+-4-42-4046-8-19-32-3-12-5-24-2-5-5-5-8-6-10-6-2-66,1268.0000000000005,432.24999999999994,6,Faulkner,HALL,Sixth Floor Hallway North Middle,6thFLHwyNthMd
+-9-359-2-7068-4-59141-26-91-6006053-79-11,1315.0,427.2499999999999,6,Faulkner,HALL,Sixth Floor Hallway North Middle Right,6thFLHwyNthMdRt
+0-372-3-40-62-59-7-7-52-46514660-8-5-33995,1320.0000000000002,378.24999999999994,6,Faulkner,STAI,Sixth Floor Stair North,6thFLStirNth
+SELEV00Y01,1160.0,1160.0,1,Faulkner,ELEV,Elevator,elev
+SELEV00X01,1190.0,405.0,1,Faulkner,ELEV,Elevator,elev
+SELEV00Y02,1160.0,1160.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00X02,1190.0,405.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00Z02,1350.0,1170.0,2,Faulkner,ELEV,Elevator,elev
+SELEV00Y03,1160.0,1160.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00X03,1190.0,405.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00Z03,1350.0,1170.0,3,Faulkner,ELEV,Elevator,elev
+SELEV00Y04,1160.0,1160.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00X04,1190.0,405.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00Z04,1350.0,1170.0,4,Faulkner,ELEV,Elevator,elev
+SELEV00Y05,1160.0,1160.0,5,Faulkner,ELEV,Elevator,elev
+SELEV00X05,1190.0,405.0,5,Faulkner,ELEV,Elevator,elev
+SELEV00Y06,1160.0,1160.0,6,Faulkner,ELEV,Elevator,elev
+SELEV00Y07,1160.0,1160.0,7,Faulkner,ELEV,Elevator,elev
+088176-69-20-76-8519-1-1725-56-294484-7,1204.6666666666665,1159.9999999999998,2,Faulkner,HALL,Elevator Hall,elev_hall

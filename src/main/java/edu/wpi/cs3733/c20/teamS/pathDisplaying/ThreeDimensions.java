@@ -1,30 +1,22 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
-import edu.wpi.cs3733.c20.teamS.database.EdgeData;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.pathDisplaying.PathRenderer;
-import edu.wpi.cs3733.c20.teamS.utilities.Board;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
@@ -32,930 +24,499 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import org.apache.derby.impl.sql.catalog.SYSROUTINEPERMSRowFactory;
-
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.net.URL;
+import java.util.*;
 
 public class ThreeDimensions extends Application {
-    private static String MESH_FILENAME = null;
-
-    private static final String STARTICON =
-            ThreeDimensions.class.getResource("/images/ThreeDim/start.STL").toString();
-    private static final String FINISHICON =
-            ThreeDimensions.class.getResource("/images/ThreeDim/finish.STL").toString();
-
-    private static final String clarinet =
-            ThreeDimensions.class.getResource("/images/ThreeDim/Clarinet.stl").toString();
-
-    private static final String hat = ThreeDimensions.class.getResource("/images/ThreeDim/hat.stl").toString();
-    private PathTransition pathTrans;
-
     private List<NodeData> nodes;
     private Stage primaryStage = new Stage();
-    private double cost;
+    private String goal = "";
+    private List<Vector2> goalLine;
 
-    public ThreeDimensions(List<NodeData> nodes) throws Exception {
-        this.nodes = nodes;
-        start(primaryStage);
+
+    public ThreeDimensions(List<NodeData> nodes, String goal, Optional<PinDrop> goalRoom) throws Exception {
+        if(goalRoom.isPresent()) {
+        if(nodes != null) {
+            goalLine = goalRoom.get().room().vertices();
+            this.nodes = nodes;
+            this.goal = goal;
+            start(primaryStage); }}
     }
 
-    public static final float WIDTH = 1400;
-    public static final float HEIGHT = 800;
-
-    private double anchorX, anchorY;
-    private double anchorAngleX = 0;
-    private double anchorAngleY = 0;
-    private final DoubleProperty angleX = new SimpleDoubleProperty(0);
-    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
+    private final float WIDTH = 1422;
+    private final float HEIGHT = 800;
+    private double oldX, oldY;
+    private ArrayList<String> floorAddress = new ArrayList<>();
+    private boolean elevToggle = true;
+    private boolean foodToggle = true;
+    private boolean restToggle = true;
+    private boolean retlToggle = true;
+    private boolean staiToggle = true;
+    private HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
+    private final double floorDist = 100;
+    private ArrayList<Integer> allFloorsInvolved = new ArrayList<>();
+    private final int totalFloors = 7;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ArrayList<Integer> anglez = new ArrayList<Integer>();
-        for (int i = 0; i < nodes.size() - 2; i++) {
-            Point3D one = new Point3D(nodes.get(i).getxCoordinate(), nodes.get(i).getyCoordinate(), 0);
-            Point3D two = new Point3D(nodes.get(i + 1).getxCoordinate(), nodes.get(i + 1).getyCoordinate(), 0);
-            Point3D three = new Point3D(nodes.get(i + 2).getxCoordinate(), nodes.get(i + 2).getyCoordinate(), 0);
-            double angle = calculateAngle(one.getX(), one.getY(), two.getX(), two.getY(), three.getX(), three.getY());
-            anglez.add((int) angle);
+        for(int i = 0; i < nodes.size(); i++) {
+            if(allFloorsInvolved.contains(nodes.get(i).getFloor()) == false) {
+                allFloorsInvolved.add(nodes.get(i).getFloor());
+            }
         }
-        System.out.println(nodes.size());
-        System.out.println(anglez.size());
 
-        SmartGroup group = new SmartGroup();
-        if (nodes.get(0).getFloor() == 2 || nodes.get(nodes.size() - 1).getFloor() == 2) {
-            group.getChildren().add(prepareBox(0)); //second
-        } else {
-            group.getChildren().add(prepareBox(1));
+        zplace.put(1, 100);
+        zplace.put(2, 0);
+        zplace.put(3, -100);
+        zplace.put(4, -200);
+        zplace.put(5, -300);
+        zplace.put(6, -400);
+        zplace.put(7, -500);
+
+        NodeData begin = nodes.get(0);
+        NodeData end = nodes.get(nodes.size() - 1);
+
+        boolean showComfort = false;
+        if(goal != null) {
+        if(goal.equals("6 South Patient Beds")) {
+            showComfort = true;
+        }}
+
+        RotateGroup group = new RotateGroup();
+
+        for(int i = 1; i <= totalFloors; i++) {
+            boolean trans = !(begin.getFloor() == i || end.getFloor() == i);
+            Image floor = new Image("images/ThreeDim/floor" + i + ".png");
+            Image transFloor = new Image("images/ThreeDim/transFloor" + i + ".png");
+            int z = zplace.get(i);
+            group.getChildren().add(createFloor(floor, transFloor, z, trans));
         }
-        if (nodes.get(0).getFloor() == 3 || nodes.get(nodes.size() - 1).getFloor() == 3) {
-            group.getChildren().add(prepareSecondBox(0)); //third
-        } else {
-            group.getChildren().add(prepareSecondBox(1));
-        }
-        if (nodes.get(0).getFloor() == 1 || nodes.get(nodes.size() - 1).getFloor() == 1) {
-            group.getChildren().add(prepareThirdBox(0)); //first
-        } else {
-            group.getChildren().add(prepareThirdBox(1));
-        }
-        if (nodes.get(0).getFloor() == 4 || nodes.get(nodes.size() - 1).getFloor() == 4) {
-            group.getChildren().add(prepareFourthBox(0)); //fourth
-        } else {
-            group.getChildren().add(prepareFourthBox(1));
-        }
-        if (nodes.get(0).getFloor() == 5 || nodes.get(nodes.size() - 1).getFloor() == 5) {
-            group.getChildren().add(prepareFifthBox(0)); //fifth
-        } else {
-            group.getChildren().add(prepareFifthBox(1));
-        }
-        group.getChildren().add(new AmbientLight(Color.WHITE));
-        Point3D point1 = new Point3D(0, 0, 0);
-        Point3D point2 = new Point3D(0, 0, 0);
 
         Camera camera = new PerspectiveCamera();
+        camera.setFarClip(10000);
         camera.setTranslateY(-50);
 
+        ImageView destinationCircle = new ImageView(new Image("/images/ThreeDim/pulse.gif"));
+        double destScale = 0.1;
+        destinationCircle.setScaleX(destScale);
+        destinationCircle.setScaleY(destScale);
+        destinationCircle.setScaleZ(destScale);
+        destinationCircle.setTranslateX(end.getxCoordinate() / 5 - 247 - 250);
+        destinationCircle.setTranslateZ(zplace.get(end.getFloor()) - 3);
+        destinationCircle.setTranslateY(end.getyCoordinate() / 5 - 148 - 250);
 
-        DatabaseController dbc = new DatabaseController();
-        //dbc.importStartUpData();
-        Set<NodeData> nd = dbc.getAllNodes();
+        ImageView pinny = new ImageView(new Image("images/Icons/end_pin.png"));
+        double MODEL_SCALE_FACTOR22 = 0.05;
+        pinny.setScaleX(MODEL_SCALE_FACTOR22);
+        pinny.setScaleY(MODEL_SCALE_FACTOR22);
+        pinny.setScaleZ(MODEL_SCALE_FACTOR22);
+        RotateGroup pinThing = new RotateGroup();
+        pinThing.getChildren().add(pinny);
+        pinThing.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+        pinThing.setTranslateZ(zplace.get(end.getFloor()) - 200 - 80);
+        pinThing.setTranslateX(end.getxCoordinate() / 5 - 307 - 250 + 150);
+        pinThing.setTranslateY(end.getyCoordinate() / 5 - 150);
 
-        HashMap<Integer, Integer> zplace1 = new HashMap<Integer, Integer>();
-        zplace1.put(1, 100);
-        zplace1.put(2, 0);
-        zplace1.put(3, -100);
-        zplace1.put(4, -200);
-        zplace1.put(5, -300);
 
-        Shape s = new Circle(10);
-        s.setStrokeWidth(3);
-        s.setStrokeLineCap(StrokeLineCap.ROUND);
-        s.setStroke(Color.AQUA);
-        s.setFill(Color.LIGHTYELLOW);
-        //s.setEffect(new Bloom());
-        s.setTranslateX(nodes.get(nodes.size() - 1).getxCoordinate() / 5 - 247);
-        s.setTranslateZ(zplace1.get(nodes.get(nodes.size() - 1).getFloor()));
-        s.setTranslateY(nodes.get(nodes.size() - 1).getyCoordinate() / 5 - 148);
+        URL docPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL();
+        MeshView[] doctor = loadModel(docPath);
+        for (int k = 0; k < doctor.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.15;
+            doctor[k].setScaleX(MODEL_SCALE_FACTOR);
+            doctor[k].setScaleY(MODEL_SCALE_FACTOR);
+            doctor[k].setScaleZ(MODEL_SCALE_FACTOR);
 
-        Box wongBox = new Box();
-        wongBox.setHeight(40);
-        wongBox.setWidth(40);
-        wongBox.setDepth(40);
-        PhongMaterial material = new PhongMaterial();
-        Image image = new Image(("images/ThreeDim/wwong2.jpg"));
-        material.setDiffuseMap(image);
-        wongBox.setMaterial(material);
-        wongBox.setTranslateZ(-70);
+            doctor[k].setTranslateZ(zplace.get(begin.getFloor()));
 
-        double total = 0;
-        double length;
-        SequentialTransition sequentialTransition = new SequentialTransition();
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
+            doctor[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup docGroup = new RotateGroup();
+        docGroup.getChildren().addAll(doctor);
+        group.getChildren().addAll(docGroup);
+
+        URL nursePath = getClass().getResource("/images/ThreeDim/nurse.obj").toURI().toURL();
+        MeshView[] nurse = loadModel(nursePath);
+        for (int k = 0; k < nurse.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            nurse[k].setScaleX(MODEL_SCALE_FACTOR);
+            nurse[k].setScaleY(MODEL_SCALE_FACTOR);
+            nurse[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            nurse[k].setTranslateZ(zplace.get(6));
+            nurse[k].setTranslateX(140);
+            nurse[k].setTranslateY(80);
+
+            nurse[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(180, Rotate.X_AXIS));
+        }
+        RotateGroup nurseGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(nurse);
+        if(showComfort)
+        group.getChildren().addAll(nurseGroup);
+
+        URL pikaPath = getClass().getResource("/images/ThreeDim/fry5poc2kyap.obj").toURI().toURL(); //jar will brake
+        MeshView[] pika = loadModel(pikaPath);
+        for (int k = 0; k < nurse.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            pika[k].setScaleX(MODEL_SCALE_FACTOR);
+            pika[k].setScaleY(MODEL_SCALE_FACTOR);
+            pika[k].setScaleZ(MODEL_SCALE_FACTOR);
+        }
+        RotateGroup pikaGroup = new RotateGroup();
+        pikaGroup.getChildren().addAll(pika);
+        pikaGroup.setTranslateZ(zplace.get(6));
+        pikaGroup.setTranslateX(180);
+        pikaGroup.setTranslateY(90);
+        pikaGroup.getTransforms().setAll(new Rotate(90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        if(showComfort)
+        group.getChildren().addAll(pikaGroup);
+
+        URL dogPath = getClass().getResource("/images/ThreeDim/12228_Dog_v1_L2.obj").toURI().toURL();
+        MeshView[] dog = loadModel(dogPath);
+        for (int k = 0; k < dog.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.5;
+            dog[k].setScaleX(MODEL_SCALE_FACTOR);
+            dog[k].setScaleY(MODEL_SCALE_FACTOR);
+            dog[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            dog[k].setTranslateZ(zplace.get(6));
+            dog[k].setTranslateX(140);
+            dog[k].setTranslateY(110);
+
+            dog[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(0, Rotate.X_AXIS));
+        }
+        RotateGroup dogGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(dog);
+        if(showComfort)
+        group.getChildren().addAll(dogGroup);
+
+        URL patientPath = getClass().getResource("/images/ThreeDim/childrens_toy.obj").toURI().toURL();
+        MeshView[] patient = loadModel(patientPath);
+        for (int k = 0; k < dog.length; k++) {
+            double MODEL_SCALE_FACTOR = 0.1;
+            patient[k].setScaleX(MODEL_SCALE_FACTOR);
+            patient[k].setScaleY(MODEL_SCALE_FACTOR);
+            patient[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            patient[k].setTranslateZ(zplace.get(6) - 20);
+            patient[k].setTranslateX(150);
+            patient[k].setTranslateY(242);
+        }
+        RotateGroup patientGroup = new RotateGroup();
+        nurseGroup.getChildren().addAll(patient);
+        if(showComfort)
+        group.getChildren().addAll(patientGroup);
+
+
+        URL bedPath = getClass().getResource("/images/ThreeDim/hospital_bed.obj").toURI().toURL(); //jar will brake
+        MeshView[] bed = loadModel(bedPath);
+        for (int k = 0; k < bed.length; k++) {
+            double MODEL_SCALE_FACTOR = 1;
+            bed[k].setScaleX(MODEL_SCALE_FACTOR);
+            bed[k].setScaleY(MODEL_SCALE_FACTOR);
+            bed[k].setScaleZ(MODEL_SCALE_FACTOR);
+
+            bed[k].setTranslateX(160);
+            bed[k].setTranslateY(90);
+            bed[k].setTranslateZ(zplace.get(6));
+
+            bed[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+        }
+        RotateGroup bedGroup = new RotateGroup();
+        bedGroup.getChildren().addAll(bed);
+        if(showComfort)
+        group.getChildren().addAll(bedGroup);
+
+        RotateGroup numberGroup = new RotateGroup();
+        for(int i = 1; i <= totalFloors; i++) {
+            boolean selected = (begin.getFloor() == i || end.getFloor() == i);
+            Image number = new Image("images/ThreeDim/" + i + ".png");
+            Image brightNumber = new Image("images/ThreeDim/" + i + "H.png");
+            int z = zplace.get(i);
+            numberGroup.getChildren().add(floorNumbers(number, brightNumber, z, selected));
+        }
+
+        List<Group> elevatorGroup = new ArrayList<>();
+        List<Integer> invalidELEV = new ArrayList<>();
+        int elevCount = 0;
+
+        for(int i = 0; i < nodes.size() - 1; i++) {
             NodeData startNode = nodes.get(i);
             NodeData endNode = nodes.get(i + 1);
-            int floor1 = startNode.getFloor();
-            int floor2 = endNode.getFloor();
-            boolean sameFloor = (floor1 == floor2);
 
-            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate() - startNode.getyCoordinate()), 2));
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(getPathTime(length)), wongBox); //can change mph
-            translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
-            translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
-            translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
-            translateTransition.setToZ(zplace.get(endNode.getFloor()) - 50 - 30);
-            translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
-            translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
-            translateTransition.setInterpolator(Interpolator.LINEAR);
-            translateTransition.setCycleCount(1);
-            total += 1000;
-            //translateTransition.setAutoReverse(true);
-            //sequentialTransition.getChildren().add(createTransition(animated_path, wongBox));
-            sequentialTransition.getChildren().addAll(translateTransition);
+            for(int j = 1; j <= totalFloors; j++) {
+                if(startNode.getFloor() == j) {
+                    int radius = 2;
+                    if(startNode.getNodeType().equals("ELEV")) {
+                        URL elevPath = getClass().getResource("/images/ThreeDim/boneless.obj").toURI().toURL(); //jar will brake
+                        MeshView[] elevator = loadModel(elevPath);
+                        for (int k = 0; k < elevator.length; k++) {
+                            double MODEL_SCALE_FACTOR = 30;
+                            elevator[k].setScaleX(MODEL_SCALE_FACTOR);
+                            elevator[k].setScaleY(MODEL_SCALE_FACTOR);
+                            elevator[k].setScaleZ(MODEL_SCALE_FACTOR);
 
-//            if(i+1 < anglez.size()) {
-//                RotateTransition rt = new RotateTransition();
-//                rt.setDuration(Duration.seconds(getPathTime(length)));
-//                rt.setNode(wongBox);
-//                rt.setAxis(Rotate.Z_AXIS);
-//                rt.setCycleCount(1);
-//                rt.setToAngle(-anglez.get(i));
-//                rt.getNode().getTransforms().setAll(new Rotate(-anglez.get(i+1), Rotate.Z_AXIS), new Rotate(0, Rotate.X_AXIS));
-//
-//                sequentialTransition.getChildren().add(rt);
-//            }
-        }
-        sequentialTransition.setCycleCount(Timeline.INDEFINITE);
-        //sequentialTransition.setAutoReverse(true);
-        sequentialTransition.play();
+                            elevator[k].setTranslateX(startNode.getxCoordinate() / 5 - 244 - 45);
+                            elevator[k].setTranslateY(startNode.getyCoordinate() / 5 - 148 - 9);
+                            elevator[k].setTranslateZ(zplace.get(startNode.getFloor()) - 60);
 
-        double MODEL_SCALE_FACTOR = 4.3;
-
-        String thing = getClass().getResource("/images/ThreeDim/person.stl").toURI().getPath();
-        //String thing2 = thing.substring(6).replaceAll("/","\\");
-
-
-        MeshView[] meshViews = loadMeshViews(thing);
-        for (int i = 0; i < meshViews.length; i++) {
-//            meshViews[i].setTranslateX(0);
-//            meshViews[i].setTranslateY(0);
-//            meshViews[i].setTranslateZ(0);
-            meshViews[i].setScaleX(MODEL_SCALE_FACTOR);
-            meshViews[i].setScaleY(MODEL_SCALE_FACTOR);
-            meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
-
-            PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/gray.jpg"));
-            sample.setDiffuseMap(image2);
-            //sample.setSpecularColor(Color.BEIGE);
-            //sample.setSpecularPower(16);
-            meshViews[i].setMaterial(sample);
-
-            meshViews[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS));
+                            elevator[k].getTransforms().setAll(new Rotate(-90, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
+                            invalidELEV.add(i+1);
+                        }
+                        if(!invalidELEV.contains(i)) {
+                            elevatorGroup.add(new Group(elevator));
+                        }
+                    }
+                    else {
+                        Point3D startPoint = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(startNode.getFloor()));
+                        Point3D endPoint = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(endNode.getFloor()));
+                        group.getChildren().addAll(drawCylinder(startPoint, endPoint, radius));
+                    }
+                }
+            }
         }
 
-        String thing2 = getClass().getResource("/images/ThreeDim/start.stl").toURI().getPath();
-        int MODEL_SCALE_FACTOR2 = 3;
-        MeshView[] meshViews2 = loadMeshViews(thing2);
-        for (int i = 0; i < meshViews2.length; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            meshViews2[i].setTranslateX((nodes.get(0).getxCoordinate() / 5 - 247) - 100);
-            meshViews2[i].setTranslateY(nodes.get(0).getyCoordinate() / 5 - 148);
-            meshViews2[i].setTranslateZ(zplace.get(nodes.get(0).getFloor()));
-            meshViews2[i].setScaleX(MODEL_SCALE_FACTOR2);
-            meshViews2[i].setScaleY(MODEL_SCALE_FACTOR2);
-            meshViews2[i].setScaleZ(MODEL_SCALE_FACTOR2);
-
-            PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/space.jpg"));
-            sample.setDiffuseMap(image2);
-            //sample.setSpecularColor(Color.BEIGE);
-            //sample.setSpecularPower(16);
-            meshViews2[i].setMaterial(sample);
-
-            meshViews2[i].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
-        }
-
-        String thing3 = getClass().getResource("/images/ThreeDim/finish.stl").toURI().getPath();
-
-        MeshView[] meshViews3 = loadMeshViews(thing3);
-        double MODEL_SCALE_FACTOR22 = 0.15;
-        for (int i = 0; i < meshViews3.length; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            meshViews3[i].setTranslateX(nodes.get(nodes.size() - 1).getxCoordinate() / 5 - 307);
-            meshViews3[i].setTranslateY(nodes.get(nodes.size() - 1).getyCoordinate() / 5 - 70);
-            meshViews3[i].setTranslateZ(zplace.get(nodes.get(nodes.size() - 1).getFloor()) + 45);
-            meshViews3[i].setScaleX(MODEL_SCALE_FACTOR22);
-            meshViews3[i].setScaleY(MODEL_SCALE_FACTOR22);
-            meshViews3[i].setScaleZ(MODEL_SCALE_FACTOR22);
-
-            PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/starticonreplace.jpg"));
-            sample.setDiffuseMap(image2);
-            //sample.setSpecularColor(Color.BEIGE);
-            //sample.setSpecularPower(16);
-            meshViews3[i].setMaterial(sample);
-
-            meshViews3[i].getTransforms().setAll(new Rotate(0, Rotate.X_AXIS), new Rotate(90, Rotate.X_AXIS));
-        }
+        RotateGroup personGroup = new RotateGroup();
+        group.getChildren().add(numberGroup);
+        group.getChildren().addAll(elevatorGroup);
+        group.getChildren().add(destinationCircle);
+        group.getChildren().add(new AmbientLight(Color.WHITE));
 
         SequentialTransition st = new SequentialTransition();
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            NodeData startNode = nodes.get(i);
-            NodeData endNode = nodes.get(i + 1);
-            int floor1 = startNode.getFloor();
-            int floor2 = endNode.getFloor();
-            boolean sameFloor = (floor1 == floor2);
-
-            for (int j = 0; j < meshViews.length; j++) {
-                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs((endNode.getyCoordinate() - startNode.getyCoordinate())), 2));
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), meshViews[j]); //can change mph
-                tt.setInterpolator(Interpolator.LINEAR);
-                if (!sameFloor) {
-                    length = Math.abs(endNode.getFloor() - startNode.getFloor()) * 100.0;
-                    tt.setDuration(Duration.millis(1000));
+        ArrayList<NodeData> floorPath = new ArrayList<>();
+        for(int i = 0; i < nodes.size() - 1; i++) {
+            NodeData n1 = nodes.get(i);
+            NodeData n2 = nodes.get(i+1);
+            boolean elev = !(n1.getFloor() == n2.getFloor());
+            if(elev) {
+                st.getChildren().add(getFloorPath(docGroup, floorPath));
+                floorPath.clear();
+                double offsetX = 0;
+                double offsetY = 0;
+                if(n1.getNodeID().substring(7,8).equals("X")) {
+                    offsetX = 0;
+                    offsetY = 150;
                 }
-                tt.setFromZ(zplace.get(startNode.getFloor()) - 27);
-                tt.setFromX(startNode.getxCoordinate() / 5 - 247);
-                tt.setFromY(startNode.getyCoordinate() / 5 - 148 - 47 + 42);
-                tt.setToZ(zplace.get(endNode.getFloor()) - 27);
-                tt.setToX(endNode.getxCoordinate() / 5 - 247);
-                tt.setToY(endNode.getyCoordinate() / 5 - 148 - 47 + 42);
+                else if(n1.getNodeID().substring(7,8).equals("Z")) {
+                    offsetX = -35;
+                    offsetY = 5;
+                }
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), docGroup);
+                tt.setFromZ((zplace.get(n1.getFloor())) - ((2-begin.getFloor()) * floorDist));
+                tt.setFromX(n1.getxCoordinate() / 5 - 247 - 20);
+                tt.setFromY(n1.getyCoordinate() / 5 - 24);
+                tt.setToZ(zplace.get(n2.getFloor()) - ((2-begin.getFloor()) * floorDist));
+                tt.setToX(n1.getxCoordinate() / 5 - 247 - 20);
+                tt.setToY(n1.getyCoordinate() / 5 - 24);
                 tt.setCycleCount(1);
-                st.getChildren().add(tt);
-                //tt.setAutoReverse(true);
-//                if (i + 1 < anglez.size()) {
-//                    RotateTransition rt = new RotateTransition();
-//                    rt.setDuration(Duration.seconds(getPathTime(length)));
-//                    rt.setNode(meshViews[j]);
-//                    rt.setAxis(Rotate.Z_AXIS);
-//                    rt.setCycleCount(1);
-//                    rt.setFromAngle(anglez.get(i));
-//                    rt.setToAngle(-anglez.get(i));
-//                    rt.getNode().getTransforms().setAll(new Rotate((-anglez.get(i + 1)+25), Rotate.Z_AXIS), new Rotate(180, Rotate.Y_AXIS));
-//
-//                    st.getChildren().add(rt);
-//                }
 
+                TranslateTransition ttELEV = new TranslateTransition(Duration.seconds(Math.abs(n1.getFloor() - n2.getFloor())), elevatorGroup.get(elevCount));
+                ttELEV.setFromZ(zplace.get(n1.getFloor()) - ((2-n1.getFloor()) * floorDist));
+                ttELEV.setFromX(n1.getxCoordinate() / 5 - 244 + offsetX);
+                ttELEV.setFromY(n1.getyCoordinate() / 5 - 240 + offsetY);
+                ttELEV.setToZ(zplace.get(n2.getFloor()) - ((2-n1.getFloor()) * floorDist));
+                ttELEV.setToX(n1.getxCoordinate() / 5 - 244 + offsetX);
+                ttELEV.setToY(n1.getyCoordinate() / 5 - 240 + offsetY);
+                ttELEV.setCycleCount(1);
+
+                ParallelTransition pllt = new ParallelTransition(tt, ttELEV);
+                st.getChildren().addAll(pllt);
+                elevCount++;
+            }
+            else {
+                floorPath.add(n1); floorPath.add(n2);
+            }
+
+            if(i == nodes.size() - 2) {
+                st.getChildren().add(getFloorPath(docGroup, floorPath));
             }
         }
         st.setCycleCount(Timeline.INDEFINITE);
-        // st.setAutoReverse(true);
         st.play();
 
-        String thing4 = getClass().getResource("/images/ThreeDim/Clarinet.stl").toURI().getPath();
-        MeshView[] clari = loadMeshViews(thing4);
-        double MODEL_SCALE_FACTOR7 = 0.7;
-        for (int i = 0; i < clari.length; i++) {
-//            meshViews[i].setTranslateX(0);
-//            meshViews[i].setTranslateY(0);
-//            meshViews[i].setTranslateZ(0);
-            clari[i].setScaleX(MODEL_SCALE_FACTOR7);
-            clari[i].setScaleY(MODEL_SCALE_FACTOR7);
-            clari[i].setScaleZ(MODEL_SCALE_FACTOR7);
+        group.getChildren().add(pinThing);
+        Group elevIcons = getElevIcons();
+        group.getChildren().add(elevIcons);
 
-            PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
-            sample.setDiffuseMap(image2);
-            //sample.setSpecularColor(Color.BEIGE);
-            //sample.setSpecularPower(16);
-            clari[i].setMaterial(sample);
+        Group foodIcons = getFoodIcons();
+        group.getChildren().add(foodIcons);
 
-            clari[i].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(180, Rotate.X_AXIS));
+        Group retlIcons = getRETLIcons();
+        group.getChildren().add(retlIcons);
+
+        Group stairIcons = getSTAIcons();
+        group.getChildren().add(stairIcons);
+
+        Group restIcons = getRESTIcons();
+        group.getChildren().add(restIcons);
+
+        group.rotateByX(-63);
+        group.translateXProperty().set((WIDTH - 192 - 49)/2 - 24);
+        group.translateYProperty().set(632/2);
+        group.translateZProperty().set(zplace.get(begin.getFloor()) - 700);
+        group.translateZProperty().set(group.getTranslateZ() + 100);
+
+        Group root = new Group();
+        ImageView imageView = getOverlay();
+        root.getChildren().add(imageView);
+
+        Label dest = new Label();
+        if(goal != null) {
+        dest.setText(goal);}
+        dest.setScaleX(3);
+        dest.setScaleY(3);
+        dest.setScaleZ(3);
+        dest.relocate(568, 18);
+        dest.setTextFill(Color.web("#ffffff"));
+
+        root.getChildren().add(dest);
+
+        Button elevatorButton = new Button();
+        elevatorButton.relocate(97,57);
+        elevatorButton.setPrefSize(180,50);
+        elevatorButton.setStyle("-fx-background-color: TRANSPARENT");
+        elevatorButton.setOnAction(e -> onElevClicked(elevIcons));
+        root.getChildren().add(elevatorButton);
+
+        Button foodButton = new Button();
+        foodButton.relocate(340,56);
+        foodButton.setPrefSize(140,50);
+        foodButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(foodButton);
+        foodButton.setOnAction(e -> onFoodClicked(foodIcons));
+
+        Button bathroomButton = new Button();
+        bathroomButton.relocate(538,56);
+        bathroomButton.setPrefSize(206,50);
+        bathroomButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(bathroomButton);
+        bathroomButton.setOnAction(e -> onRestClicked(restIcons));
+
+
+        Button retailButton = new Button();
+        retailButton.relocate(770,56);
+        retailButton.setPrefSize(150,50);
+        retailButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(retailButton);
+        retailButton.setOnAction(e -> onRetailClicked(retlIcons));
+
+
+        Button stairsButton = new Button();
+        stairsButton.relocate(982,56);
+        stairsButton.setPrefSize(160,50);
+        stairsButton.setStyle("-fx-background-color: TRANSPARENT");
+        root.getChildren().add(stairsButton);
+        stairsButton.setOnAction(e -> onStairsClicked(stairIcons));
+
+        camera.setTranslateZ(zplace.get(begin.getFloor()) - 20);
+        dest.setTranslateZ(dest.getTranslateZ() + zplace.get(begin.getFloor()));
+
+        AnchorPane globalRoot = new AnchorPane();
+        imageView.setScaleX(imageView.getScaleX() - 0.01);
+        imageView.setScaleY(imageView.getScaleY() - 0.01);
+        imageView.setScaleZ(imageView.getScaleZ() - 0.01);
+        imageView.setTranslateX(imageView.getTranslateX() + 1);
+        imageView.setTranslateY(imageView.getTranslateY() + 48);
+        globalRoot.getChildren().add(root);
+        Scene scene = new Scene(globalRoot, WIDTH - 192, HEIGHT, true);
+        globalRoot.setStyle("-fx-background-color: #8f8f8f");
+
+        SubScene sub = new SubScene
+                (group, WIDTH - 192 - 49, 632, true, SceneAntialiasing.BALANCED);
+        sub.setCamera(camera);
+        sub.setFill(Color.web("#8f8f8f"));
+        mouseControl(group, sub, primaryStage, numberGroup, elevatorButton, foodButton, bathroomButton, retailButton, stairsButton);
+        globalRoot.getChildren().add(sub);
+        sub.setTranslateX(sub.getTranslateX() + 25);
+        sub.setTranslateY(sub.getTranslateY() + 106);
+
+        primaryStage.setTitle("MAP");
+
+        root.getChildren().get(0).toBack();
+
+        group.setTranslateZ(group.getTranslateZ() + 0.5*(-zplace.get(begin.getFloor())));
+
+        if(allFloorsInvolved.size() > 1) {
+            int max = Collections.max(allFloorsInvolved);
+            int min = Collections.min(allFloorsInvolved);
+            group.setTranslateY((group.getTranslateY() - (3-max) * floorDist) - (group.getTranslateY() - (3-min) * floorDist));
+            group.setTranslateZ(group.getTranslateZ() + 125*(max-min));
         }
-        SequentialTransition st2 = new SequentialTransition();
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            NodeData startNode = nodes.get(i);
-            NodeData endNode = nodes.get(i + 1);
-            int floor1 = startNode.getFloor();
-            int floor2 = endNode.getFloor();
-            boolean sameFloor = (floor1 == floor2);
-
-            for (int j = 0; j < clari.length; j++) {
-                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate() - startNode.getyCoordinate()), 2));
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), clari[j]); //can change mph
-                if (!sameFloor) {
-                    length = Math.abs(endNode.getFloor() - startNode.getFloor()) * 100.0;
-                    tt.setDuration(Duration.seconds(getPathTime(length)));
-                }
-                tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
-                tt.setFromX(startNode.getxCoordinate() / 5 - 247);
-                tt.setFromY(startNode.getyCoordinate() / 5 - 148 - 47 + 110);
-                tt.setToZ(zplace.get(endNode.getFloor()) - 80);
-                tt.setToX(endNode.getxCoordinate() / 5 - 247);
-                tt.setToY(endNode.getyCoordinate() / 5 - 148 - 47 + 110);
-                tt.setInterpolator(Interpolator.LINEAR);
-                tt.setCycleCount(1);
-                //tt.setAutoReverse(true);
-                st2.getChildren().add(tt);
-            }
-        }
-        st2.setCycleCount(Timeline.INDEFINITE);
-        st2.play();
-        // st.setAutoReverse(true);
-
-
-        String thing5 = getClass().getResource("/images/ThreeDim/hat.stl").toURI().getPath();
-
-        MeshView[] hati = loadMeshViews(thing5);
-        double MODEL_SCALE_FACTOR8 = 0.2;
-        for (int i = 0; i < hati.length; i++) {
-//            meshViews[i].setTranslateX(0);
-//            meshViews[i].setTranslateY(0);
-//            meshViews[i].setTranslateZ(0);
-            hati[i].setScaleX(MODEL_SCALE_FACTOR8);
-            hati[i].setScaleY(MODEL_SCALE_FACTOR8);
-            hati[i].setScaleZ(MODEL_SCALE_FACTOR8);
-
-            PhongMaterial sample = new PhongMaterial();
-            Image image2 = new Image(("images/ThreeDim/geometric.jpg"));
-            sample.setDiffuseMap(image2);
-            //sample.setSpecularColor(Color.BEIGE);
-            //sample.setSpecularPower(16);
-            hati[i].setMaterial(sample);
-
-            hati[i].getTransforms().setAll(new Rotate(0, Rotate.Z_AXIS), new Rotate(90, Rotate.X_AXIS));
-        }
-
-        SequentialTransition st3 = new SequentialTransition();
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            NodeData startNode = nodes.get(i);
-            NodeData endNode = nodes.get(i + 1);
-            int floor1 = startNode.getFloor();
-            int floor2 = endNode.getFloor();
-            boolean sameFloor = (floor1 == floor2);
-
-            for (int j = 0; j < clari.length; j++) {
-                length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate() - startNode.getyCoordinate()), 2));
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(getPathTime(length)), hati[j]); //can change mph
-                if (!sameFloor) {
-                    length = Math.abs(endNode.getFloor() - startNode.getFloor()) * 100.0;
-                    tt.setDuration(Duration.seconds(getPathTime(length)));
-                }
-                tt.setFromZ(zplace.get(startNode.getFloor()) - 80);
-                tt.setFromX(startNode.getxCoordinate() / 5 - 247);
-                tt.setFromY(startNode.getyCoordinate() / 5 - 148 - 47 + 150);
-                tt.setToZ(zplace.get(endNode.getFloor()) - 80);
-                tt.setToX(endNode.getxCoordinate() / 5 - 247);
-                tt.setInterpolator(Interpolator.LINEAR);
-                tt.setToY(endNode.getyCoordinate() / 5 - 148 - 47 + 150);
-                tt.setCycleCount(1);
-                //tt.setAutoReverse(true);
-                st3.getChildren().add(tt);
-            }
+        else {
+            group.setTranslateY(group.getTranslateY() - (3-begin.getFloor()) * floorDist);
         }
 
+        elevatorButton.fire();
+        foodButton.fire();
+        retailButton.fire();
+        bathroomButton.fire();
+        stairsButton.fire();
 
-        st3.setCycleCount(Timeline.INDEFINITE);
-        // st.setAutoReverse(true);
-        st3.play();
-
-        Group root = new Group(meshViews);
-        Group root10 = new Group(meshViews2);
-        Group root6 = new Group(meshViews3);
-        Group root9 = new Group(clari);
-        Group root80 = new Group(hati);
-        group.getChildren().add(root);
-        //group.getChildren().add(root10);
-        group.getChildren().add(root6);
-        //group.getChildren().add(root9);
-        //group.getChildren().add(root80);
-
-
-//        Path animated_path = new Path();
-//        animated_path.getElements().add(new MoveTo(nodes.get(0).getxCoordinate() / 5 - 247, nodes.get(0).getyCoordinate() / 5 - 148));
-//        for (NodeData node_itrat : nodes) {
-//                animated_path.getElements().add(new LineTo(node_itrat.getxCoordinate() / 5 - 247, node_itrat.getyCoordinate() / 5 - 148));
-//        }
-//        PathTransition pathTransition = new PathTransition();
-//        pathTransition.setDuration(Duration.seconds(0.5));
-//        pathTransition.setPath(animated_path);
-//        pathTransition.setNode(sphere);
-        //       pathTransition.setInterpolator(Interpolator.LINEAR);
-//        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-//        pathTransition.setCycleCount(Timeline.INDEFINITE);
-////pathTransition.setAutoReverse(true);
-//        pathTransition.play();
-
-        if (nodes.get(0).getFloor() == 1 || nodes.get(nodes.size() - 1).getFloor() == 1) {
-
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/oney.png")), 0));
-        } else {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (1).png")), 0));
-        }
-        if (nodes.get(0).getFloor() == 2 || nodes.get(nodes.size() - 1).getFloor() == 2) {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/twoy.png")), -100));
-        } else {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (5).png")), -100));
-        }
-        if (nodes.get(0).getFloor() == 3 || nodes.get(nodes.size() - 1).getFloor() == 3) {
-
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/threey.png")), -200));
-        } else {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (4).png")), -200));
-        }
-        if (nodes.get(0).getFloor() == 4 || nodes.get(nodes.size() - 1).getFloor() == 4) {
-
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/foury.png")), -300));
-        } else {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (3).png")), -300));
-        }
-        if (nodes.get(0).getFloor() == 5 || nodes.get(nodes.size() - 1).getFloor() == 5) {
-
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/fivey.png")), -400));
-        } else {
-            group.getChildren().add(getJuan(new Image(("images/ThreeDim/juan (2).png")), -400));
-        }
-
-        //group.getChildren().add(wongBox);
-
-        Group buttonsGroup = new Group();
-        Button aych = new Button();
-        aych.setTranslateY(200);
-        aych.setText("down");
-        aych.setOnAction(e -> {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.H, false, false, false, false);
-            primaryStage.fireEvent(press);
-        });
-        Button ghee = new Button();
-        ghee.setTranslateY(100);
-        ghee.setText("up");
-        ghee.setOnAction(e -> {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.G, false, false, false, false);
-            primaryStage.fireEvent(press);
-        });
-        Button thee = new Button();
-        thee.setText("left");
-        thee.setTranslateY(300);
-        thee.setOnAction(e -> {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
-            primaryStage.fireEvent(press);
-        });
-        Button why = new Button();
-        why.setText("right");
-        why.setTranslateY(400);
-
-        why.setOnAction(e -> {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.Y, false, false, false, false);
-            primaryStage.fireEvent(press);
-        });
-
-
-       /* for(NodeData data : nodes) {
-            if(data.getFloor() == 2 || data.getFloor() == 3) {
-                Sphere sphere = new Sphere(5);
-                sphere.setTranslateX(data.getxCoordinate() / 5 - 247);
-                sphere.setTranslateY(data.getyCoordinate() / 5 - 148);
-                if(data.getFloor() == 3) {
-                    sphere.setTranslateZ(-100);
-                }
-                PhongMaterial material = new PhongMaterial();
-                Image image = new Image(("images/geometric.jpg"));
-                material.setDiffuseMap(image);
-                sphere.setMaterial(material);
-                group.getChildren().add(sphere);
-            }
-        }
-
-        Set<EdgeData> ed = dbc.getAllEdges();*/
-
-        /*for(EdgeData data : ed) {
-            if(dbc.getNode(data.getStartNode()).getFloor() == 2 || dbc.getNode(data.getStartNode()).getFloor() == 3) {
-                NodeData startNode = dbc.getNode(data.getStartNode());
-                NodeData endNode = dbc.getNode(data.getEndNode());
-                if(dbc.getNode(data.getStartNode()).getFloor() == 2) {
-                    Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, 0);
-                    Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, 0);
-                    group.getChildren().add(createConnection(point3, point4, 2));
-                }
-                if(dbc.getNode(data.getStartNode()).getFloor() == 3) {
-                    Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -100);
-                    Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -100);
-                    group.getChildren().add(createConnection(point3, point4, 2));
-                }
-            }
-        }*/
-        Group root2 = new Group();
-        root2.getChildren().add(group);
-        // root2.getChildren().add(slider);
-        root2.getChildren().add(prepareImageView());
-
-
-        SequentialTransition str = new SequentialTransition();
-        Ellipse ellipseEarth = new Ellipse();
-        ellipseEarth.setRadiusX(100);
-        ellipseEarth.setCenterY(100);
-        group.getChildren().add(ellipseEarth);
-
-        group.getChildren().add(s);
-
-
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-            zplace.put(1, 100);
-            zplace.put(2, 0);
-            zplace.put(3, -100);
-            zplace.put(4, -200);
-            zplace.put(5, -300);
-            NodeData startNode = nodes.get(i);
-            NodeData endNode = nodes.get(i + 1);
-            if (startNode.getFloor() == 2) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, 0);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, 0);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                // magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 3) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -100);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -100);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                // magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 1) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, +100);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, +100);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                // magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 4) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -200);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -200);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                //magical(startNode, endNode, str, s, group, point3, point4);
-            }
-            if (startNode.getFloor() == 5) {
-                Point3D point3 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, -300);
-                Point3D point4 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, -300);
-                group.getChildren().add(createConnection(point3, point4, 2));
-                // magical(startNode, endNode, str, s, group, point3, point4);
-            }
-
-            if (startNode.getNodeType().equals("ELEV")) {
-                int floor1 = startNode.getFloor();
-                int floor2 = endNode.getFloor();
-                //String xyz = spec1.getNodeID().substring(7,8);
-                Point3D elev1 = new Point3D(startNode.getxCoordinate() / 5 - 247, startNode.getyCoordinate() / 5 - 148, zplace.get(floor1));
-                Point3D elev2 = new Point3D(endNode.getxCoordinate() / 5 - 247, endNode.getyCoordinate() / 5 - 148, zplace.get(floor2));
-                group.getChildren().add(createConnection(elev1, elev2, 5));
-            }
-             /*   if(startNode.getNodeID().equals("SELEV00X02")) {
-                    NodeData elevr1 = dbc.getNode("SELEV00X02");
-                    NodeData elevr2 = dbc.getNode("SELEV00X03");
-                    Point3D elev1 = new Point3D(elevr1.getxCoordinate() / 5 - 247, elevr1.getyCoordinate() / 5 - 148, 0);
-                    Point3D elev2 = new Point3D(elevr2.getxCoordinate() / 5 - 247, elevr2.getyCoordinate() / 5 - 148, -100);
-                    group.getChildren().add(createConnection(elev1, elev2, 5));
-                }
-            if(startNode.getNodeID().equals("SELEV00Y02")) {
-                NodeData elevr1 = dbc.getNode("SELEV00Y02");
-                NodeData elevr2 = dbc.getNode("SELEV00Y03");
-                Point3D elev1 = new Point3D(elevr1.getxCoordinate() / 5 - 247, elevr1.getyCoordinate() / 5 - 148, 0);
-                Point3D elev2 = new Point3D(elevr2.getxCoordinate() / 5 - 247, elevr2.getyCoordinate() / 5 - 148, -100);
-                group.getChildren().add(createConnection(elev1, elev2, 5));
-            }
-            if(startNode.getNodeID().equals("SELEV00Z02")) {
-                NodeData elevr1 = dbc.getNode("SELEV00Z02");
-                NodeData elevr2 = dbc.getNode("SELEV00Z03");
-                Point3D elev1 = new Point3D(elevr1.getxCoordinate() / 5 - 247, elevr1.getyCoordinate() / 5 - 148, 0);
-                Point3D elev2 = new Point3D(elevr2.getxCoordinate() / 5 - 247, elevr2.getyCoordinate() / 5 - 148, -100);
-                group.getChildren().add(createConnection(elev1, elev2, 5));
-            }*/
-        }
-
-
-        str.setCycleCount(Timeline.INDEFINITE);
-        str.play();
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case W:
-                    group.translateZProperty().set(group.getTranslateZ() + 100);
-                    break;
-                case S:
-                    group.translateZProperty().set(group.getTranslateZ() - 100);
-                    break;
-                case Q:
-                    group.rotateByX(10);
-                    break;
-                case E:
-                    group.rotateByX(-10);
-                    break;
-                case A:
-                    group.rotateByY(10);
-                    break;
-                case D:
-                    group.rotateByY(-10);
-                    break;
-                case T:
-                    group.rotateByZ(-10);
-                    break;
-                case Y:
-                    group.rotateByZ(10);
-                    break;
-                case G:
-                    group.setTranslateY(group.getTranslateY() - 100);
-                    break;
-                case H:
-                    group.setTranslateY(group.getTranslateY() + 100);
-                    break;
-                case UP:
-                    group.setTranslateY(group.getTranslateY() - 100);
-                    break;
-                case DOWN:
-                    group.setTranslateY(group.getTranslateY() + 100);
-                    break;
-                case LEFT:
-                    group.rotateByZ(-10);
-                    break;
-                case RIGHT:
-                    group.rotateByZ(10);
-                    break;
-            }
-        });
-
-        for (int i = 0; i < 7; i++) {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.E, false, false, false, false);
-            primaryStage.fireEvent(press);
-        }
-        for (int i = 0; i < 1; i++) {
-            KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.T, false, false, false, false);
-            primaryStage.fireEvent(press);
-        }
-        group.setTranslateY(group.getTranslateY() + 70);
-        group.translateXProperty().set(WIDTH / 2);
-        group.translateYProperty().set(HEIGHT / 2);
-        group.translateZProperty().set(zplace1.get(nodes.get(0).getFloor()));
-        Scene scene = new Scene(root2, WIDTH, HEIGHT, true);
-        group.translateZProperty().set(group.getTranslateZ() - 700);
-        camera.setFarClip(1000);
-        scene.setFill(Color.DIMGRAY);
-        scene.setCamera(camera);
-        initMouseControl(group, scene, primaryStage);
-
-        primaryStage.setTitle("3D View");
         primaryStage.setScene(scene);
+        primaryStage.resizableProperty().set(false);
+        primaryStage.sizeToScene();
         primaryStage.show();
+
+
+        AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0 ;
+            @Override
+            public void handle(long now) {
+                if (now - lastUpdate >= 300_000_000) {
+                    onFloorMove(group, docGroup, numberGroup, begin);
+                    lastUpdate = now ;
+                }
+            }
+        };
+        timer.start();
     }
 
-    static MeshView[] loadMeshViews(String filename) {
-        File file = new File(filename);
-        StlMeshImporter importer = new StlMeshImporter();
-        importer.read(file);
-        Mesh mesh = importer.getImport();
+    private MeshView[] loadModel(URL url) {
+        ObjModelImporter importer = new ObjModelImporter();
+        importer.read(url);
 
-        return new MeshView[]{new MeshView(mesh)};
+        return importer.getImport();
     }
 
-    private ImageView prepareImageView() {
-        Image image = new Image("images/ThreeDim/background.jpg");
-        ImageView imageView = new ImageView(image);
-        imageView.setPreserveRatio(true);
-        double scale = 0.7;
-        imageView.setScaleX(scale);
-        imageView.setScaleY(scale);
-        imageView.setScaleZ(scale);
-        imageView.getTransforms().add(new Translate(-800, -1100, 0));
-        return imageView;
-    }
-
-    public double distance3D(Point3D start, Point3D end) {
-        double result = Math.sqrt(Math.pow((end.getX() - start.getX()), 2) + Math.pow((end.getX() - start.getX()), 2) + Math.pow((end.getX() - start.getX()), 2));
-        return result;
-    }
-
-    public Cylinder createConnection(Point3D origin, Point3D target, int radius) {
+    public Cylinder drawCylinder(Point3D startPoint, Point3D endPoint, int radius) {
         Point3D yAxis = new Point3D(0, 1, 0);
-        Point3D diff = target.subtract(origin);
+        Point3D diff = endPoint.subtract(startPoint);
         double height = diff.magnitude();
-
-        Point3D mid = target.midpoint(origin);
+        Point3D mid = endPoint.midpoint(startPoint);
         Translate moveToMidpoint = new Translate(mid.getX(), mid.getY(), mid.getZ());
-
         Point3D axisOfRotation = diff.crossProduct(yAxis);
         double angle = Math.acos(diff.normalize().dotProduct(yAxis));
         Rotate rotateAroundCenter = new Rotate(-Math.toDegrees(angle), axisOfRotation);
 
-        Cylinder line = new Cylinder(radius, height);
+        Cylinder cylinder = new Cylinder(radius, height);
 
-        if (radius >= 5) {
-            PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/ThreeDim/stairs.png"));
-            material.setDiffuseMap(image);
+        Image texture = new Image(("images/ThreeDim/edgeTexture.jpg"));
+        if(radius >= 5) { texture = new Image(("images/ThreeDim/elevatorTexture.png")); }
 
-            line.setMaterial(material);
-        }
-
-        if (radius < 5) {
-            PhongMaterial material = new PhongMaterial();
-            Image image = new Image(("images/ThreeDim/geometric.jpg"));
-            material.setDiffuseMap(image);
-
-            line.setMaterial(material);
-        }
-
-        line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
-
-        return line;
-    }
-
-    double calculateAngle(double P1X, double P1Y, double P2X, double P2Y,
-                          double P3X, double P3Y) {
-
-        double numerator = P2Y * (P1X - P3X) + P1Y * (P3X - P2X) + P3Y * (P2X - P1X);
-        double denominator = (P2X - P1X) * (P1X - P3X) + (P2Y - P1Y) * (P1Y - P3Y);
-        double ratio = numerator / denominator;
-
-        double angleRad = Math.atan(ratio);
-        double angleDeg = (angleRad * 180) / Math.PI;
-
-        if (angleDeg < 0) {
-            angleDeg = 180 + angleDeg;
-        }
-
-        return angleDeg;
-    }
-
-    private Node prepareSecondBox(int flip) {
         PhongMaterial material = new PhongMaterial();
-        Box box = new Box(495, 297, 0);
+        material.setDiffuseMap(texture);
+        cylinder.setMaterial(material);
 
-        if (flip == 0) {
-            Image image = new Image(("images/ThreeDim/greif3.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(-100);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
+        cylinder.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
 
-        if (flip == 1) {
-            Image image = new Image(("images/ThreeDim/san.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(-100);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        return box;
+        return cylinder;
     }
 
-    private Node prepareThirdBox(int flip) {
+    private Node createFloor(Image floor, Image transFloor, int z, boolean trans) {
         PhongMaterial material = new PhongMaterial();
-        Box box = new Box(495, 297, 0);
+        Box floorPlane = new Box(495, 297, 0);
 
-        if (flip == 0) {
-            Image image = new Image(("images/ThreeDim/grief1.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(+100);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        if (flip == 1) {
-            Image image = new Image(("images/ThreeDim/yi.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(+100);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        return box;
+        if(!trans) {material.setDiffuseMap(floor);}
+        else {material.setDiffuseMap(transFloor);}
+
+        floorPlane.setTranslateZ(z);
+        floorPlane.setMaterial(material);
+
+        return floorPlane;
     }
 
-    private Node prepareFourthBox(int flip) {
-        PhongMaterial material = new PhongMaterial();
-        Box box = new Box(495, 297, 0);
-
-        if (flip == 0) {
-            Image image = new Image(("images/ThreeDim/grief4.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(-200);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        if (flip == 1) {
-            Image image = new Image(("images/ThreeDim/si.png"));
-            material.setDiffuseMap(image);
-            box.setTranslateZ(-200);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        return box;
-    }
-
-    private Node prepareFifthBox(int flip) {
-        PhongMaterial material = new PhongMaterial();
-        Box box = new Box(495, 297, 0);
-
-        if (flip == 0) {
-            Image image = new Image(("images/ThreeDim/grief5.png"));
-            material.setDiffuseMap(image);
-
-            box.setTranslateZ(-300);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        if (flip == 1) {
-            Image image = new Image(("images/ThreeDim/wu.png"));
-            material.setDiffuseMap(image);
-
-            box.setTranslateZ(-300);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        return box;
-    }
-
-    private Box prepareBox(int flip) {
-        PhongMaterial material = new PhongMaterial();
-        Box box = new Box(495, 297, 0);
-
-        if (flip == 0) {
-            Image image = new Image(("images/ThreeDim/grief2.png"));
-            material.setDiffuseMap(image);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-
-        if (flip == 1) {
-            Image image = new Image(("images/ThreeDim/er.png"));
-            material.setDiffuseMap(image);
-            box.setMaterial(material);
-            box.setOpacity(0.1);
-        }
-        return box;
-    }
-
-    private void initMouseControl(SmartGroup group, Scene scene, Stage stage) {
-//        Rotate xRotate;
-//        Rotate yRotate;
-//
-//        group.getTransforms().addAll(
-//                xRotate = new Rotate(0, Rotate.X_AXIS),
-//                yRotate = new Rotate(0, Rotate.Y_AXIS)
-//        );
-//        xRotate.angleProperty().bind(angleX);
-//        yRotate.angleProperty().bind(angleY);
-//
-//        scene.setOnMousePressed(event -> {
-//            anchorX = event.getSceneX();
-//            anchorY = event.getSceneY();
-//            anchorAngleX = angleX.get();
-//            anchorAngleY = angleY.get();
-//        });
-//
-//        scene.setOnMouseDragged(event -> {
-//            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-//            angleY.set(anchorAngleY + anchorX - event.getSceneX());
-//        });
-
-        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
-            double delta = event.getDeltaY();
-            group.translateZProperty().set(group.getTranslateZ() + delta);
-        });
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    class SmartGroup extends Group {
+    class RotateGroup extends Group {
         Rotate r;
         Transform t = new Rotate();
 
@@ -973,7 +534,6 @@ public class ThreeDimensions extends Application {
             this.getTransforms().addAll(t);
         }
 
-
         void rotateByZ(int ang) {
             r = new Rotate(ang, Rotate.Z_AXIS);
             t = t.createConcatenation(r);
@@ -982,87 +542,319 @@ public class ThreeDimensions extends Application {
         }
     }
 
-    private void magical(NodeData startNode, NodeData endNode, SequentialTransition str, Shape s, SmartGroup group, Point3D point3, Point3D point4) {
-        HashMap<Integer, Integer> zplace = new HashMap<Integer, Integer>();
-        double length;
-        zplace.put(1, 100);
-        zplace.put(2, 0);
-        zplace.put(3, -100);
-        zplace.put(4, -200);
-        zplace.put(5, -300);
-        if (endNode.getFloor() == nodes.get(0).getFloor()) {
-            PathTransition transitionEarth = new PathTransition();
-            Line liner = new Line(point3.getX(), point3.getY(), point4.getX(), point4.getY());
-            liner.setVisible(false);
-            group.getChildren().add(liner);
-            transitionEarth.setPath(liner);
-            transitionEarth.setNode(s);
-            transitionEarth.setInterpolator(Interpolator.LINEAR);
-            length = Math.sqrt(Math.pow(Math.abs(point4.getX() - point3.getX()), 2) + Math.pow(Math.abs(point4.getY() - point3.getY()), 2));
-            transitionEarth.setDuration(Duration.seconds(getPathTime(length)));
-            transitionEarth.setInterpolator(Interpolator.LINEAR);
-            transitionEarth.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-            transitionEarth.setCycleCount(1);
+    private Box floorNumbers(Image number, Image brightNumber, int z, boolean selected) {
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseMap(number);
+        floorAddress.add(material.getDiffuseMap().toString());
 
-            str.getChildren().add(transitionEarth);
-        } else if (endNode.getNodeType().equals("ELEV")) {
-            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate() - startNode.getyCoordinate()), 2));
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(getPathTime(length)), s); //can change mph
-            translateTransition.setFromZ(zplace.get(startNode.getFloor()) - 50 - 30);
-            translateTransition.setFromX(startNode.getxCoordinate() / 5 - 247);
-            translateTransition.setFromY(startNode.getyCoordinate() / 5 - 148);
-            translateTransition.setToZ(zplace.get(endNode.getFloor()) - 50 - 30);
-            translateTransition.setToX(endNode.getxCoordinate() / 5 - 247);
-            translateTransition.setToY(endNode.getyCoordinate() / 5 - 148);
-            translateTransition.setCycleCount(1);
-            length = Math.sqrt(Math.pow(Math.abs(endNode.getxCoordinate() - startNode.getxCoordinate()), 2) + Math.pow(Math.abs(endNode.getyCoordinate() - startNode.getyCoordinate()), 2));
-            translateTransition.setDuration(Duration.seconds(getPathTime(length)));
-            translateTransition.setInterpolator(Interpolator.LINEAR);
-            str.getChildren().add(translateTransition);
-        } else if (endNode.getFloor() == nodes.get(nodes.size() - 1).getFloor()) {
-            PathTransition transitionEarth = new PathTransition();
-            Line liner = new Line(point3.getX(), point3.getY(), point4.getX(), point4.getY());
-            liner.setVisible(false);
-            group.getChildren().add(liner);
-            transitionEarth.setPath(liner);
-            transitionEarth.setNode(s);
-            transitionEarth.setInterpolator(Interpolator.LINEAR);
-            length = Math.sqrt(Math.pow(Math.abs(point4.getX() - point3.getX()), 2) + Math.pow(Math.abs(point4.getY() - point3.getY()), 2));
-            transitionEarth.setDuration(Duration.seconds(getPathTime(length)));
-            transitionEarth.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-            transitionEarth.setCycleCount(1);
-            transitionEarth.setInterpolator(Interpolator.LINEAR);
-            str.getChildren().add(transitionEarth);
+        Box floorNum = new Box(40, 0, 70);
+        floorNum.setTranslateZ(z);
+        floorNum.setTranslateX(250);
+        floorNum.setTranslateY(100);
+        floorNum.setMaterial(material);
+
+        return floorNum;
+    }
+
+    private void mouseControl(RotateGroup group, SubScene scene, Stage stage, RotateGroup numberGroup, Button b1, Button b2, Button b3, Button b4, Button b5) {
+        stage.addEventFilter(MouseEvent.MOUSE_PRESSED, (final MouseEvent mouseEvent) -> {
+            oldX = mouseEvent.getX();
+            oldY = mouseEvent.getY();
+            if(oldY > 80 && oldY < 100) {
+                if(oldX > 97 && oldX < 275) b1.fire();
+                if(oldX > 3441 && oldX < 475) b2.fire();
+                if(oldX > 540 && oldX < 740) b3.fire();
+                if(oldX > 770 && oldX < 916) b4.fire();
+                if(oldX > 984 && oldX < 1140) b5.fire();
+
+            }
+        });
+
+        stage.addEventFilter(MouseEvent.MOUSE_DRAGGED, (final MouseEvent event) -> {
+            if(event.isPrimaryButtonDown() && !event.isControlDown()) {
+                if(event.getSceneY() > oldY) { group.setTranslateY(group.getTranslateY() + 4); }
+                else {group.setTranslateY(group.getTranslateY() - 4);}
+                oldY = event.getSceneY();
+            }
+            if(event.isPrimaryButtonDown() && event.isControlDown()) {
+                if(event.getSceneX() > oldX) { group.rotateByZ(-1);  numberGroup.rotateByZ(1);}
+                else {group.rotateByZ(1); numberGroup.rotateByZ(-1);}
+                oldX = event.getSceneX();
+            }
+            if(event.isSecondaryButtonDown()) {
+                group.setTranslateX(group.getTranslateX() + (event.getX() - oldX));
+                oldX = event.getX();
+            }
+        });
+
+        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+            double delta = event.getDeltaY();
+            if(group.getTranslateZ() < 324 && delta > 0) {
+                group.translateZProperty().set(group.getTranslateZ() + delta);
+            }
+            else if (group.getTranslateZ() > -938 && delta < 0) {
+                group.translateZProperty().set(group.getTranslateZ() + delta);
+            }
+        });
+    }
+
+    private PathTransition getFloorPath(RotateGroup personGroup, ArrayList<NodeData> currentFloorPath) {
+        Path personPath = new Path();
+        personPath.getElements().add(new MoveTo(currentFloorPath.get(0).getxCoordinate() / 5 - 247, currentFloorPath.get(0).getyCoordinate() / 5 - 148));
+        double length = 0;
+        double prevX = currentFloorPath.get(0).getxCoordinate();
+        double prevY = currentFloorPath.get(0).getyCoordinate();
+
+        for (NodeData node : currentFloorPath) {
+            personPath.getElements().add(new LineTo(node.getxCoordinate() / 5 - 247, node.getyCoordinate() / 5 - 148));
+            length += Math.sqrt(Math.pow((Math.abs(prevX - node.getxCoordinate())), 2) + Math.pow((Math.abs(prevY - node.getyCoordinate())),2));
+            prevX = node.getxCoordinate();
+            prevY = node.getyCoordinate();
+        }
+
+        PathTransition pt = new PathTransition();
+        pt.setNode(personGroup);
+        pt.setDuration(Duration.seconds(length/200));
+        pt.setPath(personPath);
+        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pt.setCycleCount(1);
+        return pt;
+    }
+
+    private RotateGroup getElevIcons() {
+
+        DatabaseController dbc = new DatabaseController();
+        RotateGroup elevICON = new RotateGroup();
+        Set<NodeData> nd = dbc.getAllNodesOfType("ELEV");
+        for(NodeData data : nd) {
+            if(!nodes.contains(data) && allFloorsInvolved.contains(data.getFloor())) {
+                Image image = new Image("/images/ThreeDim/elevICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 15);
+                double scale = 0.02;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                elevICON.getChildren().add(imageView);
+            }
+        }
+        return elevICON;
+    }
+
+    private RotateGroup getFoodIcons() {
+
+        ArrayList<String> validFood = new ArrayList<>();
+        validFood.add("Atrium Cafe");
+        validFood.add("Starbucks");
+        validFood.add("Food Services");
+        validFood.add("Outdoor Dining Terrace");
+        RotateGroup foodICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
+        for(NodeData data : nd) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
+                if (validFood.contains(data.getLongName())) {
+                    Image image = new Image("/images/ThreeDim/foodICON.png");
+                    ImageView imageView = new ImageView(image);
+                    imageView.setPreserveRatio(true);
+                    imageView.setTranslateX(data.getxCoordinate() / 5 - 1070);
+                    imageView.setTranslateY(data.getyCoordinate() / 5 - 910);
+                    imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                    double scale = 0.01;
+                    imageView.setScaleX(scale);
+                    imageView.setScaleY(scale);
+                    imageView.setScaleZ(scale);
+                    imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                    foodICON.getChildren().add(imageView);
+                }
+            }
+        }
+        return foodICON;
+    }
+
+    private RotateGroup getRETLIcons() {
+
+
+        ArrayList<String> validRetail = new ArrayList<>();
+        validRetail.add("Phatmacy");
+        validRetail.add("Giftshop Hall");
+
+        RotateGroup retailICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("RETL");
+        for(NodeData data : nd) {
+            if(nodes.get(nodes.size()-1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
+                if (!validRetail.contains(data.getLongName())) {
+                    Image image = new Image("/images/ThreeDim/retailICON.png");
+                    ImageView imageView = new ImageView(image);
+                    imageView.setPreserveRatio(true);
+                    imageView.setTranslateX(data.getxCoordinate() / 5 - 500);
+                    imageView.setTranslateY(data.getyCoordinate() / 5 - 390);
+                    imageView.setTranslateZ(zplace.get(data.getFloor()) - 25);
+                    double scale = 0.04;
+                    imageView.setScaleX(scale);
+                    imageView.setScaleY(scale);
+                    imageView.setScaleZ(scale);
+                    imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                    retailICON.getChildren().add(imageView);
+                }
+            }
+        }
+        return retailICON;
+    }
+
+    private RotateGroup getSTAIcons() {
+
+        RotateGroup staiICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("STAI");
+        for(NodeData data : nd) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
+                Image image = new Image("/images/ThreeDim/stairsICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 1190);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 985);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
+                double scale = 0.01;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                staiICON.getChildren().add(imageView);
+            }
+        }
+        return staiICON;
+    }
+
+    private RotateGroup getRESTIcons() {
+
+        RotateGroup restICON = new RotateGroup();
+        DatabaseController dbc = new DatabaseController();
+        Set<NodeData> nd = dbc.getAllNodesOfType("REST");
+        for(NodeData data : nd) {
+            if (nodes.get(nodes.size() - 1).getNodeID() != data.getNodeID() && allFloorsInvolved.contains(data.getFloor())) {
+                Image image = new Image("/images/ThreeDim/restICON.png");
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setTranslateX(data.getxCoordinate() / 5 - 905);
+                imageView.setTranslateY(data.getyCoordinate() / 5 - 645);
+                imageView.setTranslateZ(zplace.get(data.getFloor()) - 20);
+                double scale = 0.015;
+                imageView.setScaleX(scale);
+                imageView.setScaleY(scale);
+                imageView.setScaleZ(scale);
+                imageView.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
+                restICON.getChildren().add(imageView);
+            }
+        }
+        return restICON;
+    }
+
+    private ImageView getOverlay() {
+        Image image = new Image("/images/ThreeDim/overlay1.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setTranslateX(-442);
+        imageView.setTranslateY(-542);
+        imageView.setTranslateZ(0);
+        double scale = 0.67;
+        imageView.setScaleX(scale);
+        imageView.setScaleY(scale);
+        imageView.setScaleZ(scale);
+
+
+        return imageView;
+    }
+
+    private void onElevClicked(Group elevIcons) {
+        if(elevToggle) {
+            elevIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            elevToggle = false;
+        }
+        else {
+            elevIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            elevToggle = true;
         }
     }
 
-    private Slider prepareSlider() {
-        Slider slider = new Slider();
-        slider.setMax(800);
-        slider.setMin(-400);
-        slider.setPrefWidth(300d);
-        slider.setLayoutX(100);
-        slider.setLayoutY(200);
-        slider.setShowTickLabels(true);
-        slider.setTranslateZ(5);
-        slider.setStyle("-fx-base: black");
-        return slider;
+    private void onFoodClicked(Group foodIcons) {
+        if(foodToggle) { ;
+            foodIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            foodToggle = false;
+        }
+        else {
+            foodIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            foodToggle = true;
+        }
     }
 
-    private double getPathTime(double lengthOfPath) {
-        return lengthOfPath / 200;
+    private void onRestClicked(Group restIcons) {
+        if(restToggle) {
+            restIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            restToggle = false;
+        }
+        else {
+            restIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            restToggle = true;
+        }
     }
 
-    private Box getJuan(Image image, double zee) {
-        PhongMaterial material = new PhongMaterial();
-        material.setDiffuseMap(image);
-        Box box = new Box(40, 0, 70);
-        box.setTranslateZ(zee + 100);
-        box.setTranslateX(250);
-        box.setTranslateY(100);
-        box.setMaterial(material);
-        return box;
+    private void onRetailClicked(Group retlIcons) {
+        if(retlToggle) {
+            retlIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            retlToggle = false;
+        }
+        else {
+            retlIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            retlToggle = true;
+        }
+    }
+
+    private void onStairsClicked(Group stairIcons) {
+        if(staiToggle) {
+            stairIcons.getChildren().forEach(node -> {node.setVisible(false);});
+            staiToggle = false;
+        }
+        else {
+            stairIcons.getChildren().forEach(node -> {node.setVisible(true);});
+            staiToggle = true;
+        }
+    }
+
+    private void onFloorMove(RotateGroup group, RotateGroup personGroup, RotateGroup numberGroup, NodeData begin) {
+        for(int i = 1; i <= 7; i++) {
+            if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) <= 49) {
+                int finalI = i;
+                numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
+                        .forEach(
+                                node -> {
+                                    if(floorAddress.get(finalI - 1).equals(((PhongMaterial)(((Box) node).getMaterial())).getDiffuseMap().toString())) {
+                                        PhongMaterial material = new PhongMaterial();
+                                        material.setDiffuseMap(new Image("images/ThreeDim/" + finalI + "H.png"));
+                                        floorAddress.set(finalI - 1,material.getDiffuseMap().toString());
+                                        ((Box) node).setMaterial(material);
+                                    }
+                                });
+            }
+
+            if(Math.abs((personGroup.getTranslateZ() + floorDist * (2-begin.getFloor())) - (zplace.get(i))) > 49) {
+                int finalI1 = i;
+                numberGroup.getChildren().stream().filter(node -> (node instanceof Box))
+                        .forEach(
+                                node -> {
+                                    if(floorAddress.get(finalI1 -1).equals(((PhongMaterial)(((Box) node).getMaterial())).getDiffuseMap().toString())) {
+                                        PhongMaterial material = new PhongMaterial();
+                                        material.setDiffuseMap(new Image("images/ThreeDim/" + finalI1 + ".png"));
+                                        floorAddress.set(finalI1 -1,material.getDiffuseMap().toString());
+                                        ((Box) node).setMaterial(material);
+                                    }
+                                });
+            }
+        }
     }
 }
-
-

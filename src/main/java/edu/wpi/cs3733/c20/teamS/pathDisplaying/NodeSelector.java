@@ -6,12 +6,10 @@ import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
 import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
-import edu.wpi.cs3733.c20.teamS.utilities.ReactiveProperty;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.ReactiveProperty;
 import io.reactivex.rxjava3.core.Observable;
-//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
-
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
@@ -42,15 +40,41 @@ final class NodeSelector {
         state = new NoSelectionState();
     }
 
-    public void onHitboxClicked(Room room, double x, double y) {
+    /**
+     * Call this whenever the user clicks on, or otherwise selects, a room. The value of start, goal,
+     * and path will be updated appropriately depending on which nodes have been selected so far.
+     * @param room The room they selected.
+     * @param x The x-coordinate of the point in the room that was clicked.
+     * @param y The y-coordinate of the point in the room that was clicked.
+     */
+    public void onRoomClicked(Room room, double x, double y) {
+        if (room == null) ThrowHelper.illegalNull("room");
+
         state.onRoomClicked(room, x, y);
     }
 
+    /**
+     * Call this whenever the user clicks on, or otherwise selects, a node.
+     * @param node The node that the user selected.
+     */
+    public void onNodeClicked(NodeData node) {
+        if (node == null) ThrowHelper.illegalNull("node");
+
+        state.onNodeClicked(node);
+    }
+    public void reset() {
+        start.setValue(Optional.empty());
+        goal.setValue(Optional.empty());
+        path.setValue(Path.empty());
+    }
     private NodeData createFakeNode(double x, double y) {
         return new NodeData("FAKE", x, y,
                     floorSupplier.getAsInt(), "NONE",
                 "FAKE", "FAKE NODE",
                 "FAKE NODE");
+    }
+    private boolean isNodeFake(NodeData node) {
+        return node.getNodeID().equals("FAKE");
     }
 
     public Path path() {
@@ -75,20 +99,36 @@ final class NodeSelector {
     private abstract class State {
 
         public void onRoomClicked(Room room, double x, double y) {}
+        public void onNodeClicked(NodeData node) {}
         public final NodeSelector outer() {
             return NodeSelector.this;
         }
     }
     private final class NoSelectionState extends State {
-        @Override
-        public void onRoomClicked(Room room, double x, double y) {
+        @Override public void onRoomClicked(Room room, double x, double y) {
             NodeData fakeStart = createFakeNode(x, y);
-            outer().start.setValue(Optional.of(new PinDrop(room, fakeStart)));
+            onEndpointClicked(fakeStart, room);
+        }
+        @Override public void onNodeClicked(NodeData node) {
+            Room room = createFakeRoomFromRealNode(node);
+            room.touchingNodes().add(node.getNodeID());
+            onEndpointClicked(node, room);
+        }
+
+        private void onEndpointClicked(NodeData node, Room room) {
+            outer().start.setValue(Optional.of(new PinDrop(room, node)));
             outer().goal.setValue(Optional.empty());
             outer().path.setValue(Path.empty());
             outer().state = new StartSelectedState(start.value().get());
         }
     }
+
+    private Room createFakeRoomFromRealNode(NodeData node) {
+        Room room = new Room();
+        room.setName(node.getLongName());
+        return room;
+    }
+
     private final class StartSelectedState extends State {
         private final PinDrop start;
 
@@ -96,10 +136,15 @@ final class NodeSelector {
             this.start = start;
         }
 
-        @Override
-        public void onRoomClicked(Room room, double x, double y) {
+        @Override public void onRoomClicked(Room room, double x, double y) {
+            if (room == null) ThrowHelper.illegalNull("room");
+
             PinDrop goal = new PinDrop(room, createFakeNode(x, y));
 
+            doMostOfPathfindingShit(goal);
+        }
+
+        private void doMostOfPathfindingShit(PinDrop goal) {
             Set<NodeData> realStartNodes = realNodesInHitbox(start.room());
             Set<NodeData> realEndNodes = realNodesInHitbox(goal.room());
 
@@ -109,13 +154,23 @@ final class NodeSelector {
             );
 
             Path bestPath = results.stream()
-                    .min(Comparator.comparingDouble(p -> p.cost()))
+                    .min(Comparator.comparingDouble(Path::cost))
                     .orElse(Path.empty());
 
             outer().goal.setValue(Optional.of(goal));
             outer().path.setValue(bestPath);
 
             outer().state = new NoSelectionState();
+        }
+
+        @Override public void onNodeClicked(NodeData node) {
+            if (node == null) ThrowHelper.illegalNull("node");
+
+            Room room = createFakeRoomFromRealNode(node);
+            room.touchingNodes().add(node.getNodeID());
+            PinDrop goal = new PinDrop(room, node);
+            doMostOfPathfindingShit(goal);
+            //onRoomClicked(room, node.getxCoordinate(), node.getyCoordinate());
         }
 
         private Collection<Path> findAllPossiblePaths(
@@ -126,7 +181,11 @@ final class NodeSelector {
             graph.addNode(fakeEnd);
             List<Path> results = new ArrayList<>();
             for (NodeData realStart : realStartNodes) {
+                if (realStart == fakeStart)
+                    continue;
                 for (NodeData realEnd : realEndNodes) {
+                    if (realEnd == fakeEnd)
+                        continue;
                     graph.putEdge(fakeStart, realStart);
                     graph.putEdge(fakeEnd, realEnd);
                     Path path = pathfinder.findPath(graph, fakeStart, fakeEnd);

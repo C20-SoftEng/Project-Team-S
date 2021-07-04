@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.CapabilityEditingScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="349.0" styleClass="modalback" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c20.teamS.app.EmployeeEditor.CapabilityEditingScreenController">
    <children>
       <GridPane layoutX="66.0" layoutY="23.0">
         <columnConstraints>
@@ -43,8 +42,8 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <JFXButton fx:id="addButton" layoutX="147.0" layoutY="312.0" onAction="#onAddClicked" style="-fx-border-color: gainsboro;" text="Add Capability" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" />
-      <JFXButton fx:id="removeButton" layoutX="266.0" layoutY="303.0" onAction="#onRemoveClicked" style="-fx-border-color: gainsboro;" text="Remove" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-      <JFXButton fx:id="cancelButton" layoutX="27.0" layoutY="303.0" onAction="#onCancelClicked" style="-fx-border-color: gainsboro;" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
+      <JFXButton fx:id="addButton" layoutX="147.0" layoutY="312.0" onAction="#onAddClicked" styleClass="tablebuttons" text="Add Capability" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" />
+      <JFXButton fx:id="removeButton" layoutX="266.0" layoutY="303.0" onAction="#onRemoveClicked" styleClass="tablebuttons" text="Remove" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+      <JFXButton fx:id="cancelButton" layoutX="27.0" layoutY="303.0" onAction="#onCancelClicked" styleClass="tablebuttons" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" />
    </children>
 </AnchorPane>

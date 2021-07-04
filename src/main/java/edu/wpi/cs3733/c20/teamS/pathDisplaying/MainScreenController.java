@@ -1,23 +1,27 @@
 package edu.wpi.cs3733.c20.teamS.pathDisplaying;
 
+import animatefx.animation.Pulse;
 import com.google.common.graph.MutableGraph;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c20.teamS.LoginScreen;
-import edu.wpi.cs3733.c20.teamS.SendTextDirectionsScreen;
-import edu.wpi.cs3733.c20.teamS.ThrowHelper;
-import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import com.sun.javafx.css.StyleManager;
+import edu.wpi.cs3733.c20.teamS.*;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.HitboxRepository;
 import edu.wpi.cs3733.c20.teamS.collisionMasks.ResourceFolderHitboxRepository;
+import edu.wpi.cs3733.c20.teamS.collisionMasks.Room;
+import edu.wpi.cs3733.c20.teamS.database.DatabaseController;
 import edu.wpi.cs3733.c20.teamS.database.NodeData;
-import edu.wpi.cs3733.c20.teamS.database.*;
+import edu.wpi.cs3733.c20.teamS.pathDisplaying.viewModels.RoomDisplayVm;
 import edu.wpi.cs3733.c20.teamS.pathfinding.IPathfinder;
-import edu.wpi.cs3733.c20.teamS.Settings;
+import edu.wpi.cs3733.c20.teamS.pathfinding.Path;
 import edu.wpi.cs3733.c20.teamS.pathfinding.WrittenInstructions;
-import edu.wpi.cs3733.c20.teamS.utilities.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.numerics.Vector2;
+import edu.wpi.cs3733.c20.teamS.utilities.rx.RxAdaptors;
 import edu.wpi.cs3733.c20.teamS.widgets.AutoComplete;
 import edu.wpi.cs3733.c20.teamS.widgets.LookupResult;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,43 +29,46 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class MainScreenController implements Initializable {
     //region fields
     private Stage stage;
-    //private IPathfinder pathfinder;
     private PathRenderer renderer;
     private NodeSelector nodeSelector;
     private MapZoomer zoomer;
-    private FloorSelector floorSelector;
+    public static FloorSelector floorSelector;
     private MutableGraph<NodeData> graph;
     private final Group group = new Group();
     private final HitboxRepository hitboxRepo = new ResourceFolderHitboxRepository();
     private final Set<Room> rooms = new HashSet<>();
+    private final Image Ra = new Image("images/Icons/DarkMode_Sun.png", 160, 160, false, true);
+    private final Image Khons = new Image("images/Icons/DarkMode_Moon.png", 160, 160, false, true);
 
     private boolean flip = true;
+    private boolean darkmode = false;
     //endregion
 
     public MainScreenController(Stage stage){
         if (stage == null) ThrowHelper.illegalNull("stage");
-
         this.stage = stage;
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        zoomer = new MapZoomer(scrollPane);
+        zoomer = new MapZoomer(scrollPane, Settings.get().minZoomStage(), Settings.get().maxZoomStage());
         initGraph();
         renderer = new PathRenderer();
         initFloorSelector();
@@ -69,13 +76,20 @@ public class MainScreenController implements Initializable {
         initHitboxes();
         initDirectorySidebar();
         initSearchComboBox();
+        initDirectoryPathfinding();
 
         scrollPane.setContent(group);
-        try {
-            redraw();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        while (zoomer.canZoomOut())
+            zoomer.zoomOut();
+        redraw();
+    }
+
+    public void clearPathDisplay() {
+        nodeSelector.reset();
+    }
+
+    public void setDirectVisible(){
+        this.directoryVBox.setVisible(true);
     }
 
     private void initDirectorySidebar() {
@@ -88,12 +102,11 @@ public class MainScreenController implements Initializable {
         popConfList();
         popExitList();
     }
-
     private void initNodeSelector() {
         nodeSelector = new NodeSelector(graph, pathfinder(), () -> floorSelector.current());
         nodeSelector.pathChanged().subscribe(path -> {
             redraw();
-            renderer.printInstructions(path, instructionVBox, directoryVBox);
+            renderer.printInstructions(path, instructionVBox, directoryVBox, darkmode);
         });
         nodeSelector.startChanged()
                 .subscribe(pin -> {
@@ -106,7 +119,6 @@ public class MainScreenController implements Initializable {
                     location2.setText(text);
                 });
     }
-
     private void initHitboxes() {
         rooms.addAll(hitboxRepo.load());
     }
@@ -121,7 +133,9 @@ public class MainScreenController implements Initializable {
                 new Floor(floorButton2, "images/Floors/HospitalFloor2.png"),
                 new Floor(floorButton3, "images/Floors/HospitalFloor3.png"),
                 new Floor(floorButton4, "images/Floors/HospitalFloor4.png"),
-                new Floor(floorButton5, "images/Floors/HospitalFloor5.png")
+                new Floor(floorButton5, "images/Floors/HospitalFloor5.png"),
+                new Floor(floorButton6, "images/Floors/HospitalFloor6.png"),
+                new Floor(floorButton7, "images/Floors/HospitalFloor7.png")
         );
         floorSelector.setCurrent(2);
         floorSelector.currentChanged().subscribe(e -> redraw());
@@ -131,24 +145,44 @@ public class MainScreenController implements Initializable {
         Font font = new Font(fontFamily, 18);
         searchComboBox.getEditor().setFont(font);
 
+
         AutoComplete.start(rooms, searchComboBox, Room::name);
+
         AutoComplete.propertyStream(searchComboBox.valueProperty())
+                .filter(result -> result.value() != null)
                 .subscribe(result -> {
                     Room room = result.value();
                     Vector2 centroid = room.vertices().stream()
                             .reduce(new Vector2(0, 0), Vector2::add)
                             .divide(Math.max(1, room.vertices().size()));
                     floorSelector.setCurrent(room.floor());
-                    nodeSelector.onHitboxClicked(room, centroid.x(), centroid.y());
-
+                    nodeSelector.onRoomClicked(room, centroid.x(), centroid.y());
                 });
-    }
 
+        searchComboBox.setConverter(
+                new StringConverter<LookupResult<Room>>() {
+                    @Override
+                    public String toString(LookupResult<Room> object) {
+                        if (object == null)
+                            return "";
+                        return object.text();
+                    }
+
+                    @Override
+                    public LookupResult<Room> fromString(String string) {
+                        Optional<LookupResult<Room>> result = searchComboBox.getItems().stream()
+                                .filter(item -> item.text().equals(string))
+                                .findFirst();
+                        return result.orElseGet(() -> new LookupResult<>(string, null));
+                    }
+                });
+
+    }
     private IPathfinder pathfinder() {
         return Settings.get().pathfinder();
     }
 
-    private void redraw() throws Exception {
+    private void redraw() {
         double currentHval = scrollPane.getHvalue();
         double currentVval = scrollPane.getVvalue();
 
@@ -166,38 +200,104 @@ public class MainScreenController implements Initializable {
                 .map(this::createHitboxRenderingMask)
                 .forEach(polygon -> group.getChildren().add(polygon));
 
-        keepCurrentPosition(currentHval, currentVval, zoomer);
+        maintainScrollPosition(currentHval, currentVval);
     }
+    private void maintainScrollPosition(double currentHval, double currentVval) {
+        int nodesOnFloor = (int)StreamSupport.stream(nodeSelector.path().spliterator(), false)
+                .filter(node -> node.getFloor() == floorSelector.current())
+                .count();
 
-    private Polygon createHitboxRenderingMask(Room room) {
-        Color visible = Color.AQUA.deriveColor(1, 1, 1, 0.5);
-        Color invisible = Color.AQUA.deriveColor(1, 1, 1, 0);
-        Polygon polygon = room.toPolygon();
-        polygon.setTranslateY(-10);
-        polygon.setFill(invisible);
-        polygon.setOnMouseEntered(e -> polygon.setFill(visible));
-        polygon.setOnMouseExited(e -> polygon.setFill(invisible));
-        polygon.setOnMouseClicked(e -> nodeSelector.onHitboxClicked(room, e.getX(), e.getY()));
-        return polygon;
+        if (nodesOnFloor == 0)
+            keepCurrentPosition(currentHval, currentVval, zoomer);
+        else {
+            Vector2 centroid = findPathCentroid(nodeSelector.path(), floorSelector.current());
+            double hval = centroid.x() / scrollPane.getContent().getBoundsInLocal().getWidth();
+            double vval = centroid.y() / scrollPane.getContent().getBoundsInLocal().getHeight();
+            //0.5 is hardcoded offset to fix centering
+            keepCurrentPosition(hval+0.5, vval, zoomer);
+        }
     }
-
+    private Vector2 findPathCentroid(Path path, int floor) {
+        List<Vector2> vertices = path.startToFinish().stream()
+                .filter(node -> node.getFloor() == floor)
+                .map(node -> new Vector2(node.getxCoordinate(), node.getyCoordinate()))
+                .collect(Collectors.toList());
+        return vertices.stream()
+                .reduce(Vector2.ZERO, Vector2::add)
+                .divide(vertices.size());
+    }
+    private RoomDisplayVm createHitboxRenderingMask(Room room) {
+        RoomDisplayVm result = new RoomDisplayVm(room);
+        result.setTranslateY(result.getTranslateY() - 10);
+        RxAdaptors.eventStream(result::setOnMouseClicked)
+                .map(e -> result.localToParent(e.getX(), e.getY()))
+                .subscribe(point -> nodeSelector.onRoomClicked(room, point.getX(), point.getY()));
+        return result;
+    }
     private void keepCurrentPosition(double Hval, double Vval, MapZoomer zoomer){
-        zoomer.zoomSet();
+
         scrollPane.setHvalue(Hval);
         scrollPane.setVvalue(Vval);
+        zoomer.zoomSet();
+    }
+    private void initDirectoryPathfinding(){
+        deptList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                            nodeSelector.onNodeClicked(current.value());
+                        }
+                );
+
+        servList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        labList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        infoList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        shopList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        restRoomList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        confList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
+
+        exitList.getSelectionModel().selectedItemProperty()
+                .addListener((a, b, current) -> {
+                    nodeSelector.onNodeClicked(current.value());
+                });
     }
 
     //region ui widgets
     @FXML private ImageView mapImage;
+    @FXML private ImageView darkModeImage;
     @FXML private ScrollPane scrollPane;
     @FXML private JFXButton floorButton1;
     @FXML private JFXButton floorButton2;
     @FXML private JFXButton floorButton3;
     @FXML private JFXButton floorButton4;
     @FXML private JFXButton floorButton5;
+    @FXML private JFXButton floorButton6;
+    @FXML private JFXButton floorButton7;
     @FXML private JFXButton downButton;
     @FXML private JFXButton upButton;
     @FXML private JFXButton viewThreeD;
+    @FXML private JFXButton DarkModeButton;
     @FXML private Label location1;
     @FXML private VBox instructionVBox;
     @FXML private VBox directoryVBox;
@@ -214,110 +314,87 @@ public class MainScreenController implements Initializable {
     @FXML private TitledPane AccCONF;
     @FXML private TitledPane AccEXIT;
 
-    @FXML private ListView<String> deptList;
-    @FXML private ListView<String> servList;
-    @FXML private ListView<String> labList;
-    @FXML private ListView infoList;
-    @FXML private ListView shopList;
-    @FXML private ListView restRoomList;
-    @FXML private ListView confList;
-    @FXML private ListView exitList;
+    @FXML private ListView<LookupResult<NodeData>> deptList;
+    @FXML private ListView<LookupResult<NodeData>> servList;
+    @FXML private ListView<LookupResult<NodeData>> labList;
+    @FXML private ListView<LookupResult<NodeData>> infoList;
+    @FXML private ListView<LookupResult<NodeData>> shopList;
+    @FXML private ListView<LookupResult<NodeData>> restRoomList;
+    @FXML private ListView<LookupResult<NodeData>> confList;
+    @FXML private ListView<LookupResult<NodeData>> exitList;
+    //endregion
 
-
-    //Lists of longNames
-    private ObservableList<String> deptLocs;
-    private ObservableList<String> servLocs;
-    private ObservableList<String> labLocs;
-    private ObservableList<String> infoLocs;
-    private ObservableList<String> shopLocs;
-    private ObservableList<String> restRoomLocs;
-    private ObservableList<String> confLocs;
-    private ObservableList<String> exitLocs;
-
+    //region Directory Lists
     private void popDeptList(){
-        deptLocs = FXCollections.observableArrayList();
+        //region sidebar directory
+        ObservableList<LookupResult<NodeData>> deptLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> deptNodes = dbController.getAllNodesOfType("DEPT");
         for(NodeData node : deptNodes){
-            deptLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to depLocs");
+            deptLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         deptList.setItems(deptLocs);
     }
-
     private void popServList(){
-        servLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> servLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> servNodes = dbController.getAllNodesOfType("SERV");
-        for(NodeData node : servNodes){
-            servLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to servLocs");
+        for (NodeData node : servNodes){
+            servLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         servList.setItems(servLocs);
     }
-
     private void popLabList(){
-        labLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> labLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> labNodes = dbController.getAllNodesOfType("LABS");
-        for(NodeData node : labNodes){
-            labLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to labLocs");
+        for (NodeData node : labNodes){
+            labLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         labList.setItems(labLocs);
     }
-
     private void popInfoList(){
-        infoLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> infoLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> infoNodes = dbController.getAllNodesOfType("INFO");
-        for(NodeData node : infoNodes){
-            infoLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to infoLocs");
+        for (NodeData node : infoNodes){
+            infoLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         infoList.setItems(infoLocs);
     }
-
     private void popShopList(){
-        shopLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> shopLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> shopNodes = dbController.getAllNodesOfType("RETL");
-        for(NodeData node : shopNodes){
-            shopLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to shopLocs");
+        for (NodeData node : shopNodes){
+            shopLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         shopList.setItems(shopLocs);
     }
-
     private void popRestRoomList(){
-        restRoomLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> restRoomLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> restRoomNodes = dbController.getAllNodesOfType("REST");
-        for(NodeData node : restRoomNodes){
-            restRoomLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to restRoomLocs");
+        for (NodeData node : restRoomNodes){
+            restRoomLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         restRoomList.setItems(restRoomLocs);
     }
-
     private void popConfList(){
-        confLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> confLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> confNodes = dbController.getAllNodesOfType("CONF");
-        for(NodeData node : confNodes){
-            confLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to confLocs");
+        for (NodeData node : confNodes){
+            confLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         confList.setItems(confLocs);
     }
-
     private void popExitList(){
-        exitLocs = FXCollections.observableArrayList();
+        ObservableList<LookupResult<NodeData>> exitLocs = FXCollections.observableArrayList();
         DatabaseController dbController = new DatabaseController();
         Set<NodeData> exitNodes = dbController.getAllNodesOfType("EXIT");
-        for(NodeData node : exitNodes){
-            exitLocs.add(node.getLongName() + " At Floor " + Integer.toString(node.getFloor()));
-            System.out.println("Added " + node + " to exitLocs");
+        for (NodeData node : exitNodes){
+            exitLocs.add(new LookupResult<>(node.getLongName(), node));
         }
         exitList.setItems(exitLocs);
     }
@@ -345,7 +422,18 @@ public class MainScreenController implements Initializable {
     @FXML private void onFloorClicked5() {
         floorSelector.setCurrent(5);
     }
-    @FXML private void onViewThreeD() throws Exception { ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes());}
+    @FXML private void onViewThreeD() throws Exception {
+        if(nodeSelector.goal().isPresent()) {
+        ThreeDimensions view = new ThreeDimensions(renderer.getTDnodes(), location2.getText(), nodeSelector.goal());}
+    }
+
+    @FXML private void onFloorClicked6() {
+        floorSelector.setCurrent(6);
+    }
+    @FXML private void onFloorClicked7() {
+        floorSelector.setCurrent(7);
+    }
+
     @FXML private void onAboutClicked() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/AboutMe.fxml"));
@@ -356,25 +444,28 @@ public class MainScreenController implements Initializable {
            window.setFullScreen(false);
             window.setScene(new Scene(root));
             window.setResizable(false);
+            Settings.openWindows.add(window);
+            //Settings.openWindows.add(this.stage);
+            BaseScreen.puggy.register(window.getScene(), Event.ANY);
             window.show();
         } catch (IOException e) {
             System.out.println("Can't load new window");
         }
     }
-
     @FXML private void onStaffClicked() {
         LoginScreen.showDialog(this.stage);
     }
-
-    @FXML private void onSwapButtonPressed() {
+    //disabled because swap was not needed.
+ /*   @FXML private void onSwapButtonPressed() {
         String temp = location2.getText();
         location2.setText(location1.getText());
         location1.setText(temp);
-    }
+    } */
     @FXML private void onZoomInClicked() {
         zoomer.zoomIn();
         zoomInButton.setDisable(!zoomer.canZoomIn());
         zoomOutButton.setDisable(!zoomer.canZoomOut());
+        //BaseScreen.puggy.changeTimeout(15000);
     }
     @FXML private void onZoomOutClicked() {
         //Node content = scrollPane.getContent();
@@ -382,10 +473,73 @@ public class MainScreenController implements Initializable {
         zoomOutButton.setDisable(!zoomer.canZoomOut());
         zoomInButton.setDisable(!zoomer.canZoomIn());
     }
-
     @FXML private void onTextClicked(){
         WrittenInstructions wr = new WrittenInstructions(renderer.getTDnodes());
         SendTextDirectionsScreen.showDialog(wr.directions());
+    }
+
+    @FXML private void onToTextClicked(){
+        this.directoryVBox.setVisible(false);
+        this.instructionVBox.setVisible(true);
+    }
+    @FXML private void onToDirectoryClicked(){
+        this.instructionVBox.setVisible(false);
+        this.directoryVBox.setVisible(true);
+    }
+    @FXML private void onDarkModeClicked(){
+        if (darkmode){
+            Application.setUserAgentStylesheet("modena.css");
+            StyleManager.getInstance().addUserAgentStylesheet("default.css");
+            darkmode = false;
+            //set image to dark mode button
+            darkModeImage.setImage(Khons);
+            System.out.println("returned to light mode");
+        }
+        else {
+            Application.setUserAgentStylesheet("modena.css");
+            StyleManager.getInstance().addUserAgentStylesheet("darkmode.css");
+            darkmode = true;
+            //set image to light mode button
+            darkModeImage.setImage(Ra);
+            System.out.println("changed to dark mode");
+        }
+    }
+
+    @FXML private void animate3D() {
+        new Pulse(viewThreeD).play();
+    }
+    @FXML private void animateFloor1() {
+        new Pulse(floorButton1).play();
+    }
+    @FXML private void animateFloor2() {
+        new Pulse(floorButton2).play();
+    }
+    @FXML private void animateFloor3() {
+        new Pulse(floorButton3).play();
+    }
+    @FXML private void animateFloor4() {
+        new Pulse(floorButton4).play();
+    }
+    @FXML private void animateFloor5() {
+        new Pulse(floorButton5).play();
+    }
+    @FXML private void animateFloor6() {
+        new Pulse(floorButton6).play();
+    }
+    @FXML private void animateFloor7() {
+        new Pulse(floorButton7).play();
+    }
+    @FXML private void animateFloorDown() {
+        new Pulse(downButton).play();
+    }
+    @FXML private void animateFloorUp() {
+        new Pulse(upButton).play();
+    }
+    @FXML private void animateZoomIn() {
+        new Pulse(zoomInButton).play();
+    }
+    @FXML private void animateZoomOut() {
+        new Pulse(zoomOutButton).play();
     }
     //endregion
 }

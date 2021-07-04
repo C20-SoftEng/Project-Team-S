@@ -5,14 +5,14 @@ import edu.wpi.cs3733.c20.teamS.ThrowHelper;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
-class FloorSelector {
+public class FloorSelector {
     private final JFXButton upButton;
     private final JFXButton downButton;
     private final Floor[] floors;
     private final PublishSubject<Integer> currentChanged = PublishSubject.create();
     private int current;
-    private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System; -fx-text-fill: black;";
-    private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #0067b1; -fx-font: 32 System; -fx-text-fill: white;";
+    private static final String UNSELECTED_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-font: 22 System; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;";
+    private static final String SELECTED_BUTTON_STYLE = "-fx-background-color: #0067b1; -fx-font: 32 System; -fx-text-fill: white; -fx-background-radius: 5; -fx-border-radius: 5;";
     private final int lowestFloorNumber = 1;
     private final int highestFloorNumber;
 
